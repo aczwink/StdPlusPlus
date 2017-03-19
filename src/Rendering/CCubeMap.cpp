@@ -1,0 +1,92 @@
+/*
+ * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ *
+ * This file is part of ACStdLib.
+ *
+ * ACStdLib is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ACStdLib is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ */
+//Class header
+#include "CCubeMap.h"
+
+//Constructor
+CCubeMap::CCubeMap()
+{
+    glGenTextures(1, &this->id);
+
+    this->Bind();
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+}
+
+//Destructor
+CCubeMap::~CCubeMap()
+{
+    glDeleteTextures(1, &this->id);
+}
+
+//Public methods
+ETextureType CCubeMap::GetType() const
+{
+    return ETextureType::CubeMap;
+}
+
+void CCubeMap::SetBackTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    //z is inverted => LHS coordinate system
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
+
+void CCubeMap::SetBottomTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
+
+void CCubeMap::SetFrontTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    //z is inverted => LHS coordinate system
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
+
+void CCubeMap::SetLeftTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
+
+void CCubeMap::SetRightTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
+
+void CCubeMap::SetTopTexture(uint16 width, uint16 height, const void *pCompressedData)
+{
+    this->Bind();
+
+    glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
+}
