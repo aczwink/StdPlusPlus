@@ -16,38 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+//Class header
+#include "../../headers/Streams/CFileInputStream.h"
+//Namespaces
+using namespace ACStdLib;
 
-namespace ACStdLib
+bool CFileInputStream::HitEnd() const
 {
-    namespace UI
-    {
-        //Forward declarations
-        class CMenu;
-
-        class ACSTDLIB_API CMenuBar
-        {
-            friend class CWindow;
-        private:
-            //Members
-            void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-
-        public:
-            //Constructor
-            CMenuBar();
-
-            //Destructor
-            ~CMenuBar();
-
-            //Methods
-            void AppendMenu(CMenu *pMenu);
-        };
-    }
+    return this->hitEnd;
 }

@@ -18,8 +18,11 @@
  */
 //Class header
 #include "../../../../headers/UI/Menu/CMenuBar.h"
+//Global
+#include <gtk/gtk.h>
 //Local
 #include "../../../../headers/UI/Menu/CMenu.h"
+#include "../Gtk.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -27,4 +30,12 @@ using namespace ACStdLib::UI;
 //Constructor
 CMenuBar::CMenuBar()
 {
+    this->pOSHandle = gtk_menu_bar_new();
+    gtk_widget_show((GtkWidget *)this->pOSHandle); //default is show
+}
+
+//Private methods
+void CMenuBar::AppendMenuOS(CMenu *pMenu)
+{
+    gtk_menu_shell_append(GTK_MENU_SHELL(this->pOSHandle), ((_AC_Gtk_Menu *)pMenu->pOSHandle)->pItem);
 }

@@ -28,7 +28,11 @@ namespace ACStdLib
     private:
         //Members
         bool hitEnd;
-        void *pFileHandle;
+        union
+        {
+            void *pFileHandle;
+            int fileHandle;
+        };
     public:
         //Constructor
         CFileInputStream(const CPath &refPath);

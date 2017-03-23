@@ -16,38 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+#include <ACStdLibTest.hpp>
 
-namespace ACStdLib
+unsigned factorial(unsigned n)
 {
-    namespace UI
-    {
-        //Forward declarations
-        class CMenu;
+    if(n == 0)
+        return 1;
 
-        class ACSTDLIB_API CMenuBar
-        {
-            friend class CWindow;
-        private:
-            //Members
-            void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-
-        public:
-            //Constructor
-            CMenuBar();
-
-            //Destructor
-            ~CMenuBar();
-
-            //Methods
-            void AppendMenu(CMenu *pMenu);
-        };
-    }
+    return n * factorial(n - 1);
 }
+
+TEST_SUITE(FactorialTest)
+{
+    int someInt = 10;
+
+    TEST(nZeroTest)
+    {
+        ASSERT(factorial(0) == 1);
+    }
+
+    TEST(successTest)
+    {
+        ASSERT(factorial(10) == 3628800);
+    }
+
+    TEST(failureTest)
+    {
+        ASSERT(someInt != someInt);
+    }
+};

@@ -161,6 +161,7 @@
 
 //UI
 #include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/CAction.hpp>
 #include <ACStdLib/UI/CEventQueue.h>
 #include <ACStdLib/UI/CMainWindow.h>
 #include <ACStdLib/UI/CommonDialogs.h>

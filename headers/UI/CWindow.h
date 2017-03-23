@@ -59,6 +59,7 @@ namespace ACStdLib
             //Methods
             void CreateOSWindow(const CRect &refRect);
             void DestroyOSWindow();
+            void MenuBarChangeOS();
             void Init(const CRect &refRect);
 
         protected:

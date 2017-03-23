@@ -18,36 +18,30 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+#include "AException.h"
+#include "../Filesystem/CPath.h"
 
 namespace ACStdLib
 {
-    namespace UI
+    namespace ErrorHandling
     {
-        //Forward declarations
-        class CMenu;
-
-        class ACSTDLIB_API CMenuBar
+        class ACSTDLIB_API CFileNotFoundException : public AException
         {
-            friend class CWindow;
-        private:
-            //Members
-            void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-
         public:
+            //Members
+            CPath path;
+
             //Constructor
-            CMenuBar();
+            inline CFileNotFoundException(const CPath &refPath)
+            {
+                this->path = refPath;
+            }
 
-            //Destructor
-            ~CMenuBar();
-
-            //Methods
-            void AppendMenu(CMenu *pMenu);
+            //Inline
+            inline CString GetDescription() const
+            {
+                return "No such file or directory: \"" + this->path.GetString() + "\"";
+            }
         };
     }
 }

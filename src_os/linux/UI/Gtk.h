@@ -18,3 +18,9 @@
  */
 
 #define OBJ_FROM_GTK(ptr) (g_object_get_data(G_OBJECT(ptr), "ACStdLib"))
+
+struct _AC_Gtk_Menu
+{
+    GtkWidget *pItem;
+    GtkWidget *pSubMenu;
+};

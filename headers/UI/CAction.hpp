@@ -18,36 +18,19 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+#include "../CFunction.h"
+#include "../Containers/Strings/CString.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        //Forward declarations
-        class CMenu;
-
-        class ACSTDLIB_API CMenuBar
+        class ACSTDLIB_API CAction
         {
-            friend class CWindow;
-        private:
-            //Members
-            void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-
         public:
-            //Constructor
-            CMenuBar();
-
-            //Destructor
-            ~CMenuBar();
-
-            //Methods
-            void AppendMenu(CMenu *pMenu);
+            //Members
+            CString text;
+            CFunction<void()> triggeredEvent;
         };
     }
 }

@@ -52,7 +52,8 @@ namespace ACStdLib
     class CTuple<> //empty tuple
     {
         friend class CTuple;
-    private:
+
+    protected:
         //Constructor
         inline CTuple() //forbid empty tuple
         {

@@ -20,6 +20,7 @@
 #include "../../../headers/UI/CWindow.h"
 //Global
 #include <gtk/gtk.h>
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 //Local
 #include "CGtkEventQueue.h"
 //Namespaces
@@ -49,4 +50,9 @@ void CWindow::CreateOSWindow(const CRect &refRect)
 void CWindow::DestroyOSWindow()
 {
     gtk_widget_destroy(GTK_WIDGET(this->pOSHandle));
+}
+
+void CWindow::MenuBarChangeOS()
+{
+    gtk_container_add(GTK_CONTAINER(this->pOSHandle), (GtkWidget *)this->pMenuBar->pOSHandle);
 }
