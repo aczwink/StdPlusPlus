@@ -28,6 +28,9 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGL.cpp
 
         #Streams
+        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/CTextReader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
 
         #UI
@@ -37,9 +40,12 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/ATextRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
 
         PARENT_SCOPE)

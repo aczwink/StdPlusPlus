@@ -23,6 +23,7 @@ endif(UNIX)
 
 #targets
 add_subdirectory(src)
+#add_subdirectory(tests)
 
 if (UNIX)
     add_subdirectory(src_os/linux)
@@ -30,10 +31,15 @@ endif (UNIX)
 
 add_library(ACStdLib SHARED ${SOURCE_FILES})
 add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
+#add_executable(ACStdLib_tests ${TEST_FILES})
 
+#link
 if(UNIX)
     target_link_libraries(ACStdLib ${GTK3_LIBRARIES})
 endif(UNIX)
+
+#target_include_directories(ACStdLib_tests PUBLIC "include")
+#target_link_libraries(ACStdLib_tests LINK_PUBLIC ACStdLib ACStdLibStatic)
 
 
 #---INSTALLATION---

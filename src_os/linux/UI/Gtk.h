@@ -16,5 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Local
+#include "../../../headers/UI/AWidget.h"
+//Global
+#include <gtk/gtk.h>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
 
-#define OBJ_FROM_GTK(ptr) (g_object_get_data(G_OBJECT(ptr), "ACStdLib"))
+struct _AC_Gtk_Menu
+{
+    GtkWidget *pItem;
+    GtkWidget *pSubMenu;
+};
+
+struct _AC_Gtk_WidgetContainer
+{
+    GtkWidget *pWidget; //the window
+    GtkWidget *pChildAreaWidget;
+};
+
+class CFullAccessWidget : public AWidget
+{
+public:
+    //Inline
+    inline void *GetInternal()
+    {
+        return this->pOSHandle;
+    }
+};
+
+#define WIDGET_FROM_GTK_WIDGET(pGtkWidget) (g_object_get_data(G_OBJECT(pGtkWidget), "ACStdLib"))
+
+#define INTERNAL_FROM_WIDGET(pWidget) (((CFullAccessWidget *)pWidget)->GetInternal())
+#define INTERNAL_WIDGET_CONTAINER(pWidget) ((_AC_Gtk_WidgetContainer *)INTERNAL_FROM_WIDGET(pWidget))

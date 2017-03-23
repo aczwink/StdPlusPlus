@@ -17,39 +17,36 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/AWidget.h"
-//Global
-#include <gtk/gtk.h>
+#include "../../../headers/UI/Views/CTreeView.h"
 //Local
-#include "Gtk.h"
+#include "../../../headers/UI/AWidgetContainer.h"
+#include "../../../headers/UI/Controllers/ATreeController.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-//Private methods
-CSize AWidget::GetOSSize() const
+//Constructor
+CTreeView::CTreeView(AWidgetContainer *pParent) : AWidget(pParent)
 {
-    NOT_IMPLEMENTED_ERROR;
+    this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Expanding);
+    this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Expanding);
+
+    this->pController = nullptr;
+
+    this->CreateOSWindow();
 }
 
-//Proctected methods
-void AWidget::IgnoreEvent()
+//Eventhandlers
+void CTreeView::OnSelectionChanged()
 {
-    NOT_IMPLEMENTED_ERROR;
+    this->pController->OnSelectionChanged();
 }
 
 //Public methods
-void AWidget::Repaint()
+void CTreeView::SetController(ATreeController &refController)
 {
-    NOT_IMPLEMENTED_ERROR;
-}
+    this->pController = &refController;
+    this->pController->pTreeView = this;
 
-void AWidget::SetRect(const CRect &refArea)
-{
-    NOT_IMPLEMENTED_ERROR;
-}
-
-void AWidget::Show(bool visible)
-{
-    gtk_widget_show(INTERNAL_WIDGET_CONTAINER(this)->pWidget);
+    this->OnModelChanged();
 }

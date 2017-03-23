@@ -16,38 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include "../../../headers/UI/Menu/CMenuBar.h"
 //Local
-#include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+#include "../../../headers/UI/Menu/CMenu.h"
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
 
-namespace ACStdLib
+//Destructor
+CMenuBar::~CMenuBar()
 {
-    namespace UI
-    {
-        //Forward declarations
-        class CMenu;
+    for(CMenu *const& refpMenu : this->attachedMenus)
+        delete refpMenu;
+}
 
-        class ACSTDLIB_API CMenuBar
-        {
-            friend class CWindow;
-        private:
-            //Members
-            void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-
-        public:
-            //Constructor
-            CMenuBar();
-
-            //Destructor
-            ~CMenuBar();
-
-            //Methods
-            void AppendMenu(CMenu *pMenu);
-        };
-    }
+//Public methods
+void CMenuBar::AppendMenu(CMenu *pMenu)
+{
+    this->attachedMenus.Push(pMenu);
+    this->AppendMenuOS(pMenu);
 }

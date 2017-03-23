@@ -51,8 +51,7 @@ namespace ACStdLib
     template<>
     class CTuple<> //empty tuple
     {
-        friend class CTuple;
-    private:
+    protected:
         //Constructor
         inline CTuple() //forbid empty tuple
         {
@@ -67,7 +66,6 @@ namespace ACStdLib
     template<typename FirstType, typename... RestTypes>
     class CTuple<FirstType, RestTypes...> : private CTuple<RestTypes...>
     {
-        friend class CTuple;
     private:
         //Members
         FirstType element;

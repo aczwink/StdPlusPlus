@@ -20,11 +20,15 @@
 #include "../../../headers/UI/CWindow.h"
 //Global
 #include <gtk/gtk.h>
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 //Local
 #include "CGtkEventQueue.h"
+#include "Gtk.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+//Definitions
+#define THIS ((_AC_Gtk_WidgetContainer *)(this->pOSHandle))
 
 //Eventhandlers
 void CWindow::OnPaint()
@@ -35,18 +39,35 @@ void CWindow::OnPaint()
 //Private methods
 void CWindow::CreateOSWindow(const CRect &refRect)
 {
-    this->pOSHandle = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    this->pOSHandle = MemAlloc(sizeof(_AC_Gtk_WidgetContainer));
 
-    g_object_set_data(G_OBJECT(this->pOSHandle), "ACStdLib", this);
+    THIS->pWidget = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    gtk_window_set_position(GTK_WINDOW(this->pOSHandle), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(GTK_WINDOW(this->pOSHandle), refRect.width(), refRect.height());
+    g_object_set_data(G_OBJECT(THIS->pWidget), "ACStdLib", this);
 
-    g_signal_connect(this->pOSHandle, "delete-event", G_CALLBACK(CGtkEventQueue::CloseSlot), nullptr);
-    g_signal_connect(this->pOSHandle, "destroy", G_CALLBACK(CGtkEventQueue::DestroySlot), this);
+    gtk_window_set_position(GTK_WINDOW(THIS->pWidget), GTK_WIN_POS_CENTER);
+    gtk_window_set_default_size(GTK_WINDOW(THIS->pWidget), refRect.width(), refRect.height());
+
+    g_signal_connect(THIS->pWidget, "delete-event", G_CALLBACK(CGtkEventQueue::CloseSlot), nullptr);
+    g_signal_connect(THIS->pWidget, "destroy", G_CALLBACK(CGtkEventQueue::DestroySlot), this);
+
+    //child area
+    THIS->pChildAreaWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+    gtk_widget_show(THIS->pChildAreaWidget); //default to show
+    gtk_container_add(GTK_CONTAINER(THIS->pWidget), THIS->pChildAreaWidget);
 }
 
 void CWindow::DestroyOSWindow()
 {
-    gtk_widget_destroy(GTK_WIDGET(this->pOSHandle));
+    gtk_widget_destroy(GTK_WIDGET(THIS->pChildAreaWidget));
+    gtk_widget_destroy(GTK_WIDGET(THIS->pWidget));
+
+    MemFree(this->pOSHandle);
+}
+
+void CWindow::MenuBarChangeOS()
+{
+    gtk_container_add(GTK_CONTAINER(THIS->pChildAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
+    //gtk_box_pack_start(GTK_BOX(THIS->pChildAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle, FALSE, FALSE, 0);
 }

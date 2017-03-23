@@ -19,6 +19,7 @@
 //Class header
 #include "../../headers/UI/CWindow.h"
 //Local
+#include "../../headers/UI/Menu/CMenuBar.h"
 #include "Render Targets/IRenderTarget.h"
 //Namespaces
 using namespace ACStdLib;
@@ -129,6 +130,8 @@ void CWindow::SetMenuBar(CMenuBar *pMenuBar)
         delete this->pMenuBar;
 
     this->pMenuBar = pMenuBar;
+
+    this->MenuBarChangeOS();
 }
 
 void CWindow::SwitchFullscreen(bool state)

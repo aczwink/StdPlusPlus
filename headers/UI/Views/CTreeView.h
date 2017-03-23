@@ -39,6 +39,9 @@ namespace ACStdLib
             void OnModelChanged();
             void OnSelectionChanged();
 
+            //Methods
+            void CreateOSWindow();
+
         public:
             //Constructor
             CTreeView(AWidgetContainer *pParent);

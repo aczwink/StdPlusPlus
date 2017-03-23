@@ -32,25 +32,29 @@ namespace ACStdLib
         {
         };
 
+        class CActionEntry : public AMenuEntry
+        {
+        public:
+            //Members
+            CAction &refAction;
+
+            //Constructor
+            inline CActionEntry(CAction &refAction) : refAction(refAction)
+            {
+            }
+        };
+
         class ACSTDLIB_API CMenu : public AMenuEntry
         {
             friend class CMenuBar;
-
-            class CActionEntry : public AMenuEntry
-            {
-            public:
-                //Members
-                CAction &refAction;
-
-                //Constructor
-                inline CActionEntry(CAction &refAction) : refAction(refAction)
-                {
-                }
-            };
         private:
             //Members
             void *pOSHandle;
             CArray<AMenuEntry *> menuEntries;
+
+            //Methods
+            void AppendItemOS(CActionEntry *pEntry);
+            void DestructOS();
 
         public:
             //Constructor

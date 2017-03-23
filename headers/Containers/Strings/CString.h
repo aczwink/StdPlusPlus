@@ -61,6 +61,12 @@ namespace ACStdLib
             this->pStr16 = pnew(this->storage) CUTF16String(pString);
         }
 
+        inline CString(const CUTF8String &refString)
+        {
+            this->isUTF32 = false;
+            this->pStr16 = pnew(this->storage) CUTF16String(refString);
+        }
+
         inline CString(const CUTF16String &refString)
         {
             this->isUTF32 = false;

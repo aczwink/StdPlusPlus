@@ -29,7 +29,7 @@ namespace _Intern
     {
     public:
         //Abstract
-        virtual ReturnType Call(ArgumentTypes&&... args) = NULL;
+        virtual ReturnType Call(ArgumentTypes&&... args) = 0;
     };
 
     template<typename ReturnType, typename... ArgumentTypes>
