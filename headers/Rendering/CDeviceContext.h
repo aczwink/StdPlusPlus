@@ -68,7 +68,7 @@ namespace ACStdLib
 
             //Methods
             void BindOSContext() const;
-            void CreateOSContext(uint8 nSamples);
+            void CreateOSContext(const UI::C3DView &refView, uint8 nSamples);
             void DestroyOSContext();
             void UnbindOSContext();
 

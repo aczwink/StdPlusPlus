@@ -9,6 +9,7 @@ set(SOURCE_FILES
         #Containers
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/C8BitString.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CUTF8String.cpp
@@ -32,6 +33,10 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
+
+		#Time
+		${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
 
         #UI
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp

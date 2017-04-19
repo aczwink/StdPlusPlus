@@ -76,7 +76,7 @@ static inline uint32 MapTestFunction(ETestFunction func)
 //Constructors
 CDeviceContext::CDeviceContext(const C3DView &refView)
 {
-    this->CreateOSContext(0);
+    this->CreateOSContext(refView, 0);
     this->BindOSContext();
 
     glActiveTexture(GL_TEXTURE31); //see CDeviceContext::SetTexture
@@ -84,7 +84,7 @@ CDeviceContext::CDeviceContext(const C3DView &refView)
 
 CDeviceContext::CDeviceContext(const C3DView &refView, uint8 nSamples)
 {
-    this->CreateOSContext(nSamples);
+    this->CreateOSContext(refView, nSamples);
     this->BindOSContext();
 
     glActiveTexture(GL_TEXTURE31); //see CDeviceContext::SetTexture

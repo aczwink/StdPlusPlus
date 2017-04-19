@@ -28,15 +28,26 @@ add_subdirectory(src)
 if (UNIX)
     add_subdirectory(src_os/linux)
 endif (UNIX)
+if(WIN32)
+	add_subdirectory(src_os/windows)
+endif(WIN32)
 
 add_library(ACStdLib SHARED ${SOURCE_FILES})
 add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
 #add_executable(ACStdLib_tests ${TEST_FILES})
 
+#platform stuff
+if(WIN32)
+	set_target_properties(ACStdLib PROPERTIES COMPILE_DEFINITIONS _ACSTDLIB_EXPORT)
+endif()
+
 #link
 if(UNIX)
     target_link_libraries(ACStdLib ${GTK3_LIBRARIES})
 endif(UNIX)
+if(WIN32)
+	target_link_libraries(ACStdLib opengl32.lib)
+endif(WIN32)
 
 #target_include_directories(ACStdLib_tests PUBLIC "include")
 #target_link_libraries(ACStdLib_tests LINK_PUBLIC ACStdLib ACStdLibStatic)
