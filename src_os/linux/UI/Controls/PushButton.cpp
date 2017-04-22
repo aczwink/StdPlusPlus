@@ -16,34 +16,5 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../AWidget.h"
-
-namespace ACStdLib
-{
-    namespace UI
-    {
-        class ACSTDLIB_API CPushButton : public AWidget
-        {
-            friend class CEventQueue;
-        private:
-            //Dynamic event handlers
-            CFunction<void()> onPushedHandler;
-
-        public:
-            //Constructor
-            CPushButton(AWidgetContainer *pParent);
-
-            //Methods
-            CSize GetSizeHint() const;
-            void SetText(const CUTF8String &refText);
-
-            //Inline
-            inline void BindPushed(const CFunction<void()> &refHandler)
-            {
-                this->onPushedHandler = refHandler;
-            }
-        };
-    }
-}
+//Class header
+#include <ACStdLib/UI/Controls/PushButton.h>

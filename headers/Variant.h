@@ -16,15 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#include <gtk/gtk.h>
-//Local
-#include "../../../headers/UI/EventQueue.h"
-
-class CGtkEventQueue : public ACStdLib::UI::EventQueue
+union Variant
 {
-public:
-    //Functions
-    static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);
-    static void DestroySlot(GtkWidget *pWidget, gpointer data);
+	void *ptr;
 };

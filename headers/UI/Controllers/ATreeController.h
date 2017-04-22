@@ -41,9 +41,9 @@ namespace ACStdLib
             virtual ~ATreeController() {}
 
             //Abstract
-            virtual void *GetChild(void *pNode, uint32 child) const = NULL;
-            virtual uint32 GetNumberOfChildren(void *pNode) const = NULL;
-            virtual CString GetText(void *pNode) const = NULL;
+            virtual void *GetChild(void *pNode, uint32 child) const = 0;
+            virtual uint32 GetNumberOfChildren(void *pNode) const = 0;
+            virtual CString GetText(void *pNode) const = 0;
 
             //Inline
             inline void ModelChanged()

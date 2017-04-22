@@ -26,7 +26,7 @@ namespace ACStdLib
     {
     public:
         //Abstract
-        virtual uint64 GetCurrentOffset() const = NULL;
-        virtual void SetCurrentOffset(uint64 offset) = NULL;
+        virtual uint64 GetCurrentOffset() const = 0;
+        virtual void SetCurrentOffset(uint64 offset) = 0;
     };
 }

@@ -19,7 +19,7 @@
 //Class header
 #include "../../headers/UI/AWidgetContainer.h"
 //Local
-#include "../../headers/UI/CWindow.h"
+#include "../../headers/UI/Window.h"
 #include "../../headers/UI/Layouts/CGridLayout.h"
 //Namespaces
 using namespace ACStdLib;

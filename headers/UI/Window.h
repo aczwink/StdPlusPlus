@@ -39,10 +39,10 @@ namespace ACStdLib
             Link
         };
 
-        class ACSTDLIB_API CWindow : public AWidgetContainer
+        class ACSTDLIB_API Window : public AWidgetContainer
         {
             friend class CDropTarget;
-            friend class CEventQueue;
+            friend class EventQueue;
         private:
             //Members
             CMenuBar *pMenuBar;
@@ -68,18 +68,18 @@ namespace ACStdLib
 
         public:
             //Constructors
-            CWindow(ERenderMode mode = ERenderMode::OS);
-            CWindow(const CRect &refRect, ERenderMode mode = ERenderMode::OS);
-            CWindow(uint16 width, uint16 height, ERenderMode mode = ERenderMode::OS);
+            Window(ERenderMode mode = ERenderMode::OS);
+            Window(const CRect &refRect, ERenderMode mode = ERenderMode::OS);
+            Window(uint16 width, uint16 height, ERenderMode mode = ERenderMode::OS);
 
             //Destructor
-            ~CWindow();
+            ~Window();
 
             //Methods
             void EnableDrop();
             void Maximize();
             void SetMenuBar(CMenuBar *pMenuBar);
-            void SetTitle(const CUTF8String &refTitle);
+            void SetTitle(const CString &title);
             void ShowErrorBox(const CString &refTitle, const CString &refMessage);
             void ShowInformationBox(const CString &refTitle, const CString &refMessage);
             void SwitchFullscreen(bool state);

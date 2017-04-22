@@ -33,7 +33,7 @@ namespace ACStdLib
     {
         //Forward declarations
         class AWidgetContainer;
-        class CWindow;
+        class Window;
 
         class ACSTDLIB_API AWidget
         {
@@ -42,7 +42,7 @@ namespace ACStdLib
         private:
             //Members
             AWidgetContainer *pParent;
-            CWindow *pOwner;
+            Window *pOwner;
             CRect bounds;
 
             //Eventhandlers
@@ -89,13 +89,13 @@ namespace ACStdLib
                 return this->pParent;
             }
 
-            inline const CWindow *GetWindow() const
+            inline const Window *GetWindow() const
             {
                 if(this->pOwner)
                     return this->pOwner;
 
                 //this is a window itself
-                return (CWindow *)this;
+                return (Window *)this;
             }
         };
     }

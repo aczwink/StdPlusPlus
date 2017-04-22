@@ -16,37 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include "../../../headers/UI/AWidget.h"
-//Global
-#include <gtk/gtk.h>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+#include "../AWidget.h"
 
-struct _AC_Gtk_Menu
+namespace ACStdLib
 {
-    GtkWidget *pItem;
-    GtkWidget *pSubMenu;
-};
-
-struct _AC_Gtk_WidgetContainer
-{
-    GtkWidget *widget; //the window
-    GtkWidget *pChildAreaWidget;
-};
-
-class CFullAccessWidget : public AWidget
-{
-public:
-    //Inline
-    inline void *GetInternal()
+    namespace UI
     {
-        return this->pOSHandle;
+        class ACSTDLIB_API PushButton : public AWidget
+        {
+            friend class EventQueue;
+        private:
+            //Dynamic event handlers
+            CFunction<void()> onPushedHandler;
+
+        public:
+            //Constructor
+            PushButton(AWidgetContainer *pParent);
+
+            //Methods
+            CSize GetSizeHint() const;
+            void SetText(const CUTF8String &refText);
+
+            //Inline
+            inline void BindPushed(const CFunction<void()> &refHandler)
+            {
+                this->onPushedHandler = refHandler;
+            }
+        };
     }
-};
-
-#define WIDGET_FROM_GTK_WIDGET(pGtkWidget) (g_object_get_data(G_OBJECT(pGtkWidget), "ACStdLib"))
-
-#define INTERNAL_FROM_WIDGET(pWidget) (((CFullAccessWidget *)pWidget)->GetInternal())
-#define INTERNAL_WIDGET_CONTAINER(pWidget) ((_AC_Gtk_WidgetContainer *)INTERNAL_FROM_WIDGET(pWidget))
+}

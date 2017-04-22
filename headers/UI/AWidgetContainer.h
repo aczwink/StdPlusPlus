@@ -31,8 +31,8 @@ namespace ACStdLib
         class ACSTDLIB_API AWidgetContainer : public AWidget
         {
             friend class AWidget;
-            friend class CEventQueue;
-            friend class CWindow;
+            friend class EventQueue;
+            friend class Window;
         private:
             //Members
             CLinkedList<AWidget *> children;

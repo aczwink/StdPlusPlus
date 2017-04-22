@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/UI/CWindow.h"
+#include "../../headers/UI/Window.h"
 //Local
 #include "../../headers/UI/Menu/CMenuBar.h"
 #include "Render Targets/IRenderTarget.h"
@@ -26,7 +26,7 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructors
-CWindow::CWindow(ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(ERenderMode mode) : AWidgetContainer(nullptr)
 {
     CSize screenSize;
     CRect windowRect;
@@ -46,7 +46,7 @@ CWindow::CWindow(ERenderMode mode) : AWidgetContainer(nullptr)
     this->Init(windowRect);
 }
 
-CWindow::CWindow(const CRect &refRect, ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(const CRect &refRect, ERenderMode mode) : AWidgetContainer(nullptr)
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
@@ -55,7 +55,7 @@ CWindow::CWindow(const CRect &refRect, ERenderMode mode) : AWidgetContainer(null
     this->Init(refRect);
 }
 
-CWindow::CWindow(uint16 width, uint16 height, ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(uint16 width, uint16 height, ERenderMode mode) : AWidgetContainer(nullptr)
 {
     CRect windowRect;
     CSize screenSize;
@@ -75,7 +75,7 @@ CWindow::CWindow(uint16 width, uint16 height, ERenderMode mode) : AWidgetContain
 }
 
 //Destructor
-CWindow::~CWindow()
+Window::~Window()
 {
     if(this->pMenuBar)
         delete this->pMenuBar;
@@ -86,31 +86,31 @@ CWindow::~CWindow()
 }
 
 //Eventhandlers
-void CWindow::OnClose()
+void Window::OnClose()
 {
     delete this;
 }
 
-EDropType CWindow::OnDragEnter(const ITransfer &refTransfer)
+EDropType Window::OnDragEnter(const ITransfer &refTransfer)
 {
     return EDropType::None;
 }
 
-void CWindow::OnDragLeave()
+void Window::OnDragLeave()
 {
 }
 
-EDropType CWindow::OnDragMove()
+EDropType Window::OnDragMove()
 {
     return EDropType::None;
 }
 
-void CWindow::OnDrop(const ITransfer &refTransfer)
+void Window::OnDrop(const ITransfer &refTransfer)
 {
 }
 
 //Private methods
-void CWindow::Init(const CRect &refRect)
+void Window::Init(const CRect &refRect)
 {
     switch(this->renderMode)
     {
@@ -124,7 +124,7 @@ void CWindow::Init(const CRect &refRect)
 }
 
 //Public methods
-void CWindow::SetMenuBar(CMenuBar *pMenuBar)
+void Window::SetMenuBar(CMenuBar *pMenuBar)
 {
     if(this->pMenuBar)
         delete this->pMenuBar;
@@ -134,7 +134,7 @@ void CWindow::SetMenuBar(CMenuBar *pMenuBar)
     this->MenuBarChangeOS();
 }
 
-void CWindow::SwitchFullscreen(bool state)
+void Window::SwitchFullscreen(bool state)
 {
     if(this->pOSHandle)
     {

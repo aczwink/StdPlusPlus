@@ -17,23 +17,23 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/UI/CMainWindow.h"
+#include "../../headers/UI/MainAppWindow.h"
 //Local
 #include "../../headers/Streams/CStdOut.h"
-#include "../../headers/UI/CEventQueue.h"
+#include "../../headers/UI/EventQueue.h"
 #include "../../headers/UI/Menu/CMenuBar.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-CMainWindow::CMainWindow()
+MainAppWindow::MainAppWindow()
 {
     this->SetMenuBar(new CMenuBar);
 
     //set event handlers
     this->onDestroyEventHandler = []()
     {
-        CEventQueue::PostQuitEvent(EXIT_SUCCESS);
+        EventQueue::PostQuitEvent();
     };
 }

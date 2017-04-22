@@ -13,6 +13,7 @@ else()
 endif()
 
 #dependancies
+find_library(OPENCL_LIBRARY NAMES OpenCL)
 if(UNIX)
     #gtk3 is required
     find_package(PkgConfig REQUIRED)
@@ -34,6 +35,7 @@ add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_st
 #add_executable(ACStdLib_tests ${TEST_FILES})
 
 #link
+target_link_libraries(ACStdLib ${OPENCL_LIBRARY})
 if(UNIX)
     target_link_libraries(ACStdLib ${GTK3_LIBRARIES})
 endif(UNIX)

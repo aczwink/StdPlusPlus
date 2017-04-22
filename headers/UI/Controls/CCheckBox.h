@@ -26,7 +26,7 @@ namespace ACStdLib
     {
         class ACSTDLIB_API CCheckBox : public AWidget
         {
-            friend class CEventQueue;
+            friend class EventQueue;
         private:
             //Dynamic event handlers
             CFunction<void()> onToggledHandler;

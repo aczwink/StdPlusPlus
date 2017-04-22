@@ -28,12 +28,12 @@ using namespace ACStdLib::UI;
 //Public functions
 bool CGtkEventQueue::CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent)
 {
-    CEventQueue::DispatchCloseEvent(*(CWindow *)WIDGET_FROM_GTK_WIDGET(pWidget));
+    EventQueue::DispatchCloseEvent(*(Window *)WIDGET_FROM_GTK_WIDGET(pWidget));
 
     return true;
 }
 
 void CGtkEventQueue::DestroySlot(GtkWidget *pWidget, gpointer data)
 {
-    CEventQueue::DispatchDestroyEvent(*(CWindow *)data);
+    EventQueue::DispatchDestroyEvent(*(Window *)data);
 }

@@ -135,8 +135,8 @@ namespace ACStdLib
         }
 
         //Abstract
-        virtual void WriteByte(byte b) = NULL;
-        virtual uint32 WriteBytes(const void *pSource, uint32 size) = NULL;
+        virtual void WriteByte(byte b) = 0;
+        virtual uint32 WriteBytes(const void *pSource, uint32 size) = 0;
 
         //Inline
 #ifdef _AC_ENDIAN_LITTLE

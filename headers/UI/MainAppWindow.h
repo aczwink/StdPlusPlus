@@ -16,35 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "../../../headers/UI/CEventQueue.h"
-//Global
-#include <gtk/gtk.h>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+#pragma once
+//Local
+#include "Window.h"
 
-//Public functions
-void CEventQueue::PostQuitEvent(int32 exitCode)
+namespace ACStdLib
 {
-    gtk_main_quit();
-}
-
-int32 CEventQueue::ProcessEvents()
-{
-    gtk_main();
-
-    return EXIT_SUCCESS;
-}
-
-bool CEventQueue::ProcessPendingEvents(int32 &refExitCode)
-{
-    bool result;
-
-    result = true;
-
-    while(gtk_events_pending())
-        result = gtk_main_iteration() == 0;
-
-    return result;
+    namespace UI
+    {
+        class ACSTDLIB_API MainAppWindow : public Window
+        {
+        public:
+            //Constructor
+			MainAppWindow();
+        };
+    }
 }

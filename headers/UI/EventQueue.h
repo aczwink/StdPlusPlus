@@ -20,32 +20,32 @@
 //Local
 #include "Controls/CCheckBox.h"
 #include "Controls/CDropDown.h"
-#include "Controls/CPushButton.h"
+#include "Controls/PushButton.h"
 #include "Views/CTreeView.h"
-#include "CWindow.h"
+#include "Window.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CEventQueue
+        class ACSTDLIB_API EventQueue
         {
         protected:
             //Functions
             static void DispatchPaintEvent(AWidget &refWidget);
 
             //Inline functions
-            static inline void DispatchCloseEvent(CWindow &refWnd)
+            static inline void DispatchCloseEvent(Window &refWnd)
             {
                 refWnd.OnClose();
             }
 
-            static inline void DispatchDestroyEvent(CWindow &refWnd)
+            static inline void DispatchDestroyEvent(Window &refWnd)
             {
                 refWnd.onDestroyEventHandler();
             }
 
-            static inline void DispatchResizedEvent(CWindow &refWnd)
+            static inline void DispatchResizedEvent(Window &refWnd)
             {
                 refWnd.OnResized();
             }
@@ -60,7 +60,7 @@ namespace ACStdLib
                 refTreeView.OnSelectionChanged();
             }
 
-            static inline void DispatchPushedEvent(CPushButton &refButton)
+            static inline void DispatchPushedEvent(PushButton &refButton)
             {
                 if(refButton.onPushedHandler)
                     refButton.onPushedHandler();
@@ -74,8 +74,8 @@ namespace ACStdLib
 
         public:
             //Functions
-            static void PostQuitEvent(int32 exitCode);
-            static int32 ProcessEvents();
+            static void PostQuitEvent();
+            static void ProcessEvents();
             static bool ProcessPendingEvents(int32 &refExitCode);
         };
     }

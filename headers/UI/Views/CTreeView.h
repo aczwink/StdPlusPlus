@@ -30,7 +30,7 @@ namespace ACStdLib
         class ACSTDLIB_API CTreeView : public AWidget
         {
             friend class ATreeController;
-            friend class CEventQueue;
+            friend class EventQueue;
         private:
             //Members
             ATreeController *pController;

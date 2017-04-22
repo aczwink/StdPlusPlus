@@ -27,7 +27,7 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Namespace functions
-CPath CommonDialogs::OpenFile(const CWindow &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters)
+CPath CommonDialogs::OpenFile(const Window &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters)
 {
     gint result;
     GtkWidget *pDialog;

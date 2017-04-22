@@ -18,17 +18,21 @@
  */
 #pragma once
 //Local
-#include "CWindow.h"
+#include "../AWidgetContainer.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CMainWindow : public CWindow
+        class ACSTDLIB_API GroupBox : public AWidgetContainer
         {
         public:
             //Constructor
-            CMainWindow();
+            GroupBox(AWidgetContainer *pParent);
+
+            //Methods
+            CRect GetChildrenRect() const;
+            void SetText(const CUTF8String &refText);
         };
     }
 }

@@ -31,7 +31,7 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual CString GetDescription() const = NULL;
+            virtual CString GetDescription() const = 0;
         };
     }
 }

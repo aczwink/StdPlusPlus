@@ -26,7 +26,7 @@ namespace ACStdLib
     {
         class ACSTDLIB_API CDropDown : public AWidget
         {
-            friend class CEventQueue;
+            friend class EventQueue;
         private:
             //Members
             CFunction<void()> onSelectionChangedHandler;

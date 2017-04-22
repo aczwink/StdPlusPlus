@@ -6,6 +6,9 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
+        #Compute
+        ${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.cpp
+
         #Containers
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/C8BitString.cpp
@@ -36,9 +39,9 @@ set(SOURCE_FILES
         #UI
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidgetContainer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CMainWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp

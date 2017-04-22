@@ -16,37 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include "../../../headers/UI/AWidget.h"
+//Class header
+#include "../../../headers/UI/EventQueue.h"
 //Global
 #include <gtk/gtk.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-struct _AC_Gtk_Menu
+//Public functions
+void EventQueue::PostQuitEvent()
 {
-    GtkWidget *pItem;
-    GtkWidget *pSubMenu;
-};
+    gtk_main_quit();
+}
 
-struct _AC_Gtk_WidgetContainer
+void EventQueue::ProcessEvents()
 {
-    GtkWidget *widget; //the window
-    GtkWidget *pChildAreaWidget;
-};
+    gtk_main();
+}
 
-class CFullAccessWidget : public AWidget
+bool EventQueue::ProcessPendingEvents(int32 &refExitCode)
 {
-public:
-    //Inline
-    inline void *GetInternal()
-    {
-        return this->pOSHandle;
-    }
-};
+    bool result;
 
-#define WIDGET_FROM_GTK_WIDGET(pGtkWidget) (g_object_get_data(G_OBJECT(pGtkWidget), "ACStdLib"))
+    result = true;
 
-#define INTERNAL_FROM_WIDGET(pWidget) (((CFullAccessWidget *)pWidget)->GetInternal())
-#define INTERNAL_WIDGET_CONTAINER(pWidget) ((_AC_Gtk_WidgetContainer *)INTERNAL_FROM_WIDGET(pWidget))
+    while(gtk_events_pending())
+        result = gtk_main_iteration() == 0;
+
+    return result;
+}

@@ -20,9 +20,9 @@ set(SOURCE_FILES
         #UI
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidgetContainer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CEventQueue.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CGtkEventQueue.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp

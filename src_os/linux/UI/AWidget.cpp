@@ -51,5 +51,5 @@ void AWidget::SetRect(const CRect &refArea)
 
 void AWidget::Show(bool visible)
 {
-    gtk_widget_show(INTERNAL_WIDGET_CONTAINER(this)->pWidget);
+    gtk_widget_show(INTERNAL_WIDGET_CONTAINER(this)->widget);
 }

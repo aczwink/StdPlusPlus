@@ -20,7 +20,7 @@
 #include "../../headers/UI/AWidget.h"
 //Local
 #include "../../headers/UI/AWidgetContainer.h"
-#include "../../headers/UI/CWindow.h"
+#include "../../headers/UI/Window.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -33,8 +33,8 @@ AWidget::AWidget(AWidgetContainer *pContainer)
         this->pOwner = pContainer->pOwner;
     else
     {
-        ASSERT(!pContainer || IS_INSTANCE_OF(pContainer, CWindow));
-        this->pOwner = (CWindow *)pContainer;
+        ASSERT(!pContainer || IS_INSTANCE_OF(pContainer, Window));
+        this->pOwner = (Window *)pContainer;
     }
     this->pOSHandle = nullptr;
     if(pContainer)

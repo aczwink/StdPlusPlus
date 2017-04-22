@@ -43,7 +43,7 @@ namespace ACStdLib
         }
 
         //Abstract
-        virtual void Release() = NULL;
+        virtual void Release() = 0;
 
         //Methods
         inline uint32 GetNumberOfElements() const

@@ -18,21 +18,37 @@
  */
 #pragma once
 //Local
-#include "../AWidgetContainer.h"
+#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Definitions.h"
+#include "../Variant.h"
 
 namespace ACStdLib
 {
-    namespace UI
-    {
-        class ACSTDLIB_API CGroupBox : public AWidgetContainer
-        {
-        public:
-            //Constructor
-            CGroupBox(AWidgetContainer *pParent);
+	namespace Compute
+	{
+		//Forward declaration
+		class Device;
 
-            //Methods
-            CRect GetChildrenRect() const;
-            void SetText(const CUTF8String &refText);
-        };
-    }
+		//Functions
+		CLinkedList<Device> GetDevices();
+
+		class ACSTDLIB_API Device
+		{
+			friend CLinkedList<Device> GetDevices();
+
+		private:
+			//Members
+			Variant deviceId;
+
+			//Constructor
+			inline Device(Variant deviceId)
+			{
+				this->deviceId = deviceId;
+			}
+
+		public:
+			//Methods
+			CString GetName() const;
+		};
+	}
 }

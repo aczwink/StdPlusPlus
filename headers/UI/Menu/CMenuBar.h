@@ -27,10 +27,11 @@ namespace ACStdLib
     {
         //Forward declarations
         class CMenu;
+        class Window;
 
         class ACSTDLIB_API CMenuBar
         {
-            friend class CWindow;
+            friend class Window;
         private:
             //Members
             void *pOSHandle;

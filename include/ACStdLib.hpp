@@ -26,6 +26,9 @@
 #include <ACStdLib/Integer.h>
 #include <ACStdLib/Mathematics.h>
 
+//Compute
+#include <ACStdLib/Compute/Device.hpp>
+
 //Containers
 #include <ACStdLib/Containers/AContainer.h>
 //CFiniteSet
@@ -162,15 +165,15 @@
 //UI
 #include <ACStdLib/UI/AWidgetContainer.h>
 #include <ACStdLib/UI/CAction.hpp>
-#include <ACStdLib/UI/CEventQueue.h>
-#include <ACStdLib/UI/CMainWindow.h>
 #include <ACStdLib/UI/CommonDialogs.h>
 #include <ACStdLib/UI/CTerminalEventQueue.h>
+#include <ACStdLib/UI/EventQueue.h>
 #include <ACStdLib/UI/Keyboard.h>
+#include <ACStdLib/UI/MainAppWindow.h>
 #include <ACStdLib/UI/Mouse.h>
 //Containers
-#include <ACStdLib/UI/Containers/CGroupBox.h>
 #include <ACStdLib/UI/Containers/CTabBox.h>
+#include <ACStdLib/UI/Containers/GroupBox.h>
 //Controllers
 #include <ACStdLib/UI/Controllers/ACheckListController.h>
 #include <ACStdLib/UI/Controllers/AListController.h>
@@ -181,9 +184,9 @@
 #include <ACStdLib/UI/Controls/CLabel.h>
 #include <ACStdLib/UI/Controls/CLineEdit.h>
 #include <ACStdLib/UI/Controls/CProgressBar.h>
-#include <ACStdLib/UI/Controls/CPushButton.h>
 #include <ACStdLib/UI/Controls/CSlider.h>
 #include <ACStdLib/UI/Controls/CTextEdit.h>
+#include <ACStdLib/UI/Controls/PushButton.h>
 //Events
 #include <ACStdLib/UI/Events/CKeyEvent.h>
 //Layouts

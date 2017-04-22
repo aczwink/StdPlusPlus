@@ -20,7 +20,7 @@
 //Local
 #include "../CTuple.h"
 #include "../Filesystem/CPath.h"
-#include "CWindow.h"
+#include "Window.h"
 
 namespace ACStdLib
 {
@@ -29,9 +29,9 @@ namespace ACStdLib
         namespace CommonDialogs
         {
             //Functions
-            ACSTDLIB_API CPath OpenFile(const CWindow &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
-            ACSTDLIB_API CPath SaveFile(const CWindow *pParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
-            ACSTDLIB_API bool SelectExistingDirectory(const CString &refTitle, const CWindow &refWindow, const CFunction<bool(const CPath &)> &refCallback, CPath &refSelectedPath);
+            ACSTDLIB_API CPath OpenFile(const Window &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
+            ACSTDLIB_API CPath SaveFile(const Window *pParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
+            ACSTDLIB_API bool SelectExistingDirectory(const CString &refTitle, const Window &refWindow, const CFunction<bool(const CPath &)> &refCallback, CPath &refSelectedPath);
         }
     }
 }

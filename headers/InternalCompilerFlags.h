@@ -39,3 +39,8 @@
 #else
 #error "undefined operating system"
 #endif
+
+//compiler
+#ifdef __GNUC__
+#define _AC_COMPILER_GCC
+#endif
