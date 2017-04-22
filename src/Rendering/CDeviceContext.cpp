@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/CDeviceContext.h>
 //Local
 #include "OpenGL.h"
 #include "CCubeMap.h"

@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../CPoint.h"
-#include "../CSize.h"
+#include "../../Math/CPoint.h"
+#include "../../Math/CSize.h"
 
 namespace ACStdLib
 {

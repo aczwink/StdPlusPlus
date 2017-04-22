@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include "../../../../headers/UI/CommonDialogs.h"
+#include <ACStdLib/UI/CommonDialogs.h>
 //Global
 #include <gtk/gtk.h>
 //Local

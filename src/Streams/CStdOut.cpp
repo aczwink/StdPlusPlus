@@ -5,7 +5,7 @@
  *
  * ACStdLib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or#include "../../headers/Streams/CStdOut.h"
  * (at your option) any later version.
  *
  * ACStdLib is distributed in the hope that it will be useful,
@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../headers/Streams/CStdOut.h"
+#include <ACStdLib/Streams/CStdOut.h>
 //Global
 #include <stdio.h>
 //Namespaces

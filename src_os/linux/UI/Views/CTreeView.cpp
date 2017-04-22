@@ -17,12 +17,12 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../../headers/UI/Views/CTreeView.h"
+#include <ACStdLib/UI/Views/CTreeView.h>
 //Global
 #include <gtk/gtk.h>
 //Local
 #include "../Gtk.h"
-#include "../../../../headers/UI/Controllers/ATreeController.h"
+#include <ACStdLib/UI/Controllers/ATreeController.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -95,7 +95,7 @@ void CTreeView::CreateOSWindow()
     this->pOSHandle = gtk_tree_view_new();
     gtk_widget_set_vexpand(THIS, TRUE);
 
-    gtk_box_pack_start(GTK_BOX(INTERNAL_WIDGET_CONTAINER(this->GetParent())->pChildAreaWidget), THIS, TRUE, TRUE, 0);
+	ADD_SELF_TO_PARENT;
 
     //append the standard column
     GtkCellRenderer *renderer;

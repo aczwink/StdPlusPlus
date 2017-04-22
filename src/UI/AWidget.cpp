@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/UI/AWidget.h"
+#include <ACStdLib/UI/AWidget.h>
 //Local
-#include "../../headers/UI/AWidgetContainer.h"
-#include "../../headers/UI/Window.h"
+#include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/Window.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

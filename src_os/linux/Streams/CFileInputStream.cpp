@@ -17,13 +17,13 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../../headers/Streams/CFileInputStream.h"
+#include <ACStdLib/Streams/CFileInputStream.h>
 //Global
 #include <fcntl.h>
 #include <unistd.h>
 //Local
-#include "../../../headers/Containers/Strings/UTF-8/CUTF8String.h"
-#include "../../../headers/ErrorHandling/CFileNotFoundException.hpp"
+#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/ErrorHandling/CFileNotFoundException.hpp>
 //Namespaces
 using namespace ACStdLib;
 

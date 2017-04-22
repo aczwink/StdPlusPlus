@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/Layouts/CGridLayout.h"
+#include <ACStdLib/UI/Layouts/CGridLayout.h>
 //Local
-#include "../../../headers/Containers/CMap/CMap.h"
-#include "../../../headers/UI/AWidgetContainer.h"
+#include <ACStdLib/Containers/CMap/CMap.h>
+#include <ACStdLib/UI/AWidgetContainer.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

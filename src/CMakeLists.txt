@@ -47,6 +47,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp

@@ -34,16 +34,13 @@ WinAPI Documentation:
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 */
 
-//Constructor
-CPushButton::CPushButton(AWidgetContainer *pParent) : AWidget(pParent)
+//Private methods
+void PushButton::CreateOSHandle()
 {
-	this->pOSHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	this->pOSHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
 	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
 
 	SendMessage((HWND)this->pOSHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-
-	this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Minimum);
-	this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Fixed);
 }
 
 //Public methods

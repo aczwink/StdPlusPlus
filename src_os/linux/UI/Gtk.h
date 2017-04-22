@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "../../../headers/UI/AWidget.h"
+#include <ACStdLib/UI/AWidget.h>
 //Global
 #include <gtk/gtk.h>
 //Namespaces
@@ -50,3 +50,5 @@ public:
 
 #define INTERNAL_FROM_WIDGET(pWidget) (((CFullAccessWidget *)pWidget)->GetInternal())
 #define INTERNAL_WIDGET_CONTAINER(pWidget) ((_AC_Gtk_WidgetContainer *)INTERNAL_FROM_WIDGET(pWidget))
+
+#define ADD_SELF_TO_PARENT gtk_box_pack_start(GTK_BOX(INTERNAL_WIDGET_CONTAINER(this->GetParent())->pChildAreaWidget), THIS, TRUE, TRUE, 0);

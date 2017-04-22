@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/ITexture2D.h"
+#include <ACStdLib/Rendering/ITexture2D.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/Streams/CFileInputStream.h"
+#include <ACStdLib/Streams/CFileInputStream.h>
 //Namespaces
 using namespace ACStdLib;
 

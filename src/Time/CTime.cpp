@@ -17,9 +17,9 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include "../../headers/Time/CTime.h"
+#include <ACStdLib/Time/CTime.h>
 //Local
-#include "../../headers/Time/CCalendar.h"
+#include <ACStdLib/Time/CCalendar.h>
 //Namespaces
 using namespace ACStdLib;
 

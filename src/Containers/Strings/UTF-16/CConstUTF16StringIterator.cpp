@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../../../headers/Containers/Strings/UTF-16/CConstUTF16StringIterator.h"
+#include <ACStdLib/Containers/Strings/UTF-16/CConstUTF16StringIterator.h>
 //Local
-#include "../../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
+#include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
 //Namespaces
 using namespace ACStdLib;
 

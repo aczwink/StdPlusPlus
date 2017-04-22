@@ -19,7 +19,7 @@
 //Class header
 #include "CInputState.h"
 //Local
-#include "../../headers/Rendering/CInputLayout.h"
+#include <ACStdLib/Rendering/CInputLayout.h>
 #include "CIndexBuffer.h"
 #include "CVertexBuffer.h"
 

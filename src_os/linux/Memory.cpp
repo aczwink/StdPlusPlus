@@ -17,11 +17,11 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //corresponding header
-#include "../../headers/Memory.h"
+#include <ACStdLib/Memory.h>
 //Global
 #include <stdlib.h>
 //Local
-#include "../../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 
 void *ACStdLib::MemoryAllocate(uint32 size)
 {

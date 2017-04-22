@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include "../headers/__InitAndShutdown.h"
+#include <ACStdLib/__InitAndShutdown.h>
 //Local
-#include "../headers/Debug.h"
-#include "../headers/Memory.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
 

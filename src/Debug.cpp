@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Main header
-#include "../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 //Local
-#include "../headers/Containers/Strings/CString.h"
+#include <ACStdLib/Containers/Strings/CString.h>
 
 #ifdef _DEBUG
 void ACStdLib::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)

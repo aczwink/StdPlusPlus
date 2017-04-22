@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../headers/Streams/CBufferInputStream.h"
+#include <ACStdLib/Streams/CBufferInputStream.h>
 //Local
-#include "../../headers/Debug.h"
-#include "../../headers/Memory.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
 

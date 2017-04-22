@@ -17,17 +17,17 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include "../../../headers/Containers/Strings/String.h"
+#include <ACStdLib/Containers/Strings/String.h>
 //Global
 #include <float.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 //Local
-#include "../../../headers/Containers/Strings/CString.h"
-#include "../../../headers/Containers/Strings/UTF-8/CUTF8String.h"
-#include "../../../headers/Mathematics.h"
-#include "../../../headers/Math/CFraction.h"
+#include <ACStdLib/Containers/Strings/CString.h>
+#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/Mathematics.h>
+#include <ACStdLib/Math/CFraction.h>
 //Namespaces
 using namespace ACStdLib;
 

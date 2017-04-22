@@ -18,26 +18,31 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <ACStdLib/Definitions.h>
 
 namespace ACStdLib
 {
-    namespace Rendering
+    //Forward declarations
+    class CUTF8String;
+
+    class ACSTDLIB_API CConstUTF8StringIterator
     {
-        enum class ETextureType
-        {
-            CubeMap,
-            Texture_2D
-        };
+    private:
+        //Members
+        const CUTF8String &refString;
+        const byte *pCurrent;
+    public:
+        //Constructor
+        CConstUTF8StringIterator(const CUTF8String &refString, uint32 index = 0);
 
-        class ACSTDLIB_API ITexture
-        {
-        public:
-            //Destructor
-            virtual ~ITexture() {}
+        //Operators
+        CConstUTF8StringIterator &operator++(); //Prefix ++
+        uint32 operator*() const;
 
-            //Abstract
-            virtual ETextureType GetType() const = NULL;
-        };
-    }
+        //Inline Operators
+        inline bool operator!=(const CConstUTF8StringIterator &refOther) const
+        {
+            return (&this->refString != &refOther.refString) || (this->pCurrent != refOther.pCurrent);
+        }
+    };
 }

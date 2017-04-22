@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../headers/UI/Window.h"
+#include <ACStdLib/UI/Window.h>
 //Local
-#include "../../headers/UI/Menu/CMenuBar.h"
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 #include "Render Targets/IRenderTarget.h"
 //Namespaces
 using namespace ACStdLib;

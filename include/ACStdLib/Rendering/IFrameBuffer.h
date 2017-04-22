@@ -18,31 +18,23 @@
  */
 #pragma once
 //Local
-#include "../../../Definitions.h"
+#include <ACStdLib/Definitions.h>
+#include "ITexture2D.h"
 
 namespace ACStdLib
 {
-    //Forward declarations
-    class CUTF8String;
-
-    class ACSTDLIB_API CConstUTF8StringIterator
+    namespace Rendering
     {
-    private:
-        //Members
-        const CUTF8String &refString;
-        const byte *pCurrent;
-    public:
-        //Constructor
-        CConstUTF8StringIterator(const CUTF8String &refString, uint32 index = 0);
-
-        //Operators
-        CConstUTF8StringIterator &operator++(); //Prefix ++
-        uint32 operator*() const;
-
-        //Inline Operators
-        inline bool operator!=(const CConstUTF8StringIterator &refOther) const
+        class ACSTDLIB_API IFrameBuffer
         {
-            return (&this->refString != &refOther.refString) || (this->pCurrent != refOther.pCurrent);
-        }
-    };
+        public:
+            //Destructor
+            virtual ~IFrameBuffer() {}
+
+            //Abstract
+            virtual uint32 GetStatus() const = NULL; //TODO: only for debugging... throw it out
+            virtual void SetColorBuffer(ITexture2D *pTexture) = NULL;
+            virtual void SetDepthBuffer(ITexture2D *pTexture) = NULL;
+        };
+    }
 }

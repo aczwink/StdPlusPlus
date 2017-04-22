@@ -18,23 +18,25 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "ITexture2D.h"
+#include "..//Math/Geometry/CVector3.h"
+#include "ITexture.h"
 
 namespace ACStdLib
 {
     namespace Rendering
     {
-        class ACSTDLIB_API IFrameBuffer
+        class ACSTDLIB_API ITexture2D : public ITexture
         {
         public:
-            //Destructor
-            virtual ~IFrameBuffer() {}
-
             //Abstract
-            virtual uint32 GetStatus() const = NULL; //TODO: only for debugging... throw it out
-            virtual void SetColorBuffer(ITexture2D *pTexture) = NULL;
-            virtual void SetDepthBuffer(ITexture2D *pTexture) = NULL;
+            virtual void AllocateDepth(uint16 width, uint16 height) = NULL;
+            virtual void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData) = NULL;
+            virtual void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData) = NULL;
+            virtual void AllocateRGB(uint16 width, uint16 height, const void *pColorData) = NULL;
+            virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = NULL;
+            virtual void GenerateMipMaps() = NULL;
+            virtual void SetMaximumMipMapLevel(uint16 level) = NULL;
+            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::CVector3 *pColorData) = NULL;
         };
     }
 }

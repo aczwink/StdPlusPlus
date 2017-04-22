@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/EventQueue.h"
+#include <ACStdLib/UI/EventQueue.h>
 //Global
 #include <gtk/gtk.h>
 //Namespaces

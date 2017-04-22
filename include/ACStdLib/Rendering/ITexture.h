@@ -18,25 +18,26 @@
  */
 #pragma once
 //Local
-#include "../Math/Geometry/CVector3.h"
-#include "ITexture.h"
+#include <ACStdLib/Definitions.h>
 
 namespace ACStdLib
 {
     namespace Rendering
     {
-        class ACSTDLIB_API ITexture2D : public ITexture
+        enum class ETextureType
+        {
+            CubeMap,
+            Texture_2D
+        };
+
+        class ACSTDLIB_API ITexture
         {
         public:
+            //Destructor
+            virtual ~ITexture() {}
+
             //Abstract
-            virtual void AllocateDepth(uint16 width, uint16 height) = NULL;
-            virtual void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void AllocateRGB(uint16 width, uint16 height, const void *pColorData) = NULL;
-            virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = NULL;
-            virtual void GenerateMipMaps() = NULL;
-            virtual void SetMaximumMipMapLevel(uint16 level) = NULL;
-            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::CVector3 *pColorData) = NULL;
+            virtual ETextureType GetType() const = NULL;
         };
     }
 }

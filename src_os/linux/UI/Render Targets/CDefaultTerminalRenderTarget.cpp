@@ -19,8 +19,8 @@
 //Class header
 #include "../../../../src/UI/Render Targets/CDefaultTerminalRenderTarget.h"
 //Local
-#include "../../../../headers/Debug.h"
-#include "../../../../headers/Memory.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

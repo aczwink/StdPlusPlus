@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IShader.h"
+#include <ACStdLib/Rendering/IShader.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;

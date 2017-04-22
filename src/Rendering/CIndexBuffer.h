@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IIndexBuffer.h"
+#include <ACStdLib/Rendering/IIndexBuffer.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

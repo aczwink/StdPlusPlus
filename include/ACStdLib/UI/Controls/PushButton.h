@@ -18,19 +18,35 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../Containers/Strings/CString.h"
+#include "../AWidget.h"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CProcess
+    namespace UI
     {
-    private:
-        //Members
-        void *pOSHandle;
+        class ACSTDLIB_API PushButton : public AWidget
+        {
+            friend class EventQueue;
+        private:
+            //Dynamic event handlers
+            CFunction<void()> onPushedHandler;
 
-    public:
-        //Constructor
-        CProcess(const CString &refProgram, const CLinkedList<CString> &refArguments);
-    };
+            //Methods
+			void CreateOSHandle();
+
+        public:
+            //Constructor
+            PushButton(AWidgetContainer *pParent);
+
+            //Methods
+            CSize GetSizeHint() const;
+            void SetText(const CString &text);
+
+            //Inline
+            inline void BindPushed(const CFunction<void()> &refHandler)
+            {
+                this->onPushedHandler = refHandler;
+            }
+        };
+    }
 }

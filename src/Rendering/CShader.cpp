@@ -19,8 +19,8 @@
 //Class header
 #include "CShader.h"
 //Local
-#include "../../headers/Debug.h"
-#include "../../headers/Memory.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
 #include "OpenGL.h"
 
 //Constructor

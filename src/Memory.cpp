@@ -18,13 +18,13 @@
  */
 #ifdef _DEBUG
 //corresponding header
-#include "../headers/Memory.h"
+#include <ACStdLib/Memory.h>
 //Global
 #include <stdio.h>
 //Local
-#include "../headers/Debug.h"
-#include "../headers/Streams/CFileOutputStream.h"
-#include "../headers/Streams/CStdOut.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Streams/CFileOutputStream.h>
+#include <ACStdLib/Streams/CStdOut.h>
 //Namespaces
 using namespace ACStdLib;
 //Definitions
@@ -331,7 +331,7 @@ void *ACStdLib::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNum
     pMemBlock->seqNumber = g_seqNumber++;
     pMemBlock->userSize = size;
 
-    //link block headers
+    //link block ACStdLib
     if(g_pLastMemBlock)
         g_pLastMemBlock->pNext = pMemBlock;
     else

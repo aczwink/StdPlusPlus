@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
+#include <ACStdLib/Math/CPoint.h>
 #include "IRenderTarget.h"
-#include "../../../headers/Math/CPoint.h"
 
 namespace ACStdLib
 {

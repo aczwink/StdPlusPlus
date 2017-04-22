@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IFrameBuffer.h"
-#include "../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/IFrameBuffer.h>
+#include <ACStdLib/Rendering/CDeviceContext.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

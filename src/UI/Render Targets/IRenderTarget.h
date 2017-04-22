@@ -18,9 +18,9 @@
  */
 #pragma once
 //Local
-#include "../../../headers/Definitions.h"
-#include "../../../headers/Math/CSize.h"
-#include "../../../headers/UI/ERenderMode.h"
+#include <ACStdLib/Definitions.h>
+#include <ACStdLib/Math/CSize.h>
+#include <ACStdLib/UI/ERenderMode.h>
 
 namespace ACStdLib
 {

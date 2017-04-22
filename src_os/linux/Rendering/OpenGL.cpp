@@ -17,8 +17,8 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
+#include <ACStdLib/Debug.h>
 #include "../../../src/Rendering/OpenGL.h"
-#include "../../../headers/Debug.h"
 
 void LoadOpenGL()
 {

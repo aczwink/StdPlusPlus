@@ -42,6 +42,12 @@ if(WIN32)
 	set_target_properties(ACStdLib PROPERTIES COMPILE_DEFINITIONS _ACSTDLIB_EXPORT)
 endif()
 
+#includes
+target_include_directories(ACStdLib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
 #link
 target_link_libraries(ACStdLib ${OPENCL_LIBRARY})
 if(UNIX)
@@ -64,7 +70,7 @@ install(TARGETS ACStdLib ACStdLibStatic EXPORT ACStdLibConfig
         )
 install(EXPORT ACStdLibConfig DESTINATION share/ACStdLib/cmake)
 
-#install public headers
+#install public ACStdLib
 function(installHeaderDir sourceDir targetDir)
     file(GLOB LOCAL_FILES_AND_DIRS "${sourceDir}/*")
     foreach(ITEM ${LOCAL_FILES_AND_DIRS})
@@ -75,12 +81,8 @@ function(installHeaderDir sourceDir targetDir)
         ENDIF()
     endforeach()
 
-    INSTALL(DIRECTORY ${LOCAL_DIRS} DESTINATION "include/${targetDir}")
-    INSTALL(FILES ${LOCAL_FILES} DESTINATION include/${targetDir})
+    INSTALL(DIRECTORY ${LOCAL_DIRS} DESTINATION "${targetDir}")
+    INSTALL(FILES ${LOCAL_FILES} DESTINATION "${targetDir}")
 endfunction()
 
-installHeaderDir("${PROJECT_SOURCE_DIR}/headers" "ACStdLib")
-installHeaderDir("${PROJECT_SOURCE_DIR}/headers_cpu" "ACStdLibCPUOpt")
-
-#install include files
-install(FILES include/ACStdLib.hpp include/ACStdLibCPUOpt.hpp DESTINATION include)
+installHeaderDir("include" "include")

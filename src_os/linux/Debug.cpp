@@ -17,13 +17,13 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //corresponding header
-#include "../../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 //Global
 #include <iostream>
 //Local
-#include "../../headers/Containers/Strings/CString.h"
-#include "../../headers/Containers/Strings/String.h"
-#include "../../headers/Streams/CStdOut.h"
+#include <ACStdLib/Containers/Strings/CString.h>
+#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Streams/CStdOut.h>
 //Namespaces
 using namespace ACStdLib;
 

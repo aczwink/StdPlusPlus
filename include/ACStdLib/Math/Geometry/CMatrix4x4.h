@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../CRadian.h"
+#include "../../Math/CRadian.h"
 #include "CVector4.h"
 
 namespace ACStdLib

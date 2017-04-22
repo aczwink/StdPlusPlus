@@ -17,11 +17,11 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../../headers/UI/Menu/CMenuBar.h"
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 //Global
 #include <gtk/gtk.h>
 //Local
-#include "../../../../headers/UI/Menu/CMenu.h"
+#include <ACStdLib/UI/Menu/CMenu.h>
 #include "../Gtk.h"
 //Namespaces
 using namespace ACStdLib;
@@ -38,4 +38,8 @@ CMenuBar::CMenuBar()
 void CMenuBar::AppendMenuOS(CMenu *pMenu)
 {
     gtk_menu_shell_append(GTK_MENU_SHELL(this->pOSHandle), ((_AC_Gtk_Menu *)pMenu->pOSHandle)->pItem);
+}
+
+void CMenuBar::DestroyMenuOS()
+{
 }

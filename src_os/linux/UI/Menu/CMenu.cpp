@@ -17,12 +17,12 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../../headers/UI/Menu/CMenu.h"
+#include <ACStdLib/UI/Menu/CMenu.h>
 //Global
 #include <gtk/gtk.h>
 //Local
-#include "../../../../headers/Containers/Strings/UTF-8/CUTF8String.h"
-#include "../../../../headers/UI/CAction.hpp"
+#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/UI/CAction.hpp>
 #include "../Gtk.h"
 //Namespaces
 using namespace ACStdLib;

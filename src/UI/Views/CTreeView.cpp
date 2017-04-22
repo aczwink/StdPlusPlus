@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/Views/CTreeView.h"
+#include <ACStdLib/UI/Views/CTreeView.h>
 //Local
-#include "../../../headers/UI/AWidgetContainer.h"
-#include "../../../headers/UI/Controllers/ATreeController.h"
+#include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/Controllers/ATreeController.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

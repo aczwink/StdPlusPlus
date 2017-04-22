@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/ICubeMap.h"
+#include <ACStdLib/Rendering/ICubeMap.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

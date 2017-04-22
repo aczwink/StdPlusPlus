@@ -19,7 +19,7 @@
 //Class header
 #include "IRenderTarget.h"
 //Local
-#include "../../../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 #include "CDefaultTerminalRenderTarget.h"
 #include "CDesktopRenderTarget.h"
 //Namespaces

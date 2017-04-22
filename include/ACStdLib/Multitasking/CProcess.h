@@ -1,4 +1,4 @@
-/*
+/*headers
  * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
@@ -18,32 +18,19 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "../Definitions.h"
+#include "../Containers/Strings/CString.h"
 
 namespace ACStdLib
 {
-    namespace UI
+    class ACSTDLIB_API CProcess
     {
-        class ACSTDLIB_API PushButton : public AWidget
-        {
-            friend class EventQueue;
-        private:
-            //Dynamic event handlers
-            CFunction<void()> onPushedHandler;
+    private:
+        //Members
+        void *pOSHandle;
 
-        public:
-            //Constructor
-            PushButton(AWidgetContainer *pParent);
-
-            //Methods
-            CSize GetSizeHint() const;
-            void SetText(const CUTF8String &refText);
-
-            //Inline
-            inline void BindPushed(const CFunction<void()> &refHandler)
-            {
-                this->onPushedHandler = refHandler;
-            }
-        };
-    }
+    public:
+        //Constructor
+        CProcess(const CString &refProgram, const CLinkedList<CString> &refArguments);
+    };
 }

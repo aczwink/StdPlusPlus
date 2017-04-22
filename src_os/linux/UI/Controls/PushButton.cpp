@@ -18,3 +18,34 @@
  */
 //Class header
 #include <ACStdLib/UI/Controls/PushButton.h>
+//Local
+#include "../Gtk.h"
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
+//Definitions
+#define THIS ((GtkWidget *)this->pOSHandle)
+
+//Private methods
+void PushButton::CreateOSHandle()
+{
+	this->pOSHandle = gtk_button_new();
+	gtk_widget_show(THIS);
+
+	ADD_SELF_TO_PARENT;
+}
+
+//Public methods
+CSize PushButton::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR;
+	return CSize();
+}
+
+void PushButton::SetText(const CString &text)
+{
+	CUTF8String textUTF8;
+
+	textUTF8 = text.GetUTF16();
+	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *)textUTF8.GetC_Str());
+}

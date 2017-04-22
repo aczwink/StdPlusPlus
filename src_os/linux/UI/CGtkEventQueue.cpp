@@ -19,7 +19,7 @@
 //Class header
 #include "CGtkEventQueue.h"
 //Local
-#include "../../../headers/Streams/CStdOut.h"
+#include <ACStdLib/Streams/CStdOut.h>
 #include "Gtk.h"
 //Namespaces
 using namespace ACStdLib;

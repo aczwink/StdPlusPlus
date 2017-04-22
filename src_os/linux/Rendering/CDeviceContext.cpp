@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/CDeviceContext.h>
 //Local
-#include "../../../headers/UI/Views/C3DView.h"
+#include <ACStdLib/UI/Views/C3DView.h>
 #include "../../../src/Rendering/OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
@@ -31,7 +31,7 @@ void CDeviceContext::BindOSContext() const
     NOT_IMPLEMENTED_ERROR;
 }
 
-void CDeviceContext::CreateOSContext(uint8 nSamples)
+void CDeviceContext::CreateOSContext(const UI::C3DView &refView, uint8 nSamples)
 {
     NOT_IMPLEMENTED_ERROR;
 }

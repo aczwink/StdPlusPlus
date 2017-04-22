@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../headers/Containers/Strings/CString.h"
-#include "../headers/ErrorHandling/AException.h"
+#include "../include/ACStdLib/Containers/Strings/CString.h"
+#include "../include/ACStdLib/ErrorHandling/AException.h"
 //Namespaces
 using namespace ACStdLib;
 

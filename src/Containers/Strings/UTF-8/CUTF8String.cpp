@@ -17,12 +17,12 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../../../headers/Containers/Strings/UTF-8/CUTF8String.h"
+#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
 //Local
-#include "../../../../headers/Containers/Strings/C8BitString.h"
-#include "../../../../headers/Containers/Strings/String.h"
-#include "../../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
-#include "../../../../headers/Containers/Strings/CUTF32String.h"
+#include <ACStdLib/Containers/Strings/C8BitString.h>
+#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
+#include <ACStdLib/Containers/Strings/CUTF32String.h>
 //Namespaces
 using namespace ACStdLib;
 

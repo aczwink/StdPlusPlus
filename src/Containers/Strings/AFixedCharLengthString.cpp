@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../../headers/Containers/Strings/AFixedCharLengthString.h"
+#include <ACStdLib/Containers/Strings/AFixedCharLengthString.h>
 //Local
-#include "../../../headers/Mathematics.h"
+#include <ACStdLib/Mathematics.h>
 //Namespaces
 using namespace ACStdLib;
 //Definitions

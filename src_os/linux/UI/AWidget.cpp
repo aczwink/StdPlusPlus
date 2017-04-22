@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/AWidget.h"
+#include <ACStdLib/UI/AWidget.h>
 //Global
 #include <gtk/gtk.h>
 //Local

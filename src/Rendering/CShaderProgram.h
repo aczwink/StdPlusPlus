@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IShaderProgram.h"
+#include <ACStdLib/Rendering/IShaderProgram.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

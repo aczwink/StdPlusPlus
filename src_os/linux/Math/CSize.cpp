@@ -17,14 +17,11 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/Math/CSize.h"
+#include <ACStdLib/Math/CSize.h>
 //Global
 #include <gdk/gdk.h>
 //Namespaces
 using namespace ACStdLib;
-
-#include "../../../headers/Debug.h"
-#include "../../../headers/Streams/CStdOut.h"
 
 //Public methods
 CSize CSize::GetScreenSize()

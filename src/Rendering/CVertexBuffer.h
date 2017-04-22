@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IVertexBuffer.h"
+#include <ACStdLib/Rendering/IVertexBuffer.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

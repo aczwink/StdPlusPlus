@@ -19,7 +19,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include "../../headers/__InitAndShutdown.h"
+#include <ACStdLib/__InitAndShutdown.h>
 
 //Global functions
 void InitACStdLib()

@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //corresponding header
-#include "../headers/Mathematics.h"
+#include <ACStdLib/Mathematics.h>
 
 uint64 ACStdLib::Power(uint64 base, uint64 exponent)
 {

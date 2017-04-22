@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../headers/Definitions.h"
+#include <ACStdLib/Definitions.h>
 
 typedef float GLfloat;
 typedef char GLchar;

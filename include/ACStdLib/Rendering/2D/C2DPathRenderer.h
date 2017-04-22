@@ -18,10 +18,10 @@
  */
 #pragma once
 //Local
-#include "../CDeviceContext.h"
-#include "../IInputState.h"
-#include "../IShaderProgram.h"
-#include "../IVertexBuffer.h"
+#include "../../Rendering/CDeviceContext.h"
+#include "../../Rendering/IInputState.h"
+#include "../../Rendering/IShaderProgram.h"
+#include "../../Rendering/IVertexBuffer.h"
 #include "AGeneric2DPathRenderer.h"
 
 namespace ACStdLib

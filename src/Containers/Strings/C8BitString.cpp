@@ -17,13 +17,13 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "../../../headers/Containers/Strings/C8BitString.h"
+#include <ACStdLib/Containers/Strings/C8BitString.h>
 //Global
 #include <ctype.h>
 #include <string.h>
 //Local
-#include "../../../headers/Definitions.h"
-#include "../../../headers/Memory.h"
+#include <ACStdLib/Definitions.h>
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
 

@@ -24,6 +24,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CGtkEventQueue.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp

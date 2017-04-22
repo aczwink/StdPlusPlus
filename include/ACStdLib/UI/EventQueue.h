@@ -18,10 +18,10 @@
  */
 #pragma once
 //Local
-#include "Controls/CCheckBox.h"
-#include "Controls/CDropDown.h"
-#include "Controls/PushButton.h"
-#include "Views/CTreeView.h"
+#include "../UI/Controls/CCheckBox.h"
+#include "../UI/Controls/CDropDown.h"
+#include "../UI/Controls/PushButton.h"
+#include "../UI/Views/CTreeView.h"
 #include "Window.h"
 
 namespace ACStdLib

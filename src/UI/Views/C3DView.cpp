@@ -17,9 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/Views/C3DView.h"
+#include <ACStdLib/UI/Views/C3DView.h>
 //Local
-#include "../../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/CDeviceContext.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../CColor.h"
+#include <ACStdLib/Definitions.h>
+#include <ACStdLib/CColor.h>
 #include "IShader.h"
 
 namespace ACStdLib

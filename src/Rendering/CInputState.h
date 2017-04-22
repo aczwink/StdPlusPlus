@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../headers/Rendering/IInputState.h"
+#include <ACStdLib/Rendering/IInputState.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
