@@ -18,7 +18,7 @@
  */
 
 //determine cpu architecture
-#if defined(_M_X64) or defined(__x86_64__)
+#if defined(_M_X64) || defined(__x86_64__)
 #define _AC_ARCH_X64
 #else
 #error "undefined architecture"

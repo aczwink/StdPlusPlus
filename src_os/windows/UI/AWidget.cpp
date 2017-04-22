@@ -1,0 +1,79 @@
+/*
+* Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+*
+* This file is part of ACStdLib.
+*
+* ACStdLib is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* ACStdLib is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+*/
+//Class header
+#include "../../../headers/UI/AWidget.h"
+//Global
+#include <Windows.h>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
+
+//Global Variables
+extern bool g_ignoreMessage;
+
+//Private methods
+CSize AWidget::GetOSSize() const
+{
+	RECT rc;
+
+	GetWindowRect((HWND)this->pOSHandle, &rc);
+
+	return CSize(rc.right - rc.left, rc.bottom - rc.top);
+}
+
+//Proctected functions
+void AWidget::IgnoreEvent()
+{
+	g_ignoreMessage = true;
+}
+
+//Public methods
+void AWidget::Repaint()
+{
+	if(this->pOSHandle)
+	{
+		InvalidateRect((HWND)this->pOSHandle, nullptr, false);
+	}
+	else
+	{
+		this->OnPaint();
+	}
+}
+
+void AWidget::SetEnabled(bool enable)
+{
+	EnableWindow((HWND)this->pOSHandle, enable);
+}
+
+void AWidget::SetRect(const CRect &refArea)
+{
+	CPoint transformed;
+
+	this->bounds = refArea;
+
+	transformed = this->TransformToWindow(refArea.origin);
+	SetWindowPos((HWND)this->pOSHandle, HWND_TOP, transformed.x, transformed.y, refArea.width(), refArea.height(), 0);
+
+	this->OnResized();
+}
+
+void AWidget::Show(bool visible)
+{
+	ShowWindow((HWND)this->pOSHandle, visible ? SW_SHOW : SW_HIDE);
+}

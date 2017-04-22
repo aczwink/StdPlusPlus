@@ -39,6 +39,7 @@ namespace ACStdLib
 
             //Methods
             void AppendMenuOS(CMenu *pMenu);
+			void DestroyMenuOS();
 
         public:
             //Constructor

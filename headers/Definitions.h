@@ -21,7 +21,7 @@
 
 //Definitions
 #ifdef _AC_OS_WINDOWS
-    #ifdef ACSTDLIB_EXPORT
+    #ifdef _ACSTDLIB_EXPORT
         #define ACSTDLIB_API __declspec(dllexport)
     #else
         #define ACSTDLIB_API __declspec(dllimport)

@@ -29,6 +29,8 @@ CMenuBar::~CMenuBar()
 {
     for(CMenu *const& refpMenu : this->attachedMenus)
         delete refpMenu;
+
+	this->DestroyMenuOS();
 }
 
 //Public methods
