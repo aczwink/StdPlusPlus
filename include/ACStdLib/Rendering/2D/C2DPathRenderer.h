@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../Rendering/CDeviceContext.h"
+#include "ACStdLib/Rendering/DeviceContext.h"
 #include "../../Rendering/IInputState.h"
 #include "../../Rendering/IShaderProgram.h"
 #include "../../Rendering/IVertexBuffer.h"
@@ -40,7 +40,7 @@ namespace ACStdLib
             struct SRenderEntry
             {
                 ERenderMethod renderMethod;
-                CColor color;
+                Color color;
                 ITexture *pTexture;
                 CArray<SPathAttributes> pathAttributes;
                 uint32 boundingRectangleOffset;
@@ -48,14 +48,14 @@ namespace ACStdLib
 
         private:
             //Members
-            CLinkedList<SRenderEntry> renderCalls;
+            LinkedList<SRenderEntry> renderCalls;
             IShaderProgram *pShaderProgram;
             IInputState *pInputState;
             IVertexBuffer *pVertexBuffer;
             ITexture *pTexture;
             Math::CVector2 viewSize;
 
-            CDeviceContext &refDC;
+            DeviceContext &refDC;
 
             //Methods
             void InitRendering();
@@ -64,7 +64,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            C2DPathRenderer(CDeviceContext &refDC);
+            C2DPathRenderer(DeviceContext &refDC);
 
             //Destructor
             ~C2DPathRenderer();
@@ -83,7 +83,7 @@ namespace ACStdLib
                 this->state.transform = Math::CMatrix2x2::Scale(scaleX, scaleY) * this->state.transform;
             }
 
-            inline void SetFillColor(const CColor &refFillColor)
+            inline void SetFillColor(const Color &refFillColor)
             {
                 this->state.fillColor = refFillColor;
             }
@@ -93,7 +93,7 @@ namespace ACStdLib
                 this->pTexture = pTexture;
             }
 
-            inline void SetStrokeColor(const CColor &refStrokeColor)
+            inline void SetStrokeColor(const Color &refStrokeColor)
             {
                 this->state.strokeColor = refStrokeColor;
             }

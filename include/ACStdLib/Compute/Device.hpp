@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Definitions.h"
 #include "../Variant.h"
 
@@ -30,11 +30,11 @@ namespace ACStdLib
 		class Device;
 
 		//Functions
-		CLinkedList<Device> GetDevices();
+		LinkedList<Device> GetDevices();
 
 		class ACSTDLIB_API Device
 		{
-			friend CLinkedList<Device> GetDevices();
+			friend LinkedList<Device> GetDevices();
 
 		private:
 			//Members
@@ -48,7 +48,7 @@ namespace ACStdLib
 
 		public:
 			//Methods
-			CString GetName() const;
+			String GetName() const;
 		};
 	}
 }

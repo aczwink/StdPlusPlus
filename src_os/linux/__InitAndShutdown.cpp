@@ -18,6 +18,7 @@
  */
 //Global
 #include <gtk/gtk.h>
+#include <GL/glx.h>
 //Local
 #include <ACStdLib/__InitAndShutdown.h>
 
@@ -25,4 +26,8 @@
 void InitACStdLib()
 {
     gtk_init(0, nullptr);
+}
+
+void ShutdownACStdLib_Platform()
+{
 }

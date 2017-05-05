@@ -18,20 +18,20 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CLineEdit : public AWidget
+        class ACSTDLIB_API CLineEdit : public Widget
         {
         public:
             //Constructor
-            CLineEdit(AWidgetContainer *pParent);
+            CLineEdit(WidgetContainer *pParent);
 
             //Methods
-            CSize GetSizeHint() const;
+            Size GetSizeHint() const;
         };
     }
 }

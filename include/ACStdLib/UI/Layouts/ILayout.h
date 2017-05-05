@@ -23,14 +23,14 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CRect;
-    class CSize;
+    class Rect;
+	class Size;
 
     namespace UI
     {
         //Forward declarations
-        class AWidget;
-        class AWidgetContainer;
+        class Widget;
+        class WidgetContainer;
 
         class ACSTDLIB_API ILayout
         {
@@ -39,8 +39,8 @@ namespace ACStdLib
             virtual ~ILayout() {}
 
             //Abstract
-            virtual CSize GetPreferredSize(const AWidgetContainer &refContainer) = NULL;
-            virtual void Layout(AWidgetContainer &refContainer) = NULL;
+            virtual Size GetPreferredSize(const WidgetContainer &refContainer) = NULL;
+            virtual void Layout(WidgetContainer &refContainer) = NULL;
         };
     }
 }

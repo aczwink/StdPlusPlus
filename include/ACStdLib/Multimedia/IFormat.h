@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/CFiniteSet/CFiniteSet.h"
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "../Streams/CBufferInputStream.h"
 #include "../Streams/ASeekableOutputStream.h"
@@ -54,15 +54,15 @@ namespace ACStdLib
             virtual ADemuxer *CreateDemuxer(ASeekableInputStream &refInput) const = NULL;
             virtual AMuxer *CreateMuxer(ASeekableOutputStream &refOutput) const = NULL;
             virtual ECodecId GetDefaultCodec(EDataType dataType) const = NULL;
-            virtual CString GetExtension() const = NULL;
+            virtual String GetExtension() const = NULL;
             virtual void GetFormatInfo(SFormatInfo &refFormatInfo) const = NULL;
-            virtual CString GetName() const = NULL;
+            virtual String GetName() const = NULL;
             virtual CFiniteSet<ECodecId> GetSupportedCodecs(EDataType dataType) const = NULL;
             virtual float32 Matches(CBufferInputStream &refBuffer) const = NULL;
 
             //Functions
             static ACSTDLIB_API const IFormat *Find(ASeekableInputStream &refInput);
-            static ACSTDLIB_API const IFormat *FindByExtension(const CString &refExtension);
+            static ACSTDLIB_API const IFormat *FindByExtension(const String &refExtension);
             static ACSTDLIB_API void Register(IFormat *pFormat);
         };
     }

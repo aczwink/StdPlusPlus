@@ -17,11 +17,11 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Streams/CFileInputStream.h>
+#include <ACStdLib/Streams/FileInputStream.hpp>
 //Namespaces
 using namespace ACStdLib;
 
-bool CFileInputStream::HitEnd() const
+bool FileInputStream::HitEnd() const
 {
     return this->hitEnd;
 }

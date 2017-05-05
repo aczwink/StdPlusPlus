@@ -27,9 +27,9 @@ ERenderMode CDesktopRenderTarget::GetRenderMode() const
     return ERenderMode::OS;
 }
 
-CSize CDesktopRenderTarget::GetSize() const
+Size CDesktopRenderTarget::GetSize() const
 {
-    return CSize::GetScreenSize();
+    return Size();
 }
 
 void CDesktopRenderTarget::Present()

@@ -18,9 +18,9 @@
  */
 #pragma once
 //Local
-#include "../UI/Controls/CCheckBox.h"
+#include "ACStdLib/UI/Controls/CheckBox.hpp"
 #include "../UI/Controls/CDropDown.h"
-#include "../UI/Controls/PushButton.h"
+#include "ACStdLib/UI/Controls/PushButton.hpp"
 #include "../UI/Views/CTreeView.h"
 #include "Window.h"
 
@@ -32,7 +32,10 @@ namespace ACStdLib
         {
         protected:
             //Functions
-            static void DispatchPaintEvent(AWidget &refWidget);
+            static inline void DispatchPaintEvent(Widget &refWidget)
+            {
+                refWidget.OnPaint();
+            }
 
             //Inline functions
             static inline void DispatchCloseEvent(Window &refWnd)
@@ -60,13 +63,13 @@ namespace ACStdLib
                 refTreeView.OnSelectionChanged();
             }
 
-            static inline void DispatchPushedEvent(PushButton &refButton)
+            static inline void DispatchActivatedEvent(PushButton &refButton)
             {
-                if(refButton.onPushedHandler)
-                    refButton.onPushedHandler();
+                if(refButton.onActivatedHandler)
+                    refButton.onActivatedHandler();
             }
 
-            static inline void DispatchToggledEvent(CCheckBox &refCheckBox)
+            static inline void DispatchToggledEvent(CheckBox &refCheckBox)
             {
                 if(refCheckBox.onToggledHandler)
                     refCheckBox.onToggledHandler();

@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 #include "../Views/CListView.h"
 
 namespace ACStdLib
@@ -45,7 +45,7 @@ namespace ACStdLib
 
             //Abstract
             virtual uint32 GetNumberOfItems() const = NULL;
-            virtual CString GetText(uint32 index) const = NULL;
+            virtual String GetText(uint32 index) const = NULL;
         };
     }
 }

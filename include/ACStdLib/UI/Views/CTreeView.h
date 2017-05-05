@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
@@ -27,7 +27,7 @@ namespace ACStdLib
         //Forward declarations
         class ATreeController;
 
-        class ACSTDLIB_API CTreeView : public AWidget
+        class ACSTDLIB_API CTreeView : public Widget
         {
             friend class ATreeController;
             friend class EventQueue;
@@ -44,7 +44,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CTreeView(AWidgetContainer *pParent);
+            CTreeView(WidgetContainer *pParent);
 
             //Methods
             void *GetSelectedNode() const;

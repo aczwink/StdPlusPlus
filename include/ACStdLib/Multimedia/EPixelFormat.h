@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 #include "../Definitions.h"
 #include "EColorSpace.h"
 
@@ -35,6 +35,6 @@ namespace ACStdLib
 
         //Functions
         ACSTDLIB_API EColorSpace GetColorSpace(EPixelFormat pixelFormat);
-        ACSTDLIB_API CString ToString(EPixelFormat pixelFormat);
+        ACSTDLIB_API String ToString(EPixelFormat pixelFormat);
     }
 }

@@ -41,7 +41,7 @@ namespace ACStdLib
         }
 
         //Inline
-        inline CAutoLineBreaker &operator<<(const CString &refString)
+        inline CAutoLineBreaker &operator<<(const String &refString)
         {
             this->refOutput << refString;
             return *this;

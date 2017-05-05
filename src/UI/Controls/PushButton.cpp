@@ -17,13 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/Controls/PushButton.h>
+#include <ACStdLib/UI/Controls/PushButton.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-PushButton::PushButton(AWidgetContainer *pParent) : AWidget(pParent)
+PushButton::PushButton(WidgetContainer *pParent) : Widget(pParent)
 {
 	this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Fixed);

@@ -22,13 +22,13 @@
 #include <gtk/gtk.h>
 //Local
 #include <ACStdLib/UI/Menu/CMenuBar.h>
-#include "CGtkEventQueue.h"
+#include "GtkEventQueue.hpp"
 #include "Gtk.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
-#define THIS ((_AC_Gtk_WidgetContainer *)(this->pOSHandle))
+#define THIS PRIVATE_DATA(this)
 
 //Eventhandlers
 void Window::OnPaint()
@@ -37,39 +37,27 @@ void Window::OnPaint()
 }
 
 //Private methods
-void Window::CreateOSWindow(const CRect &refRect)
+void Window::CreateOSWindow(const Rect &refRect)
 {
-    this->pOSHandle = MemAlloc(sizeof(_AC_Gtk_WidgetContainer));
-
-    THIS->widget = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-    g_object_set_data(G_OBJECT(THIS->widget), "ACStdLib", this);
+	this->systemHandle = CreateWidgetContainerPrivateData(gtk_window_new(GTK_WINDOW_TOPLEVEL), this);
 
     gtk_window_set_position(GTK_WINDOW(THIS->widget), GTK_WIN_POS_CENTER);
     gtk_window_set_default_size(GTK_WINDOW(THIS->widget), refRect.width(), refRect.height());
 
-    g_signal_connect(THIS->widget, "delete-event", G_CALLBACK(CGtkEventQueue::CloseSlot), nullptr);
-    g_signal_connect(THIS->widget, "destroy", G_CALLBACK(CGtkEventQueue::DestroySlot), this);
-
-    //child area
-    THIS->pChildAreaWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-
-    gtk_widget_show(THIS->pChildAreaWidget); //default to show
-    gtk_container_add(GTK_CONTAINER(THIS->widget), THIS->pChildAreaWidget);
+	g_signal_connect(THIS->widget, "check-resize", G_CALLBACK(GtkEventQueue::CheckResizeSlot), this);
+    g_signal_connect(THIS->widget, "delete-event", G_CALLBACK(GtkEventQueue::CloseSlot), nullptr);
+    g_signal_connect(THIS->widget, "destroy", G_CALLBACK(GtkEventQueue::DestroySlot), this);
 }
 
 void Window::DestroyOSWindow()
 {
-    gtk_widget_destroy(GTK_WIDGET(THIS->pChildAreaWidget));
-    gtk_widget_destroy(GTK_WIDGET(THIS->widget));
-
-    MemFree(this->pOSHandle);
+	DestroyWidgetPrivateData(THIS);
 }
 
 void Window::MenuBarChangeOS()
 {
-    gtk_container_add(GTK_CONTAINER(THIS->pChildAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
-    //gtk_box_pack_start(GTK_BOX(THIS->pChildAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle, FALSE, FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
+    //gtk_box_pack_start(GTK_BOX(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->systemHandle, FALSE, FALSE, 0);
 }
 
 //Public methods
@@ -79,9 +67,9 @@ void Window::Maximize()
 	gtk_widget_show(THIS->widget);
 }
 
-void Window::SetTitle(const CString &title)
+void Window::SetTitle(const String &title)
 {
-	CUTF8String text;
+	UTF8String text;
 
 	text = title.GetUTF16();
 	gtk_window_set_title(GTK_WINDOW(THIS->widget), (const gchar *)text.GetC_Str());

@@ -21,7 +21,7 @@
 #include <ACStdLib/__InitAndShutdown.h>
 #include <ACStdLib/CFunction.h>
 #include <ACStdLib/CIniFile.h>
-#include <ACStdLib/CTuple.h>
+#include <ACStdLib/Tuple.hpp>
 #include <ACStdLib/Float.h>
 #include <ACStdLib/Integer.h>
 #include <ACStdLib/Mathematics.h>
@@ -33,19 +33,22 @@
 #include <ACStdLib/Containers/AContainer.h>
 //CFiniteSet
 #include <ACStdLib/Containers/CFiniteSet/CFiniteSet.h>
-//CLinkedList
-#include <ACStdLib/Containers/CLinkedList/CLinkedList.h>
+//LinkedList
+#include <ACStdLib/Containers/LinkedList/LinkedList.hpp>
 //CMap
 #include <ACStdLib/Containers/CMap/CMap.h>
 //Strings
 #include <ACStdLib/Containers/Strings/C8BitString.h>
-#include <ACStdLib/Containers/Strings/CString.h>
+#include <ACStdLib/Containers/Strings/String.h>
 #include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
+
+//Filesystem
+#include <ACStdLib/Filesystem/Path.hpp>
 
 //Mathematics
 #include <ACStdLib/Math/CDegree.h>
 #include <ACStdLib/Math/CRadian.h>
-#include <ACStdLib/Math/CSize.h>
+#include <ACStdLib/Math/Size.h>
 //Mathematics/Geometry
 #include <ACStdLib/Math/Geometry/CMatrix4x4.h>
 #include <ACStdLib/Math/Geometry/CVector2.h>
@@ -58,7 +61,7 @@
 #include <ACStdLib/Streams/CBufferInputStream.h>
 #include <ACStdLib/Streams/CBufferOutputStream.h>
 #include <ACStdLib/Streams/CConcatenatedInputStream.h>
-#include <ACStdLib/Streams/CFileInputStream.h>
+#include <ACStdLib/Streams/FileInputStream.hpp>
 #include <ACStdLib/Streams/CFileOutputStream.h>
 #include <ACStdLib/Streams/CStdOut.h>
 
@@ -86,8 +89,8 @@
 #include <ACStdLib/ErrorHandling/AException.h>
 
 //Filesystem
-#include <ACStdLib/Filesystem/CPath.h>
-#include <ACStdLib/Filesystem/CPathIterator.h>
+#include <ACStdLib/Filesystem/Path.hpp>
+#include <ACStdLib/Filesystem/PathIterator.hpp>
 
 //Formal languages
 #include <ACStdLib/Formal Languages/CRegEx.h>
@@ -143,7 +146,7 @@
 #include <ACStdLib/PDF/CDocument.h>
 
 //Rendering
-#include <ACStdLib/Rendering/CDeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.h>
 #include <ACStdLib/Rendering/CInputLayout.h>
 #include <ACStdLib/Rendering/ICubeMap.h>
 #include <ACStdLib/Rendering/IFrameBuffer.h>
@@ -163,7 +166,7 @@
 #include <ACStdLib/Time/Time.h>
 
 //UI
-#include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.h>
 #include <ACStdLib/UI/CAction.hpp>
 #include <ACStdLib/UI/CommonDialogs.h>
 #include <ACStdLib/UI/CTerminalEventQueue.h>
@@ -173,20 +176,20 @@
 #include <ACStdLib/UI/Mouse.h>
 //Containers
 #include <ACStdLib/UI/Containers/CTabBox.h>
-#include <ACStdLib/UI/Containers/GroupBox.h>
+#include <ACStdLib/UI/Containers/GroupBox.hpp>
 //Controllers
 #include <ACStdLib/UI/Controllers/ACheckListController.h>
 #include <ACStdLib/UI/Controllers/AListController.h>
 #include <ACStdLib/UI/Controllers/ATreeController.h>
 //Controls
-#include <ACStdLib/UI/Controls/CCheckBox.h>
+#include <ACStdLib/UI/Controls/CheckBox.hpp>
 #include <ACStdLib/UI/Controls/CDropDown.h>
 #include <ACStdLib/UI/Controls/CLabel.h>
 #include <ACStdLib/UI/Controls/CLineEdit.h>
 #include <ACStdLib/UI/Controls/CProgressBar.h>
 #include <ACStdLib/UI/Controls/CSlider.h>
 #include <ACStdLib/UI/Controls/CTextEdit.h>
-#include <ACStdLib/UI/Controls/PushButton.h>
+#include <ACStdLib/UI/Controls/PushButton.hpp>
 //Events
 #include <ACStdLib/UI/Events/CKeyEvent.h>
 //Layouts
@@ -200,7 +203,7 @@
 #include <ACStdLib/UI/Typing/ITypeface.h>
 //Views
 #include <ACStdLib/UI/Views/C2DView.h>
-#include <ACStdLib/UI/Views/C3DView.h>
+#include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
 #include <ACStdLib/UI/Views/CCheckListView.h>
 #include <ACStdLib/UI/Views/CListView.h>
 #include <ACStdLib/UI/Views/CTableView.h>

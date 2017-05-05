@@ -23,6 +23,7 @@ if(UNIX)
 endif(UNIX)
 
 #targets
+add_subdirectory(include/ACStdLib)
 add_subdirectory(src)
 #add_subdirectory(tests)
 

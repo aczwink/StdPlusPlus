@@ -30,7 +30,7 @@ extern uint32 g_currentTextureId;
 
 class CTexture2D : public ITexture2D
 {
-    friend class CDeviceContext;
+    friend class DeviceContext;
 private:
     //Members
     uint32 id;

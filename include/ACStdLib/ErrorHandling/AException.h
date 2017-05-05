@@ -23,7 +23,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CString;
+    class String;
 
     namespace ErrorHandling
     {
@@ -31,7 +31,7 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual CString GetDescription() const = 0;
+            virtual String GetDescription() const = 0;
         };
     }
 }

@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine
 	int32 nArgs;
 	LPWSTR *pArgList;
 	CString programName;
-	CLinkedList<CString> args;
+	LinkedList<CString> args;
 
 	pArgList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
 	programName = CUTF16String((uint16 *)pArgList[0]);

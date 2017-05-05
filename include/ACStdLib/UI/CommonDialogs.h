@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../CTuple.h"
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Tuple.hpp"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "Window.h"
 
 namespace ACStdLib
@@ -29,9 +29,9 @@ namespace ACStdLib
         namespace CommonDialogs
         {
             //Functions
-            ACSTDLIB_API CPath OpenFile(const Window &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
-            ACSTDLIB_API CPath SaveFile(const Window *pParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters);
-            ACSTDLIB_API bool SelectExistingDirectory(const CString &refTitle, const Window &refWindow, const CFunction<bool(const CPath &)> &refCallback, CPath &refSelectedPath);
+            ACSTDLIB_API Path OpenFile(const Window &refParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters, const Path &directory = Path());
+            ACSTDLIB_API Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
+            ACSTDLIB_API bool SelectExistingDirectory(const String &refTitle, const Window &refWindow, const CFunction<bool(const Path &)> &refCallback, Path &refSelectedPath);
         }
     }
 }

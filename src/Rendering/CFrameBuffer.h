@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Rendering/IFrameBuffer.h>
-#include <ACStdLib/Rendering/CDeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.h>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
@@ -27,7 +27,7 @@ using namespace ACStdLib::Rendering;
 
 class CFrameBuffer : public IFrameBuffer
 {
-    friend class ACStdLib::Rendering::CDeviceContext;
+    friend class ACStdLib::Rendering::DeviceContext;
 private:
     //Members
     uint32 id;

@@ -132,9 +132,9 @@ void C8BitString::Resize(uint32 newLength)
     }
 }
 
-CLinkedList<C8BitString> C8BitString::Split(const C8BitString &refDelimiter) const
+LinkedList<C8BitString> C8BitString::Split(const C8BitString &refDelimiter) const
 {
-    CLinkedList<C8BitString> result;
+    LinkedList<C8BitString> result;
     int32 pos, oldPos = 0;
 
     while((pos = this->Find(refDelimiter, oldPos)) != UINT32_MAX)

@@ -24,9 +24,14 @@
 //Namespaces
 using namespace ACStdLib;
 
+//Prototypes
+void ShutdownACStdLib_Platform();
+
 //Global functions
 void ShutdownACStdLib()
 {
+	ShutdownACStdLib_Platform();
+
     //look for memory leaks
     ASSERT_MSG(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");
 }

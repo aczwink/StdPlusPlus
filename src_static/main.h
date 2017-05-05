@@ -18,11 +18,11 @@
  */
 #pragma once
 //Local
-#include "../include/ACStdLib/Containers/Strings/CString.h"
+#include "../include/ACStdLib/Containers/Strings/String.h"
 #include "../include/ACStdLib/ErrorHandling/AException.h"
 //Namespaces
 using namespace ACStdLib;
 
 //Prototypes
-int32 Main(const CString &refProgramName, const CLinkedList<CString> &refArgs);
-int32 _ACMain(const CString &refProgramName, const CLinkedList<CString> &refArgs);
+int32 Main(const String &refProgramName, const LinkedList<String> &refArgs);
+int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs);

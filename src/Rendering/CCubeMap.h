@@ -29,7 +29,7 @@ extern uint32 g_currentTextureId;
 
 class CCubeMap : public ICubeMap
 {
-    friend class CDeviceContext;
+    friend class DeviceContext;
 private:
     //Members
     uint32 id;

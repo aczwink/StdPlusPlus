@@ -20,7 +20,7 @@
 //Local
 #include "../Debug.h"
 #include "../Definitions.h"
-#include "../Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/StringUtil.h"
 
 namespace ACStdLib
 {
@@ -67,7 +67,7 @@ namespace ACStdLib
             }
 
             //Inline
-            inline CString ToString() const
+            inline String ToString() const
             {
                 if(imag < 0)
                     return ACStdLib::ToString(this->real) + "-i" + ACStdLib::ToString(-this->imag);

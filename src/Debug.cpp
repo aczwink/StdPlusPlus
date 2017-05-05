@@ -19,11 +19,11 @@
 //Main header
 #include <ACStdLib/Debug.h>
 //Local
-#include <ACStdLib/Containers/Strings/CString.h>
+#include <ACStdLib/Containers/Strings/String.h>
 
 #ifdef _DEBUG
 void ACStdLib::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-    AssertionFailed(pContext, CString(pMessage), pFileName, lineNumber, pFunctionName);
+    AssertionFailed(pContext, String(pMessage), pFileName, lineNumber, pFunctionName);
 }
 #endif

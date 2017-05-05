@@ -18,17 +18,17 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CTableView : public AWidget
+        class ACSTDLIB_API CTableView : public Widget
         {
         public:
             //Constructor
-            CTableView(AWidgetContainer *pParent);
+            CTableView(WidgetContainer *pParent);
         };
     }
 }

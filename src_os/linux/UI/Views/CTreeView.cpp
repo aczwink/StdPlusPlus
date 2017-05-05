@@ -27,11 +27,11 @@
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
-#define THIS ((GtkWidget *)(this->pOSHandle))
+#define THIS ((GtkWidget *)(this->systemHandle))
 
 //Local functions
 /*
-static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const CString &refText)
+static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const String &refText)
 {
     TVINSERTSTRUCTW tvis;
     CUTF16String textUTF16;
@@ -56,7 +56,7 @@ static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, void *pNode, AT
     uint32 nChildren, i;
     void *pChildNode;
     GtkTreeIter childIter;
-    CUTF8String text;
+    UTF8String text;
 
     nChildren = refController.GetNumberOfChildren(pNode);
     for(i = 0; i < nChildren; i++)
@@ -92,10 +92,10 @@ void CTreeView::OnModelChanged()
 //Private methods
 void CTreeView::CreateOSWindow()
 {
-    this->pOSHandle = gtk_tree_view_new();
+    this->systemHandle = gtk_tree_view_new();
     gtk_widget_set_vexpand(THIS, TRUE);
 
-	ADD_SELF_TO_PARENT;
+	ADD_SELF_TO_PARENT(THIS);
 
     //append the standard column
     GtkCellRenderer *renderer;

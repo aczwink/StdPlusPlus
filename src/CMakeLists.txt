@@ -13,9 +13,9 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/C8BitString.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CUTF8String.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CUTF16String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
 
@@ -42,19 +42,20 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
 
         #UI
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidgetContainer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/ATextRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/RenderTargetWidget.cpp
 
         PARENT_SCOPE)

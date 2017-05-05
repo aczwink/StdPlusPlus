@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Containers/CArray/CArray.h"
-#include "../../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 
 namespace ACStdLib
 {
@@ -58,7 +58,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CMenu(const CString &refText);
+            CMenu(const String &refText);
 
             //Destructor
             ~CMenu();

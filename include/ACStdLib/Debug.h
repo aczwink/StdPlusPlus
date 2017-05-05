@@ -29,10 +29,10 @@
 namespace ACStdLib
 {
 	//Forward declarations
-	class CString;
+	class String;
 
 	void ACSTDLIB_API AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
-	void ACSTDLIB_API AssertionFailed(const char *pContext, const CString &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
+	void ACSTDLIB_API AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 }
 #else
 #define ASSERT(expression)

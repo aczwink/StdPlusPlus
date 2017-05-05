@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CDropDown : public AWidget
+        class ACSTDLIB_API CDropDown : public Widget
         {
             friend class EventQueue;
         private:
@@ -33,16 +33,16 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CDropDown(AWidgetContainer *pParent);
+            CDropDown(WidgetContainer *pParent);
 
             //Methods
-            uint32 AddItem(const CString &refText);
+            uint32 AddItem(const String &refText);
             void Clear();
             uint32 GetNumberOfItems() const;
             uint16 GetSelectedIndex() const;
-            CSize GetSizeHint() const;
+            Size GetSizeHint() const;
             void Select(int32 index);
-            void SetHint(const CString &refText);
+            void SetHint(const String &refText);
 
             //Inline
             inline void BindSelectionChanged(const CFunction<void()> &refHandler)

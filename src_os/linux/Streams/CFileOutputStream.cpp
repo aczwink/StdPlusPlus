@@ -22,14 +22,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 //Local
-#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
 //Constructor
-CFileOutputStream::CFileOutputStream(const CPath &refPath)
+CFileOutputStream::CFileOutputStream(const Path &refPath)
 {
-    CUTF8String fileNameUTF8(refPath.GetString().GetUTF16());
+    UTF8String fileNameUTF8(refPath.GetString().GetUTF16());
 
     this->fileHandle = open((const char *)fileNameUTF8.GetC_Str(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }

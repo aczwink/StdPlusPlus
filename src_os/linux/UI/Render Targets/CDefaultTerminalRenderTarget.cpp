@@ -38,7 +38,7 @@ CDefaultTerminalRenderTarget::~CDefaultTerminalRenderTarget()
 }
 
 //Public methods
-CSize CDefaultTerminalRenderTarget::GetSize() const
+Size CDefaultTerminalRenderTarget::GetSize() const
 {
     NOT_IMPLEMENTED_ERROR;
 }

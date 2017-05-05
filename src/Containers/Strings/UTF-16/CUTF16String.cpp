@@ -19,9 +19,9 @@
 //Class Header
 #include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
 //Local
-#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/CUTF32String.h>
-#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -106,7 +106,7 @@ CUTF16String &CUTF16String::operator=(const C8BitString &refString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const CUTF8String &refString)
+CUTF16String &CUTF16String::operator=(const UTF8String &refString)
 {
     //worst-case: everything will be a surrogate
     this->EnsureCapacity(2 * refString.GetLength());

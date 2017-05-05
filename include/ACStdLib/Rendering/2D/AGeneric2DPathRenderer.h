@@ -34,10 +34,10 @@ namespace ACStdLib
                 ELineCap lineCap;
                 Math::CMatrix2x2 transform;
 
-                CColor fillColor;
+                Color fillColor;
 
                 float64 strokeWidth;
-                CColor strokeColor;
+                Color strokeColor;
             };
 
         protected:

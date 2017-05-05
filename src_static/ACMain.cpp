@@ -24,7 +24,7 @@
 void StartUserMemoryLogging();
 
 //Global functions
-int32 _ACMain(const CString &refProgramName, const CLinkedList<CString> &refArgs)
+int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
 {
     int32 exitCode;
 

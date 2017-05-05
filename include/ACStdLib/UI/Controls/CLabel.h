@@ -18,17 +18,17 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CLabel : public AWidget
+        class ACSTDLIB_API CLabel : public Widget
         {
         private:
             //Members
-            CString text;
+            String text;
 
             //Eventhandlers
             void OnPaint();
@@ -38,10 +38,10 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CLabel(AWidgetContainer *pParent);
+            CLabel(WidgetContainer *pParent);
 
             //Methods
-            void SetText(const CString &refText);
+            void SetText(const String &refText);
         };
     }
 }

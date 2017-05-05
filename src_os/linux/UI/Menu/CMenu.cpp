@@ -21,7 +21,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <ACStdLib/UI/CAction.hpp>
 #include "../Gtk.h"
 //Namespaces
@@ -38,9 +38,9 @@ static void OnMenuItemActivatedHandler(GtkMenuItem *pItem, CActionEntry *pEntry)
 }
 
 //Constructor
-CMenu::CMenu(const CString &refText)
+CMenu::CMenu(const String &refText)
 {
-    CUTF8String name(refText.GetUTF16());
+    UTF8String name(refText.GetUTF16());
 
     this->pOSHandle = (_AC_Gtk_Menu *)MemAlloc(sizeof(_AC_Gtk_Menu));
 
@@ -56,7 +56,7 @@ CMenu::CMenu(const CString &refText)
 void CMenu::AppendItemOS(CActionEntry *pEntry)
 {
     GtkWidget *pItem;
-    CUTF8String text;
+    UTF8String text;
 
     text = pEntry->refAction.text.GetUTF16();
 

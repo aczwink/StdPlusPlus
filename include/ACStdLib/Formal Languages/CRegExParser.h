@@ -20,9 +20,9 @@
 //Local
 #include "../Definitions.h"
 #include "../Containers/CArray/CArray.h"
-#include "../Containers/CLinkedList/CLinkedList.h"
-#include "../Containers/CLinkedList/CLinkedListConstIterator.h"
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
+#include "../Containers/LinkedList/LinkedListConstIterator.hpp"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "CCharSet.h"
 #include "CNFA.h"
 
@@ -52,16 +52,16 @@ namespace ACStdLib
         uint32 currentCodePoint;
         bool hasDot;
         CCharSet *pAnyCharSet;
-        CLinkedList<CCharSet *> orderedCharSets; //as they appear in the regex
-        CLinkedList<CCharSet *> disjointCharSets;
-        CLinkedList<CNFA *> nfaStack;
+        LinkedList<CCharSet *> orderedCharSets; //as they appear in the regex
+        LinkedList<CCharSet *> disjointCharSets;
+        LinkedList<CNFA *> nfaStack;
         //Methods
         bool Accept(ETokenType token, CConstUTF8StringIterator &refIt);
         CNFA *BuildNFA();
         void Concat();
         void Except(ETokenType token, CConstUTF8StringIterator &refIt);
         CCharSet *ParseCharacterClass(CConstUTF8StringIterator &refIt);
-        void ParseRegEx(CConstUTF8StringIterator &refIt, CLinkedListConstIterator<CCharSet *> &refCharSetIt);
+        void ParseRegEx(CConstUTF8StringIterator &refIt, LinkedListConstIterator<CCharSet *> &refCharSetIt);
         bool Preprocess(CConstUTF8StringIterator &refIt);
         bool PreprocessCharClass(CConstUTF8StringIterator &refIt, CCharSet *pCharSet);
         void Push(const CCharSet &refCharSet);
@@ -75,12 +75,12 @@ namespace ACStdLib
         ~CRegExParser();
         //Methods
         void BuildDisjointCharSets();
-        CNFA *Parse(const CUTF8String &refRegEx);
-        bool Preprocess(const CUTF8String &refRegEx);
+        CNFA *Parse(const UTF8String &refRegEx);
+        bool Preprocess(const UTF8String &refRegEx);
         void Union();
 
         //Inline
-        inline const CLinkedList<CCharSet *> GetDisjointCharSets() const
+        inline const LinkedList<CCharSet *> GetDisjointCharSets() const
         {
             return this->disjointCharSets;
         }

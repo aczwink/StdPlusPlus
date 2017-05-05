@@ -23,17 +23,17 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CUTF8String;
+    class UTF8String;
 
     class ACSTDLIB_API CConstUTF8StringIterator
     {
     private:
         //Members
-        const CUTF8String &refString;
+        const UTF8String &refString;
         const byte *pCurrent;
     public:
         //Constructor
-        CConstUTF8StringIterator(const CUTF8String &refString, uint32 index = 0);
+        CConstUTF8StringIterator(const UTF8String &refString, uint32 index = 0);
 
         //Operators
         CConstUTF8StringIterator &operator++(); //Prefix ++

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 #include "ECodecId.h"
 #include "SPacket.h"
 
@@ -30,7 +30,7 @@ namespace ACStdLib
         {
         private:
             //Members
-            CLinkedList<SPacket> parsedFrames;
+            LinkedList<SPacket> parsedFrames;
 
         protected:
             //Members

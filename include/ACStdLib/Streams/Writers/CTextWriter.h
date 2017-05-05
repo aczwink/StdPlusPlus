@@ -20,7 +20,7 @@
 //Local
 #include "../AOutputStream.h"
 #include "../../Containers/Strings/C8BitString.h"
-#include "../../Containers/Strings/UTF-8/CUTF8String.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 
 namespace ACStdLib
 {
@@ -38,6 +38,6 @@ namespace ACStdLib
 
         //Methods
         void WriteUTF8(uint32 codePoint);
-        void WriteUTF8_ZeroTerminated(const CUTF8String &refString);
+        void WriteUTF8_ZeroTerminated(const UTF8String &refString);
     };
 }

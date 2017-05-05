@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CProgressBar : public AWidget
+        class ACSTDLIB_API CProgressBar : public Widget
         {
         private:
             //Members
@@ -38,10 +38,10 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CProgressBar(AWidgetContainer *pParent);
+            CProgressBar(WidgetContainer *pParent);
 
             //Methods
-            CSize GetSizeHint() const;
+            Size GetSizeHint() const;
             void SetProgress(float64 value);
         };
     }

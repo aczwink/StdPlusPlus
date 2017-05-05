@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Containers/CPriorityQueue.h"
 #include "AFrame.h"
 #include "SPacket.h"
@@ -33,7 +33,7 @@ namespace ACStdLib
             //Members
             uint32 frameCounter;
             CPriorityQueue<AFrame *> unorderedFrames;
-            CLinkedList<AFrame *> orderedFrames;
+            LinkedList<AFrame *> orderedFrames;
 
         protected:
             //Methods

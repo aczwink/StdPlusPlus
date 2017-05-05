@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "CNFA.h"
 
 namespace ACStdLib
@@ -28,6 +28,6 @@ namespace ACStdLib
     {
     public:
         //Constructor
-        CRegEx(const CUTF8String &refRegEx);
+        CRegEx(const UTF8String &refRegEx);
     };
 }

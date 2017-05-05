@@ -21,16 +21,16 @@
 //Global
 #include <iostream>
 //Local
-#include <ACStdLib/Containers/Strings/CString.h>
 #include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Streams/CStdOut.h>
 //Namespaces
 using namespace ACStdLib;
 
 #ifdef _DEBUG
-void ACStdLib::AssertionFailed(const char *pContext, const CString &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-    CString message;
+    String message;
 
     message = "Expression: ";
     message += pContext;

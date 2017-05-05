@@ -20,8 +20,8 @@
 //Local
 #include "ANode.h"
 #include "../Containers/CMap/CMap.h"
-#include "../Containers/CLinkedList/CLinkedList.h"
-#include "../Containers/Strings/CString.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
+#include "../Containers/Strings/String.h"
 
 namespace ACStdLib
 {
@@ -31,13 +31,13 @@ namespace ACStdLib
         {
         private:
             //Members
-            CString name;
-            CLinkedList<ANode *> children;
-            CMap<CString, CString> attributes;
+            String name;
+            LinkedList<ANode *> children;
+            CMap<String, String> attributes;
 
         public:
             //Constructor
-            inline CElement(const CString &refName)
+            inline CElement(const String &refName)
             {
                 this->name = refName;
             }
@@ -54,58 +54,58 @@ namespace ACStdLib
                 this->children.InsertTail(pNode);
             }
 
-            inline const CString &GetAttribute(const CString &refKey) const
+            inline const String &GetAttribute(const String &refKey) const
             {
                 return this->attributes[refKey];
             }
 
-            inline CMap<CString, CString> &GetAttributes()
+            inline CMap<String, String> &GetAttributes()
             {
                 return this->attributes;
             }
 
-            inline CLinkedList<ANode *> &GetChildren()
+            inline LinkedList<ANode *> &GetChildren()
             {
                 return this->children;
             }
 
-            inline const CLinkedList<ANode *> &GetChildren() const
+            inline const LinkedList<ANode *> &GetChildren() const
             {
                 return this->children;
             }
 
-            inline const CString &GetName() const
+            inline const String &GetName() const
             {
                 return this->name;
             }
 
-            inline bool HasAttribute(const CString &refKey) const
+            inline bool HasAttribute(const String &refKey) const
             {
                 return this->attributes.Contains(refKey);
             }
 
-            inline void SetAttribute(const CString &refKey, const CString &refValue)
+            inline void SetAttribute(const String &refKey, const String &refValue)
             {
                 this->attributes[refKey] = refValue;
             }
 
             //For range-based loops
-            inline CLinkedListIterator<ANode *> begin()
+            inline LinkedListIterator<ANode *> begin()
             {
                 return this->children.begin();
             }
 
-            inline CLinkedListConstIterator<ANode *> begin() const
+            inline LinkedListConstIterator<ANode *> begin() const
             {
                 return this->children.begin();
             }
 
-            inline CLinkedListIterator<ANode *> end()
+            inline LinkedListIterator<ANode *> end()
             {
                 return this->children.end();
             }
 
-            inline CLinkedListConstIterator<ANode *> end() const
+            inline LinkedListConstIterator<ANode *> end() const
             {
                 return this->children.end();
             }

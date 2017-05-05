@@ -20,7 +20,7 @@
 #include <ACStdLib/UI/Layouts/CGridLayout.h>
 //Local
 #include <ACStdLib/Containers/CMap/CMap.h>
-#include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -40,14 +40,14 @@ CGridLayout::CGridLayout()
 /*
 Computes the minimum sizes of the rows and columns in the grid.
 */
-CSize CGridLayout::ComputeSizingInfo(const AWidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
+Size CGridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
 {
     uint8 col, row;
     uint16 i;
-    CSize tmp, totalSize;
+    Size tmp, totalSize;
 
     if(refContainer.GetChildren().IsEmpty())
-        return CSize();
+        return Size();
 
     //check if we have enough space
     this->EnsureGridBigEnough((uint8)refContainer.GetChildren().GetNumberOfElements());
@@ -65,7 +65,7 @@ CSize CGridLayout::ComputeSizingInfo(const AWidgetContainer &refContainer, CArra
     //update column widths and heights according to children
     row = 0;
     col = 0;
-    for(const AWidget *const& refpWidget : refContainer.GetChildren())
+    for(const Widget *const& refpWidget : refContainer.GetChildren())
     {
         tmp = refpWidget->GetSizeHint();
         if(refColumnWidths[col] < tmp.width)
@@ -87,14 +87,14 @@ CSize CGridLayout::ComputeSizingInfo(const AWidgetContainer &refContainer, CArra
     for(i = 0; i < this->nRows; i++)
         totalSize.height += refRowHeights[i];
 
-    return totalSize + CSize((this->nColumns - 1) * this->horzGap, (this->nRows - 1) * this->vertGap);
+    return totalSize + Size((this->nColumns - 1) * this->horzGap, (this->nRows - 1) * this->vertGap);
 }
 
-void CGridLayout::DistributeLeftOverSize(const AWidgetContainer &refContainer, const CSize &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
+void CGridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
 {
     uint16 col, row, partSize, nExpandColParts, nExpandRowParts, nGrowColParts, nGrowRowParts, max, maxIdx;
-    CSize leftOver;
-    CRect rc;
+    Size leftOver;
+    Rect rc;
     CMap<uint16, uint8> expandCols, expandRows, growCols, growRows;
 
     rc = this->GetChildrenRect(refContainer);
@@ -113,7 +113,7 @@ void CGridLayout::DistributeLeftOverSize(const AWidgetContainer &refContainer, c
     //check which rows and cols can take extra space
     col = 0;
     row = 0;
-    for(AWidget *const& refpWidget : refContainer.GetChildren())
+    for(Widget *const& refpWidget : refContainer.GetChildren())
     {
         if(refpWidget->sizingPolicy.GetHorizontalAttributes().expand)
             expandCols.Insert(col, refpWidget->sizingPolicy.horzScale);
@@ -250,9 +250,9 @@ void CGridLayout::EnsureGridBigEnough(uint8 nCells)
     ASSERT(this->nColumns * this->nRows >= nCells);
 }
 
-CRect CGridLayout::GetChildrenRect(const AWidgetContainer &refContainer) const
+Rect CGridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
 {
-    CRect rc;
+    Rect rc;
 
     rc = refContainer.GetChildrenRect();
     rc.Enlarge(-(int32)this->margin, -(int32)this->margin);
@@ -260,10 +260,10 @@ CRect CGridLayout::GetChildrenRect(const AWidgetContainer &refContainer) const
     return rc;
 }
 
-void CGridLayout::PositionChild(AWidget &refWidget, const CRect &refBounds)
+void CGridLayout::PositionChild(Widget &refWidget, const Rect &refBounds)
 {
-    CSize sizeHint;
-    CRect widgetBounds;
+    Size sizeHint;
+    Rect widgetBounds;
 
     widgetBounds = refBounds;
     sizeHint = refWidget.GetSizeHint();
@@ -286,22 +286,22 @@ void CGridLayout::PositionChild(AWidget &refWidget, const CRect &refBounds)
 }
 
 //Public methods
-CSize CGridLayout::GetPreferredSize(const AWidgetContainer &refContainer)
+Size CGridLayout::GetPreferredSize(const WidgetContainer &refContainer)
 {
-    CSize tmp;
+    Size tmp;
     CArray<uint16> columnWidths, rowHeights;
 
     tmp = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
-    tmp += CSize(this->margin, this->margin) * 2;
+    tmp += Size(this->margin, this->margin) * 2;
 
     return tmp;
 }
 
-void CGridLayout::Layout(AWidgetContainer &refContainer)
+void CGridLayout::Layout(WidgetContainer &refContainer)
 {
     uint16 x, y, col, row;
-    CSize minSize, tmp;
-    CRect rc;
+    Size minSize, tmp;
+    Rect rc;
     CArray<uint16> columnWidths, rowHeights;
 
     //collect info
@@ -315,9 +315,9 @@ void CGridLayout::Layout(AWidgetContainer &refContainer)
     row = 0;
     x = rc.x();
     y = rc.y();
-    for(AWidget *const& refpWidget : refContainer.GetChildren())
+    for(Widget *const& refpWidget : refContainer.GetChildren())
     {
-        this->PositionChild(*refpWidget, CRect(x, y, columnWidths[col], rowHeights[row]));
+        this->PositionChild(*refpWidget, Rect(x, y, columnWidths[col], rowHeights[row]));
 
         x += columnWidths[col] + this->horzGap;
         col++;
@@ -340,7 +340,7 @@ void CGridLayout::Layout(AWidgetContainer &refContainer)
     scaleVert = rc.height / (float64)preferredSize.height;
 
     //update column widths and heights according to children
-    for(const AWidget *const& refpWidget : refContainer.GetChildren())
+    for(const Widget *const& refpWidget : refContainer.GetChildren())
     {
         tmp = refpWidget->GetSizeHint();
         tmp.width = (uint16)(scaleHorz * tmp.width);

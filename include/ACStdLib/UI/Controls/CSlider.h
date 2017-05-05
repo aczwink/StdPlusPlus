@@ -18,20 +18,20 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CSlider : public AWidget
+        class ACSTDLIB_API CSlider : public Widget
         {
         public:
             //Constructor
-            CSlider(AWidgetContainer *pParent);
+            CSlider(WidgetContainer *pParent);
 
             //Methods
-            CSize GetSizeHint() const;
+            Size GetSizeHint() const;
             void SetMaximum(uint32 max);
             void SetMinimum(uint32 min);
             void SetPos(uint32 pos);

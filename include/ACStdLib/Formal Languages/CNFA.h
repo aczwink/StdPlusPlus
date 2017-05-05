@@ -22,8 +22,8 @@
 #include "../Containers/CArray/CArray.h"
 #include "../Containers/CFiniteSet/CFiniteSet.h"
 #include "../Containers/CMap/CMap.h"
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "CCharSet.h"
 #include "CDFA.h"
 //Definitions
@@ -110,7 +110,7 @@ namespace ACStdLib
     private:
         //Members
         uint32 nInputSymbols;
-        CLinkedList<CNFAState *> states;
+        LinkedList<CNFAState *> states;
 
         //Methods
         void GetEpsilonClosure(const CFiniteSet<CNFAState *> &refInput, CFiniteSet<CNFAState *> &refOutput) const;
@@ -149,7 +149,7 @@ namespace ACStdLib
             return this->states[index];
         }
 
-        inline const CLinkedList<CNFAState *> GetStates() const
+        inline const LinkedList<CNFAState *> GetStates() const
         {
             return this->states;
         }
@@ -190,7 +190,7 @@ namespace ACStdLib
 
 #ifdef _DEBUG
         //For debugging
-		void SaveGraph(const CPath &refPath);
+		void SaveGraph(const Path &refPath);
 #endif
     };
 }

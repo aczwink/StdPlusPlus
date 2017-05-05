@@ -18,20 +18,20 @@
  */
 #pragma once
 //Local
-#include "../AWidgetContainer.h"
+#include "ACStdLib/UI/WidgetContainer.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CTabBox : public AWidgetContainer
+        class ACSTDLIB_API CTabBox : public WidgetContainer
         {
         public:
             //Constructor
-            CTabBox(AWidgetContainer *pParent);
+            CTabBox(WidgetContainer *pParent);
 
             //Methods
-            CRect GetChildrenRect() const;
+            Rect GetChildrenRect() const;
         };
     }
 }

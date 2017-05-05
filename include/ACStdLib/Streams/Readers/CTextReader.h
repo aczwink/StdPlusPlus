@@ -20,7 +20,7 @@
 //Local
 #include "../AInputStream.h"
 #include "../../Containers/Strings/C8BitString.h"
-#include "../../Containers/Strings/UTF-8/CUTF8String.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 
 namespace ACStdLib
 {
@@ -41,6 +41,6 @@ namespace ACStdLib
         C8BitString ReadASCII_Line();
         C8BitString ReadASCII_ZeroTerminated();
         uint32 ReadUTF8();
-        CUTF8String ReadUTF8Line();
+        UTF8String ReadUTF8Line();
     };
 }

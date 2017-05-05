@@ -92,7 +92,7 @@ void CShaderProgram::SetUniformValue(uint32 varId, const CVector3 &refVector)
     glUniform3fv(varId, 1, &refVector.x);
 }
 
-void CShaderProgram::SetUniformValue(uint32 varId, const CColor &refColor)
+void CShaderProgram::SetUniformValue(uint32 varId, const Color &refColor)
 {
     this->Use();
 

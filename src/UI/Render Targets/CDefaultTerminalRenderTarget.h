@@ -38,7 +38,7 @@ namespace ACStdLib
             ~CDefaultTerminalRenderTarget();
 
             //Methods
-            CSize GetSize() const;
+            Size GetSize() const;
             void OutputCodepointAt(const CPoint &refPoint, uint32 codePoint);
             void Present();
         };

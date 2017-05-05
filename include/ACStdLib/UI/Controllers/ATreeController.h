@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 #include "../Views/CTreeView.h"
 
 namespace ACStdLib
@@ -43,7 +43,7 @@ namespace ACStdLib
             //Abstract
             virtual void *GetChild(void *pNode, uint32 child) const = 0;
             virtual uint32 GetNumberOfChildren(void *pNode) const = 0;
-            virtual CString GetText(void *pNode) const = 0;
+            virtual String GetText(void *pNode) const = 0;
 
             //Inline
             inline void ModelChanged()

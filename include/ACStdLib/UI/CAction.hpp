@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../CFunction.h"
-#include "../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 
 namespace ACStdLib
 {
@@ -29,7 +29,7 @@ namespace ACStdLib
         {
         public:
             //Members
-            CString text;
+            String text;
             CFunction<void()> triggeredEvent;
         };
     }

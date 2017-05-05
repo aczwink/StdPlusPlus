@@ -32,8 +32,8 @@ CRect AWidgetContainer::GetChildrenRect() const
 	RECT rc;
 	CRect result;
 
-	if(this->pOSHandle == nullptr)
-		return CRect(CPoint(0, 0), this->GetSize());
+	if(this->systemHandle)
+		return this->System_GetChildrenRect();
 
 	GetClientRect((HWND)this->pOSHandle, &rc);
 

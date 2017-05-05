@@ -19,13 +19,13 @@
 #pragma once
 //Local
 #include "../../Rendering/2D/C2DPathRenderer.h"
-#include "C3DView.h"
+#include "ACStdLib/UI/Controls/RenderTargetWidget.hpp"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API C2DView : public C3DView
+        class ACSTDLIB_API C2DView : public RenderTargetWidget
         {
         private:
             //Eventhandlers
@@ -37,7 +37,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            inline C2DView(AWidgetContainer *pParent) : C3DView(pParent), pathRenderer(*this->pDeviceContext)
+            inline C2DView(WidgetContainer *pParent) : RenderTargetWidget(pParent), pathRenderer(*this->deviceContext)
             {
                 this->pathRenderer.Scale(1, -1);
             }

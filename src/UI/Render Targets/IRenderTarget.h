@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Definitions.h>
-#include <ACStdLib/Math/CSize.h>
+#include <ACStdLib/Math/Size.h>
 #include <ACStdLib/UI/ERenderMode.h>
 
 namespace ACStdLib
@@ -30,7 +30,7 @@ namespace ACStdLib
         {
         public:
             virtual ERenderMode GetRenderMode() const = NULL;
-            virtual CSize GetSize() const = NULL;
+            virtual Size GetSize() const = NULL;
             virtual void Present() = NULL;
         };
 

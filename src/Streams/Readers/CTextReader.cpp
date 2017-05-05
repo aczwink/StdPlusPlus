@@ -121,10 +121,10 @@ uint32 CTextReader::ReadUTF8()
     return codePoint;
 }
 
-CUTF8String CTextReader::ReadUTF8Line()
+UTF8String CTextReader::ReadUTF8Line()
 {
     uint32 c;
-    CUTF8String result;
+    UTF8String result;
 
     while(true)
     {

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 
 namespace ACStdLib
 {
@@ -40,7 +40,7 @@ namespace ACStdLib
     {
     private:
         //Members
-        CLinkedList<CRange> ranges;
+        LinkedList<CRange> ranges;
 
         //Methods
         void Merge(uint32 idx);
@@ -128,7 +128,7 @@ namespace ACStdLib
             return this->ranges.GetNumberOfElements();
         }
 
-        inline const CLinkedList<CRange> &GetRanges() const
+        inline const LinkedList<CRange> &GetRanges() const
         {
             return this->ranges;
         }

@@ -27,28 +27,48 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Namespace functions
-CPath CommonDialogs::OpenFile(const Window &refParentWnd, const CString &refTitle, const CLinkedList<CTuple<CString, CString>> &refFilters)
+Path CommonDialogs::OpenFile(const Window &refParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &filters, const Path &directory)
 {
     gint result;
-    GtkWidget *pDialog;
-    CUTF8String titleUTF8;
-    CString fileName;
+    UTF8String titleUTF8;
+    String fileName;
 
     titleUTF8 = refTitle.GetUTF16();
-    pDialog = gtk_file_chooser_dialog_new((gchar *)titleUTF8.GetC_Str(), GTK_WINDOW(INTERNAL_WIDGET_CONTAINER(&refParentWnd)), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, nullptr);
+    GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)titleUTF8.GetC_Str(), GTK_WINDOW(PRIVATE_DATA(&refParentWnd)->widget), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, nullptr);
+    GtkFileChooser *fileChooser = GTK_FILE_CHOOSER(fileChooserDialog);
 
-    result = gtk_dialog_run(GTK_DIALOG(pDialog));
+	if(!directory.GetString().IsEmpty())
+	{
+		UTF8String dir = directory.GetString().GetUTF16();
+
+		gtk_file_chooser_set_current_folder(fileChooser, (const gchar *)dir.GetC_Str());
+	}
+
+	for(auto &entry : filters)
+	{
+		GtkFileFilter *filter = gtk_file_filter_new();
+
+		UTF8String pattern = entry.Get<1>().GetUTF16();
+		UTF8String name = (entry.Get<0>() + " (" + pattern + ")").GetUTF16();
+
+		gtk_file_filter_set_name(filter, (const gchar *)name.GetC_Str());
+		gtk_file_filter_add_pattern(filter, (const gchar *)pattern.GetC_Str());
+
+		gtk_file_chooser_add_filter(fileChooser, filter);
+	}
+
+    result = gtk_dialog_run(GTK_DIALOG(fileChooserDialog));
     if(result == GTK_RESPONSE_ACCEPT)
     {
         char *pFileName;
 
-        pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pDialog));
-        fileName = CUTF8String(pFileName);
+        pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserDialog));
+        fileName = UTF8String(pFileName);
 
         g_free(pFileName);
     }
 
-    gtk_widget_destroy(pDialog);
+    gtk_widget_destroy(fileChooserDialog);
 
     return fileName;
 }

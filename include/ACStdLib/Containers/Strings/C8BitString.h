@@ -20,7 +20,7 @@
 //Local
 #include "AFixedCharLengthString.h"
 #include "../CArray/CArray.h"
-#include "../CLinkedList/CLinkedList.h"
+#include "../LinkedList/LinkedList.hpp"
 //#include "CWString.h"
 
 namespace ACStdLib
@@ -93,7 +93,7 @@ namespace ACStdLib
         int32 FindReverse(const C8BitString &refSearch, uint32 startPos = UINT32_MAX) const;
         void Replace(const C8BitString &refSearch, const C8BitString &refReplace);
         void Resize(uint32 newLength);
-        CLinkedList<C8BitString> Split(const C8BitString &refDelimiter) const;
+        LinkedList<C8BitString> Split(const C8BitString &refDelimiter) const;
         C8BitString SubString(uint32 beginOffset, uint32 length) const;
         C8BitString ToLowercase() const;
         C8BitString ToUppercase() const;

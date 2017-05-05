@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <ACStdLib/UI/AWidget.h>
+#include <ACStdLib/UI/Widget.h>
 //Global
 #include <gtk/gtk.h>
 //Namespaces
@@ -30,25 +30,33 @@ struct _AC_Gtk_Menu
     GtkWidget *pSubMenu;
 };
 
-struct _AC_Gtk_WidgetContainer
+struct _AC_Gtk_WidgetPrivate
 {
-    GtkWidget *widget; //the window
-    GtkWidget *pChildAreaWidget;
+    GtkWidget *widget; //the widget, window whatever itself
+    GtkWidget *childAreaWidget; //its child area
 };
 
-class CFullAccessWidget : public AWidget
+class CFullAccessWidget : public Widget
 {
 public:
+	//Constructor
+	inline CFullAccessWidget() : Widget(nullptr){} //to make compiler happy
+
     //Inline
     inline void *GetInternal()
     {
-        return this->pOSHandle;
+        return this->systemHandle;
     }
 };
 
-#define WIDGET_FROM_GTK_WIDGET(pGtkWidget) (g_object_get_data(G_OBJECT(pGtkWidget), "ACStdLib"))
+//Definitions
+#define PRIVATE_DATA(widget) ((_AC_Gtk_WidgetPrivate *)((CFullAccessWidget *)widget)->GetInternal())
+#define WIDGET_FROM_GTK(gtkWidget) ((Widget *)g_object_get_data(G_OBJECT(gtkWidget), "ACStdLib"))
 
-#define INTERNAL_FROM_WIDGET(pWidget) (((CFullAccessWidget *)pWidget)->GetInternal())
-#define INTERNAL_WIDGET_CONTAINER(pWidget) ((_AC_Gtk_WidgetContainer *)INTERNAL_FROM_WIDGET(pWidget))
+#define ADD_SELF_TO_PARENT(child) gtk_container_add(GTK_CONTAINER(PRIVATE_DATA(this->GetParent())->childAreaWidget), child);
 
-#define ADD_SELF_TO_PARENT gtk_box_pack_start(GTK_BOX(INTERNAL_WIDGET_CONTAINER(this->GetParent())->pChildAreaWidget), THIS, TRUE, TRUE, 0);
+//Prototypes
+_AC_Gtk_WidgetPrivate *CreateWidgetPrivateData(GtkWidget *gtkWidget, Widget *widget);
+_AC_Gtk_WidgetPrivate *CreateWidgetContainerPrivateData(GtkWidget *gtkWidget, Widget *widget);
+void DestroyWidgetPrivateData(_AC_Gtk_WidgetPrivate *priv);
+Size GetPreferedSizeGtk(GtkWidget *widget);

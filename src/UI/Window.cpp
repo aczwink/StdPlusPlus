@@ -26,10 +26,10 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructors
-Window::Window(ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
 {
-    CSize screenSize;
-    CRect windowRect;
+    Size screenSize;
+    Rect windowRect;
 
     const float64 shrinkPercentage = -0.1;
 
@@ -46,7 +46,7 @@ Window::Window(ERenderMode mode) : AWidgetContainer(nullptr)
     this->Init(windowRect);
 }
 
-Window::Window(const CRect &refRect, ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
@@ -55,10 +55,10 @@ Window::Window(const CRect &refRect, ERenderMode mode) : AWidgetContainer(nullpt
     this->Init(refRect);
 }
 
-Window::Window(uint16 width, uint16 height, ERenderMode mode) : AWidgetContainer(nullptr)
+Window::Window(uint16 width, uint16 height, ERenderMode mode) : WidgetContainer(nullptr)
 {
-    CRect windowRect;
-    CSize screenSize;
+    Rect windowRect;
+    Size screenSize;
 
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
@@ -110,7 +110,7 @@ void Window::OnDrop(const ITransfer &refTransfer)
 }
 
 //Private methods
-void Window::Init(const CRect &refRect)
+void Window::Init(const Rect &refRect)
 {
     switch(this->renderMode)
     {
@@ -136,14 +136,14 @@ void Window::SetMenuBar(CMenuBar *pMenuBar)
 
 void Window::SwitchFullscreen(bool state)
 {
-    if(this->pOSHandle)
+    if(this->systemHandle)
     {
         //OS-handled!
         NOT_IMPLEMENTED_ERROR;
     }
     else
     {
-        this->SetRect(CRect(CPoint(), GetRenderTarget(this->renderMode).GetSize()));
+        this->SetRect(Rect(CPoint(), GetRenderTarget(this->renderMode).GetSize()));
         this->Repaint();
     }
 }

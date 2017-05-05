@@ -33,11 +33,11 @@ namespace ACStdLib
             uint8 vertGap;
 
             //Methods
-            CSize ComputeSizingInfo(const AWidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
-            void DistributeLeftOverSize(const AWidgetContainer &refContainer, const CSize &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
+            Size ComputeSizingInfo(const WidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
+            void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
             void EnsureGridBigEnough(uint8 nCells);
-            CRect GetChildrenRect(const AWidgetContainer &refContainer) const;
-            void PositionChild(AWidget &refWidget, const CRect &refBounds);
+            Rect GetChildrenRect(const WidgetContainer &refContainer) const;
+            void PositionChild(Widget &refWidget, const Rect &refBounds);
 
         protected:
             //Members
@@ -53,8 +53,8 @@ namespace ACStdLib
             CGridLayout();
 
             //Methods
-            CSize GetPreferredSize(const AWidgetContainer &refContainer);
-            void Layout(AWidgetContainer &refContainer);
+            Size GetPreferredSize(const WidgetContainer &refContainer);
+            void Layout(WidgetContainer &refContainer);
         };
 
         class ACSTDLIB_API CHorizontalLayout : public CGridLayout

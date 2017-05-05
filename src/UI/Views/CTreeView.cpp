@@ -19,14 +19,14 @@
 //Class header
 #include <ACStdLib/UI/Views/CTreeView.h>
 //Local
-#include <ACStdLib/UI/AWidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.h>
 #include <ACStdLib/UI/Controllers/ATreeController.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-CTreeView::CTreeView(AWidgetContainer *pParent) : AWidget(pParent)
+CTreeView::CTreeView(WidgetContainer *pParent) : Widget(pParent)
 {
     this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Expanding);

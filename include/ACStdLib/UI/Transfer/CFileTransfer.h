@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../../Containers/CLinkedList/CLinkedList.h"
-#include "../../Filesystem/CPath.h"
+#include "../../Containers/LinkedList/LinkedList.hpp"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "ITransfer.h"
 
 namespace ACStdLib
@@ -30,7 +30,7 @@ namespace ACStdLib
         {
         public:
             //Members
-            CLinkedList<CPath> files;
+            LinkedList<Path> files;
         };
     }
 }

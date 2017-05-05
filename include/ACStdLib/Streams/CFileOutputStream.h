@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "ASeekableOutputStream.h"
 
 namespace ACStdLib
@@ -34,7 +34,7 @@ namespace ACStdLib
         };
     public:
         //Constructor
-        CFileOutputStream(const CPath &refPath);
+        CFileOutputStream(const Path &refPath);
         //CFileOutputStream
         ~CFileOutputStream();
         //Methods

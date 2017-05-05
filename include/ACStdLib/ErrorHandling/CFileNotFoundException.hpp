@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "AException.h"
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Filesystem/Path.hpp"
 
 namespace ACStdLib
 {
@@ -29,16 +29,16 @@ namespace ACStdLib
         {
         public:
             //Members
-            CPath path;
+            Path path;
 
             //Constructor
-            inline CFileNotFoundException(const CPath &refPath)
+            inline CFileNotFoundException(const Path &refPath)
             {
                 this->path = refPath;
             }
 
             //Inline
-            inline CString GetDescription() const
+            inline String GetDescription() const
             {
                 return "No such file or directory: \"" + this->path.GetString() + "\"";
             }

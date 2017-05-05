@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Rendering/CDeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.h>
 //Local
 #include "OpenGL.h"
 #include "CCubeMap.h"
@@ -74,24 +74,24 @@ static inline uint32 MapTestFunction(ETestFunction func)
 }
 
 //Constructors
-CDeviceContext::CDeviceContext(const C3DView &refView)
+DeviceContext::DeviceContext(const RenderTargetWidget &refView)
 {
     this->CreateOSContext(refView, 0);
     this->BindOSContext();
 
-    glActiveTexture(GL_TEXTURE31); //see CDeviceContext::SetTexture
+    glActiveTexture(GL_TEXTURE31); //see DeviceContext::SetTexture
 }
 
-CDeviceContext::CDeviceContext(const C3DView &refView, uint8 nSamples)
+DeviceContext::DeviceContext(const RenderTargetWidget &refView, uint8 nSamples)
 {
     this->CreateOSContext(refView, nSamples);
     this->BindOSContext();
 
-    glActiveTexture(GL_TEXTURE31); //see CDeviceContext::SetTexture
+    glActiveTexture(GL_TEXTURE31); //see DeviceContext::SetTexture
 }
 
 //Destructor
-CDeviceContext::~CDeviceContext()
+DeviceContext::~DeviceContext()
 {
     this->UnbindOSContext();
 
@@ -99,7 +99,7 @@ CDeviceContext::~CDeviceContext()
 }
 
 //Public methods
-void CDeviceContext::ClearColorBuffer(const CColor &refColor)
+void DeviceContext::ClearColorBuffer(const Color &refColor)
 {
     this->BindOSContext();
 
@@ -107,14 +107,14 @@ void CDeviceContext::ClearColorBuffer(const CColor &refColor)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void CDeviceContext::ClearDepthBuffer()
+void DeviceContext::ClearDepthBuffer()
 {
     this->BindOSContext();
 
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-ICubeMap *CDeviceContext::CreateCubeMap()
+ICubeMap *DeviceContext::CreateCubeMap()
 {
     this->BindOSContext();
 
@@ -123,42 +123,42 @@ ICubeMap *CDeviceContext::CreateCubeMap()
     return new CCubeMap;
 }
 
-IFrameBuffer *CDeviceContext::CreateFrameBuffer()
+IFrameBuffer *DeviceContext::CreateFrameBuffer()
 {
     this->BindOSContext();
 
     return new CFrameBuffer;
 }
 
-IIndexBuffer *CDeviceContext::CreateIndexBuffer()
+IIndexBuffer *DeviceContext::CreateIndexBuffer()
 {
     this->BindOSContext();
 
     return new CIndexBuffer;
 }
 
-IInputState *CDeviceContext::CreateInputState()
+IInputState *DeviceContext::CreateInputState()
 {
     this->BindOSContext();
 
     return new CInputState;
 }
 
-IShader *CDeviceContext::CreateShader(IShader::EShaderType type)
+IShader *DeviceContext::CreateShader(IShader::EShaderType type)
 {
     this->BindOSContext();
 
     return new CShader(type);
 }
 
-IShaderProgram *CDeviceContext::CreateShaderProgram()
+IShaderProgram *DeviceContext::CreateShaderProgram()
 {
     this->BindOSContext();
 
     return new CShaderProgram;
 }
 
-ITexture2D *CDeviceContext::CreateTexture2D()
+ITexture2D *DeviceContext::CreateTexture2D()
 {
     this->BindOSContext();
 
@@ -167,14 +167,14 @@ ITexture2D *CDeviceContext::CreateTexture2D()
     return new CTexture2D;
 }
 
-IVertexBuffer *CDeviceContext::CreateVertexBuffer()
+IVertexBuffer *DeviceContext::CreateVertexBuffer()
 {
     this->BindOSContext();
 
     return new CVertexBuffer;
 }
 
-void CDeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
+void DeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
 {
     CInputState *pInputState;
 
@@ -187,7 +187,7 @@ void CDeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
     glDrawArrays(GL_TRIANGLE_FAN, startVertexIndex, nVertices);
 }
 
-void CDeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
+void DeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
 {
     CInputState *pInputState;
 
@@ -200,7 +200,7 @@ void CDeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
     glDrawArrays(GL_TRIANGLES, startVertexIndex, nTriangles * 3);
 }
 
-void CDeviceContext::DrawTrianglesIndexed()
+void DeviceContext::DrawTrianglesIndexed()
 {
     CInputState *pInputState;
     CIndexBuffer *pIndexBuffer;
@@ -219,7 +219,7 @@ void CDeviceContext::DrawTrianglesIndexed()
         glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_INT, nullptr);
 }
 
-void CDeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices)
+void DeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices)
 {
     CInputState *pInputState;
 
@@ -232,7 +232,7 @@ void CDeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices
     glDrawArrays(GL_TRIANGLE_STRIP, startVertexIndex, nVertices);
 }
 
-void CDeviceContext::EnableBlending(bool enabled)
+void DeviceContext::EnableBlending(bool enabled)
 {
     this->BindOSContext();
 
@@ -245,21 +245,21 @@ void CDeviceContext::EnableBlending(bool enabled)
         glDisable(GL_BLEND);
 }
 
-void CDeviceContext::EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha)
+void DeviceContext::EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha)
 {
     this->BindOSContext();
 
     glColorMask(writeRed, writeGreen, writeBlue, writeBlue);
 }
 
-void CDeviceContext::EnableDepthBufferWriting(bool writeEnable)
+void DeviceContext::EnableDepthBufferWriting(bool writeEnable)
 {
     this->BindOSContext();
 
     glDepthMask(writeEnable);
 }
 
-void CDeviceContext::EnableDepthTest(bool enabled)
+void DeviceContext::EnableDepthTest(bool enabled)
 {
     this->BindOSContext();
 
@@ -269,7 +269,7 @@ void CDeviceContext::EnableDepthTest(bool enabled)
         glDisable(GL_DEPTH_TEST);
 }
 
-void CDeviceContext::EnableFaceCulling(bool enabled)
+void DeviceContext::EnableFaceCulling(bool enabled)
 {
     this->BindOSContext();
 
@@ -279,7 +279,7 @@ void CDeviceContext::EnableFaceCulling(bool enabled)
         glDisable(GL_CULL_FACE);
 }
 
-void CDeviceContext::EnablePolygonFilling(bool enabled)
+void DeviceContext::EnablePolygonFilling(bool enabled)
 {
     this->BindOSContext();
 
@@ -289,7 +289,7 @@ void CDeviceContext::EnablePolygonFilling(bool enabled)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void CDeviceContext::EnableStencilTest(bool enabled)
+void DeviceContext::EnableStencilTest(bool enabled)
 {
     this->BindOSContext();
 
@@ -299,7 +299,7 @@ void CDeviceContext::EnableStencilTest(bool enabled)
         glDisable(GL_STENCIL_TEST);
 }
 
-uint32 CDeviceContext::GetNumberOfTextureUnits() const
+uint32 DeviceContext::GetNumberOfTextureUnits() const
 {
     GLint maxTextures;
 
@@ -310,14 +310,14 @@ uint32 CDeviceContext::GetNumberOfTextureUnits() const
     return maxTextures;
 }
 
-void CDeviceContext::SetDepthTest(ETestFunction function)
+void DeviceContext::SetDepthTest(ETestFunction function)
 {
     this->BindOSContext();
 
     glDepthFunc(MapTestFunction(function));
 }
 
-void CDeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
+void DeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
 {
     this->BindOSContext();
 
@@ -330,12 +330,12 @@ void CDeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
         ((CFrameBuffer *)pFrameBuffer)->Bind();
 }
 
-void CDeviceContext::SetInputState(IInputState *pInputState)
+void DeviceContext::SetInputState(IInputState *pInputState)
 {
     this->pCurrentInputState = pInputState;
 }
 
-void CDeviceContext::SetProgram(IShaderProgram *pProgram)
+void DeviceContext::SetProgram(IShaderProgram *pProgram)
 {
     CShaderProgram *pShaderProgram;
 
@@ -346,35 +346,35 @@ void CDeviceContext::SetProgram(IShaderProgram *pProgram)
     pShaderProgram->Use();
 }
 
-void CDeviceContext::SetStencilTest(ETestFunction function, uint32 referenceValue, uint32 mask)
+void DeviceContext::SetStencilTest(ETestFunction function, uint32 referenceValue, uint32 mask)
 {
     this->BindOSContext();
 
     glStencilFunc(MapTestFunction(function), referenceValue, mask);
 }
 
-void CDeviceContext::SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect)
+void DeviceContext::SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect)
 {
     this->BindOSContext();
 
     glStencilOp(MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
 }
 
-void CDeviceContext::SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect)
+void DeviceContext::SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect)
 {
     this->BindOSContext();
 
     glStencilOpSeparate(frontFaces ? GL_FRONT : GL_BACK, MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
 }
 
-void CDeviceContext::SetStencilWriteMask(uint32 mask)
+void DeviceContext::SetStencilWriteMask(uint32 mask)
 {
     this->BindOSContext();
 
     glStencilMask(mask);
 }
 
-void CDeviceContext::SetTexture(uint8 unit, ITexture *pTexture)
+void DeviceContext::SetTexture(uint8 unit, ITexture *pTexture)
 {
     this->BindOSContext();
 
@@ -391,11 +391,11 @@ void CDeviceContext::SetTexture(uint8 unit, ITexture *pTexture)
     }
 
     glActiveTexture(GL_TEXTURE31); //we use this as "dummy" texture, else textures get overwritten by others as soon as one "binds". Stupid open gl-.-
-    //Only when CDeviceContext::SetTexture is called glActiveTexture will call something different then GL_TEXTURE31 in order to set the texture
+    //Only when DeviceContext::SetTexture is called glActiveTexture will call something different then GL_TEXTURE31 in order to set the texture
     //but then immediatly restores the dummy
 }
 
-void CDeviceContext::SetViewPort(uint16 width, uint16 height)
+void DeviceContext::SetViewPort(uint16 width, uint16 height)
 {
     this->BindOSContext();
 

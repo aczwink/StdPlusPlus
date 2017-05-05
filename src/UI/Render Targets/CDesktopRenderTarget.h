@@ -28,7 +28,7 @@ namespace ACStdLib
         public:
             //Methods
             ERenderMode GetRenderMode() const override;
-            CSize GetSize() const override;
+            Size GetSize() const override;
             void Present() override;
         };
     }

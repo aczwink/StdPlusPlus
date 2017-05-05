@@ -18,22 +18,22 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CTextEdit : public AWidget
+        class ACSTDLIB_API CTextEdit : public Widget
         {
         public:
             //Constructor
-            CTextEdit(AWidgetContainer *pParent);
+            CTextEdit(WidgetContainer *pParent);
 
             //Methods
-            CString GetText() const;
+            String GetText() const;
             void SetEditable(bool editable);
-            void SetText(const CString &refText);
+            void SetText(const String &refText);
         };
     }
 }

@@ -18,9 +18,9 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../CFunction.h"
-#include "AWidgetContainer.h"
+#include "WidgetContainer.h"
 
 namespace ACStdLib
 {
@@ -39,7 +39,7 @@ namespace ACStdLib
             Link
         };
 
-        class ACSTDLIB_API Window : public AWidgetContainer
+        class ACSTDLIB_API Window : public WidgetContainer
         {
             friend class CDropTarget;
             friend class EventQueue;
@@ -57,10 +57,10 @@ namespace ACStdLib
             virtual void OnPaint();
 
             //Methods
-            void CreateOSWindow(const CRect &refRect);
+            void CreateOSWindow(const Rect &refRect);
             void DestroyOSWindow();
             void MenuBarChangeOS();
-            void Init(const CRect &refRect);
+            void Init(const Rect &refRect);
 
         protected:
             //Eventhandlers
@@ -69,7 +69,7 @@ namespace ACStdLib
         public:
             //Constructors
             Window(ERenderMode mode = ERenderMode::OS);
-            Window(const CRect &refRect, ERenderMode mode = ERenderMode::OS);
+            Window(const Rect &refRect, ERenderMode mode = ERenderMode::OS);
             Window(uint16 width, uint16 height, ERenderMode mode = ERenderMode::OS);
 
             //Destructor
@@ -79,9 +79,9 @@ namespace ACStdLib
             void EnableDrop();
             void Maximize();
             void SetMenuBar(CMenuBar *pMenuBar);
-            void SetTitle(const CString &title);
-            void ShowErrorBox(const CString &refTitle, const CString &refMessage);
-            void ShowInformationBox(const CString &refTitle, const CString &refMessage);
+            void SetTitle(const String &title);
+            void ShowErrorBox(const String &refTitle, const String &refMessage);
+            void ShowInformationBox(const String &refTitle, const String &refMessage);
             void SwitchFullscreen(bool state);
 
             //Inline

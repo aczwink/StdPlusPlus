@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../AWidget.h"
+#include "ACStdLib/UI/Widget.h"
 
 namespace ACStdLib
 {
@@ -27,7 +27,7 @@ namespace ACStdLib
         //Forward declarations
         class ACheckListController;
 
-        class ACSTDLIB_API CCheckListView : public AWidget
+        class ACSTDLIB_API CCheckListView : public Widget
         {
             friend class ACheckListController;
         private:
@@ -40,7 +40,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CCheckListView(AWidgetContainer *pParent);
+            CCheckListView(WidgetContainer *pParent);
 
             //Methods
             void SetController(ACheckListController &refController);

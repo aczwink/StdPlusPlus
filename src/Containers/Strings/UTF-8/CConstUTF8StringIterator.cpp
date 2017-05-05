@@ -19,12 +19,12 @@
 //Class Header
 #include <ACStdLib/Containers/Strings/UTF-8/CConstUTF8StringIterator.h>
 //Local
-#include <ACStdLib/Containers/Strings/UTF-8/CUTF8String.h>
+#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
 //Constructor
-CConstUTF8StringIterator::CConstUTF8StringIterator(const CUTF8String &refString, uint32 index) : refString(refString)
+CConstUTF8StringIterator::CConstUTF8StringIterator(const UTF8String &refString, uint32 index) : refString(refString)
 {
     this->pCurrent = refString.GetC_Str() + index;
 }

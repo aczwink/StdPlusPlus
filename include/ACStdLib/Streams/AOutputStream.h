@@ -19,10 +19,10 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/Strings/CString.h"
-#include "../Containers/Strings/String.h"
-#include "../Containers/Strings/UTF-8/CUTF8String.h"
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/StringUtil.h"
+#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "../InternalCompilerFlags.h"
 
 namespace ACStdLib
@@ -53,42 +53,42 @@ namespace ACStdLib
 
         inline AOutputStream &operator<<(uint16 i)
         {
-            const CString &refString = ToString((uint64)i);
+            const String &refString = ToString((uint64)i);
 
             return *this << refString;
         }
 
         inline AOutputStream &operator<<(int32 i)
         {
-            const CString &refString = ToString((int64)i);
+            const String &refString = ToString((int64)i);
 
             return *this << refString;
         }
 
         inline AOutputStream &operator<<(uint32 i)
         {
-            const CString &refString = ToString((uint64)i);
+            const String &refString = ToString((uint64)i);
 
             return *this << refString;
         }
 
         inline AOutputStream &operator<<(int64 i)
         {
-            const CString &refString = ToString(i);
+            const String &refString = ToString(i);
 
             return *this << refString;
         }
 
         inline AOutputStream &operator<<(uint64 i)
         {
-            const CString &refString = ToString(i);
+            const String &refString = ToString(i);
 
             return *this << refString;
         }
 
         inline AOutputStream &operator<<(float64 f)
         {
-            const CString &refString = ToString(f);
+            const String &refString = ToString(f);
 
             return *this << refString;
         }
@@ -100,7 +100,7 @@ namespace ACStdLib
             return *this;
         }
 
-        inline AOutputStream &operator<<(const CString &refString)
+        inline AOutputStream &operator<<(const String &refString)
         {
             return *this << refString.GetUTF16();
         }
@@ -112,7 +112,7 @@ namespace ACStdLib
             return *this;
         }
 
-        inline AOutputStream &operator<<(const CUTF8String &refString)
+        inline AOutputStream &operator<<(const UTF8String &refString)
         {
             this->WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
 
@@ -121,15 +121,15 @@ namespace ACStdLib
 
         inline AOutputStream &operator<<(const CUTF16String &refString)
         {
-            return *this << CUTF8String(refString);
+            return *this << UTF8String(refString);
         }
 
         inline AOutputStream &operator<<(const CUTF32String &refString)
         {
-            return *this << CUTF8String(refString);
+            return *this << UTF8String(refString);
         }
 
-        inline AOutputStream &operator<<(const CPath &refPath)
+        inline AOutputStream &operator<<(const Path &refPath)
         {
             return *this << refPath.GetString();
         }

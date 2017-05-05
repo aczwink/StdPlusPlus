@@ -55,7 +55,7 @@ namespace ACStdLib
 
         static constexpr int32 Min()
         {
-            return (-(int32)2147483648);
+            return ((int32)-2147483648);
         }
     };
 }

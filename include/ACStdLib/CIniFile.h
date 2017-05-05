@@ -20,10 +20,10 @@
 #pragma once
 //Local
 #include "Containers/CMap/CMap.h"
-#include "Containers/Strings/CString.h"
-#include "Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "Definitions.h"
-#include "Filesystem/CPath.h"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "Streams/ASeekableInputStream.h"
 
 namespace ACStdLib
@@ -33,56 +33,56 @@ namespace ACStdLib
     private:
         //Members
         bool readOnly;
-        CPath path;
-        CMap<CString, CMap<CString, CString>> sections;
+        Path path;
+        CMap<String, CMap<String, String>> sections;
         //Methods
-        CString ReadKey(AInputStream &refInput);
-        CString ReadSectionTitle(AInputStream &refInput);
-        void ReadSectionValues(const CString &refSectionName, ASeekableInputStream &refInput);
-        CString ReadValue(AInputStream &refInput);
+        String ReadKey(AInputStream &refInput);
+        String ReadSectionTitle(AInputStream &refInput);
+        void ReadSectionValues(const String &refSectionName, ASeekableInputStream &refInput);
+        String ReadValue(AInputStream &refInput);
     public:
         //Constructor
-        CIniFile(const CPath &refPath, bool readOnly = false);
+        CIniFile(const Path &refPath, bool readOnly = false);
         //Destructor
         ~CIniFile();
 
         //Inline
-        inline bool ContainsSection(const CString &refSectionName)
+        inline bool ContainsSection(const String &refSectionName)
         {
             return this->sections.Contains(refSectionName);
         }
 
-        inline bool ContainsValue(const CString &refSectionName, const CString &refKey) const
+        inline bool ContainsValue(const String &refSectionName, const String &refKey) const
         {
             return this->sections.Contains(refSectionName) && this->sections[refSectionName].Contains(refKey);
         }
 
-        inline bool GetBoolValue(const CString &refSectionName, const CString &refKey) const
+        inline bool GetBoolValue(const String &refSectionName, const String &refKey) const
         {
             return this->GetStringValue(refSectionName, refKey) == "true";
         }
 
-        inline int32 GetIntValue(const CString &refSectionName, const CString &refKey) const
+        inline int32 GetIntValue(const String &refSectionName, const String &refKey) const
         {
             return (int32)StringToInt64(this->GetStringValue(refSectionName, refKey));
         }
 
-        inline CString GetStringValue(const CString &refSectionName, const CString &refKey) const
+        inline String GetStringValue(const String &refSectionName, const String &refKey) const
         {
             return this->sections[refSectionName][refKey];
         }
 
-        inline void SetValue(const CString &refSectionName, const CString &refKey, bool value)
+        inline void SetValue(const String &refSectionName, const String &refKey, bool value)
         {
             this->sections[refSectionName][refKey] = value ? "true" : "false";
         }
 
-        inline void SetValue(const CString &refSectionName, const CString &refKey, const CString &refValue)
+        inline void SetValue(const String &refSectionName, const String &refKey, const String &refValue)
         {
             this->sections[refSectionName][refKey] = refValue;
         }
 
-        inline void SetValue(const CString &refSectionName, const CString &refKey, int64 value)
+        inline void SetValue(const String &refSectionName, const String &refKey, int64 value)
         {
             this->sections[refSectionName][refKey] = ToString(value);
         }

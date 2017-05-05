@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Containers/CArray/CArray.h"
-#include "../../Containers/CLinkedList/CLinkedList.h"
+#include "../../Containers/LinkedList/LinkedList.hpp"
 #include "../../Math/Geometry/CVector2.h"
 
 namespace ACStdLib
@@ -43,7 +43,7 @@ namespace ACStdLib
 
         private:
             //Members
-            CLinkedList<SPoint> points;
+            LinkedList<SPoint> points;
             bool isClosed;
             bool isConvex;
 
@@ -75,7 +75,7 @@ namespace ACStdLib
                 return this->points[index];
             }
 
-            inline const CLinkedList<SPoint> &GetPoints() const
+            inline const LinkedList<SPoint> &GetPoints() const
             {
                 return this->points;
             }

@@ -21,8 +21,8 @@
 
 int main(int argc, char **argv)
 {
-    CString programName;
-    CLinkedList<CString> args;
+    String programName;
+    LinkedList<String> args;
 
     programName = argv[0];
 

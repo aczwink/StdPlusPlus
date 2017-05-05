@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/Strings/CString.h"
+#include "ACStdLib/Containers/Strings/String.h"
 
 namespace ACStdLib
 {
@@ -31,6 +31,6 @@ namespace ACStdLib
 
     public:
         //Constructor
-        CProcess(const CString &refProgram, const CLinkedList<CString> &refArguments);
+        CProcess(const String &refProgram, const LinkedList<String> &refArguments);
     };
 }

@@ -24,12 +24,6 @@
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-//Protected functions
-void CEventQueue::DispatchPaintEvent(AWidget &refWidget)
-{
-	refWidget.OnPaint();
-}
-
 //Public functions
 void CEventQueue::PostQuitEvent(int32 exitCode)
 {

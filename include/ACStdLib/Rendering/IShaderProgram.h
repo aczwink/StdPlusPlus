@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../CColor.h"
+#include "ACStdLib/Color.h"
 #include "../Containers/Strings/C8BitString.h"
 #include "../Math/Geometry/CMatrix2x2.h"
 #include "../Math/Geometry/CMatrix3x3.h"
@@ -49,7 +49,7 @@ namespace ACStdLib
             virtual void SetUniformValue(uint32 varId, float32 value) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CVector2 &refVector) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CVector3 &refVector) = NULL;
-            virtual void SetUniformValue(uint32 varId, const CColor &refColor) = NULL;
+            virtual void SetUniformValue(uint32 varId, const Color &refColor) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CMatrix2x2 &refMatrix) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CMatrix3x3 &refMatrix) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CMatrix4x4 &refMatrix) = NULL;

@@ -37,6 +37,14 @@ CSize AWidget::GetOSSize() const
 	return CSize(rc.right - rc.left, rc.bottom - rc.top);
 }
 
+void Widget::System_SetRect(const Rect &area)
+{
+	CPoint transformed;
+
+	transformed = this->TransformToWindow(refArea.origin);
+	SetWindowPos((HWND)this->pOSHandle, HWND_TOP, transformed.x, transformed.y, refArea.width(), refArea.height(), 0);
+}
+
 //Proctected functions
 void AWidget::IgnoreEvent()
 {
@@ -59,18 +67,6 @@ void AWidget::Repaint()
 void AWidget::SetEnabled(bool enable)
 {
 	EnableWindow((HWND)this->pOSHandle, enable);
-}
-
-void AWidget::SetRect(const CRect &refArea)
-{
-	CPoint transformed;
-
-	this->bounds = refArea;
-
-	transformed = this->TransformToWindow(refArea.origin);
-	SetWindowPos((HWND)this->pOSHandle, HWND_TOP, transformed.x, transformed.y, refArea.width(), refArea.height(), 0);
-
-	this->OnResized();
 }
 
 void AWidget::Show(bool visible)

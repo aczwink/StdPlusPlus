@@ -20,8 +20,8 @@
 #include <ACStdLib/Compute/Device.hpp>
 //Local
 #include "CL/cl.h"
-#include <ACStdLib/Containers/Strings/CString.h>
 #include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/StringUtil.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Compute;
@@ -32,7 +32,7 @@ using namespace ACStdLib::Compute;
 //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //Public methods
-CString Device::GetName() const
+String Device::GetName() const
 {
 	cl_int result;
 	size_t size;
@@ -41,18 +41,18 @@ CString Device::GetName() const
 	result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
 	ASSERT(result == CL_SUCCESS);
 
-	return CString(buffer);
+	return String(buffer);
 }
 
 //Compute functions
-CLinkedList<Device> Compute::GetDevices()
+LinkedList<Device> Compute::GetDevices()
 {
 	/*
 	cl_int result;
 	cl_uint nPlatforms, nDevices;
 	cl_platform_id platformIds[10];
 	cl_device_id deviceIds[10];
-	CLinkedList<Device> devices;
+	LinkedList<Device> devices;
 
 	result = clGetPlatformIDs(0, nullptr, &nPlatforms);
 	ASSERT(result == CL_SUCCESS);

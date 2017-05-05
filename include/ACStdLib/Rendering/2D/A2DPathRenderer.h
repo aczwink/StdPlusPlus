@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLibCPUOpt.hpp>
-#include "../../CColor.h"
+#include "ACStdLib/Color.h"
 
 namespace ACStdLib
 {
@@ -43,7 +43,7 @@ namespace ACStdLib
             virtual void Fill() = NULL;
             virtual void LineTo(const vec2f64 &refV) = NULL;
             virtual void MoveTo(const vec2f64 &refV) = NULL;
-            virtual void SetStrokeColor(const CColor &refStrokeColor) = NULL;
+            virtual void SetStrokeColor(const Color &refStrokeColor) = NULL;
             virtual void SetStrokeWidth(float64 strokeWidth) = NULL;
             virtual void Stroke() = NULL;
 

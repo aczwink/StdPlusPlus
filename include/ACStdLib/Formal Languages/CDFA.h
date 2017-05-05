@@ -21,7 +21,7 @@
 #include "../Containers/CArray/CArray.h"
 #include "../Containers/CFiniteSet/CFiniteSet.h"
 #include "../Containers/CMap/CMap.h"
-#include "../Filesystem/CPath.h"
+#include "ACStdLib/Filesystem/Path.hpp"
 #include "../Debug.h"
 
 namespace ACStdLib
@@ -102,7 +102,7 @@ namespace ACStdLib
 
 #ifdef _DEBUG
         //For debugging
-		void SaveGraph(const CPath &refPath);
+		void SaveGraph(const Path &refPath);
 #endif
     };
 }

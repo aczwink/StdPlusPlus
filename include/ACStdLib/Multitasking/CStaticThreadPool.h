@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../CFunction.h"
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 #include "CConditionVariable.h"
 #include "CMutex.h"
 #include "CThread.h"
@@ -39,7 +39,7 @@ namespace ACStdLib
         CMutex activeThreadsLock;
         CConditionVariable activeThreadsSignal;
 
-        CLinkedList<CFunction<void()>> taskQueue;
+        LinkedList<CFunction<void()>> taskQueue;
         CMutex taskQueueLock;
         CConditionVariable taskQueueSignal;
 

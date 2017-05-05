@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CLinkedList/CLinkedList.h"
+#include "../Containers/LinkedList/LinkedList.hpp"
 #include "AIndirectObject.h"
 #include "CPage.h"
 
@@ -30,7 +30,7 @@ namespace ACStdLib
         {
         private:
             //Members
-            CLinkedList<CPage *> pages;
+            LinkedList<CPage *> pages;
 
         public:
             //Methods
