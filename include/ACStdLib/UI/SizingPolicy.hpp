@@ -23,10 +23,10 @@ namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CSizingPolicy
+        class ACSTDLIB_API SizingPolicy
         {
         public:
-            enum class EPolicy
+            enum class Policy
             {
                 Fixed, //widget wants exactly its size hint
                 Minimum, //the size hint is minimal but sufficient. The widget can be expanded but there is no advantage in it
@@ -46,7 +46,7 @@ namespace ACStdLib
             SSizingAttributes vertAttributes;
 
             //Methods
-            void SetPolicy(SSizingAttributes &refAttributes, EPolicy policy);
+            void SetPolicy(SSizingAttributes &refAttributes, Policy policy);
 
         public:
             //Members
@@ -54,13 +54,13 @@ namespace ACStdLib
             uint8 vertScale;
 
             //Constructor
-            inline CSizingPolicy()
+            inline SizingPolicy()
             {
                 this->horzScale = 1;
                 this->vertScale = 1;
 
-                this->SetHorizontalPolicy(EPolicy::Preferred);
-                this->SetVerticalPolicy(EPolicy::Preferred);
+                this->SetHorizontalPolicy(Policy::Preferred);
+                this->SetVerticalPolicy(Policy::Preferred);
             }
 
             //Inline
@@ -74,12 +74,12 @@ namespace ACStdLib
                 return this->vertAttributes;
             }
 
-            inline void SetHorizontalPolicy(EPolicy policy)
+            inline void SetHorizontalPolicy(Policy policy)
             {
                 this->SetPolicy(this->horzAttributes, policy);
             }
 
-            inline void SetVerticalPolicy(EPolicy policy)
+            inline void SetVerticalPolicy(Policy policy)
             {
                 this->SetPolicy(this->vertAttributes, policy);
             }

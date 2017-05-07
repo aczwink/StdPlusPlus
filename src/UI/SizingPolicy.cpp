@@ -17,38 +17,38 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/CSizingPolicy.h>
+#include <ACStdLib/UI/SizingPolicy.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Methods
-void CSizingPolicy::SetPolicy(SSizingAttributes &refAttributes, EPolicy policy)
+void SizingPolicy::SetPolicy(SSizingAttributes &refAttributes, Policy policy)
 {
     switch(policy)
     {
-        case EPolicy::Fixed:
+        case Policy::Fixed:
         {
             refAttributes.grow = false;
             refAttributes.shrink = false;
             refAttributes.expand = false;
         }
             break;
-        case EPolicy::Minimum:
+        case Policy::Minimum:
         {
             refAttributes.grow = true;
             refAttributes.shrink = false;
             refAttributes.expand = false;
         }
             break;
-        case EPolicy::Preferred:
+        case Policy::Preferred:
         {
             refAttributes.grow = true;
             refAttributes.shrink = true;
             refAttributes.expand = false;
         }
             break;
-        case EPolicy::Expanding:
+        case Policy::Expanding:
         {
             refAttributes.grow = true;
             refAttributes.shrink = true;

@@ -43,7 +43,7 @@ public:
     ~CInputState();
 
     //Methods
-    void AddVertexBuffer(IVertexBuffer *pVertexBuffer, const CInputLayout &refInputLayout);
+    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const CInputLayout &refInputLayout);
     void SetIndexBuffer(IIndexBuffer *pIndexBuffer);
 
     //Inline

@@ -28,8 +28,8 @@ using namespace ACStdLib::UI;
 //Constructor
 CTreeView::CTreeView(WidgetContainer *pParent) : Widget(pParent)
 {
-    this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Expanding);
-    this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Expanding);
+    this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+    this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
     this->pController = nullptr;
 

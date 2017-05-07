@@ -40,7 +40,7 @@ namespace ACStdLib
         class IShaderProgram;
         class ITexture;
         class ITexture2D;
-        class IVertexBuffer;
+        class VertexBuffer;
 
         enum class ETestFunction
         {
@@ -90,7 +90,7 @@ namespace ACStdLib
             IShader *CreateShader(IShader::EShaderType type);
             IShaderProgram *CreateShaderProgram();
             ITexture2D *CreateTexture2D();
-            IVertexBuffer *CreateVertexBuffer();
+            VertexBuffer *CreateVertexBuffer();
             void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices);
             void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles);
             void DrawTrianglesIndexed();

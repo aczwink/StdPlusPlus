@@ -17,53 +17,40 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Widget.h>
-//Global
-#include <gtk/gtk.h>
+#include <ACStdLib/UI/Controls/RadioButton.hpp>
 //Local
-#include <ACStdLib/UI/WidgetContainer.h>
-#include "Gtk.h"
+#include "../Gtk.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+//Definitions
+#define THIS (PRIVATE_DATA(this)->widget)
 
-//Global variables
-extern bool g_ignoreEvent;
+//Destructor
+RadioButton::~RadioButton()
+{
+	MemFree(this->systemHandle);
+}
 
 //Private methods
-Size Widget::System_GetSize() const
+void RadioButton::System_CreateHandle()
 {
-	GtkAllocation alloc;
+	this->systemHandle = CreateWidgetPrivateData(gtk_radio_button_new(nullptr), this);
+	gtk_widget_show(THIS); //default to show
 
-	gtk_widget_get_allocation(PRIVATE_DATA(this)->widget, &alloc);
-
-	return Size((uint16)alloc.width, (uint16)alloc.height);
-}
-
-void Widget::System_SetRect(const Rect &area)
-{
-	if(PRIVATE_DATA(this)->childAreaWidget)
-		gtk_widget_queue_resize(PRIVATE_DATA(this)->childAreaWidget);
-}
-
-//Proctected methods
-void Widget::IgnoreEvent()
-{
-	g_ignoreEvent = true;
+	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
-void Widget::Repaint()
+Size RadioButton::GetSizeHint() const
 {
-	gtk_widget_queue_draw(PRIVATE_DATA(this)->widget);
+	return GetPreferedSizeGtk(THIS);
 }
 
-void Widget::SetEnabled(bool enable)
+void RadioButton::SetText(const String &text)
 {
-	gtk_widget_set_sensitive(PRIVATE_DATA(this)->widget, enable);
-}
+	UTF8String textUTF8;
 
-void Widget::Show(bool visible)
-{
-    gtk_widget_show(PRIVATE_DATA(this)->widget);
+	textUTF8 = text.GetUTF16();
+	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *)textUTF8.GetC_Str());
 }

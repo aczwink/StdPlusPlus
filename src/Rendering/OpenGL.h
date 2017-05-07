@@ -28,6 +28,7 @@ extern PFNGLBINDTEXTUREPROC glBindTexture;
 extern PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
 extern PFNGLBLENDFUNCPROC glBlendFunc;
 extern PFNGLBUFFERDATAPROC glBufferData;
+extern PFNGLBUFFERSUBDATAPROC glBufferSubData;
 extern PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus;
 extern PFNGLCLEARPROC glClear;
 extern PFNGLCLEARCOLORPROC glClearColor;

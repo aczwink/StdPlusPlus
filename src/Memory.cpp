@@ -361,13 +361,17 @@ void ACStdLib::MemFreeDebug(void *pMem)
     //check heap corruption detection section before user memory
     if(!CheckBytes(pMemBlock + 1, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
     {
+		g_memMutex.Unlock(); //we need to free the lock so that ASSERT can allocate
         ASSERT_MSG(false, "HEAP CORRUPTED. Check memory dump!");
+		g_memMutex.Lock();
     }
 
     //check heap corruption detection section after user memory
     if(!CheckBytes((byte *)pMem + pMemBlock->userSize, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
     {
+		g_memMutex.Unlock();
         ASSERT_MSG(false, "HEAP CORRUPTED. Check memory dump!");
+		g_memMutex.Lock();
     }
 
     //remove from list

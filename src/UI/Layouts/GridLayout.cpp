@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Layouts/CGridLayout.h>
+#include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Local
 #include <ACStdLib/Containers/CMap/CMap.h>
 #include <ACStdLib/UI/WidgetContainer.h>
@@ -26,7 +26,7 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-CGridLayout::CGridLayout()
+GridLayout::GridLayout()
 {
     this->nColumns = 1;
     this->nRows = 1;
@@ -40,7 +40,7 @@ CGridLayout::CGridLayout()
 /*
 Computes the minimum sizes of the rows and columns in the grid.
 */
-Size CGridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
+Size GridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
 {
     uint8 col, row;
     uint16 i;
@@ -90,7 +90,7 @@ Size CGridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, CArray<
     return totalSize + Size((this->nColumns - 1) * this->horzGap, (this->nRows - 1) * this->vertGap);
 }
 
-void CGridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights)
+void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
 {
     uint16 col, row, partSize, nExpandColParts, nExpandRowParts, nGrowColParts, nGrowRowParts, max, maxIdx;
     Size leftOver;
@@ -229,7 +229,7 @@ void CGridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, co
     }
 }
 
-void CGridLayout::EnsureGridBigEnough(uint8 nCells)
+void GridLayout::EnsureGridBigEnough(uint8 nCells)
 {
     if(this->nColumns * this->nRows < nCells)
     {
@@ -250,7 +250,7 @@ void CGridLayout::EnsureGridBigEnough(uint8 nCells)
     ASSERT(this->nColumns * this->nRows >= nCells);
 }
 
-Rect CGridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
+Rect GridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
 {
     Rect rc;
 
@@ -260,7 +260,7 @@ Rect CGridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
     return rc;
 }
 
-void CGridLayout::PositionChild(Widget &refWidget, const Rect &refBounds)
+void GridLayout::PositionChild(Widget &refWidget, const Rect &refBounds)
 {
     Size sizeHint;
     Rect widgetBounds;
@@ -286,10 +286,10 @@ void CGridLayout::PositionChild(Widget &refWidget, const Rect &refBounds)
 }
 
 //Public methods
-Size CGridLayout::GetPreferredSize(const WidgetContainer &refContainer)
+Size GridLayout::GetPreferredSize(const WidgetContainer &refContainer)
 {
     Size tmp;
-    CArray<uint16> columnWidths, rowHeights;
+    DynamicArray<uint16> columnWidths, rowHeights;
 
     tmp = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
     tmp += Size(this->margin, this->margin) * 2;
@@ -297,12 +297,12 @@ Size CGridLayout::GetPreferredSize(const WidgetContainer &refContainer)
     return tmp;
 }
 
-void CGridLayout::Layout(WidgetContainer &refContainer)
+void GridLayout::Layout(WidgetContainer &refContainer)
 {
     uint16 x, y, col, row;
     Size minSize, tmp;
     Rect rc;
-    CArray<uint16> columnWidths, rowHeights;
+    DynamicArray<uint16> columnWidths, rowHeights;
 
     //collect info
     rc = this->GetChildrenRect(refContainer);

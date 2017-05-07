@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include "../../Containers/CArray/CArray.h"
+#include "../../Containers/DynamicArray/DynamicArray.hpp"
 #include "ILayout.h"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CGridLayout : public ILayout
+        class ACSTDLIB_API GridLayout : public ILayout
         {
         private:
             //Members
@@ -33,8 +33,8 @@ namespace ACStdLib
             uint8 vertGap;
 
             //Methods
-            Size ComputeSizingInfo(const WidgetContainer &refContainer, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
-            void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, CArray<uint16> &refColumnWidths, CArray<uint16> &refRowHeights);
+            Size ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
+            void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
             void EnsureGridBigEnough(uint8 nCells);
             Rect GetChildrenRect(const WidgetContainer &refContainer) const;
             void PositionChild(Widget &refWidget, const Rect &refBounds);
@@ -50,29 +50,29 @@ namespace ACStdLib
             uint8 margin;
 
             //Constructor
-            CGridLayout();
+            GridLayout();
 
             //Methods
             Size GetPreferredSize(const WidgetContainer &refContainer);
             void Layout(WidgetContainer &refContainer);
         };
 
-        class ACSTDLIB_API CHorizontalLayout : public CGridLayout
+        class ACSTDLIB_API HorizontalLayout : public GridLayout
         {
         public:
             //Constructor
-            inline CHorizontalLayout()
+            inline HorizontalLayout()
             {
                 this->nRows = 1;
                 this->fillVertical = false;
             }
         };
 
-        class ACSTDLIB_API CVerticalLayout : public CGridLayout
+        class ACSTDLIB_API VerticalLayout : public GridLayout
         {
         public:
             //Constructor
-            inline CVerticalLayout()
+            inline VerticalLayout()
             {
                 this->nColumns = 1;
                 this->fillVertical = true;

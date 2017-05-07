@@ -17,50 +17,51 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Containers/GroupBox.hpp>
+#include <ACStdLib/UI/Controls/CheckBox.hpp>
 //Local
-#include <ACStdLib/UI/Layouts/GridLayout.hpp>
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
-#define THIS PRIVATE_DATA(this)
+#define THIS (PRIVATE_DATA(this)->widget)
 
 //Destructor
-GroupBox::~GroupBox()
+CheckBox::~CheckBox()
 {
-	MemFree(this->systemHandle); //only free memory, don't destroy gtk objects because they get destroyed by the Window
+	MemFree(this->systemHandle);
 }
 
 //Private methods
-void GroupBox::CreateOSHandle()
+void CheckBox::System_CreateHandle()
 {
-	this->systemHandle = CreateWidgetContainerPrivateData(gtk_frame_new(nullptr), this);
+	this->systemHandle = CreateWidgetPrivateData(gtk_check_button_new(), this);
+	gtk_widget_show(THIS); //default to show
 
-	gtk_widget_show(THIS->widget); //default to show
+	//g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
 
-	ADD_SELF_TO_PARENT(THIS->widget);
+	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
-Rect GroupBox::GetChildrenRect() const
+Size CheckBox::GetSizeHint() const
 {
-	Rect rect;
-
-	rect = this->GetBounds();
-
-	//TODO: shit we dont know this correctly...
-	rect.Enlarge(0, -15); //TODO: dx should be -10
-
-	return rect;
+	return GetPreferedSizeGtk(THIS);
 }
 
-void GroupBox::SetText(const String &text)
+String CheckBox::GetText() const
 {
-	UTF8String textUTF8;
+	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
+}
 
-	textUTF8 = text.GetUTF16();
-	gtk_frame_set_label(GTK_FRAME(THIS->widget), (const gchar *)textUTF8.GetC_Str());
+bool CheckBox::IsChecked() const
+{
+	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(THIS)) != 0;
+}
+
+void CheckBox::SetText(const String &text)
+{
+	UTF8String textUTF8 = text.GetUTF16();
+
+	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *) textUTF8.GetC_Str());
 }

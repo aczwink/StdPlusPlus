@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../Containers/CArray/CArray.h"
+#include "../../Containers/DynamicArray/DynamicArray.hpp"
 #include "ACStdLib/Containers/Strings/String.h"
 
 namespace ACStdLib
@@ -50,7 +50,7 @@ namespace ACStdLib
         private:
             //Members
             void *pOSHandle;
-            CArray<AMenuEntry *> menuEntries;
+            DynamicArray<AMenuEntry *> menuEntries;
 
             //Methods
             void AppendItemOS(CActionEntry *pEntry);

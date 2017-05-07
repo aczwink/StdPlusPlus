@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Rendering/IFrameBuffer.h>
-#include <ACStdLib/Rendering/DeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;

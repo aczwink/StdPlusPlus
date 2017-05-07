@@ -28,7 +28,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShaderProgram.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CTexture2D.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CVertexBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGL.cpp
 
         #Streams
@@ -45,11 +45,16 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/ATextRenderTarget.cpp

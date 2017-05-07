@@ -36,12 +36,12 @@ namespace ACStdLib
             };
         private:
             //Members
-            CArray<ECommand> commands;
-            CArray<Math::CVector2> points;
+            DynamicArray<ECommand> commands;
+            DynamicArray<Math::CVector2> points;
 
         public:
             //Methods
-            CArray<CFlatVectorPath *> Flatten();
+            DynamicArray<CFlatVectorPath *> Flatten();
 
             //Inline
             inline void BezierTo(const Math::CVector2 &refCP, const Math::CVector2 &refTo)

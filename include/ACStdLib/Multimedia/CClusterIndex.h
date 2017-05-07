@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "../Definitions.h"
-#include "../Containers/CArray/CArray.h"
 
 namespace ACStdLib
 {
@@ -61,7 +61,7 @@ namespace ACStdLib
         private:
             //Members
             bool clustersSorted;
-            CArray<CClusterEntry> clusters;
+			DynamicArray<CClusterEntry> clusters;
 
             //Inline
             inline void EnsureSorted()

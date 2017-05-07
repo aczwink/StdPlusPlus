@@ -28,6 +28,7 @@ PFNGLBINDTEXTUREPROC glBindTexture;
 PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
 PFNGLBLENDFUNCPROC glBlendFunc;
 PFNGLBUFFERDATAPROC glBufferData;
+PFNGLBUFFERSUBDATAPROC glBufferSubData;
 PFNGLCHECKFRAMEBUFFERSTATUSPROC glCheckFramebufferStatus;
 PFNGLCLEARPROC glClear;
 PFNGLCLEARCOLORPROC glClearColor;
@@ -103,6 +104,7 @@ void LoadOpenGLExtensions(void *(*pLoadFunction)(const char *pExtension))
     glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)pLoadFunction("glBindVertexArray");
     glBlendFunc = (PFNGLBLENDFUNCPROC)pLoadFunction("glBlendFunc");
     glBufferData = (PFNGLBUFFERDATAPROC)pLoadFunction("glBufferData");
+	glBufferSubData = (PFNGLBUFFERSUBDATAPROC)pLoadFunction("glBufferSubData");
 
     glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)pLoadFunction("glCheckFramebufferStatus");
     glClear = (PFNGLCLEARPROC)pLoadFunction("glClear");

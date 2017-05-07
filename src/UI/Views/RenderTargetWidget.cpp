@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
 //Local
-#include <ACStdLib/Rendering/DeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -30,8 +30,8 @@ void LoadOpenGL();
 //Constructor
 RenderTargetWidget::RenderTargetWidget(WidgetContainer *pParent) : WidgetContainer(pParent)
 {
-    this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Expanding);
-    this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Expanding);
+    this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+    this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
     this->CreateOSHandle();
 

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CArray/CArray.h"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "AStream.h"
 #include "SMetaInfo.h"
 #include "SPacket.h"
@@ -35,7 +35,7 @@ namespace ACStdLib
         protected:
             //Members
             const IFormat &refFormat;
-            CArray<AStream *> streams;
+            DynamicArray<AStream *> streams;
             CFraction timeScale;
             uint64 startTime;
             uint64 duration;

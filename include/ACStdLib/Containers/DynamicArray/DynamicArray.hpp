@@ -19,34 +19,34 @@
 #pragma once
 //Local
 #include "../AResizeableContainer.h"
-#include "CArrayIterator.h"
-#include "CConstArrayIterator.h"
+#include "DynamicArrayIterator.hpp"
+#include "DynamicArrayConstIterator.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class CArray : public AResizeableContainer<DataType>
+    class DynamicArray : public AResizeableContainer<DataType>
     {
-        //friend class CArray;
+        //friend class DynamicArray;
     public:
         //Constructors
-        inline CArray()
+        inline DynamicArray()
         {
             this->SetAllocationInterval(0);
         }
 
-        inline CArray(const CArray<DataType> &refSource) //copy ctor
+        inline DynamicArray(const DynamicArray<DataType> &refSource) //copy ctor
         {
             *this = refSource;
         }
 
-        inline CArray(CArray<DataType> &&refSource) //move ctor
+        inline DynamicArray(DynamicArray<DataType> &&refSource) //move ctor
         {
             *this = refSource;
         }
 
         //Operators
-        CArray<DataType> &operator=(const CArray<DataType> &refSource) //copy assign
+        DynamicArray<DataType> &operator=(const DynamicArray<DataType> &refSource) //copy assign
         {
             this->Release();
             this->EnsureCapacity(refSource.nElements);
@@ -61,7 +61,7 @@ namespace ACStdLib
             return *this;
         }
 
-        CArray<DataType> &operator=(CArray<DataType> &&refSource) //move assign
+        DynamicArray<DataType> &operator=(DynamicArray<DataType> &&refSource) //move assign
         {
             this->Release();
 
@@ -91,9 +91,9 @@ namespace ACStdLib
 
         //Methods
         template<typename OutType>
-        CArray<OutType> Cast() const
+        DynamicArray<OutType> Cast() const
         {
-            CArray<OutType> outArr;
+            DynamicArray<OutType> outArr;
 
             outArr.EnsureCapacity(this->nElements);
             for(uint32 i = 0; i < this->nElements; i++)
@@ -173,24 +173,24 @@ namespace ACStdLib
         }
 
         //For range-based loops
-        inline CArrayIterator<DataType> begin()
+        inline DynamicArrayIterator<DataType> begin()
         {
-            return CArrayIterator<DataType>(*this);
+            return DynamicArrayIterator<DataType>(*this);
         }
 
-        inline CConstArrayIterator<DataType> begin() const
+        inline DynamicArrayConstIterator<DataType> begin() const
         {
-            return CConstArrayIterator<DataType>(*this);
+            return DynamicArrayConstIterator<DataType>(*this);
         }
 
-        inline CArrayIterator<DataType> end()
+        inline DynamicArrayIterator<DataType> end()
         {
-            return CArrayIterator<DataType>(*this, this->nElements);
+            return DynamicArrayIterator<DataType>(*this, this->nElements);
         }
 
-        inline CConstArrayIterator<DataType> end() const
+        inline DynamicArrayConstIterator<DataType> end() const
         {
-            return CConstArrayIterator<DataType>(*this, this->nElements);
+            return DynamicArrayConstIterator<DataType>(*this, this->nElements);
         }
     };
 }

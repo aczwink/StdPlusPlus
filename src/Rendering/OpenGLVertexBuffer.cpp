@@ -16,22 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Definitions.h"
+//Class header
+#include "OpenGLVertexBuffer.hpp"
 
-namespace ACStdLib
+//Constructor
+OpenGLVertexBuffer::OpenGLVertexBuffer()
 {
-    namespace Rendering
-    {
-        class ACSTDLIB_API IVertexBuffer
-        {
-        public:
-            //Destructor
-            virtual ~IVertexBuffer() {}
+    glGenBuffers(1, &this->id);
+}
 
-            //Abstract
-            virtual void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData) = NULL;
-        };
-    }
+//Destructor
+OpenGLVertexBuffer::~OpenGLVertexBuffer()
+{
+    glDeleteBuffers(1, &this->id);
+}
+
+//Public methods
+void OpenGLVertexBuffer::Allocate(uint32 nVertices, uint32 vertexSize, const void *pData)
+{
+    this->Bind();
+
+    glBufferData(GL_ARRAY_BUFFER, nVertices * vertexSize, pData, GL_STATIC_DRAW);
+}
+
+void OpenGLVertexBuffer::Write(uint32 offset, uint32 size, const void *data)
+{
+	this->Bind();
+
+	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 }

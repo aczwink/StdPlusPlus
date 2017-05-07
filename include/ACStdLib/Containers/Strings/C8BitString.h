@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "AFixedCharLengthString.h"
-#include "../CArray/CArray.h"
+#include "../DynamicArray/DynamicArray.hpp"
 #include "../LinkedList/LinkedList.hpp"
 //#include "CWString.h"
 

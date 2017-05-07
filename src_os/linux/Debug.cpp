@@ -28,6 +28,9 @@
 using namespace ACStdLib;
 
 #ifdef _DEBUG
+//Prototypes
+void ShutdownACStdLib();
+
 void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
     String message;
@@ -42,6 +45,13 @@ void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, c
     message += pFunctionName;
 
     stdErr << message << endl;
+
+	static bool shutdown = true;
+	if(shutdown)
+	{
+		shutdown = false;
+		ShutdownACStdLib(); //call the shutdown function that will report memory leaks and so on
+	}
     exit(1);
 }
 #endif

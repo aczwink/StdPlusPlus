@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CArray/CArray.h"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "../Streams/AInputStream.h"
 #include "EArchitecture.h"
 #include "IInstruction.h"
@@ -31,7 +31,7 @@ namespace ACStdLib
         {
         private:
             //Members
-            CArray<IInstruction *> instructions;
+            DynamicArray<IInstruction *> instructions;
 
         public:
             //Constructor

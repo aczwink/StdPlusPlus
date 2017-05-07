@@ -27,7 +27,7 @@ namespace ACStdLib
         //Forward declarations
         class CInputLayout;
         class IIndexBuffer;
-        class IVertexBuffer;
+        class VertexBuffer;
 
         class ACSTDLIB_API IInputState
         {
@@ -36,7 +36,7 @@ namespace ACStdLib
             virtual ~IInputState() {}
 
             //Abstract
-            virtual void AddVertexBuffer(IVertexBuffer *pVertexBuffer, const CInputLayout &refInputLayout) = NULL;
+            virtual void AddVertexBuffer(VertexBuffer *pVertexBuffer, const CInputLayout &refInputLayout) = NULL;
             virtual void SetIndexBuffer(IIndexBuffer *pIndexBuffer) = NULL;
         };
     }

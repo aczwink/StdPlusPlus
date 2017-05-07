@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Rendering/DeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 //Local
 #include "OpenGL.h"
 #include "CCubeMap.h"
@@ -27,7 +27,7 @@
 #include "CShader.h"
 #include "CShaderProgram.h"
 #include "CTexture2D.h"
-#include "CVertexBuffer.h"
+#include "OpenGLVertexBuffer.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
@@ -167,11 +167,11 @@ ITexture2D *DeviceContext::CreateTexture2D()
     return new CTexture2D;
 }
 
-IVertexBuffer *DeviceContext::CreateVertexBuffer()
+VertexBuffer *DeviceContext::CreateVertexBuffer()
 {
     this->BindOSContext();
 
-    return new CVertexBuffer;
+    return new OpenGLVertexBuffer;
 }
 
 void DeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)

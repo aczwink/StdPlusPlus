@@ -17,16 +17,16 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/Controls/PushButton.hpp>
+#include <ACStdLib/UI/Controls/Slider.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-PushButton::PushButton(WidgetContainer *pParent) : Widget(pParent)
+Slider::Slider(WidgetContainer *pParent) : Widget(pParent)
 {
-	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->CreateOSHandle();
+	this->System_CreateHandle();
 }

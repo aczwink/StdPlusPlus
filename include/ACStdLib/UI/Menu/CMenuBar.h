@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Containers/CArray/CArray.h"
+#include "../../Containers/DynamicArray/DynamicArray.hpp"
 
 namespace ACStdLib
 {
@@ -35,7 +35,7 @@ namespace ACStdLib
         private:
             //Members
             void *pOSHandle;
-            CArray<CMenu *> attachedMenus;
+            DynamicArray<CMenu *> attachedMenus;
 
             //Methods
             void AppendMenuOS(CMenu *pMenu);

@@ -23,7 +23,7 @@
 #include <ACStdLib/CIniFile.h>
 #include <ACStdLib/Tuple.hpp>
 #include <ACStdLib/Float.h>
-#include <ACStdLib/Integer.h>
+#include <ACStdLib/Integer.hpp>
 #include <ACStdLib/Mathematics.h>
 
 //Compute
@@ -146,7 +146,7 @@
 #include <ACStdLib/PDF/CDocument.h>
 
 //Rendering
-#include <ACStdLib/Rendering/DeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 #include <ACStdLib/Rendering/CInputLayout.h>
 #include <ACStdLib/Rendering/ICubeMap.h>
 #include <ACStdLib/Rendering/IFrameBuffer.h>
@@ -155,7 +155,7 @@
 #include <ACStdLib/Rendering/IShader.h>
 #include <ACStdLib/Rendering/IShaderProgram.h>
 #include <ACStdLib/Rendering/ITexture2D.h>
-#include <ACStdLib/Rendering/IVertexBuffer.h>
+#include <ACStdLib/Rendering/VertexBuffer.hpp>
 //Rendering/2D
 #include <ACStdLib/Rendering/2D/C2DPathRenderer.h>
 
@@ -184,16 +184,18 @@
 //Controls
 #include <ACStdLib/UI/Controls/CheckBox.hpp>
 #include <ACStdLib/UI/Controls/CDropDown.h>
-#include <ACStdLib/UI/Controls/CLabel.h>
+#include <ACStdLib/UI/Controls/Label.hpp>
 #include <ACStdLib/UI/Controls/CLineEdit.h>
 #include <ACStdLib/UI/Controls/CProgressBar.h>
-#include <ACStdLib/UI/Controls/CSlider.h>
-#include <ACStdLib/UI/Controls/CTextEdit.h>
 #include <ACStdLib/UI/Controls/PushButton.hpp>
+#include <ACStdLib/UI/Controls/RadioButton.hpp>
+#include <ACStdLib/UI/Controls/Slider.hpp>
+#include <ACStdLib/UI/Controls/SpinBox.hpp>
+#include <ACStdLib/UI/Controls/CTextEdit.h>
 //Events
 #include <ACStdLib/UI/Events/CKeyEvent.h>
 //Layouts
-#include <ACStdLib/UI/Layouts/CGridLayout.h>
+#include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Menu
 #include <ACStdLib/UI/Menu/CMenu.h>
 #include <ACStdLib/UI/Menu/CMenuBar.h>

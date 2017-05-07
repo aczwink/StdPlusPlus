@@ -18,10 +18,10 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/Rendering/DeviceContext.h"
+#include "ACStdLib/Rendering/DeviceContext.hpp"
 #include "../../Rendering/IInputState.h"
 #include "../../Rendering/IShaderProgram.h"
-#include "../../Rendering/IVertexBuffer.h"
+#include "ACStdLib/Rendering/VertexBuffer.hpp"
 #include "AGeneric2DPathRenderer.h"
 
 namespace ACStdLib
@@ -42,7 +42,7 @@ namespace ACStdLib
                 ERenderMethod renderMethod;
                 Color color;
                 ITexture *pTexture;
-                CArray<SPathAttributes> pathAttributes;
+                DynamicArray<SPathAttributes> pathAttributes;
                 uint32 boundingRectangleOffset;
             };
 
@@ -51,7 +51,7 @@ namespace ACStdLib
             LinkedList<SRenderEntry> renderCalls;
             IShaderProgram *pShaderProgram;
             IInputState *pInputState;
-            IVertexBuffer *pVertexBuffer;
+            VertexBuffer *pVertexBuffer;
             ITexture *pTexture;
             Math::CVector2 viewSize;
 
@@ -59,8 +59,8 @@ namespace ACStdLib
 
             //Methods
             void InitRendering();
-            void RenderFill(const CArray<CFlatVectorPath *> &refPaths, CArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax);
-            void RenderStroke(const CArray<CFlatVectorPath *> &refPaths, CArray<SPathAttributes> &&refPathAttributes);
+            void RenderFill(const DynamicArray<CFlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax);
+            void RenderStroke(const DynamicArray<CFlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes);
 
         public:
             //Constructor

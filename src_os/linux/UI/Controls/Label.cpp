@@ -16,32 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <ACStdLib/UI/Controls/Label.hpp>
 //Local
-#include "ACStdLib/UI/Widget.h"
+#include "../Gtk.h"
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
+//Definitions
+#define THIS (PRIVATE_DATA(this)->widget)
 
-namespace ACStdLib
+//Destructor
+Label::~Label()
 {
-    namespace UI
-    {
-        class ACSTDLIB_API CLabel : public Widget
-        {
-        private:
-            //Members
-            String text;
+	MemFree(this->systemHandle);
+}
 
-            //Eventhandlers
-            void OnPaint();
+//Private methods
+void Label::System_CreateHandle()
+{
+	this->systemHandle = CreateWidgetPrivateData(gtk_label_new(nullptr), this);
+	gtk_widget_show(THIS); //default to show
 
-            //Methods
-            void PaintText();
+	ADD_SELF_TO_PARENT(THIS);
+}
 
-        public:
-            //Constructor
-            CLabel(WidgetContainer *pParent);
+//Public methods
+Size Label::GetSizeHint() const
+{
+	return GetPreferedSizeGtk(THIS);
+}
 
-            //Methods
-            void SetText(const String &refText);
-        };
-    }
+void Label::SetText(const String &text)
+{
+	UTF8String textUTF8 = text.GetUTF16();
+	gtk_label_set_text(GTK_LABEL(THIS), (const gchar *) textUTF8.GetC_Str());
 }

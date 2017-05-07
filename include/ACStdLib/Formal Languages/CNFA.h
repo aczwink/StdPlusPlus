@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/CArray/CArray.h"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "../Containers/CFiniteSet/CFiniteSet.h"
 #include "../Containers/CMap/CMap.h"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
@@ -63,7 +63,7 @@ namespace ACStdLib
             return this->transitions[input];
         }
 
-        inline void GetTransitionsTo(CNFAState *pStateTo, CArray<uint32> &refInputs) const
+        inline void GetTransitionsTo(CNFAState *pStateTo, DynamicArray<uint32> &refInputs) const
         {
             for(const auto &refKV : this->transitions)
             {

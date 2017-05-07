@@ -56,14 +56,14 @@ namespace ACStdLib
             //Members
             CVectorPath *pCurrentPath;
             bool freeCurrentPath;
-            CArray<CFlatVectorPath *> pathCache;
-            CArray<SPathAttributes> pathAttributes;
+            DynamicArray<CFlatVectorPath *> pathCache;
+            DynamicArray<SPathAttributes> pathAttributes;
             vec2f64 boundingRectMin;
             vec2f64 boundingRectMax;
 
             //Abstract
-            virtual void RenderFill(const CArray<CFlatVectorPath *> &refPaths, CArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = NULL;
-            virtual void RenderStroke(const CArray<CFlatVectorPath *> &refPaths, CArray<SPathAttributes> &&refPathAttributes) = NULL;
+            virtual void RenderFill(const DynamicArray<CFlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = NULL;
+            virtual void RenderStroke(const DynamicArray<CFlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes) = NULL;
 
             //Methods
             void ButtCapEnd(const CFlatVectorPath::SPoint &refPoint, float64 w);
@@ -75,7 +75,7 @@ namespace ACStdLib
         protected:
             //Members
             SRendererState state;
-            CArray<SVertex> vertices;
+            DynamicArray<SVertex> vertices;
 
             //Inline
             inline void AddVertex(float64 x, float64 y)

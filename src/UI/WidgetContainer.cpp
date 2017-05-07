@@ -20,7 +20,7 @@
 #include <ACStdLib/UI/WidgetContainer.h>
 //Local
 #include <ACStdLib/UI/Window.h>
-#include <ACStdLib/UI/Layouts/CGridLayout.h>
+#include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -28,7 +28,7 @@ using namespace ACStdLib::UI;
 //Constructor
 WidgetContainer::WidgetContainer(WidgetContainer *pContainer) : Widget(pContainer)
 {
-    this->pLayout = new CGridLayout;
+    this->pLayout = new GridLayout;
     if(pContainer)
         this->renderMode = pContainer->renderMode;
 }

@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/UI/Containers/GroupBox.hpp>
+#pragma once
 //Local
-#include <ACStdLib/UI/Layouts/GridLayout.hpp>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+#include "../Definitions.h"
 
-//Constructor
-GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
+namespace ACStdLib
 {
-	this->SetLayout(new VerticalLayout);
+    namespace Rendering
+    {
+        class ACSTDLIB_API VertexBuffer
+        {
+        public:
+            //Destructor
+            virtual ~VertexBuffer() {}
 
-	this->CreateOSHandle();
+            //Abstract
+            virtual void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData) = NULL;
+            virtual void Write(uint32 offset, uint32 size, const void *data) = NULL;
+        };
+    }
 }

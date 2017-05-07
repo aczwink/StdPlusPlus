@@ -16,18 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/UI/Containers/GroupBox.hpp>
+#pragma once
 //Local
-#include <ACStdLib/UI/Layouts/GridLayout.hpp>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+#include "ACStdLib/UI/Widget.h"
 
-//Constructor
-GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
+namespace ACStdLib
 {
-	this->SetLayout(new VerticalLayout);
+    namespace UI
+    {
+        class ACSTDLIB_API Slider : public Widget
+        {
+        private:
+            //Methods
+            void System_CreateHandle();
 
-	this->CreateOSHandle();
+        public:
+            //Constructor
+            Slider(WidgetContainer *pParent);
+
+			//Destructor
+			~Slider();
+
+            //Methods
+            Size GetSizeHint() const;
+            void SetMaximum(uint32 max);
+            void SetMinimum(uint32 min);
+            void SetPos(uint32 pos);
+        };
+    }
 }

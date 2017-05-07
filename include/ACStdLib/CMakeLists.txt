@@ -3,15 +3,19 @@ set(SOURCE_FILES
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
 
 	#Compute
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.hpp
 
 	#Containers
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedList.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListIterator.hpp
@@ -35,7 +39,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
 
 	#Rendering
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
         #Streams
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/CTextReader.h
@@ -50,14 +55,18 @@ set(SOURCE_FILES
         #UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/CSizingPolicy.h
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RenderTargetWidget.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/CGridLayout.h
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.h

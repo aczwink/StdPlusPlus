@@ -24,7 +24,7 @@
 #include "../Definitions.h"
 #include "ACStdLib/Math/Geometry/Rect.h"
 #include "ACStdLib/Math/Size.h"
-#include "CSizingPolicy.h"
+#include "SizingPolicy.hpp"
 #include "ERenderMode.h"
 
 namespace ACStdLib
@@ -72,7 +72,7 @@ namespace ACStdLib
 
         public:
             //Members
-            CSizingPolicy sizingPolicy;
+            SizingPolicy sizingPolicy;
 
             //Constructor
             Widget(WidgetContainer *pParent);

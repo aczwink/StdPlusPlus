@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CArray/CArray.h"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "../Containers/CFiniteSet/CFiniteSet.h"
 #include "../Containers/CMap/CMap.h"
 #include "ACStdLib/Filesystem/Path.hpp"
@@ -47,7 +47,7 @@ namespace ACStdLib
             this->transitions[inputSymbol] = pStateTo;
         }
 
-        inline void GetTransitionsTo(CDFAState *pStateTo, CArray<uint32> &refOutput)
+        inline void GetTransitionsTo(CDFAState *pStateTo, DynamicArray<uint32> &refOutput)
         {
             for(const auto &refKV : this->transitions)
             {

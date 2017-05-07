@@ -20,42 +20,42 @@ namespace ACStdLib
 {
     //Forward Declarations
     template<typename DataType>
-    class CArray;
+    class DynamicArray;
 
     template<typename DataType>
-    class CConstArrayIterator
+    class DynamicArrayIterator
     {
-        friend class CArray<DataType>;
+        friend class DynamicArray<DataType>;
     private:
         //Members
-        const CArray<DataType> &refArray;
+        DynamicArray<DataType> &refArray;
         uint32 index;
 
         //Constructor
-        CConstArrayIterator(const CArray<DataType> &refArray, uint32 index = 0) : refArray(refArray)
+        DynamicArrayIterator(DynamicArray<DataType> &refArray, uint32 index = 0) : refArray(refArray)
         {
             this->index = index;
         }
     public:
         //Operators
-        CConstArrayIterator &operator++() //Prefix ++
+        DynamicArrayIterator &operator++() //Prefix ++
         {
             this->index++;
 
             return *this;
         }
 
-        const DataType &operator*() const
+        DataType &operator*()
         {
             return this->refArray[this->index];
         }
 
-        bool operator!=(const CConstArrayIterator &refOther) const
+        bool operator!=(const DynamicArrayIterator &refOther)
         {
             return (&this->refArray != &refOther.refArray) || (this->index != refOther.index);
         }
 
-        //Functions
+        //Methods
         inline uint32 GetIndex() const
         {
             return this->index;

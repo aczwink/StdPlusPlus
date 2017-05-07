@@ -26,18 +26,25 @@ namespace ACStdLib
     {
         class ACSTDLIB_API CheckBox : public Widget
         {
+        private:
+			//Methods
+			void System_CreateHandle();
+
         public:
             //Dynamic event handlers
             CFunction<void()> onToggledHandler;
 
             //Constructor
-            CheckBox(WidgetContainer *pParent);
+            CheckBox(WidgetContainer *parent);
+
+			//Destructor
+			~CheckBox();
 
             //Methods
             Size GetSizeHint() const;
-            UTF8String GetText() const;
+			String GetText() const;
             bool IsChecked() const;
-            void SetText(const UTF8String &refText);
+            void SetText(const String &text);
         };
     }
 }

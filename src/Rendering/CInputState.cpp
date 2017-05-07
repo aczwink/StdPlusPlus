@@ -21,7 +21,7 @@
 //Local
 #include <ACStdLib/Rendering/CInputLayout.h>
 #include "CIndexBuffer.h"
-#include "CVertexBuffer.h"
+#include "OpenGLVertexBuffer.hpp"
 
 //Constructor
 CInputState::CInputState()
@@ -38,12 +38,12 @@ CInputState::~CInputState()
 }
 
 //Public methods
-void CInputState::AddVertexBuffer(IVertexBuffer *pVB, const CInputLayout &refInputLayout)
+void CInputState::AddVertexBuffer(VertexBuffer *pVB, const CInputLayout &refInputLayout)
 {
     uint8 i, location;
-    CVertexBuffer *pVertexBuffer;
+    OpenGLVertexBuffer *pVertexBuffer;
 
-    pVertexBuffer = (CVertexBuffer *)pVB;
+    pVertexBuffer = (OpenGLVertexBuffer *)pVB;
 
     this->Bind();
     pVertexBuffer->Bind();

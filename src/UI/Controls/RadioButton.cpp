@@ -17,17 +17,16 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Containers/GroupBox.hpp>
-//Local
-#include <ACStdLib/UI/Layouts/GridLayout.hpp>
+#include <ACStdLib/UI/Controls/RadioButton.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
+RadioButton::RadioButton(WidgetContainer *parent) : Widget(parent)
 {
-	this->SetLayout(new VerticalLayout);
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->CreateOSHandle();
+	this->System_CreateHandle();
 }

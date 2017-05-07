@@ -17,17 +17,13 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Containers/GroupBox.hpp>
-//Local
-#include <ACStdLib/UI/Layouts/GridLayout.hpp>
+#include <ACStdLib/UI/Controls/Label.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
+Label::Label(WidgetContainer *parent) : Widget(parent)
 {
-	this->SetLayout(new VerticalLayout);
-
-	this->CreateOSHandle();
+	this->System_CreateHandle();
 }

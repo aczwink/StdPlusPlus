@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "AInputStream.h"
-#include "../Containers/CArray/CArray.h"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 
 namespace ACStdLib
 {
@@ -28,7 +28,7 @@ namespace ACStdLib
     private:
         //Members
         uint8 currentStream;
-        CArray<AInputStream *> partialStreams;
+        DynamicArray<AInputStream *> partialStreams;
 
     public:
         //Constructor

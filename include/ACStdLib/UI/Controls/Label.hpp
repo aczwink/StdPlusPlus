@@ -18,31 +18,28 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Rendering/IVertexBuffer.h>
-#include "OpenGL.h"
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Rendering;
+#include "ACStdLib/UI/Widget.h"
 
-class CVertexBuffer : public IVertexBuffer
+namespace ACStdLib
 {
-private:
-    //Members
-    uint32 id;
-
-public:
-    //Constructor
-    CVertexBuffer();
-
-    //Destructor
-    ~CVertexBuffer();
-
-    //Methods
-    void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData);
-
-    //Inline
-    inline void Bind() const
+    namespace UI
     {
-        glBindBuffer(GL_ARRAY_BUFFER, this->id);
+        class ACSTDLIB_API Label : public Widget
+        {
+        private:
+            //Methods
+			void System_CreateHandle();
+
+        public:
+            //Constructor
+            Label(WidgetContainer *parent);
+
+			//Destructor
+			~Label();
+
+            //Methods
+			Size GetSizeHint() const;
+            void SetText(const String &text);
+        };
     }
-};
+}

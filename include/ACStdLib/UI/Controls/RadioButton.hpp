@@ -22,19 +22,24 @@
 
 namespace ACStdLib
 {
-    namespace UI
-    {
-        class ACSTDLIB_API CSlider : public Widget
-        {
-        public:
-            //Constructor
-            CSlider(WidgetContainer *pParent);
+	namespace UI
+	{
+		class ACSTDLIB_API RadioButton : public Widget
+		{
+		private:
+			//Methods
+			void System_CreateHandle();
 
-            //Methods
-            Size GetSizeHint() const;
-            void SetMaximum(uint32 max);
-            void SetMinimum(uint32 min);
-            void SetPos(uint32 pos);
-        };
-    }
+		public:
+			//Constructor
+			RadioButton(WidgetContainer *parent);
+
+			//Destructor
+			~RadioButton();
+
+			//Methods
+			Size GetSizeHint() const;
+			void SetText(const String &text);
+		};
+	}
 }

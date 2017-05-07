@@ -17,14 +17,14 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Rendering/DeviceContext.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 //Global
 #include <gdk/gdkx.h>
 #include <gtk/gtk.h>
 #include <GL/glx.h>
 //Local
 #include "../UI/Gtk.h"
-#include <ACStdLib/Integer.h>
+#include <ACStdLib/Integer.hpp>
 #include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
 //Namespaces
 using namespace ACStdLib;
