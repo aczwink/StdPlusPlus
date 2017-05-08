@@ -20,8 +20,8 @@
 //Local
 #include "../../Definitions.h"
 #include <ACStdLibCPUOpt.hpp>
-#include "CMatrix4x4.h"
-#include "CVector3.h"
+#include "Matrix4x4.hpp"
+#include "Vector3.hpp"
 
 namespace ACStdLib
 {
@@ -31,15 +31,15 @@ namespace ACStdLib
         {
         public:
             //Members
-            CVector3 min;
-            CVector3 max;
+            Vector3 min;
+            Vector3 max;
 
             //Constructors
             inline AxisAlignedBox()
             {
             }
 
-            inline AxisAlignedBox(const CVector3 &refMin, const CVector3 &refMax)
+            inline AxisAlignedBox(const Vector3 &refMin, const Vector3 &refMax)
             {
                 this->min = refMin;
                 this->max = refMax;
@@ -47,7 +47,7 @@ namespace ACStdLib
 
             //Methods
             bool Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const;
-            void Merge(const CVector3 &refV);
+            void Merge(const Vector3 &refV);
             float32 SquaredDistanceTo(const vec4f32 &refPoint) const;
 
             //Inline
@@ -63,23 +63,23 @@ namespace ACStdLib
                 return sqrtf(this->SquaredDistanceTo(refPoint));
             }
 
-            inline CVector3 GetSize() const
+            inline Vector3 GetSize() const
             {
                 return this->max - this->min;
             }
 
             inline float32 GetVolume() const
             {
-                CVector3 v;
+                Vector3 v;
 
                 v = this->GetSize();
 
                 return v.x * v.y * v.z;
             }
 
-            inline AxisAlignedBox Transform(const CMatrix4x4 &refTransform) const
+            inline AxisAlignedBox Transform(const Matrix4x4 &refTransform) const
             {
-                return AxisAlignedBox(CVector3(refTransform * CVector4(this->min, 1)), CVector3(refTransform * CVector4(this->max, 1)));
+                return AxisAlignedBox(Vector3(refTransform * CVector4(this->min, 1)), Vector3(refTransform * CVector4(this->max, 1)));
             }
         };
     }

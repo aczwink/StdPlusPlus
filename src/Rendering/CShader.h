@@ -18,12 +18,12 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Rendering/IShader.h>
+#include <ACStdLib/Rendering/Shader.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
 
-class CShader : public IShader
+class CShader : public Shader
 {
     friend class CShaderProgram;
 private:
@@ -32,12 +32,12 @@ private:
 
 public:
     //Constructor
-    CShader(IShader::EShaderType type);
+    CShader(Shader::ShaderType type);
 
     //Destructor
     ~CShader();
 
     //Methods
     bool Compile(ASeekableInputStream &refSource);
-    C8BitString GetCompilationLog();
+    ByteString GetCompilationLog();
 };

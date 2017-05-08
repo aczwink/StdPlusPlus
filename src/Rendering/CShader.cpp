@@ -24,17 +24,17 @@
 #include "OpenGL.h"
 
 //Constructor
-CShader::CShader(IShader::EShaderType type)
+CShader::CShader(Shader::ShaderType type)
 {
     switch(type)
     {
-        case EShaderType::FragmentShader:
+        case ShaderType::FragmentShader:
             this->id = glCreateShader(GL_FRAGMENT_SHADER);
             break;
-        case EShaderType::GeometryShader:
+        case ShaderType::GeometryShader:
             this->id = glCreateShader(GL_GEOMETRY_SHADER);
             break;
-        case EShaderType::VertexShader:
+        case ShaderType::VertexShader:
             this->id = glCreateShader(GL_VERTEX_SHADER);
             break;
         default:
@@ -70,10 +70,10 @@ bool CShader::Compile(ASeekableInputStream &refSource)
     return result != 0;
 }
 
-C8BitString CShader::GetCompilationLog()
+ByteString CShader::GetCompilationLog()
 {
     GLint len;
-    C8BitString result;
+    ByteString result;
 
     glGetShaderiv(this->id, GL_INFO_LOG_LENGTH, &len);
     result.Resize(len - 1);

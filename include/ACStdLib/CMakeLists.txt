@@ -16,12 +16,18 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSet.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedList.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListNode.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/Map.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapNode.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/C8BitString.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.h
@@ -36,14 +42,21 @@ set(SOURCE_FILES
 
 	#Math
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Matrix4x4.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Vector3.hpp
 
 	#Rendering
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/IndexBuffer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputLayout.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputState.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shader.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/ShaderProgram.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
         #Streams
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/CTextReader.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h

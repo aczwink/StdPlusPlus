@@ -19,8 +19,8 @@
 //Class header
 #include "CInputState.h"
 //Local
-#include <ACStdLib/Rendering/CInputLayout.h>
-#include "CIndexBuffer.h"
+#include <ACStdLib/Rendering/InputLayout.hpp>
+#include "OpenGLIndexBuffer.h"
 #include "OpenGLVertexBuffer.hpp"
 
 //Constructor
@@ -38,7 +38,7 @@ CInputState::~CInputState()
 }
 
 //Public methods
-void CInputState::AddVertexBuffer(VertexBuffer *pVB, const CInputLayout &refInputLayout)
+void CInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &refInputLayout)
 {
     uint8 i, location;
     OpenGLVertexBuffer *pVertexBuffer;
@@ -61,7 +61,7 @@ void CInputState::AddVertexBuffer(VertexBuffer *pVB, const CInputLayout &refInpu
     this->currentAttributeIndex += refInputLayout.GetNumberOfAttributes();
 }
 
-void CInputState::SetIndexBuffer(IIndexBuffer *pIndexBuffer)
+void CInputState::SetIndexBuffer(IndexBuffer *pIndexBuffer)
 {
-    this->pIndexBuffer = (CIndexBuffer *)pIndexBuffer;
+    this->pIndexBuffer = (OpenGLIndexBuffer *)pIndexBuffer;
 }

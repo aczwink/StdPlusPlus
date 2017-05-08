@@ -99,7 +99,7 @@ CUTF32String &CUTF32String::operator=(const uint16 *pString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(const C8BitString &refString)
+CUTF32String &CUTF32String::operator=(const ByteString &refString)
 {
 	this->EnsureCapacity(refString.GetLength());
 

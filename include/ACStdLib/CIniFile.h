@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "Containers/CMap/CMap.h"
+#include "Containers/Map/Map.hpp"
 #include "ACStdLib/Containers/Strings/String.h"
 #include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "Definitions.h"
@@ -34,7 +34,7 @@ namespace ACStdLib
         //Members
         bool readOnly;
         Path path;
-        CMap<String, CMap<String, String>> sections;
+        Map<String, Map<String, String>> sections;
         //Methods
         String ReadKey(AInputStream &refInput);
         String ReadSectionTitle(AInputStream &refInput);

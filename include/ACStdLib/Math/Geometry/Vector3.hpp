@@ -29,7 +29,7 @@ namespace ACStdLib
         //Forward declarations
         class CVector4;
 
-        class ACSTDLIB_API CVector3
+        class ACSTDLIB_API Vector3
         {
         public:
             //Members
@@ -45,21 +45,21 @@ namespace ACStdLib
             };
 
             //Constructors
-            inline CVector3()
+            inline Vector3()
             {
                 this->x = 0;
                 this->y = 0;
                 this->z = 0;
             }
 
-            inline CVector3(float32 x, float32 y, float32 z)
+            inline Vector3(float32 x, float32 y, float32 z)
             {
                 this->x = x;
                 this->y = y;
                 this->z = z;
             }
 
-            CVector3(const CVector4 &refV);
+            Vector3(const CVector4 &refV);
 
             //Operators
             inline float32 &operator[](uint8 idx)
@@ -76,7 +76,7 @@ namespace ACStdLib
                 return this->e[idx];
             }
 
-            inline CVector3 &operator=(const CVector3 &refOther)
+            inline Vector3 &operator=(const Vector3 &refOther)
             {
                 this->x = refOther.x;
                 this->y = refOther.y;
@@ -85,7 +85,7 @@ namespace ACStdLib
                 return *this;
             }
 
-            inline CVector3 &operator+=(const CVector3 &refOther)
+            inline Vector3 &operator+=(const Vector3 &refOther)
             {
                 this->x += refOther.x;
                 this->y += refOther.y;
@@ -94,7 +94,7 @@ namespace ACStdLib
                 return *this;
             }
 
-            inline CVector3 &operator-=(const CVector3 &refOther)
+            inline Vector3 &operator-=(const Vector3 &refOther)
             {
                 this->x -= refOther.x;
                 this->y -= refOther.y;
@@ -103,13 +103,13 @@ namespace ACStdLib
                 return *this;
             }
 
-            inline CVector3 operator-() const
+            inline Vector3 operator-() const
             {
-                return CVector3(-this->x, -this->y, -this->z);
+                return Vector3(-this->x, -this->y, -this->z);
             }
 
             //Methods
-            CVector3 Cross(const CVector3 &refRight) const;
+            Vector3 Cross(const Vector3 &refRight) const;
 
             //Inline
             inline float32 Length() const
@@ -117,13 +117,13 @@ namespace ACStdLib
                 return sqrtf(this->SquaredLength());
             }
 
-            inline CVector3 Normalize() const
+            inline Vector3 Normalize() const
             {
                 float32 length;
 
                 length = this->Length();
 
-                return CVector3(this->x / length, this->y / length, this->z / length);
+                return Vector3(this->x / length, this->y / length, this->z / length);
             }
 
             inline float32 SquaredLength() const
@@ -133,33 +133,33 @@ namespace ACStdLib
         };
 
         //Class operators
-        inline CVector3 operator+(const CVector3 &refLeft, const CVector3 &refRight)
+        inline Vector3 operator+(const Vector3 &refLeft, const Vector3 &refRight)
         {
-            return CVector3(refLeft.x + refRight.x, refLeft.y + refRight.y, refLeft.z + refRight.z);
+            return Vector3(refLeft.x + refRight.x, refLeft.y + refRight.y, refLeft.z + refRight.z);
         }
 
-        inline CVector3 operator-(const CVector3 &refLeft, const CVector3 &refRight)
+        inline Vector3 operator-(const Vector3 &refLeft, const Vector3 &refRight)
         {
-            return CVector3(refLeft.x - refRight.x, refLeft.y - refRight.y, refLeft.z - refRight.z);
+            return Vector3(refLeft.x - refRight.x, refLeft.y - refRight.y, refLeft.z - refRight.z);
         }
 
-        inline CVector3 operator*(float32 scalar, const CVector3 &refRight)
+        inline Vector3 operator*(float32 scalar, const Vector3 &refRight)
         {
-            return CVector3(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
+            return Vector3(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
         }
 
-        inline CVector3 operator*(const CVector3 &refLeft, float32 scalar)
+        inline Vector3 operator*(const Vector3 &refLeft, float32 scalar)
         {
-            return CVector3(scalar * refLeft.x, scalar * refLeft.y, scalar * refLeft.z);
+            return Vector3(scalar * refLeft.x, scalar * refLeft.y, scalar * refLeft.z);
         }
 
         //Inline Functions
-        inline CVector3 Cross(const CVector3 &refLeft, const CVector3 &refRight)
+        inline Vector3 Cross(const Vector3 &refLeft, const Vector3 &refRight)
         {
-            return CVector3(refLeft.y * refRight.z - refLeft.z * refRight.y, refLeft.z * refRight.x - refLeft.x * refRight.z, refLeft.x * refRight.y - refLeft.y * refRight.x);
+            return Vector3(refLeft.y * refRight.z - refLeft.z * refRight.y, refLeft.z * refRight.x - refLeft.x * refRight.z, refLeft.x * refRight.y - refLeft.y * refRight.x);
         }
 
-        inline float32 Dot(const CVector3 &refLeft, const CVector3 &refRight)
+        inline float32 Dot(const Vector3 &refLeft, const Vector3 &refRight)
         {
             return float32((float64)refLeft.x * (float64)refRight.x + (float64)refLeft.y * (float64)refRight.y + (float64)refLeft.z * (float64)refRight.z);
         }

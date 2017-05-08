@@ -89,7 +89,7 @@ CUTF16String &CUTF16String::operator=(const uint16 *pString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const C8BitString &refString)
+CUTF16String &CUTF16String::operator=(const ByteString &refString)
 {
     //each byte can be encoded in one element, can't have surrogates
     this->EnsureCapacity(refString.GetLength());
@@ -167,7 +167,7 @@ CUTF16String &CUTF16String::operator+=(uint16 c)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator += (const C8BitString &refString)
+CUTF16String &CUTF16String::operator += (const ByteString &refString)
 {
     //each byte can be encoded in one element, can't have surrogates
     this->EnsureAdditionalCapacity(refString.GetLength());

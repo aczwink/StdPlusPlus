@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../Math/Geometry/CVector2.h"
-#include "../Math/Geometry/CVector3.h"
+#include "ACStdLib/Math/Geometry/Vector3.hpp"
 
 namespace ACStdLib
 {
@@ -32,7 +32,7 @@ namespace ACStdLib
             uint8 offset;
         };
 
-        class ACSTDLIB_API CInputLayout
+        class ACSTDLIB_API InputLayout
         {
         private:
             //Members
@@ -42,13 +42,22 @@ namespace ACStdLib
 
         public:
             //Constructor
-            inline CInputLayout()
+            inline InputLayout()
             {
                 this->currentAttributeIndex = 0;
                 this->offset = 0;
             }
 
             //Inline
+            inline void AddAttribute()
+            {
+                this->inputAttributes[this->currentAttributeIndex].nComponents = 1;
+                this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
+
+                this->currentAttributeIndex++;
+                this->offset += sizeof(float32);
+            }
+
             inline void AddAttribute2()
             {
                 this->inputAttributes[this->currentAttributeIndex].nComponents = 2;
@@ -64,7 +73,7 @@ namespace ACStdLib
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::CVector3);
+                this->offset += sizeof(Math::Vector3);
             }
 
             inline const SInputAttribute &GetAttribute(uint8 index) const

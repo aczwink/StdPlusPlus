@@ -18,42 +18,46 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Rendering/InputState.hpp>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
+#include <ACStdLib/Rendering/IndexBuffer.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
 
-//Forward declarations
-class OpenGLIndexBuffer;
-
-class CInputState : public InputState
+class OpenGLIndexBuffer : public IndexBuffer
 {
 private:
     //Members
     uint32 id;
-    uint8 currentAttributeIndex;
-    OpenGLIndexBuffer *pIndexBuffer;
+    uint32 nIndices;
+    bool isShort;
+	AllocationPolicy policy;
 
 public:
     //Constructor
-    CInputState();
+    OpenGLIndexBuffer(AllocationPolicy policy);
 
     //Destructor
-    ~CInputState();
+    ~OpenGLIndexBuffer();
 
     //Methods
-    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout);
-    void SetIndexBuffer(IndexBuffer *pIndexBuffer);
+    void Allocate(uint32 nIndices, const uint16 *pIndices);
+    void Allocate(uint32 nIndices, const uint32 *pIndices);
 
     //Inline
     inline void Bind() const
     {
-        glBindVertexArray(this->id);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
     }
 
-    inline OpenGLIndexBuffer *GetIndexBuffer()
+    inline uint32 GetNumberOfIndices() const
     {
-        return this->pIndexBuffer;
+        return this->nIndices;
+    }
+
+    inline bool IndicesShort() const
+    {
+        return this->isShort;
     }
 };

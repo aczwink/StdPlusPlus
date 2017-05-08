@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Rendering/IShaderProgram.h>
+#include <ACStdLib/Rendering/ShaderProgram.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Math;
 using namespace ACStdLib::Rendering;
 
-class CShaderProgram : public IShaderProgram
+class CShaderProgram : public ShaderProgram
 {
 private:
     //Members
@@ -42,19 +42,19 @@ public:
     ~CShaderProgram();
 
     //Methods
-    void AttachShader(const IShader *pShader);
-    void DetachShader(const IShader *pShader);
-    uint32 GetUniformId(const ACStdLib::C8BitString &refVarName) const;
+    void AttachShader(const Shader *pShader);
+    void DetachShader(const Shader *pShader);
+    uint32 GetUniformId(const ACStdLib::ByteString &refVarName) const;
     void Link();
     void SetUniformValue(uint32 varId, int32 value);
     void SetUniformValue(uint32 varId, uint32 value);
     void SetUniformValue(uint32 varId, float32 value);
     void SetUniformValue(uint32 varId, const CVector2 &refVector);
-    void SetUniformValue(uint32 varId, const CVector3 &refVector);
+    void SetUniformValue(uint32 varId, const Vector3 &refVector);
     void SetUniformValue(uint32 varId, const Color &refColor);
     void SetUniformValue(uint32 varId, const CMatrix2x2 &refMatrix);
     void SetUniformValue(uint32 varId, const CMatrix3x3 &refMatrix);
-    void SetUniformValue(uint32 varId, const CMatrix4x4 &refMatrix);
+    void SetUniformValue(uint32 varId, const Matrix4x4 &refMatrix);
 
     //Inline
     inline void Use() const

@@ -16,41 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #pragma once
 
 namespace ACStdLib
 {
     //Forward declarations
-    template<typename ValueType>
-    class CFiniteSetNode;
-    template<typename ValueType>
-    class CFiniteSet;
+    template<typename KeyType, typename ValueType>
+    class MapNode;
+    template<typename KeyType, typename ValueType>
+    class Map;
 
-    template<typename ValueType>
-    class CConstFiniteSetIterator
+    template<typename KeyType, typename ValueType>
+    class CConstMapIterator
     {
-        friend class CFiniteSet <ValueType >;
-        typedef CFiniteSet<ValueType> Set;
-        typedef CFiniteSetNode<ValueType> Node;
+        friend class Map < KeyType, ValueType > ;
+        typedef MapNode<KeyType, ValueType> Node;
     private:
         //Members
-        const Set &refSet;
+        const Map<KeyType, ValueType> &refMap;
         const Node *pCurrentNode;
 
         //Constructor
-        CConstFiniteSetIterator(const Set &refSet, const Node *pNode) : refSet(refSet)
+        CConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : refMap(refMap)
         {
             this->pCurrentNode = pNode;
         }
     public:
 
         //Operators
-        inline bool operator!=(const CConstFiniteSetIterator<ValueType> &refIt) const
+        inline bool operator!=(const CConstMapIterator<KeyType, ValueType> &refIt) const
         {
-            return (&this->refSet != &refIt.refSet) || (this->pCurrentNode != refIt.pCurrentNode);
+            return (&this->refMap != &refIt.refMap) || (this->pCurrentNode != refIt.pCurrentNode);
         }
 
-        CConstFiniteSetIterator<ValueType> &operator++() //Prefix ++
+        CConstMapIterator<KeyType, ValueType> &operator++() //Prefix ++
         {
             Node *pParent;
 
@@ -71,9 +71,9 @@ namespace ACStdLib
             return *this;
         }
 
-        const ValueType &operator*() const
+        const CKeyValuePair<KeyType, ValueType> &operator*() const
         {
-            return this->pCurrentNode->value;
+            return this->pCurrentNode->keyValuePair;
         }
     };
 }

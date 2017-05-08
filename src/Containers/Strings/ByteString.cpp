@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Containers/Strings/C8BitString.h>
+#include <ACStdLib/Containers/Strings/ByteString.hpp>
 //Global
 #include <ctype.h>
 #include <string.h>
@@ -28,14 +28,14 @@
 using namespace ACStdLib;
 
 //Operators
-C8BitString &C8BitString::operator=(const char *pStr)
+ByteString &ByteString::operator=(const char *pStr)
 {
     AFixedCharLengthString<char>::Assign(pStr, (uint32)strlen(pStr));
 
     return *this;
 }
 
-C8BitString &C8BitString::operator=(C8BitString &&refString)
+ByteString &ByteString::operator=(ByteString &&refString)
 {
     this->Release();
 
@@ -49,7 +49,7 @@ C8BitString &C8BitString::operator=(C8BitString &&refString)
     return *this;
 }
 
-C8BitString &C8BitString::operator+=(const C8BitString &refString)
+ByteString &ByteString::operator+=(const ByteString &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetLength());
 
@@ -61,7 +61,7 @@ C8BitString &C8BitString::operator+=(const C8BitString &refString)
 }
 
 //Public methods
-int32 C8BitString::Find(const C8BitString &refSearch, uint32 startPos) const
+int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
 {
     int32 pos = startPos;
     char *ptr;
@@ -82,7 +82,7 @@ int32 C8BitString::Find(const C8BitString &refSearch, uint32 startPos) const
     return UINT32_MAX;
 }
 
-int32 C8BitString::FindReverse(const C8BitString &refSearch, uint32 startPos) const
+int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) const
 {
     int32 pos = startPos;
 
@@ -99,9 +99,9 @@ int32 C8BitString::FindReverse(const C8BitString &refSearch, uint32 startPos) co
     return UINT32_MAX;
 }
 
-void C8BitString::Replace(const C8BitString &refSearch, const C8BitString &refReplace)
+void ByteString::Replace(const ByteString &refSearch, const ByteString &refReplace)
 {
-    C8BitString buffer;
+    ByteString buffer;
     int32 pos = 0, oldPos = 0;
 
     if(refSearch.IsEmpty())
@@ -118,7 +118,7 @@ void C8BitString::Replace(const C8BitString &refSearch, const C8BitString &refRe
     *this = buffer;
 }
 
-void C8BitString::Resize(uint32 newLength)
+void ByteString::Resize(uint32 newLength)
 {
     if(newLength > this->nElements)
     {
@@ -132,9 +132,9 @@ void C8BitString::Resize(uint32 newLength)
     }
 }
 
-LinkedList<C8BitString> C8BitString::Split(const C8BitString &refDelimiter) const
+LinkedList<ByteString> ByteString::Split(const ByteString &refDelimiter) const
 {
-    LinkedList<C8BitString> result;
+    LinkedList<ByteString> result;
     int32 pos, oldPos = 0;
 
     while((pos = this->Find(refDelimiter, oldPos)) != UINT32_MAX)
@@ -151,12 +151,12 @@ LinkedList<C8BitString> C8BitString::Split(const C8BitString &refDelimiter) cons
     return result;
 }
 
-C8BitString C8BitString::SubString(uint32 beginOffset, uint32 length) const
+ByteString ByteString::SubString(uint32 beginOffset, uint32 length) const
 {
-    C8BitString buffer;
+    ByteString buffer;
 
     if(length == 0)
-        return C8BitString();
+        return ByteString();
 
     buffer.EnsureCapacity(length);
 
@@ -167,9 +167,9 @@ C8BitString C8BitString::SubString(uint32 beginOffset, uint32 length) const
     return buffer;
 }
 
-C8BitString C8BitString::ToLowercase() const
+ByteString ByteString::ToLowercase() const
 {
-    C8BitString buffer;
+    ByteString buffer;
 
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
@@ -181,9 +181,9 @@ C8BitString C8BitString::ToLowercase() const
     return buffer;
 }
 
-C8BitString C8BitString::ToUppercase() const
+ByteString ByteString::ToUppercase() const
 {
-    C8BitString buffer;
+    ByteString buffer;
 
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
@@ -196,30 +196,30 @@ C8BitString C8BitString::ToUppercase() const
 }
 
 //Outside class operators
-C8BitString ACStdLib::operator+(const C8BitString &left, const C8BitString &right)
+ByteString ACStdLib::operator+(const ByteString &left, const ByteString &right)
 {
-    C8BitString buffer(left);
+    ByteString buffer(left);
 
     buffer += right;
 
     return buffer;
 }
 
-bool ACStdLib::operator==(const C8BitString &left, const C8BitString &right)
+bool ACStdLib::operator==(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return false;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) == 0;
 }
 
-bool ACStdLib::operator!=(const C8BitString &left, const C8BitString &right)
+bool ACStdLib::operator!=(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return true;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) != 0;
 }
 
-bool ACStdLib::operator<(const C8BitString &left, const C8BitString &right)
+bool ACStdLib::operator<(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 
@@ -239,7 +239,7 @@ bool ACStdLib::operator<(const C8BitString &left, const C8BitString &right)
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) < 0;
 }
 
-bool ACStdLib::operator>(const C8BitString &left, const C8BitString &right)
+bool ACStdLib::operator>(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 

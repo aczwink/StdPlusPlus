@@ -20,7 +20,7 @@
 //Local
 #include <ACStdLib/Definitions.h>
 #include <ACStdLib/Color.h>
-#include "IShader.h"
+#include "Shader.hpp"
 
 namespace ACStdLib
 {
@@ -35,14 +35,14 @@ namespace ACStdLib
         //Forward declarations
         class ICubeMap;
         class IFrameBuffer;
-        class IIndexBuffer;
-        class IInputState;
-        class IShaderProgram;
+        class IndexBuffer;
+        class InputState;
+        class ShaderProgram;
         class ITexture;
         class ITexture2D;
         class VertexBuffer;
 
-        enum class ETestFunction
+        enum class TestFunction
         {
             True,
             Less,
@@ -58,13 +58,19 @@ namespace ACStdLib
             SetToZero,
         };
 
+        enum class AllocationPolicy
+        {
+            Static,
+            Dynamic
+        };
+
         class ACSTDLIB_API DeviceContext
         {
         private:
             //Members
             void *systemHandle;
             void *deviceState;
-            IInputState *pCurrentInputState;
+            InputState *pCurrentInputState;
 
             //Methods
             void BindOSContext() const;
@@ -85,12 +91,13 @@ namespace ACStdLib
             void ClearDepthBuffer();
             ICubeMap *CreateCubeMap();
             IFrameBuffer *CreateFrameBuffer();
-            IIndexBuffer *CreateIndexBuffer();
-            IInputState *CreateInputState();
-            IShader *CreateShader(IShader::EShaderType type);
-            IShaderProgram *CreateShaderProgram();
+            IndexBuffer *CreateIndexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
+            InputState *CreateInputState();
+            Shader *CreateShader(Shader::ShaderType type);
+            ShaderProgram *CreateShaderProgram();
             ITexture2D *CreateTexture2D();
-            VertexBuffer *CreateVertexBuffer();
+            VertexBuffer *CreateVertexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
+			void DrawPoints(uint32 startVertexIndex, uint32 count);
             void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices);
             void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles);
             void DrawTrianglesIndexed();
@@ -103,11 +110,11 @@ namespace ACStdLib
             void EnablePolygonFilling(bool enabled = true);
             void EnableStencilTest(bool enabled = true);
             uint32 GetNumberOfTextureUnits() const;
-            void SetDepthTest(ETestFunction function);
+            void SetDepthTest(TestFunction function);
             void SetFrameBuffer(IFrameBuffer *pFrameBuffer);
-            void SetInputState(IInputState *pInputState);
-            void SetProgram(IShaderProgram *pProgram);
-            void SetStencilTest(ETestFunction function, uint32 referenceValue, uint32 mask);
+            void SetInputState(InputState *pInputState);
+            void SetProgram(ShaderProgram *pProgram);
+            void SetStencilTest(TestFunction function, uint32 referenceValue, uint32 mask);
             void SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);
             void SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);
             void SetStencilWriteMask(uint32 mask);

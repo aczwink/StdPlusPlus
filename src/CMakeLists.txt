@@ -11,7 +11,7 @@ set(SOURCE_FILES
 
         #Containers
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/C8BitString.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.cpp
@@ -23,16 +23,18 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CCubeMap.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CDeviceContext.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CFrameBuffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CIndexBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CInputState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShaderProgram.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CTexture2D.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGL.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
         #Streams
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/CTextReader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp

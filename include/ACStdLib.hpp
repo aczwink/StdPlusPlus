@@ -31,14 +31,14 @@
 
 //Containers
 #include <ACStdLib/Containers/AContainer.h>
-//CFiniteSet
-#include <ACStdLib/Containers/CFiniteSet/CFiniteSet.h>
+//FiniteSet
+#include <ACStdLib/Containers/FiniteSet/FiniteSet.hpp>
 //LinkedList
 #include <ACStdLib/Containers/LinkedList/LinkedList.hpp>
-//CMap
-#include <ACStdLib/Containers/CMap/CMap.h>
+//Map
+#include <ACStdLib/Containers/Map/Map.hpp>
 //Strings
-#include <ACStdLib/Containers/Strings/C8BitString.h>
+#include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Containers/Strings/String.h>
 #include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
 
@@ -50,9 +50,9 @@
 #include <ACStdLib/Math/CRadian.h>
 #include <ACStdLib/Math/Size.h>
 //Mathematics/Geometry
-#include <ACStdLib/Math/Geometry/CMatrix4x4.h>
+#include <ACStdLib/Math/Geometry/Matrix4x4.hpp>
 #include <ACStdLib/Math/Geometry/CVector2.h>
-#include <ACStdLib/Math/Geometry/CVector3.h>
+#include <ACStdLib/Math/Geometry/Vector3.hpp>
 #include <ACStdLib/Math/Geometry/CVector4.h>
 
 //Streams
@@ -71,7 +71,7 @@
 
 //Readers
 #include <ACStdLib/Streams/Readers/CEndianReader.h>
-#include <ACStdLib/Streams/Readers/CTextReader.h>
+#include <ACStdLib/Streams/Readers/TextReader.hpp>
 //Streams/Writers
 #include <ACStdLib/Streams/Writers/CTextWriter.h>
 
@@ -147,13 +147,13 @@
 
 //Rendering
 #include <ACStdLib/Rendering/DeviceContext.hpp>
-#include <ACStdLib/Rendering/CInputLayout.h>
+#include <ACStdLib/Rendering/InputLayout.hpp>
 #include <ACStdLib/Rendering/ICubeMap.h>
 #include <ACStdLib/Rendering/IFrameBuffer.h>
-#include <ACStdLib/Rendering/IIndexBuffer.h>
-#include <ACStdLib/Rendering/IInputState.h>
-#include <ACStdLib/Rendering/IShader.h>
-#include <ACStdLib/Rendering/IShaderProgram.h>
+#include <ACStdLib/Rendering/IndexBuffer.hpp>
+#include <ACStdLib/Rendering/InputState.hpp>
+#include <ACStdLib/Rendering/Shader.hpp>
+#include <ACStdLib/Rendering/ShaderProgram.hpp>
 #include <ACStdLib/Rendering/ITexture2D.h>
 #include <ACStdLib/Rendering/VertexBuffer.hpp>
 //Rendering/2D

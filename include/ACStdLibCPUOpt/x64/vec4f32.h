@@ -21,7 +21,7 @@
 #include "SSE.h"
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Definitions.h>
-#include <ACStdLib/Math/Geometry/CVector3.h>
+#include <ACStdLib/Math/Geometry/Vector3.hpp>
 #include <ACStdLib/Math/Geometry/CVector4.h>
 
 namespace ACStdLib
@@ -55,7 +55,7 @@ namespace ACStdLib
             this->mmValue = mmValue;
         }
 
-        inline vec4f32(const Math::CVector3 &refVec3, float32 w)
+        inline vec4f32(const Math::Vector3 &refVec3, float32 w)
         {
             this->mmValue = _mm_set_ps(w, refVec3.z, refVec3.y, refVec3.x);
         }

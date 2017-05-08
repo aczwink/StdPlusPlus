@@ -18,26 +18,31 @@
  */
 #pragma once
 //Local
+#include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "../Definitions.h"
+#include "../Streams/ASeekableInputStream.h"
 
 namespace ACStdLib
 {
     namespace Rendering
     {
-        //Forward declarations
-        class CInputLayout;
-        class IIndexBuffer;
-        class VertexBuffer;
-
-        class ACSTDLIB_API IInputState
+        class ACSTDLIB_API Shader
         {
+        public: //Enums
+            enum class ShaderType
+            {
+                FragmentShader,
+                GeometryShader,
+                VertexShader
+            };
+
         public:
             //Destructor
-            virtual ~IInputState() {}
+            virtual ~Shader() {}
 
             //Abstract
-            virtual void AddVertexBuffer(VertexBuffer *pVertexBuffer, const CInputLayout &refInputLayout) = NULL;
-            virtual void SetIndexBuffer(IIndexBuffer *pIndexBuffer) = NULL;
+            virtual bool Compile(ASeekableInputStream &refSource) = NULL;
+            virtual ACStdLib::ByteString GetCompilationLog() = NULL;
         };
     }
 }

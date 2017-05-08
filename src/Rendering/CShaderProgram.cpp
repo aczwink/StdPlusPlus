@@ -37,17 +37,17 @@ CShaderProgram::~CShaderProgram()
 }
 
 //Public methods
-void CShaderProgram::AttachShader(const IShader *pShader)
+void CShaderProgram::AttachShader(const Shader *pShader)
 {
     glAttachShader(this->id, ((CShader *)pShader)->id);
 }
 
-void CShaderProgram::DetachShader(const IShader *pShader)
+void CShaderProgram::DetachShader(const Shader *pShader)
 {
     glDetachShader(this->id, ((CShader *)pShader)->id);
 }
 
-uint32 CShaderProgram::GetUniformId(const C8BitString &refVarName) const
+uint32 CShaderProgram::GetUniformId(const ByteString &refVarName) const
 {
     return glGetUniformLocation(this->id, refVarName.GetC_Str());
 }
@@ -85,7 +85,7 @@ void CShaderProgram::SetUniformValue(uint32 varId, const Math::CVector2 &refVect
     glUniform2fv(varId, 1, refVector.e);
 }
 
-void CShaderProgram::SetUniformValue(uint32 varId, const CVector3 &refVector)
+void CShaderProgram::SetUniformValue(uint32 varId, const Vector3 &refVector)
 {
     this->Use();
 
@@ -113,7 +113,7 @@ void CShaderProgram::SetUniformValue(uint32 varId, const CMatrix3x3 &refMatrix)
     glUniformMatrix3fv(varId, 1, false, &refMatrix(0, 0));
 }
 
-void CShaderProgram::SetUniformValue(uint32 varId, const CMatrix4x4 &refMatrix)
+void CShaderProgram::SetUniformValue(uint32 varId, const Matrix4x4 &refMatrix)
 {
     this->Use();
 

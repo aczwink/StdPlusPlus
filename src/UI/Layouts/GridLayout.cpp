@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Local
-#include <ACStdLib/Containers/CMap/CMap.h>
+#include <ACStdLib/Containers/Map/Map.hpp>
 #include <ACStdLib/UI/WidgetContainer.h>
 //Namespaces
 using namespace ACStdLib;
@@ -95,7 +95,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
     uint16 col, row, partSize, nExpandColParts, nExpandRowParts, nGrowColParts, nGrowRowParts, max, maxIdx;
     Size leftOver;
     Rect rc;
-    CMap<uint16, uint8> expandCols, expandRows, growCols, growRows;
+    Map<uint16, uint8> expandCols, expandRows, growCols, growRows;
 
     rc = this->GetChildrenRect(refContainer);
 

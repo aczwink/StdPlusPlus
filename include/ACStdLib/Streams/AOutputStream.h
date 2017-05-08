@@ -105,7 +105,7 @@ namespace ACStdLib
             return *this << refString.GetUTF16();
         }
 
-        inline AOutputStream &operator<<(const C8BitString &refString)
+        inline AOutputStream &operator<<(const ByteString &refString)
         {
             this->WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
 

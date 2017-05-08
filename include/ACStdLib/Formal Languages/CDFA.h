@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../Containers/DynamicArray/DynamicArray.hpp"
-#include "../Containers/CFiniteSet/CFiniteSet.h"
-#include "../Containers/CMap/CMap.h"
+#include "../Containers/FiniteSet/FiniteSet.hpp"
+#include "../Containers/Map/Map.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"
 #include "../Debug.h"
 
@@ -31,7 +31,7 @@ namespace ACStdLib
     private:
         //Members
         bool isAccepting;
-        CMap<uint32, CDFAState *> transitions;
+        Map<uint32, CDFAState *> transitions;
     public:
         //Constructor
         inline CDFAState()
@@ -82,7 +82,7 @@ namespace ACStdLib
     {
     private:
         //Members
-        CFiniteSet<CDFAState *> states;
+        FiniteSet<CDFAState *> states;
     public:
         //Destructor
         inline ~CDFA()

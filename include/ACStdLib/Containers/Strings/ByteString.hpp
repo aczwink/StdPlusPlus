@@ -26,60 +26,60 @@
 namespace ACStdLib
 {
     //May contain ASCII, Latin1 or anything that fits within 8 bits
-    class ACSTDLIB_API C8BitString : public AFixedCharLengthString<char>
+    class ACSTDLIB_API ByteString : public AFixedCharLengthString<char>
     {
     public:
         //Constructors
-        inline C8BitString()
+        inline ByteString()
         {
         }
 
-        inline C8BitString(char c)
+        inline ByteString(char c)
         {
             *this = c;
         }
 
-        inline C8BitString(const char *pStr)
+        inline ByteString(const char *pStr)
         {
             *this = pStr;
         }
 
-        inline C8BitString(const char *pStr, uint32 length)
+        inline ByteString(const char *pStr, uint32 length)
         {
             AFixedCharLengthString<char>::Assign(pStr, length);
         }
 
-        inline C8BitString(const C8BitString &refString) //copy ctor
+        inline ByteString(const ByteString &refString) //copy ctor
         {
             *this = refString;
         }
 
-        inline C8BitString(C8BitString &&refString) //move ctor
+        inline ByteString(ByteString &&refString) //move ctor
         {
             *this = refString;
         }
 
         //Operators
-        C8BitString &operator=(const char *pStr);
-        C8BitString &operator=(C8BitString &&refString); //move assign
-        C8BitString &operator+=(const C8BitString &refString);
+        ByteString &operator=(const char *pStr);
+        ByteString &operator=(ByteString &&refString); //move assign
+        ByteString &operator+=(const ByteString &refString);
 
         //Inline Operators
-        inline C8BitString &operator=(char c)
+        inline ByteString &operator=(char c)
         {
             AFixedCharLengthString<char>::Assign(c);
 
             return *this;
         }
 
-        inline C8BitString &operator=(const C8BitString &refString) //copy assign
+        inline ByteString &operator=(const ByteString &refString) //copy assign
         {
             AFixedCharLengthString<char>::Assign(refString.pData, refString.GetLength());
 
             return *this;
         }
 
-        inline C8BitString &operator+=(char c)
+        inline ByteString &operator+=(char c)
         {
             this->Append(c);
 
@@ -88,20 +88,20 @@ namespace ACStdLib
 
         //Methods
         using AFixedCharLengthString<char>::Find;
-        int32 Find(const C8BitString &refSearch, uint32 startPos = 0) const;
+        int32 Find(const ByteString &refSearch, uint32 startPos = 0) const;
         using AFixedCharLengthString<char>::FindReverse;
-        int32 FindReverse(const C8BitString &refSearch, uint32 startPos = UINT32_MAX) const;
-        void Replace(const C8BitString &refSearch, const C8BitString &refReplace);
+        int32 FindReverse(const ByteString &refSearch, uint32 startPos = UINT32_MAX) const;
+        void Replace(const ByteString &refSearch, const ByteString &refReplace);
         void Resize(uint32 newLength);
-        LinkedList<C8BitString> Split(const C8BitString &refDelimiter) const;
-        C8BitString SubString(uint32 beginOffset, uint32 length) const;
-        C8BitString ToLowercase() const;
-        C8BitString ToUppercase() const;
+        LinkedList<ByteString> Split(const ByteString &refDelimiter) const;
+        ByteString SubString(uint32 beginOffset, uint32 length) const;
+        ByteString ToLowercase() const;
+        ByteString ToUppercase() const;
     };
 
-    ACSTDLIB_API C8BitString operator+(const C8BitString &left, const C8BitString &right);
-    ACSTDLIB_API bool operator==(const C8BitString &left, const C8BitString &right);
-    ACSTDLIB_API bool operator!=(const C8BitString &left, const C8BitString &right);
-    ACSTDLIB_API bool operator<(const C8BitString &left, const C8BitString &right);
-    ACSTDLIB_API bool operator>(const C8BitString &left, const C8BitString &right);
+    ACSTDLIB_API ByteString operator+(const ByteString &left, const ByteString &right);
+    ACSTDLIB_API bool operator==(const ByteString &left, const ByteString &right);
+    ACSTDLIB_API bool operator!=(const ByteString &left, const ByteString &right);
+    ACSTDLIB_API bool operator<(const ByteString &left, const ByteString &right);
+    ACSTDLIB_API bool operator>(const ByteString &left, const ByteString &right);
 }

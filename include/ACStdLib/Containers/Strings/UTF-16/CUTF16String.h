@@ -25,7 +25,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class C8BitString;
+    class ByteString;
     class UTF8String;
     class CUTF32String;
 
@@ -62,7 +62,7 @@ namespace ACStdLib
             *this = pStr;
         }
 
-        inline CUTF16String(const C8BitString &refString)
+        inline CUTF16String(const ByteString &refString)
         {
             *this = refString;
         }
@@ -84,12 +84,12 @@ namespace ACStdLib
         CUTF16String &operator=(CUTF16String &&refString); //move assign
         CUTF16String &operator=(const char *pStr);
         CUTF16String &operator=(const uint16 *pStr);
-        CUTF16String &operator=(const C8BitString &refString);
+        CUTF16String &operator=(const ByteString &refString);
         CUTF16String &operator=(const UTF8String &refString);
         CUTF16String &operator=(const CUTF32String &refString);
         CUTF16String operator+(const CUTF16String &refRight) const;
         CUTF16String &operator+=(uint16 c);
-        CUTF16String &operator+=(const C8BitString &refString);
+        CUTF16String &operator+=(const ByteString &refString);
         CUTF16String &operator+=(const CUTF16String &refString);
         bool operator<(const CUTF16String &refRight) const;
         bool operator>(const CUTF16String &refRight) const;

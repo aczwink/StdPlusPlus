@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Rendering/VertexBuffer.hpp>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
@@ -29,10 +30,11 @@ class OpenGLVertexBuffer : public VertexBuffer
 private:
     //Members
     uint32 id;
+    AllocationPolicy policy;
 
 public:
     //Constructor
-    OpenGLVertexBuffer();
+    OpenGLVertexBuffer(AllocationPolicy policy);
 
     //Destructor
     ~OpenGLVertexBuffer();

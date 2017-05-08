@@ -26,12 +26,12 @@ namespace ACStdLib
 {
     //Forward declarations
     template<typename KeyType, typename ValueType>
-    class CMap;
+    class Map;
 
     template<typename KeyType, typename ValueType>
-    class CMapNode
+    class MapNode
     {
-        typedef CMapNode<KeyType, ValueType> Node;
+        typedef MapNode<KeyType, ValueType> Node;
     public:
         //Members
         Node *pLeft;
@@ -41,7 +41,7 @@ namespace ACStdLib
         bool isBlack;
 
         //Constructor
-        CMapNode(const KeyType &refKey, const ValueType &refValue, bool isBlack, Node *pParent) : keyValuePair(refKey, refValue)
+        MapNode(const KeyType &refKey, const ValueType &refValue, bool isBlack, Node *pParent) : keyValuePair(refKey, refValue)
         {
             this->pLeft = NULL;
             this->pRight = NULL;
@@ -50,7 +50,7 @@ namespace ACStdLib
         }
 
         //Destructor
-        ~CMapNode()
+        ~MapNode()
         {
             if(this->pLeft)
                 delete this->pLeft;

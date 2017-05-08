@@ -24,7 +24,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class C8BitString;
+    class ByteString;
     class CUTF16String;
     class CUTF32String;
 
@@ -61,7 +61,7 @@ namespace ACStdLib
             *this = pString;
         }
 
-        inline UTF8String(const C8BitString &refString)
+        inline UTF8String(const ByteString &refString)
         {
             *this = refString;
         }
@@ -81,7 +81,7 @@ namespace ACStdLib
         UTF8String &operator=(UTF8String &&refString); //move assign
         UTF8String &operator=(const char *pString);
         UTF8String &operator=(const uint16 *pString);
-        UTF8String &operator=(const C8BitString &refString);
+        UTF8String &operator=(const ByteString &refString);
         UTF8String &operator=(const CUTF16String &refString);
         UTF8String &operator=(const CUTF32String &refString);
         UTF8String &operator+=(uint32 codePoint);

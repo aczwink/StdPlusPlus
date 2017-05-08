@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CMap/CMap.h"
+#include "../Containers/Map/Map.hpp"
 #include "ACStdLib/Containers/Strings/String.h"
 #include "../Definitions.h"
 
@@ -35,7 +35,7 @@ namespace ACStdLib
             uint8 trackNumber; //1-based
             uint16 year;
 
-            CMap<String, String> additionalTags;
+            Map<String, String> additionalTags;
         };
     }
 }

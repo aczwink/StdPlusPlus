@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "C8BitString.h"
+#include "ByteString.hpp"
 
 namespace ACStdLib
 {
@@ -29,10 +29,12 @@ namespace ACStdLib
     //Functions
     ACSTDLIB_API String FormatBitSize(uint32 bitSize, uint32 nFractionalDigits = 0);
     ACSTDLIB_API String FormatFileSize(uint64 fileSize, uint32 nFractionalDigits = 2);
-    bool IsStringConvertibleToFloat(const C8BitString &refString);
-    bool IsStringConvertibleToInteger(const C8BitString &refString);
+    bool IsStringConvertibleToFloat(const ByteString &refString);
+    bool IsStringConvertibleToInteger(const ByteString &refString);
+    ACSTDLIB_API float64 StringToFloat64(const ByteString &string);
     ACSTDLIB_API float64 StringToFloat64(const String &refString);
     ACSTDLIB_API int64 StringToInt64(const String &refString);
+	ACSTDLIB_API uint64 StringToUInt64(const ByteString &string);
     ACSTDLIB_API uint64 StringToUInt64(const String &refString);
     ACSTDLIB_API String TimeToString(uint64 timeStamp, const CFraction &refTimeScale);
     ACSTDLIB_API String ToHexString(uint64 value, uint8 nMinChars = 0);
@@ -41,8 +43,8 @@ namespace ACStdLib
     ACSTDLIB_API String ToString(float64 value);
 
     //8-bit functions
-    ACSTDLIB_API C8BitString To8BitString(const String &refString);
-    ACSTDLIB_API C8BitString ToString_8Bit(uint64 value, uint8 nMinChars = 0);
+    ACSTDLIB_API ByteString To8BitString(const String &refString);
+    ACSTDLIB_API ByteString ToString_8Bit(uint64 value, uint8 nMinChars = 0);
 
     //Inline Functions
     template <typename CharType>

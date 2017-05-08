@@ -19,7 +19,7 @@
 //Class Header
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 //Local
-#include <ACStdLib/Containers/Strings/C8BitString.h>
+#include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
 #include <ACStdLib/Containers/Strings/CUTF32String.h>
@@ -95,7 +95,7 @@ UTF8String &UTF8String::operator=(const uint16 *pString)
     return *this;
 }
 
-UTF8String &UTF8String::operator=(const C8BitString &refString)
+UTF8String &UTF8String::operator=(const ByteString &refString)
 {
     //each char can be encoded to one or two bytes
     this->EnsureCapacity(2 * refString.GetLength());

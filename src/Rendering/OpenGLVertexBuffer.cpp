@@ -18,11 +18,14 @@
  */
 //Class header
 #include "OpenGLVertexBuffer.hpp"
+//Local
+#include "Shared.hpp"
 
 //Constructor
-OpenGLVertexBuffer::OpenGLVertexBuffer()
+OpenGLVertexBuffer::OpenGLVertexBuffer(AllocationPolicy policy)
 {
     glGenBuffers(1, &this->id);
+	this->policy = policy;
 }
 
 //Destructor
@@ -36,7 +39,7 @@ void OpenGLVertexBuffer::Allocate(uint32 nVertices, uint32 vertexSize, const voi
 {
     this->Bind();
 
-    glBufferData(GL_ARRAY_BUFFER, nVertices * vertexSize, pData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, nVertices * vertexSize, pData, AllocationPolicyToGL(this->policy));
 }
 
 void OpenGLVertexBuffer::Write(uint32 offset, uint32 size, const void *data)

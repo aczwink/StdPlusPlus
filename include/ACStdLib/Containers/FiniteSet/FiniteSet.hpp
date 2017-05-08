@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../AContainer.h"
-#include "CFiniteSetNode.h"
-#include "CFiniteSetIterator.h"
+#include "FiniteSetNode.hpp"
+#include "FiniteSetIterator.hpp"
 //Definitions
 #define BALANCE(pNode) ((Node *)pNode)->balance
 
@@ -28,10 +28,10 @@ namespace ACStdLib
 {
     //Implementation as AVL tree
     template<typename DataType>
-    class CFiniteSet : public AContainer
+    class FiniteSet : public AContainer
     {
-        typedef CFiniteSet<DataType> Set;
-        typedef CFiniteSetNode<DataType> Node;
+        typedef FiniteSet<DataType> Set;
+        typedef FiniteSetNode<DataType> Node;
         typedef CConstFiniteSetIterator<DataType> ConstIterator;
     private:
         //Members
@@ -57,19 +57,19 @@ namespace ACStdLib
         }
     public:
         //Constructors
-        CFiniteSet()
+        FiniteSet()
         {
             this->pRoot = nullptr;
         }
 
-        CFiniteSet(const Set &refSet)
+        FiniteSet(const Set &refSet)
         {
             this->pRoot = nullptr;
 
             *this = refSet;
         }
 
-        CFiniteSet(Set &&refSet)
+        FiniteSet(Set &&refSet)
         {
             this->pRoot = nullptr;
 
@@ -77,7 +77,7 @@ namespace ACStdLib
         }
 
         //Destructor
-        ~CFiniteSet()
+        ~FiniteSet()
         {
             this->Release();
         }
@@ -105,7 +105,7 @@ namespace ACStdLib
             return *this;
         }
 
-        inline bool operator==(const CFiniteSet<DataType> &refRight) const
+        inline bool operator==(const FiniteSet<DataType> &refRight) const
         {
             return this->GetNumberOfElements() == refRight.GetNumberOfElements() && this->IsSubsetOf(refRight);
         }

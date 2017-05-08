@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CFiniteSet/CFiniteSet.h"
+#include "../Containers/FiniteSet/FiniteSet.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "../Streams/CBufferInputStream.h"
@@ -57,7 +57,7 @@ namespace ACStdLib
             virtual String GetExtension() const = NULL;
             virtual void GetFormatInfo(SFormatInfo &refFormatInfo) const = NULL;
             virtual String GetName() const = NULL;
-            virtual CFiniteSet<ECodecId> GetSupportedCodecs(EDataType dataType) const = NULL;
+            virtual FiniteSet<ECodecId> GetSupportedCodecs(EDataType dataType) const = NULL;
             virtual float32 Matches(CBufferInputStream &refBuffer) const = NULL;
 
             //Functions

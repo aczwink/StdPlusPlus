@@ -23,7 +23,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class C8BitString;
+    class ByteString;
     class UTF8String;
 
     class ACSTDLIB_API CUTF32String : public AFixedCharLengthString<uint32>
@@ -64,7 +64,7 @@ namespace ACStdLib
             *this = pStr;
         }
 
-        inline CUTF32String(const C8BitString &refStr)
+        inline CUTF32String(const ByteString &refStr)
         {
             *this = refStr;
         }
@@ -80,7 +80,7 @@ namespace ACStdLib
         CUTF32String &operator=(uint8 c);
         CUTF32String &operator=(const uint8 *pString);
         CUTF32String &operator=(const uint16 *pStr);
-        CUTF32String &operator=(const C8BitString &refStr);
+        CUTF32String &operator=(const ByteString &refStr);
         CUTF32String &operator=(const UTF8String &refString);
 
         CUTF32String &operator+=(const CUTF32String &refString);

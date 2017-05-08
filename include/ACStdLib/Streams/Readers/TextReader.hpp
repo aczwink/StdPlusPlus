@@ -18,26 +18,38 @@
  */
 #pragma once
 //Local
-#include "../AOutputStream.h"
+#include "../AInputStream.h"
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CTextWriter
+    class ACSTDLIB_API TextReader
     {
     private:
         //Members
-        AOutputStream &refOutput;
+        AInputStream &inputStream;
+
+		//Methods
+		bool IsWhitespace(byte b);
+		byte SkipWhitespaces();
 
     public:
         //Constructor
-        inline CTextWriter(AOutputStream &refOutput) : refOutput(refOutput)
+        inline TextReader(AInputStream &inputStream) : inputStream(inputStream)
         {
         }
 
+		//Operators
+		TextReader &operator>>(uint32 &i);
+		TextReader &operator>>(float32 &f);
+		TextReader &operator>>(ByteString &target);
+
         //Methods
-        void WriteUTF8(uint32 codePoint);
-        void WriteUTF8_ZeroTerminated(const UTF8String &refString);
+        ByteString ReadASCII(uint32 length);
+        ByteString ReadASCII_Line();
+        ByteString ReadASCII_ZeroTerminated();
+        uint32 ReadUTF8();
+        UTF8String ReadUTF8Line();
     };
 }

@@ -18,31 +18,21 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/C8BitString.h"
 #include "../Definitions.h"
-#include "../Streams/ASeekableInputStream.h"
 
 namespace ACStdLib
 {
     namespace Rendering
     {
-        class ACSTDLIB_API IShader
+        class ACSTDLIB_API IndexBuffer
         {
-        public: //Enums
-            enum class EShaderType
-            {
-                FragmentShader,
-                GeometryShader,
-                VertexShader
-            };
-
         public:
             //Destructor
-            virtual ~IShader() {}
+            virtual ~IndexBuffer() {}
 
             //Abstract
-            virtual bool Compile(ASeekableInputStream &refSource) = NULL;
-            virtual ACStdLib::C8BitString GetCompilationLog() = NULL;
+            virtual void Allocate(uint32 nIndices, const uint16 *pIndices) = NULL;
+            virtual void Allocate(uint32 nIndices, const uint32 *pIndices) = NULL;
         };
     }
 }

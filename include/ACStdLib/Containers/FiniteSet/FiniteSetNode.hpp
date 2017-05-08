@@ -23,14 +23,14 @@ namespace ACStdLib
 {
     //Forward declarations
     template<typename DataType>
-    class CFiniteSet;
+    class FiniteSet;
     template<typename DataType>
     class CFiniteSetIterator;
 
     template<typename DataType>
-    class CFiniteSetNode
+    class FiniteSetNode
     {
-        typedef CFiniteSetNode<DataType> Node;
+        typedef FiniteSetNode<DataType> Node;
     public:
         //Members
         Node *pLeft;
@@ -40,7 +40,7 @@ namespace ACStdLib
         int8 balance;
 
         //Constructor
-        CFiniteSetNode(const DataType &refValue, Node *pParent)
+        FiniteSetNode(const DataType &refValue, Node *pParent)
         {
             this->pLeft = NULL;
             this->pRight = NULL;
@@ -50,7 +50,7 @@ namespace ACStdLib
         }
 
         //Destructor
-        ~CFiniteSetNode()
+        ~FiniteSetNode()
         {
             if(this->pLeft)
                 delete this->pLeft;

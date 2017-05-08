@@ -26,7 +26,7 @@ namespace ACStdLib
     namespace Math
     {
         //Forward declarations
-        class CVector3;
+        class Vector3;
 
         class ACSTDLIB_API CVector4
         {
@@ -61,7 +61,7 @@ namespace ACStdLib
                 this->w = w;
             }
 
-            CVector4(const CVector3 &refXYZ, float32 w);
+            CVector4(const Vector3 &refXYZ, float32 w);
 
             //Operators
             inline float32 &operator[](uint8 idx)

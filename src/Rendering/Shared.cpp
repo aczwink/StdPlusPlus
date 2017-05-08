@@ -16,23 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Definitions.h"
+#include "Shared.hpp"
 
-namespace ACStdLib
+//Global functions
+GLenum AllocationPolicyToGL(AllocationPolicy policy)
 {
-    namespace Rendering
-    {
-        class ACSTDLIB_API IIndexBuffer
-        {
-        public:
-            //Destructor
-            virtual ~IIndexBuffer() {}
-
-            //Abstract
-            virtual void Allocate(uint32 nIndices, const uint16 *pIndices) = NULL;
-            virtual void Allocate(uint32 nIndices, const uint32 *pIndices) = NULL;
-        };
-    }
+	switch(policy)
+	{
+		case AllocationPolicy::Static:
+			return GL_STATIC_DRAW;
+		case AllocationPolicy::Dynamic:
+			return GL_DYNAMIC_DRAW;
+	}
 }

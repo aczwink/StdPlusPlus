@@ -142,7 +142,7 @@ String ACStdLib::FormatFileSize(uint64 fileSize, uint32 nFractionalDigits)
     return ToString(fileSize) + suffix;
 }
 
-bool ACStdLib::IsStringConvertibleToFloat(const C8BitString &refString)
+bool ACStdLib::IsStringConvertibleToFloat(const ByteString &refString)
 {
     char *pStr;
 
@@ -151,7 +151,7 @@ bool ACStdLib::IsStringConvertibleToFloat(const C8BitString &refString)
     return (refString.GetC_Str() + refString.GetLength()) == pStr;
 }
 
-bool ACStdLib::IsStringConvertibleToInteger(const C8BitString &refString)
+bool ACStdLib::IsStringConvertibleToInteger(const ByteString &refString)
 {
     uint32 i;
 
@@ -168,9 +168,14 @@ bool ACStdLib::IsStringConvertibleToInteger(const C8BitString &refString)
     return true;
 }
 
+float64 ACStdLib::StringToFloat64(const ByteString &string)
+{
+	return strtod(string.GetC_Str(), NULL);
+}
+
 float64 ACStdLib::StringToFloat64(const String &refString)
 {
-    C8BitString tmp;
+    ByteString tmp;
     UTF8String tmpUTF8;
 
     tmpUTF8 = UTF8String(refString.GetUTF16());
@@ -198,6 +203,28 @@ int64 ACStdLib::StringToInt64(const String &refString)
     }
 
     return StringToUInt64(refString);
+}
+
+uint64 ACStdLib::StringToUInt64(const ByteString &string)
+{
+	uint32 i;
+	uint64 result;
+
+	i = 0;
+	result = 0;
+
+	if(string[0] == '+')
+		i++;
+
+	for(; i < string.GetLength(); i++)
+	{
+		if(!IN_RANGE(string[i], '0', '9'))
+			return -1;
+
+		result += Power((uint64)10, (uint64)(string.GetLength() - i - 1)) * (string[i] - '0');
+	}
+
+	return result;
 }
 
 uint64 ACStdLib::StringToUInt64(const String &refString)
@@ -243,7 +270,7 @@ String ACStdLib::TimeToString(uint64 timeStamp, const CFraction &refTimeScale)
 
 String ACStdLib::ToString(int64 value)
 {
-    C8BitString buffer;
+    ByteString buffer;
     bool isNegative = false;
 
     if(value == 0)
@@ -277,9 +304,9 @@ String ACStdLib::ToString(float64 value)
 }
 
 //8-bit functions
-C8BitString ACStdLib::To8BitString(const String &refString)
+ByteString ACStdLib::To8BitString(const String &refString)
 {
-    C8BitString tmp;
+    ByteString tmp;
 
     tmp.Resize(refString.GetLength());
     for(uint32 i = 0; i < refString.GetLength(); i++)
@@ -293,10 +320,10 @@ C8BitString ACStdLib::To8BitString(const String &refString)
     return tmp;
 }
 
-C8BitString ACStdLib::ToString_8Bit(uint64 value, uint8 nMinChars)
+ByteString ACStdLib::ToString_8Bit(uint64 value, uint8 nMinChars)
 {
     uint32 rest;
-    C8BitString buffer, result;
+    ByteString buffer, result;
 
     if(value == 0)
         buffer = '0';

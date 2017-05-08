@@ -18,29 +18,26 @@
  */
 #pragma once
 //Local
-#include "../AInputStream.h"
-#include "../../Containers/Strings/C8BitString.h"
-#include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
+#include "../Definitions.h"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CTextReader
+    namespace Rendering
     {
-    private:
-        //Members
-        AInputStream &refInput;
+        //Forward declarations
+        class InputLayout;
+        class IndexBuffer;
+        class VertexBuffer;
 
-    public:
-        //Constructor
-        inline CTextReader(AInputStream &refInput) : refInput(refInput)
+        class ACSTDLIB_API InputState
         {
-        }
+        public:
+            //Destructor
+            virtual ~InputState() {}
 
-        //Methods
-        C8BitString ReadASCII(uint32 length);
-        C8BitString ReadASCII_Line();
-        C8BitString ReadASCII_ZeroTerminated();
-        uint32 ReadUTF8();
-        UTF8String ReadUTF8Line();
-    };
+            //Abstract
+            virtual void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout) = NULL;
+            virtual void SetIndexBuffer(IndexBuffer *pIndexBuffer) = NULL;
+        };
+    }
 }

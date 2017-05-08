@@ -112,7 +112,7 @@ void CTexture2D::SetMaximumMipMapLevel(uint16 level)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, level);
 }
 
-void CTexture2D::UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const CVector3 *pColorData)
+void CTexture2D::UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Vector3 *pColorData)
 {
     this->Bind();
 

@@ -19,20 +19,20 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "CVector3.h"
+#include "Vector3.hpp"
 
 namespace ACStdLib
 {
     namespace Math
     {
         //Forward declarations
-        class CMatrix4x4;
+        class Matrix4x4;
 
         class ACSTDLIB_API CMatrix3x3
         {
         private:
             //Members
-            CVector3 columns[4];
+            Vector3 columns[4];
 
         public:
             //Constructors
@@ -40,7 +40,7 @@ namespace ACStdLib
             {
             }
 
-            CMatrix3x3(const CMatrix4x4 &refMat);
+            CMatrix3x3(const Matrix4x4 &refMat);
 
             //Operators
             inline float32 &operator()(uint8 x, uint8 y)
@@ -57,14 +57,14 @@ namespace ACStdLib
                 return this->columns[x][y];
             }
 
-            inline CVector3 &operator[](uint8 x)
+            inline Vector3 &operator[](uint8 x)
             {
                 ASSERT(x < 3);
 
                 return this->columns[x];
             }
 
-            inline const CVector3 &operator[](uint8 x) const
+            inline const Vector3 &operator[](uint8 x) const
             {
                 ASSERT(x < 3);
 

@@ -20,18 +20,18 @@
 #pragma once
 //Local
 #include "../../Containers/AContainer.h"
-#include "CMapNode.h"
-#include "CMapIterator.h"
+#include "MapNode.hpp"
+#include "MapIterator.hpp"
 #include "../../Debug.h"
 
 namespace ACStdLib
 {
     //Implemented as Red-Black Tree
     template<typename KeyType, typename ValueType>
-    class CMap : public AContainer
+    class Map : public AContainer
     {
-        typedef CMap<KeyType, ValueType> Map;
-        typedef CMapNode<KeyType, ValueType> Node;
+        //typedef Map<KeyType, ValueType> Map;
+        typedef MapNode<KeyType, ValueType> Node;
         typedef CConstMapIterator<KeyType, ValueType> ConstIterator;
     private:
         //Members
@@ -130,24 +130,24 @@ namespace ACStdLib
 
     public:
         //Constructors
-        CMap()
+        Map()
         {
             this->pRoot = nullptr;
         }
 
-        CMap(const Map &refOther) //copy ctor
+        Map(const Map &refOther) //copy ctor
         {
             *this = refOther;
         }
 
-        CMap(Map &&refOther) //move ctor
+        Map(Map &&refOther) //move ctor
         {
             this->pRoot = nullptr;
             *this = (Map &&)refOther; //forward
         }
 
         //Destructor
-        ~CMap()
+        ~Map()
         {
             this->Release();
         }

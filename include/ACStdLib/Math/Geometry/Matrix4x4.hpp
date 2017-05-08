@@ -31,10 +31,10 @@ namespace ACStdLib
     {
         //Forward declarations
         class CMatrix3x3;
-        class CVector3;
+        class Vector3;
         class CVector4;
 
-        class ACSTDLIB_API CMatrix4x4
+        class ACSTDLIB_API Matrix4x4
         {
         private:
             //Members
@@ -42,11 +42,11 @@ namespace ACStdLib
 
         public:
             //Constructors
-            inline CMatrix4x4()
+            inline Matrix4x4()
             {
             }
 
-            inline CMatrix4x4(const CVector4 &refCol1, const CVector4 &refCol2, const CVector4 &refCol3, const CVector4 &refCol4)
+            inline Matrix4x4(const CVector4 &refCol1, const CVector4 &refCol2, const CVector4 &refCol3, const CVector4 &refCol4)
             {
                 this->columns[0] = refCol1;
                 this->columns[1] = refCol2;
@@ -54,12 +54,12 @@ namespace ACStdLib
                 this->columns[3] = refCol4;
             }
 
-            CMatrix4x4(const CMatrix3x3 &refMatrix);
+            Matrix4x4(const CMatrix3x3 &refMatrix);
 
             //Operators
-            CMatrix4x4 operator*(float32 right) const;
+            Matrix4x4 operator*(float32 right) const;
             vec4f32 operator*(const vec4f32 &refRight) const;
-            CMatrix4x4 &operator*=(const CMatrix4x4 &refRight);
+            Matrix4x4 &operator*=(const Matrix4x4 &refRight);
 
             //Inline operators
             inline float32 &operator()(uint8 row, uint8 col)
@@ -91,25 +91,25 @@ namespace ACStdLib
             }
 
             //Methods
-            CMatrix4x4 Inverse() const;
-            CMatrix4x4 Transpose() const;
+            Matrix4x4 Inverse() const;
+            Matrix4x4 Transpose() const;
 
             //Functions
-            static CMatrix4x4 Identity();
-            static CMatrix4x4 LookAtRH(const CVector3 &refCamPos, const CVector3 &refCamTarget, const CVector3 &refCamUpVector);
-            static CMatrix4x4 OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar);
-            static CMatrix4x4 PerspectiveRH(const CDegree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
-            static CMatrix4x4 RotationX(const CRadian &refAngle);
-            static CMatrix4x4 RotationY(const CRadian &refAngle);
-            static CMatrix4x4 RotationYawPitchRoll(const CRadian &refYaw, const CRadian &refPitch, const CRadian &refRoll);
-            static CMatrix4x4 RotationZ(const CRadian &refAngle);
-            static CMatrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
-            static CMatrix4x4 Translation(float32 dx, float32 dy, float32 dz);
-            static CMatrix4x4 Translation(const CVector3 &refVector);
+            static Matrix4x4 Identity();
+            static Matrix4x4 LookAtRH(const Vector3 &refCamPos, const Vector3 &refCamTarget, const Vector3 &refCamUpVector);
+            static Matrix4x4 OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar);
+            static Matrix4x4 PerspectiveRH(const CDegree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
+            static Matrix4x4 RotationX(const CRadian &refAngle);
+            static Matrix4x4 RotationY(const CRadian &refAngle);
+            static Matrix4x4 RotationYawPitchRoll(const CRadian &refYaw, const CRadian &refPitch, const CRadian &refRoll);
+            static Matrix4x4 RotationZ(const CRadian &refAngle);
+            static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
+            static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
+            static Matrix4x4 Translation(const Vector3 &refVector);
         };
 
         //Binary operators
-        ACSTDLIB_API CMatrix4x4 operator*(const CMatrix4x4 &refLeft, const CMatrix4x4 &refRight);
-        ACSTDLIB_API CVector4 operator*(const CMatrix4x4 &refLeft, const CVector4 &refRight);
+        ACSTDLIB_API Matrix4x4 operator*(const Matrix4x4 &refLeft, const Matrix4x4 &refRight);
+        ACSTDLIB_API CVector4 operator*(const Matrix4x4 &refLeft, const CVector4 &refRight);
     }
 }

@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ANode.h"
-#include "../Containers/CMap/CMap.h"
+#include "../Containers/Map/Map.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Containers/Strings/String.h"
 
@@ -33,7 +33,7 @@ namespace ACStdLib
             //Members
             String name;
             LinkedList<ANode *> children;
-            CMap<String, String> attributes;
+            Map<String, String> attributes;
 
         public:
             //Constructor
@@ -59,7 +59,7 @@ namespace ACStdLib
                 return this->attributes[refKey];
             }
 
-            inline CMap<String, String> &GetAttributes()
+            inline Map<String, String> &GetAttributes()
             {
                 return this->attributes;
             }

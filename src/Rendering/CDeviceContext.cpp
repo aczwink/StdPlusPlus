@@ -22,7 +22,7 @@
 #include "OpenGL.h"
 #include "CCubeMap.h"
 #include "CFrameBuffer.h"
-#include "CIndexBuffer.h"
+#include "OpenGLIndexBuffer.h"
 #include "CInputState.h"
 #include "CShader.h"
 #include "CShaderProgram.h"
@@ -55,17 +55,17 @@ static inline uint32 MapTestEffect(ETestEffect effect)
     return -1;
 }
 
-static inline uint32 MapTestFunction(ETestFunction func)
+static inline uint32 MapTestFunction(TestFunction func)
 {
     switch(func)
     {
-        case ETestFunction::Less:
+        case TestFunction::Less:
             return GL_LESS;
-        case ETestFunction::LessOrEqual:
+        case TestFunction::LessOrEqual:
             return GL_LEQUAL;
-        case ETestFunction::NotEqual:
+        case TestFunction::NotEqual:
             return GL_NOTEQUAL;
-        case ETestFunction::True:
+        case TestFunction::True:
             return GL_ALWAYS;
     }
 
@@ -130,28 +130,28 @@ IFrameBuffer *DeviceContext::CreateFrameBuffer()
     return new CFrameBuffer;
 }
 
-IIndexBuffer *DeviceContext::CreateIndexBuffer()
+IndexBuffer *DeviceContext::CreateIndexBuffer(AllocationPolicy policy)
 {
     this->BindOSContext();
 
-    return new CIndexBuffer;
+    return new OpenGLIndexBuffer(policy);
 }
 
-IInputState *DeviceContext::CreateInputState()
+InputState *DeviceContext::CreateInputState()
 {
     this->BindOSContext();
 
     return new CInputState;
 }
 
-IShader *DeviceContext::CreateShader(IShader::EShaderType type)
+Shader *DeviceContext::CreateShader(Shader::ShaderType type)
 {
     this->BindOSContext();
 
     return new CShader(type);
 }
 
-IShaderProgram *DeviceContext::CreateShaderProgram()
+ShaderProgram *DeviceContext::CreateShaderProgram()
 {
     this->BindOSContext();
 
@@ -167,11 +167,24 @@ ITexture2D *DeviceContext::CreateTexture2D()
     return new CTexture2D;
 }
 
-VertexBuffer *DeviceContext::CreateVertexBuffer()
+VertexBuffer *DeviceContext::CreateVertexBuffer(AllocationPolicy policy)
 {
     this->BindOSContext();
 
-    return new OpenGLVertexBuffer;
+    return new OpenGLVertexBuffer(policy);
+}
+
+void DeviceContext::DrawPoints(uint32 startVertexIndex, uint32 count)
+{
+	CInputState *pInputState;
+
+	pInputState = (CInputState *)this->pCurrentInputState;
+
+	//bind
+	this->BindOSContext();
+	pInputState->Bind();
+
+	glDrawArrays(GL_POINTS, startVertexIndex, count);
 }
 
 void DeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
@@ -203,7 +216,7 @@ void DeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
 void DeviceContext::DrawTrianglesIndexed()
 {
     CInputState *pInputState;
-    CIndexBuffer *pIndexBuffer;
+    OpenGLIndexBuffer *pIndexBuffer;
 
     this->BindOSContext();
 
@@ -310,7 +323,7 @@ uint32 DeviceContext::GetNumberOfTextureUnits() const
     return maxTextures;
 }
 
-void DeviceContext::SetDepthTest(ETestFunction function)
+void DeviceContext::SetDepthTest(TestFunction function)
 {
     this->BindOSContext();
 
@@ -330,12 +343,12 @@ void DeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
         ((CFrameBuffer *)pFrameBuffer)->Bind();
 }
 
-void DeviceContext::SetInputState(IInputState *pInputState)
+void DeviceContext::SetInputState(InputState *pInputState)
 {
     this->pCurrentInputState = pInputState;
 }
 
-void DeviceContext::SetProgram(IShaderProgram *pProgram)
+void DeviceContext::SetProgram(ShaderProgram *pProgram)
 {
     CShaderProgram *pShaderProgram;
 
@@ -346,7 +359,7 @@ void DeviceContext::SetProgram(IShaderProgram *pProgram)
     pShaderProgram->Use();
 }
 
-void DeviceContext::SetStencilTest(ETestFunction function, uint32 referenceValue, uint32 mask)
+void DeviceContext::SetStencilTest(TestFunction function, uint32 referenceValue, uint32 mask)
 {
     this->BindOSContext();
 

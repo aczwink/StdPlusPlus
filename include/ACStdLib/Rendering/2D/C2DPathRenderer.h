@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "ACStdLib/Rendering/DeviceContext.hpp"
-#include "../../Rendering/IInputState.h"
-#include "../../Rendering/IShaderProgram.h"
+#include "ACStdLib/Rendering/InputState.hpp"
+#include "ACStdLib/Rendering/ShaderProgram.hpp"
 #include "ACStdLib/Rendering/VertexBuffer.hpp"
 #include "AGeneric2DPathRenderer.h"
 
@@ -49,8 +49,8 @@ namespace ACStdLib
         private:
             //Members
             LinkedList<SRenderEntry> renderCalls;
-            IShaderProgram *pShaderProgram;
-            IInputState *pInputState;
+            ShaderProgram *pShaderProgram;
+            InputState *pInputState;
             VertexBuffer *pVertexBuffer;
             ITexture *pTexture;
             Math::CVector2 viewSize;

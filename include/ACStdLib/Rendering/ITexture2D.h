@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "..//Math/Geometry/CVector3.h"
+#include "../Math/Geometry/Vector3.hpp"
 #include "ITexture.h"
 
 namespace ACStdLib
@@ -36,7 +36,7 @@ namespace ACStdLib
             virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = NULL;
             virtual void GenerateMipMaps() = NULL;
             virtual void SetMaximumMipMapLevel(uint16 level) = NULL;
-            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::CVector3 *pColorData) = NULL;
+            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::Vector3 *pColorData) = NULL;
         };
     }
 }

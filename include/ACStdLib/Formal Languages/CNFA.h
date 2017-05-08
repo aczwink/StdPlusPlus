@@ -20,8 +20,8 @@
 //Local
 #include "../Definitions.h"
 #include "../Containers/DynamicArray/DynamicArray.hpp"
-#include "../Containers/CFiniteSet/CFiniteSet.h"
-#include "../Containers/CMap/CMap.h"
+#include "../Containers/FiniteSet/FiniteSet.hpp"
+#include "..//Containers/Map/Map.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"
 #include "CCharSet.h"
@@ -36,7 +36,7 @@ namespace ACStdLib
     private:
         //Members
         bool isAccepting;
-        CMap<uint32, CFiniteSet<CNFAState *>> transitions;
+        Map<uint32, FiniteSet<CNFAState *>> transitions;
     public:
         //Constructor
         inline CNFAState()
@@ -45,7 +45,7 @@ namespace ACStdLib
         }
 
         //Methods
-        void GetEpsilonClosure(CFiniteSet<CNFAState *> &refEpsilonClosure) const;
+        void GetEpsilonClosure(FiniteSet<CNFAState *> &refEpsilonClosure) const;
 
         //Inline
         inline void AddTransition(uint32 input, CNFAState *pStateTo)
@@ -53,12 +53,12 @@ namespace ACStdLib
             this->transitions[input].Insert(pStateTo);
         }
 
-        inline const CMap<uint32, CFiniteSet<CNFAState *>> &GetTransitions() const
+        inline const Map<uint32, FiniteSet<CNFAState *>> &GetTransitions() const
         {
             return this->transitions;
         }
 
-        inline const CFiniteSet<CNFAState *> &GetTransitions(uint32 input) const
+        inline const FiniteSet<CNFAState *> &GetTransitions(uint32 input) const
         {
             return this->transitions[input];
         }
@@ -113,8 +113,8 @@ namespace ACStdLib
         LinkedList<CNFAState *> states;
 
         //Methods
-        void GetEpsilonClosure(const CFiniteSet<CNFAState *> &refInput, CFiniteSet<CNFAState *> &refOutput) const;
-        void GetTransitions(uint32 inputSymbol, const CFiniteSet<CNFAState *> &refInput, CFiniteSet<CNFAState *> &refOutput) const;
+        void GetEpsilonClosure(const FiniteSet<CNFAState *> &refInput, FiniteSet<CNFAState *> &refOutput) const;
+        void GetTransitions(uint32 inputSymbol, const FiniteSet<CNFAState *> &refInput, FiniteSet<CNFAState *> &refOutput) const;
     public:
         //Constructor
         inline CNFA(uint32 nInputSymbols)

@@ -16,46 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <ACStdLib/Rendering/IIndexBuffer.h>
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
 
-class CIndexBuffer : public IIndexBuffer
-{
-private:
-    //Members
-    uint32 id;
-    uint32 nIndices;
-    bool isShort;
-
-public:
-    //Constructor
-    CIndexBuffer();
-
-    //Destructor
-    ~CIndexBuffer();
-
-    //Methods
-    void Allocate(uint32 nIndices, const uint16 *pIndices);
-    void Allocate(uint32 nIndices, const uint32 *pIndices);
-
-    //Inline
-    inline void Bind() const
-    {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
-    }
-
-    inline uint32 GetNumberOfIndices() const
-    {
-        return this->nIndices;
-    }
-
-    inline bool IndicesShort() const
-    {
-        return this->isShort;
-    }
-};
+//Global functions
+GLenum AllocationPolicyToGL(AllocationPolicy policy);

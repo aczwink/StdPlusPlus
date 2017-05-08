@@ -17,36 +17,39 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CIndexBuffer.h"
+#include "OpenGLIndexBuffer.h"
+//Local
+#include "Shared.hpp"
 
 //Constructor
-CIndexBuffer::CIndexBuffer()
+OpenGLIndexBuffer::OpenGLIndexBuffer(AllocationPolicy policy)
 {
     glGenBuffers(1, &this->id);
+    this->policy = policy;
 }
 
 //Destructor
-CIndexBuffer::~CIndexBuffer()
+OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
     glDeleteBuffers(1, &this->id);
 }
 
 //Public methods
-void CIndexBuffer::Allocate(uint32 nIndices, const uint16 *pIndices)
+void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint16 *pIndices)
 {
     this->Bind();
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
 
     this->nIndices = nIndices;
     this->isShort = true;
 }
 
-void CIndexBuffer::Allocate(uint32 nIndices, const uint32 *pIndices)
+void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint32 *pIndices)
 {
     this->Bind();
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
 
     this->nIndices = nIndices;
     this->isShort = false;
