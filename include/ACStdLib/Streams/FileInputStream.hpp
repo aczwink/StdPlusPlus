@@ -35,7 +35,7 @@ namespace ACStdLib
         };
     public:
         //Constructor
-        FileInputStream(const Path &refPath);
+        FileInputStream(const Path &path);
         //Destructor
         ~FileInputStream();
         //Methods

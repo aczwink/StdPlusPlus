@@ -21,19 +21,31 @@
 //Global
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 //Local
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <ACStdLib/ErrorHandling/CFileNotFoundException.hpp>
+#include <ACStdLib/ErrorHandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace ACStdLib;
 
+#include <cstdio>
+
 //Constructor
-FileInputStream::FileInputStream(const Path &refPath)
+FileInputStream::FileInputStream(const Path &path)
 {
-    UTF8String fileNameUTF8(refPath.GetString().GetUTF16());
+    UTF8String fileNameUTF8(path.GetString().GetUTF16());
 
     this->hitEnd = false;
     this->fileHandle = open((const char *)fileNameUTF8.GetC_Str(), O_RDONLY);
+
+    if(this->fileHandle == -1)
+    {
+        switch(errno)
+        {
+            case ENOENT:
+                throw ErrorHandling::FileNotFoundException(path);
+        }
+    }
 }
 
 //Destructor
@@ -59,7 +71,7 @@ uint64 FileInputStream::GetSize() const
 
     offset = this->GetCurrentOffset();
     size = lseek64(this->fileHandle, 0, SEEK_END);
-    lseek64(this->fileHandle, offset, SEEK_CUR);
+    lseek64(this->fileHandle, offset, SEEK_SET);
 
     return size;
 }

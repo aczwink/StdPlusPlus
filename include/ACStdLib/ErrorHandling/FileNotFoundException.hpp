@@ -25,14 +25,14 @@ namespace ACStdLib
 {
     namespace ErrorHandling
     {
-        class ACSTDLIB_API CFileNotFoundException : public AException
+        class ACSTDLIB_API FileNotFoundException : public AException
         {
         public:
             //Members
             Path path;
 
             //Constructor
-            inline CFileNotFoundException(const Path &refPath)
+            inline FileNotFoundException(const Path &refPath)
             {
                 this->path = refPath;
             }

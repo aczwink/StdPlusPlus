@@ -36,6 +36,9 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CUTF16String.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.h
 
+	#ErrorHandling
+	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
+
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
