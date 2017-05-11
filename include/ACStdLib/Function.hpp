@@ -178,50 +178,50 @@ namespace _Intern
 namespace ACStdLib
 {
     template<typename FunctionType>
-    class CFunction : public _Intern::ExtractedFunctionBaseClass<FunctionType>::type
+    class Function : public _Intern::ExtractedFunctionBaseClass<FunctionType>::type
     {
     public:
         //Constructors
-        inline CFunction()
+        inline Function()
         {
         }
 
-        inline CFunction(const CFunction<FunctionType> &refOther) //copy ctor
+        inline Function(const Function<FunctionType> &refOther) //copy ctor
         {
             *this = refOther;
         }
 
-        inline CFunction(CFunction<FunctionType> &&refOther) //move ctor
+        inline Function(Function<FunctionType> &&refOther) //move ctor
         {
             *this = refOther; //do a copy here
         }
 
         template<typename ReturnType, typename... ArgumentTypes>
-        CFunction(ReturnType(*const pFunc)(ArgumentTypes...))
+        Function(ReturnType(*const pFunc)(ArgumentTypes...))
         {
             this->template Store<ReturnType, ArgumentTypes...>(pFunc);
         }
 
         template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-        CFunction(ReturnType(ClassType::* const pMethod)(ArgumentTypes...), ClassType *pObject)
+        Function(ReturnType(ClassType::* const pMethod)(ArgumentTypes...), ClassType *pObject)
         {
             this->template Store<ReturnType, ClassType, ArgumentTypes...>(pMethod, pObject);
         }
 
         template<typename LambdaType>
-        CFunction(LambdaType &&refLambda)
+        Function(LambdaType &&refLambda)
         {
             this->template Store<LambdaType>((LambdaType &&)refLambda);
         }
 
         /*template<typename LambdaType>
-        CFunction(LambdaType lambda)
+        Function(LambdaType lambda)
         {
             this->Store<LambdaType>((LambdaType &&)lambda);
         }*/
 
         //Inline operators
-        CFunction<FunctionType> &operator=(const CFunction<FunctionType> &refOther) //copy assign
+        Function<FunctionType> &operator=(const Function<FunctionType> &refOther) //copy assign
         {
             this->CopyCallObj(refOther);
 

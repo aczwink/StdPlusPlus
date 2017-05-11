@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../CFunction.h"
+#include "ACStdLib/Function.hpp"
 #include "ACStdLib/Containers/Strings/String.h"
 
 namespace ACStdLib
@@ -30,7 +30,7 @@ namespace ACStdLib
         public:
             //Members
             String text;
-            CFunction<void()> triggeredEvent;
+            Function<void()> triggeredEvent;
         };
     }
 }

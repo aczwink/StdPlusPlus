@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include "../AResizeableContainer.h"
+#include "../ResizeableContainer.hpp"
 #include "DynamicArrayIterator.hpp"
 #include "DynamicArrayConstIterator.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class DynamicArray : public AResizeableContainer<DataType>
+    class DynamicArray : public ResizeableContainer<DataType>
     {
         //friend class DynamicArray;
     public:
@@ -53,7 +53,7 @@ namespace ACStdLib
 
             for(uint32 i = 0; i < refSource.GetNumberOfElements(); i++)
             {
-                this->pData[i] = refSource[i];
+                this->data[i] = refSource[i];
             }
             this->nElements = refSource.nElements;
             this->elementsAllocInterval = refSource.elementsAllocInterval;
@@ -67,10 +67,10 @@ namespace ACStdLib
 
             this->capacity = refSource.capacity;
             this->elementsAllocInterval = refSource.elementsAllocInterval;
-            this->pData = refSource.pData;
+            this->data = refSource.data;
             this->nElements = refSource.nElements;
 
-            refSource.pData = nullptr;
+            refSource.data = nullptr;
 
             return *this;
         }
@@ -79,14 +79,14 @@ namespace ACStdLib
         {
             ASSERT(index < this->nElements);
 
-            return this->pData[index];
+            return this->data[index];
         }
 
         inline const DataType &operator[](uint32 index) const
         {
             ASSERT(index < this->nElements);
 
-            return this->pData[index];
+            return this->data[index];
         }
 
         //Methods
@@ -115,7 +115,7 @@ namespace ACStdLib
         {
             for(uint32 i = 0; i < this->nElements; i++)
             {
-                if(this->pData[i] == refValue)
+                if(this->data[i] == refValue)
                     return i;
             }
             return UINT32_MAX;
@@ -131,7 +131,7 @@ namespace ACStdLib
             DataType data;
 
             this->nElements--;
-            data = this->pData[this->nElements];
+            data = this->data[this->nElements];
 
             return data;
         }
@@ -140,7 +140,7 @@ namespace ACStdLib
         {
             this->EnsureAdditionalCapacity(1);
 
-            this->pData[this->nElements] = refValue;
+            this->data[this->nElements] = refValue;
 
             return this->nElements++;
         }
@@ -161,14 +161,14 @@ namespace ACStdLib
                 min = i;
                 for(uint32 j = i + 1; j < this->nElements; j++)
                 {
-                    if(this->pData[j] < this->pData[min])
+                    if(this->data[j] < this->data[min])
                     {
                         min = j;
                     }
                 }
-                tmp = this->pData[i];
-                this->pData[i] = this->pData[min];
-                this->pData[min] = tmp;
+                tmp = this->data[i];
+                this->data[i] = this->data[min];
+                this->data[min] = tmp;
             }
         }
 

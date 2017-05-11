@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "../AVariableCharLengthString.h"
+#include "../VariableCharLengthString.hpp"
 #include "CConstUTF16StringIterator.h"
 
 namespace ACStdLib
@@ -29,7 +29,7 @@ namespace ACStdLib
     class UTF8String;
     class CUTF32String;
 
-    class ACSTDLIB_API CUTF16String : public AVariableCharLengthString<uint16>
+    class ACSTDLIB_API CUTF16String : public VariableCharLengthString<uint16>
     {
         friend class CConstUTF16StringIterator;
     private:
@@ -100,7 +100,7 @@ namespace ACStdLib
             if(this->GetLength() != refString.GetLength())
                 return false;
 
-            return MemCmp(this->pData, refString.pData, this->GetSize()) == 0;
+            return MemCmp(this->data, refString.data, this->GetSize()) == 0;
         }
 
         //Methods

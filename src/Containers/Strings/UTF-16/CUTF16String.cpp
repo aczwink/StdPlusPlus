@@ -35,9 +35,9 @@ CUTF16String::CUTF16String(const uint16 *pString, uint32 length)
 
     for(uint32 i = 0; i < length; i++)
     {
-        this->pData[i] = pString[i];
+        this->data[i] = pString[i];
     }
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 }
 
 //Operators
@@ -45,10 +45,10 @@ CUTF16String &CUTF16String::operator=(const CUTF16String &refString) //copy assi
 {
     this->EnsureCapacity(refString.GetCapacity());
 
-    MemCopy(this->pData, refString.pData, refString.GetSize());
+    MemCopy(this->data, refString.data, refString.GetSize());
     this->nElements = refString.nElements;
     this->length = refString.length;
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -67,9 +67,9 @@ CUTF16String &CUTF16String::operator=(const char *pStr)
     this->EnsureCapacity(this->length); //for sure no surrogates needed
 
     for(uint32 i = 0; i < this->length; i++)
-        this->pData[this->nElements++] = pStr[i];
+        this->data[this->nElements++] = pStr[i];
 
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -82,9 +82,9 @@ CUTF16String &CUTF16String::operator=(const uint16 *pString)
     this->EnsureCapacity(this->length); //for sure no surrogates needed
 
     for(uint32 i = 0; i < this->length; i++)
-        this->pData[i] = pString[i];
+        this->data[i] = pString[i];
 
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -96,12 +96,12 @@ CUTF16String &CUTF16String::operator=(const ByteString &refString)
 
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        this->pData[i] = refString[i];
+        this->data[i] = refString[i];
     }
     this->nElements = refString.GetLength();
     this->length = this->nElements;
 
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -114,13 +114,13 @@ CUTF16String &CUTF16String::operator=(const UTF8String &refString)
     this->nElements = 0;
     for(uint32 codePoint : refString)
     {
-        if(this->Encode(codePoint, &this->pData[this->nElements]))
+        if(this->Encode(codePoint, &this->data[this->nElements]))
             this->nElements++;
 
         this->nElements++;
         this->length++;
     }
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -133,13 +133,13 @@ CUTF16String &CUTF16String::operator=(const CUTF32String &refString)
     this->nElements = 0;
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        if(this->Encode(refString[i], &this->pData[this->nElements]))
+        if(this->Encode(refString[i], &this->data[this->nElements]))
             this->nElements++;
 
         this->nElements++;
         this->length++;
     }
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -160,9 +160,9 @@ CUTF16String &CUTF16String::operator+=(uint16 c)
     //can't have surrogates
     this->EnsureAdditionalCapacity(1);
 
-    this->pData[this->nElements++] = c;
+    this->data[this->nElements++] = c;
     this->length++;
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -174,12 +174,12 @@ CUTF16String &CUTF16String::operator += (const ByteString &refString)
 
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        this->pData[this->nElements + i] = refString[i];
+        this->data[this->nElements + i] = refString[i];
     }
     this->nElements += refString.GetLength();
     this->length += refString.GetLength();
 
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -188,12 +188,12 @@ CUTF16String &CUTF16String::operator+=(const CUTF16String &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetCapacity());
 
-    MemCopy(&this->pData[this->nElements], refString.pData, refString.GetSize());
+    MemCopy(&this->data[this->nElements], refString.data, refString.GetSize());
 
     this->nElements += refString.GetNumberOfElements();
     this->length += refString.GetLength();
 
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -276,7 +276,7 @@ uint32 CUTF16String::Find(uint16 c, uint32 startPos) const
 {
     for(uint32 i = startPos; i < this->GetLength(); i++)
     {
-        if(this->pData[i] == c)
+        if(this->data[i] == c)
             return i;
     }
 
@@ -293,7 +293,7 @@ uint32 CUTF16String::FindReverse(uint16 c, uint32 startPos) const
 
     for(int32 i = startPos; i >= 0; i--)
     {
-        if(this->pData[i] == c)
+        if(this->data[i] == c)
             return i;
     }
 
@@ -307,7 +307,7 @@ CUTF16String CUTF16String::ToLowercase() const
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
     {
-        buffer.pData[i] = ACStdLib::ToLowercase(this->pData[i]);
+        buffer.data[i] = ACStdLib::ToLowercase(this->data[i]);
     }
     buffer.nElements = this->nElements;
     buffer.length = this->length;

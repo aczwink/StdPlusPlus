@@ -25,7 +25,7 @@ endif(UNIX)
 #targets
 add_subdirectory(include/ACStdLib)
 add_subdirectory(src)
-#add_subdirectory(tests)
+add_subdirectory(tests)
 
 if (UNIX)
     add_subdirectory(src_os/linux)
@@ -36,7 +36,7 @@ endif(WIN32)
 
 add_library(ACStdLib SHARED ${SOURCE_FILES})
 add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
-#add_executable(ACStdLib_tests ${TEST_FILES})
+add_executable(tests_ACStdLib ${TEST_FILES})
 
 #platform stuff
 if(WIN32)
@@ -58,8 +58,36 @@ if(WIN32)
 	target_link_libraries(ACStdLib opengl32.lib)
 endif(WIN32)
 
-#target_include_directories(ACStdLib_tests PUBLIC "include")
-#target_link_libraries(ACStdLib_tests LINK_PUBLIC ACStdLib ACStdLibStatic)
+target_include_directories(tests_ACStdLib PUBLIC "include")
+target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic)
+
+
+
+#---DOCUMENTATION---
+find_package(Doxygen)
+option(BUILD_DOCUMENTATION "Build documentation" ${DOXYGEN_FOUND})
+#set(BUILD_DOCUMENTATION ON)
+
+if(BUILD_DOCUMENTATION)
+	if(NOT DOXYGEN_FOUND)
+		message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+	endif()
+
+	set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+	set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+
+	add_custom_target(doc
+		COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		COMMENT "Generating API documentation"
+		VERBATIM)
+
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
+endif()
+
+
 
 
 #---INSTALLATION---

@@ -31,13 +31,13 @@ namespace ACStdLib
         class ACSTDLIB_API EventQueue
         {
         protected:
-            //Functions
-            static inline void DispatchPaintEvent(Widget &refWidget)
-            {
-                refWidget.OnPaint();
-            }
-
             //Inline functions
+			static inline void DispatchActivatedEvent(PushButton &refButton)
+			{
+				if(refButton.onActivatedHandler)
+					refButton.onActivatedHandler();
+			}
+
             static inline void DispatchCloseEvent(Window &refWnd)
             {
                 refWnd.OnClose();
@@ -46,6 +46,11 @@ namespace ACStdLib
             static inline void DispatchDestroyEvent(Window &refWnd)
             {
                 refWnd.onDestroyEventHandler();
+            }
+
+            static inline void DispatchPaintEvent(Widget &refWidget)
+            {
+                refWidget.OnPaint();
             }
 
             static inline void DispatchResizedEvent(Window &refWnd)
@@ -61,12 +66,6 @@ namespace ACStdLib
             static inline void DispatchSelectionChangedEvent(CTreeView &refTreeView)
             {
                 refTreeView.OnSelectionChanged();
-            }
-
-            static inline void DispatchActivatedEvent(PushButton &refButton)
-            {
-                if(refButton.onActivatedHandler)
-                    refButton.onActivatedHandler();
             }
 
             static inline void DispatchToggledEvent(CheckBox &refCheckBox)

@@ -61,3 +61,8 @@ bool GtkEventQueue::PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer
 
 	return !g_ignoreEvent;
 }
+
+void GtkEventQueue::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data)
+{
+	EventQueue::DispatchToggledEvent(*(CheckBox *)user_data);
+}

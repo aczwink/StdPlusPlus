@@ -19,10 +19,10 @@
 
 //General
 #include <ACStdLib/__InitAndShutdown.h>
-#include <ACStdLib/CFunction.h>
+#include <ACStdLib/Function.hpp>
 #include <ACStdLib/CIniFile.h>
 #include <ACStdLib/Tuple.hpp>
-#include <ACStdLib/Float.h>
+#include <ACStdLib/Float.hpp>
 #include <ACStdLib/Integer.hpp>
 #include <ACStdLib/Mathematics.h>
 

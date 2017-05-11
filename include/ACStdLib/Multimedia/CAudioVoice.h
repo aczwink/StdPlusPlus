@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "AAudioBuffer.h"
-#include "../CFunction.h"
+#include "ACStdLib/Function.hpp"
 
 namespace ACStdLib
 {
@@ -47,7 +47,7 @@ namespace ACStdLib
             ~CAudioVoice();
 
             //Methods
-            void BindBufferEndEvent(const CFunction<void (const void *)> &refCallback);
+            void BindBufferEndEvent(const Function<void (const void *)> &refCallback);
             uint32 GetMaximumNumberOfQueuedBuffers();
             void Start();
             void Stop();

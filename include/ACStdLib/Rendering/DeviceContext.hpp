@@ -113,6 +113,7 @@ namespace ACStdLib
             void SetDepthTest(TestFunction function);
             void SetFrameBuffer(IFrameBuffer *pFrameBuffer);
             void SetInputState(InputState *pInputState);
+			void SetPointSize(uint32 size);
             void SetProgram(ShaderProgram *pProgram);
             void SetStencilTest(TestFunction function, uint32 referenceValue, uint32 mask);
             void SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);

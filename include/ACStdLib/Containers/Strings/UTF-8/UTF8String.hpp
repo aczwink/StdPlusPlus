@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Containers/Strings/AVariableCharLengthString.h>
+#include <ACStdLib/Containers/Strings/VariableCharLengthString.hpp>
 #include "CConstUTF8StringIterator.h"
 
 namespace ACStdLib
@@ -28,7 +28,7 @@ namespace ACStdLib
     class CUTF16String;
     class CUTF32String;
 
-    class ACSTDLIB_API UTF8String : public AVariableCharLengthString<byte>
+    class ACSTDLIB_API UTF8String : public VariableCharLengthString<byte>
     {
         friend class CConstUTF8StringIterator;
     private:

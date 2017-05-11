@@ -32,7 +32,7 @@ namespace ACStdLib
 
         public:
             //Dynamic event handlers
-            CFunction<void()> onToggledHandler;
+            Function<void()> onToggledHandler;
 
             //Constructor
             CheckBox(WidgetContainer *parent);

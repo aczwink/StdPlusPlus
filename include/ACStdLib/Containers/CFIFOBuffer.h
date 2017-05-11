@@ -20,11 +20,11 @@
 //Local
 #include "../Streams/AInputStream.h"
 #include "../Streams/AOutputStream.h"
-#include "AResizeableContainer.h"
+#include "ResizeableContainer.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CFIFOBuffer : public AResizeableContainer<byte>, public AInputStream, public AOutputStream
+    class ACSTDLIB_API CFIFOBuffer : public ResizeableContainer<byte>, public AInputStream, public AOutputStream
     {
     private:
         //Members

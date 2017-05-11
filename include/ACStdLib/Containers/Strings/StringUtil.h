@@ -31,8 +31,6 @@ namespace ACStdLib
     ACSTDLIB_API String FormatFileSize(uint64 fileSize, uint32 nFractionalDigits = 2);
     bool IsStringConvertibleToFloat(const ByteString &refString);
     bool IsStringConvertibleToInteger(const ByteString &refString);
-    ACSTDLIB_API float64 StringToFloat64(const ByteString &string);
-    ACSTDLIB_API float64 StringToFloat64(const String &refString);
     ACSTDLIB_API int64 StringToInt64(const String &refString);
 	ACSTDLIB_API uint64 StringToUInt64(const ByteString &string);
     ACSTDLIB_API uint64 StringToUInt64(const String &refString);

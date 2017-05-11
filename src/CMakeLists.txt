@@ -10,9 +10,10 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.cpp
 
         #Containers
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp
@@ -21,7 +22,7 @@ set(SOURCE_FILES
 
         #Rendering
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CCubeMap.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CDeviceContext.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CFrameBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CInputState.cpp

@@ -34,8 +34,8 @@ UTF8String &UTF8String::operator=(const UTF8String &refString)
     this->length = refString.length;
     this->nElements = refString.nElements;
 
-    MemCopy(this->pData, refString.pData, this->GetSize());
-    this->pData[this->GetSize()] = 0;
+    MemCopy(this->data, refString.data, this->GetSize());
+    this->data[this->GetSize()] = 0;
 
     return *this;
 }
@@ -48,9 +48,9 @@ UTF8String &UTF8String::operator=(UTF8String &&refString)
     this->elementsAllocInterval = refString.elementsAllocInterval;
     this->length = refString.length;
     this->nElements = refString.nElements;
-    this->pData = refString.pData;
+    this->data = refString.data;
 
-    refString.pData = nullptr;
+    refString.data = nullptr;
 
     return *this;
 }
@@ -63,10 +63,10 @@ UTF8String &UTF8String::operator=(const char *pString)
     this->nElements = 0;
     for(uint32 i = 0; i < length; i++)
     {
-        this->nElements += this->Encode(pString[i], &this->pData[this->nElements]);
+        this->nElements += this->Encode(pString[i], &this->data[this->nElements]);
     }
 
-    this->pData[this->GetSize()] = 0;
+    this->data[this->GetSize()] = 0;
 
     return *this;
 }
@@ -87,10 +87,10 @@ UTF8String &UTF8String::operator=(const uint16 *pString)
     this->nElements = 0;
     for(i = 0; i < this->length; i++)
     {
-        this->nElements += this->Encode(pString[i], &this->pData[this->nElements]);
+        this->nElements += this->Encode(pString[i], &this->data[this->nElements]);
     }
 
-    this->pData[this->GetSize()] = 0;
+    this->data[this->GetSize()] = 0;
 
     return *this;
 }
@@ -103,11 +103,11 @@ UTF8String &UTF8String::operator=(const ByteString &refString)
     this->nElements = 0;
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        this->nElements += this->Encode(refString[i], &this->pData[this->nElements]);
+        this->nElements += this->Encode(refString[i], &this->data[this->nElements]);
     }
 
     this->length = refString.GetLength();
-    this->pData[this->GetSize()] = 0;
+    this->data[this->GetSize()] = 0;
 
     return *this;
 }
@@ -120,11 +120,11 @@ UTF8String &UTF8String::operator=(const CUTF16String &refString)
     this->nElements = 0;
     for(uint32 codePoint : refString)
     {
-        this->nElements += this->Encode(codePoint, &this->pData[this->nElements]);
+        this->nElements += this->Encode(codePoint, &this->data[this->nElements]);
     }
 
     this->length = refString.GetLength();
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -137,11 +137,11 @@ UTF8String &UTF8String::operator=(const CUTF32String &refString)
     this->nElements = 0;
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        this->nElements += this->Encode(refString[i], &this->pData[this->nElements]);
+        this->nElements += this->Encode(refString[i], &this->data[this->nElements]);
     }
 
     this->length = refString.GetLength();
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -150,9 +150,9 @@ UTF8String &UTF8String::operator += (uint32 codePoint)
 {
     this->EnsureAdditionalCapacity(4); //worst-case, we need 4 bytes to store the codepoint
 
-    this->nElements += this->Encode(codePoint, &this->pData[this->nElements]);
+    this->nElements += this->Encode(codePoint, &this->data[this->nElements]);
     this->length++;
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }
@@ -161,10 +161,10 @@ UTF8String &UTF8String::operator+=(const UTF8String &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetNumberOfElements());
 
-    MemCopy(&this->pData[this->nElements], refString.GetC_Str(), refString.GetNumberOfElements());
+    MemCopy(&this->data[this->nElements], refString.GetC_Str(), refString.GetNumberOfElements());
     this->nElements += refString.GetNumberOfElements();
     this->length += refString.GetLength();
-    this->pData[this->nElements] = 0;
+    this->data[this->nElements] = 0;
 
     return *this;
 }

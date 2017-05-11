@@ -4,6 +4,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
@@ -13,6 +15,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.hpp
 
 	#Containers
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableContainer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
@@ -26,10 +29,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/Map.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapNode.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/AFixedCharLengthString.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/VariableCharLengthString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.hpp

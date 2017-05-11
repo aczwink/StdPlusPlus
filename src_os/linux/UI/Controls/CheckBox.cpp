@@ -20,6 +20,7 @@
 #include <ACStdLib/UI/Controls/CheckBox.hpp>
 //Local
 #include "../Gtk.h"
+#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -38,7 +39,7 @@ void CheckBox::System_CreateHandle()
 	this->systemHandle = CreateWidgetPrivateData(gtk_check_button_new(), this);
 	gtk_widget_show(THIS); //default to show
 
-	//g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
+	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventQueue::ToggledSlot), this);
 
 	ADD_SELF_TO_PARENT(THIS);
 }

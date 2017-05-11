@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 //Local
 #include <ACStdLib/Containers/Strings/String.h>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
@@ -166,21 +167,6 @@ bool ACStdLib::IsStringConvertibleToInteger(const ByteString &refString)
     }
 
     return true;
-}
-
-float64 ACStdLib::StringToFloat64(const ByteString &string)
-{
-	return strtod(string.GetC_Str(), NULL);
-}
-
-float64 ACStdLib::StringToFloat64(const String &refString)
-{
-    ByteString tmp;
-    UTF8String tmpUTF8;
-
-    tmpUTF8 = UTF8String(refString.GetUTF16());
-    tmp = (char *)tmpUTF8.GetC_Str();
-    return strtod(tmp.GetC_Str(), NULL);
 }
 
 int64 ACStdLib::StringToInt64(const String &refString)

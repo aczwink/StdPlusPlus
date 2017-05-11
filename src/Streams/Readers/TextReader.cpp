@@ -41,7 +41,7 @@ TextReader &TextReader::operator>>(float32 &f)
 	ByteString tmp;
 
 	*this >> tmp;
-	f = (float32) StringToFloat64(tmp);
+	f = (float32)tmp.ToFloat();
 
 	return *this;
 }
@@ -52,7 +52,11 @@ TextReader &TextReader::operator>>(ByteString &target)
 
 	b = this->SkipWhitespaces();
 	if(this->inputStream.HitEnd())
+	{
+		target = ByteString();
 		return *this;
+	}
+
 	target = b;
 	while(true)
 	{

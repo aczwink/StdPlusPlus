@@ -70,6 +70,7 @@ extern PFNGLGETTEXPARAMETERIVPROC glGetTexParameteriv;
 extern PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
 extern PFNGLLINKPROGRAMPROC glLinkProgram;
 extern PFNGLPOLYGONMODEPROC glPolygonMode;
+extern PFNGLPOINTSIZEPROC glPointSize;
 extern PFNGLREADBUFFERPROC glReadBuffer;
 extern PFNGLSHADERSOURCEPROC glShaderSource;
 extern PFNGLSTENCILFUNCPROC glStencilFunc;

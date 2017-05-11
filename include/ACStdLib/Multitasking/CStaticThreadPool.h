@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../CFunction.h"
+#include "ACStdLib/Function.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "CConditionVariable.h"
 #include "CMutex.h"
@@ -39,7 +39,7 @@ namespace ACStdLib
         CMutex activeThreadsLock;
         CConditionVariable activeThreadsSignal;
 
-        LinkedList<CFunction<void()>> taskQueue;
+        LinkedList<Function<void()>> taskQueue;
         CMutex taskQueueLock;
         CConditionVariable taskQueueSignal;
 
@@ -51,7 +51,7 @@ namespace ACStdLib
         ~CStaticThreadPool();
 
         //Methods
-        void EnqueueTask(const CFunction<void()> &refTask);
+        void EnqueueTask(const Function<void()> &refTask);
 
         //Inline
         inline uint32 GetNumberOfActiveThreads()

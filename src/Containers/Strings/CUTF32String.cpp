@@ -31,8 +31,8 @@ CUTF32String &CUTF32String::operator=(const CUTF32String &refString)
 
 	this->nElements = refString.nElements;
 
-	MemCopy(this->pData, refString.pData, this->GetSize());
-	this->pData[this->nElements] = 0;
+	MemCopy(this->data, refString.data, this->GetSize());
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -42,11 +42,11 @@ CUTF32String &CUTF32String::operator=(CUTF32String &&refString)
 	this->Release();
 
 	this->nElements = refString.nElements;
-	this->pData = refString.pData;
+	this->data = refString.data;
 	this->capacity = refString.capacity;
 	this->elementsAllocInterval = refString.elementsAllocInterval;
 
-	refString.pData = nullptr;
+	refString.data = nullptr;
 
 	return *this;
 }
@@ -55,8 +55,8 @@ CUTF32String &CUTF32String::operator=(uint8 c)
 {
 	this->EnsureCapacity(1);
 
-	this->pData[0] = c;
-	this->pData[1] = 0;
+	this->data[0] = c;
+	this->data[1] = 0;
 
 	this->nElements = 1;
 
@@ -71,10 +71,10 @@ CUTF32String &CUTF32String::operator=(const uint8 *pString)
 	this->EnsureCapacity(length);
 
 	for(uint32 i = 0; i < length; i++)
-		this->pData[i] = pString[i];
+		this->data[i] = pString[i];
 
 	this->nElements = length;
-	this->pData[this->nElements] = 0;
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -90,11 +90,11 @@ CUTF32String &CUTF32String::operator=(const uint16 *pString)
 
 	for(uint32 i = 0; i < length; i++)
 	{
-		this->pData[this->nElements] = pString[i];
+		this->data[this->nElements] = pString[i];
 
 		this->nElements++;
 	}
-	this->pData[this->nElements] = 0;
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -106,9 +106,9 @@ CUTF32String &CUTF32String::operator=(const ByteString &refString)
 	this->nElements = refString.GetNumberOfElements();
 	for(uint32 i = 0; i < this->nElements; i++)
 	{
-		this->pData[i] = refString[i];
+		this->data[i] = refString[i];
 	}
-	this->pData[this->nElements] = 0;
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -119,9 +119,9 @@ CUTF32String &CUTF32String::operator = (const UTF8String &refString)
 	this->nElements = 0;
 	for(uint32 codePoint : refString)
 	{
-		this->pData[this->nElements++] = codePoint;
+		this->data[this->nElements++] = codePoint;
 	}
-	this->pData[this->nElements] = 0;
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -130,9 +130,9 @@ CUTF32String &CUTF32String::operator+=(const CUTF32String &refString)
 {
 	this->EnsureAdditionalCapacity(refString.GetLength());
 
-	MemCopy(&this->pData[this->nElements], refString.pData, refString.GetSize());
+	MemCopy(&this->data[this->nElements], refString.data, refString.GetSize());
 	this->nElements += refString.GetLength();
-	this->pData[this->nElements] = 0;
+	this->data[this->nElements] = 0;
 
 	return *this;
 }
@@ -146,7 +146,7 @@ CUTF32String CUTF32String::SubString(uint32 beginOffset, uint32 length) const
 	{
 		buffer.EnsureCapacity(length);
 
-		MemCopy(buffer.pData, this->pData + beginOffset, length * sizeof(*buffer.pData));
+		MemCopy(buffer.data, this->data + beginOffset, length * sizeof(*buffer.data));
 		buffer.nElements = length;
 		buffer[length] = 0;
 	}
@@ -161,7 +161,7 @@ CUTF32String CUTF32String::ToLowercase() const
 	buffer.EnsureCapacity(this->GetLength());
 	for(uint32 i = 0; i < this->GetLength(); i++)
 	{
-		buffer.pData[i] = ACStdLib::ToLowercase(this->pData[i]);
+		buffer.data[i] = ACStdLib::ToLowercase(this->data[i]);
 	}
 	buffer.nElements = this->nElements;
 

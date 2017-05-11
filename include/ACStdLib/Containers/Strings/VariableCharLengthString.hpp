@@ -19,36 +19,24 @@
 
 #pragma once
 //Local
-#include "../AResizeableContainer.h"
+#include "ResizeableString.hpp"
 
 namespace ACStdLib
 {
     template<typename CharType>
-    class ACSTDLIB_API AVariableCharLengthString : public AResizeableContainer<CharType>
+    class ACSTDLIB_API VariableCharLengthString : public ResizeableString<CharType>
     {
     protected:
         //Members
         uint32 length;
     public:
         //Constructor
-        inline AVariableCharLengthString()
+        inline VariableCharLengthString()
         {
             this->length = 0;
-            this->SetAllocationInterval(16);
         }
 
         //Inline
-        inline void EnsureCapacity(uint32 requiredNumberOfElements)
-        {
-            requiredNumberOfElements++; //null char
-            AResizeableContainer<CharType>::EnsureCapacity(requiredNumberOfElements);
-        }
-
-        inline const CharType *GetC_Str() const
-        {
-            return this->pData;
-        }
-
         inline uint32 GetLength() const
         {
             return this->length;
@@ -58,7 +46,7 @@ namespace ACStdLib
         {
             this->length = 0;
 
-            AResizeableContainer<CharType>::Release();
+            ResizeableContainer<CharType>::Release();
         }
     };
 }

@@ -26,4 +26,15 @@ void ACStdLib::AssertionFailed(const char *pContext, const char *pMessage, const
 {
     AssertionFailed(pContext, String(pMessage), pFileName, lineNumber, pFunctionName);
 }
+
+void ACStdLib::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	String message;
+
+	message = "Expected: " + ToString(expect) + "\n";
+	message += "Got: " + ToString(got) + "\n";
+	message += "Epsilon: " + ToString(epsilon) + "\n";
+
+	AssertionFailed("Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
+}
 #endif

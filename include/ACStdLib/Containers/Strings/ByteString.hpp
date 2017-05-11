@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "AFixedCharLengthString.h"
+#include "FixedCharLengthString.hpp"
 #include "../DynamicArray/DynamicArray.hpp"
 #include "../LinkedList/LinkedList.hpp"
 //#include "CWString.h"
@@ -26,7 +26,7 @@
 namespace ACStdLib
 {
     //May contain ASCII, Latin1 or anything that fits within 8 bits
-    class ACSTDLIB_API ByteString : public AFixedCharLengthString<char>
+    class ACSTDLIB_API ByteString : public FixedCharLengthString<char>
     {
     public:
         //Constructors
@@ -46,7 +46,7 @@ namespace ACStdLib
 
         inline ByteString(const char *pStr, uint32 length)
         {
-            AFixedCharLengthString<char>::Assign(pStr, length);
+            FixedCharLengthString<char>::Assign(pStr, length);
         }
 
         inline ByteString(const ByteString &refString) //copy ctor
@@ -67,14 +67,14 @@ namespace ACStdLib
         //Inline Operators
         inline ByteString &operator=(char c)
         {
-            AFixedCharLengthString<char>::Assign(c);
+            FixedCharLengthString<char>::Assign(c);
 
             return *this;
         }
 
         inline ByteString &operator=(const ByteString &refString) //copy assign
         {
-            AFixedCharLengthString<char>::Assign(refString.pData, refString.GetLength());
+            FixedCharLengthString<char>::Assign(refString.data, refString.GetLength());
 
             return *this;
         }
@@ -87,9 +87,9 @@ namespace ACStdLib
         }
 
         //Methods
-        using AFixedCharLengthString<char>::Find;
+        using FixedCharLengthString<char>::Find;
         int32 Find(const ByteString &refSearch, uint32 startPos = 0) const;
-        using AFixedCharLengthString<char>::FindReverse;
+        using FixedCharLengthString<char>::FindReverse;
         int32 FindReverse(const ByteString &refSearch, uint32 startPos = UINT32_MAX) const;
         void Replace(const ByteString &refSearch, const ByteString &refReplace);
         void Resize(uint32 newLength);

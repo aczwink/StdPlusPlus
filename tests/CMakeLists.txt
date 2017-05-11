@@ -1,7 +1,8 @@
 set(TEST_FILES
-        ${TEST_FILES}
+	${TEST_FILES}
 
-        #.
-        ${CMAKE_CURRENT_SOURCE_DIR}/example.cpp
+	#.
+	#${CMAKE_CURRENT_SOURCE_DIR}/example.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FloatToString.cpp
 
-        PARENT_SCOPE)
+	PARENT_SCOPE)

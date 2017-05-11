@@ -29,7 +29,7 @@ namespace ACStdLib
             friend class EventQueue;
         private:
             //Members
-            CFunction<void()> onSelectionChangedHandler;
+            Function<void()> onSelectionChangedHandler;
 
         public:
             //Constructor
@@ -45,7 +45,7 @@ namespace ACStdLib
             void SetHint(const String &refText);
 
             //Inline
-            inline void BindSelectionChanged(const CFunction<void()> &refHandler)
+            inline void BindSelectionChanged(const Function<void()> &refHandler)
             {
                 this->onSelectionChangedHandler = refHandler;
             }

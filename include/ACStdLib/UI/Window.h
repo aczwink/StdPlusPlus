@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
-#include "../CFunction.h"
+#include "ACStdLib/Function.hpp"
 #include "WidgetContainer.h"
 
 namespace ACStdLib
@@ -64,7 +64,7 @@ namespace ACStdLib
 
         protected:
             //Eventhandlers
-            CFunction<void()> onDestroyEventHandler;
+            Function<void()> onDestroyEventHandler;
 
         public:
             //Constructors

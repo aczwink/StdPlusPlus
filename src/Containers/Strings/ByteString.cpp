@@ -30,7 +30,7 @@ using namespace ACStdLib;
 //Operators
 ByteString &ByteString::operator=(const char *pStr)
 {
-    AFixedCharLengthString<char>::Assign(pStr, (uint32)strlen(pStr));
+    FixedCharLengthString<char>::Assign(pStr, (uint32)strlen(pStr));
 
     return *this;
 }
@@ -42,9 +42,9 @@ ByteString &ByteString::operator=(ByteString &&refString)
     this->capacity = refString.capacity;
     this->elementsAllocInterval = refString.elementsAllocInterval;
     this->nElements = refString.nElements;
-    this->pData = refString.pData;
+    this->data = refString.data;
 
-    refString.pData = nullptr;
+    refString.data = nullptr;
 
     return *this;
 }
@@ -53,9 +53,9 @@ ByteString &ByteString::operator+=(const ByteString &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetLength());
 
-    MemCopy(this->pData + this->GetLength(), refString.pData, refString.GetLength());
+    MemCopy(this->data + this->GetLength(), refString.data, refString.GetLength());
     this->nElements += refString.nElements;
-    this->pData[this->GetLength()] = 0;
+    this->data[this->GetLength()] = 0;
 
     return *this;
 }
@@ -71,9 +71,9 @@ int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
 
     while((pos = this->Find(refSearch[0], pos)) != UINT32_MAX)
     {
-        ptr = this->pData + pos;
+        ptr = this->data + pos;
 
-        if(MemCmp(refSearch.pData, ptr, refSearch.GetLength()) == 0)
+        if(MemCmp(refSearch.data, ptr, refSearch.GetLength()) == 0)
             return pos;
         else
             pos++;
@@ -123,12 +123,12 @@ void ByteString::Resize(uint32 newLength)
     if(newLength > this->nElements)
     {
         this->EnsureCapacity(newLength);
-        MemZero(this->pData + this->nElements, newLength - this->nElements);
+        MemZero(this->data + this->nElements, newLength - this->nElements);
         this->nElements = newLength;
     }
     else
     {
-        this->pData[this->nElements] = 0;
+        this->data[this->nElements] = 0;
     }
 }
 
@@ -160,7 +160,7 @@ ByteString ByteString::SubString(uint32 beginOffset, uint32 length) const
 
     buffer.EnsureCapacity(length);
 
-    MemCopy(buffer.pData, this->pData + beginOffset, length);
+    MemCopy(buffer.data, this->data + beginOffset, length);
     buffer.nElements = length;
     buffer[length] = '\0';
 
@@ -174,7 +174,7 @@ ByteString ByteString::ToLowercase() const
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
     {
-        buffer.pData[i] = tolower(this->pData[i]);
+        buffer.data[i] = tolower(this->data[i]);
     }
     buffer.nElements = this->nElements;
 
@@ -188,7 +188,7 @@ ByteString ByteString::ToUppercase() const
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
     {
-        buffer.pData[i] = toupper(this->pData[i]);
+        buffer.data[i] = toupper(this->data[i]);
     }
     buffer.nElements = this->nElements;
 

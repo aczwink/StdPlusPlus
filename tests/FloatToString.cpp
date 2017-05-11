@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "__Globaldependencies.h"
-#include "Definitions.h"
+#include <ACStdLibTest.hpp>
+using namespace ACStdLib;
 
-namespace ACStdLib
+TEST_SUITE(FloatToStringTest)
 {
-    template<typename T>
-    class Float
-    {
-    };
+	TEST(exponentTests)
+	{
+		ByteString str = "1e3";
+		ASSERT(str.ToFloat() == 1000);
 
-    template<>
-    class Float<float32>
-    {
-    public:
-        //Expressions
-        static constexpr float32 Infinity()
-        {
-            return INFINITY;
-        }
-    };
-}
+		str = "1e-3";
+		ASSERT(str.ToFloat() == 0.001);
+	}
+
+	TEST(practiceTests) //where the function failed in practice
+	{
+		ByteString str = "3.42708e-05";
+
+		ASSERT_FLOATS_EQUAL(3.42708e-05, str.ToFloat(), Float<float64>::MachineEpsilon());
+	}
+};

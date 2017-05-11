@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../CFunction.h"
+#include "ACStdLib/Function.hpp"
 
 namespace ACStdLib
 {
@@ -28,11 +28,11 @@ namespace ACStdLib
     private:
         //Members
         void *pOSHandle;
-        CFunction<void()> timerCallback;
+        Function<void()> timerCallback;
 
     public:
         //Constructor
-        CTimer(const CFunction<void()> &refTimerCallback);
+        CTimer(const Function<void()> &refTimerCallback);
 
         //Destructor
         ~CTimer();

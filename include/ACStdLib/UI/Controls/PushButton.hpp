@@ -32,7 +32,7 @@ namespace ACStdLib
 
         public:
 			//Dynamic event handlers
-			CFunction<void()> onActivatedHandler;
+			Function<void()> onActivatedHandler;
 
             //Constructor
             PushButton(WidgetContainer *pParent);

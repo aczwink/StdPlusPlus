@@ -31,6 +31,9 @@ namespace ACStdLib
             void System_CreateHandle();
 
         public:
+			//Dynamic event handlers
+			Function<void()> onValueChangedHandler;
+
             //Constructor
             Slider(WidgetContainer *pParent);
 
@@ -38,10 +41,11 @@ namespace ACStdLib
 			~Slider();
 
             //Methods
+			uint32 GetPosition() const;
             Size GetSizeHint() const;
             void SetMaximum(uint32 max);
             void SetMinimum(uint32 min);
-            void SetPos(uint32 pos);
+            void SetPosition(uint32 pos);
         };
     }
 }

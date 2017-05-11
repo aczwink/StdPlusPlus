@@ -18,12 +18,12 @@
  */
 #pragma once
 //Local
-#include "../AResizeableContainer.h"
+#include "ResizeableString.hpp"
 
 namespace ACStdLib
 {
     template<typename CharType>
-    class ACSTDLIB_API AFixedCharLengthString : public AResizeableContainer<CharType>
+    class ACSTDLIB_API FixedCharLengthString : public ResizeableString<CharType>
     {
     protected:
         //Methods
@@ -32,12 +32,6 @@ namespace ACStdLib
         void Assign(CharType c);
         void Assign(const CharType *pStr, uint32 length);
     public:
-        //Constructor
-        AFixedCharLengthString()
-        {
-            this->SetAllocationInterval(16);
-        }
-
         //Methods
         uint32 Find(CharType c, uint32 startPos = 0) const;
         int32 FindReverse(CharType c, uint32 startPos = UINT32_MAX) const;
@@ -45,32 +39,21 @@ namespace ACStdLib
         //Inline methods
         inline bool Contains(CharType c) const
         {
-            return this->Find(c) == UINT32_MAX;
-        }
-
-        inline void EnsureCapacity(uint32 requiredNumberOfElements)
-        {
-            requiredNumberOfElements++; //null char
-            AResizeableContainer<CharType>::EnsureCapacity(requiredNumberOfElements);
+            return this->Find(c) != UINT32_MAX;
         }
 
         //Inline Operators
         inline CharType &operator[](uint32 index)
         {
-            return this->pData[index];
+            return this->data[index];
         }
 
         inline const CharType operator[](uint32 index) const
         {
-            return this->pData[index];
+            return this->data[index];
         }
 
         //Inline
-        inline const CharType *GetC_Str() const
-        {
-            return this->pData;
-        }
-
         inline uint32 GetLength() const
         {
             return this->nElements;

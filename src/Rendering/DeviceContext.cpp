@@ -348,6 +348,13 @@ void DeviceContext::SetInputState(InputState *pInputState)
     this->pCurrentInputState = pInputState;
 }
 
+void DeviceContext::SetPointSize(uint32 size)
+{
+	this->BindOSContext();
+
+	glPointSize(size);
+}
+
 void DeviceContext::SetProgram(ShaderProgram *pProgram)
 {
     CShaderProgram *pShaderProgram;

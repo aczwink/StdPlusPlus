@@ -39,7 +39,7 @@ namespace ACStdLibTest
         };
     private:
         //Members
-        ACStdLib::CLinkedList<Test> tests;
+        ACStdLib::LinkedList<Test> tests;
 
         //Constructor
         inline TestManager()
@@ -63,10 +63,10 @@ namespace ACStdLibTest
             ACStdLib::stdOut << "Running " << this->tests.GetNumberOfElements() << " tests..." << ACStdLib::endl;
             for(Test &refTest : this->tests)
             {
-                ACStdLib::stdOut << "Running test: " << refTest.pName << "...";
+                ACStdLib::stdOut << "Running test: " << refTest.pName << "..." << ACStdLib::endl;
                 refTest.pTest();
 
-                ACStdLib::stdOut << ACStdLib::endl;
+                ACStdLib::stdOut << "\tPassed!" << ACStdLib::endl;
             }
 
             return true;
@@ -93,7 +93,7 @@ namespace ACStdLibTest
 }
 
 //Functions
-int32 Main(const ACStdLib::CString &refProgramName, const ACStdLib::CLinkedList<ACStdLib::CString> &refArgs)
+int32 Main(const ACStdLib::String &refProgramName, const ACStdLib::LinkedList<ACStdLib::String> &refArgs)
 {
     if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
         return EXIT_SUCCESS;

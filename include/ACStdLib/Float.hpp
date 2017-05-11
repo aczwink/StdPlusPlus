@@ -17,11 +17,41 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "__Globaldependencies.h"
+#include "Definitions.h"
 
-#include <cmath>
-#include <cfloat>
+namespace ACStdLib
+{
+    template<typename T>
+    class Float
+    {
+    };
 
-#ifdef __GNUC__
-#include <new>
-typedef __SIZE_TYPE__ size_t;
-#endif
+    template<>
+    class Float<float32>
+    {
+    public:
+        //Expressions
+        static constexpr float32 Infinity()
+        {
+            return INFINITY;
+        }
+    };
+
+    template<>
+    class Float<float64>
+	{
+	public:
+		//Expressions
+		static constexpr bool AlmostEqual(float64 a, float64 b, float64 epsilon)
+		{
+			return ABS(a - b) < epsilon;
+		}
+
+		static constexpr float64 MachineEpsilon()
+		{
+			return DBL_EPSILON;
+		}
+	};
+}

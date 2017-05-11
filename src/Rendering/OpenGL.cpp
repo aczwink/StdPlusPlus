@@ -70,6 +70,7 @@ PFNGLGETTEXPARAMETERIVPROC glGetTexParameteriv;
 PFNGLGETUNIFORMLOCATIONPROC glGetUniformLocation;
 PFNGLLINKPROGRAMPROC glLinkProgram;
 PFNGLPOLYGONMODEPROC glPolygonMode;
+PFNGLPOINTSIZEPROC glPointSize;
 PFNGLREADBUFFERPROC glReadBuffer;
 PFNGLSHADERSOURCEPROC glShaderSource;
 PFNGLSTENCILFUNCPROC glStencilFunc;
@@ -153,6 +154,7 @@ void LoadOpenGLExtensions(void *(*pLoadFunction)(const char *pExtension))
     glLinkProgram = (PFNGLLINKPROGRAMPROC)pLoadFunction("glLinkProgram");
 
     glPolygonMode = (PFNGLPOLYGONMODEPROC)pLoadFunction("glPolygonMode");
+	glPointSize = (PFNGLPOINTSIZEPROC)pLoadFunction("glPointSize");
 
     glReadBuffer = (PFNGLREADBUFFERPROC)pLoadFunction("glReadBuffer");
 

@@ -31,7 +31,7 @@ namespace ACStdLib
             //Functions
             ACSTDLIB_API Path OpenFile(const Window &refParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters, const Path &directory = Path());
             ACSTDLIB_API Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
-            ACSTDLIB_API bool SelectExistingDirectory(const String &refTitle, const Window &refWindow, const CFunction<bool(const Path &)> &refCallback, Path &refSelectedPath);
+            ACSTDLIB_API bool SelectExistingDirectory(const String &refTitle, const Window &refWindow, const Function<bool(const Path &)> &refCallback, Path &refSelectedPath);
         }
     }
 }

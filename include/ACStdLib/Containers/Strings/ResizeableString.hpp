@@ -17,11 +17,34 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "../ResizeableContainer.hpp"
 
-#include <cmath>
-#include <cfloat>
+namespace ACStdLib
+{
+	template<typename CharType>
+	class ACSTDLIB_API ResizeableString : public ResizeableContainer<CharType>
+	{
+	public:
+		//Constructor
+		ResizeableString()
+		{
+			this->SetAllocationInterval(16);
+		}
 
-#ifdef __GNUC__
-#include <new>
-typedef __SIZE_TYPE__ size_t;
-#endif
+		//Methods
+		float64 ToFloat() const;
+
+		//Inline
+		inline void EnsureCapacity(uint32 requiredNumberOfElements)
+		{
+			requiredNumberOfElements++; //null char
+			ResizeableContainer<CharType>::EnsureCapacity(requiredNumberOfElements);
+		}
+
+		inline const CharType *GetC_Str() const
+		{
+			return this->data;
+		}
+	};
+}

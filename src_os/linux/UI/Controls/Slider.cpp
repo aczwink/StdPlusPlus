@@ -20,11 +20,20 @@
 #include <ACStdLib/UI/Controls/Slider.hpp>
 //Local
 #include "../Gtk.h"
+#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
+
+//Local functions
+static void ValueChangedSlot(GtkRange *range, gpointer user_data)
+{
+	Slider *slider = (Slider *) user_data;
+	if(slider->onValueChangedHandler)
+		slider->onValueChangedHandler();
+}
 
 //Destructor
 Slider::~Slider()
@@ -38,12 +47,17 @@ void Slider::System_CreateHandle()
 	this->systemHandle = CreateWidgetPrivateData(gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1), this);
 	gtk_widget_show(THIS); //default to show
 
-	//g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
+	g_signal_connect(THIS, "value-changed", G_CALLBACK(ValueChangedSlot), this);
 
 	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
+uint32 Slider::GetPosition() const
+{
+	return (uint32) gtk_range_get_value(GTK_RANGE(THIS));
+}
+
 Size Slider::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
@@ -63,7 +77,7 @@ void Slider::SetMinimum(uint32 min)
 	gtk_range_set_range(GTK_RANGE(THIS), min, gtk_adjustment_get_upper(adjustment));
 }
 
-void Slider::SetPos(uint32 pos)
+void Slider::SetPosition(uint32 pos)
 {
 	gtk_range_set_value(GTK_RANGE(THIS), pos);
 }

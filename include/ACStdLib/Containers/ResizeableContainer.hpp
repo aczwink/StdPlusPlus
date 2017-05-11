@@ -26,34 +26,34 @@
 namespace ACStdLib
 {
     template<typename DataType>
-    class AResizeableContainer : public AContainer
+    class ResizeableContainer : public AContainer
     {
     protected:
         //Members
-        DataType *pData;
+        DataType *data;
         uint32 capacity; //shouldn't be altered other through methods in this class, but needed for move ctor
         uint32 elementsAllocInterval; //shouldn't be altered other through methods in this class, but needed for move and copy ctor
 
         //Inline
         inline const DataType *GetEnd() const //pointer to first element after the container, shouldn't read there
         {
-            return this->pData + this->capacity;
+            return this->data + this->capacity;
         }
 
     public:
         //Constructor
-        AResizeableContainer()
+        ResizeableContainer()
         {
             this->elementsAllocInterval = 0;
             this->capacity = 0;
-            this->pData = NULL;
+            this->data = NULL;
         }
 
         //Destructor
-        virtual ~AResizeableContainer()
+        virtual ~ResizeableContainer()
         {
-            if(this->pData)
-                MemFree(this->pData);
+            if(this->data)
+                MemFree(this->data);
         }
 
         //Overwriteable
@@ -81,20 +81,20 @@ namespace ACStdLib
                     newNElements = nAllocationIntervals * this->elementsAllocInterval;
                 }
 
-                pNewBuffer = (DataType *)MemRealloc(this->pData, newNElements * sizeof(DataType));
+                pNewBuffer = (DataType *)MemRealloc(this->data, newNElements * sizeof(DataType));
                 ASSERT(pNewBuffer);
 
-                this->pData = pNewBuffer;
+                this->data = pNewBuffer;
                 this->capacity = newNElements;
             }
         }
 
         virtual void Release()
         {
-            if(this->pData)
+            if(this->data)
             {
-                MemFree(this->pData);
-                this->pData = nullptr;
+                MemFree(this->data);
+                this->data = nullptr;
             }
             this->capacity = 0;
             this->nElements = 0;

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "AFixedCharLengthString.h"
+#include "FixedCharLengthString.hpp"
 
 namespace ACStdLib
 {
@@ -26,7 +26,7 @@ namespace ACStdLib
     class ByteString;
     class UTF8String;
 
-    class ACSTDLIB_API CUTF32String : public AFixedCharLengthString<uint32>
+    class ACSTDLIB_API CUTF32String : public FixedCharLengthString<uint32>
     {
     public:
         //Constructors
@@ -90,7 +90,7 @@ namespace ACStdLib
             if(this->GetLength() != refString.GetLength())
                 return false;
 
-            return MemCmp(this->pData, refString.pData, this->GetSize()) == 0;
+            return MemCmp(this->data, refString.data, this->GetSize()) == 0;
         }
 
         //Methods
