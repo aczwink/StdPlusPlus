@@ -18,11 +18,11 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/UI/Controls/CheckBox.hpp"
-#include "../UI/Controls/CDropDown.h"
-#include "ACStdLib/UI/Controls/PushButton.hpp"
-#include "../UI/Views/CTreeView.h"
-#include "Window.h"
+#include "Window.hpp"
+#include "Controls/CheckBox.hpp"
+#include "Controls/CDropDown.h"
+#include "Controls/PushButton.hpp"
+#include "Views/CTreeView.h"
 
 namespace ACStdLib
 {
@@ -47,6 +47,16 @@ namespace ACStdLib
             {
                 refWnd.onDestroyEventHandler();
             }
+
+			static inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Point &pos)
+			{
+				widget.OnMouseButtonPressed(button, pos);
+			}
+
+			static inline void DispatchMouseButtonReleased(Widget &widget, MouseButton button, const Point &pos)
+			{
+				widget.OnMouseButtonReleased(button, pos);
+			}
 
             static inline void DispatchPaintEvent(Widget &refWidget)
             {

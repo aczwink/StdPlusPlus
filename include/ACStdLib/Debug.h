@@ -25,6 +25,7 @@
 #define ASSERT(expression) if((expression) == 0){ACStdLib::AssertionFailed(#expression, "", __FILE__, __LINE__, __FUNCTION__);}
 #define ASSERT_MSG(expression, message) if((expression) == 0){ACStdLib::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}
 //extended asserts
+//TODO: #13 - for the following line, alter Float<float64> to Float
 #define ASSERT_FLOATS_EQUAL(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){ACStdLib::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
 #define NOT_IMPLEMENTED_ERROR ASSERT_MSG(false, "You've reached a point in the program that is not implemented.")
 

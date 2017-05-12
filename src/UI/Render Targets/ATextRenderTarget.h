@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Math/CPoint.h>
+#include <ACStdLib/Math/Point.hpp>
 #include "IRenderTarget.h"
 
 namespace ACStdLib
@@ -29,7 +29,7 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual void OutputCodepointAt(const CPoint &refPoint, uint32 codePoint) = NULL;
+            virtual void OutputCodepointAt(const Point &refPoint, uint32 codePoint) = NULL;
 
             //Methods
             ERenderMode GetRenderMode() const;

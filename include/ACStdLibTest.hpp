@@ -91,11 +91,3 @@ namespace ACStdLibTest
         }
     };
 }
-
-//Functions
-int32 Main(const ACStdLib::String &refProgramName, const ACStdLib::LinkedList<ACStdLib::String> &refArgs)
-{
-    if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
-        return EXIT_SUCCESS;
-    return EXIT_FAILURE;
-}

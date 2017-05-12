@@ -46,9 +46,18 @@ namespace ACStdLib
 		//Expressions
 		static constexpr bool AlmostEqual(float64 a, float64 b, float64 epsilon)
 		{
-			return ABS(a - b) < epsilon;
+			return ABS(a - b) <= epsilon;
 		}
 
+		/**
+		 * The machine epsilon is the difference: 1.0 + 1 ULP - 1.0
+		 * In other words, the machine epsilon is the difference of 1.0 and its next representable float value in the floating point system.
+		 * More concretely, with base b and precision p, the machine epsilon yields = b^(1 - p)
+		 * The machine epsilon is chosen like that because rounding at 1 gives the maximum relative rounding error.
+		 *
+		 * Note that this is the industry standard definition while other definitions define machine epsilon as b^(1 - p)/2.
+		 * In this case machine epsilon is the largest value x such that 1.0 + x = 1.0 in the floating point system.
+		 */
 		static constexpr float64 MachineEpsilon()
 		{
 			return DBL_EPSILON;

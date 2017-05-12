@@ -23,7 +23,8 @@
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "ACStdLib/Math/Geometry/Rect.h"
-#include "ACStdLib/Math/Size.h"
+#include "ACStdLib/Math/Size.hpp"
+#include "Mouse.hpp"
 #include "SizingPolicy.hpp"
 #include "ERenderMode.h"
 
@@ -53,6 +54,8 @@ namespace ACStdLib
             Rect bounds;
 
             //Eventhandlers
+			virtual void OnMouseButtonPressed(MouseButton button, const Point &pos);
+			virtual void OnMouseButtonReleased(MouseButton button, const Point &pos);
             virtual void OnPaint();
             virtual void OnResized();
 
@@ -85,7 +88,7 @@ namespace ACStdLib
             void SetEnabled(bool enable = true);
             void SetRect(const Rect &area);
             void Show(bool visible = true);
-            CPoint TransformToWindow(const CPoint &refPoint) const;
+            Point TransformToWindow(const Point &refPoint) const;
 
             //Overrideable
             virtual Size GetSizeHint() const;

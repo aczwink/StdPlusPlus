@@ -72,6 +72,7 @@ extern PFNGLLINKPROGRAMPROC glLinkProgram;
 extern PFNGLPOLYGONMODEPROC glPolygonMode;
 extern PFNGLPOINTSIZEPROC glPointSize;
 extern PFNGLREADBUFFERPROC glReadBuffer;
+extern PFNGLREADPIXELSPROC glReadPixels;
 extern PFNGLSHADERSOURCEPROC glShaderSource;
 extern PFNGLSTENCILFUNCPROC glStencilFunc;
 extern PFNGLSTENCILMASKPROC glStencilMask;

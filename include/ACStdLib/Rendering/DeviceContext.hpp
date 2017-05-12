@@ -20,6 +20,7 @@
 //Local
 #include <ACStdLib/Definitions.h>
 #include <ACStdLib/Color.h>
+#include "../Math/Geometry/Rect.h"
 #include "Shader.hpp"
 
 namespace ACStdLib
@@ -110,6 +111,7 @@ namespace ACStdLib
             void EnablePolygonFilling(bool enabled = true);
             void EnableStencilTest(bool enabled = true);
             uint32 GetNumberOfTextureUnits() const;
+            void ReadDepthBuffer(const Rect &block, float32 *output);
             void SetDepthTest(TestFunction function);
             void SetFrameBuffer(IFrameBuffer *pFrameBuffer);
             void SetInputState(InputState *pInputState);

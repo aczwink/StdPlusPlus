@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.6)
 project(ACStdLib)
 
-set(CMAKE_CXX_STANDARD 11)
+#c++ standard
+set(CMAKE_CXX_STANDARD 14) #TODO: #13 - make this 17
+set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
 
 #debug or release
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -28,7 +30,7 @@ if(UNIX)
 		)
 endif(UNIX)
 
-#targets
+#collect source files
 add_subdirectory(include/ACStdLib)
 add_subdirectory(src)
 add_subdirectory(tests)
@@ -42,6 +44,7 @@ endif(WIN32)
 
 add_library(ACStdLib SHARED ${SOURCE_FILES})
 add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
+add_library(ACStdLibTest STATIC src_test/main.cpp)
 add_executable(tests_ACStdLib ${TEST_FILES})
 
 #platform stuff
@@ -66,14 +69,13 @@ if(WIN32)
 endif(WIN32)
 
 target_include_directories(tests_ACStdLib PUBLIC "include")
-target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic)
+target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic ACStdLibTest)
 
 
 
 #---DOCUMENTATION---
 find_package(Doxygen)
 option(BUILD_DOCUMENTATION "Build documentation" ${DOXYGEN_FOUND})
-#set(BUILD_DOCUMENTATION ON)
 
 if(BUILD_DOCUMENTATION)
 	if(NOT DOXYGEN_FOUND)

@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Window.h>
+#include <ACStdLib/UI/Window.hpp>
 //Global
 #include <gtk/gtk.h>
 //Local

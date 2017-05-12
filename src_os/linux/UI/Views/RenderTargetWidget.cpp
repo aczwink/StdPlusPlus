@@ -35,7 +35,10 @@ void RenderTargetWidget::CreateOSHandle()
 	ADD_SELF_TO_PARENT(THIS);
 	gtk_widget_show(THIS);
 	gtk_widget_realize(THIS); //important!!!
+	gtk_widget_add_events(THIS, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
+	g_signal_connect(THIS, "button-press-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
+	g_signal_connect(THIS, "button-release-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
 	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
 }
 

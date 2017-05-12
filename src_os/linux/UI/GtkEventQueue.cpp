@@ -29,6 +29,40 @@ using namespace ACStdLib::UI;
 bool g_ignoreEvent = false;
 
 //Public functions
+bool GtkEventQueue::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpointer user_data)
+{
+	g_ignoreEvent = false;
+
+	Widget *widget = (Widget *)WIDGET_FROM_GTK(gtkWidget);
+	MouseButton button;
+
+	switch(event->button)
+	{
+		case 1:
+			button = MouseButton::Left;
+			break;
+		case 3:
+			button = MouseButton::Right;
+			break;
+		default:
+			return FALSE;
+	}
+
+	switch(event->type)
+	{
+		case GDK_BUTTON_PRESS:
+			EventQueue::DispatchMouseButtonPressed(*widget, button, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
+			break;
+		case GDK_BUTTON_RELEASE:
+			EventQueue::DispatchMouseButtonReleased(*widget, button, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
+			break;
+		default:
+			g_ignoreEvent = true;
+	}
+
+	return !g_ignoreEvent;
+}
+
 void GtkEventQueue::CheckResizeSlot(GtkContainer *container, gpointer user_data)
 {
 	EventQueue::DispatchResizedEvent(*(Window *)user_data);

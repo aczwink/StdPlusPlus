@@ -49,7 +49,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
 
 	#Math
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Point.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Matrix4x4.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Vector3.hpp
@@ -74,11 +75,12 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.h
 
         #UI
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.h
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.h
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.h
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp

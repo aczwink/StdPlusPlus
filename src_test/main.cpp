@@ -18,30 +18,10 @@
  */
 #include <ACStdLibTest.hpp>
 
-unsigned factorial(unsigned n)
+//Functions
+int32 Main(const ACStdLib::String &refProgramName, const ACStdLib::LinkedList<ACStdLib::String> &refArgs)
 {
-    if(n == 0)
-        return 1;
-
-    return n * factorial(n - 1);
+	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
+		return EXIT_SUCCESS;
+	return EXIT_FAILURE;
 }
-
-TEST_SUITE(FactorialTest)
-{
-    int someInt = 10;
-
-    TEST(nZeroTest)
-    {
-        ASSERT(factorial(0) == 1);
-    }
-
-    TEST(successTest)
-    {
-        ASSERT(factorial(10) == 3628800);
-    }
-
-    TEST(failureTest)
-    {
-        ASSERT(someInt != someInt);
-    }
-};
