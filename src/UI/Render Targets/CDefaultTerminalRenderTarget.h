@@ -39,7 +39,7 @@ namespace ACStdLib
 
             //Methods
             Size GetSize() const;
-            void OutputCodepointAt(const CPoint &refPoint, uint32 codePoint);
+            void OutputCodepointAt(const Point &refPoint, uint32 codePoint);
             void Present();
         };
     }

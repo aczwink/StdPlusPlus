@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Definitions.h>
-#include <ACStdLib/Math/Size.h>
+#include <ACStdLib/Math/Size.hpp>
 #include <ACStdLib/UI/ERenderMode.h>
 
 namespace ACStdLib

@@ -227,5 +227,12 @@ namespace ACStdLib
 
             return *this;
         }
+
+        Function<FunctionType> &operator=(Function<FunctionType> &&other) //move assign
+		{
+			*this = other; //do a copy
+
+			return *this;
+		}
     };
 }

@@ -72,6 +72,7 @@ PFNGLLINKPROGRAMPROC glLinkProgram;
 PFNGLPOLYGONMODEPROC glPolygonMode;
 PFNGLPOINTSIZEPROC glPointSize;
 PFNGLREADBUFFERPROC glReadBuffer;
+PFNGLREADPIXELSPROC glReadPixels;
 PFNGLSHADERSOURCEPROC glShaderSource;
 PFNGLSTENCILFUNCPROC glStencilFunc;
 PFNGLSTENCILMASKPROC glStencilMask;
@@ -157,6 +158,7 @@ void LoadOpenGLExtensions(void *(*pLoadFunction)(const char *pExtension))
 	glPointSize = (PFNGLPOINTSIZEPROC)pLoadFunction("glPointSize");
 
     glReadBuffer = (PFNGLREADBUFFERPROC)pLoadFunction("glReadBuffer");
+	glReadPixels = (PFNGLREADPIXELSPROC)pLoadFunction("glReadPixels");
 
     glShaderSource = (PFNGLSHADERSOURCEPROC)pLoadFunction("glShaderSource");
     glStencilFunc = (PFNGLSTENCILFUNCPROC)pLoadFunction("glStencilFunc");

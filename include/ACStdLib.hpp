@@ -48,7 +48,7 @@
 //Mathematics
 #include <ACStdLib/Math/CDegree.h>
 #include <ACStdLib/Math/CRadian.h>
-#include <ACStdLib/Math/Size.h>
+#include <ACStdLib/Math/Size.hpp>
 //Mathematics/Geometry
 #include <ACStdLib/Math/Geometry/Matrix4x4.hpp>
 #include <ACStdLib/Math/Geometry/CVector2.h>
@@ -173,7 +173,7 @@
 #include <ACStdLib/UI/EventQueue.h>
 #include <ACStdLib/UI/Keyboard.h>
 #include <ACStdLib/UI/MainAppWindow.h>
-#include <ACStdLib/UI/Mouse.h>
+#include <ACStdLib/UI/Mouse.hpp>
 //Containers
 #include <ACStdLib/UI/Containers/CTabBox.h>
 #include <ACStdLib/UI/Containers/GroupBox.hpp>

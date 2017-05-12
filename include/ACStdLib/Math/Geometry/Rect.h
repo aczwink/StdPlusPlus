@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Math/CPoint.h"
-#include "ACStdLib/Math/Size.h"
+#include "ACStdLib/Math/Point.hpp"
+#include "ACStdLib/Math/Size.hpp"
 
 namespace ACStdLib
 {
@@ -28,7 +28,7 @@ namespace ACStdLib
     {
     public:
         //Members
-        CPoint origin;
+        Point origin;
         Size size;
 
         //Constructors
@@ -44,7 +44,7 @@ namespace ACStdLib
             this->size.height = height;
         }
 
-        inline Rect(const CPoint &refPoint, const Size &refSize)
+        inline Rect(const Point &refPoint, const Size &refSize)
         {
             this->origin = refPoint;
             this->size = refSize;

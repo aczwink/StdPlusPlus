@@ -323,6 +323,13 @@ uint32 DeviceContext::GetNumberOfTextureUnits() const
     return maxTextures;
 }
 
+void DeviceContext::ReadDepthBuffer(const Rect &block, float32 *output)
+{
+	this->BindOSContext();
+
+	glReadPixels(block.x(), block.y(), block.width(), block.height(), GL_DEPTH_COMPONENT, GL_FLOAT, output);
+}
+
 void DeviceContext::SetDepthTest(TestFunction function)
 {
     this->BindOSContext();

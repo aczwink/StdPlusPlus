@@ -22,30 +22,17 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CPoint
+    namespace UI
     {
-    public:
-        //Members
-        int32 x;
-        int32 y;
-
-        //Constructors
-        inline CPoint()
+        //Enums
+        enum class MouseButton
         {
-            this->x = 0;
-            this->y = 0;
-        }
+            Left,
+            Right
+        };
 
-        inline CPoint(int32 x, int32 y)
-        {
-            this->x = x;
-            this->y = y;
-        }
-
-        //Inline operators
-        inline CPoint operator+(const CPoint &refRight) const
-        {
-            return CPoint(this->x + refRight.x, this->y + refRight.y);
-        }
-    };
+        //Functions
+        ACSTDLIB_API void GetCursorPos(uint16 &refX, uint16 &refY);
+        ACSTDLIB_API bool GetMouseButtonState(MouseButton button);
+    }
 }

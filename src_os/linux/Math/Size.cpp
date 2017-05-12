@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Math/Size.h>
+#include <ACStdLib/Math/Size.hpp>
 //Global
 #include <gdk/gdk.h>
 //Namespaces

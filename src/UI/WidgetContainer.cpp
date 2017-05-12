@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/WidgetContainer.h>
 //Local
-#include <ACStdLib/UI/Window.h>
+#include <ACStdLib/UI/Window.hpp>
 #include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Namespaces
 using namespace ACStdLib;
@@ -75,7 +75,7 @@ void WidgetContainer::SetLayout(ILayout *pLayout)
 //Public methods
 Rect WidgetContainer::GetChildrenRect() const
 {
-	return Rect(CPoint(0, 0), this->GetSize());
+	return Rect(Point(0, 0), this->GetSize());
 }
 
 ERenderMode WidgetContainer::GetChildrenRenderMode() const

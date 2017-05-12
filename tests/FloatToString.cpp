@@ -21,16 +21,7 @@ using namespace ACStdLib;
 
 TEST_SUITE(FloatToStringTest)
 {
-	TEST(exponentTests)
-	{
-		ByteString str = "1e3";
-		ASSERT(str.ToFloat() == 1000);
-
-		str = "1e-3";
-		ASSERT(str.ToFloat() == 0.001);
-	}
-
-	TEST(practiceTests) //where the function failed in practice
+	TEST(BugReports) //where the function failed in practice
 	{
 		ByteString str = "3.42708e-05";
 

@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Widget.h>
+#include <ACStdLib/UI/Widget.hpp>
 //Local
 #include <ACStdLib/UI/WidgetContainer.h>
-#include <ACStdLib/UI/Window.h>
+#include <ACStdLib/UI/Window.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -42,6 +42,16 @@ Widget::Widget(WidgetContainer *pContainer)
 }
 
 //Eventhandlers
+void Widget::OnMouseButtonPressed(MouseButton button, const Point &pos)
+{
+	this->IgnoreEvent();
+}
+
+void Widget::OnMouseButtonReleased(MouseButton button, const Point &pos)
+{
+	this->IgnoreEvent();
+}
+
 void Widget::OnPaint()
 {
     this->IgnoreEvent();
@@ -74,10 +84,10 @@ void Widget::SetRect(const Rect &area)
 	this->OnResized();
 }
 
-CPoint Widget::TransformToWindow(const CPoint &refPoint) const
+Point Widget::TransformToWindow(const Point &refPoint) const
 {
     WidgetContainer *pParent;
-    CPoint transformed;
+    Point transformed;
     Rect rcParent;
 
     pParent = this->pParent;

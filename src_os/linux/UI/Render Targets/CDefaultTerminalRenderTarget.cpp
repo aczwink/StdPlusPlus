@@ -43,7 +43,7 @@ Size CDefaultTerminalRenderTarget::GetSize() const
     NOT_IMPLEMENTED_ERROR;
 }
 
-void CDefaultTerminalRenderTarget::OutputCodepointAt(const CPoint &refPoint, uint32 codePoint)
+void CDefaultTerminalRenderTarget::OutputCodepointAt(const Point &refPoint, uint32 codePoint)
 {
     NOT_IMPLEMENTED_ERROR;
 }

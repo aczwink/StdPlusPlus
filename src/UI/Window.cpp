@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Window.h>
+#include <ACStdLib/UI/Window.hpp>
 //Local
 #include <ACStdLib/UI/Menu/CMenuBar.h>
 #include "Render Targets/IRenderTarget.h"
@@ -143,7 +143,7 @@ void Window::SwitchFullscreen(bool state)
     }
     else
     {
-        this->SetRect(Rect(CPoint(), GetRenderTarget(this->renderMode).GetSize()));
+        this->SetRect(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
         this->Repaint();
     }
 }
