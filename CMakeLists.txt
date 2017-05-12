@@ -20,6 +20,12 @@ if(UNIX)
     pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
     include_directories(${GTK3_INCLUDE_DIRS})
     add_definitions(${GTK3_CFLAGS_OTHER})
+
+	pkg_check_modules(PC_GLX QUIET glx)
+	find_library(GLX_LIBRARY
+		GL
+		HINTS ${PC_GLX_LIBDIR} ${PC_GLX_LIBRARY_DIRS}
+		)
 endif(UNIX)
 
 #targets
@@ -53,6 +59,7 @@ target_include_directories(ACStdLib PUBLIC
 target_link_libraries(ACStdLib ${OPENCL_LIBRARY})
 if(UNIX)
     target_link_libraries(ACStdLib ${GTK3_LIBRARIES})
+	target_link_libraries(ACStdLib ${GLX_LIBRARY})
 endif(UNIX)
 if(WIN32)
 	target_link_libraries(ACStdLib opengl32.lib)
