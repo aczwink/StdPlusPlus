@@ -19,23 +19,24 @@
 
 #pragma once
 //Local
-#include "UTF-16/CUTF16String.h"
+#include "UTF-8/UTF8String.hpp"
+#include "UTF-16/UTF16String.hpp"
 #include "StringUtil.h"
 
 namespace ACStdLib
 {
-    /*
-    UTF-16 Char that if needed transforms itself to UTF-32 so that the string is always fixed length
-    */
+	/**
+	 * UTF-16 string that, if needed, transforms itself to UTF-32 so that the string is always fixed length
+	 */
     class ACSTDLIB_API String
     {
     private:
         //Members
         bool isUTF32;
-        byte storage[sizeof(CUTF16String)];
+        byte storage[sizeof(UTF16String)];
         union
         {
-            CUTF16String *pStr16;
+            UTF16String *pStr16;
             CUTF32String *pStr32;
         };
 
@@ -44,39 +45,47 @@ namespace ACStdLib
         inline String()
         {
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String;
+            this->pStr16 = pnew(this->storage) UTF16String;
         }
 
+		/**
+		 * We assume that c is UTF-8 encoded.
+		 * @param c
+		 */
         inline String(char c)
         {
-            char str[] = {c, 0};
+            uint16 str[] = {(uint16) c, 0};
 
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String(str);
+            this->pStr16 = pnew(this->storage) UTF16String(str);
         }
 
-        inline String(const char *pString)
+		/**
+		 * We assume that \p string is UTF-8 encoded.
+		 * @param string
+		 */
+        inline String(const char *string)
         {
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String(pString);
+            this->pStr16 = pnew(this->storage) UTF16String(UTF8String(string));
         }
 
         inline String(const UTF8String &refString)
         {
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String(refString);
+            this->pStr16 = pnew(this->storage) UTF16String(refString);
         }
 
-        inline String(const CUTF16String &refString)
+        inline String(const UTF16String &refString)
         {
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String(refString);
+            this->pStr16 = pnew(this->storage) UTF16String(refString);
         }
 
         inline String(const String &refString) //copy ctor
         {
             this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) CUTF16String;
+            this->pStr16 = pnew(this->storage) UTF16String;
 
             *this = refString;
         }
@@ -92,13 +101,19 @@ namespace ACStdLib
         inline ~String()
         {
             if(this->pStr16)
-                this->pStr16->~CUTF16String();
+                this->pStr16->~UTF16String();
         }
 
         //Inline operators
-        inline String &operator=(const char *pString)
+		/**
+		 * We assume that \p string is UTF-8 encoded.
+		 *
+		 * @param string
+		 * @return
+		 */
+        inline String &operator=(const char *string)
         {
-            *this->pStr16 = pString;
+            *this->pStr16 = UTF8String(string);
 
             return *this;
         }
@@ -113,10 +128,10 @@ namespace ACStdLib
         inline String &operator=(String &&refString) //move assign
         {
             if(this->pStr16)
-                this->pStr16->~CUTF16String();
+                this->pStr16->~UTF16String();
 
             MemCopy(this->storage, refString.storage, sizeof(this->storage));
-            this->pStr16 = (CUTF16String *)this->storage;
+            this->pStr16 = (UTF16String *)this->storage;
 
             refString.pStr16 = nullptr;
 
@@ -202,7 +217,7 @@ namespace ACStdLib
             return this->pStr16->GetLength();
         }
 
-        inline const CUTF16String &GetUTF16() const
+        inline const UTF16String &GetUTF16() const
         {
             return *this->pStr16;
         }
@@ -214,7 +229,7 @@ namespace ACStdLib
 
         inline String SubString(uint32 beginOffset, uint32 length) const
         {
-            return CUTF16String(this->pStr16->GetC_Str() + beginOffset, length);
+            return UTF16String(this->pStr16->GetC_Str() + beginOffset, length);
         }
 
         inline String ToLowercase() const

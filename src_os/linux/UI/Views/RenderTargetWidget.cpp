@@ -27,6 +27,17 @@ using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 
+//Local functions
+static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
+{
+	GtkGLArea *glArea = GTK_GL_AREA(gtkWidget);
+
+	gtk_gl_area_make_current(glArea);
+
+	//enable depth buffer
+	gtk_gl_area_set_has_depth_buffer(glArea, true);
+}
+
 //Private methods
 void RenderTargetWidget::CreateOSHandle()
 {
@@ -34,12 +45,16 @@ void RenderTargetWidget::CreateOSHandle()
 
 	ADD_SELF_TO_PARENT(THIS);
 	gtk_widget_show(THIS);
-	gtk_widget_realize(THIS); //important!!!
-	gtk_widget_add_events(THIS, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
+	gtk_widget_add_events(THIS, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
 	g_signal_connect(THIS, "button-press-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
 	g_signal_connect(THIS, "button-release-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
+	g_signal_connect(THIS, "motion-notify-event", G_CALLBACK(GtkEventQueue::MouseMotionSlot), this);
+	g_signal_connect(THIS, "realize", G_CALLBACK(OnRealize), this);
 	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
+	g_signal_connect(THIS, "scroll-event", G_CALLBACK(GtkEventQueue::ScrollSlot), this);
+
+	gtk_widget_realize(THIS); //important!!!
 }
 
 void RenderTargetWidget::System_Destroy()

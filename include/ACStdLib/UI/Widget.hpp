@@ -56,6 +56,8 @@ namespace ACStdLib
             //Eventhandlers
 			virtual void OnMouseButtonPressed(MouseButton button, const Point &pos);
 			virtual void OnMouseButtonReleased(MouseButton button, const Point &pos);
+			virtual void OnMouseMoved(const Point &pos);
+			virtual void OnMouseWheelTurned(int16 delta);
             virtual void OnPaint();
             virtual void OnResized();
 

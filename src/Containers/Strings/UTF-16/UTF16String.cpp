@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 //Local
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/CUTF32String.h>
@@ -26,7 +26,7 @@
 using namespace ACStdLib;
 
 //Constructors
-CUTF16String::CUTF16String(const uint16 *pString, uint32 length)
+UTF16String::UTF16String(const uint16 *pString, uint32 length)
 {
     this->nElements = length;
     this->length = length;
@@ -41,7 +41,7 @@ CUTF16String::CUTF16String(const uint16 *pString, uint32 length)
 }
 
 //Operators
-CUTF16String &CUTF16String::operator=(const CUTF16String &refString) //copy assign
+UTF16String &UTF16String::operator=(const UTF16String &refString) //copy assign
 {
     this->EnsureCapacity(refString.GetCapacity());
 
@@ -53,28 +53,13 @@ CUTF16String &CUTF16String::operator=(const CUTF16String &refString) //copy assi
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(CUTF16String &&refString) //move assign
+UTF16String &UTF16String::operator=(UTF16String &&refString) //move assign
 {
     ASSERT(0);
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const char *pStr)
-{
-    this->nElements = 0;
-    this->length = GetStringLength(pStr);
-
-    this->EnsureCapacity(this->length); //for sure no surrogates needed
-
-    for(uint32 i = 0; i < this->length; i++)
-        this->data[this->nElements++] = pStr[i];
-
-    this->data[this->nElements] = 0;
-
-    return *this;
-}
-
-CUTF16String &CUTF16String::operator=(const uint16 *pString)
+UTF16String &UTF16String::operator=(const uint16 *pString)
 {
     this->length = GetStringLength(pString);
     this->nElements = this->length;
@@ -89,7 +74,7 @@ CUTF16String &CUTF16String::operator=(const uint16 *pString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const ByteString &refString)
+UTF16String &UTF16String::operator=(const ByteString &refString)
 {
     //each byte can be encoded in one element, can't have surrogates
     this->EnsureCapacity(refString.GetLength());
@@ -106,7 +91,7 @@ CUTF16String &CUTF16String::operator=(const ByteString &refString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const UTF8String &refString)
+UTF16String &UTF16String::operator=(const UTF8String &refString)
 {
     //worst-case: everything will be a surrogate
     this->EnsureCapacity(2 * refString.GetLength());
@@ -125,7 +110,7 @@ CUTF16String &CUTF16String::operator=(const UTF8String &refString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator=(const CUTF32String &refString)
+UTF16String &UTF16String::operator=(const CUTF32String &refString)
 {
     //worst-case: everything will be a surrogate
     this->EnsureCapacity(2 * refString.GetLength());
@@ -144,9 +129,9 @@ CUTF16String &CUTF16String::operator=(const CUTF32String &refString)
     return *this;
 }
 
-CUTF16String CUTF16String::operator+(const CUTF16String &refRight) const
+UTF16String UTF16String::operator+(const UTF16String &refRight) const
 {
-    CUTF16String tmp;
+    UTF16String tmp;
 
     tmp.EnsureCapacity(this->GetLength() + refRight.GetLength());
     tmp += *this;
@@ -155,7 +140,7 @@ CUTF16String CUTF16String::operator+(const CUTF16String &refRight) const
     return tmp;
 }
 
-CUTF16String &CUTF16String::operator+=(uint16 c)
+UTF16String &UTF16String::operator+=(uint16 c)
 {
     //can't have surrogates
     this->EnsureAdditionalCapacity(1);
@@ -167,7 +152,7 @@ CUTF16String &CUTF16String::operator+=(uint16 c)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator += (const ByteString &refString)
+UTF16String &UTF16String::operator += (const ByteString &refString)
 {
     //each byte can be encoded in one element, can't have surrogates
     this->EnsureAdditionalCapacity(refString.GetLength());
@@ -184,7 +169,7 @@ CUTF16String &CUTF16String::operator += (const ByteString &refString)
     return *this;
 }
 
-CUTF16String &CUTF16String::operator+=(const CUTF16String &refString)
+UTF16String &UTF16String::operator+=(const UTF16String &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetCapacity());
 
@@ -198,7 +183,7 @@ CUTF16String &CUTF16String::operator+=(const CUTF16String &refString)
     return *this;
 }
 
-bool CUTF16String::operator<(const CUTF16String &refRight) const
+bool UTF16String::operator<(const UTF16String &refRight) const
 {
     int32 cmp;
 
@@ -218,7 +203,7 @@ bool CUTF16String::operator<(const CUTF16String &refRight) const
     return MemCmp(this->GetC_Str(), refRight.GetC_Str(), this->GetSize()) < 0;
 }
 
-bool CUTF16String::operator>(const CUTF16String &refRight) const
+bool UTF16String::operator>(const UTF16String &refRight) const
 {
     int32 cmp;
 
@@ -239,7 +224,7 @@ bool CUTF16String::operator>(const CUTF16String &refRight) const
 }
 
 //Private methods
-uint32 CUTF16String::Decode(const uint16 *pSrc, bool &refIsSurrogate) const
+uint32 UTF16String::Decode(const uint16 *pSrc, bool &refIsSurrogate) const
 {
     if(*pSrc > 0xD800)
     {
@@ -250,7 +235,7 @@ uint32 CUTF16String::Decode(const uint16 *pSrc, bool &refIsSurrogate) const
     return *pSrc;
 }
 
-bool CUTF16String::Encode(uint32 codePoint, uint16 *pDest)
+bool UTF16String::Encode(uint32 codePoint, uint16 *pDest)
 {
     if(codePoint < 0x10000)
     {
@@ -263,7 +248,7 @@ bool CUTF16String::Encode(uint32 codePoint, uint16 *pDest)
 }
 
 //Public methods
-bool CUTF16String::Contains(uint32 codePoint) const
+bool UTF16String::Contains(uint32 codePoint) const
 {
     for(uint32 current : *this)
         if(current == codePoint)
@@ -272,7 +257,7 @@ bool CUTF16String::Contains(uint32 codePoint) const
     return false;
 }
 
-uint32 CUTF16String::Find(uint16 c, uint32 startPos) const
+uint32 UTF16String::Find(uint16 c, uint32 startPos) const
 {
     for(uint32 i = startPos; i < this->GetLength(); i++)
     {
@@ -283,7 +268,7 @@ uint32 CUTF16String::Find(uint16 c, uint32 startPos) const
     return UINT32_MAX;
 }
 
-uint32 CUTF16String::FindReverse(uint16 c, uint32 startPos) const
+uint32 UTF16String::FindReverse(uint16 c, uint32 startPos) const
 {
     if((startPos == 0) || (this->GetLength() == 0))
         return UINT32_MAX;
@@ -300,9 +285,9 @@ uint32 CUTF16String::FindReverse(uint16 c, uint32 startPos) const
     return UINT32_MAX;
 }
 
-CUTF16String CUTF16String::ToLowercase() const
+UTF16String UTF16String::ToLowercase() const
 {
-    CUTF16String buffer;
+    UTF16String buffer;
 
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)

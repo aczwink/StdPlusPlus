@@ -87,11 +87,41 @@ void GtkEventQueue::DestroySlot(GtkWidget *pWidget, gpointer data)
     EventQueue::DispatchDestroyEvent(*(Window *)data);
 }
 
+bool GtkEventQueue::MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data)
+{
+	g_ignoreEvent = false;
+
+	Widget *widget = (Widget *)WIDGET_FROM_GTK(gtkWidget);
+
+	EventQueue::DispatchMouseMovedEvent(*widget, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
+
+	return !g_ignoreEvent;
+}
+
 bool GtkEventQueue::PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data)
 {
 	g_ignoreEvent = false;
 
 	EventQueue::DispatchPaintEvent(*(Widget *)user_data);
+
+	return !g_ignoreEvent;
+}
+
+bool GtkEventQueue::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data)
+{
+	g_ignoreEvent = false;
+
+	Widget *widget = (Widget *)user_data;
+
+	switch(event->direction)
+	{
+		case GDK_SCROLL_UP:
+			EventQueue::DispatchMouseWheelEvent(*widget, 1);
+			break;
+		case GDK_SCROLL_DOWN:
+			EventQueue::DispatchMouseWheelEvent(*widget, -1);
+			break;
+	}
 
 	return !g_ignoreEvent;
 }

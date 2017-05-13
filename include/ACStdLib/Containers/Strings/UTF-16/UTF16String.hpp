@@ -29,7 +29,7 @@ namespace ACStdLib
     class UTF8String;
     class CUTF32String;
 
-    class ACSTDLIB_API CUTF16String : public VariableCharLengthString<uint16>
+    class ACSTDLIB_API UTF16String : public VariableCharLengthString<uint16>
     {
         friend class CConstUTF16StringIterator;
     private:
@@ -38,64 +38,58 @@ namespace ACStdLib
         bool Encode(uint32 codePoint, uint16 *pDest); //return true if surrogate pair was encoded, false otherwise
     public:
         //Constructors
-        inline CUTF16String()
+        inline UTF16String()
         {
         }
 
-        inline CUTF16String(const CUTF16String &refString) //copy ctor
-        {
-            *this = refString;
-        }
-
-        inline CUTF16String(CUTF16String &&refString) //move ctor
+        inline UTF16String(const UTF16String &refString) //copy ctor
         {
             *this = refString;
         }
 
-        inline CUTF16String(const char *pString)
+        inline UTF16String(UTF16String &&refString) //move ctor
         {
-            *this = pString;
+            *this = refString;
         }
 
-        inline CUTF16String(const uint16 *pStr)
+        inline UTF16String(const uint16 *pStr)
         {
             *this = pStr;
         }
 
-        inline CUTF16String(const ByteString &refString)
+        inline UTF16String(const ByteString &refString)
         {
             *this = refString;
         }
 
-        inline CUTF16String(const UTF8String &refString)
+        inline UTF16String(const UTF8String &refString)
         {
             *this = refString;
         }
 
-        inline CUTF16String(const CUTF32String &refString)
+        inline UTF16String(const CUTF32String &refString)
         {
             *this = refString;
         }
 
-        CUTF16String(const uint16 *pString, uint32 length);
+        UTF16String(const uint16 *pString, uint32 length);
 
         //Operators
-        CUTF16String &operator=(const CUTF16String &refString); //copy assign
-        CUTF16String &operator=(CUTF16String &&refString); //move assign
-        CUTF16String &operator=(const char *pStr);
-        CUTF16String &operator=(const uint16 *pStr);
-        CUTF16String &operator=(const ByteString &refString);
-        CUTF16String &operator=(const UTF8String &refString);
-        CUTF16String &operator=(const CUTF32String &refString);
-        CUTF16String operator+(const CUTF16String &refRight) const;
-        CUTF16String &operator+=(uint16 c);
-        CUTF16String &operator+=(const ByteString &refString);
-        CUTF16String &operator+=(const CUTF16String &refString);
-        bool operator<(const CUTF16String &refRight) const;
-        bool operator>(const CUTF16String &refRight) const;
+        UTF16String &operator=(const UTF16String &refString); //copy assign
+        UTF16String &operator=(UTF16String &&refString); //move assign
+        UTF16String &operator=(const uint16 *pStr);
+        UTF16String &operator=(const ByteString &refString);
+        UTF16String &operator=(const UTF8String &refString);
+        UTF16String &operator=(const CUTF32String &refString);
+        UTF16String operator+(const UTF16String &refRight) const;
+        UTF16String &operator+=(uint16 c);
+        UTF16String &operator+=(const ByteString &refString);
+        UTF16String &operator+=(const UTF16String &refString);
+        bool operator<(const UTF16String &refRight) const;
+        bool operator>(const UTF16String &refRight) const;
 
         //Inline operators
-        inline bool operator==(const CUTF16String &refString) const
+        inline bool operator==(const UTF16String &refString) const
         {
             if(this->GetLength() != refString.GetLength())
                 return false;
@@ -107,7 +101,7 @@ namespace ACStdLib
         bool Contains(uint32 codePoint) const;
         uint32 Find(uint16 c, uint32 startPos = 0) const;
         uint32 FindReverse(uint16 c, uint32 startPos = UINT32_MAX) const;
-        CUTF16String ToLowercase() const;
+        UTF16String ToLowercase() const;
 
         //For range-based loop
         inline const CConstUTF16StringIterator begin() const

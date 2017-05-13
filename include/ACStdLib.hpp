@@ -40,7 +40,7 @@
 //Strings
 #include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Containers/Strings/String.h>
-#include <ACStdLib/Containers/Strings/UTF-16/CUTF16String.h>
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 
 //Filesystem
 #include <ACStdLib/Filesystem/Path.hpp>
@@ -161,6 +161,7 @@
 
 //Time
 #include <ACStdLib/Time/CCalendar.h>
+#include <ACStdLib/Time/Clock.hpp>
 #include <ACStdLib/Time/CTime.h>
 #include <ACStdLib/Time/CTimer.h>
 #include <ACStdLib/Time/Time.h>

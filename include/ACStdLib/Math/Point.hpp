@@ -47,5 +47,10 @@ namespace ACStdLib
         {
             return Point(this->x + refRight.x, this->y + refRight.y);
         }
+
+        inline Point operator-(const Point &right) const
+        {
+            return Point(this->x - right.x, this->y - right.y);
+        }
     };
 }

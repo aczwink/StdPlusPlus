@@ -16,12 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
 #include "../Definitions.h"
 
 namespace ACStdLib
 {
-    uint64 ACSTDLIB_API QueryHighPrecisionClockCounter();
-    uint64 ACSTDLIB_API QueryHighPrecisionClockFrequency();
+	class Clock
+	{
+	private:
+		//Members
+		uint64 startSeconds;
+		uint64 startNanoSeconds;
+
+	public:
+		//Methods
+		uint64 GetElapsedNanoseconds() const;
+		void Start();
+	};
 }
