@@ -58,6 +58,8 @@ target_include_directories(ACStdLib PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(ACStdLibTest PUBLIC "include")
+
 #link
 target_link_libraries(ACStdLib ${OPENCL_LIBRARY})
 if(UNIX)
