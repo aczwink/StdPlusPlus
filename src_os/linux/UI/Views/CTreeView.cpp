@@ -34,7 +34,7 @@ using namespace ACStdLib::UI;
 static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const String &refText)
 {
     TVINSERTSTRUCTW tvis;
-    CUTF16String textUTF16;
+    UTF16String textUTF16;
 
     textUTF16 = refText.GetUTF16();
 

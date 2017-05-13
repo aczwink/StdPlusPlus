@@ -24,19 +24,19 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CUTF16String;
+    class UTF16String;
 
     class CConstUTF16StringIterator
     {
     private:
         //Members
-        const CUTF16String &refString;
+        const UTF16String &refString;
         const uint16 *pCurrent;
         bool isSurrogate;
         uint32 currentCodePoint;
     public:
         //Constructor
-        CConstUTF16StringIterator(const CUTF16String &refString, uint32 index = 0);
+        CConstUTF16StringIterator(const UTF16String &refString, uint32 index = 0);
 
         //Operators
         CConstUTF16StringIterator &operator++(); //Prefix ++

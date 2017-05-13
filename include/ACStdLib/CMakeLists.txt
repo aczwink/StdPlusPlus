@@ -38,7 +38,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/CConstUTF8StringIterator.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CUTF16String.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.h
 
 	#ErrorHandling
@@ -72,6 +72,7 @@ set(SOURCE_FILES
 
         #Time
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.h
 
         #UI

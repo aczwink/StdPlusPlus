@@ -58,6 +58,16 @@ namespace ACStdLib
 				widget.OnMouseButtonReleased(button, pos);
 			}
 
+			static inline void DispatchMouseMovedEvent(Widget &widget, const Point &pos)
+			{
+				widget.OnMouseMoved(pos);
+			}
+
+			static inline void DispatchMouseWheelEvent(Widget &widget, int16 delta)
+			{
+				widget.OnMouseWheelTurned(delta);
+			}
+
             static inline void DispatchPaintEvent(Widget &refWidget)
             {
                 refWidget.OnPaint();

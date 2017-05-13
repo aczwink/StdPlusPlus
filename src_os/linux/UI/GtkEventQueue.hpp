@@ -30,6 +30,8 @@ public:
 	static void ClickedSlot(GtkButton *button, gpointer user_data);
 	static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);
     static void DestroySlot(GtkWidget *pWidget, gpointer data);
+	static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data);
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
+	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);
 	static void ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data);
 };

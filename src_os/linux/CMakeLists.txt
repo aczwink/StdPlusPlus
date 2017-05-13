@@ -20,6 +20,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileOutputStream.cpp
 
+	#Time
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
+
         #UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp

@@ -52,6 +52,16 @@ void Widget::OnMouseButtonReleased(MouseButton button, const Point &pos)
 	this->IgnoreEvent();
 }
 
+void Widget::OnMouseMoved(const Point &pos)
+{
+	this->IgnoreEvent();
+}
+
+void Widget::OnMouseWheelTurned(int16 delta)
+{
+	this->IgnoreEvent();
+}
+
 void Widget::OnPaint()
 {
     this->IgnoreEvent();

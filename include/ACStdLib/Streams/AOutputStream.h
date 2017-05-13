@@ -119,7 +119,7 @@ namespace ACStdLib
             return *this;
         }
 
-        inline AOutputStream &operator<<(const CUTF16String &refString)
+        inline AOutputStream &operator<<(const UTF16String &refString)
         {
             return *this << UTF8String(refString);
         }
