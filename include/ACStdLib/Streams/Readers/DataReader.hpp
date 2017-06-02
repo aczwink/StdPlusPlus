@@ -18,32 +18,20 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../InternalCompilerFlags.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 
 namespace ACStdLib
 {
-    //Forward declarations
-    class AOutputStream;
-
-    class ACSTDLIB_API AInputStream
+    class ACSTDLIB_API DataReader
     {
-    public:
-        //Destructor
-        virtual ~AInputStream(){};
+    private:
+        //Members
+        bool readBigEndian;
+		InputStream &inputStream;
 
-        //Abstract
-        virtual bool HitEnd() const = NULL;
-        virtual byte ReadByte() = NULL;
-        virtual uint32 ReadBytes(void *pDestination, uint32 count) = NULL;
-        virtual uint32 Skip(uint32 nBytes) = NULL;
-
-        //Methods
-        uint32 FlushTo(AOutputStream &refOutput, uint32 size = UINT32_MAX);
-
-        //Inline
+		//Inline
 #ifdef _AC_ENDIAN_LITTLE
-        inline float32 ReadFloat32BE()
+		inline float32 ReadFloat32BE()
 		{
 			union
 			{
@@ -60,7 +48,7 @@ namespace ACStdLib
 		{
 			float32 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -87,7 +75,7 @@ namespace ACStdLib
 		{
 			int16 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -96,7 +84,7 @@ namespace ACStdLib
 		{
 			int32 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -105,7 +93,7 @@ namespace ACStdLib
 		{
 			int64 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -114,7 +102,7 @@ namespace ACStdLib
 		{
 			byte buffer[2];
 
-			this->ReadBytes(&buffer, sizeof(buffer));
+			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
 
 			return ((uint16)buffer[0] << 8) | buffer[1];
 		}
@@ -123,7 +111,7 @@ namespace ACStdLib
 		{
 			uint16 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -132,7 +120,7 @@ namespace ACStdLib
 		{
 			byte buffer[4];
 
-			this->ReadBytes(&buffer, sizeof(buffer));
+			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
 
 			return ((uint32)buffer[0] << 24) | ((uint32)buffer[1] << 16) | ((uint32)buffer[2] << 8) | buffer[3];
 		}
@@ -141,7 +129,7 @@ namespace ACStdLib
 		{
 			uint32 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
@@ -150,7 +138,7 @@ namespace ACStdLib
 		{
 			byte buffer[8];
 
-			this->ReadBytes(&buffer, sizeof(buffer));
+			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
 
 			return ((uint64)buffer[0] << 56) | ((uint64)buffer[1] << 48) | ((uint64)buffer[2] << 40) | ((uint64)buffer[3] << 32) | ((uint64)buffer[4] << 24) | ((uint64)buffer[5] << 16) | ((uint64)buffer[6] << 8) | buffer[7];
 		}
@@ -159,10 +147,62 @@ namespace ACStdLib
 		{
 			uint64 v;
 
-			this->ReadBytes(&v, sizeof(v));
+			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			return v;
 		}
 #endif
+
+    public:
+        //Constructor
+        inline DataReader(bool readBigEndian, InputStream &inputStream) : inputStream(inputStream)
+        {
+            this->readBigEndian = readBigEndian;
+        }
+
+		//Operators
+		inline DataReader &operator>>(char &c)
+		{
+			this->inputStream.ReadBytes(&c, 1);
+
+			return *this;
+		}
+
+		inline DataReader &operator>>(byte &b)
+		{
+			this->inputStream.ReadBytes(&b, 1);
+
+			return *this;
+		}
+
+		inline DataReader &operator>>(int16 &i)
+		{
+			if(this->readBigEndian)
+				i = this->ReadInt16BE();
+			else
+				i = this->ReadInt16LE();
+
+			return *this;
+		}
+
+		inline DataReader &operator>>(uint16 &i)
+		{
+			if(this->readBigEndian)
+				i = this->ReadUInt16BE();
+			else
+				i = this->ReadUInt16LE();
+
+			return *this;
+		}
+
+		inline DataReader &operator>>(uint32 &i)
+		{
+			if(this->readBigEndian)
+				i = this->ReadUInt32BE();
+			else
+				i = this->ReadUInt32LE();
+
+			return *this;
+		}
     };
 }

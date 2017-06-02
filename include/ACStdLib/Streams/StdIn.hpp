@@ -16,22 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #pragma once
+//Local
+#include "InputStream.hpp"
 
 namespace ACStdLib
 {
-    template<typename KeyType, typename ValueType>
-    class CKeyValuePair
-    {
-    public:
-        //Members
-        KeyType key;
-        ValueType value;
+	class StdIn : public InputStream
+	{
+	public:
+		//Methods
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
+	};
 
-        //Constructor
-        CKeyValuePair(const KeyType &refKey, const ValueType &refValue) : key(refKey), value(refValue)
-        {
-        }
-    };
+	//Global Instances
+	extern StdIn ACSTDLIB_API stdIn;
 }

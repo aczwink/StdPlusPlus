@@ -1,21 +1,10 @@
 set(SOURCE_FILES
 	${SOURCE_FILES}
-	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
 
 	#Compute
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.hpp
 
 	#Containers
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableContainer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
@@ -32,7 +21,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/VariableCharLengthString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.h
@@ -40,6 +29,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.h
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/KeyValuePair.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/PriorityQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableContainer.hpp
 
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
@@ -55,6 +48,15 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Vector3.hpp
 
+	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.hpp
+
+	#Network
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/Datagram.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/DatagramSocket.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/IPv4Address.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/NetAddress.hpp
+
 	#Rendering
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/IndexBuffer.hpp
@@ -65,23 +67,21 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
         #Streams
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.hpp
 
         #Time
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.h
 
-        #UI
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.h
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.h
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
+	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
@@ -94,5 +94,24 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.h
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
 
-        PARENT_SCOPE)
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Variant.hpp
+
+	PARENT_SCOPE)

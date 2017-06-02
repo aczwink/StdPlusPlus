@@ -25,7 +25,7 @@
 #include <string.h>
 #include <locale.h>
 //Local
-#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <ACStdLib/Mathematics.h>
 #include <ACStdLib/Math/CFraction.h>

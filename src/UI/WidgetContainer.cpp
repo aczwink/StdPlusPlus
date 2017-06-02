@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 //Local
 #include <ACStdLib/UI/Window.hpp>
 #include <ACStdLib/UI/Layouts/GridLayout.hpp>
@@ -28,7 +28,7 @@ using namespace ACStdLib::UI;
 //Constructor
 WidgetContainer::WidgetContainer(WidgetContainer *pContainer) : Widget(pContainer)
 {
-    this->pLayout = new GridLayout;
+    this->layout = new GridLayout;
     if(pContainer)
         this->renderMode = pContainer->renderMode;
 }
@@ -41,8 +41,8 @@ WidgetContainer::~WidgetContainer()
         delete refpChild;
     }
 
-    if(this->pLayout)
-        delete this->pLayout;
+    if(this->layout)
+        delete this->layout;
 }
 
 //Eventhandlers
@@ -61,15 +61,15 @@ void WidgetContainer::OnPaint()
 
 void WidgetContainer::OnResized()
 {
-    this->pLayout->Layout(*this);
+    this->layout->Layout(*this);
 }
 
 void WidgetContainer::SetLayout(ILayout *pLayout)
 {
-    if(this->pLayout)
-        delete this->pLayout;
+    if(this->layout)
+        delete this->layout;
 
-    this->pLayout = pLayout;
+    this->layout = pLayout;
 }
 
 //Public methods
@@ -85,8 +85,8 @@ ERenderMode WidgetContainer::GetChildrenRenderMode() const
 
 Size WidgetContainer::GetSizeHint() const
 {
-    if(this->pLayout)
-        return this->pLayout->GetPreferredSize(*this);
+    if(this->layout)
+        return this->layout->GetPreferredSize(*this);
 
     return Size();
 }

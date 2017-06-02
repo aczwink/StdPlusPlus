@@ -36,13 +36,13 @@ namespace ACStdLib
         private:
             //Members
             LinkedList<Widget *> children;
-            ILayout *pLayout;
 
             //Eventhandlers
             virtual void OnResized();
 
         protected:
             //Members
+            ILayout *layout;
             ERenderMode renderMode;
 
             //Eventhandlers

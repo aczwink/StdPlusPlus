@@ -24,6 +24,12 @@ namespace ACStdLib
 {
 	namespace UI
 	{
+		/**
+		 * Radio buttons are normally used when exclusively one option should be toggled.
+		 * When toggling one radio button, all others in the same group get disabled, by default.
+		 *
+		 * Currently, radio buttons are in the same button group iff they have the same parent widget
+		 */
 		class ACSTDLIB_API RadioButton : public Widget
 		{
 		private:
@@ -31,6 +37,9 @@ namespace ACStdLib
 			void System_CreateHandle();
 
 		public:
+			//Dynamic event handlers
+			Function<void()> onActivatedHandler;
+
 			//Constructor
 			RadioButton(WidgetContainer *parent);
 

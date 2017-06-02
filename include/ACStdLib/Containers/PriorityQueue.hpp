@@ -22,7 +22,7 @@
 namespace ACStdLib
 {
     template<typename DataType>
-    class CPriorityQueue : public AContainer
+    class PriorityQueue : public AContainer
     {
         struct SNode
         {
@@ -36,13 +36,13 @@ namespace ACStdLib
 
     public:
         //Constructor
-        CPriorityQueue()
+        PriorityQueue()
         {
             this->pHead = nullptr;
         }
 
         //Destructor
-        ~CPriorityQueue()
+        ~PriorityQueue()
         {
             this->Release();
         }

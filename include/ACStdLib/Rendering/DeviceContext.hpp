@@ -71,7 +71,7 @@ namespace ACStdLib
             //Members
             void *systemHandle;
             void *deviceState;
-            InputState *pCurrentInputState;
+            InputState *currentInputState;
 
             //Methods
             void BindOSContext() const;
@@ -98,6 +98,7 @@ namespace ACStdLib
             ShaderProgram *CreateShaderProgram();
             ITexture2D *CreateTexture2D();
             VertexBuffer *CreateVertexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
+            void DrawLines(uint32 startVertexIndex, uint32 nLines);
 			void DrawPoints(uint32 startVertexIndex, uint32 count);
             void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices);
             void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles);

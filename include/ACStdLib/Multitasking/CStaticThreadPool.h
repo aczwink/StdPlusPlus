@@ -22,7 +22,7 @@
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "CConditionVariable.h"
 #include "CMutex.h"
-#include "CThread.h"
+#include "Thread.hpp"
 
 namespace ACStdLib
 {

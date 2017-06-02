@@ -19,12 +19,27 @@
 //Class header
 #include <ACStdLib/UI/Controls/RadioButton.hpp>
 //Local
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../Gtk.h"
+#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
+
+//Local functions
+static GtkWidget *CreateRadioButtonInCorrectGroup(Widget *widget)
+{
+	for(const Widget *const& child : widget->GetParent()->GetChildren())
+	{
+		if(child == widget)
+			break;
+		if(IS_INSTANCE_OF(child, const RadioButton))
+			return gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(PRIVATE_DATA(child)->widget));
+	}
+	return gtk_radio_button_new(nullptr);
+}
 
 //Destructor
 RadioButton::~RadioButton()
@@ -35,10 +50,12 @@ RadioButton::~RadioButton()
 //Private methods
 void RadioButton::System_CreateHandle()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_radio_button_new(nullptr), this);
+	this->systemHandle = CreateWidgetPrivateData(CreateRadioButtonInCorrectGroup(this), this);
 	gtk_widget_show(THIS); //default to show
 
 	ADD_SELF_TO_PARENT(THIS);
+
+	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
 }
 
 //Public methods

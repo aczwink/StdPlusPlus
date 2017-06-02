@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
-#include "../AInputStream.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
+#include "DataReader.hpp"
 
 namespace ACStdLib
 {
@@ -28,7 +29,8 @@ namespace ACStdLib
     {
     private:
         //Members
-        AInputStream &inputStream;
+        InputStream &inputStream;
+		DataReader dataReader;
 
 		//Methods
 		bool IsWhitespace(byte b);
@@ -36,7 +38,7 @@ namespace ACStdLib
 
     public:
         //Constructor
-        inline TextReader(AInputStream &inputStream) : inputStream(inputStream)
+        inline TextReader(InputStream &inputStream) : inputStream(inputStream), dataReader(true, inputStream)
         {
         }
 

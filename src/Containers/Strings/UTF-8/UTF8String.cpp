@@ -55,18 +55,25 @@ UTF8String &UTF8String::operator=(UTF8String &&refString)
     return *this;
 }
 
-UTF8String &UTF8String::operator=(const char *pString)
+UTF8String &UTF8String::operator=(const char *string)
 {
-    this->length = GetStringLength(pString);
-    this->EnsureAdditionalCapacity(length);
+	this->nElements = GetStringLength(string);
+    this->EnsureCapacity(this->nElements);
 
-    this->nElements = 0;
-    for(uint32 i = 0; i < length; i++)
+	//copy data
+	MemCopy(this->data, string, this->nElements);
+	this->data[this->GetSize()] = 0;
+
+	//compute length
+	this->length = 0;
+    while(*string)
     {
-        this->nElements += this->Encode(pString[i], &this->data[this->nElements]);
-    }
+		uint8 codePointSize;
+		this->Decode((const byte *)string, codePointSize);
 
-    this->data[this->GetSize()] = 0;
+		this->length++;
+		string += codePointSize;
+    }
 
     return *this;
 }

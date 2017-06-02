@@ -23,7 +23,7 @@
 #include <stdio.h>
 //Local
 #include <ACStdLib/Debug.h>
-#include <ACStdLib/Streams/CFileOutputStream.h>
+#include <ACStdLib/Streams/FileOutputStream.hpp>
 #include <ACStdLib/Streams/CStdOut.h>
 //Namespaces
 using namespace ACStdLib;
@@ -46,17 +46,17 @@ struct SDebugMemBlockHeader
 //or else the lock() calls will fail
 #ifdef _AC_OS_WINDOWS
 #include <Windows.h>
-class CInternalMutex
+class InternalMutex
 {
 public:
 	CRITICAL_SECTION cs;
 
-	inline CInternalMutex()
+	inline InternalMutex()
 	{
 		InitializeCriticalSection(&cs);
 	}
 
-	inline ~CInternalMutex()
+	inline ~InternalMutex()
 	{
 		DeleteCriticalSection(&cs);
 	}
@@ -74,17 +74,17 @@ public:
 #endif
 #ifdef _AC_OS_LINUX
 #include <pthread.h>
-class CInternalMutex
+class InternalMutex
 {
 public:
     pthread_mutex_t mutex;
 
-	inline CInternalMutex()
+	inline InternalMutex()
 	{
         pthread_mutex_init(&mutex, nullptr);
 	}
 
-	inline ~CInternalMutex()
+	inline ~InternalMutex()
 	{
         pthread_mutex_destroy(&mutex);
 	}
@@ -112,7 +112,7 @@ static uint32 g_seqNumber = 1;
 static uint32 g_seqNumberUser = 1;
 static SDebugMemBlockHeader *g_pFirstMemBlock = NULL;
 static SDebugMemBlockHeader *g_pLastMemBlock = NULL;
-static CInternalMutex g_memMutex;
+static InternalMutex g_memMutex;
 
 //Local Functions
 static bool CheckBytes(const void *pBytes, byte mustBeValue, uint32 size)

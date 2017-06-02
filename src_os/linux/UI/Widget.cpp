@@ -21,7 +21,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "Gtk.h"
 //Namespaces
 using namespace ACStdLib;
@@ -42,8 +42,11 @@ Size Widget::System_GetSize() const
 
 void Widget::System_SetRect(const Rect &area)
 {
+	gtk_widget_queue_resize(PRIVATE_DATA(this)->widget);
+	/*
 	if(PRIVATE_DATA(this)->childAreaWidget)
 		gtk_widget_queue_resize(PRIVATE_DATA(this)->childAreaWidget);
+	 */
 }
 
 //Proctected methods

@@ -20,7 +20,7 @@
 #include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Local
 #include <ACStdLib/Containers/Map/Map.hpp>
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -37,9 +37,29 @@ GridLayout::GridLayout()
 }
 
 //Private methods
-/*
-Computes the minimum sizes of the rows and columns in the grid.
-*/
+void GridLayout::CanExpand(const Widget *widget, bool &expandHorz, bool &expandVert)
+{
+	if(widget->sizingPolicy.GetHorizontalAttributes().expand)
+		expandHorz = true;
+
+	if(widget->sizingPolicy.GetVerticalAttributes().expand)
+		expandVert = true;
+
+	if(expandHorz && expandVert)
+		return; //no need to search further
+
+	if(const WidgetContainer *container = dynamic_cast<const WidgetContainer *>(widget))
+	{
+		for(const Widget *const& child : container->GetChildren())
+		{
+			this->CanExpand(child, expandHorz, expandVert);
+
+			if(expandHorz && expandVert)
+				return; //no need to search further
+		}
+	}
+}
+
 Size GridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
 {
     uint8 col, row;
@@ -113,19 +133,21 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
     //check which rows and cols can take extra space
     col = 0;
     row = 0;
-    for(Widget *const& refpWidget : refContainer.GetChildren())
+    for(Widget *const& widget : refContainer.GetChildren())
     {
-        if(refpWidget->sizingPolicy.GetHorizontalAttributes().expand)
-            expandCols.Insert(col, refpWidget->sizingPolicy.horzScale);
+		bool expandHorz = false, expandVert = false;
 
-        if(refpWidget->sizingPolicy.GetVerticalAttributes().expand)
-            expandRows.Insert(row, refpWidget->sizingPolicy.vertScale);
+		this->CanExpand(widget, expandHorz, expandVert);
+		if(expandHorz)
+			expandCols.Insert(col, widget->sizingPolicy.horzScale);
+		if(expandVert)
+			expandRows.Insert(row, widget->sizingPolicy.vertScale);
 
-        if(refpWidget->sizingPolicy.GetHorizontalAttributes().grow)
-            growCols.Insert(col, refpWidget->sizingPolicy.horzScale);
+        if(widget->sizingPolicy.GetHorizontalAttributes().grow)
+            growCols.Insert(col, widget->sizingPolicy.horzScale);
 
-        if(refpWidget->sizingPolicy.GetVerticalAttributes().grow)
-            growRows.Insert(row, refpWidget->sizingPolicy.vertScale);
+        if(widget->sizingPolicy.GetVerticalAttributes().grow)
+            growRows.Insert(row, widget->sizingPolicy.vertScale);
 
         col++;
         if(col == this->nColumns)
@@ -260,26 +282,28 @@ Rect GridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
     return rc;
 }
 
-void GridLayout::PositionChild(Widget &refWidget, const Rect &refBounds)
+void GridLayout::PositionChild(Widget &refWidget, const Rect &bounds)
 {
     Size sizeHint;
     Rect widgetBounds;
 
-    widgetBounds = refBounds;
+    widgetBounds = bounds;
     sizeHint = refWidget.GetSizeHint();
 
     /*
     if(!refWidget.sizingPolicy.GetHorizontalAttributes().grow && sizeHint.width < widgetBounds.width)
     {
         widgetBounds.width = sizeHint.width;
-        widgetBounds.x = (refBounds.width - sizeHint.width) / 2;
+        widgetBounds.x = (bounds.width - sizeHint.width) / 2;
     }
     */
 
     if(!refWidget.sizingPolicy.GetVerticalAttributes().grow && sizeHint.height < widgetBounds.height())
     {
+        //fixed height widgets like sliders
+		//put them in vertical center
         widgetBounds.height() = sizeHint.height;
-        //widgetBounds.y = (refBounds.height - sizeHint.height) / 2;
+		widgetBounds.y() += (bounds.height() - sizeHint.height) / 2;
     }
 
     refWidget.SetRect(widgetBounds);

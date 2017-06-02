@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "../Containers/CPriorityQueue.h"
+#include "ACStdLib/Containers/PriorityQueue.hpp"
 #include "AFrame.h"
 #include "SPacket.h"
 
@@ -32,7 +32,7 @@ namespace ACStdLib
         private:
             //Members
             uint32 frameCounter;
-            CPriorityQueue<AFrame *> unorderedFrames;
+            PriorityQueue<AFrame *> unorderedFrames;
             LinkedList<AFrame *> orderedFrames;
 
         protected:

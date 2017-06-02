@@ -70,7 +70,10 @@ void GtkEventQueue::CheckResizeSlot(GtkContainer *container, gpointer user_data)
 
 void GtkEventQueue::ClickedSlot(GtkButton *button, gpointer user_data)
 {
-	EventQueue::DispatchActivatedEvent(*(PushButton *) user_data);
+	if(GTK_IS_RADIO_BUTTON(button))
+		EventQueue::DispatchActivatedEvent(*(RadioButton *) user_data);
+	else
+		EventQueue::DispatchActivatedEvent(*(PushButton *) user_data);
 }
 
 bool GtkEventQueue::CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent)

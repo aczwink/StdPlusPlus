@@ -39,7 +39,7 @@
 #include <ACStdLib/Containers/Map/Map.hpp>
 //Strings
 #include <ACStdLib/Containers/Strings/ByteString.hpp>
-#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 
 //Filesystem
@@ -62,15 +62,15 @@
 #include <ACStdLib/Streams/CBufferOutputStream.h>
 #include <ACStdLib/Streams/CConcatenatedInputStream.h>
 #include <ACStdLib/Streams/FileInputStream.hpp>
-#include <ACStdLib/Streams/CFileOutputStream.h>
+#include <ACStdLib/Streams/FileOutputStream.hpp>
 #include <ACStdLib/Streams/CStdOut.h>
-
-//Bitstreams
+#include <ACStdLib/Streams/StdIn.hpp>
+//Streams/Bitstreams
 #include <ACStdLib/Streams/Bitstreams/CBitInputStream.h>
 #include <ACStdLib/Streams/Bitstreams/CBitInputStreamBitReversed.h>
 
 //Readers
-#include <ACStdLib/Streams/Readers/CEndianReader.h>
+#include <ACStdLib/Streams/Readers/DataReader.hpp>
 #include <ACStdLib/Streams/Readers/TextReader.hpp>
 //Streams/Writers
 #include <ACStdLib/Streams/Writers/CTextWriter.h>
@@ -139,8 +139,12 @@
 #include <ACStdLib/Multitasking/CMutex.h>
 #include <ACStdLib/Multitasking/CProcess.h>
 #include <ACStdLib/Multitasking/CStaticThreadPool.h>
-#include <ACStdLib/Multitasking/CThread.h>
+#include <ACStdLib/Multitasking/Thread.hpp>
 #include <ACStdLib/Multitasking/Multitasking.h>
+
+//Network
+#include <ACStdLib/Network/DatagramSocket.hpp>
+#include <ACStdLib/Network/IPv4Address.hpp>
 
 //PDF
 #include <ACStdLib/PDF/CDocument.h>
@@ -167,13 +171,13 @@
 #include <ACStdLib/Time/Time.h>
 
 //UI
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include <ACStdLib/UI/CAction.hpp>
 #include <ACStdLib/UI/CommonDialogs.h>
 #include <ACStdLib/UI/CTerminalEventQueue.h>
-#include <ACStdLib/UI/EventQueue.h>
+#include <ACStdLib/UI/EventQueue.hpp>
 #include <ACStdLib/UI/Keyboard.h>
-#include <ACStdLib/UI/MainAppWindow.h>
+#include <ACStdLib/UI/MainAppWindow.hpp>
 #include <ACStdLib/UI/Mouse.hpp>
 //Containers
 #include <ACStdLib/UI/Containers/CTabBox.h>

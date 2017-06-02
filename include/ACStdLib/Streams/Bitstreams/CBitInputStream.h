@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../AInputStream.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 
 namespace ACStdLib
 {
@@ -26,7 +26,7 @@ namespace ACStdLib
     {
     private:
         //Members
-        AInputStream &refInput;
+        InputStream &refInput;
         uint64 buffer;
         uint8 validBitsInBuffer;
         bool hitEnd;
@@ -37,7 +37,7 @@ namespace ACStdLib
 
     public:
         //Constructor
-        CBitInputStream(AInputStream &refInput);
+        CBitInputStream(InputStream &refInput);
 
         //Methods
         uint64 Get(uint8 nBits);

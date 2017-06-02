@@ -21,7 +21,7 @@
 #include "ANode.h"
 #include "../Containers/Map/Map.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "../Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.hpp"
 
 namespace ACStdLib
 {

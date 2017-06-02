@@ -16,7 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-union Variant
+#pragma once
+//Local
+#include "../Definitions.h"
+
+namespace ACStdLib
 {
-	void *ptr;
-};
+    typedef int32(*ThreadFunction)();
+
+    class ACSTDLIB_API Thread
+    {
+    private:
+        //Members
+        void *systemHandle;
+
+        //Overrideable
+        virtual int32 ThreadMain();
+
+    public:
+        //Constructors
+        Thread();
+        Thread(ThreadFunction func);
+
+        //Destructor
+        virtual ~Thread();
+
+        //Methods
+        void Join();
+    };
+}

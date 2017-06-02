@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Function.hpp"
-#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "ACStdLib/Math/Geometry/Rect.h"

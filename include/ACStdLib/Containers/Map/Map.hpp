@@ -32,17 +32,18 @@ namespace ACStdLib
     {
         //typedef Map<KeyType, ValueType> Map;
         typedef MapNode<KeyType, ValueType> Node;
-        typedef CConstMapIterator<KeyType, ValueType> ConstIterator;
+		typedef MapIterator<KeyType, ValueType> Iterator;
+        typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
     private:
         //Members
-        Node *pRoot;
+        Node *root;
 
         //Methods
         Node *FindNode(const KeyType &refKey) const
         {
             Node *pNode;
 
-            pNode = this->pRoot;
+            pNode = this->root;
             while(pNode)
             {
                 if(refKey < pNode->keyValuePair.key)
@@ -132,7 +133,7 @@ namespace ACStdLib
         //Constructors
         Map()
         {
-            this->pRoot = nullptr;
+            this->root = nullptr;
         }
 
         Map(const Map &refOther) //copy ctor
@@ -142,7 +143,7 @@ namespace ACStdLib
 
         Map(Map &&refOther) //move ctor
         {
-            this->pRoot = nullptr;
+            this->root = nullptr;
             *this = (Map &&)refOther; //forward
         }
 
@@ -193,8 +194,8 @@ namespace ACStdLib
         {
             this->Release();
 
-            this->pRoot = refMap.pRoot;
-            refMap.pRoot = nullptr;
+            this->root = refMap.root;
+            refMap.root = nullptr;
 
             return *this;
         }
@@ -207,15 +208,15 @@ namespace ACStdLib
             pInsertedNode = NULL;
 
             //insert root
-            if(this->pRoot == NULL)
+            if(this->root == NULL)
             {
-                this->pRoot = new Node(refKey, refValue, true, NULL);
+                this->root = new Node(refKey, refValue, true, NULL);
                 this->nElements = 1;
                 return;
             }
 
             //binary-search tree insertion
-            pNode = this->pRoot;
+            pNode = this->root;
             while(pNode)
             {
                 if(pNode->keyValuePair.key < refKey) //insert in right subtree
@@ -258,17 +259,17 @@ namespace ACStdLib
             //recolor the tree
             this->Recolorize(pInsertedNode);
 
-            if(this->pRoot->pParent)
-                this->pRoot = (Node *)this->pRoot->pParent;
-            this->pRoot->isBlack = true;
+            if(this->root->pParent)
+                this->root = (Node *)this->root->pParent;
+            this->root->isBlack = true;
         }
 
         void Release()
         {
-            if(this->pRoot)
-                delete this->pRoot;
+            if(this->root)
+                delete this->root;
             this->nElements = 0;
-            this->pRoot = nullptr;
+            this->root = nullptr;
         }
 
         //Inline
@@ -283,13 +284,26 @@ namespace ACStdLib
         }
 
         //For range-based loop
+        Iterator begin()
+        {
+            if(!this->root)
+                return Iterator(*this, nullptr);
+
+            return Iterator(*this, (Node *)this->root->GetFirst());
+        }
+
         ConstIterator begin() const
         {
-            if(!this->pRoot)
+            if(!this->root)
                 return ConstIterator(*this, nullptr);
 
-            return ConstIterator(*this, (Node *)this->pRoot->GetFirst());
+            return ConstIterator(*this, (Node *)this->root->GetFirst());
         }
+
+		Iterator end()
+		{
+			return Iterator(*this, nullptr);
+		}
 
         ConstIterator end() const
         {

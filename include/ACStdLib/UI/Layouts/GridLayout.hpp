@@ -33,11 +33,20 @@ namespace ACStdLib
             uint8 vertGap;
 
             //Methods
-            Size ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
+            void CanExpand(const Widget *widget, bool &expandHorz, bool &expandVert);
+			/**
+			 * Computes the minimum sizes of the rows and columns in the grid.
+			 *
+			 * @param refContainer
+			 * @param refColumnWidths
+			 * @param refRowHeights
+			 * @return
+			 */
+			Size ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
             void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
             void EnsureGridBigEnough(uint8 nCells);
             Rect GetChildrenRect(const WidgetContainer &refContainer) const;
-            void PositionChild(Widget &refWidget, const Rect &refBounds);
+            void PositionChild(Widget &refWidget, const Rect &bounds);
 
         protected:
             //Members
@@ -78,5 +87,16 @@ namespace ACStdLib
                 this->fillVertical = true;
             }
         };
+
+		class FormLayout : public GridLayout
+		{
+		public:
+			//Constructor
+			inline FormLayout()
+			{
+				this->nColumns = 2;
+				this->fillVertical = true;
+			}
+		};
     }
 }

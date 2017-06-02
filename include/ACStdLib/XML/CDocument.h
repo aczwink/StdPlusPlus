@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Streams/AInputStream.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 #include "CElement.h"
 
 namespace ACStdLib

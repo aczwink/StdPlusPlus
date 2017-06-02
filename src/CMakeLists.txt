@@ -20,12 +20,22 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
 
+	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
+
+	#Network
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/Datagram.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/DatagramSocket.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/IPv4Address.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.hpp
+
         #Rendering
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CCubeMap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CFrameBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CInputState.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLInputState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShaderProgram.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CTexture2D.cpp
@@ -37,8 +47,9 @@ set(SOURCE_FILES
         #Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
 
 		#Time
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.cpp

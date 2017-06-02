@@ -19,7 +19,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <ACStdLib/UI/EventQueue.h>
+#include <ACStdLib/UI/EventQueue.hpp>
 
 class GtkEventQueue : public ACStdLib::UI::EventQueue
 {

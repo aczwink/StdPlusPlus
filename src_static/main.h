@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../include/ACStdLib/Containers/Strings/String.h"
+#include "../include/ACStdLib/Containers/Strings/String.hpp"
 #include "../include/ACStdLib/ErrorHandling/AException.h"
 //Namespaces
 using namespace ACStdLib;

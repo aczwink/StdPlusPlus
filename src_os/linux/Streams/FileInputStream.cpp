@@ -57,7 +57,7 @@ FileInputStream::~FileInputStream()
 //Public methods
 uint64 FileInputStream::GetCurrentOffset() const
 {
-    return lseek64(this->fileHandle, 0, SEEK_CUR);
+    return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
 }
 
 uint64 FileInputStream::GetRemainingBytes() const
@@ -70,7 +70,7 @@ uint64 FileInputStream::GetSize() const
     uint64 offset, size;
 
     offset = this->GetCurrentOffset();
-    size = lseek64(this->fileHandle, 0, SEEK_END);
+    size = (uint64) lseek64(this->fileHandle, 0, SEEK_END);
     lseek64(this->fileHandle, offset, SEEK_SET);
 
     return size;

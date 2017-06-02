@@ -19,7 +19,7 @@
 //Main header
 #include <ACStdLib/Debug.h>
 //Local
-#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/String.hpp>
 
 #ifdef _DEBUG
 void ACStdLib::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)

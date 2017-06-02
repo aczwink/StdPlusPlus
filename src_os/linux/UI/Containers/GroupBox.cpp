@@ -52,9 +52,24 @@ Rect GroupBox::GetChildrenRect() const
 	rect = this->GetBounds();
 
 	//TODO: shit we dont know this correctly...
-	rect.Enlarge(0, -15); //TODO: dx should be -10
+	rect.y() += 10;
+	rect.height() -= 10;
 
 	return rect;
+}
+
+Size GroupBox::GetSizeHint() const
+{
+	//we need to query layout and gtk, because the group box title text may be longer than the width of the children area
+	Size size = Size(); //GetPreferedSizeGtk(THIS->widget); //we can't ask the Gtk widget because then this method gets called again -> stack overflow
+	if(this->layout)
+	{
+		Size layoutSize = this->layout->GetPreferredSize(*this);
+		size.width = MAX(size.width, layoutSize.width);
+		size.height = MAX(size.height, layoutSize.height);
+	}
+
+	return size;
 }
 
 void GroupBox::SetText(const String &text)

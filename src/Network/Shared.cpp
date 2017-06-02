@@ -16,32 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Definition header
+#include "Shared.hpp"
 //Local
-#include "../Definitions.h"
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
+#include <ACStdLib/Network/IPv4Address.hpp>
 
-namespace ACStdLib
+//Global functions
+NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port)
 {
-    typedef int32(*ThreadFunction)();
+	switch(address->sa_family)
+	{
+		case AF_INET:
+		{
+			sockaddr_in *addrv4 = (sockaddr_in *) address;
 
-    class ACSTDLIB_API CThread
-    {
-    private:
-        //Members
-        void *pOSHandle;
+			port = addrv4->sin_port;
 
-        //Overrideable
-        virtual int32 ThreadMain();
+			IPv4Address *result = new IPv4Address;
+			MemCopy(result->rawAddress, &addrv4->sin_addr.s_addr, 4); //s_addr is in network order
 
-    public:
-        //Constructors
-        CThread();
-        CThread(ThreadFunction func);
+			return result;
+		}
+	}
 
-        //Destructor
-        virtual ~CThread();
-
-        //Methods
-        void Join();
-    };
+	return nullptr;
 }

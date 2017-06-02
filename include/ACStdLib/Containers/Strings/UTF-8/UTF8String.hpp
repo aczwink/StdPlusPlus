@@ -51,9 +51,9 @@ namespace ACStdLib
             *this = refString;
         }
 
-        inline UTF8String(const char *pString)
+        inline UTF8String(const char *string)
         {
-            *this = pString;
+            *this = string;
         }
 
         inline UTF8String(const uint16 *pString)
@@ -79,7 +79,13 @@ namespace ACStdLib
         //Operators
         UTF8String &operator=(const UTF8String &refString); //copy assign
         UTF8String &operator=(UTF8String &&refString); //move assign
-        UTF8String &operator=(const char *pString);
+        /**
+         * We assume that @p string is already UTF-8 encoded.
+         *
+         * @param string
+         * @return
+         */
+        UTF8String &operator=(const char *string);
         UTF8String &operator=(const uint16 *pString);
         UTF8String &operator=(const ByteString &refString);
         UTF8String &operator=(const UTF16String &refString);

@@ -17,14 +17,14 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CInputState.h"
+#include "OpenGLInputState.hpp"
 //Local
 #include <ACStdLib/Rendering/InputLayout.hpp>
 #include "OpenGLIndexBuffer.h"
 #include "OpenGLVertexBuffer.hpp"
 
 //Constructor
-CInputState::CInputState()
+OpenGLInputState::OpenGLInputState()
 {
     glGenVertexArrays(1, &this->id);
 
@@ -32,13 +32,13 @@ CInputState::CInputState()
 }
 
 //Destructor
-CInputState::~CInputState()
+OpenGLInputState::~OpenGLInputState()
 {
     glDeleteVertexArrays(1, &this->id);
 }
 
 //Public methods
-void CInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &refInputLayout)
+void OpenGLInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &refInputLayout)
 {
     uint8 i, location;
     OpenGLVertexBuffer *pVertexBuffer;
@@ -61,7 +61,7 @@ void CInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &refInput
     this->currentAttributeIndex += refInputLayout.GetNumberOfAttributes();
 }
 
-void CInputState::SetIndexBuffer(IndexBuffer *pIndexBuffer)
+void OpenGLInputState::SetIndexBuffer(IndexBuffer *pIndexBuffer)
 {
     this->pIndexBuffer = (OpenGLIndexBuffer *)pIndexBuffer;
 }

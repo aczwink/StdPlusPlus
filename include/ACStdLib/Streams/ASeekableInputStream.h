@@ -18,11 +18,11 @@
  */
 #pragma once
 //Local
-#include "AInputStream.h"
+#include "InputStream.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API ASeekableInputStream : public AInputStream
+    class ACSTDLIB_API ASeekableInputStream : public InputStream
     {
     public:
         //Abstract

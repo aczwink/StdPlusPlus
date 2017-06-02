@@ -20,7 +20,7 @@
 #include <ACStdLib/Compute/Device.hpp>
 //Local
 #include "CL/cl.h"
-#include <ACStdLib/Containers/Strings/String.h>
+#include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 //Namespaces
 using namespace ACStdLib;

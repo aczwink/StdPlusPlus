@@ -9,8 +9,11 @@ set(SOURCE_FILES
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
-        #Math
+	#Math
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.cpp
+
+	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 
         #Rendering
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.cpp

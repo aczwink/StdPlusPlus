@@ -20,7 +20,7 @@
 //Local
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Definitions.h"
-#include "../Variant.h"
+#include "ACStdLib/Variant.hpp"
 
 namespace ACStdLib
 {

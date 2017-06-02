@@ -17,10 +17,10 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/MainAppWindow.h>
+#include <ACStdLib/UI/MainAppWindow.hpp>
 //Local
 #include <ACStdLib/Streams/CStdOut.h>
-#include <ACStdLib/UI/EventQueue.h>
+#include <ACStdLib/UI/EventQueue.hpp>
 #include <ACStdLib/UI/Menu/CMenuBar.h>
 //Namespaces
 using namespace ACStdLib;

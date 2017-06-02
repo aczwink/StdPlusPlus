@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/UI/WidgetContainer.h"
+#include "ACStdLib/UI/WidgetContainer.hpp"
 
 namespace ACStdLib
 {
@@ -39,6 +39,7 @@ namespace ACStdLib
 
             //Methods
             Rect GetChildrenRect() const;
+			Size GetSizeHint() const;
             void SetText(const String &text);
         };
     }

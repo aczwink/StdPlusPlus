@@ -20,7 +20,7 @@
 //Local
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "ACStdLib/Function.hpp"
-#include "WidgetContainer.h"
+#include "WidgetContainer.hpp"
 
 namespace ACStdLib
 {

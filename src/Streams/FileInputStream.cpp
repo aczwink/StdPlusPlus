@@ -21,7 +21,8 @@
 //Namespaces
 using namespace ACStdLib;
 
-bool FileInputStream::HitEnd() const
+//Public methods
+bool FileInputStream::IsAtEnd() const
 {
-    return this->hitEnd;
+	return this->GetRemainingBytes() == 0;
 }

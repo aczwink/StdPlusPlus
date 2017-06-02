@@ -33,8 +33,8 @@ namespace ACStdLib
         typedef LinkedListNode<DataType> Node;
     private:
         //Variables
-        Node *pHead;
-        Node *pTail;
+        Node *head;
+        Node *tail;
 
         //Functions
         Node *FindNode(uint32 index) const
@@ -47,7 +47,7 @@ namespace ACStdLib
             //search forward
             if(this->nElements - index > index)
             {
-                pNode = this->pHead;
+                pNode = this->head;
 
                 while(index--)
                 {
@@ -58,7 +58,7 @@ namespace ACStdLib
             }
             else
             {
-                pNode = this->pTail;
+                pNode = this->tail;
                 index = this->nElements - index - 1;
 
                 while(index--)
@@ -75,18 +75,25 @@ namespace ACStdLib
         //Constructors
         LinkedList()
         {
-            this->pHead = NULL;
-            this->pTail = NULL;
+            this->head = NULL;
+            this->tail = NULL;
             this->nElements = 0;
         }
 
-        LinkedList(const LinkedList<DataType> &refList)
+        LinkedList(const LinkedList<DataType> &refList) //copy ctor
         {
-            this->pHead = NULL;
-            this->pTail = NULL;
+            this->head = NULL;
+            this->tail = NULL;
             this->nElements = 0;
             *this = refList;
         }
+
+        LinkedList(LinkedList<DataType> &&list) //move ctor
+		{
+			this->head = nullptr;
+			this->tail = nullptr;
+			*this = (LinkedList<DataType> &&)list;
+		}
 
         //Destructor
         ~LinkedList()
@@ -95,31 +102,47 @@ namespace ACStdLib
         }
 
         //Operators
-        LinkedList &operator=(const LinkedList &refList)
+		DataType &operator[](uint32 index)
+		{
+			Node *pNode = this->FindNode(index);
+
+			ASSERT(pNode);
+
+			return pNode->data;
+		}
+
+		const DataType &operator[](uint32 index) const
+		{
+			Node *pNode = ((LinkedList<DataType> *)this)->FindNode(index);
+
+			ASSERT(pNode);
+
+			return pNode->data;
+		}
+
+        LinkedList &operator=(const LinkedList &refList) //copy assign
         {
+			this->Release();
+
             for(const DataType &refValue : refList)
                 this->InsertTail(refValue);
 
             return *this;
         }
 
-        DataType &operator[](uint32 index)
-        {
-            Node *pNode = this->FindNode(index);
+		LinkedList &operator=(LinkedList &&list) //move assign
+		{
+			this->Release();
 
-            ASSERT(pNode);
+			this->head = list.head;
+			this->tail = list.tail;
+			this->nElements = list.nElements;
+			list.head = nullptr;
+			list.tail = nullptr;
+			list.nElements = 0;
 
-            return pNode->data;
-        }
-
-        const DataType &operator[](uint32 index) const
-        {
-            Node *pNode = ((LinkedList<DataType> *)this)->FindNode(index);
-
-            ASSERT(pNode);
-
-            return pNode->data;
-        }
+			return *this;
+		}
 
         bool operator==(const LinkedList<DataType> &refOther) const
         {
@@ -128,8 +151,8 @@ namespace ACStdLib
             if(this->nElements != refOther.nElements)
                 return false;
 
-            pHead1 = this->pHead;
-            pHead2 = refOther.pHead;
+            pHead1 = this->head;
+            pHead2 = refOther.head;
 
             for(uint32 i = 0; i < this->nElements; i++)
             {
@@ -149,7 +172,7 @@ namespace ACStdLib
             Node *pNode;
 
             counter = 0;
-            pNode = this->pHead;
+            pNode = this->head;
             while (pNode)
             {
                 if(pNode->data == refItem)
@@ -182,14 +205,14 @@ namespace ACStdLib
             else if(this->GetNumberOfElements() - index > index)
             {
                 //start search from front
-                pPrevious = this->pHead;
+                pPrevious = this->head;
                 while(index--)
                     pPrevious = pPrevious->pNext;
             }
             else
             {
                 //start search from tail
-                pPrevious = this->pTail;
+                pPrevious = this->tail;
                 index = this->GetNumberOfElements() - index;
                 while(--index)
                     pPrevious = pPrevious->pPrevious;
@@ -205,31 +228,31 @@ namespace ACStdLib
 
         void InsertFront(const DataType &refData)
         {
-            if(!this->pHead)
+            if(!this->head)
             {
-                this->pHead = new Node(refData);
-                this->pTail = this->pHead;
+                this->head = new Node(refData);
+                this->tail = this->head;
                 this->nElements = 1;
                 return;
             }
 
-            this->pHead->pPrevious = new Node(refData, NULL, this->pHead);
-            this->pHead = this->pHead->pPrevious;
+            this->head->pPrevious = new Node(refData, NULL, this->head);
+            this->head = this->head->pPrevious;
             this->nElements++;
         }
 
         void InsertTail(const DataType &refData)
         {
-            if(!this->pHead)
+            if(!this->head)
             {
-                this->pHead = new Node(refData);
-                this->pTail = this->pHead;
+                this->head = new Node(refData);
+                this->tail = this->head;
                 this->nElements = 1;
                 return;
             }
 
-            this->pTail->pNext = new Node(refData, this->pTail, NULL);
-            this->pTail = this->pTail->pNext;
+            this->tail->pNext = new Node(refData, this->tail, NULL);
+            this->tail = this->tail->pNext;
             this->nElements++;
         }
 
@@ -245,17 +268,17 @@ namespace ACStdLib
                 return DataType();
             }
 
-            pNode = this->pHead;
+            pNode = this->head;
             data = pNode->data;
-            if(this->pHead == this->pTail)
+            if(this->head == this->tail)
             {
-                this->pHead = NULL;
-                this->pTail = NULL;
+                this->head = NULL;
+                this->tail = NULL;
             }
             else
             {
-                this->pHead = pNode->pNext;
-                this->pHead->pPrevious = nullptr;
+                this->head = pNode->pNext;
+                this->head->pPrevious = nullptr;
             }
 
             delete pNode;
@@ -275,17 +298,17 @@ namespace ACStdLib
                 return DataType();
             }
 
-            pNode = this->pTail;
+            pNode = this->tail;
             data = pNode->data;
-            if(this->pTail->pPrevious)
+            if(this->tail->pPrevious)
             {
-                this->pTail = this->pTail->pPrevious;
-                this->pTail->pNext = NULL;
+                this->tail = this->tail->pPrevious;
+                this->tail->pNext = NULL;
             }
             else
             {
-                this->pHead = NULL;
-                this->pTail = NULL;
+                this->head = NULL;
+                this->tail = NULL;
             }
 
             delete pNode;
@@ -309,19 +332,19 @@ namespace ACStdLib
             pNode = this->FindNode(index);
             if(pNode)
             {
-                if(pNode == this->pHead && pNode == this->pTail)
+                if(pNode == this->head && pNode == this->tail)
                 {
-                    this->pHead = NULL;
-                    this->pTail = NULL;
+                    this->head = NULL;
+                    this->tail = NULL;
                 }
-                else if(pNode == this->pHead)
+                else if(pNode == this->head)
                 {
-                    this->pHead = this->pHead->pNext;
+                    this->head = this->head->pNext;
                 }
-                else if(pNode == this->pTail)
+                else if(pNode == this->tail)
                 {
-                    this->pTail = this->pTail->pPrevious;
-                    this->pTail->pNext = nullptr;
+                    this->tail = this->tail->pPrevious;
+                    this->tail->pNext = nullptr;
                 }
                 else
                 {
@@ -340,12 +363,12 @@ namespace ACStdLib
         //For range-based loops
         Iterator begin()
         {
-            return Iterator(this, this->pHead);
+            return Iterator(this, this->head);
         }
 
         ConstIterator begin() const
         {
-            return ConstIterator((LinkedList *)this, this->pHead);
+            return ConstIterator((LinkedList *)this, this->head);
         }
 
         Iterator end()

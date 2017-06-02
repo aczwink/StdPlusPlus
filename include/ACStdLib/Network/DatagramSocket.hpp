@@ -16,31 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "ACStdLib/Filesystem/Path.hpp"
-#include "ASeekableOutputStream.h"
+#include "ACStdLib/Variant.hpp"
+#include "Datagram.hpp"
+#include "NetAddress.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CFileOutputStream : public ASeekableOutputStream
-    {
-    private:
-        //Members
-        union
-        {
-            void *pFileHandle;
-            int fileHandle;
-        };
-    public:
-        //Constructor
-        CFileOutputStream(const Path &refPath);
-        //CFileOutputStream
-        ~CFileOutputStream();
-        //Methods
-        uint64 GetCurrentOffset() const;
-        void SetCurrentOffset(uint64 offset);
-        void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 size);
-    };
+	class DatagramSocket
+	{
+	private:
+		//Members
+		Variant systemHandle;
+
+	public:
+		//Constructor
+		DatagramSocket(const NetAddress &netAddress, uint16 port);
+
+		//Methods
+		bool ReceivePacket(Datagram &datagram);
+	};
 }

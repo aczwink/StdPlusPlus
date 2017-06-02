@@ -20,7 +20,7 @@
 #pragma once
 //Local
 #include "../../Memory.h"
-#include "../CKeyValuePair.h"
+#include "ACStdLib/Containers/KeyValuePair.hpp"
 
 namespace ACStdLib
 {
@@ -37,7 +37,7 @@ namespace ACStdLib
         Node *pLeft;
         Node *pRight;
         Node *pParent;
-        ACStdLib::CKeyValuePair<KeyType, ValueType> keyValuePair;
+        ACStdLib::KeyValuePair<KeyType, ValueType> keyValuePair;
         bool isBlack;
 
         //Constructor

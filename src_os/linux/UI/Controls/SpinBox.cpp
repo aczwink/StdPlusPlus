@@ -27,6 +27,10 @@ using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 
+/*
+ * https://developer.gnome.org/gtk3/stable/GtkSpinButton.html
+ */
+
 //Destructor
 SpinBox::~SpinBox()
 {
@@ -46,6 +50,11 @@ void SpinBox::System_CreateHandle()
 Size SpinBox::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
+}
+
+int32 SpinBox::GetValue() const
+{
+	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(THIS));
 }
 
 void SpinBox::SetMaximum(int32 max)

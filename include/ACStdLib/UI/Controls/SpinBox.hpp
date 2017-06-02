@@ -39,6 +39,7 @@ namespace ACStdLib
 
 			//Methods
 			Size GetSizeHint() const;
+			int32 GetValue() const;
 			void SetMaximum(int32 max);
 			void SetMinimum(int32 min);
 			void SetValue(int32 value);

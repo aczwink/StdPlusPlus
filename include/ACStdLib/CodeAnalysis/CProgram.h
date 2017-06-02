@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/DynamicArray/DynamicArray.hpp"
-#include "../Streams/AInputStream.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 #include "EArchitecture.h"
 #include "IInstruction.h"
 
@@ -35,7 +35,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CProgram(AInputStream &refInput, uint32 programSize, EArchitecture architecture);
+            CProgram(InputStream &refInput, uint32 programSize, EArchitecture architecture);
 
             //Destructor
             ~CProgram();

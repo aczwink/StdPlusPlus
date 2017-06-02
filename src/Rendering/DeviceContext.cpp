@@ -23,7 +23,7 @@
 #include "CCubeMap.h"
 #include "CFrameBuffer.h"
 #include "OpenGLIndexBuffer.h"
-#include "CInputState.h"
+#include "OpenGLInputState.hpp"
 #include "CShader.h"
 #include "CShaderProgram.h"
 #include "CTexture2D.h"
@@ -141,7 +141,7 @@ InputState *DeviceContext::CreateInputState()
 {
     this->BindOSContext();
 
-    return new CInputState;
+    return new OpenGLInputState;
 }
 
 Shader *DeviceContext::CreateShader(Shader::ShaderType type)
@@ -174,11 +174,22 @@ VertexBuffer *DeviceContext::CreateVertexBuffer(AllocationPolicy policy)
     return new OpenGLVertexBuffer(policy);
 }
 
+void DeviceContext::DrawLines(uint32 startVertexIndex, uint32 nLines)
+{
+	OpenGLInputState *inputState = (OpenGLInputState *)this->currentInputState;
+
+    //bind
+    this->BindOSContext();
+    inputState->Bind();
+
+    glDrawArrays(GL_LINES, startVertexIndex, nLines * 2);
+}
+
 void DeviceContext::DrawPoints(uint32 startVertexIndex, uint32 count)
 {
-	CInputState *pInputState;
+	OpenGLInputState *pInputState;
 
-	pInputState = (CInputState *)this->pCurrentInputState;
+	pInputState = (OpenGLInputState *)this->currentInputState;
 
 	//bind
 	this->BindOSContext();
@@ -189,9 +200,9 @@ void DeviceContext::DrawPoints(uint32 startVertexIndex, uint32 count)
 
 void DeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
 {
-    CInputState *pInputState;
+    OpenGLInputState *pInputState;
 
-    pInputState = (CInputState *)this->pCurrentInputState;
+    pInputState = (OpenGLInputState *)this->currentInputState;
 
     //bind
     this->BindOSContext();
@@ -202,9 +213,9 @@ void DeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
 
 void DeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
 {
-    CInputState *pInputState;
+    OpenGLInputState *pInputState;
 
-    pInputState = (CInputState *)this->pCurrentInputState;
+    pInputState = (OpenGLInputState *)this->currentInputState;
 
     //bind
     this->BindOSContext();
@@ -215,12 +226,12 @@ void DeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
 
 void DeviceContext::DrawTrianglesIndexed()
 {
-    CInputState *pInputState;
+    OpenGLInputState *pInputState;
     OpenGLIndexBuffer *pIndexBuffer;
 
     this->BindOSContext();
 
-    pInputState = (CInputState *)this->pCurrentInputState;
+    pInputState = (OpenGLInputState *)this->currentInputState;
     pIndexBuffer = pInputState->GetIndexBuffer();
 
     pInputState->Bind();
@@ -234,9 +245,9 @@ void DeviceContext::DrawTrianglesIndexed()
 
 void DeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices)
 {
-    CInputState *pInputState;
+    OpenGLInputState *pInputState;
 
-    pInputState = (CInputState *)this->pCurrentInputState;
+    pInputState = (OpenGLInputState *)this->currentInputState;
 
     //bind
     this->BindOSContext();
@@ -352,7 +363,7 @@ void DeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
 
 void DeviceContext::SetInputState(InputState *pInputState)
 {
-    this->pCurrentInputState = pInputState;
+    this->currentInputState = pInputState;
 }
 
 void DeviceContext::SetPointSize(uint32 size)

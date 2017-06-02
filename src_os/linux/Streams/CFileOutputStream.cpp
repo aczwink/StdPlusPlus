@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Streams/CFileOutputStream.h>
+#include <ACStdLib/Streams/FileOutputStream.hpp>
 //Global
 #include <fcntl.h>
 #include <unistd.h>
@@ -27,7 +27,7 @@
 using namespace ACStdLib;
 
 //Constructor
-CFileOutputStream::CFileOutputStream(const Path &refPath)
+FileOutputStream::FileOutputStream(const Path &refPath)
 {
     UTF8String fileNameUTF8(refPath.GetString().GetUTF16());
 
@@ -35,28 +35,28 @@ CFileOutputStream::CFileOutputStream(const Path &refPath)
 }
 
 //Destructor
-CFileOutputStream::~CFileOutputStream()
+FileOutputStream::~FileOutputStream()
 {
     close(this->fileHandle);
 }
 
 //Public methods
-uint64 CFileOutputStream::GetCurrentOffset() const
+uint64 FileOutputStream::GetCurrentOffset() const
 {
     return lseek64(this->fileHandle, 0, SEEK_CUR);
 }
 
-void CFileOutputStream::SetCurrentOffset(uint64 offset)
+void FileOutputStream::SetCurrentOffset(uint64 offset)
 {
     lseek64(this->fileHandle, offset, SEEK_SET);
 }
 
-void CFileOutputStream::WriteByte(byte b)
+void FileOutputStream::WriteByte(byte b)
 {
     write(this->fileHandle, &b, 1);
 }
 
-uint32 CFileOutputStream::WriteBytes(const void *pSource, uint32 size)
+uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
 {
     return write(this->fileHandle, pSource, size);
 }

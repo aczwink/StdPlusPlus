@@ -18,21 +18,21 @@
  */
 #pragma once
 //Local
-#include "AInputStream.h"
+#include "InputStream.hpp"
 #include "../Containers/DynamicArray/DynamicArray.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CConcatenatedInputStream : public AInputStream
+    class ACSTDLIB_API CConcatenatedInputStream : public InputStream
     {
     private:
         //Members
         uint8 currentStream;
-        DynamicArray<AInputStream *> partialStreams;
+        DynamicArray<InputStream *> partialStreams;
 
     public:
         //Constructor
-        inline CConcatenatedInputStream(AInputStream &refFirstStream)
+        inline CConcatenatedInputStream(InputStream &refFirstStream)
         {
             this->currentStream = 0;
 
@@ -40,7 +40,7 @@ namespace ACStdLib
         }
 
         //Operators
-        inline CConcatenatedInputStream &operator<<(AInputStream &refStream)
+        inline CConcatenatedInputStream &operator<<(InputStream &refStream)
         {
             this->partialStreams.Push(&refStream);
 
@@ -48,7 +48,7 @@ namespace ACStdLib
         }
 
         //Methods
-        bool HitEnd() const;
+        bool IsAtEnd() const;
         byte ReadByte();
         uint32 ReadBytes(void *pDestination, uint32 count);
         uint32 Skip(uint32 nBytes);

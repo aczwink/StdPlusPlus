@@ -51,7 +51,7 @@ TextReader &TextReader::operator>>(ByteString &target)
 	byte b;
 
 	b = this->SkipWhitespaces();
-	if(this->inputStream.HitEnd())
+	if(this->inputStream.IsAtEnd())
 	{
 		target = ByteString();
 		return *this;
@@ -60,13 +60,13 @@ TextReader &TextReader::operator>>(ByteString &target)
 	target = b;
 	while(true)
 	{
-		b = this->inputStream.ReadByte();
-		if(this->inputStream.HitEnd())
-			break;
+		this->dataReader >> b;
 		if(this->IsWhitespace(b))
 			break;
-
 		target += b;
+
+		if(this->inputStream.IsAtEnd())
+			break;
 	}
 
 	return *this;
@@ -93,9 +93,9 @@ byte TextReader::SkipWhitespaces()
 
 	while(true)
 	{
-		b = this->inputStream.ReadByte();
-		if(this->inputStream.HitEnd())
+		if(this->inputStream.IsAtEnd())
 			return -1;
+		this->dataReader >> b;
 		if(!this->IsWhitespace(b))
 			break;
 	}
@@ -109,11 +109,9 @@ ByteString TextReader::ReadASCII(uint32 length)
     char c;
     ByteString buffer;
 
-    while(length--)
+    while(!this->inputStream.IsAtEnd() && length--)
     {
-        c = this->inputStream.ReadByte();
-        if(this->inputStream.HitEnd())
-            break;
+		this->dataReader >> c;
         buffer += c;
     }
 
@@ -125,10 +123,10 @@ ByteString TextReader::ReadASCII_Line()
     char c;
     ByteString buffer;
 
-    while(true)
+    while(!this->inputStream.IsAtEnd())
     {
-        c = this->inputStream.ReadByte();
-        if(c == '\n' || this->inputStream.HitEnd())
+		this->dataReader >> c;
+        if(c == '\n')
             break;
         if(c == '\r')
             continue;
@@ -143,10 +141,10 @@ ByteString TextReader::ReadASCII_ZeroTerminated()
     char c;
     ByteString buffer;
 
-    while(true)
+    while(!this->inputStream.IsAtEnd())
     {
-        c = this->inputStream.ReadByte();
-        if(c == 0 || this->inputStream.HitEnd())
+		this->dataReader >> c;
+        if(c == 0)
             break;
         buffer += c;
     }
@@ -156,45 +154,47 @@ ByteString TextReader::ReadASCII_ZeroTerminated()
 
 uint32 TextReader::ReadUTF8()
 {
-    byte b;
+    byte b[4];
     uint32 codePoint;
 
-    b = this->inputStream.ReadByte();
-
-    if(b & 0x80)
+	this->dataReader >> b[0];
+	if(b[0] & 0x80)
     {
         //more than one byte
-        ASSERT(b & 0x40); //this is always set for more than one byte
+        ASSERT(b[0] & 0x40); //this is always set for more than one byte
 
-        if(b & 0x20)
+        if(b[0] & 0x20)
         {
-            if(b & 0x10)
+            if(b[0] & 0x10)
             {
-                //4 byte
-                codePoint = (b & 0xF) << 18;
-                codePoint |= (this->inputStream.ReadByte() & 0x3F) << 12;
-                codePoint |= (this->inputStream.ReadByte() & 0x3F) << 6;
-                codePoint |= this->inputStream.ReadByte() & 0x3F;
+				//4 byte
+				this->inputStream.ReadBytes(&b[1], 3);
+                codePoint = (uint32) ((b[0] & 0xF) << 18);
+                codePoint |= (b[1] & 0x3F) << 12;
+                codePoint |= (b[2] & 0x3F) << 6;
+                codePoint |= b[3] & 0x3F;
             }
             else
             {
                 //3 byte
-                codePoint = (b & 0xF) << 12;
-                codePoint |= (this->inputStream.ReadByte() & 0x3F) << 6;
-                codePoint |= this->inputStream.ReadByte() & 0x3F;
+				this->inputStream.ReadBytes(&b[1], 2);
+                codePoint = (uint32) ((b[0] & 0xF) << 12);
+                codePoint |= (b[1] & 0x3F) << 6;
+                codePoint |= b[2] & 0x3F;
             }
         }
         else
         {
             //2 bytes
-            codePoint = (b & 0x1F) << 6;
-            codePoint |= this->inputStream.ReadByte() & 0x3F;
+			this->dataReader >> b[1];
+            codePoint = (uint32) ((b[0] & 0x1F) << 6);
+            codePoint |= b[1] & 0x3F;
         }
     }
     else
     {
         //ascii
-        codePoint = b;
+        codePoint = b[0];
     }
 
     return codePoint;
@@ -208,7 +208,7 @@ UTF8String TextReader::ReadUTF8Line()
     while(true)
     {
         c = this->ReadUTF8();
-        if(this->inputStream.HitEnd() || c == '\n')
+        if(this->inputStream.IsAtEnd() || c == '\n')
             break;
         if(c == '\r')
             continue;

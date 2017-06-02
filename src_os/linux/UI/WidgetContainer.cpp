@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

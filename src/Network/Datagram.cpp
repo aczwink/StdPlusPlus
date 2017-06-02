@@ -16,44 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include <ACStdLib/Rendering/InputState.hpp>
-#include "OpenGL.h"
+//Class header
+#include <ACStdLib/Network/Datagram.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::Rendering;
 
-//Forward declarations
-class OpenGLIndexBuffer;
-
-class CInputState : public InputState
+//Constructor
+Datagram::Datagram()
 {
-private:
-    //Members
-    uint32 id;
-    uint8 currentAttributeIndex;
-    OpenGLIndexBuffer *pIndexBuffer;
+	this->bufferSize = 0;
+	this->buffer = nullptr;
+	this->packetSize = 0;
+	this->sender = nullptr;
+	this->senderPort = 0;
 
-public:
-    //Constructor
-    CInputState();
+	this->Allocate(1500); //MTU
+}
 
-    //Destructor
-    ~CInputState();
-
-    //Methods
-    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout);
-    void SetIndexBuffer(IndexBuffer *pIndexBuffer);
-
-    //Inline
-    inline void Bind() const
-    {
-        glBindVertexArray(this->id);
-    }
-
-    inline OpenGLIndexBuffer *GetIndexBuffer()
-    {
-        return this->pIndexBuffer;
-    }
-};
+//Destructor
+Datagram::~Datagram()
+{
+	if(this->buffer)
+		MemFree(this->buffer);
+	if(this->sender)
+		delete this->sender;
+}

@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/Widget.hpp>
 //Local
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include <ACStdLib/UI/Window.hpp>
 //Namespaces
 using namespace ACStdLib;

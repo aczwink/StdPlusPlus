@@ -18,15 +18,15 @@
  */
 #pragma once
 //Local
-#include "AInputStream.h"
+#include "InputStream.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CBufferedInputStream : public AInputStream
+    class ACSTDLIB_API CBufferedInputStream : public InputStream
     {
     private:
         //Members
-        AInputStream &refInput;
+        InputStream &refInput;
         byte *pBuffer;
         byte *pCurrent;
         byte *pEnd;
@@ -36,13 +36,13 @@ namespace ACStdLib
 
     public:
         //Constructor
-        CBufferedInputStream(AInputStream &refInputStream, uint32 bufferSize = 4096);
+        CBufferedInputStream(InputStream &refInputStream, uint32 bufferSize = 4096);
 
         //Destructor
         ~CBufferedInputStream();
 
         //Methods
-        bool HitEnd() const;
+        bool IsAtEnd() const;
         byte PeekByte();
         byte ReadByte();
         uint32 ReadBytes(void *pDestination, uint32 count);

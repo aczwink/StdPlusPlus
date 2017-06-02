@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.hpp"
 #include "../Definitions.h"
 #include "EColorSpace.h"
 

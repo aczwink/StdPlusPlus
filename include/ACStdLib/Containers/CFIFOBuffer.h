@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "../Streams/AInputStream.h"
+#include "ACStdLib/Streams/InputStream.hpp"
 #include "../Streams/AOutputStream.h"
 #include "ResizeableContainer.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CFIFOBuffer : public ResizeableContainer<byte>, public AInputStream, public AOutputStream
+    class ACSTDLIB_API CFIFOBuffer : public ResizeableContainer<byte>, public InputStream, public AOutputStream
     {
     private:
         //Members
@@ -41,7 +41,7 @@ namespace ACStdLib
 
         //Methods
         void EnsureCapacity(uint32 requiredNumberOfElements);
-        bool HitEnd() const;
+        bool IsAtEnd() const;
         byte ReadByte();
         uint32 ReadBytes(void *pDestination, uint32 count);
         void Release();

@@ -22,6 +22,7 @@
 #include "Controls/CheckBox.hpp"
 #include "Controls/CDropDown.h"
 #include "Controls/PushButton.hpp"
+#include "Controls/RadioButton.hpp"
 #include "Views/CTreeView.h"
 
 namespace ACStdLib
@@ -36,6 +37,12 @@ namespace ACStdLib
 			{
 				if(refButton.onActivatedHandler)
 					refButton.onActivatedHandler();
+			}
+
+			static inline void DispatchActivatedEvent(RadioButton &button)
+			{
+				if(button.onActivatedHandler)
+					button.onActivatedHandler();
 			}
 
             static inline void DispatchCloseEvent(Window &refWnd)

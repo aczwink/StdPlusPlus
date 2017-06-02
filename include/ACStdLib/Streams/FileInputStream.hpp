@@ -42,7 +42,7 @@ namespace ACStdLib
         uint64 GetCurrentOffset() const;
         uint64 GetRemainingBytes() const;
         uint64 GetSize() const;
-        bool HitEnd() const;
+        bool IsAtEnd() const;
         byte ReadByte();
         uint32 ReadBytes(void *pDestination, uint32 count);
         void SetCurrentOffset(uint64 offset);

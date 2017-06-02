@@ -28,52 +28,114 @@ namespace ACStdLib
     class Map;
 
     template<typename KeyType, typename ValueType>
-    class CConstMapIterator
+    class ConstMapIterator
     {
         friend class Map < KeyType, ValueType > ;
         typedef MapNode<KeyType, ValueType> Node;
     private:
         //Members
-        const Map<KeyType, ValueType> &refMap;
-        const Node *pCurrentNode;
+        const Map<KeyType, ValueType> &map;
+        const Node *currentNode;
 
         //Constructor
-        CConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : refMap(refMap)
+        ConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : map(refMap)
         {
-            this->pCurrentNode = pNode;
+            this->currentNode = pNode;
         }
     public:
 
         //Operators
-        inline bool operator!=(const CConstMapIterator<KeyType, ValueType> &refIt) const
+        inline bool operator==(const ConstMapIterator<KeyType, ValueType> &it) const
         {
-            return (&this->refMap != &refIt.refMap) || (this->pCurrentNode != refIt.pCurrentNode);
+            return (&this->map == &it.map) && (this->currentNode == it.currentNode);
         }
 
-        CConstMapIterator<KeyType, ValueType> &operator++() //Prefix ++
+        inline bool operator!=(const ConstMapIterator<KeyType, ValueType> &refIt) const
+        {
+            return (&this->map != &refIt.map) || (this->currentNode != refIt.currentNode);
+        }
+
+        ConstMapIterator<KeyType, ValueType> &operator++() //Prefix ++
         {
             Node *pParent;
 
-            if(this->pCurrentNode)
+            if(this->currentNode)
             {
-                if(this->pCurrentNode->pRight)
+                if(this->currentNode->pRight)
                 {
-                    this->pCurrentNode = (Node *)this->pCurrentNode->pRight->GetFirst();
+                    this->currentNode = (Node *)this->currentNode->pRight->GetFirst();
                 }
                 else
                 {
-                    while((pParent = (Node *)this->pCurrentNode->pParent) && pParent->pRight == this->pCurrentNode)
-                        this->pCurrentNode = pParent;
-                    this->pCurrentNode = pParent;
+                    while((pParent = (Node *)this->currentNode->pParent) && pParent->pRight == this->currentNode)
+                        this->currentNode = pParent;
+                    this->currentNode = pParent;
                 }
             }
 
             return *this;
         }
 
-        const CKeyValuePair<KeyType, ValueType> &operator*() const
+        const KeyValuePair<KeyType, ValueType> &operator*() const
         {
-            return this->pCurrentNode->keyValuePair;
+            return this->currentNode->keyValuePair;
         }
     };
+
+
+
+    template<typename KeyType, typename ValueType>
+    class MapIterator
+	{
+		friend class Map < KeyType, ValueType > ;
+		typedef MapNode<KeyType, ValueType> Node;
+	private:
+		//Members
+		Map<KeyType, ValueType> &map;
+		Node *currentNode;
+
+		//Constructor
+		MapIterator(Map<KeyType, ValueType> &refMap, Node *pNode) : map(refMap)
+		{
+			this->currentNode = pNode;
+		}
+	public:
+
+		//Operators
+		inline bool operator==(const MapIterator<KeyType, ValueType> &it) const
+		{
+			return (&this->map == &it.map) && (this->currentNode == it.currentNode);
+		}
+
+		inline bool operator!=(const MapIterator<KeyType, ValueType> &refIt) const
+		{
+			return (&this->map != &refIt.map) || (this->currentNode != refIt.currentNode);
+		}
+
+		MapIterator<KeyType, ValueType> &operator++() //Prefix ++
+		{
+			Node *pParent;
+
+			if(this->currentNode)
+			{
+				if(this->currentNode->pRight)
+				{
+					this->currentNode = (Node *)this->currentNode->pRight->GetFirst();
+				}
+				else
+				{
+					while((pParent = (Node *)this->currentNode->pParent) && pParent->pRight == this->currentNode)
+						this->currentNode = pParent;
+					this->currentNode = pParent;
+				}
+			}
+
+			return *this;
+		}
+
+		KeyValuePair<KeyType, ValueType> &operator*()
+		{
+			return this->currentNode->keyValuePair;
+		}
+	};
 }

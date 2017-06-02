@@ -20,7 +20,7 @@
 #pragma once
 //Local
 #include "Containers/Map/Map.hpp"
-#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.hpp"
 #include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "Definitions.h"
 #include "ACStdLib/Filesystem/Path.hpp"
@@ -36,10 +36,10 @@ namespace ACStdLib
         Path path;
         Map<String, Map<String, String>> sections;
         //Methods
-        String ReadKey(AInputStream &refInput);
-        String ReadSectionTitle(AInputStream &refInput);
+        String ReadKey(InputStream &refInput);
+        String ReadSectionTitle(InputStream &refInput);
         void ReadSectionValues(const String &refSectionName, ASeekableInputStream &refInput);
-        String ReadValue(AInputStream &refInput);
+        String ReadValue(InputStream &refInput);
     public:
         //Constructor
         CIniFile(const Path &refPath, bool readOnly = false);

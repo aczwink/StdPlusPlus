@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.h"
+#include "ACStdLib/Containers/Strings/String.hpp"
 #include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"

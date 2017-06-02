@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/Views/CTreeView.h>
 //Local
-#include <ACStdLib/UI/WidgetContainer.h>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include <ACStdLib/UI/Controllers/ATreeController.h>
 //Namespaces
 using namespace ACStdLib;
