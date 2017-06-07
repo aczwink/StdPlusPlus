@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Containers/Strings/VariableCharLengthString.hpp>
+#include "../VariableCharLengthString.hpp"
 #include "CConstUTF8StringIterator.h"
 
 namespace ACStdLib
