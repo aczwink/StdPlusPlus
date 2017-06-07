@@ -20,7 +20,7 @@
 //Local
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "../Definitions.h"
-#include "../Streams/ASeekableInputStream.h"
+#include "ACStdLib/Streams/SeekableInputStream.hpp"
 
 namespace ACStdLib
 {
@@ -41,7 +41,7 @@ namespace ACStdLib
             virtual ~Shader() {}
 
             //Abstract
-            virtual bool Compile(ASeekableInputStream &refSource) = NULL;
+            virtual bool Compile(SeekableInputStream &refSource) = NULL;
             virtual ACStdLib::ByteString GetCompilationLog() = NULL;
         };
     }

@@ -21,16 +21,39 @@
 //Local
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Memory.h>
+#include <ACStdLib/Containers/Map/Map.hpp>
+#include <ACStdLib/Containers/Strings/ByteString.hpp>
+#include <ACStdLib/Multimedia/CodecId.hpp>
 //Namespaces
 using namespace ACStdLib;
+using namespace ACStdLib::Multimedia;
 
 //Prototypes
+void InitACStdLib_Platform();
+void MultimediaRegisterCodecsAndFormats();
 void ShutdownACStdLib_Platform();
 
 //Global functions
+void InitACStdLib()
+{
+	MultimediaRegisterCodecsAndFormats();
+
+	InitACStdLib_Platform();
+}
+
 void ShutdownACStdLib()
 {
 	ShutdownACStdLib_Platform();
+
+	//free static variables so that they don't get reported as memory leaks
+	extern Map<ByteString, CodecId> g_matroskaCodecStringMap;
+	g_matroskaCodecStringMap.Release();
+
+	extern Map<uint16, CodecId> g_ms_audio_twoCC_map;
+	g_ms_audio_twoCC_map.Release();
+
+	extern Map<uint32, CodecId> g_ms_video_fourCC_map;
+	g_ms_video_fourCC_map.Release();
 
     //look for memory leaks
     ASSERT_MSG(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");

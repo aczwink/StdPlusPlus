@@ -19,11 +19,16 @@
 //Global
 #include <gtk/gtk.h>
 #include <GL/glx.h>
+#include <stdlib.h>
 //Local
 #include <ACStdLib/__InitAndShutdown.h>
+#include <ACStdLib/Debug.h>
+#include <ACStdLib/Memory.h>
+//Namespaces
+using namespace ACStdLib;
 
 //Global functions
-void InitACStdLib()
+void InitACStdLib_Platform()
 {
     gtk_init(0, nullptr);
 }

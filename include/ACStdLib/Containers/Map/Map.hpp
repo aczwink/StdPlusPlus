@@ -278,6 +278,11 @@ namespace ACStdLib
             return this->FindNode(refKey) != nullptr;
         }
 
+        inline Iterator Find(const KeyType &key)
+        {
+            return Iterator(*this, this->FindNode(key));
+        }
+
         inline ConstIterator Find(const KeyType &refKey) const
         {
             return ConstIterator(*this, this->FindNode(refKey));

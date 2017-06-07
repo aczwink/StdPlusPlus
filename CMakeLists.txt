@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.6)
 project(ACStdLib)
 
+#options
+option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" OFF)
+if(USE_LIBAVCODEC)
+	include(cmake/FindFFmpeg.cmake)
+endif(USE_LIBAVCODEC)
+
 #c++ standard
 set(CMAKE_CXX_STANDARD 14) #TODO: #13 - make this 17
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
@@ -69,6 +75,10 @@ endif(UNIX)
 if(WIN32)
 	target_link_libraries(ACStdLib opengl32.lib)
 endif(WIN32)
+
+if(USE_LIBAVCODEC)
+	target_link_libraries(ACStdLib ${FFMPEG_LIBRARIES})
+endif(USE_LIBAVCODEC)
 
 target_include_directories(tests_ACStdLib PUBLIC "include")
 target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic ACStdLibTest)

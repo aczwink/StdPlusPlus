@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include "ACStdLib/Filesystem/Path.hpp"
-#include "ASeekableInputStream.h"
+#include "SeekableInputStream.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API FileInputStream : public ASeekableInputStream
+    class ACSTDLIB_API FileInputStream : public SeekableInputStream
     {
     private:
         //Members

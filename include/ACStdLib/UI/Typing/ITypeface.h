@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Streams/ASeekableInputStream.h"
+#include "ACStdLib/Streams/SeekableInputStream.hpp"
 
 namespace ACStdLib
 {
@@ -43,7 +43,7 @@ namespace ACStdLib
             virtual void RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const = NULL;
 
             //Functions
-            static ACSTDLIB_API ITypeface *GetInstance(ACStdLib::ASeekableInputStream &refInput);
+            static ACSTDLIB_API ITypeface *GetInstance(ACStdLib::SeekableInputStream &refInput);
         };
     }
 }

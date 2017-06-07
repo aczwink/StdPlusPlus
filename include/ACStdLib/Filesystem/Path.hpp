@@ -92,6 +92,11 @@ namespace ACStdLib
             return this->pathString > refRight.pathString;
         }
 
+        inline Path operator+(const Path &other)
+		{
+			return Path(this->GetString() + other.GetString());
+		}
+
         inline Path operator/(const Path &refRight) const
         {
             return Path(this->pathString + '/' + refRight.pathString);
@@ -126,7 +131,4 @@ namespace ACStdLib
         PathIterator begin() const;
         PathIterator end() const;
     };
-
-    //Binary operators
-    Path ACSTDLIB_API operator+(const Path &refLeft, const Path &refRight);
 }

@@ -1,6 +1,10 @@
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
+
 set(SOURCE_FILES
-        ${SOURCE_FILES}
-        #.
+	${SOURCE_FILES}
+
+	#.
         ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
@@ -19,6 +23,28 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
+
+	#Filesystem
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
+
+	#Multimedia
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codec.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Decoder.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/FourCC.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
@@ -46,7 +72,7 @@ set(SOURCE_FILES
 
         #Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
@@ -77,4 +103,4 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/RenderTargetWidget.cpp
 
-        PARENT_SCOPE)
+	PARENT_SCOPE)

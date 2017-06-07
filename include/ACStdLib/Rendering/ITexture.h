@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Definitions.h>
+#include "../Definitions.h"
 
 namespace ACStdLib
 {

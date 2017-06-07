@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "ECodecId.h"
-#include "SPacket.h"
+#include "CodecId.hpp"
+#include "Packet.hpp"
 
 namespace ACStdLib
 {
@@ -30,14 +30,14 @@ namespace ACStdLib
         {
         private:
             //Members
-            LinkedList<SPacket> parsedFrames;
+            LinkedList<Packet> parsedFrames;
 
         protected:
             //Members
-            SPacket frameBuffer;
+            Packet frameBuffer;
 
             //Methods
-            void AddToFrameBuffer(const SPacket &refPacket);
+            void AddToFrameBuffer(const Packet &refPacket);
             void AddToFrameBuffer(const void *pData, uint32 size);
             void ReadyFrameBuffer(uint32 nOverreadBytes = 0);
 
@@ -62,14 +62,14 @@ namespace ACStdLib
             virtual ~AParser();
 
             //Abstract
-            virtual ECodecId GetCodecId() const = NULL;
-            virtual void Parse(const SPacket &refPacket) = NULL;
+            virtual CodecId GetCodecId() const = NULL;
+            virtual void Parse(const Packet &refPacket) = NULL;
 
             //Overrideable
             virtual void Reset();
 
             //Inline
-            inline void GetParsedFrame(SPacket &refPacket)
+            inline void GetParsedFrame(Packet &refPacket)
             {
                 ASSERT(this->IsFrameReady());
 

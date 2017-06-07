@@ -38,6 +38,6 @@ public:
     ~CShader();
 
     //Methods
-    bool Compile(ASeekableInputStream &refSource);
+    bool Compile(SeekableInputStream &refSource);
     ByteString GetCompilationLog();
 };

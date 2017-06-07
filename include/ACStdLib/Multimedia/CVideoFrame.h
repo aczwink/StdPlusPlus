@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include "AFrame.h"
+#include "Frame.hpp"
 #include "AImage.h"
 
 namespace ACStdLib
 {
     namespace Multimedia
     {
-        class ACSTDLIB_API CVideoFrame : public AFrame
+        class ACSTDLIB_API CVideoFrame : public Frame
         {
         private:
             //Members
@@ -39,7 +39,7 @@ namespace ACStdLib
             ~CVideoFrame();
 
             //Methods
-            EDataType GetType() const;
+            DataType GetType() const;
 
             //Inline
             inline AImage *GetImage()

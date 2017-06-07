@@ -48,6 +48,30 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Vector3.hpp
 
+	#Multimedia
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codec.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/CodecId.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Decoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Encoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Frame.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
+
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.hpp
 
@@ -70,7 +94,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CBufferInputStream.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/SeekableInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h
@@ -106,12 +131,14 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Type.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Variant.hpp
 
 	PARENT_SCOPE)

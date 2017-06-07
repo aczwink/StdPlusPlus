@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "AAudioBuffer.h"
+#include "AbstractAudioBuffer.hpp"
 #include "ACStdLib/Function.hpp"
 
 namespace ACStdLib

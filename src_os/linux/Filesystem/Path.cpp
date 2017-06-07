@@ -28,6 +28,13 @@
 using namespace ACStdLib;
 
 //Public methods
+bool Path::CreateDirectory()
+{
+	UTF8String pathUTF8(this->pathString.GetUTF16());
+
+	return mkdir((const char *) pathUTF8.GetC_Str(), 0700) == 0;
+}
+
 bool Path::Exists() const
 {
 	UTF8String pathUTF8(this->pathString.GetUTF16());

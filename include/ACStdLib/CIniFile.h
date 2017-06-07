@@ -24,7 +24,7 @@
 #include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "Definitions.h"
 #include "ACStdLib/Filesystem/Path.hpp"
-#include "Streams/ASeekableInputStream.h"
+#include "ACStdLib/Streams/SeekableInputStream.hpp"
 
 namespace ACStdLib
 {
@@ -38,7 +38,7 @@ namespace ACStdLib
         //Methods
         String ReadKey(InputStream &refInput);
         String ReadSectionTitle(InputStream &refInput);
-        void ReadSectionValues(const String &refSectionName, ASeekableInputStream &refInput);
+        void ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput);
         String ReadValue(InputStream &refInput);
     public:
         //Constructor

@@ -30,86 +30,15 @@ namespace ACStdLib
 		InputStream &inputStream;
 
 		//Inline
+		inline uint16 Swap16(uint16 v)
+		{
+			return (((uint16)(v & 0xFF) << 8) | ((uint16)(v & 0xFF00) >> 8));
+		}
+
 #ifdef _AC_ENDIAN_LITTLE
-		inline float32 ReadFloat32BE()
-		{
-			union
-			{
-				uint32 i;
-				float32 f;
-			};
-
-			i = this->ReadUInt32BE();
-
-			return f;
-		}
-
-		inline float32 ReadFloat32LE()
-		{
-			float32 v;
-
-			this->inputStream.ReadBytes(&v, sizeof(v));
-
-			return v;
-		}
-
-		inline float64 ReadFloat64BE()
-		{
-			union
-			{
-				uint64 i;
-				float64 f;
-			};
-
-			i = this->ReadUInt64BE();
-
-			return f;
-		}
-
-		inline int16 ReadInt16BE()
-		{
-			return this->ReadUInt16BE();
-		}
-
-		inline int16 ReadInt16LE()
-		{
-			int16 v;
-
-			this->inputStream.ReadBytes(&v, sizeof(v));
-
-			return v;
-		}
-
-		inline int32 ReadInt32LE()
-		{
-			int32 v;
-
-			this->inputStream.ReadBytes(&v, sizeof(v));
-
-			return v;
-		}
-
 		inline int64 ReadInt64LE()
 		{
 			int64 v;
-
-			this->inputStream.ReadBytes(&v, sizeof(v));
-
-			return v;
-		}
-
-		inline uint16 ReadUInt16BE()
-		{
-			byte buffer[2];
-
-			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
-
-			return ((uint16)buffer[0] << 8) | buffer[1];
-		}
-
-		inline uint16 ReadUInt16LE()
-		{
-			uint16 v;
 
 			this->inputStream.ReadBytes(&v, sizeof(v));
 
@@ -177,32 +106,121 @@ namespace ACStdLib
 
 		inline DataReader &operator>>(int16 &i)
 		{
-			if(this->readBigEndian)
-				i = this->ReadInt16BE();
-			else
-				i = this->ReadInt16LE();
+			i = this->ReadInt16();
 
 			return *this;
 		}
 
 		inline DataReader &operator>>(uint16 &i)
 		{
-			if(this->readBigEndian)
-				i = this->ReadUInt16BE();
-			else
-				i = this->ReadUInt16LE();
+			i = this->ReadUInt16();
 
 			return *this;
 		}
 
 		inline DataReader &operator>>(uint32 &i)
 		{
-			if(this->readBigEndian)
-				i = this->ReadUInt32BE();
-			else
-				i = this->ReadUInt32LE();
+			i = this->ReadUInt32();
 
 			return *this;
+		}
+
+		//Inline
+		inline byte ReadByte()
+		{
+			byte b;
+
+			this->inputStream.ReadBytes(&b, 1);
+
+			return b;
+		}
+
+		inline float32 ReadFloat32()
+		{
+			float32 v;
+
+			if(this->readBigEndian)
+			{
+#ifdef _AC_ENDIAN_LITTLE
+				union
+				{
+					uint32 i;
+					float32 f;
+				};
+
+				i = this->ReadUInt32BE();
+
+				return f;
+#endif
+			}
+
+#ifdef _AC_ENDIAN_LITTLE
+			this->inputStream.ReadBytes(&v, sizeof(v));
+#endif
+			return v;
+		}
+
+		inline float64 ReadFloat64()
+		{
+			float64 v;
+
+			if(this->readBigEndian)
+			{
+#ifdef _AC_ENDIAN_LITTLE
+				union
+				{
+					uint64 i;
+					float64 f;
+				};
+
+				i = this->ReadUInt64BE();
+
+				return f;
+#endif
+			}
+#ifdef _AC_ENDIAN_LITTLE
+			this->inputStream.ReadBytes(&v, sizeof(v));
+#endif
+
+			return v;
+		}
+
+		inline int16 ReadInt16()
+		{
+			return this->ReadUInt16();
+		}
+
+		inline int32 ReadInt32()
+		{
+			return this->ReadUInt32();
+		}
+
+		inline uint16 ReadUInt16()
+		{
+			uint16 v;
+
+			this->inputStream.ReadBytes(&v, sizeof(v));
+
+			if(this->readBigEndian)
+#ifdef _AC_ENDIAN_LITTLE
+				return this->Swap16(v);
+#else
+				return v;
+#endif
+
+#ifdef _AC_ENDIAN_LITTLE
+			return v;
+#else
+			return this->Swap16(v);
+#endif
+		}
+
+		inline uint32 ReadUInt32()
+		{
+			if(this->readBigEndian)
+				return this->ReadUInt32BE();
+
+			return this->ReadUInt32LE();
 		}
     };
 }

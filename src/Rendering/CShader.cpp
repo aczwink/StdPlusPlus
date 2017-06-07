@@ -49,7 +49,7 @@ CShader::~CShader()
 }
 
 //Public methods
-bool CShader::Compile(ASeekableInputStream &refSource)
+bool CShader::Compile(SeekableInputStream &refSource)
 {
     byte *pShaderText;
     int32 result;

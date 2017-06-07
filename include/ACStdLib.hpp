@@ -58,7 +58,7 @@
 //Streams
 #include <ACStdLib/Streams/AOutputStream.h>
 #include <ACStdLib/Streams/CBufferedInputStream.h>
-#include <ACStdLib/Streams/CBufferInputStream.h>
+#include <ACStdLib/Streams/BufferInputStream.hpp>
 #include <ACStdLib/Streams/CBufferOutputStream.h>
 #include <ACStdLib/Streams/CConcatenatedInputStream.h>
 #include <ACStdLib/Streams/FileInputStream.hpp>
@@ -109,23 +109,23 @@
 #include <ACStdLib/Math/Geometry/ObjectIntersection.h>
 
 //Multimedia
-#include <ACStdLib/Multimedia/AAudioDecoder.h>
-#include <ACStdLib/Multimedia/ADemuxer.h>
-#include <ACStdLib/Multimedia/AMuxer.h>
-#include <ACStdLib/Multimedia/AStream.h>
-#include <ACStdLib/Multimedia/AVideoDecoder.h>
-#include <ACStdLib/Multimedia/CAudioBuffer.h>
-#include <ACStdLib/Multimedia/CAudioFrame.h>
-#include <ACStdLib/Multimedia/CAudioStream.h>
+#include <ACStdLib/Multimedia/AudioDecoder.hpp>
+#include <ACStdLib/Multimedia/Demuxer.hpp>
+#include <ACStdLib/Multimedia/Muxer.hpp>
+#include <ACStdLib/Multimedia/Stream.hpp>
+#include <ACStdLib/Multimedia/VideoDecoder.hpp>
+#include <ACStdLib/Multimedia/AudioBuffer.hpp>
+#include <ACStdLib/Multimedia/AudioFrame.hpp>
+#include <ACStdLib/Multimedia/AudioStream.hpp>
 #include <ACStdLib/Multimedia/CAudioVoice.h>
-#include <ACStdLib/Multimedia/CClusterIndex.h>
-#include <ACStdLib/Multimedia/CSubtitleStream.h>
+#include <ACStdLib/Multimedia/ClusterIndex.hpp>
+#include <ACStdLib/Multimedia/SubtitleStream.hpp>
 #include <ACStdLib/Multimedia/CVideoFrame.h>
-#include <ACStdLib/Multimedia/CVideoStream.h>
-#include <ACStdLib/Multimedia/ICodec.h>
-#include <ACStdLib/Multimedia/IFormat.h>
+#include <ACStdLib/Multimedia/VideoStream.hpp>
+#include <ACStdLib/Multimedia/Codec.hpp>
+#include <ACStdLib/Multimedia/Format.hpp>
 #include <ACStdLib/Multimedia/SMetaInfo.h>
-#include <ACStdLib/Multimedia/SPacket.h>
+#include <ACStdLib/Multimedia/Packet.hpp>
 //Images
 //Images/RGB
 #include <ACStdLib/Multimedia/Images/RGB/CR8G8B8Image.h>
