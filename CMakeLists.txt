@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(ACStdLib)
 
 #options
-option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" OFF)
+option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" ON)
 if(USE_LIBAVCODEC)
 	include(cmake/FindFFmpeg.cmake)
 endif(USE_LIBAVCODEC)
@@ -21,7 +21,7 @@ else()
 endif()
 
 #dependancies
-find_library(OPENCL_LIBRARY NAMES OpenCL)
+find_library(OPENCL_LIBRARY NAMES OpenCL REQUIRED)
 if(UNIX)
     #gtk3 is required
     find_package(PkgConfig REQUIRED)
@@ -86,10 +86,9 @@ target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic ACStdLi
 
 
 #---DOCUMENTATION---
-find_package(Doxygen)
-option(BUILD_DOCUMENTATION "Build documentation" ${DOXYGEN_FOUND})
-
+option(BUILD_DOCUMENTATION "Build documentation" OFF)
 if(BUILD_DOCUMENTATION)
+	find_package(Doxygen REQUIRED)
 	if(NOT DOXYGEN_FOUND)
 		message(FATAL_ERROR "Doxygen is needed to build the documentation.")
 	endif()

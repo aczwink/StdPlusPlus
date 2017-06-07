@@ -38,7 +38,9 @@ String Device::GetName() const
 	size_t size;
 	char buffer[1024];
 
-	result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
+	NOT_IMPLEMENTED_ERROR;
+	//TODO: why does this not get linked anymore-.-
+	//result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
 	ASSERT(result == CL_SUCCESS);
 
 	return String(buffer);

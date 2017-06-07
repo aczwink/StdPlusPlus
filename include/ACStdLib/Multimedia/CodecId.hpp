@@ -41,7 +41,7 @@ namespace ACStdLib
             JPEG,
             MPEG1Video,
             MPEG2Video,
-            MS_MPEG4Part2,
+            MS_MPEG4Part2V2,
             PNG,
             RGB24,
             S3TC_DXT1,

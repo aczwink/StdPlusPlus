@@ -18,17 +18,17 @@
  */
 #include "../LibAV_VideoCodec.hpp"
 
-class MS_MPEG4_Part2_Codec : public LibAV_VideoCodec
+class MS_MPEG4_Part2_V2_Codec : public LibAV_VideoCodec
 {
 public:
 	//Methods
 	CodecId GetId() const
 	{
-		return CodecId::MS_MPEG4Part2;
+		return CodecId::MS_MPEG4Part2V2;
 	}
 
 	String GetName() const
 	{
-		return "Microsoft MPEG-4 Part2";
+		return "Microsoft MPEG-4 Part2 V2";
 	}
 };

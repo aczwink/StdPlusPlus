@@ -18,6 +18,8 @@
  */
 #pragma once
 #include <ACStdLib/Multimedia/VideoDecoder.hpp>
+//Local
+#include "LibAVCodec.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
@@ -26,11 +28,16 @@ class LibAV_VideoDecoder : public VideoDecoder
 {
 public:
 	//Constructor
-	inline LibAV_VideoDecoder(Stream &stream) : VideoDecoder(stream)
+	inline LibAV_VideoDecoder(Stream &stream, CodecId codecId) : VideoDecoder(stream)
 	{
+		InitCodecState(state, codecId, stream);
 	}
 
 	//Methods
 	void Decode(const Packet &packet);
 	PixelFormat GetPixelFormat() const;
+
+private:
+	//Members
+	CodecState state;
 };

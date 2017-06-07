@@ -25,6 +25,7 @@ extern "C"
 #include <ACStdLib/Multimedia/CodecId.hpp>
 #include <ACStdLib/Multimedia/Decoder.hpp>
 #include <ACStdLib/Multimedia/Packet.hpp>
+#include <ACStdLib/Multimedia/Stream.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
@@ -40,5 +41,5 @@ struct CodecState
 
 //Functions
 void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames);
-void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId);
+void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream);
 AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId);

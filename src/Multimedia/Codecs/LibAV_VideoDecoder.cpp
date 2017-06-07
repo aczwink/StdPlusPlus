@@ -22,6 +22,11 @@
 //Public methods
 void LibAV_VideoDecoder::Decode(const Packet &packet)
 {
+	DynamicArray<Frame *> frames;
+
+	DecodePacket(this->state, packet, frames);
+	for(Frame *const& frame : frames)
+		this->AddFrame(frame);
 }
 
 PixelFormat LibAV_VideoDecoder::GetPixelFormat() const

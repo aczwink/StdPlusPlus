@@ -21,6 +21,7 @@
 #include <ACStdLib/Containers/Map/Map.hpp>
 #include <ACStdLib/Multimedia/AudioBuffer.hpp>
 #include <ACStdLib/Multimedia/AudioFrame.hpp>
+#include <ACStdLib/Multimedia/VideoStream.hpp>
 
 //Global variables
 ACStdLib::Map<ACStdLib::Multimedia::CodecId, AVCodecID> g_libavcodec_codec_map;
@@ -36,7 +37,11 @@ static void LoadMap()
 
 		avcodec_register_all();
 
-		g_libavcodec_codec_map.Insert(ACStdLib::Multimedia::CodecId::MP3, AV_CODEC_ID_MP3);
+		//audio
+		g_libavcodec_codec_map.Insert(CodecId::MP3, AV_CODEC_ID_MP3);
+
+		//video
+		g_libavcodec_codec_map.Insert(CodecId::MS_MPEG4Part2V2, AV_CODEC_ID_MSMPEG4V2);
 	}
 }
 
@@ -53,71 +58,109 @@ static ChannelLayout MapChannels(int nChannels)
 	NOT_IMPLEMENTED_ERROR;
 }
 
+static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames)
+{
+	int ret = avcodec_send_packet(state.codecContext, state.pkt);
+	if(ret < 0)
+		return; //an error occured... skip packet
+
+	while(ret >= 0)
+	{
+		ret = avcodec_receive_frame(state.codecContext, state.frame);
+		if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+			return;
+		else if(ret < 0)
+			return; //an error occured. skip packet
+
+		//ready frame
+		switch(state.codec->type)
+		{
+			case AVMEDIA_TYPE_AUDIO:
+			{
+				switch(state.frame->format)
+				{
+					case AV_SAMPLE_FMT_S16P:
+					{
+						AudioBuffer<int16> *buffer = new AudioBuffer<int16>(MapChannels(state.frame->channels), (uint32) state.frame->nb_samples);
+						for(uint32 i = 0; i < state.frame->channels; i++)
+						{
+							MemCopy(buffer->GetChannel((Channel)i), state.frame->data[i], state.frame->nb_samples * sizeof(int16));
+						}
+						frames.Push(new AudioFrame(buffer));
+					}
+						break;
+					default:
+						NOT_IMPLEMENTED_ERROR;
+				}
+			}
+			break;
+			case AVMEDIA_TYPE_VIDEO:
+			{
+				switch(state.frame->format)
+				{
+					case AV_PIX_FMT_0BGR:
+					default:
+						NOT_IMPLEMENTED_ERROR;
+				}
+			}
+			break;
+		}
+	}
+}
+
 //Functions
 void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames)
 {
 	const byte *data = packet.GetData();
 	uint32 leftSize = packet.GetSize();
 
-	while(leftSize)
+	if(state.parser)
 	{
-		//parse frames from our packet
-		int ret = av_parser_parse2(state.parser, state.codecContext, &state.pkt->data, &state.pkt->size, data, leftSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
-		if(ret < 0)
-			break; //an error occured. skip packet
-
-		data += ret;
-		leftSize -= ret;
-
-		if(state.pkt->size)
+		//parse packet into frame packets
+		while(leftSize)
 		{
-			ret = avcodec_send_packet(state.codecContext, state.pkt);
+			//parse frames from our packet
+			int ret = av_parser_parse2(state.parser, state.codecContext, &state.pkt->data, &state.pkt->size, data, leftSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
 			if(ret < 0)
 				break; //an error occured. skip packet
 
-			while(ret >= 0)
-			{
-				ret = avcodec_receive_frame(state.codecContext, state.frame);
-				if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-					return;
-				else if(ret < 0)
-					return; //an error occured. skip packet
+			data += ret;
+			leftSize -= ret;
 
-				//ready frame
-				switch(state.codec->type)
-				{
-					case AVMEDIA_TYPE_AUDIO:
-					{
-						switch(state.frame->format)
-						{
-							case AV_SAMPLE_FMT_S16P:
-							{
-								AudioBuffer<int16> *buffer = new AudioBuffer<int16>(MapChannels(state.frame->channels), (uint32) state.frame->nb_samples);
-								for(uint32 i = 0; i < state.frame->channels; i++)
-								{
-									MemCopy(buffer->GetChannel((Channel)i), state.frame->data[i], state.frame->nb_samples * sizeof(int16));
-								}
-								frames.Push(new AudioFrame(buffer));
-							}
-							break;
-							default:
-								NOT_IMPLEMENTED_ERROR;
-						}
-					}
-					break;
-				}
-			}
+			if(state.pkt->size)
+				Decode(state, frames);
 		}
+	}
+	else
+	{
+		state.pkt->data = (uint8_t *)data;
+		state.pkt->size = leftSize;
+		Decode(state, frames);
 	}
 }
 
-void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId)
+void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream)
 {
 	state.pkt = av_packet_alloc();
 	state.codec = avcodec_find_decoder(MapCodecId(codecId));
 	state.parser = av_parser_init(state.codec->id);
 	state.codecContext = avcodec_alloc_context3(state.codec);
 	state.frame = av_frame_alloc();
+
+	switch(stream.GetType())
+	{
+		case DataType::Video:
+		{
+			VideoStream &videoStream = (VideoStream &) stream;
+
+			//some codecs don't have this info in its encoded data
+			if(videoStream.width)
+				state.codecContext->width = videoStream.width;
+			if(videoStream.height)
+				state.codecContext->width = videoStream.height;
+		}
+		break;
+	}
 
 	int ret = avcodec_open2(state.codecContext, state.codec, nullptr);
 }

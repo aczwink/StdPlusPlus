@@ -30,7 +30,7 @@ public:
 	//Constructor
 	inline LibAV_AudioDecoder(Stream &stream, CodecId codecId) : AudioDecoder(stream)
 	{
-		InitCodecState(state, codecId);
+		InitCodecState(state, codecId, stream);
 	}
 
 	//Methods

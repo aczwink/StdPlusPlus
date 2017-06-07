@@ -41,7 +41,7 @@ static void LoadMap()
 	{
 		loaded = true;
 
-		g_ms_video_fourCC_map.Insert(FOURCC("MP42"), CodecId::MS_MPEG4Part2); // Microsoft MPEG-4 version 2
+		g_ms_video_fourCC_map.Insert(FOURCC("MP42"), CodecId::MS_MPEG4Part2V2); // Microsoft MPEG-4 version 2
 		g_ms_video_fourCC_map.Insert(FOURCC("MPG1"), CodecId::MPEG1Video);
 	}
 }

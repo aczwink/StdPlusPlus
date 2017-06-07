@@ -21,7 +21,7 @@
 #include "Codecs/PCM/S16LE/PCM_S16LE_Codec.hpp"
 
 //Video codecs
-#include "Codecs/MPEG/MS_MPEG4_Part2_Codec.hpp"
+#include "Codecs/MPEG/MS_MPEG4_Part2_V2_Codec.hpp"
 
 //Formats
 #include "Formats/Matroska/MatroskaVideo.hpp"
@@ -35,7 +35,7 @@ void MultimediaRegisterCodecsAndFormats()
 	Codec::Register(new PCM_S16LE_Codec);
 
 	//Video codecs
-	Codec::Register(new MS_MPEG4_Part2_Codec);
+	Codec::Register(new MS_MPEG4_Part2_V2_Codec);
 
 	//Formats
 	Format::Register(new MatroskaVideo);
