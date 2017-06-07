@@ -56,17 +56,17 @@ namespace ACStdLib
         LinkedList<CCharSet *> disjointCharSets;
         LinkedList<CNFA *> nfaStack;
         //Methods
-        bool Accept(ETokenType token, CConstUTF8StringIterator &refIt);
+        bool Accept(ETokenType token, ConstUTF8StringIterator &refIt);
         CNFA *BuildNFA();
         void Concat();
-        void Except(ETokenType token, CConstUTF8StringIterator &refIt);
-        CCharSet *ParseCharacterClass(CConstUTF8StringIterator &refIt);
-        void ParseRegEx(CConstUTF8StringIterator &refIt, LinkedListConstIterator<CCharSet *> &refCharSetIt);
-        bool Preprocess(CConstUTF8StringIterator &refIt);
-        bool PreprocessCharClass(CConstUTF8StringIterator &refIt, CCharSet *pCharSet);
+        void Except(ETokenType token, ConstUTF8StringIterator &refIt);
+        CCharSet *ParseCharacterClass(ConstUTF8StringIterator &refIt);
+        void ParseRegEx(ConstUTF8StringIterator &refIt, LinkedListConstIterator<CCharSet *> &refCharSetIt);
+        bool Preprocess(ConstUTF8StringIterator &refIt);
+        bool PreprocessCharClass(ConstUTF8StringIterator &refIt, CCharSet *pCharSet);
         void Push(const CCharSet &refCharSet);
         void Star();
-        void UpdateLookahead(CConstUTF8StringIterator &refIt);
+        void UpdateLookahead(ConstUTF8StringIterator &refIt);
         void ZeroOrOne();
     public:
         //Constructor

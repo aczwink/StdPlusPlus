@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Containers/Strings/VariableCharLengthString.hpp>
-#include "CConstUTF8StringIterator.h"
+#include "../VariableCharLengthString.hpp"
+#include "ConstUTF8StringIterator.hpp"
 
 namespace ACStdLib
 {
@@ -30,7 +30,7 @@ namespace ACStdLib
 
     class ACSTDLIB_API UTF8String : public VariableCharLengthString<byte>
     {
-        friend class CConstUTF8StringIterator;
+        friend class ConstUTF8StringIterator;
     private:
         //Methods
         uint32 Decode(const byte *pSrc, uint8 &refNBytes) const;
@@ -103,14 +103,14 @@ namespace ACStdLib
         }
 
         //For range-based loop
-        inline const CConstUTF8StringIterator begin() const
+        inline const ConstUTF8StringIterator begin() const
         {
-            return CConstUTF8StringIterator(*this);
+            return ConstUTF8StringIterator(*this);
         }
 
-        inline const CConstUTF8StringIterator end() const
+        inline const ConstUTF8StringIterator end() const
         {
-            return CConstUTF8StringIterator(*this, this->GetNumberOfElements());
+            return ConstUTF8StringIterator(*this, this->GetNumberOfElements());
         }
     };
 

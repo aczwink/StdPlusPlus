@@ -16,33 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class Header
-#include <ACStdLib/Containers/Strings/UTF-8/CConstUTF8StringIterator.h>
+#pragma once
 //Local
-#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
-//Namespaces
-using namespace ACStdLib;
+#include "../../../Definitions.h"
 
-//Constructor
-CConstUTF8StringIterator::CConstUTF8StringIterator(const UTF8String &refString, uint32 index) : refString(refString)
+namespace ACStdLib
 {
-    this->pCurrent = refString.GetC_Str() + index;
-}
+    //Forward declarations
+    class UTF8String;
 
-//Operators
-CConstUTF8StringIterator &CConstUTF8StringIterator::operator++()
-{
-    uint8 nBytes;
+    class ACSTDLIB_API ConstUTF8StringIterator
+    {
+    private:
+        //Members
+        const UTF8String &refString;
+        const byte *pCurrent;
+    public:
+        //Constructor
+        ConstUTF8StringIterator(const UTF8String &refString, uint32 index = 0);
 
-    this->refString.Decode(this->pCurrent, nBytes);
-    this->pCurrent += nBytes;
+        //Operators
+        ConstUTF8StringIterator &operator++(); //Prefix ++
+        uint32 operator*() const;
 
-    return *this;
-}
-
-uint32 CConstUTF8StringIterator::operator*() const
-{
-    uint8 nBytes;
-
-    return this->refString.Decode(this->pCurrent, nBytes);
+        //Inline Operators
+        inline bool operator!=(const ConstUTF8StringIterator &refOther) const
+        {
+            return (&this->refString != &refOther.refString) || (this->pCurrent != refOther.pCurrent);
+        }
+    };
 }
