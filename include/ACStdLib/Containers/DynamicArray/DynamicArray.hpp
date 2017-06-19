@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "../../Natural.hpp"
 #include "../ResizeableContainer.hpp"
 #include "DynamicArrayIterator.hpp"
 #include "DynamicArrayConstIterator.hpp"
@@ -118,12 +119,12 @@ namespace ACStdLib
                 if(this->data[i] == refValue)
                     return i;
             }
-            return UINT32_MAX;
+            return Natural<uint32>::Max();
         }
 
         inline bool IsInArray(const DataType &refValue) const
         {
-            return this->Find(refValue) != UINT32_MAX;
+            return this->Find(refValue) != Natural<uint32>::Max();
         }
 
         DataType Pop()

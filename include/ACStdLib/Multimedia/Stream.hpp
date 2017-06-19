@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Math/CFraction.h"
+#include "ACStdLib/Math/Fraction.hpp"
 #include "AParser.h"
 #include "EnumTypes.hpp"
 #include "Codec.hpp"
@@ -44,7 +44,7 @@ namespace ACStdLib
 
         public:
             //Members
-            CFraction timeScale;
+            Fraction timeScale;
             uint64 startTime;
             uint64 duration;
             bool vbr;

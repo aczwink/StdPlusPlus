@@ -76,14 +76,14 @@ uint32 FixedCharLengthString<CharType>::Find(CharType c, uint32 startPos) const
             return i;
     }
 
-    return UINT32_MAX;
+    return Natural<uint32>::Max();
 }
 
 template<typename CharType>
 int32 FixedCharLengthString<CharType>::FindReverse(CharType c, uint32 startPos) const
 {
     if((startPos <= 0) || (this->GetLength() == 0))
-        return UINT32_MAX;
+        return Natural<uint32>::Max();
 
     if(startPos > this->GetLength())
         startPos = this->GetLength() - 1;
@@ -94,7 +94,7 @@ int32 FixedCharLengthString<CharType>::FindReverse(CharType c, uint32 startPos) 
             return i;
     }
 
-    return UINT32_MAX;
+    return Natural<uint32>::Max();
 }
 
 //Instantiate the Baseclass

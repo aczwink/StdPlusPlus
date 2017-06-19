@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Containers/Strings/String.hpp"
-#include "../Time/CTime.h"
+#include "ACStdLib/Time/Time.hpp"
 
 /*
 Naming conventions:
@@ -114,7 +114,7 @@ namespace ACStdLib
         bool CreateDirectoryTree();
         bool Exists() const;
         String GetFileExtension() const;
-        CTime GetLastModifiedTime() const;
+        Time GetLastModifiedTime() const;
         String GetName() const;
         Path GetParent() const;
         Path GetRoot() const;

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <ACStdLib/Rendering/ITexture2D.h>
+#include <ACStdLib/Rendering/Texture2D.hpp>
 #include "OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
@@ -28,7 +28,7 @@ using namespace ACStdLib::Rendering;
 //Global variables
 extern uint32 g_currentTextureId;
 
-class CTexture2D : public ITexture2D
+class CTexture2D : public Texture2D
 {
     friend class DeviceContext;
 private:
@@ -56,7 +56,7 @@ public:
     void AllocateDepth(uint16 width, uint16 height);
     void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData);
     void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData);
-    void AllocateRGB(uint16 width, uint16 height, const void *pColorData);
+    void AllocateRGB(const Size &size, const void *pColorData);
     void AllocateRGBA(uint16 width, uint16 height, const void *pColorData);
     void GenerateMipMaps();
     ETextureType GetType() const;

@@ -26,19 +26,19 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-Widget::Widget(WidgetContainer *pContainer)
+Widget::Widget(WidgetContainer *parent)
 {
-    this->pParent = pContainer;
-    if(pContainer && pContainer->pOwner)
-        this->pOwner = pContainer->pOwner;
+    this->pParent = parent;
+    if(parent && parent->pOwner)
+        this->pOwner = parent->pOwner;
     else
     {
-        ASSERT(!pContainer || IS_INSTANCE_OF(pContainer, Window));
-        this->pOwner = (Window *)pContainer;
+        ASSERT(!parent || IS_INSTANCE_OF(parent, Window));
+        this->pOwner = (Window *)parent;
     }
     this->systemHandle = nullptr;
-    if(pContainer)
-        pContainer->children.InsertTail(this);
+    if(parent)
+        parent->children.InsertTail(this);
 }
 
 //Eventhandlers

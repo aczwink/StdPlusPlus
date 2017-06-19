@@ -30,8 +30,8 @@ Stream::Stream()
 	this->pParser = nullptr;
 	this->pEncoder = nullptr;
 
-	this->startTime = UINT64_MAX;
-	this->duration = UINT64_MAX;
+	this->startTime = Natural<uint64>::Max();
+	this->duration = Natural<uint64>::Max();
 	this->vbr = false;
 	this->bitRate = 0;
 }

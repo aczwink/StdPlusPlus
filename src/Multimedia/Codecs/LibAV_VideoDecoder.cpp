@@ -19,6 +19,12 @@
 //Class header
 #include "LibAV_VideoDecoder.hpp"
 
+//Destructor
+LibAV_VideoDecoder::~LibAV_VideoDecoder()
+{
+	FreeCodecState(this->state);
+}
+
 //Public methods
 void LibAV_VideoDecoder::Decode(const Packet &packet)
 {

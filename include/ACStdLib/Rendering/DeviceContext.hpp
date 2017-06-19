@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include <ACStdLib/Definitions.h>
-#include <ACStdLib/Color.h>
-#include "../Math/Geometry/Rect.h"
+#include <ACStdLib/Color.hpp>
+#include "ACStdLib/Math/Geometry/Rect.hpp"
 #include "Shader.hpp"
 
 namespace ACStdLib
@@ -40,7 +40,7 @@ namespace ACStdLib
         class InputState;
         class ShaderProgram;
         class ITexture;
-        class ITexture2D;
+        class Texture2D;
         class VertexBuffer;
 
         enum class TestFunction
@@ -96,7 +96,7 @@ namespace ACStdLib
             InputState *CreateInputState();
             Shader *CreateShader(Shader::ShaderType type);
             ShaderProgram *CreateShaderProgram();
-            ITexture2D *CreateTexture2D();
+            Texture2D *CreateTexture2D();
             VertexBuffer *CreateVertexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
             void DrawLines(uint32 startVertexIndex, uint32 nLines);
 			void DrawPoints(uint32 startVertexIndex, uint32 count);

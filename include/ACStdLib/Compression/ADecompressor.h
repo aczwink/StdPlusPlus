@@ -53,7 +53,7 @@ namespace ACStdLib
             }
 
             //Methods
-            void Decompress(AOutputStream &refOutput, uint32 size = UINT32_MAX);
+            void Decompress(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());
 
             //Functions
             static ADecompressor *Create(ECompressionAlgorithm algorithm, AInputStream &refInput);

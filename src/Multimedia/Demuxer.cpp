@@ -40,7 +40,7 @@ bool Demuxer::AllStreamsHaveDuration() const
 {
 	for(uint8 i = 0; i < this->GetNumberOfStreams(); i++)
 	{
-		if(this->streams[i]->duration == UINT64_MAX)
+		if(this->streams[i]->duration == Natural<uint64>::Max())
 			return false;
 	}
 
@@ -64,7 +64,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 
 	for(i = 0; i < this->streams.GetNumberOfElements(); i++)
 	{
-		if(this->streams[i]->duration == UINT64_MAX)
+		if(this->streams[i]->duration == Natural<uint64>::Max())
 			streamsThatRequireDuration.Insert(i);
 	}
 
@@ -74,7 +74,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 		if(!this->ReadPacket(packet))
 			break;
 
-		if(packet.pts != UINT64_MAX && streamsThatRequireDuration.Contains(packet.streamIndex))
+		if(packet.pts != Natural<uint64>::Max() && streamsThatRequireDuration.Contains(packet.streamIndex))
 		{
 			pStream = this->GetStream(packet.streamIndex);
 
@@ -96,7 +96,7 @@ void Demuxer::ExtractInfo(Packet &refPacket)
 	pParser = pStream->GetParser();
 
 	//in case we have a pts and stream has no start time, we use it as start time
-	if(refPacket.pts != UINT64_MAX && pStream->startTime == UINT64_MAX)
+	if(refPacket.pts != Natural<uint64>::Max() && pStream->startTime == Natural<uint64>::Max())
 	{
 		pStream->startTime = refPacket.pts;
 	}

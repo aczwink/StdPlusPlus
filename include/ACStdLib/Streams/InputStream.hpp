@@ -20,6 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../InternalCompilerFlags.h"
+#include "../Natural.hpp"
 
 namespace ACStdLib
 {
@@ -43,6 +44,6 @@ namespace ACStdLib
         virtual uint32 Skip(uint32 nBytes) = NULL;
 
         //Methods
-        uint32 FlushTo(AOutputStream &refOutput, uint32 size = UINT32_MAX);
+        uint32 FlushTo(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());
     };
 }

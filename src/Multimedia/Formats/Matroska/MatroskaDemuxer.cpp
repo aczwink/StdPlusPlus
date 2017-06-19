@@ -30,7 +30,7 @@ using namespace Matroska;
 //Constructor
 MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput) : Demuxer(refFormat, refInput)
 {
-	this->timeScale = CFraction(1000000, 1000000000); //default timeCodeScale is 1.000.000 but all units are in nanoseconds
+	this->timeScale = Fraction(1000000, 1000000000); //default timeCodeScale is 1.000.000 but all units are in nanoseconds
 }
 
 //Private methods

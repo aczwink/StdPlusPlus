@@ -31,7 +31,7 @@ using namespace ACStdLib::UI;
 
 //Local functions
 /*
-static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const String &refText)
+static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *node, const String &refText)
 {
     TVINSERTSTRUCTW tvis;
     UTF16String textUTF16;
@@ -45,7 +45,7 @@ static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, cons
     tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
     tvis.item.pszText = (LPWSTR)textUTF16.GetC_Str();
     tvis.item.cchTextMax = textUTF16.GetLength();
-    tvis.item.lParam = (LPARAM)pNode;
+    tvis.item.lParam = (LPARAM)node;
 
     return (HTREEITEM)SendMessage(hWnd, TVM_INSERTITEMW, 0, (LPARAM)&tvis);
 }

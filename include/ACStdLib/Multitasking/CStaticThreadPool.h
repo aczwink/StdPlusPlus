@@ -20,8 +20,8 @@
 //Local
 #include "ACStdLib/Function.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "CConditionVariable.h"
-#include "CMutex.h"
+#include "ConditionVariable.hpp"
+#include "Mutex.hpp"
 #include "Thread.hpp"
 
 namespace ACStdLib
@@ -36,12 +36,12 @@ namespace ACStdLib
         CWorkerThread **ppThreads;
 
         uint32 nActiveThreads;
-        CMutex activeThreadsLock;
-        CConditionVariable activeThreadsSignal;
+        Mutex activeThreadsLock;
+        ConditionVariable activeThreadsSignal;
 
         LinkedList<Function<void()>> taskQueue;
-        CMutex taskQueueLock;
-        CConditionVariable taskQueueSignal;
+        Mutex taskQueueLock;
+        ConditionVariable taskQueueSignal;
 
     public:
         //Constructors

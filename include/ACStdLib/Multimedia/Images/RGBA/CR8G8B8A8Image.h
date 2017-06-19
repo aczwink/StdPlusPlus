@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "../ARGBAImage.h"
+#include "ACStdLib/Multimedia/Images/RGBAImage.hpp"
 
 namespace ACStdLib
 {
     namespace Multimedia
     {
-        class ACSTDLIB_API CR8G8B8A8Image : public ARGBAImage
+        class ACSTDLIB_API CR8G8B8A8Image : public RGBAImage
         {
         private:
             //Members

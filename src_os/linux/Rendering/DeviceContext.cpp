@@ -25,7 +25,7 @@
 //Local
 #include "../UI/Gtk.h"
 #include <ACStdLib/Integer.hpp>
-#include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;

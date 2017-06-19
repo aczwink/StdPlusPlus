@@ -78,7 +78,7 @@ void CShaderProgram::SetUniformValue(uint32 varId, float32 value)
     glUniform1f(varId, value);
 }
 
-void CShaderProgram::SetUniformValue(uint32 varId, const Math::CVector2 &refVector)
+void CShaderProgram::SetUniformValue(uint32 varId, const Math::Vector2 &refVector)
 {
     this->Use();
 
@@ -99,7 +99,7 @@ void CShaderProgram::SetUniformValue(uint32 varId, const Color &refColor)
     glUniform4fv(varId, 1, &refColor.r);
 }
 
-void CShaderProgram::SetUniformValue(uint32 varId, const CMatrix2x2 &refMatrix)
+void CShaderProgram::SetUniformValue(uint32 varId, const Matrix2x2 &refMatrix)
 {
     this->Use();
 

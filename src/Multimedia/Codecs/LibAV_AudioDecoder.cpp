@@ -19,6 +19,12 @@
 //Class header
 #include "LibAV_AudioDecoder.hpp"
 
+//Destructor
+LibAV_AudioDecoder::~LibAV_AudioDecoder()
+{
+	FreeCodecState(this->state);
+}
+
 //Public methods
 void LibAV_AudioDecoder::Decode(const Packet &packet)
 {

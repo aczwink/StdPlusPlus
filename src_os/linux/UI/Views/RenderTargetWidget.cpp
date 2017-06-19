@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 //Local
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
@@ -36,6 +36,7 @@ static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
 
 	//enable depth buffer
 	gtk_gl_area_set_has_depth_buffer(glArea, true);
+	//glDisable(GL_DEPTH_TEST); //stupid gtk!!! GL_DEPTH_TEST is disabled by default even if the def framebuffer has a depth buffer
 }
 
 //Private methods

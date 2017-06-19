@@ -34,21 +34,21 @@ namespace ACStdLib
         typedef LinkedListNode<T> Node;
     protected:
         //Variables
-        List *pList;
-        Node *pNode;
+        List *list;
+        Node *node;
         uint32 index;
         //Constructor
         LinkedListConstIterator(List *pList, Node *pNode)
         {
-            this->pList = pList;
-            this->pNode = pNode;
+            this->list = pList;
+            this->node = pNode;
             this->index = 0;
         }
     public:
         //Operators
         LinkedListConstIterator &operator++() //Prefix ++
         {
-            this->pNode = this->pNode->pNext;
+            this->node = this->node->next;
             this->index++;
 
             return *this;
@@ -56,7 +56,7 @@ namespace ACStdLib
 
         LinkedListConstIterator &operator--() //Prefix --
         {
-            this->pNode = this->pNode->pPrevious;
+            this->node = this->node->pPrevious;
             this->index--;
 
             return *this;
@@ -64,12 +64,12 @@ namespace ACStdLib
 
         const T &operator*() const
         {
-            return this->pNode->data;
+            return this->node->data;
         }
 
         bool operator!=(const LinkedListConstIterator &refRight) const
         {
-            return !(this->pList == refRight.pList && this->pNode == refRight.pNode);
+            return !(this->list == refRight.list && this->node == refRight.node);
         }
 
         //Functions
@@ -80,7 +80,7 @@ namespace ACStdLib
 
         bool IsValid() const
         {
-            return this->pNode != NULL;
+            return this->node != NULL;
         }
     };
 }

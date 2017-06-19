@@ -33,5 +33,11 @@ namespace ACStdLib
 		//Methods
 		uint64 GetElapsedNanoseconds() const;
 		void Start();
+
+		//Inline
+		inline uint64 GetElapsedMicroseconds() const
+		{
+			return this->GetElapsedNanoseconds() / 1000;
+		}
 	};
 }

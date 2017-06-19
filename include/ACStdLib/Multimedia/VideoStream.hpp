@@ -46,9 +46,9 @@ namespace ACStdLib
             DataType GetType() const;
 
             //Inline
-            inline CFraction GetAspectRatio() const
+            inline Fraction GetAspectRatio() const
             {
-                return CFraction(this->width, this->height).Reduce();
+                return Fraction(this->width, this->height).Reduce();
             }
         };
     }

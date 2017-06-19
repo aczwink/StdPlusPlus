@@ -207,7 +207,7 @@ namespace ACStdLib
             return this->pStr16->Find(c, startPos);
         }
 
-        inline int32 FindReverse(uint16 c, uint32 startPos = UINT32_MAX) const
+        inline int32 FindReverse(uint16 c, uint32 startPos = Natural<uint32>::Max()) const
         {
             return this->pStr16->FindReverse(c, startPos);
         }

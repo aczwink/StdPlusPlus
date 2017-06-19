@@ -19,6 +19,7 @@
 
 #pragma once
 //Local
+#include "../../../Natural.hpp"
 #include "../VariableCharLengthString.hpp"
 #include "CConstUTF16StringIterator.h"
 
@@ -100,7 +101,7 @@ namespace ACStdLib
         //Methods
         bool Contains(uint32 codePoint) const;
         uint32 Find(uint16 c, uint32 startPos = 0) const;
-        uint32 FindReverse(uint16 c, uint32 startPos = UINT32_MAX) const;
+        uint32 FindReverse(uint16 c, uint32 startPos = Natural<uint32>::Max()) const;
         UTF16String ToLowercase() const;
 
         //For range-based loop

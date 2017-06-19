@@ -28,21 +28,21 @@ namespace ACStdLib
         //Variables
         T data;
         Node *pPrevious;
-        Node *pNext;
+        Node *next;
 
         //Constructors
         LinkedListNode(const T &refData)
         {
             this->data = refData;
             this->pPrevious = NULL;
-            this->pNext = NULL;
+            this->next = NULL;
         }
 
         LinkedListNode(const T &refData, Node *pPrevious, Node *pNext)
         {
             this->data = refData;
             this->pPrevious = pPrevious;
-            this->pNext = pNext;
+            this->next = pNext;
         }
     };
 }

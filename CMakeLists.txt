@@ -2,14 +2,20 @@ cmake_minimum_required(VERSION 3.6)
 project(ACStdLib)
 
 #options
-option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" ON)
+option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" OFF)
 if(USE_LIBAVCODEC)
 	include(cmake/FindFFmpeg.cmake)
 endif(USE_LIBAVCODEC)
 
+
+option(BUILD_DOCUMENTATION "Build documentation" OFF)
+
 #c++ standard
 set(CMAKE_CXX_STANDARD 14) #TODO: #13 - make this 17
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
+
+#currently SSE4.1 required. However, only 2 should be required for x64
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1")
 
 #debug or release
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -86,7 +92,6 @@ target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic ACStdLi
 
 
 #---DOCUMENTATION---
-option(BUILD_DOCUMENTATION "Build documentation" OFF)
 if(BUILD_DOCUMENTATION)
 	find_package(Doxygen REQUIRED)
 	if(NOT DOXYGEN_FOUND)

@@ -20,8 +20,8 @@
 //Local
 #include "../../Definitions.h"
 #include <ACStdLibCPUOpt.hpp>
-#include "Matrix4x4.hpp"
-#include "Vector3.hpp"
+#include "ACStdLib/Math/Matrix4x4.hpp"
+#include "ACStdLib/Math/Vector3.hpp"
 
 namespace ACStdLib
 {

@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include "../Natural.hpp"
 #include "EnumTypes.hpp"
 
 namespace ACStdLib
@@ -34,7 +35,7 @@ namespace ACStdLib
             //Constructor
             inline Frame()
             {
-                this->pts = UINT64_MAX;
+                this->pts = Natural<uint64>::Max();
             }
 
             //Destructor

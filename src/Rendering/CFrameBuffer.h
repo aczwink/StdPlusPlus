@@ -57,6 +57,6 @@ public:
 
     //Methods
     uint32 GetStatus() const;
-    void SetColorBuffer(ITexture2D *pTexture);
-    void SetDepthBuffer(ITexture2D *pTexture);
+    void SetColorBuffer(Texture2D *pTexture);
+    void SetDepthBuffer(Texture2D *pTexture);
 };

@@ -71,11 +71,11 @@ void CTexture2D::AllocateDXT5(uint16 width, uint16 height, const void *pCompress
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void CTexture2D::AllocateRGB(uint16 width, uint16 height, const void *pColorData)
+void CTexture2D::AllocateRGB(const Size &size, const void *pColorData)
 {
     this->Bind();
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pColorData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, size.width, size.height, 0, GL_RGB, GL_UNSIGNED_BYTE, pColorData);
 
     //action when texture is scaled
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

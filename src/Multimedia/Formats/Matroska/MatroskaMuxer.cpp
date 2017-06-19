@@ -415,7 +415,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 		this->BeginElement(MATROSKA_ID_CLUSTER);
 		this->currentCluster.isClusterOpen = true;
 		this->currentCluster.size = 0;
-		if(transformedPTS != UINT64_MAX)
+		if(transformedPTS != Natural<uint64>::Max())
 			this->currentCluster.basePTS = transformedPTS;
 		else
 			this->currentCluster.basePTS = this->currentCluster.pts;
@@ -430,7 +430,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	As of here https://www.matroska.org/technical/diagram/index.html
 	it is sufficient to index video keyframes
 	*/
-	if(packet.containsKeyframe && transformedPTS != UINT64_MAX && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
+	if(packet.containsKeyframe && transformedPTS != Natural<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
 	{
 		SCueEntry &refCueEntry = this->cues[transformedPTS];
 
@@ -439,7 +439,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	}
 
 	//add packet
-	if(transformedPTS != UINT64_MAX && transformedPTS > this->currentCluster.pts)
+	if(transformedPTS != Natural<uint64>::Max() && transformedPTS > this->currentCluster.pts)
 		this->currentCluster.pts = transformedPTS;
 
 	pts = int16(transformedPTS - this->currentCluster.basePTS);

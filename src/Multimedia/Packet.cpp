@@ -20,6 +20,7 @@
 #include <ACStdLib/Multimedia/Packet.hpp>
 //Local
 #include <ACStdLib/Memory.h>
+#include <ACStdLib/Natural.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
@@ -30,7 +31,7 @@ Packet::Packet()
 	this->data = nullptr;
 	this->size = 0;
 	this->capacity = 0;
-	this->pts = UINT64_MAX;
+	this->pts = Natural<uint64>::Max();
 	this->containsKeyframe = false;
 }
 

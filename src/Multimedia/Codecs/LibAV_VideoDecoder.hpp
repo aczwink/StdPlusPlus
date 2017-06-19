@@ -33,6 +33,9 @@ public:
 		InitCodecState(state, codecId, stream);
 	}
 
+	//Destructor
+	~LibAV_VideoDecoder();
+
 	//Methods
 	void Decode(const Packet &packet);
 	PixelFormat GetPixelFormat() const;

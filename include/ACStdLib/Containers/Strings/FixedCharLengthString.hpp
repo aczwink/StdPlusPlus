@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "../../Natural.hpp"
 #include "ResizeableString.hpp"
 
 namespace ACStdLib
@@ -34,12 +35,12 @@ namespace ACStdLib
     public:
         //Methods
         uint32 Find(CharType c, uint32 startPos = 0) const;
-        int32 FindReverse(CharType c, uint32 startPos = UINT32_MAX) const;
+        int32 FindReverse(CharType c, uint32 startPos = Natural<uint32>::Max()) const;
 
         //Inline methods
         inline bool Contains(CharType c) const
         {
-            return this->Find(c) != UINT32_MAX;
+            return this->Find(c) != Natural<uint32>::Max();
         }
 
         //Inline Operators

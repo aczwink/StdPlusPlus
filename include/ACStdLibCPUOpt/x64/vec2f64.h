@@ -22,7 +22,7 @@
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Definitions.h>
 #include <ACStdLib/Memory.h>
-#include <ACStdLib/Math/Geometry/CVector2.h>
+#include <ACStdLib/Math/Vector2.hpp>
 
 namespace ACStdLib
 {
@@ -53,7 +53,7 @@ namespace ACStdLib
             this->mmValue = _mm_set_pd(y, x);
         }
 
-        inline vec2f64(const Math::CVector2 &refV)
+        inline vec2f64(const Math::Vector2 &refV)
         {
             this->mmValue = _mm_set_pd(refV.y, refV.x);
         }

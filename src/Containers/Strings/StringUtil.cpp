@@ -28,7 +28,7 @@
 #include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <ACStdLib/Mathematics.h>
-#include <ACStdLib/Math/CFraction.h>
+#include <ACStdLib/Math/Fraction.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -240,7 +240,7 @@ String ACStdLib::ToHexString(uint64 value, uint8 nMinChars)
     return "0x" + ::ToString(value, 16, nMinChars);
 }
 
-String ACStdLib::TimeToString(uint64 timeStamp, const CFraction &refTimeScale)
+String ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
 {
     uint64 usecs, hours, mins, secs;
 

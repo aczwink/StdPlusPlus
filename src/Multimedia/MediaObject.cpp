@@ -37,15 +37,15 @@ void MediaObject::UpdateTimingInfo()
 	uint32 i;
 	uint64 startTime, endTime;
 	Stream *pStream;
-	CFraction timeScale;
+	Fraction timeScale;
 
 	//compute overall time scale
-	if(this->timeScale == CFraction()) //but only if demuxer or muxer does not set a specific one
+	if(this->timeScale == Fraction()) //but only if demuxer or muxer does not set a specific one
 	{
 		for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
 		{
 			timeScale = this->GetStream(i)->timeScale;
-			if(timeScale == CFraction())
+			if(timeScale == Fraction())
 				continue; //no time scale for this stream
 
 			timeScale = timeScale.Reduce();
@@ -60,10 +60,10 @@ void MediaObject::UpdateTimingInfo()
 	{
 		pStream = this->GetStream(i);
 
-		if(pStream->timeScale == CFraction())
+		if(pStream->timeScale == Fraction())
 			continue; //no time scale for this stream
 
-		if(pStream->startTime != UINT64_MAX)
+		if(pStream->startTime != Natural<uint64>::Max())
 		{
 			startTime = pStream->startTime / this->timeScale * pStream->timeScale; //keep order because of integer division
 			if(startTime < this->startTime)
@@ -76,13 +76,13 @@ void MediaObject::UpdateTimingInfo()
 	{
 		pStream = this->GetStream(i);
 
-		if(pStream->timeScale == CFraction())
+		if(pStream->timeScale == Fraction())
 			continue; //no time scale for this stream
-		if(pStream->startTime == UINT64_MAX || pStream->duration == UINT64_MAX)
+		if(pStream->startTime == Natural<uint64>::Max() || pStream->duration == Natural<uint64>::Max())
 			continue; //no start time or duration
 
 		endTime = (pStream->startTime + pStream->duration) / this->timeScale * pStream->timeScale;
-		if(endTime - this->startTime > this->duration || this->duration == UINT64_MAX)
+		if(endTime - this->startTime > this->duration || this->duration == Natural<uint64>::Max())
 			this->duration = endTime - this->startTime;
 	}
 }

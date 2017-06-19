@@ -55,6 +55,9 @@ void ShutdownACStdLib()
 	extern Map<uint32, CodecId> g_ms_video_fourCC_map;
 	g_ms_video_fourCC_map.Release();
 
+	extern ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+	g_libavcodec_codec_map.Release();
+
     //look for memory leaks
     ASSERT_MSG(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");
 }

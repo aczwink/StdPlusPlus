@@ -35,7 +35,7 @@ class MatroskaMuxer : public Muxer
 private:
 	//Members
 	DynamicArray<uint64> elementSizeOffsets;
-	CFraction timeCodeScale;
+	Fraction timeCodeScale;
 	struct
 	{
 		bool isClusterOpen;
@@ -83,8 +83,8 @@ private:
 
 	inline uint64 TransformPTS(uint64 pts, uint32 streamIndex) const
 	{
-		if(pts == UINT64_MAX)
-			return UINT64_MAX;
+		if(pts == Natural<uint64>::Max())
+			return Natural<uint64>::Max();
 
 		return pts / this->timeScale * this->GetStream(streamIndex)->timeScale;
 	}

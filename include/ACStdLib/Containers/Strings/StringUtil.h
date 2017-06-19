@@ -23,7 +23,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CFraction;
+    class Fraction;
     class String;
 
     //Functions
@@ -34,7 +34,7 @@ namespace ACStdLib
     ACSTDLIB_API int64 StringToInt64(const String &refString);
 	ACSTDLIB_API uint64 StringToUInt64(const ByteString &string);
     ACSTDLIB_API uint64 StringToUInt64(const String &refString);
-    ACSTDLIB_API String TimeToString(uint64 timeStamp, const CFraction &refTimeScale);
+    ACSTDLIB_API String TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
     ACSTDLIB_API String ToHexString(uint64 value, uint8 nMinChars = 0);
     String ToString(int64 value);
     ACSTDLIB_API String ToString(uint64 value, uint8 nMinChars = 0);

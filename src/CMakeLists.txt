@@ -27,7 +27,18 @@ set(SOURCE_FILES
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
+	#Math
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.cpp
+
 	#Multimedia
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCr/YCbCr420Image.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBImage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCrImage.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
@@ -39,11 +50,16 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/FourCC.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Image.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer_DecoderThread.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer_DemuxerThread.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.cpp
 
 	#Multitasking
@@ -56,7 +72,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.hpp
 
-        #Rendering
+	#Rendering
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/DevicePathRenderer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/FlatVectorPath.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CCubeMap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CFrameBuffer.cpp
@@ -77,11 +98,17 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
 
-		#Time
-		${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
+	#Time
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerScheduler.cpp
 
-        #UI
+	#UI
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
@@ -101,6 +128,5 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/RenderTargetWidget.cpp
 
 	PARENT_SCOPE)

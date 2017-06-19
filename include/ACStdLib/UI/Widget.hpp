@@ -22,7 +22,7 @@
 #include "ACStdLib/Containers/Strings/String.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
-#include "ACStdLib/Math/Geometry/Rect.h"
+#include "ACStdLib/Math/Geometry/Rect.hpp"
 #include "ACStdLib/Math/Size.hpp"
 #include "Mouse.hpp"
 #include "SizingPolicy.hpp"
@@ -80,7 +80,7 @@ namespace ACStdLib
             SizingPolicy sizingPolicy;
 
             //Constructor
-            Widget(WidgetContainer *pParent);
+            Widget(WidgetContainer *parent);
 
             //Destructor
             virtual ~Widget() {}

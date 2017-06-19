@@ -38,7 +38,7 @@ uint32 CFrameBuffer::GetStatus() const
     return glCheckFramebufferStatus(GL_FRAMEBUFFER);
 }
 
-void CFrameBuffer::SetColorBuffer(ITexture2D *pTexture)
+void CFrameBuffer::SetColorBuffer(Texture2D *pTexture)
 {
     this->Bind();
 
@@ -58,7 +58,7 @@ void CFrameBuffer::SetColorBuffer(ITexture2D *pTexture)
     }
 }
 
-void CFrameBuffer::SetDepthBuffer(ITexture2D *pTexture)
+void CFrameBuffer::SetDepthBuffer(Texture2D *pTexture)
 {
     if(pTexture)
     {

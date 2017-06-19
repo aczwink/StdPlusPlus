@@ -158,7 +158,7 @@ ShaderProgram *DeviceContext::CreateShaderProgram()
     return new CShaderProgram;
 }
 
-ITexture2D *DeviceContext::CreateTexture2D()
+Texture2D *DeviceContext::CreateTexture2D()
 {
     this->BindOSContext();
 

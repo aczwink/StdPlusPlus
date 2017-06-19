@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <ACStdLib/Definitions.h>
-#include "ITexture2D.h"
+#include "Texture2D.hpp"
 
 namespace ACStdLib
 {
@@ -33,8 +33,8 @@ namespace ACStdLib
 
             //Abstract
             virtual uint32 GetStatus() const = NULL; //TODO: only for debugging... throw it out
-            virtual void SetColorBuffer(ITexture2D *pTexture) = NULL;
-            virtual void SetDepthBuffer(ITexture2D *pTexture) = NULL;
+            virtual void SetColorBuffer(Texture2D *pTexture) = NULL;
+            virtual void SetDepthBuffer(Texture2D *pTexture) = NULL;
         };
     }
 }

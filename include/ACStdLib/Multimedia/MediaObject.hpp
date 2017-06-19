@@ -36,7 +36,7 @@ namespace ACStdLib
             //Members
             const Format &refFormat;
             DynamicArray<Stream *> streams;
-            CFraction timeScale;
+            Fraction timeScale;
             uint64 startTime;
             uint64 duration;
 
@@ -51,10 +51,10 @@ namespace ACStdLib
             inline MediaObject(const Format &refFormat) : refFormat(refFormat)
             {
                 //Time base for all timestamps in this context (NOT for the stream timestamps)
-                //this->timeScale = CFraction(1, 1000000); //the smaller the value, the better... it's more precise like that
+                //this->timeScale = Fraction(1, 1000000); //the smaller the value, the better... it's more precise like that
 
-                this->startTime = UINT64_MAX;
-                this->duration = UINT64_MAX;
+                this->startTime = Natural<uint64>::Max();
+                this->duration = Natural<uint64>::Max();
 
                 this->metaInfo.trackNumber = 0;
                 this->metaInfo.year = 0;
@@ -89,7 +89,7 @@ namespace ACStdLib
                 return this->streams[index];
             }
 
-            inline const CFraction &GetTimeScale() const
+            inline const Fraction &GetTimeScale() const
             {
                 return this->timeScale;
             }

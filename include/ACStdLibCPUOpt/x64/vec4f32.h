@@ -21,7 +21,7 @@
 #include "SSE.h"
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Definitions.h>
-#include <ACStdLib/Math/Geometry/Vector3.hpp>
+#include <ACStdLib/Math/Vector3.hpp>
 #include <ACStdLib/Math/Geometry/CVector4.h>
 
 namespace ACStdLib

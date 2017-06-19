@@ -19,7 +19,7 @@
 //Local
 #include "ACStdLib/Containers/Strings/String.hpp"
 #include "../Definitions.h"
-#include "EColorSpace.h"
+#include "EnumTypes.hpp"
 
 namespace ACStdLib
 {
@@ -34,7 +34,7 @@ namespace ACStdLib
         };
 
         //Functions
-        ACSTDLIB_API EColorSpace GetColorSpace(PixelFormat pixelFormat);
+        ACSTDLIB_API ColorSpace GetColorSpace(PixelFormat pixelFormat);
         ACSTDLIB_API String ToString(PixelFormat pixelFormat);
     }
 }

@@ -26,11 +26,6 @@
 using namespace ACStdLib;
 
 //Local functions
-static void *RunThreadByFuncPointer(void *arg)
-{
-	return (void *) ((ThreadFunction)arg)();
-}
-
 static void *RunThreadByCFunction(void *arg)
 {
 	Function<int32()> *function = (Function<int32()> *)arg;
@@ -40,19 +35,15 @@ static void *RunThreadByCFunction(void *arg)
 	return (void *)exitCode;
 }
 
-//Constructors
-Thread::Thread()
+static void *RunThreadByFuncPointer(void *arg)
 {
-	pthread_t threadId;
-	pthread_create(&threadId, nullptr, RunThreadByCFunction, new Function<int32()>(&Thread::ThreadMain, this));
-	this->systemHandle = (void *) threadId;
+	return (void *) ((ThreadFunction)arg)();
 }
 
-Thread::Thread(ThreadFunction func)
+static void *RunThreadByFunctor(void *arg)
 {
-	pthread_t threadId;
-	pthread_create(&threadId, nullptr, RunThreadByFuncPointer, (void *)func);
-	this->systemHandle = (void *) threadId;
+	Function<int32()> *function = (Function<int32()> *)arg;
+	return (void *)(*function)();
 }
 
 //Destructor
@@ -64,4 +55,18 @@ Thread::~Thread()
 void Thread::Join()
 {
 	pthread_join((pthread_t) this->systemHandle, nullptr);
+}
+
+void Thread::Start()
+{
+	ASSERT_MSG(this->systemHandle == nullptr, "Can't start an already started thread");
+
+	pthread_t threadId;
+	if(this->function)
+		pthread_create(&threadId, nullptr, RunThreadByFuncPointer, (void *)this->function);
+	else if(this->functor)
+		pthread_create(&threadId, nullptr, RunThreadByFunctor, (void *)&this->functor);
+	else
+		pthread_create(&threadId, nullptr, RunThreadByCFunction, new Function<int32()>(&Thread::ThreadMain, this));
+	this->systemHandle = (void *) threadId;
 }

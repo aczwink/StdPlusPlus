@@ -17,6 +17,8 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "CDesktopRenderTarget.h"
+//Local
+#include <ACStdLib/Math/Size.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -29,7 +31,7 @@ ERenderMode CDesktopRenderTarget::GetRenderMode() const
 
 Size CDesktopRenderTarget::GetSize() const
 {
-    return Size();
+    return Size::GetScreenSize();
 }
 
 void CDesktopRenderTarget::Present()

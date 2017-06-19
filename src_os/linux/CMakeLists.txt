@@ -13,6 +13,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.cpp
 
 	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Mutex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 
         #Rendering
@@ -25,6 +27,8 @@ set(SOURCE_FILES
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 
         #UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h

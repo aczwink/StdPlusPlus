@@ -28,22 +28,33 @@ namespace ACStdLib
         friend class LinkedList<T>;
         typedef LinkedList<T> List;
         typedef LinkedListNode<T> Node;
+
+	public:
+		//Operators
+		T &operator*()
+		{
+			return this->node->data;
+		}
+
+		//Methods
+		/**
+		 * Removes the element that this iterator is currently at from the list.
+		 * The index of the iterator remains the same.
+		 * After the operation the iterator will be at the element that was after the element to be deleted.
+		 *
+		 * Deleting by this method is faster, because the node is already known and does not has to be searched by index.
+		 */
+		void Remove()
+		{
+			Node *toDelete = this->node;
+			this->node = this->node->next;
+			this->list->Remove(toDelete);
+		}
+
     private:
         //Constructor
         LinkedListIterator(List *pList, Node *pNode) : LinkedListConstIterator<T>(pList, pNode)
         {
-        }
-    public:
-        //Operators
-        T &operator*()
-        {
-            return this->pNode->data;
-        }
-        //Methods
-        void Delete()
-        {
-            --(*this);
-            this->pList->Delete(this->index + 1);
         }
     };
 }

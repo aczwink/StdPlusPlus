@@ -19,12 +19,14 @@
 #include "LibAVCodec.hpp"
 //Local
 #include <ACStdLib/Containers/Map/Map.hpp>
+#include <ACStdLib/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
 #include <ACStdLib/Multimedia/AudioBuffer.hpp>
 #include <ACStdLib/Multimedia/AudioFrame.hpp>
+#include <ACStdLib/Multimedia/VideoFrame.hpp>
 #include <ACStdLib/Multimedia/VideoStream.hpp>
 
 //Global variables
-ACStdLib::Map<ACStdLib::Multimedia::CodecId, AVCodecID> g_libavcodec_codec_map;
+ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 
 //Local functions
 static void LoadMap()
@@ -98,7 +100,19 @@ static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedi
 			{
 				switch(state.frame->format)
 				{
-					case AV_PIX_FMT_0BGR:
+					case AV_PIX_FMT_YUV420P:
+					{
+						YCbCr420Image *image = new YCbCr420Image(state.frame->width, state.frame->height, false);
+						for(uint32 i = 0; i < state.frame->height; i++)
+							MemCopy(&image->GetLumaChannel()[i * state.frame->width], &state.frame->data[0][i * state.frame->linesize[0]], state.frame->width);
+						for(uint32 i = 0; i < state.frame->height / 2; i++)
+						{
+							MemCopy(&image->GetChromaRedChannel()[i * state.frame->width / 2], &state.frame->data[1][i * state.frame->linesize[1]], state.frame->width / 2);
+							MemCopy(&image->GetChromaBlueChannel()[i * state.frame->width / 2], &state.frame->data[2][i * state.frame->linesize[2]], state.frame->width / 2);
+						}
+						frames.Push(new VideoFrame(image));
+					}
+					break;
 					default:
 						NOT_IMPLEMENTED_ERROR;
 				}
@@ -139,6 +153,14 @@ void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet,
 	}
 }
 
+void FreeCodecState(CodecState &state)
+{
+	av_parser_close(state.parser);
+	avcodec_free_context(&state.codecContext);
+	av_frame_free(&state.frame);
+	av_packet_free(&state.pkt);
+}
+
 void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream)
 {
 	state.pkt = av_packet_alloc();
@@ -157,7 +179,7 @@ void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, St
 			if(videoStream.width)
 				state.codecContext->width = videoStream.width;
 			if(videoStream.height)
-				state.codecContext->width = videoStream.height;
+				state.codecContext->height = videoStream.height;
 		}
 		break;
 	}
@@ -173,5 +195,5 @@ AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId)
 	if(it == g_libavcodec_codec_map.end())
 		return AV_CODEC_ID_NONE;
 
-	return (*it).value;
+	return (AVCodecID)(*it).value;
 }

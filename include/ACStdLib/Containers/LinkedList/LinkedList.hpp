@@ -31,46 +31,9 @@ namespace ACStdLib
         typedef LinkedListConstIterator<DataType> ConstIterator;
         typedef LinkedListIterator<DataType> Iterator;
         typedef LinkedListNode<DataType> Node;
-    private:
-        //Variables
-        Node *head;
-        Node *tail;
 
-        //Functions
-        Node *FindNode(uint32 index) const
-        {
-            Node *pNode;
+		friend class LinkedListIterator<DataType>;
 
-            if(index >= this->nElements)
-                return NULL;
-
-            //search forward
-            if(this->nElements - index > index)
-            {
-                pNode = this->head;
-
-                while(index--)
-                {
-                    pNode = pNode->pNext;
-                }
-
-                return pNode;
-            }
-            else
-            {
-                pNode = this->tail;
-                index = this->nElements - index - 1;
-
-                while(index--)
-                {
-                    pNode = pNode->pPrevious;
-                }
-
-                return pNode;
-            }
-
-            return NULL;
-        }
     public:
         //Constructors
         LinkedList()
@@ -158,8 +121,8 @@ namespace ACStdLib
             {
                 if(!(pHead1->data == pHead2->data))
                     return false;
-                pHead1 = pHead1->pNext;
-                pHead2 = pHead2->pNext;
+                pHead1 = pHead1->next;
+                pHead2 = pHead2->next;
             }
 
             return true;
@@ -177,7 +140,7 @@ namespace ACStdLib
             {
                 if(pNode->data == refItem)
                     return counter;
-                pNode = pNode->pNext;
+                pNode = pNode->next;
             }
 
             return -1;
@@ -207,7 +170,7 @@ namespace ACStdLib
                 //start search from front
                 pPrevious = this->head;
                 while(index--)
-                    pPrevious = pPrevious->pNext;
+                    pPrevious = pPrevious->next;
             }
             else
             {
@@ -220,9 +183,9 @@ namespace ACStdLib
 
             pNew = new Node(refData);
             pNew->pPrevious = pPrevious;
-            pNew->pNext = pPrevious->pNext;
-            pPrevious->pNext->pPrevious = pNew;
-            pPrevious->pNext = pNew;
+            pNew->next = pPrevious->next;
+            pPrevious->next->pPrevious = pNew;
+            pPrevious->next = pNew;
             this->nElements++;
         }
 
@@ -251,8 +214,8 @@ namespace ACStdLib
                 return;
             }
 
-            this->tail->pNext = new Node(refData, this->tail, NULL);
-            this->tail = this->tail->pNext;
+            this->tail->next = new Node(refData, this->tail, NULL);
+            this->tail = this->tail->next;
             this->nElements++;
         }
 
@@ -277,7 +240,7 @@ namespace ACStdLib
             }
             else
             {
-                this->head = pNode->pNext;
+                this->head = pNode->next;
                 this->head->pPrevious = nullptr;
             }
 
@@ -303,7 +266,7 @@ namespace ACStdLib
             if(this->tail->pPrevious)
             {
                 this->tail = this->tail->pPrevious;
-                this->tail->pNext = NULL;
+                this->tail->next = NULL;
             }
             else
             {
@@ -317,6 +280,11 @@ namespace ACStdLib
             return data;
         }
 
+		void Remove(uint32 index)
+		{
+			this->Remove(this->FindNode(index));
+		}
+
         void Release()
         {
             while(this->nElements)
@@ -325,60 +293,100 @@ namespace ACStdLib
             }
         }
 
-        void Remove(uint32 index)
+		//For range-based loops
+		Iterator begin()
+		{
+			return Iterator(this, this->head);
+		}
+
+		ConstIterator begin() const
+		{
+			return ConstIterator((LinkedList *)this, this->head);
+		}
+
+		Iterator end()
+		{
+			return Iterator(this, NULL);
+		}
+
+		ConstIterator end() const
+		{
+			return ConstIterator((LinkedList *)this, NULL);
+		}
+
+    private:
+        //Variables
+        Node *head;
+        Node *tail;
+
+        //Methods
+        Node *FindNode(uint32 index) const
         {
             Node *pNode;
 
-            pNode = this->FindNode(index);
-            if(pNode)
+            if(index >= this->nElements)
+                return NULL;
+
+            //search forward
+            if(this->nElements - index > index)
             {
-                if(pNode == this->head && pNode == this->tail)
+                pNode = this->head;
+
+                while(index--)
                 {
-                    this->head = NULL;
-                    this->tail = NULL;
-                }
-                else if(pNode == this->head)
-                {
-                    this->head = this->head->pNext;
-                }
-                else if(pNode == this->tail)
-                {
-                    this->tail = this->tail->pPrevious;
-                    this->tail->pNext = nullptr;
-                }
-                else
-                {
-                    pNode->pPrevious->pNext = pNode->pNext;
-                    pNode->pNext->pPrevious = pNode->pPrevious;
+                    pNode = pNode->next;
                 }
 
-                this->nElements--;
-                delete pNode;
+                return pNode;
+            }
+            else
+            {
+                pNode = this->tail;
+                index = this->nElements - index - 1;
+
+                while(index--)
+                {
+                    pNode = pNode->pPrevious;
+                }
+
+                return pNode;
             }
 
-            //throw exception
+            return NULL;
         }
 
+		void Remove(Node *node)
+		{
+			if(node)
+			{
+				if(node == this->head && node == this->tail)
+				{
+					this->head = NULL;
+					this->tail = NULL;
+				}
+				else if(node == this->head)
+				{
+					this->head = this->head->next;
+				}
+				else if(node == this->tail)
+				{
+					this->tail = this->tail->pPrevious;
+					this->tail->next = nullptr;
+				}
+				else
+				{
+					node->pPrevious->next = node->next;
+					node->next->pPrevious = node->pPrevious;
+				}
 
-        //For range-based loops
-        Iterator begin()
-        {
-            return Iterator(this, this->head);
-        }
-
-        ConstIterator begin() const
-        {
-            return ConstIterator((LinkedList *)this, this->head);
-        }
-
-        Iterator end()
-        {
-            return Iterator(this, NULL);
-        }
-
-        ConstIterator end() const
-        {
-            return ConstIterator((LinkedList *)this, NULL);
-        }
+				this->nElements--;
+				delete node;
+			}
+			else
+			{
+				//throw exception
+				NOT_IMPLEMENTED_ERROR;
+			}
+		}
     };
 }

@@ -41,5 +41,6 @@ struct CodecState
 
 //Functions
 void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames);
+void FreeCodecState(CodecState &state);
 void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream);
 AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId);

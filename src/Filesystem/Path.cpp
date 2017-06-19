@@ -27,7 +27,7 @@ String Path::GetFileExtension() const
 
 	pos = this->pathString.FindReverse('.');
 
-	if(pos == UINT32_MAX)
+	if(pos == Natural<uint32>::Max())
 		return String();
 
 	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1).ToLowercase();

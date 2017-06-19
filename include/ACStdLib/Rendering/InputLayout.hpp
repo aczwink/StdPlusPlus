@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Math/Geometry/CVector2.h"
-#include "ACStdLib/Math/Geometry/Vector3.hpp"
+#include "ACStdLib/Math/Vector2.hpp"
+#include "ACStdLib/Math/Vector3.hpp"
 
 namespace ACStdLib
 {
@@ -64,7 +64,7 @@ namespace ACStdLib
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::CVector2);
+                this->offset += sizeof(Math::Vector2);
             }
 
             inline void AddAttribute3()

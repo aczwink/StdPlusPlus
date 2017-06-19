@@ -19,29 +19,58 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include "../Function.hpp"
 
 namespace ACStdLib
 {
     typedef int32(*ThreadFunction)();
 
+	/**
+	 * This is not an auto-start thread implementation like std::thread because it has a serious issue that is not that obvious.
+	 * When using std::thread as a member of a class or when subclassing it, a critial error may occur.
+	 *
+	 * Example that demonstrates the problem:
+	 * Say we have class A with member std::thread. Now when the constructor of A is called, std::thread() is called
+	 * and the thread begins executing, while the constructor of A has not yet finished.
+	 * Other members of A like mutexes or other variables, or maybe either the vtable might not yet be initialized.
+	 */
     class ACSTDLIB_API Thread
     {
-    private:
-        //Members
-        void *systemHandle;
-
-        //Overrideable
-        virtual int32 ThreadMain();
-
     public:
         //Constructors
-        Thread();
-        Thread(ThreadFunction func);
+        inline Thread()
+		{
+			this->systemHandle = nullptr;
+			this->function = nullptr;
+		}
+
+        inline Thread(ThreadFunction func)
+		{
+			this->systemHandle = nullptr;
+			this->function = func;
+		}
+
+		inline Thread(const Function<int32()> &function)
+		{
+			this->systemHandle = nullptr;
+			this->function = nullptr;
+			this->functor = function;
+		}
 
         //Destructor
         virtual ~Thread();
 
         //Methods
         void Join();
+		void Start();
+
+    private:
+        //Members
+        void *systemHandle;
+		ThreadFunction function;
+		Function<int32()> functor;
+
+        //Overrideable
+        virtual int32 ThreadMain();
     };
 }

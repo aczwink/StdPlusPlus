@@ -22,6 +22,13 @@ namespace ACStdLib
 {
     namespace Multimedia
     {
+		enum class ColorSpace
+		{
+			RGB,
+			RGBA,
+			YCbCr
+		};
+
 		enum class DataType
 		{
 			Audio,

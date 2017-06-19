@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Math/CFraction.h"
+#include "ACStdLib/Math/Fraction.hpp"
 #include "Decoder.hpp"
 #include "PixelFormat.hpp"
 

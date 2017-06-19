@@ -52,8 +52,6 @@
 //Limits
 #define UINT8_MAX ((uint32)0xFF)
 #define UINT16_MAX ((uint32)0xFFFF)
-#define UINT32_MAX ((uint32)0xFFFFFFFF)
-#define UINT64_MAX ((uint64)0xFFFFFFFFFFFFFFFF)
 #define UNICODE_MAX ((uint32)0x10FFFF)
 
 //Math

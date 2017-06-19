@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/Color.h"
+#include "ACStdLib/Color.hpp"
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
-#include "../Math/Geometry/CMatrix2x2.h"
+#include "ACStdLib/Math/Matrix2x2.hpp"
 #include "../Math/Geometry/CMatrix3x3.h"
-#include "ACStdLib/Math/Geometry/Matrix4x4.hpp"
-#include "../Math/Geometry/CVector2.h"
-#include "ACStdLib/Math/Geometry/Vector3.hpp"
+#include "ACStdLib/Math/Matrix4x4.hpp"
+#include "ACStdLib/Math/Vector2.hpp"
+#include "ACStdLib/Math/Vector3.hpp"
 
 namespace ACStdLib
 {
@@ -47,10 +47,10 @@ namespace ACStdLib
             virtual void SetUniformValue(uint32 varId, int32 value) = NULL;
             virtual void SetUniformValue(uint32 varId, uint32 value) = NULL;
             virtual void SetUniformValue(uint32 varId, float32 value) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::CVector2 &refVector) = NULL;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector2 &refVector) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::Vector3 &refVector) = NULL;
             virtual void SetUniformValue(uint32 varId, const Color &refColor) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::CMatrix2x2 &refMatrix) = NULL;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix2x2 &refMatrix) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::CMatrix3x3 &refMatrix) = NULL;
             virtual void SetUniformValue(uint32 varId, const Math::Matrix4x4 &refMatrix) = NULL;
         };

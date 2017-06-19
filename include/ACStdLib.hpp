@@ -50,9 +50,9 @@
 #include <ACStdLib/Math/CRadian.h>
 #include <ACStdLib/Math/Size.hpp>
 //Mathematics/Geometry
-#include <ACStdLib/Math/Geometry/Matrix4x4.hpp>
-#include <ACStdLib/Math/Geometry/CVector2.h>
-#include <ACStdLib/Math/Geometry/Vector3.hpp>
+#include <ACStdLib/Math/Matrix4x4.hpp>
+#include <ACStdLib/Math/Vector2.hpp>
+#include <ACStdLib/Math/Vector3.hpp>
 #include <ACStdLib/Math/Geometry/CVector4.h>
 
 //Streams
@@ -101,7 +101,7 @@
 
 //Math
 #include <ACStdLib/Math/CComplex.h>
-#include <ACStdLib/Math/CFraction.h>
+#include <ACStdLib/Math/Fraction.hpp>
 #include <ACStdLib/Math/CMatrix.h>
 //Math/Geometry
 #include <ACStdLib/Math/Geometry/AxisAlignedBox.h>
@@ -109,34 +109,35 @@
 #include <ACStdLib/Math/Geometry/ObjectIntersection.h>
 
 //Multimedia
-#include <ACStdLib/Multimedia/AudioDecoder.hpp>
-#include <ACStdLib/Multimedia/Demuxer.hpp>
-#include <ACStdLib/Multimedia/Muxer.hpp>
-#include <ACStdLib/Multimedia/Stream.hpp>
-#include <ACStdLib/Multimedia/VideoDecoder.hpp>
 #include <ACStdLib/Multimedia/AudioBuffer.hpp>
+#include <ACStdLib/Multimedia/AudioDecoder.hpp>
 #include <ACStdLib/Multimedia/AudioFrame.hpp>
 #include <ACStdLib/Multimedia/AudioStream.hpp>
-#include <ACStdLib/Multimedia/CAudioVoice.h>
 #include <ACStdLib/Multimedia/ClusterIndex.hpp>
-#include <ACStdLib/Multimedia/SubtitleStream.hpp>
-#include <ACStdLib/Multimedia/CVideoFrame.h>
-#include <ACStdLib/Multimedia/VideoStream.hpp>
 #include <ACStdLib/Multimedia/Codec.hpp>
+#include <ACStdLib/Multimedia/Demuxer.hpp>
 #include <ACStdLib/Multimedia/Format.hpp>
-#include <ACStdLib/Multimedia/SMetaInfo.h>
+#include <ACStdLib/Multimedia/MediaPlayer.hpp>
+#include <ACStdLib/Multimedia/Muxer.hpp>
 #include <ACStdLib/Multimedia/Packet.hpp>
+#include <ACStdLib/Multimedia/Stream.hpp>
+#include <ACStdLib/Multimedia/SubtitleStream.hpp>
+#include <ACStdLib/Multimedia/VideoDecoder.hpp>
+#include <ACStdLib/Multimedia/VideoFrame.hpp>
+#include <ACStdLib/Multimedia/VideoStream.hpp>
+#include <ACStdLib/Multimedia/CAudioVoice.h>
+#include <ACStdLib/Multimedia/SMetaInfo.h>
 //Images
 //Images/RGB
-#include <ACStdLib/Multimedia/Images/RGB/CR8G8B8Image.h>
+#include <ACStdLib/Multimedia/Images/RGB/R8G8B8Image.hpp>
 //Images/RGBA
 #include <ACStdLib/Multimedia/Images/RGBA/CR8G8B8A8Image.h>
 //Images/YCbCr
-#include <ACStdLib/Multimedia/Images/YCbCr/CYCbCr420Image.h>
+#include <ACStdLib/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
 
 //Multitasking
-#include <ACStdLib/Multitasking/CConditionVariable.h>
-#include <ACStdLib/Multitasking/CMutex.h>
+#include <ACStdLib/Multitasking/ConditionVariable.hpp>
+#include <ACStdLib/Multitasking/Mutex.hpp>
 #include <ACStdLib/Multitasking/CProcess.h>
 #include <ACStdLib/Multitasking/CStaticThreadPool.h>
 #include <ACStdLib/Multitasking/Thread.hpp>
@@ -158,16 +159,17 @@
 #include <ACStdLib/Rendering/InputState.hpp>
 #include <ACStdLib/Rendering/Shader.hpp>
 #include <ACStdLib/Rendering/ShaderProgram.hpp>
-#include <ACStdLib/Rendering/ITexture2D.h>
+#include <ACStdLib/Rendering/Texture2D.hpp>
 #include <ACStdLib/Rendering/VertexBuffer.hpp>
-//Rendering/2D
-#include <ACStdLib/Rendering/2D/C2DPathRenderer.h>
+//Rendering/VectorPath
+#include <ACStdLib/Rendering/VectorPath/DevicePathRenderer.hpp>
 
 //Time
-#include <ACStdLib/Time/CCalendar.h>
+#include <ACStdLib/Time/Calendar.hpp>
 #include <ACStdLib/Time/Clock.hpp>
-#include <ACStdLib/Time/CTime.h>
-#include <ACStdLib/Time/CTimer.h>
+#include <ACStdLib/Time/Time.hpp>
+#include <ACStdLib/Time/TimeMisc.hpp>
+#include <ACStdLib/Time/Timer.hpp>
 
 //UI
 #include <ACStdLib/UI/WidgetContainer.hpp>
@@ -196,6 +198,8 @@
 #include <ACStdLib/UI/Controls/Slider.hpp>
 #include <ACStdLib/UI/Controls/SpinBox.hpp>
 #include <ACStdLib/UI/Controls/CTextEdit.h>
+//Displays
+#include <ACStdLib/UI/Displays/VideoWidget.hpp>
 //Events
 #include <ACStdLib/UI/Events/CKeyEvent.h>
 //Layouts
@@ -208,8 +212,8 @@
 //Typing
 #include <ACStdLib/UI/Typing/ITypeface.h>
 //Views
-#include <ACStdLib/UI/Views/C2DView.h>
-#include <ACStdLib/UI/Controls/RenderTargetWidget.hpp>
+#include <ACStdLib/UI/Displays/PathRenderTargetWidget.hpp>
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 #include <ACStdLib/UI/Views/CCheckListView.h>
 #include <ACStdLib/UI/Views/CListView.h>
 #include <ACStdLib/UI/Views/CTableView.h>

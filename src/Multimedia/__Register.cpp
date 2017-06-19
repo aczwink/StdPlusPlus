@@ -21,9 +21,12 @@
 #include "Codecs/PCM/S16LE/PCM_S16LE_Codec.hpp"
 
 //Video codecs
+#include "Codecs/BGR24/BGR24_Codec.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_Codec.hpp"
+#include "Codecs/RGB24/RGB24_Codec.hpp"
 
 //Formats
+#include "Formats/BMP/BMP_Format.hpp"
 #include "Formats/Matroska/MatroskaVideo.hpp"
 #include "Formats/WAVE/WAVE_Format.hpp"
 
@@ -35,9 +38,12 @@ void MultimediaRegisterCodecsAndFormats()
 	Codec::Register(new PCM_S16LE_Codec);
 
 	//Video codecs
+	Codec::Register(new BGR24_Codec);
 	Codec::Register(new MS_MPEG4_Part2_V2_Codec);
+	Codec::Register(new RGB24_Codec);
 
 	//Formats
+	Format::Register(new BMP_Format);
 	Format::Register(new MatroskaVideo);
 	Format::Register(new WAVE_Format);
 }

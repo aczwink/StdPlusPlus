@@ -69,7 +69,7 @@ int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
     if(refSearch.GetLength() == 0)
         return startPos;
 
-    while((pos = this->Find(refSearch[0], pos)) != UINT32_MAX)
+    while((pos = this->Find(refSearch[0], pos)) != Natural<uint32>::Max())
     {
         ptr = this->data + pos;
 
@@ -79,7 +79,7 @@ int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
             pos++;
     }
 
-    return UINT32_MAX;
+    return Natural<uint32>::Max();
 }
 
 int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) const
@@ -89,14 +89,14 @@ int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) cons
     if(refSearch.GetLength() == 0)
         return startPos;
 
-    while((pos = this->FindReverse((char)refSearch[0], pos)) != UINT32_MAX)
+    while((pos = this->FindReverse((char)refSearch[0], pos)) != Natural<uint32>::Max())
     {
         if(this->SubString(pos, refSearch.GetLength()) == refSearch)
             return pos;
         pos--;
     }
 
-    return UINT32_MAX;
+    return Natural<uint32>::Max();
 }
 
 void ByteString::Replace(const ByteString &refSearch, const ByteString &refReplace)
@@ -107,7 +107,7 @@ void ByteString::Replace(const ByteString &refSearch, const ByteString &refRepla
     if(refSearch.IsEmpty())
         return;
 
-    while((pos = this->Find(refSearch, pos)) != UINT32_MAX)
+    while((pos = this->Find(refSearch, pos)) != Natural<uint32>::Max())
     {
         buffer += this->SubString(oldPos, pos - oldPos) + refReplace;
         pos += refSearch.GetLength();
@@ -137,7 +137,7 @@ LinkedList<ByteString> ByteString::Split(const ByteString &refDelimiter) const
     LinkedList<ByteString> result;
     int32 pos, oldPos = 0;
 
-    while((pos = this->Find(refDelimiter, oldPos)) != UINT32_MAX)
+    while((pos = this->Find(refDelimiter, oldPos)) != Natural<uint32>::Max())
     {
         result.InsertTail(this->SubString(oldPos, pos - oldPos));
         oldPos = pos + refDelimiter.GetLength();

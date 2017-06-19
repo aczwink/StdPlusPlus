@@ -33,6 +33,9 @@ public:
 		InitCodecState(state, codecId, stream);
 	}
 
+	//Destructor
+	~LibAV_AudioDecoder();
+
 	//Methods
 	void Decode(const Packet &packet);
 

@@ -49,10 +49,10 @@ public:
     void SetUniformValue(uint32 varId, int32 value);
     void SetUniformValue(uint32 varId, uint32 value);
     void SetUniformValue(uint32 varId, float32 value);
-    void SetUniformValue(uint32 varId, const CVector2 &refVector);
+    void SetUniformValue(uint32 varId, const Vector2 &refVector);
     void SetUniformValue(uint32 varId, const Vector3 &refVector);
     void SetUniformValue(uint32 varId, const Color &refColor);
-    void SetUniformValue(uint32 varId, const CMatrix2x2 &refMatrix);
+    void SetUniformValue(uint32 varId, const Matrix2x2 &refMatrix);
     void SetUniformValue(uint32 varId, const CMatrix3x3 &refMatrix);
     void SetUniformValue(uint32 varId, const Matrix4x4 &refMatrix);
 

@@ -90,7 +90,7 @@ namespace ACStdLib
         using FixedCharLengthString<char>::Find;
         int32 Find(const ByteString &refSearch, uint32 startPos = 0) const;
         using FixedCharLengthString<char>::FindReverse;
-        int32 FindReverse(const ByteString &refSearch, uint32 startPos = UINT32_MAX) const;
+        int32 FindReverse(const ByteString &refSearch, uint32 startPos = Natural<uint32>::Max()) const;
         void Replace(const ByteString &refSearch, const ByteString &refReplace);
         void Resize(uint32 newLength);
         LinkedList<ByteString> Split(const ByteString &refDelimiter) const;

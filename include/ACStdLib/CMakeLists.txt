@@ -42,13 +42,25 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
 
 	#Math
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.hpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Fraction.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix4x4.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Point.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Matrix4x4.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Vector3.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector3.hpp
 
 	#Multimedia
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.hpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCr/YCbCr420Image.hpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBAImage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBImage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCrImage.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
@@ -63,16 +75,21 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Frame.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Image.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
 
 	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Mutex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.hpp
 
 	#Network
@@ -82,12 +99,18 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Network/NetAddress.hpp
 
 	#Rendering
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/DevicePathRenderer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/FlatVectorPath.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/IndexBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputLayout.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/ShaderProgram.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Texture2D.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
         #Streams
@@ -101,20 +124,28 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.hpp
 
-        #Time
-        ${CMAKE_CURRENT_SOURCE_DIR}/Time/CCalendar.h
+	#Time
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerScheduler.hpp
 
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RenderTargetWidget.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.hpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
@@ -129,7 +160,7 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Color.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
@@ -137,6 +168,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Natural.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Type.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Variant.hpp
