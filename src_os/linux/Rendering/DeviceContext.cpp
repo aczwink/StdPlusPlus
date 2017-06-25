@@ -20,12 +20,12 @@
 #include <ACStdLib/Rendering/DeviceContext.hpp>
 //Global
 #include <gdk/gdkx.h>
-#include <gtk/gtk.h>
 #include <GL/glx.h>
 //Local
-#include "../UI/Gtk.h"
 #include <ACStdLib/Integer.hpp>
 #include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
+#include "../UI/Gtk.h"
+#include "../UI/Displays/_GtkOpenGLWidget.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
@@ -100,13 +100,14 @@ void DeviceContext::BindOSContext() const
 	//glXMakeCurrent(THIS->display, THIS->windowId, (GLXContext)this->deviceState);
 }
 
-void DeviceContext::CreateOSContext(const UI::RenderTargetWidget &refView, uint8 nSamples)
+void DeviceContext::CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples)
 {
-	this->deviceState = gtk_gl_area_get_context(GTK_GL_AREA(PRIVATE_DATA(&refView)->widget));
+	this->deviceState = gtk_gl_area_get_context(GTK_GL_AREA(PRIVATE_DATA(&renderTargetWidget)->widget));
+	//this->deviceState = ac_gtk_opengl_widget_get_context(AC_GTK_OPENGL_WIDGET(PRIVATE_DATA(&renderTargetWidget)->widget));
 	/*
 	this->systemHandle = (X11_DisplayAndWindow *)MemAlloc(sizeof(X11_DisplayAndWindow));
 	THIS->display = gdk_x11_get_default_xdisplay();
-	THIS->windowId = gdk_x11_window_get_xid(gtk_widget_get_window((GtkWidget *)refView.systemHandle));
+	THIS->windowId = gdk_x11_window_get_xid(gtk_widget_get_window((GtkWidget *)renderTargetWidget.systemHandle));
 
 	GLXFBConfig bestFbc = ChooseFrameBufferConfig(THIS->display, nSamples);
 

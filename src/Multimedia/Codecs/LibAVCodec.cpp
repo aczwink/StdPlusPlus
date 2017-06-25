@@ -60,6 +60,11 @@ static ChannelLayout MapChannels(int nChannels)
 	NOT_IMPLEMENTED_ERROR;
 }
 
+static void CopyImportantInfo(const AVFrame &src, Frame &dest)
+{
+	dest.pts = src.pts;
+}
+
 static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames)
 {
 	int ret = avcodec_send_packet(state.codecContext, state.pkt);
@@ -88,7 +93,9 @@ static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedi
 						{
 							MemCopy(buffer->GetChannel((Channel)i), state.frame->data[i], state.frame->nb_samples * sizeof(int16));
 						}
-						frames.Push(new AudioFrame(buffer));
+						Frame *frame = new AudioFrame(buffer);
+						CopyImportantInfo(*state.frame, *frame);
+						frames.Push(frame);
 					}
 						break;
 					default:
@@ -110,7 +117,9 @@ static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedi
 							MemCopy(&image->GetChromaRedChannel()[i * state.frame->width / 2], &state.frame->data[1][i * state.frame->linesize[1]], state.frame->width / 2);
 							MemCopy(&image->GetChromaBlueChannel()[i * state.frame->width / 2], &state.frame->data[2][i * state.frame->linesize[2]], state.frame->width / 2);
 						}
-						frames.Push(new VideoFrame(image));
+						Frame *frame = new VideoFrame(image);
+						CopyImportantInfo(*state.frame, *frame);
+						frames.Push(frame);
 					}
 					break;
 					default:

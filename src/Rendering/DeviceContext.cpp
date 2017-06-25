@@ -433,6 +433,13 @@ void DeviceContext::SetTexture(uint8 unit, ITexture *pTexture)
     //but then immediatly restores the dummy
 }
 
+void DeviceContext::SetUploadAlignment(uint8 value)
+{
+	this->BindOSContext();
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, value);
+}
+
 void DeviceContext::SetViewPort(uint16 width, uint16 height)
 {
     this->BindOSContext();

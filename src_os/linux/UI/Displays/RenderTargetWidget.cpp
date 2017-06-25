@@ -21,11 +21,13 @@
 //Local
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
+#include "_GtkOpenGLWidget.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
+
 
 //Local functions
 static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
@@ -42,7 +44,13 @@ static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
 //Private methods
 void RenderTargetWidget::CreateOSHandle()
 {
-    this->systemHandle = CreateWidgetPrivateData(gtk_gl_area_new(), this);
+	//TODO: own gtk gl area because: GL_DEPTH_TEST is enabled by gtk, when a frame buffer has a depth buffer-.-
+    //this->systemHandle = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
+	//ac_gtk_opengl_widget_setwidget(AC_GTK_OPENGL_WIDGET(THIS), this);
+
+	this->systemHandle = CreateWidgetPrivateData(gtk_gl_area_new(), this);
+	g_signal_connect(THIS, "realize", G_CALLBACK(OnRealize), this);
+	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
 
 	ADD_SELF_TO_PARENT(THIS);
 	gtk_widget_show(THIS);
@@ -51,8 +59,6 @@ void RenderTargetWidget::CreateOSHandle()
 	g_signal_connect(THIS, "button-press-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
 	g_signal_connect(THIS, "button-release-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
 	g_signal_connect(THIS, "motion-notify-event", G_CALLBACK(GtkEventQueue::MouseMotionSlot), this);
-	g_signal_connect(THIS, "realize", G_CALLBACK(OnRealize), this);
-	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
 	g_signal_connect(THIS, "scroll-event", G_CALLBACK(GtkEventQueue::ScrollSlot), this);
 
 	gtk_widget_realize(THIS); //important!!!

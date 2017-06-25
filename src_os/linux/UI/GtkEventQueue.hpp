@@ -34,4 +34,10 @@ public:
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
 	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);
 	static void ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data);
+
+	//Inline
+	inline static void OpenGLWidgetRender(ACStdLib::UI::Widget *widget)
+	{
+		ACStdLib::UI::EventQueue::DispatchPaintEvent(*widget);
+	}
 };

@@ -33,9 +33,9 @@ RenderTargetWidget::RenderTargetWidget(WidgetContainer *pParent) : WidgetContain
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-    this->CreateOSHandle();
-
     LoadOpenGL();
+
+    this->CreateOSHandle();
 
     this->deviceContext = new Rendering::DeviceContext(*this, 4);
 }

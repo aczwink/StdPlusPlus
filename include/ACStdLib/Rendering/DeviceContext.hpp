@@ -75,7 +75,7 @@ namespace ACStdLib
 
             //Methods
             void BindOSContext() const;
-            void CreateOSContext(const UI::RenderTargetWidget &refView, uint8 nSamples);
+            void CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples);
             void DestroyOSContext();
             void UnbindOSContext();
 
@@ -123,6 +123,7 @@ namespace ACStdLib
             void SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);
             void SetStencilWriteMask(uint32 mask);
             void SetTexture(uint8 unit, ITexture *pTexture);
+			void SetUploadAlignment(uint8 value);
             void SetViewPort(uint16 width, uint16 height);
             void SwapBuffers();
         };

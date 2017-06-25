@@ -28,46 +28,41 @@
 //Public methods
 void RGB24_Encoder::Encode(const Frame &frame, Packet &packet) const
 {
-	bool deleteRGBImage;
 	byte r, g, b;
-	byte *pRGB;
-	Image *pImage;
-	RGBImage *pRGBImage;
+	byte *rgb;
+	RGBImage *rgbImage;
 
 	ASSERT(frame.GetType() == DataType::Video);
 
-	VideoFrame &refVideoFrame = (VideoFrame &)frame;
-
-	pImage = refVideoFrame.GetImage();
-
-	//convert to RGB if neccessary
-	if(pImage->GetColorSpace() == ColorSpace::RGB)
+	VideoFrame &videoFrame = (VideoFrame &)frame;
+	//get image
+	if(videoFrame.GetImage()->GetColorSpace() == ColorSpace::RGB)
 	{
-		pRGBImage = (RGBImage *)pImage;
-		deleteRGBImage = false;
+		rgbImage = (RGBImage *)videoFrame.GetImage();
 	}
 	else
 	{
-		pRGBImage = (RGBImage *)pImage->Resample(ColorSpace::RGB);
-		deleteRGBImage = true;
+		rgbImage = (RGBImage *)videoFrame.GetImage()->Resample(ColorSpace::RGB);
 	}
 
 	//fill out packet
-	packet.Allocate(3 * pRGBImage->GetNumberOfPixels());
+	packet.Allocate(3 * rgbImage->GetNumberOfPixels());
 	packet.pts = frame.pts;
 
 	//fill data
-	pRGB = packet.GetData();
-	for(uint32 i = 0; i < pRGBImage->GetNumberOfPixels(); i++)
+	rgb = packet.GetData();
+	for(uint32 i = 0; i < rgbImage->GetNumberOfPixels(); i++)
 	{
-		pRGBImage->GetPixel(i, r, g, b);
+		rgbImage->GetPixel(i, r, g, b);
 
-		*pRGB++ = r;
-		*pRGB++ = g;
-		*pRGB++ = b;
+		*rgb++ = r;
+		*rgb++ = g;
+		*rgb++ = b;
 	}
 
 	//clean up
-	if(deleteRGBImage)
-		delete pRGBImage;
+	if(videoFrame.GetImage() != rgbImage)
+	{
+		delete rgbImage; //the frame that we converted
+	}
 }

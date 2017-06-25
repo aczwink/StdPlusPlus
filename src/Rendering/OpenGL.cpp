@@ -19,6 +19,18 @@
 //Main header
 #include "OpenGL.h"
 
+//Data-exchange
+PFNGLPIXELSTOREIPROC glPixelStorei;
+
+//Frame buffer
+PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer;
+
+//Render buffer
+PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer;
+PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers;
+PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers;
+PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage;
+
 //Platform-independent function pointers
 PFNGLACTIVETEXTUREPROC glActiveTexture;
 PFNGLATTACHSHADERPROC glAttachShader;
@@ -95,92 +107,105 @@ PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
 PFNGLVIEWPORTPROC glViewport;
 
 
-void LoadOpenGLExtensions(void *(*pLoadFunction)(const char *pExtension))
+void LoadOpenGLExtensions(void *(*loaderFunction)(const char *pExtension))
 {
-    glActiveTexture = (PFNGLACTIVETEXTUREPROC)pLoadFunction("glActiveTexture");
-    glAttachShader = (PFNGLATTACHSHADERPROC)pLoadFunction("glAttachShader");
+	//Data-exchange
+	glPixelStorei = (PFNGLPIXELSTOREIPROC)loaderFunction("glPixelStorei");
 
-    glBindBuffer = (PFNGLBINDBUFFERPROC)pLoadFunction("glBindBuffer");
-    glBindFramebuffer = (PFNGLBINDBUFFERPROC)pLoadFunction("glBindFramebuffer");
-    glBindTexture = (PFNGLBINDTEXTUREPROC)pLoadFunction("glBindTexture");
-    glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)pLoadFunction("glBindVertexArray");
-    glBlendFunc = (PFNGLBLENDFUNCPROC)pLoadFunction("glBlendFunc");
-    glBufferData = (PFNGLBUFFERDATAPROC)pLoadFunction("glBufferData");
-	glBufferSubData = (PFNGLBUFFERSUBDATAPROC)pLoadFunction("glBufferSubData");
+	//Frame buffer
+	glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC)loaderFunction("glFramebufferRenderbuffer");
 
-    glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)pLoadFunction("glCheckFramebufferStatus");
-    glClear = (PFNGLCLEARPROC)pLoadFunction("glClear");
-    glClearColor = (PFNGLCLEARCOLORPROC)pLoadFunction("glClearColor");
-    glColorMask = (PFNGLCOLORMASKPROC)pLoadFunction("glColorMask");
-    glCompileShader = (PFNGLCOMPILESHADERPROC)pLoadFunction("glCompileShader");
-    glCompressedTexImage2D = (PFNGLCOMPRESSEDTEXIMAGE2DPROC)pLoadFunction("glCompressedTexImage2D");
-    glCreateProgram = (PFNGLCREATEPROGRAMPROC)pLoadFunction("glCreateProgram");
-    glCreateShader = (PFNGLCREATESHADERPROC)pLoadFunction("glCreateShader");
+	//Render buffer
+	glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)loaderFunction("glBindRenderbuffer");
+	glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC)loaderFunction("glDeleteRenderbuffers");
+	glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC)loaderFunction("glGenRenderbuffers");
+	glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC)loaderFunction("glRenderbufferStorage");
 
-    glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)pLoadFunction("glDeleteBuffers");
-    glDeleteFramebuffers = (PFNGLDELETEBUFFERSPROC)pLoadFunction("glDeleteFramebuffers");
-    glDeleteProgram = (PFNGLDELETEPROGRAMPROC)pLoadFunction("glDeleteProgram");
-    glDeleteShader = (PFNGLDELETESHADERPROC)pLoadFunction("glDeleteShader");
-    glDeleteTextures = (PFNGLDELETETEXTURESPROC)pLoadFunction("glDeleteTextures");
-    glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSPROC)pLoadFunction("glDeleteVertexArrays");
-    glDepthFunc = (PFNGLDEPTHFUNCPROC)pLoadFunction("glDepthFunc");
-    glDepthMask = (PFNGLDEPTHMASKPROC)pLoadFunction("glDepthMask");
-    glDetachShader = (PFNGLDETACHSHADERPROC)pLoadFunction("glDetachShader");
-    glDisable = (PFNGLDISABLEPROC)pLoadFunction("glDisable");
-    glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)pLoadFunction("glDisableVertexAttribArray");
-    glDrawArrays = (PFNGLDRAWARRAYSPROC)pLoadFunction("glDrawArrays");
-    glDrawBuffer = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)pLoadFunction("glDrawBuffer");
-    glDrawElements = (PFNGLDRAWELEMENTSPROC)pLoadFunction("glDrawElements");
+	//Sorted by name:
+    glActiveTexture = (PFNGLACTIVETEXTUREPROC)loaderFunction("glActiveTexture");
+    glAttachShader = (PFNGLATTACHSHADERPROC)loaderFunction("glAttachShader");
 
-    glEnable = (PFNGLENABLEVERTEXATTRIBARRAYPROC)pLoadFunction("glEnable");
-    glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)pLoadFunction("glEnableVertexAttribArray");
+    glBindBuffer = (PFNGLBINDBUFFERPROC)loaderFunction("glBindBuffer");
+    glBindFramebuffer = (PFNGLBINDBUFFERPROC)loaderFunction("glBindFramebuffer");
+    glBindTexture = (PFNGLBINDTEXTUREPROC)loaderFunction("glBindTexture");
+    glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)loaderFunction("glBindVertexArray");
+    glBlendFunc = (PFNGLBLENDFUNCPROC)loaderFunction("glBlendFunc");
+    glBufferData = (PFNGLBUFFERDATAPROC)loaderFunction("glBufferData");
+	glBufferSubData = (PFNGLBUFFERSUBDATAPROC)loaderFunction("glBufferSubData");
 
-    glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC)pLoadFunction("glFramebufferTexture2D");
+    glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)loaderFunction("glCheckFramebufferStatus");
+    glClear = (PFNGLCLEARPROC)loaderFunction("glClear");
+    glClearColor = (PFNGLCLEARCOLORPROC)loaderFunction("glClearColor");
+    glColorMask = (PFNGLCOLORMASKPROC)loaderFunction("glColorMask");
+    glCompileShader = (PFNGLCOMPILESHADERPROC)loaderFunction("glCompileShader");
+    glCompressedTexImage2D = (PFNGLCOMPRESSEDTEXIMAGE2DPROC)loaderFunction("glCompressedTexImage2D");
+    glCreateProgram = (PFNGLCREATEPROGRAMPROC)loaderFunction("glCreateProgram");
+    glCreateShader = (PFNGLCREATESHADERPROC)loaderFunction("glCreateShader");
 
-    glGenBuffers = (PFNGLGENBUFFERSPROC)pLoadFunction("glGenBuffers");
-    glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC)pLoadFunction("glGenerateMipmap");
-    glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC)pLoadFunction("glGenFramebuffers");
-    glGenTextures = (PFNGLGENVERTEXARRAYSPROC)pLoadFunction("glGenTextures");
-    glGenVertexArrays = (PFNGLGENVERTEXARRAYSPROC)pLoadFunction("glGenVertexArrays");
-    glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC)pLoadFunction("glGetAttribLocation");
-    glGetError = (PFNGLGETERRORPROC)pLoadFunction("glGetError");
-    glGetIntegerv = (PFNGLGETINTEGERVPROC)pLoadFunction("glGetIntegerv");
-    glGetProgramiv = (PFNGLGETSHADERIVPROC)pLoadFunction("glGetProgramiv");
-    glGetProgramInfoLog = (PFNGLGETSHADERINFOLOGPROC)pLoadFunction("glGetProgramInfoLog");
-    glGetShaderiv = (PFNGLGETSHADERIVPROC)pLoadFunction("glGetShaderiv");
-    glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)pLoadFunction("glGetShaderInfoLog");
-    glGetTexParameteriv = (PFNGLGETTEXPARAMETERIVPROC)pLoadFunction("glGetTexParameteriv");
-    glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)pLoadFunction("glGetUniformLocation");
+    glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)loaderFunction("glDeleteBuffers");
+    glDeleteFramebuffers = (PFNGLDELETEBUFFERSPROC)loaderFunction("glDeleteFramebuffers");
+    glDeleteProgram = (PFNGLDELETEPROGRAMPROC)loaderFunction("glDeleteProgram");
+    glDeleteShader = (PFNGLDELETESHADERPROC)loaderFunction("glDeleteShader");
+    glDeleteTextures = (PFNGLDELETETEXTURESPROC)loaderFunction("glDeleteTextures");
+    glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSPROC)loaderFunction("glDeleteVertexArrays");
+    glDepthFunc = (PFNGLDEPTHFUNCPROC)loaderFunction("glDepthFunc");
+    glDepthMask = (PFNGLDEPTHMASKPROC)loaderFunction("glDepthMask");
+    glDetachShader = (PFNGLDETACHSHADERPROC)loaderFunction("glDetachShader");
+    glDisable = (PFNGLDISABLEPROC)loaderFunction("glDisable");
+    glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)loaderFunction("glDisableVertexAttribArray");
+    glDrawArrays = (PFNGLDRAWARRAYSPROC)loaderFunction("glDrawArrays");
+    glDrawBuffer = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)loaderFunction("glDrawBuffer");
+    glDrawElements = (PFNGLDRAWELEMENTSPROC)loaderFunction("glDrawElements");
 
-    glLinkProgram = (PFNGLLINKPROGRAMPROC)pLoadFunction("glLinkProgram");
+    glEnable = (PFNGLENABLEVERTEXATTRIBARRAYPROC)loaderFunction("glEnable");
+    glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)loaderFunction("glEnableVertexAttribArray");
 
-    glPolygonMode = (PFNGLPOLYGONMODEPROC)pLoadFunction("glPolygonMode");
-	glPointSize = (PFNGLPOINTSIZEPROC)pLoadFunction("glPointSize");
+    glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC)loaderFunction("glFramebufferTexture2D");
 
-    glReadBuffer = (PFNGLREADBUFFERPROC)pLoadFunction("glReadBuffer");
-	glReadPixels = (PFNGLREADPIXELSPROC)pLoadFunction("glReadPixels");
+    glGenBuffers = (PFNGLGENBUFFERSPROC)loaderFunction("glGenBuffers");
+    glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC)loaderFunction("glGenerateMipmap");
+    glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC)loaderFunction("glGenFramebuffers");
+    glGenTextures = (PFNGLGENVERTEXARRAYSPROC)loaderFunction("glGenTextures");
+    glGenVertexArrays = (PFNGLGENVERTEXARRAYSPROC)loaderFunction("glGenVertexArrays");
+    glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC)loaderFunction("glGetAttribLocation");
+    glGetError = (PFNGLGETERRORPROC)loaderFunction("glGetError");
+    glGetIntegerv = (PFNGLGETINTEGERVPROC)loaderFunction("glGetIntegerv");
+    glGetProgramiv = (PFNGLGETSHADERIVPROC)loaderFunction("glGetProgramiv");
+    glGetProgramInfoLog = (PFNGLGETSHADERINFOLOGPROC)loaderFunction("glGetProgramInfoLog");
+    glGetShaderiv = (PFNGLGETSHADERIVPROC)loaderFunction("glGetShaderiv");
+    glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)loaderFunction("glGetShaderInfoLog");
+    glGetTexParameteriv = (PFNGLGETTEXPARAMETERIVPROC)loaderFunction("glGetTexParameteriv");
+    glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)loaderFunction("glGetUniformLocation");
 
-    glShaderSource = (PFNGLSHADERSOURCEPROC)pLoadFunction("glShaderSource");
-    glStencilFunc = (PFNGLSTENCILFUNCPROC)pLoadFunction("glStencilFunc");
-    glStencilMask = (PFNGLSTENCILMASKPROC)pLoadFunction("glStencilMask");
-    glStencilOp = (PFNGLSTENCILOPPROC)pLoadFunction("glStencilOp");
-    glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)pLoadFunction("glStencilOpSeparate");
+    glLinkProgram = (PFNGLLINKPROGRAMPROC)loaderFunction("glLinkProgram");
 
-    glTexImage2D = (PFNGLTEXIMAGE2DPROC)pLoadFunction("glTexImage2D");
-    glTexParameteri = (PFNGLTEXPARAMETERIPROC)pLoadFunction("glTexParameteri");
-    glTexSubImage2D = (PFNGLTEXIMAGE2DPROC)pLoadFunction("glTexSubImage2D");
+    glPolygonMode = (PFNGLPOLYGONMODEPROC)loaderFunction("glPolygonMode");
+	glPointSize = (PFNGLPOINTSIZEPROC)loaderFunction("glPointSize");
 
-    glUseProgram = (PFNGLUSEPROGRAMPROC)pLoadFunction("glUseProgram");
-    glUniform1f = (PFNGLUNIFORM1FPROC)pLoadFunction("glUniform1f");
-    glUniform1i = (PFNGLUNIFORM1IPROC)pLoadFunction("glUniform1i");
-    glUniform1ui = (PFNGLUNIFORM1UIPROC)pLoadFunction("glUniform1ui");
-    glUniform2fv = (PFNGLUNIFORM2FVPROC)pLoadFunction("glUniform2fv");
-    glUniform3fv = (PFNGLUNIFORM3FVPROC)pLoadFunction("glUniform3fv");
-    glUniform4fv = (PFNGLUNIFORM4FVPROC)pLoadFunction("glUniform4fv");
-    glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)pLoadFunction("glUniformMatrix2fv");
-    glUniformMatrix3fv = (PFNGLUNIFORMMATRIX4FVPROC)pLoadFunction("glUniformMatrix3fv");
-    glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)pLoadFunction("glUniformMatrix4fv");
+    glReadBuffer = (PFNGLREADBUFFERPROC)loaderFunction("glReadBuffer");
+	glReadPixels = (PFNGLREADPIXELSPROC)loaderFunction("glReadPixels");
 
-    glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC)pLoadFunction("glVertexAttribPointer");
-    glViewport = (PFNGLVIEWPORTPROC)pLoadFunction("glViewport");
+    glShaderSource = (PFNGLSHADERSOURCEPROC)loaderFunction("glShaderSource");
+    glStencilFunc = (PFNGLSTENCILFUNCPROC)loaderFunction("glStencilFunc");
+    glStencilMask = (PFNGLSTENCILMASKPROC)loaderFunction("glStencilMask");
+    glStencilOp = (PFNGLSTENCILOPPROC)loaderFunction("glStencilOp");
+    glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)loaderFunction("glStencilOpSeparate");
+
+    glTexImage2D = (PFNGLTEXIMAGE2DPROC)loaderFunction("glTexImage2D");
+    glTexParameteri = (PFNGLTEXPARAMETERIPROC)loaderFunction("glTexParameteri");
+    glTexSubImage2D = (PFNGLTEXIMAGE2DPROC)loaderFunction("glTexSubImage2D");
+
+    glUseProgram = (PFNGLUSEPROGRAMPROC)loaderFunction("glUseProgram");
+    glUniform1f = (PFNGLUNIFORM1FPROC)loaderFunction("glUniform1f");
+    glUniform1i = (PFNGLUNIFORM1IPROC)loaderFunction("glUniform1i");
+    glUniform1ui = (PFNGLUNIFORM1UIPROC)loaderFunction("glUniform1ui");
+    glUniform2fv = (PFNGLUNIFORM2FVPROC)loaderFunction("glUniform2fv");
+    glUniform3fv = (PFNGLUNIFORM3FVPROC)loaderFunction("glUniform3fv");
+    glUniform4fv = (PFNGLUNIFORM4FVPROC)loaderFunction("glUniform4fv");
+    glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)loaderFunction("glUniformMatrix2fv");
+    glUniformMatrix3fv = (PFNGLUNIFORMMATRIX4FVPROC)loaderFunction("glUniformMatrix3fv");
+    glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)loaderFunction("glUniformMatrix4fv");
+
+    glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC)loaderFunction("glVertexAttribPointer");
+    glViewport = (PFNGLVIEWPORTPROC)loaderFunction("glViewport");
 }

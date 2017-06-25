@@ -63,7 +63,8 @@ void VideoWidget::OnPaint()
 	this->frameLock.Lock();
 	if(this->nextFrame)
 	{
-		this->texture->AllocateRGB(frameSize, this->nextFrame->GetData());
+		this->deviceContext->SetUploadAlignment(1); //allow proper sizing of non-power-of-two images
+		this->texture->AllocateRGB(this->frameSize, this->nextFrame->GetData());
 		this->texture->SetMaximumMipMapLevel(0);
 
 		delete this->nextFrame;
@@ -93,6 +94,7 @@ void VideoWidget::OnPaint()
 
 	//render
 	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
+	this->deviceContext->EnableDepthTest(false); //#TODO: gtk bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
 
 	this->renderer.BeginPath();
 	this->renderer.Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);

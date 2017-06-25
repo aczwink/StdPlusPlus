@@ -19,6 +19,18 @@
 #include <GL/glcorearb.h>
 #include <GL/glext.h>
 
+//Data-exchange
+extern PFNGLPIXELSTOREIPROC glPixelStorei;
+
+//Frame buffer
+extern PFNGLFRAMEBUFFERRENDERBUFFERPROC glFramebufferRenderbuffer;
+
+//Render buffer
+extern PFNGLBINDRENDERBUFFERPROC glBindRenderbuffer;
+extern PFNGLDELETERENDERBUFFERSPROC glDeleteRenderbuffers;
+extern PFNGLGENRENDERBUFFERSPROC glGenRenderbuffers;
+extern PFNGLRENDERBUFFERSTORAGEPROC glRenderbufferStorage;
+
 //Function pointers
 extern PFNGLACTIVETEXTUREPROC glActiveTexture;
 extern PFNGLATTACHSHADERPROC glAttachShader;

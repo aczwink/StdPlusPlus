@@ -24,7 +24,7 @@
 #include "../UI/Gtk.h"
 
 //Prototypes
-void LoadOpenGLExtensions(void *(*pLoadFunction)(const char *extensionName));
+void LoadOpenGLExtensions(void *(*loaderFunction)(const char *extensionName));
 
 static void *LoadExtension(const char *extensionName)
 {

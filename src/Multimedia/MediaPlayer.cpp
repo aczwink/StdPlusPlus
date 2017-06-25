@@ -118,6 +118,8 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 //Destructor
 MediaPlayer::~MediaPlayer()
 {
+	this->HaltPlayback();
+
 	if(this->demuxer)
 		delete this->demuxer;
 
@@ -176,6 +178,7 @@ void MediaPlayer::OnMasterClockTriggered()
 //Private methods
 void MediaPlayer::HaltPlayback()
 {
+	this->isPlaying = false;
 	this->masterClockTimer.Stop();
 
 	/*TODO: AUDIO
@@ -189,7 +192,6 @@ void MediaPlayer::Pause()
 {
 	if(this->isPlaying)
 	{
-		this->isPlaying = false;
 		this->HaltPlayback();
 	}
 }
