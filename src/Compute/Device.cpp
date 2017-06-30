@@ -18,8 +18,9 @@
  */
 //Class header
 #include <ACStdLib/Compute/Device.hpp>
+//Global
+#include <CL/cl.h>
 //Local
-#include "CL/cl.h"
 #include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 //Namespaces
@@ -27,8 +28,8 @@ using namespace ACStdLib;
 using namespace ACStdLib::Compute;
 
 //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#include <stdio.h> //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#include <ACStdLib/Containers/Strings/ByteString.hpp>
+//#include <stdio.h> //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//#include <ACStdLib/Containers/Strings/ByteString.hpp>
 //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //Public methods
@@ -47,17 +48,17 @@ String Device::GetName() const
 }
 
 //Compute functions
-LinkedList<Device> Compute::GetDevices()
+DynamicArray<Device *> Compute::QueryDevices()
 {
+	cl_uint nPlatforms;
+	cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
+	ASSERT(result == CL_SUCCESS);
 	/*
-	cl_int result;
-	cl_uint nPlatforms, nDevices;
+	, nDevices;
 	cl_platform_id platformIds[10];
 	cl_device_id deviceIds[10];
 	LinkedList<Device> devices;
 
-	result = clGetPlatformIDs(0, nullptr, &nPlatforms);
-	ASSERT(result == CL_SUCCESS);
 	ASSERT(nPlatforms < sizeof(platformIds) / sizeof(platformIds[0]));
 	result = clGetPlatformIDs(nPlatforms, platformIds, nullptr);
 	ASSERT(result == CL_SUCCESS);
@@ -81,5 +82,9 @@ LinkedList<Device> Compute::GetDevices()
 
 	return devices;
 	 */
-	NOT_IMPLEMENTED_ERROR;
+}
+
+Device *Compute::QueryOptimalDevice()
+{
+	DynamicArray<Device *> devices = QueryDevices();
 }

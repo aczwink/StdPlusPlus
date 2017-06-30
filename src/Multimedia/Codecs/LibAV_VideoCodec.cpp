@@ -24,7 +24,11 @@
 //Public methods
 Decoder *LibAV_VideoCodec::CreateDecoder(Stream &stream) const
 {
+#ifdef _AC_LIB_USEAVCODEC
 	return new LibAV_VideoDecoder(stream, this->GetId());
+#else
+	return nullptr;
+#endif
 }
 
 Encoder *LibAV_VideoCodec::CreateEncoder() const

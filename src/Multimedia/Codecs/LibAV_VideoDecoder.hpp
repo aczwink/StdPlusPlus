@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _AC_LIB_USEAVCODEC
 #pragma once
 #include <ACStdLib/Multimedia/VideoDecoder.hpp>
 //Local
@@ -44,3 +45,4 @@ private:
 	//Members
 	CodecState state;
 };
+#endif

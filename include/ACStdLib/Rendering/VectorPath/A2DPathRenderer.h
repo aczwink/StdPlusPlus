@@ -38,7 +38,7 @@ namespace ACStdLib
 
             //Abstract
             virtual void BeginPath() = NULL;
-            virtual void BezierTo(const vec2f64 &refTo, const vec2f64 &refCP0, const vec2f64 &refCP1) = NULL;
+            virtual void BezierTo(const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refTo) = NULL;
             virtual void ClosePath() = NULL;
             virtual void Fill() = NULL;
             virtual void LineTo(const vec2f64 &refV) = NULL;
@@ -65,12 +65,29 @@ namespace ACStdLib
 
             inline void Rectangle(float64 x, float64 y, float64 width, float64 height)
             {
+                this->BeginPath();
                 this->MoveTo(x, y);
                 this->LineTo(x + width, y);
                 this->LineTo(x + width, y + height);
                 this->LineTo(x, y + height);
                 this->ClosePath();
             }
+
+			inline void RoundedRectangle(float64 x, float64 y, float64 width, float64 height, float64 radius)
+			{
+				constexpr float64 kappa = 4 * (sqrt(2) - 1) / 3; //for a 90° arc
+
+				this->BeginPath();
+				this->MoveTo(x, y + radius);
+				this->BezierTo(x, y + kappa * radius, x + kappa * radius, y, x + radius, y); //bottom left curve
+				this->LineTo(x + width - radius, y); //bottom line
+				this->BezierTo(x + width - kappa * radius, y, x + width, y + kappa * radius, x + width, y + radius); //bottom right curve
+				this->LineTo(x + width, y + height - radius); //right line
+				this->BezierTo(x + width, y + height - kappa * radius, x + width - kappa * radius, y + height, x + width - radius, y + height); //top right curve
+				this->LineTo(x + radius, y + height); //top line
+				this->BezierTo(x + kappa * radius, y + height, x, y + height - kappa * radius, x, y + height - radius); //top left curve
+				this->ClosePath(); //yields left line
+			}
         };
     }
 }

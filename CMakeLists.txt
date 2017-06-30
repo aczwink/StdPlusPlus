@@ -4,6 +4,7 @@ project(ACStdLib)
 #options
 option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" OFF)
 if(USE_LIBAVCODEC)
+	add_definitions(-D_AC_LIB_USEAVCODEC)
 	include(cmake/FindFFmpeg.cmake)
 endif(USE_LIBAVCODEC)
 
@@ -27,7 +28,7 @@ else()
 endif()
 
 #dependancies
-find_library(OPENCL_LIBRARY NAMES OpenCL REQUIRED)
+find_package(OpenCL REQUIRED)
 if(UNIX)
     #gtk3 is required
     find_package(PkgConfig REQUIRED)
@@ -73,17 +74,17 @@ target_include_directories(ACStdLib PUBLIC
 target_include_directories(ACStdLibTest PUBLIC "include")
 
 #link
-target_link_libraries(ACStdLib ${OPENCL_LIBRARY})
+target_link_libraries(ACStdLib PRIVATE ${OpenCL_LIBRARIES})
 if(UNIX)
-    target_link_libraries(ACStdLib ${GTK3_LIBRARIES})
-	target_link_libraries(ACStdLib ${GLX_LIBRARY})
+    target_link_libraries(ACStdLib PRIVATE ${GTK3_LIBRARIES})
+	target_link_libraries(ACStdLib PRIVATE ${GLX_LIBRARY})
 endif(UNIX)
 if(WIN32)
-	target_link_libraries(ACStdLib opengl32.lib)
+	target_link_libraries(ACStdLib PRIVATE opengl32.lib)
 endif(WIN32)
 
 if(USE_LIBAVCODEC)
-	target_link_libraries(ACStdLib ${FFMPEG_LIBRARIES})
+	target_link_libraries(ACStdLib PRIVATE ${FFMPEG_LIBRARIES})
 endif(USE_LIBAVCODEC)
 
 target_include_directories(tests_ACStdLib PUBLIC "include")

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _AC_LIB_USEAVCODEC
 extern "C"
 {
 #include <libavcodec/avcodec.h>
@@ -44,3 +45,4 @@ void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet,
 void FreeCodecState(CodecState &state);
 void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream);
 AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId);
+#endif

@@ -35,14 +35,13 @@ void EventQueue::ProcessEvents()
     gtk_main();
 }
 
-bool EventQueue::ProcessPendingEvents(int32 &refExitCode)
+bool EventQueue::ProcessPendingEvents()
 {
-    bool result;
+    bool result = true;
 
-    result = true;
-
+	//TODO: this method is not implementable in gtk
     while(gtk_events_pending())
-        result = gtk_main_iteration() == 0;
+        result = gtk_main_iteration() != TRUE;
 
     return result;
 }

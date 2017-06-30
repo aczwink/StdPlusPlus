@@ -105,7 +105,7 @@ namespace ACStdLib
             //Functions
             static void PostQuitEvent();
             static void ProcessEvents();
-            static bool ProcessPendingEvents(int32 &refExitCode);
+            static bool ProcessPendingEvents();
         };
     }
 }

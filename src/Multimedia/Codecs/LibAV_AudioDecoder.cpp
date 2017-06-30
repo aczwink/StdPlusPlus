@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _AC_LIB_USEAVCODEC
 //Class header
 #include "LibAV_AudioDecoder.hpp"
 
@@ -34,3 +35,4 @@ void LibAV_AudioDecoder::Decode(const Packet &packet)
 	for(Frame *const& frame : frames)
 		this->AddFrame(frame);
 }
+#endif

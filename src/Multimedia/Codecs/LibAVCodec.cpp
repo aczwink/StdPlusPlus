@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _AC_LIB_USEAVCODEC
 #include "LibAVCodec.hpp"
 //Local
 #include <ACStdLib/Containers/Map/Map.hpp>
@@ -206,3 +207,4 @@ AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId)
 
 	return (AVCodecID)(*it).value;
 }
+#endif

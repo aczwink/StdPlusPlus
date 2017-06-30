@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _AC_LIB_USEAVCODEC
 //Class header
 #include "LibAV_VideoDecoder.hpp"
 
@@ -39,3 +40,4 @@ PixelFormat LibAV_VideoDecoder::GetPixelFormat() const
 {
 	return PixelFormat::Unknown;
 }
+#endif

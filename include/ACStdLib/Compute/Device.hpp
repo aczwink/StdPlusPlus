@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/LinkedList/LinkedList.hpp"
+#include "../Containers/DynamicArray/DynamicArray.hpp"
 #include "../Definitions.h"
 #include "ACStdLib/Variant.hpp"
 
@@ -30,11 +30,16 @@ namespace ACStdLib
 		class Device;
 
 		//Functions
-		LinkedList<Device> GetDevices();
+		DynamicArray<Device *> QueryDevices();
+		Device *QueryOptimalDevice();
 
 		class ACSTDLIB_API Device
 		{
-			friend LinkedList<Device> GetDevices();
+			friend DynamicArray<Device *> QueryDevices();
+
+		public:
+			//Methods
+			String GetName() const;
 
 		private:
 			//Members
@@ -45,10 +50,6 @@ namespace ACStdLib
 			{
 				this->deviceId = deviceId;
 			}
-
-		public:
-			//Methods
-			String GetName() const;
 		};
 	}
 }
