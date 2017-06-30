@@ -51,8 +51,9 @@ String Device::GetName() const
 DynamicArray<Device *> Compute::QueryDevices()
 {
 	cl_uint nPlatforms;
-	cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
-	ASSERT(result == CL_SUCCESS);
+	//cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
+	NOT_IMPLEMENTED_ERROR;
+	//ASSERT(result == CL_SUCCESS);
 	/*
 	, nDevices;
 	cl_platform_id platformIds[10];
