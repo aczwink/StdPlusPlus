@@ -19,14 +19,14 @@
 #pragma once
 //Local
 #include "../../Debug.h"
-#include "../AContainer.h"
+#include "../ResizeableSequenceContainer.hpp"
 #include "LinkedListConstIterator.hpp"
 #include "LinkedListIterator.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class LinkedList : public AContainer
+    class LinkedList : public Container
     {
         typedef LinkedListConstIterator<DataType> ConstIterator;
         typedef LinkedListIterator<DataType> Iterator;
@@ -154,6 +154,13 @@ namespace ACStdLib
             ASSERT(pNode);
 
             return pNode->data;
+        }
+
+        inline const DataType &GetFront() const
+        {
+            ASSERT(this->head);
+
+            return this->head->data;
         }
 
         void InsertAfter(uint32 index, const DataType &refData)

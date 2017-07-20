@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "../../Containers/AContainer.h"
+#include "ACStdLib/Containers/Container.hpp"
 #include "MapNode.hpp"
 #include "MapIterator.hpp"
 #include "../../Debug.h"
@@ -28,7 +28,7 @@ namespace ACStdLib
 {
     //Implemented as Red-Black Tree
     template<typename KeyType, typename ValueType>
-    class Map : public AContainer
+    class Map : public Container
     {
         //typedef Map<KeyType, ValueType> Map;
         typedef MapNode<KeyType, ValueType> Node;

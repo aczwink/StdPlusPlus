@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../AContainer.h"
+#include "ACStdLib/Containers/Container.hpp"
 #include "FiniteSetNode.hpp"
 #include "FiniteSetIterator.hpp"
 //Definitions
@@ -28,7 +28,7 @@ namespace ACStdLib
 {
     //Implementation as AVL tree
     template<typename DataType>
-    class FiniteSet : public AContainer
+    class FiniteSet : public Container
     {
         typedef FiniteSet<DataType> Set;
         typedef FiniteSetNode<DataType> Node;

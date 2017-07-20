@@ -27,7 +27,7 @@ namespace ACStdLib
 
     namespace ErrorHandling
     {
-        class ACSTDLIB_API AException
+        class ACSTDLIB_API Exception
         {
         public:
             //Abstract

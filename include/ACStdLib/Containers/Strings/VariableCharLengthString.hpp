@@ -46,7 +46,7 @@ namespace ACStdLib
         {
             this->length = 0;
 
-            ResizeableContainer<CharType>::Release();
+            ResizeableSequenceContainer<CharType>::Release();
         }
     };
 }

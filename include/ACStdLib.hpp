@@ -30,9 +30,11 @@
 #include <ACStdLib/Compute/Device.hpp>
 
 //Containers
-#include <ACStdLib/Containers/AContainer.h>
+#include <ACStdLib/Containers/Container.hpp>
 //FiniteSet
 #include <ACStdLib/Containers/FiniteSet/FiniteSet.hpp>
+//FixedArray
+#include <ACStdLib/Containers/FixedArray/FixedArray.hpp>
 //LinkedList
 #include <ACStdLib/Containers/LinkedList/LinkedList.hpp>
 //Map
@@ -86,7 +88,7 @@
 #include <ACStdLib/Debugging/CHook.h>
 
 //ErrorHandling
-#include <ACStdLib/ErrorHandling/AException.h>
+#include <ACStdLib/ErrorHandling/Exception.hpp>
 
 //Filesystem
 #include <ACStdLib/Filesystem/Path.hpp>

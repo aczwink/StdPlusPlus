@@ -21,12 +21,12 @@
 //Local
 #include "../Debug.h"
 #include "../Memory.h"
-#include "AContainer.h"
+#include "Container.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class ResizeableContainer : public AContainer
+    class ResizeableSequenceContainer : public Container
     {
     protected:
         //Members
@@ -42,7 +42,7 @@ namespace ACStdLib
 
     public:
         //Constructor
-        ResizeableContainer()
+        ResizeableSequenceContainer()
         {
             this->elementsAllocInterval = 0;
             this->capacity = 0;
@@ -50,7 +50,7 @@ namespace ACStdLib
         }
 
         //Destructor
-        virtual ~ResizeableContainer()
+        virtual ~ResizeableSequenceContainer()
         {
             if(this->data)
                 MemFree(this->data);

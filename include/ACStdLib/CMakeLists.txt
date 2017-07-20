@@ -8,9 +8,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetNode.hpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/Containers/FixedArray/FixedArray.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedList.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListIterator.hpp
@@ -30,11 +34,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.h
 
+		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Container.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/KeyValuePair.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/PriorityQueue.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableContainer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableSequenceContainer.hpp
 
 	#ErrorHandling
+	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
 
 	#Filesystem

@@ -28,7 +28,7 @@ using namespace ACStdLib::UI;
 //Constructor
 Widget::Widget(WidgetContainer *parent)
 {
-    this->pParent = parent;
+    this->parent = parent;
     if(parent && parent->pOwner)
         this->pOwner = parent->pOwner;
     else
@@ -39,6 +39,13 @@ Widget::Widget(WidgetContainer *parent)
     this->systemHandle = nullptr;
     if(parent)
         parent->children.InsertTail(this);
+}
+
+//Destructor
+Widget::~Widget()
+{
+    if(this->parent)
+        this->parent->RemoveChild(this);
 }
 
 //Eventhandlers
@@ -75,7 +82,7 @@ void Widget::OnResized()
 //Protected methods
 ERenderMode Widget::GetRenderMode() const
 {
-    return this->pParent->GetRenderMode();
+    return this->parent->GetRenderMode();
 }
 
 //Public methods
@@ -100,7 +107,7 @@ Point Widget::TransformToWindow(const Point &refPoint) const
     Point transformed;
     Rect rcParent;
 
-    pParent = this->pParent;
+    pParent = this->parent;
     transformed = refPoint + this->bounds.origin;
     while(pParent != this->pOwner)
     {
@@ -109,7 +116,7 @@ Point Widget::TransformToWindow(const Point &refPoint) const
         transformed.x += rcParent.x();
         transformed.y += rcParent.y();
 
-        pParent = pParent->pParent;
+        pParent = pParent->parent;
     }
 
     return transformed;

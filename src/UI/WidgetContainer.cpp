@@ -36,10 +36,11 @@ WidgetContainer::WidgetContainer(WidgetContainer *pContainer) : Widget(pContaine
 //Destructor
 WidgetContainer::~WidgetContainer()
 {
-    for(const Widget *const& refpChild : this->children)
-    {
-        delete refpChild;
-    }
+    while(!this->children.IsEmpty())
+        //don't use PopFront, because child will delete itself from the children list
+        //this way the child will find itself at the head of the list and removing will be fast
+        //if we remove the child before, the child will loop through the whole list in order to (vainly) find itself
+        delete this->children.GetFront();
 
     if(this->layout)
         delete this->layout;
