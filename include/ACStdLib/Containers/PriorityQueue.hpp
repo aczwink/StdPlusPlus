@@ -18,12 +18,12 @@
  */
 //Local
 #include "../Debug.h"
-#include "AContainer.h"
+#include "Container.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class PriorityQueue : public AContainer
+    class PriorityQueue : public Container
     {
         struct Node
         {

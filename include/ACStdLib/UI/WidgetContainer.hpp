@@ -40,6 +40,14 @@ namespace ACStdLib
             //Eventhandlers
             virtual void OnResized();
 
+            //Inline
+            inline void RemoveChild(Widget *child)
+            {
+                int32 index = this->children.Find(child);
+                if(index != -1)
+                    this->children.Remove(index);
+            }
+
         protected:
             //Members
             ILayout *layout;

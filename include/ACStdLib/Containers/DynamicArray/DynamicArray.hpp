@@ -19,14 +19,14 @@
 #pragma once
 //Local
 #include "../../Natural.hpp"
-#include "../ResizeableContainer.hpp"
+#include "../ResizeableSequenceContainer.hpp"
 #include "DynamicArrayIterator.hpp"
 #include "DynamicArrayConstIterator.hpp"
 
 namespace ACStdLib
 {
     template<typename DataType>
-    class DynamicArray : public ResizeableContainer<DataType>
+    class DynamicArray : public ResizeableSequenceContainer<DataType>
     {
         //friend class DynamicArray;
     public:

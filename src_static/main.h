@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../include/ACStdLib/Containers/Strings/String.hpp"
-#include "../include/ACStdLib/ErrorHandling/AException.h"
+#include "../include/ACStdLib/ErrorHandling/Exception.hpp"
 //Namespaces
 using namespace ACStdLib;
 

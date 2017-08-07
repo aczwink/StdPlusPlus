@@ -36,9 +36,9 @@ int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
     {
         exitCode = Main(refProgramName, refArgs);
     }
-    catch(const ErrorHandling::AException &refE)
+    catch(const ErrorHandling::Exception &e)
     {
-        ASSERT_MSG(false, "Uncaught exception: " + refE.GetDescription());
+        ASSERT_MSG(false, "Uncaught exception: " + e.GetDescription());
     }
     catch(...)
     {

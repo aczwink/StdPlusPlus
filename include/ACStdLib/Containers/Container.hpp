@@ -24,26 +24,19 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API AContainer
+    class ACSTDLIB_API Container
     {
-    protected:
-        //Members
-        uint32 nElements;
-
     public:
         //Constructor
-        AContainer()
+        Container()
         {
             this->nElements = 0;
         }
 
         //Destructor
-        virtual ~AContainer()
+        virtual ~Container()
         {
         }
-
-        //Abstract
-        virtual void Release() = 0;
 
         //Methods
         inline uint32 GetNumberOfElements() const
@@ -55,5 +48,9 @@ namespace ACStdLib
         {
             return this->nElements == 0;
         }
+
+    protected:
+        //Members
+        uint32 nElements;
     };
 }

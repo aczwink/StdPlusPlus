@@ -49,7 +49,7 @@ namespace ACStdLib
             friend class WidgetContainer;
         private:
             //Members
-            WidgetContainer *pParent;
+            WidgetContainer *parent;
             Window *pOwner;
             Rect bounds;
 
@@ -83,7 +83,7 @@ namespace ACStdLib
             Widget(WidgetContainer *parent);
 
             //Destructor
-            virtual ~Widget() {}
+            virtual ~Widget();
 
             //Methods
             void Repaint();
@@ -103,7 +103,7 @@ namespace ACStdLib
 
             inline const WidgetContainer *GetParent() const
             {
-                return this->pParent;
+                return this->parent;
             }
 
 			inline Size GetSize() const

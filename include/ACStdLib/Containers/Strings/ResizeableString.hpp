@@ -18,12 +18,12 @@
  */
 #pragma once
 //Local
-#include "../ResizeableContainer.hpp"
+#include "../ResizeableSequenceContainer.hpp"
 
 namespace ACStdLib
 {
 	template<typename CharType>
-	class ACSTDLIB_API ResizeableString : public ResizeableContainer<CharType>
+	class ACSTDLIB_API ResizeableString : public ResizeableSequenceContainer<CharType>
 	{
 	public:
 		//Constructor
@@ -39,7 +39,7 @@ namespace ACStdLib
 		inline void EnsureCapacity(uint32 requiredNumberOfElements)
 		{
 			requiredNumberOfElements++; //null char
-			ResizeableContainer<CharType>::EnsureCapacity(requiredNumberOfElements);
+			ResizeableSequenceContainer<CharType>::EnsureCapacity(requiredNumberOfElements);
 		}
 
 		inline const CharType *GetC_Str() const

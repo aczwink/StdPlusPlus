@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include "AException.h"
+#include "Exception.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"
 
 namespace ACStdLib
 {
     namespace ErrorHandling
     {
-        class ACSTDLIB_API FileNotFoundException : public AException
+        class ACSTDLIB_API FileNotFoundException : public Exception
         {
         public:
             //Members
