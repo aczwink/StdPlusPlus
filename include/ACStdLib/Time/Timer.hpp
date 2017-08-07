@@ -23,9 +23,15 @@
 
 namespace ACStdLib
 {
+	namespace UI
+	{
+		//Forward declarations
+		class EventQueue;
+	}
+
     class ACSTDLIB_API Timer
     {
-		friend class TimerScheduler;
+		friend class UI::EventQueue;
     public:
         //Constructor
         Timer(const Function<void()> &timedOutCallback);

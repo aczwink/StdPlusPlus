@@ -130,7 +130,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerScheduler.hpp
 
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp

@@ -21,6 +21,7 @@
 //Global
 #include <CL/cl.h>
 //Local
+#include <ACStdLib/Memory.h>
 #include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 //Namespaces
@@ -32,6 +33,23 @@ using namespace ACStdLib::Compute;
 //#include <ACStdLib/Containers/Strings/ByteString.hpp>
 //TODO: DELETE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//Local functions
+static cl_platform_id ChoosePlatform()
+{
+	cl_uint nPlatforms;
+	cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
+	ASSERT(result == CL_SUCCESS);
+
+	cl_platform_id platformIds[10];
+	ASSERT(nPlatforms < sizeof(platformIds) / sizeof(platformIds[0]));
+	result = clGetPlatformIDs(nPlatforms, platformIds, nullptr);
+	ASSERT(result == CL_SUCCESS);
+
+	//TODO: currently we just return the first one
+	ASSERT(nPlatforms == 1);
+	return platformIds[0];
+}
+
 //Public methods
 String Device::GetName() const
 {
@@ -39,9 +57,7 @@ String Device::GetName() const
 	size_t size;
 	char buffer[1024];
 
-	NOT_IMPLEMENTED_ERROR;
-	//TODO: why does this not get linked anymore-.-
-	//result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
+	result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
 	ASSERT(result == CL_SUCCESS);
 
 	return String(buffer);
@@ -50,42 +66,34 @@ String Device::GetName() const
 //Compute functions
 DynamicArray<Device *> Compute::QueryDevices()
 {
-	cl_uint nPlatforms;
-	//cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
-	NOT_IMPLEMENTED_ERROR;
-	//ASSERT(result == CL_SUCCESS);
-	/*
-	, nDevices;
-	cl_platform_id platformIds[10];
-	cl_device_id deviceIds[10];
-	LinkedList<Device> devices;
-
-	ASSERT(nPlatforms < sizeof(platformIds) / sizeof(platformIds[0]));
-	result = clGetPlatformIDs(nPlatforms, platformIds, nullptr);
+	cl_platform_id platformId = ChoosePlatform();
+	cl_uint nDevices;
+	cl_int result = clGetDeviceIDs(platformId, CL_DEVICE_TYPE_DEFAULT, 0, nullptr, &nDevices);
 	ASSERT(result == CL_SUCCESS);
 
-	for(cl_int i = 0; i < nPlatforms; i++)
+	cl_device_id deviceIds[10];
+	ASSERT(nDevices < sizeof(deviceIds) / sizeof(deviceIds[0]));
+	result = clGetDeviceIDs(platformId, CL_DEVICE_TYPE_DEFAULT, nDevices, deviceIds, nullptr);
+	ASSERT(result == CL_SUCCESS);
+
+	DynamicArray<Device *> devices;
+	for(cl_int i = 0; i < nDevices; i++)
 	{
-		result = clGetDeviceIDs(platformIds[i], CL_DEVICE_TYPE_DEFAULT, 0, nullptr, &nDevices);
-		ASSERT(result == CL_SUCCESS);
-		ASSERT(nDevices < sizeof(deviceIds) / sizeof(deviceIds[0]));
-		result = clGetDeviceIDs(platformIds[i], CL_DEVICE_TYPE_DEFAULT, nDevices, deviceIds, nullptr);
-		ASSERT(result == CL_SUCCESS);
+		Variant deviceId;
 
-		for(cl_int j = 0; j < nDevices; j++)
-		{
-			Variant deviceId;
-
-			deviceId.ptr = deviceIds[j];
-			devices.InsertTail(Device(deviceId));
-		}
+		deviceId.ptr = deviceIds[i];
+		devices.Push(new Device(deviceId));
 	}
 
 	return devices;
-	 */
 }
 
 Device *Compute::QueryOptimalDevice()
 {
 	DynamicArray<Device *> devices = QueryDevices();
+
+	//TODO: implement this
+	ASSERT(devices.GetNumberOfElements() == 1);
+
+	return devices[0];
 }

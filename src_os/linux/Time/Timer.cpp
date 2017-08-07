@@ -18,21 +18,16 @@
  */
 //Class header
 #include <ACStdLib/Time/Timer.hpp>
-//Local
-#include "ACStdLib/Time/TimerScheduler.hpp"
 //Namespaces
 using namespace ACStdLib;
-
-//Global variables
-TimerScheduler g_scheduler;
 
 //Public methods
 void Timer::OneShot(uint32 timeOut_msec)
 {
-	g_scheduler.AddOneShotTimer(timeOut_msec * 1000, this);
+	//g_scheduler.AddOneShotTimer(timeOut_msec * 1000, this);
 }
 
 void Timer::Stop()
 {
-	g_scheduler.RemoveOneShotTimer(this);
+	//g_scheduler.RemoveOneShotTimer(this);
 }

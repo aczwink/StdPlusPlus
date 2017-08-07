@@ -102,13 +102,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerScheduler.cpp
 
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp

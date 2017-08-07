@@ -23,6 +23,8 @@
 #include "Controls/CDropDown.h"
 #include "Controls/PushButton.hpp"
 #include "Controls/RadioButton.hpp"
+#include "../Time/Clock.hpp"
+#include "../Time/Timer.hpp"
 #include "Views/CTreeView.h"
 
 namespace ACStdLib
@@ -31,6 +33,37 @@ namespace ACStdLib
     {
         class ACSTDLIB_API EventQueue
         {
+			struct TimerEntry
+			{
+				int64 leftTime_usec;
+				Timer *timer;
+			};
+
+		public:
+			//Constructor
+			EventQueue();
+
+			//Destructor
+			~EventQueue();
+
+			//Methods
+			bool EventsPending();
+			void PostQuitEvent();
+			bool ProcessEvents(bool block = true);
+
+		private:
+			//Members
+			void *internal;
+			Clock clock; //for timers
+			LinkedList<TimerEntry> oneShotTimerQueue;
+
+			//Methods
+			void DispatchPendingEvents();
+			void DispatchSystemEvents();
+			void DispatchTimers();
+			uint64 UpdateTimers();
+			void WaitForEvents(uint64 minWaitTime_usec);
+
         protected:
             //Inline functions
 			static inline void DispatchActivatedEvent(PushButton &refButton)
@@ -100,12 +133,6 @@ namespace ACStdLib
                 if(refCheckBox.onToggledHandler)
                     refCheckBox.onToggledHandler();
             }
-
-        public:
-            //Functions
-            static void PostQuitEvent();
-            static void ProcessEvents();
-            static bool ProcessPendingEvents();
         };
     }
 }
