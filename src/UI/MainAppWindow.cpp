@@ -34,6 +34,6 @@ MainAppWindow::MainAppWindow()
     //set event handlers
     this->onDestroyEventHandler = []()
     {
-        //EventQueue::PostQuitEvent();
+		EventQueue::GetGlobalQueue().PostQuitEvent();
     };
 }

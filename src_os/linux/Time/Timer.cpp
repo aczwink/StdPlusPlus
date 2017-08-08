@@ -22,12 +22,12 @@
 using namespace ACStdLib;
 
 //Public methods
-void Timer::OneShot(uint32 timeOut_msec)
+void Timer::OneShot(uint64 timeOut_usec)
 {
-	//g_scheduler.AddOneShotTimer(timeOut_msec * 1000, this);
+	this->eventQueue.AddOneShotTimer(timeOut_usec, this);
 }
 
 void Timer::Stop()
 {
-	//g_scheduler.RemoveOneShotTimer(this);
+	this->eventQueue.RemoveTimer(this);
 }
