@@ -16,12 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ACStdLibTest.hpp>
+//Class header
+#include <ACStdLib/Compute/CommandQueue.hpp>
+//Global
+#include <CL/cl.h>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::Compute;
+//Definitions
+#define THIS ((cl_command_queue)this->internal)
 
-//Functions
-int32 Main(const ACStdLib::String &programName, const ACStdLib::LinkedList<ACStdLib::String> &args)
+//Constructor
+CommandQueue::CommandQueue(const DeviceContext &dc)
 {
-	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
-		return EXIT_SUCCESS;
-	return EXIT_FAILURE;
+	cl_context ctx = static_cast<cl_context>(dc.internal);
+	cl_device_id deviceId;
+	clGetContextInfo(ctx, CL_CONTEXT_DEVICES, sizeof(deviceId), &deviceId, nullptr);
+
+	this->internal = clCreateCommandQueueWithProperties(ctx, deviceId, nullptr, nullptr);
+}
+
+//Destructor
+CommandQueue::~CommandQueue()
+{
+	clReleaseCommandQueue(THIS);
 }

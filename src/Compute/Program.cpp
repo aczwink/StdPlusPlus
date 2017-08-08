@@ -16,12 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ACStdLibTest.hpp>
+//Class header
+#include <ACStdLib/Compute/Program.hpp>
+//Global
+#include <CL/cl.h>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::Compute;
+//Definitions
+#define THIS ((cl_program)this->internal)
 
-//Functions
-int32 Main(const ACStdLib::String &programName, const ACStdLib::LinkedList<ACStdLib::String> &args)
+//Constructor
+Program::Program(void *internal)
 {
-	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
-		return EXIT_SUCCESS;
-	return EXIT_FAILURE;
+	this->internal = internal;
+
+	clBuildProgram(THIS, 0, nullptr, nullptr, nullptr, nullptr);
+}
+
+//Destructor
+Program::~Program()
+{
+	clReleaseProgram(THIS);
 }

@@ -16,13 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../include/ACStdLib/Containers/Strings/String.hpp"
-#include "../include/ACStdLib/ErrorHandling/Exception.hpp"
+//Class header
+#include <ACStdLib/Compute/DeviceContext.hpp>
+//Global
+#include <CL/cl.h>
 //Namespaces
 using namespace ACStdLib;
+using namespace ACStdLib::Compute;
+//Definitions
+#define THIS ((cl_context)this->internal)
 
-//Prototypes
-int32 Main(const String &programName, const LinkedList<String> &args);
-int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs);
+//Constructor
+DeviceContext::DeviceContext(const Device &device)
+{
+	this->internal = clCreateContext(nullptr, 1, reinterpret_cast<cl_device_id const *>(&device.deviceId.ptr), nullptr, nullptr, nullptr);
+}
+
+//Destructor
+DeviceContext::~DeviceContext()
+{
+	clReleaseContext(THIS);
+}
+
+//Public methods
+Program DeviceContext::CreateProgram(const ByteString &source)
+{
+	const char *src = source.GetC_Str();
+	size_t len = source.GetLength();
+	cl_program prog = clCreateProgramWithSource(THIS, 1, &src, &len, nullptr);
+
+	return Program(prog);
+}

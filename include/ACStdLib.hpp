@@ -27,7 +27,9 @@
 #include <ACStdLib/Mathematics.h>
 
 //Compute
+#include <ACStdLib/Compute/CommandQueue.hpp>
 #include <ACStdLib/Compute/Device.hpp>
+#include <ACStdLib/Compute/DeviceContext.hpp>
 
 //Containers
 #include <ACStdLib/Containers/Container.hpp>

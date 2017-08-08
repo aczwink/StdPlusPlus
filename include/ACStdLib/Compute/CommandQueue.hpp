@@ -16,12 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ACStdLibTest.hpp>
+//Local
+#include "DeviceContext.hpp"
 
-//Functions
-int32 Main(const ACStdLib::String &programName, const ACStdLib::LinkedList<ACStdLib::String> &args)
+namespace ACStdLib
 {
-	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
-		return EXIT_SUCCESS;
-	return EXIT_FAILURE;
+	namespace Compute
+	{
+		class CommandQueue
+		{
+		public:
+			//Constructor
+			CommandQueue(const DeviceContext &dc);
+
+			//Destructor
+			~CommandQueue();
+
+		private:
+			//Members
+			void *internal;
+		};
+	}
 }

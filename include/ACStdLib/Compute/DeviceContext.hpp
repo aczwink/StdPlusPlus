@@ -16,12 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ACStdLibTest.hpp>
+#pragma once
+//Local
+#include "../Containers/Strings/ByteString.hpp"
+#include "Device.hpp"
+#include "Program.hpp"
 
-//Functions
-int32 Main(const ACStdLib::String &programName, const ACStdLib::LinkedList<ACStdLib::String> &args)
+namespace ACStdLib
 {
-	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
-		return EXIT_SUCCESS;
-	return EXIT_FAILURE;
+	namespace Compute
+	{
+		class DeviceContext
+		{
+			friend class CommandQueue;
+		public:
+			//Constructor
+			DeviceContext(const Device &device);
+
+			//Destructor
+			~DeviceContext();
+
+			//Methods
+			Program CreateProgram(const ByteString &source);
+
+		private:
+			//Members
+			void *internal;
+		};
+	}
 }

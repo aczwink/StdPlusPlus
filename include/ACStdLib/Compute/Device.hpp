@@ -35,6 +35,7 @@ namespace ACStdLib
 
 		class ACSTDLIB_API Device
 		{
+			friend class DeviceContext;
 			friend DynamicArray<Device *> QueryDevices();
 
 		public:
