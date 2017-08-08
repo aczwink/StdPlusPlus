@@ -19,33 +19,29 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "ACStdLib/Function.hpp"
+#include "../Function.hpp"
+#include "../UI/EventQueue.hpp"
 
 namespace ACStdLib
 {
-	namespace UI
-	{
-		//Forward declarations
-		class EventQueue;
-	}
-
     class ACSTDLIB_API Timer
     {
 		friend class UI::EventQueue;
     public:
         //Constructor
-        Timer(const Function<void()> &timedOutCallback);
+        Timer(const Function<void()> &timedOutCallback, UI::EventQueue &eventQueue = UI::EventQueue::GetGlobalQueue());
 
         //Destructor
         ~Timer();
 
         //Methods
-		void OneShot(uint32 timeOut_msec);
-        void Start(uint32 timeOut_msec);
+		void OneShot(uint64 timeOut_usec);
+        void Start(uint64 timeOut_usec);
         void Stop();
 
 	private:
 		//Members
+		UI::EventQueue &eventQueue;
 		void *systemHandle;
 		Function<void()> timedOutCallback;
     };

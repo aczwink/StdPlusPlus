@@ -21,13 +21,14 @@
 //Global
 #include <gtk/gtk.h>
 #include <poll.h>
+#include <sys/eventfd.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
 #define THIS ((EventQueueInternal *)this->internal)
 //Constants
-const uint32 NUMBER_OF_SELF_EVENT_OBJECTS = 0; //other than gtk
+const uint32 NUMBER_OF_SELF_EVENT_OBJECTS = 1; //other than gtk
 
 /*
  * Because gtk uses POSIX file descriptors for waiting for events we're stuck to do that too.
@@ -37,9 +38,16 @@ struct EventQueueInternal
 	pollfd *eventObjects;
 	uint32 nAllocatedEventObjects;
 	GMainContext *context;
+	int timerEventFd;
 };
 
 //Local functions
+static void EnsureEnoughFDs(EventQueueInternal *internal, uint32 nRequiredEventObjects)
+{
+	internal->eventObjects = static_cast<pollfd *>(MemRealloc(internal->eventObjects, nRequiredEventObjects * sizeof(pollfd)));
+	internal->nAllocatedEventObjects = nRequiredEventObjects;
+}
+
 static void DoGTKEvents(EventQueueInternal *internal, uint64 minWaitTime_usec, bool block)
 {
 	if(g_main_context_acquire(internal->context))
@@ -49,20 +57,33 @@ static void DoGTKEvents(EventQueueInternal *internal, uint64 minWaitTime_usec, b
 
 		gint timeOut;
 		uint32 nUIEventObjects = 0, nEventObjects;
-		while ((nUIEventObjects = static_cast<uint32>(g_main_context_query(internal->context, maxPriority, &timeOut, (GPollFD *) (internal->eventObjects), internal->nAllocatedEventObjects))) > internal->nAllocatedEventObjects)
+		do
 		{
 			nEventObjects = nUIEventObjects + NUMBER_OF_SELF_EVENT_OBJECTS;
-			internal->eventObjects = static_cast<pollfd *>(MemRealloc(internal->eventObjects, nEventObjects * sizeof(pollfd)));
-			internal->nAllocatedEventObjects = nEventObjects;
+			EnsureEnoughFDs(internal, nEventObjects);
 		}
+		while ((nUIEventObjects = static_cast<uint32>(g_main_context_query(internal->context, maxPriority, &timeOut, (GPollFD *) (internal->eventObjects), internal->nAllocatedEventObjects))) > internal->nAllocatedEventObjects);
 		minWaitTime_usec = MIN(minWaitTime_usec, (uint64) timeOut * 1000);
-		nEventObjects = nUIEventObjects + NUMBER_OF_SELF_EVENT_OBJECTS;
 
-		//add other event objects
+		uint32 currentFDIndex = nUIEventObjects;
+		//add timer event object
+		{
+			pollfd &fd = internal->eventObjects[currentFDIndex++];
+
+			fd.fd = internal->timerEventFd;
+			fd.events = POLLIN;
+			fd.revents = 0;
+		}
 
 		if (block)
 		{
-			poll(internal->eventObjects, nEventObjects, minWaitTime_usec);
+			timespec timeOut;
+
+			timeOut.tv_sec = static_cast<__time_t>(minWaitTime_usec / 1000000);
+			timeOut.tv_nsec = static_cast<__syscall_slong_t>((minWaitTime_usec % 1000000) * 1000);
+
+
+			ppoll(internal->eventObjects, nEventObjects, &timeOut, nullptr);
 		}
 
 		g_main_context_check(internal->context, maxPriority, (GPollFD *) (internal->eventObjects), nUIEventObjects);
@@ -83,11 +104,13 @@ EventQueue::EventQueue()
 	THIS->eventObjects = nullptr;
 	THIS->nAllocatedEventObjects = 0;
 	THIS->context = g_main_context_default();
+	THIS->timerEventFd = eventfd(0, 0);
 }
 
 //Destructor
 EventQueue::~EventQueue()
 {
+	close(THIS->timerEventFd);
 	MemFree(this->internal);
 }
 
@@ -97,14 +120,26 @@ bool EventQueue::EventsPending()
 	return g_main_context_pending(THIS->context) == TRUE;
 }
 
+void EventQueue::PostQuitEvent()
+{
+	//TODO: implement me!!!
+	NOT_IMPLEMENTED_ERROR;
+}
+
 //Private methods
 void EventQueue::DispatchSystemEvents()
 {
 	DoGTKEvents(THIS, 0, false);
 }
 
+void EventQueue::Internal_NotifyTimers()
+{
+	uint64 v = 1;
+	write(THIS->timerEventFd, &v, sizeof(v));
+}
+
 void EventQueue::WaitForEvents(uint64 minWaitTime_usec)
 {
-	if(true) //TODO: if this is the thread default event queue
+	if(this == &EventQueue::GetGlobalQueue())
 		DoGTKEvents(THIS, minWaitTime_usec, true);
 }

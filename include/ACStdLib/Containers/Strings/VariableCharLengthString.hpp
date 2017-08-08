@@ -36,17 +36,18 @@ namespace ACStdLib
             this->length = 0;
         }
 
-        //Inline
-        inline uint32 GetLength() const
-        {
-            return this->length;
-        }
-
-        inline void Release()
+        //Overrideable
+        virtual void Release()
         {
             this->length = 0;
 
             ResizeableSequenceContainer<CharType>::Release();
+        }
+
+        //Inline
+        inline uint32 GetLength() const
+        {
+            return this->length;
         }
     };
 }

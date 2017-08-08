@@ -22,7 +22,7 @@
 using namespace ACStdLib;
 
 //Constructor
-Timer::Timer(const Function<void()> &timedOutCallback)
+Timer::Timer(const Function<void()> &timedOutCallback, UI::EventQueue &eventQueue) : eventQueue(eventQueue)
 {
 	this->systemHandle = nullptr;
 	this->timedOutCallback = timedOutCallback;

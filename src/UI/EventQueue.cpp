@@ -18,6 +18,8 @@
  */
 //Class header
 #include <ACStdLib/UI/EventQueue.hpp>
+//Local
+#include <ACStdLib/Time/Timer.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -27,7 +29,7 @@ bool EventQueue::ProcessEvents(bool block)
 {
 	if(block)
 	{
-		while(true)
+		while(true) //TODO: quit event
 		{
 			uint64 minWaitTime_usec = this->UpdateTimers();
 			this->DispatchPendingEvents();
@@ -40,14 +42,22 @@ bool EventQueue::ProcessEvents(bool block)
 		this->DispatchPendingEvents();
 	}
 
-	return true;
+	return true; //TODO: quit event
+}
+
+//Class Functions
+EventQueue &EventQueue::GetGlobalQueue()
+{
+	static EventQueue eventQueue;
+
+	return eventQueue;
 }
 
 //Private methods
 void EventQueue::DispatchPendingEvents()
 {
 	this->DispatchTimers();
-	if(true) //TODO: if this is the thread default event queue
+	if(this == &EventQueue::GetGlobalQueue())
 		this->DispatchSystemEvents();
 }
 

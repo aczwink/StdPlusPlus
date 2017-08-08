@@ -24,15 +24,19 @@
 #include "Controls/PushButton.hpp"
 #include "Controls/RadioButton.hpp"
 #include "../Time/Clock.hpp"
-#include "../Time/Timer.hpp"
 #include "Views/CTreeView.h"
 
 namespace ACStdLib
 {
+	//Forward declarations
+	class Timer;
+
     namespace UI
     {
         class ACSTDLIB_API EventQueue
         {
+			friend class ACStdLib::Timer;
+
 			struct TimerEntry
 			{
 				int64 leftTime_usec;
@@ -51,6 +55,9 @@ namespace ACStdLib
 			void PostQuitEvent();
 			bool ProcessEvents(bool block = true);
 
+			//Functions
+			static EventQueue &GetGlobalQueue();
+
 		private:
 			//Members
 			void *internal;
@@ -61,8 +68,32 @@ namespace ACStdLib
 			void DispatchPendingEvents();
 			void DispatchSystemEvents();
 			void DispatchTimers();
+			void Internal_NotifyTimers();
 			uint64 UpdateTimers();
 			void WaitForEvents(uint64 minWaitTime_usec);
+
+			//Inline
+			inline void AddOneShotTimer(uint64 timeOut_usec, Timer *timer)
+			{
+				TimerEntry entry;
+
+				entry.leftTime_usec = timeOut_usec;
+				entry.timer = timer;
+
+				this->oneShotTimerQueue.InsertTail(entry);
+				this->Internal_NotifyTimers();
+			}
+
+			inline void RemoveTimer(Timer *timer)
+			{
+				for(auto it = this->oneShotTimerQueue.begin(); it != this->oneShotTimerQueue.end(); )
+				{
+					if((*it).timer == timer)
+						it.Remove();
+					else
+						++it;
+				}
+			}
 
         protected:
             //Inline functions
