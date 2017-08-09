@@ -132,10 +132,19 @@ void EventQueue::DispatchSystemEvents()
 	DoGTKEvents(THIS, 0, false);
 }
 
-void EventQueue::Internal_NotifyTimers()
+void EventQueue::NotifyTimers()
 {
 	uint64 v = 1;
 	write(THIS->timerEventFd, &v, sizeof(v));
+}
+
+uint64 EventQueue::QueryMonotonicClock()
+{
+	timespec current;
+
+	clock_gettime(CLOCK_MONOTONIC, &current);
+
+	return static_cast<uint64>(current.tv_sec * 1000000000 + current.tv_nsec);
 }
 
 void EventQueue::WaitForEvents(uint64 minWaitTime_usec)

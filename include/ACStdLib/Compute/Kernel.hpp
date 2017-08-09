@@ -16,34 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/Compute/Program.hpp>
-//Global
-#include <CL/cl.h>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Compute;
-//Definitions
-#define THIS ((cl_program)this->internal)
+#pragma once
+//Local
+#include "../Definitions.h"
+#include "Buffer.hpp"
 
-//Constructor
-Program::Program(void *internal)
+namespace ACStdLib
 {
-	this->internal = internal;
+	namespace Compute
+	{
+		class Kernel
+		{
+			friend class CommandQueue;
+			friend class Program;
+		public:
+			//Destructor
+			~Kernel();
 
-	clBuildProgram(THIS, 0, nullptr, nullptr, nullptr, nullptr);
-}
+			//Methods
+			void SetArg(uint8 argIndex, const Buffer &buffer);
 
-//Destructor
-Program::~Program()
-{
-	clReleaseProgram(THIS);
-}
+		private:
+			//Members
+			void *internal;
 
-//Public methods
-Kernel Program::GetKernel(const ByteString &kernelName)
-{
-	cl_kernel kernel = clCreateKernel(THIS, kernelName.GetC_Str(), nullptr);
-
-	return Kernel(kernel);
+			//Constructor
+			Kernel(void *internal);
+		};
+	}
 }

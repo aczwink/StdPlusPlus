@@ -11,9 +11,11 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
 	#Compute
+	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/CommandQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.cpp
 
         #Containers

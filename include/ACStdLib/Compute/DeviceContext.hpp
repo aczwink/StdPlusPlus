@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/Strings/ByteString.hpp"
+#include "Buffer.hpp"
 #include "Device.hpp"
 #include "Program.hpp"
 
@@ -37,6 +38,7 @@ namespace ACStdLib
 			~DeviceContext();
 
 			//Methods
+			Buffer CreateBuffer(uint32 size, bool read = true, bool write = true);
 			Program CreateProgram(const ByteString &source);
 
 		private:

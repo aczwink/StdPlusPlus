@@ -22,16 +22,20 @@
 
 namespace ACStdLib
 {
+	/**
+	 * A monotonic clock that can be used to measure time difference.
+	 * It never decreases and does not get affected by system time changes (NTP oder change by user etc.).
+	 *
+	 * The reference time point for the clock is unspecified and therefore unknown.
+	 */
 	class Clock
 	{
-	private:
-		//Members
-		uint64 startSeconds;
-		uint64 startNanoSeconds;
-
 	public:
 		//Methods
 		uint64 GetElapsedNanoseconds() const;
+		/**
+		 * Sets the start point for time differences.
+		 */
 		void Start();
 
 		//Inline
@@ -39,5 +43,16 @@ namespace ACStdLib
 		{
 			return this->GetElapsedNanoseconds() / 1000;
 		}
+
+	private:
+		//Members
+		/**
+		 * The start point for the clock in seconds since the unknown reference point.
+		 */
+		uint64 startSeconds;
+		/**
+		 * The additional nanoseconds for the start point.
+		 */
+		uint64 startNanoSeconds;
 	};
 }

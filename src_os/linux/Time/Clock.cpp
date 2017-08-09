@@ -22,25 +22,27 @@
 #include <time.h>
 //Namespaces
 using namespace ACStdLib;
+//Definitions
+#define NANO(x) (x * 1000000000)
 
 //Public methods
 uint64 Clock::GetElapsedNanoseconds() const
 {
 	timespec current;
 
-	clock_gettime(CLOCK_REALTIME, &current);
+	clock_gettime(CLOCK_MONOTONIC, &current);
 
 	if(current.tv_nsec < this->startNanoSeconds) //end nano seconds are less, that means that at least a second passed
-		return SI_NANO(current.tv_sec - this->startSeconds - 1) + ((current.tv_nsec + SI_NANO(1)) - this->startNanoSeconds);
+		return NANO(current.tv_sec - this->startSeconds - 1) + ((current.tv_nsec + NANO(1)) - this->startNanoSeconds);
 
-	return SI_NANO(current.tv_sec - this->startSeconds) + (current.tv_nsec - this->startNanoSeconds);
+	return NANO(current.tv_sec - this->startSeconds) + (current.tv_nsec - this->startNanoSeconds);
 }
 
 void Clock::Start()
 {
 	timespec t;
 
-	clock_gettime(CLOCK_REALTIME, &t);
+	clock_gettime(CLOCK_MONOTONIC, &t);
 
 	this->startNanoSeconds = (uint64) t.tv_nsec;
 	this->startSeconds = (uint64) t.tv_sec;

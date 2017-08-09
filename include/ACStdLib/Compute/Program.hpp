@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Local
+#include "../Containers/Strings/ByteString.hpp"
+#include "Kernel.hpp"
 
 namespace ACStdLib
 {
@@ -27,6 +30,9 @@ namespace ACStdLib
 		public:
 			//Destructor
 			~Program();
+
+			//Methods
+			Kernel GetKernel(const ByteString &kernelName);
 
 		private:
 			//Members

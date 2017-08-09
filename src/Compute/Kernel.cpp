@@ -17,33 +17,29 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Compute/Program.hpp>
+#include <ACStdLib/Compute/Kernel.hpp>
 //Global
 #include <CL/cl.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Compute;
 //Definitions
-#define THIS ((cl_program)this->internal)
+#define THIS ((cl_kernel)this->internal)
 
 //Constructor
-Program::Program(void *internal)
+Kernel::Kernel(void *internal)
 {
 	this->internal = internal;
-
-	clBuildProgram(THIS, 0, nullptr, nullptr, nullptr, nullptr);
 }
 
 //Destructor
-Program::~Program()
+Kernel::~Kernel()
 {
-	clReleaseProgram(THIS);
+	clReleaseKernel(THIS);
 }
 
 //Public methods
-Kernel Program::GetKernel(const ByteString &kernelName)
+void Kernel::SetArg(uint8 argIndex, const Buffer &buffer)
 {
-	cl_kernel kernel = clCreateKernel(THIS, kernelName.GetC_Str(), nullptr);
-
-	return Kernel(kernel);
+	clSetKernelArg(THIS, argIndex, sizeof(cl_mem), &buffer.internal);
 }

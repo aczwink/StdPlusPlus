@@ -41,3 +41,26 @@ CommandQueue::~CommandQueue()
 {
 	clReleaseCommandQueue(THIS);
 }
+
+//Public methods
+void CommandQueue::EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination)
+{
+	clEnqueueReadBuffer(THIS, static_cast<cl_mem>(buffer.internal), CL_FALSE, offset, size, destination, 0, nullptr, nullptr);
+}
+
+void CommandQueue::EnqueueTask(const Kernel &kernel)
+{
+	size_t global = 1, local = 1;
+
+	clEnqueueNDRangeKernel(THIS, static_cast<cl_kernel>(kernel.internal), 1, nullptr, &global, &local, 0, nullptr, nullptr);
+}
+
+void CommandQueue::Finish()
+{
+	clFinish(THIS);
+}
+
+void CommandQueue::Flush()
+{
+	clFlush(THIS);
+}

@@ -73,12 +73,6 @@
 
 #define IS_POWER_OF_TWO(x) (((x) != 0) && (((x) & ((x) - 1)) == 0))
 
-//SI-Prefixes
-#define SI_KILO(x) ((x) / 1000)
-#define SI_MILLI(x) ((x) * 1000)
-#define SI_MICRO(x) (SI_MILLI(x) * 1000)
-#define SI_NANO(x) (SI_MICRO(x) * 1000)
-
 //Types
 #ifdef _MSC_VER
 typedef unsigned __int8 byte;

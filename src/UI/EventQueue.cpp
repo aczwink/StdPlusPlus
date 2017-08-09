@@ -63,30 +63,29 @@ void EventQueue::DispatchPendingEvents()
 
 void EventQueue::DispatchTimers()
 {
-	for(auto it = this->oneShotTimerQueue.begin(); it != this->oneShotTimerQueue.end(); )
+	uint64 currentClock = this->QueryMonotonicClock();
+	while(!this->oneShotTimerQueue.IsEmpty())
 	{
-		if((*it).leftTime_usec <= 0)
+		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
 		{
-			(*it).timer->timedOutCallback();
-			it.Remove();
+			this->oneShotTimerQueue.PopFirst()->timedOutCallback();
 		}
 		else
 		{
-			++it;
+			break;
 		}
 	}
 }
 
 uint64 EventQueue::UpdateTimers()
 {
-	uint64 minWaitTime_usec = Natural<uint64>::Max();
-
-	for(TimerEntry &entry : this->oneShotTimerQueue)
+	if(!this->oneShotTimerQueue.IsEmpty())
 	{
-		entry.leftTime_usec -= this->clock.GetElapsedMicroseconds();
-		minWaitTime_usec = MIN(minWaitTime_usec, (uint64)entry.leftTime_usec);
+		uint64 currentClock = this->QueryMonotonicClock();
+		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
+			return 0;
+		return (currentClock - this->oneShotTimerQueue.GetFirstPriority()) / 1000;
 	}
-	this->clock.Start(); //restart the clock
 
-	return minWaitTime_usec;
+	return Natural<uint64>::Max();
 }

@@ -2,9 +2,11 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Compute
+	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/CommandQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
 
 	#Containers

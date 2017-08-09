@@ -16,18 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include "../Debug.h"
 #include "Container.hpp"
 
 namespace ACStdLib
 {
-    template<typename DataType>
+    template<typename DataType, typename PriorityType = uint32>
     class PriorityQueue : public Container
     {
         struct Node
         {
-            uint32 priority;
+			PriorityType priority;
             DataType data;
             Node *next;
         };
@@ -51,12 +52,12 @@ namespace ACStdLib
             return this->head->data;
         }
 
-        uint32 GetFirstPriority() const
+		PriorityType GetFirstPriority() const
         {
             return this->head->priority;
         }
 
-        void Insert(uint32 priority, const DataType &refValue)
+        void Insert(PriorityType priority, const DataType &refValue)
         {
             Node *pNode, *pNode2;
 

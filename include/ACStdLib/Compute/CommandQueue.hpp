@@ -18,6 +18,7 @@
  */
 //Local
 #include "DeviceContext.hpp"
+#include "Kernel.hpp"
 
 namespace ACStdLib
 {
@@ -31,6 +32,19 @@ namespace ACStdLib
 
 			//Destructor
 			~CommandQueue();
+
+			//Methods
+			void EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination);
+			void EnqueueTask(const Kernel &kernel);
+			/**
+			 * Makes sure that all queued commands have been issued and completed.
+			 */
+			void Finish();
+			/**
+			 * Makes sure that all queued commands have been issued to the device.
+			 * Does not guarantee that commands have finished execution.
+			 */
+			void Flush();
 
 		private:
 			//Members

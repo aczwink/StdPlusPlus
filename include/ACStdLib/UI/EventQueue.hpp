@@ -18,12 +18,13 @@
  */
 #pragma once
 //Local
+#include "../Containers/PriorityQueue.hpp"
+#include "../Time/Clock.hpp"
 #include "Window.hpp"
 #include "Controls/CheckBox.hpp"
 #include "Controls/CDropDown.h"
 #include "Controls/PushButton.hpp"
 #include "Controls/RadioButton.hpp"
-#include "../Time/Clock.hpp"
 #include "Views/CTreeView.h"
 
 namespace ACStdLib
@@ -36,12 +37,6 @@ namespace ACStdLib
         class ACSTDLIB_API EventQueue
         {
 			friend class ACStdLib::Timer;
-
-			struct TimerEntry
-			{
-				int64 leftTime_usec;
-				Timer *timer;
-			};
 
 		public:
 			//Constructor
@@ -61,38 +56,32 @@ namespace ACStdLib
 		private:
 			//Members
 			void *internal;
-			Clock clock; //for timers
-			LinkedList<TimerEntry> oneShotTimerQueue;
+			PriorityQueue<Timer *, uint64> oneShotTimerQueue;
 
 			//Methods
 			void DispatchPendingEvents();
 			void DispatchSystemEvents();
 			void DispatchTimers();
-			void Internal_NotifyTimers();
+			void NotifyTimers();
+			/**
+			 * We need these absolute values for implementing timers with priority queue.
+			 *
+			 * @return Monotonic time value in nanoseconds
+			 */
+			uint64 QueryMonotonicClock();
 			uint64 UpdateTimers();
 			void WaitForEvents(uint64 minWaitTime_usec);
 
 			//Inline
 			inline void AddOneShotTimer(uint64 timeOut_usec, Timer *timer)
 			{
-				TimerEntry entry;
-
-				entry.leftTime_usec = timeOut_usec;
-				entry.timer = timer;
-
-				this->oneShotTimerQueue.InsertTail(entry);
-				this->Internal_NotifyTimers();
+				this->oneShotTimerQueue.Insert(this->QueryMonotonicClock() + timeOut_usec * 1000, timer);
+				this->QueryMonotonicClock();
 			}
 
 			inline void RemoveTimer(Timer *timer)
 			{
-				for(auto it = this->oneShotTimerQueue.begin(); it != this->oneShotTimerQueue.end(); )
-				{
-					if((*it).timer == timer)
-						it.Remove();
-					else
-						++it;
-				}
+				this->oneShotTimerQueue.Remove(timer);
 			}
 
         protected:
