@@ -50,8 +50,8 @@ namespace ACStdLib
             }
 
             //Abstract
-            virtual void ReadHeader() = NULL;
-            virtual bool ReadPacket(Packet &refPacket) = NULL;
+            virtual void ReadHeader() = 0;
+            virtual bool ReadPacket(Packet &refPacket) = 0;
 
             //Methods
             bool FindStreamInfo();

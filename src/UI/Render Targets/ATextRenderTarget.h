@@ -29,7 +29,7 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual void OutputCodepointAt(const Point &refPoint, uint32 codePoint) = NULL;
+            virtual void OutputCodepointAt(const Point &refPoint, uint32 codePoint) = 0;
 
             //Methods
             ERenderMode GetRenderMode() const;

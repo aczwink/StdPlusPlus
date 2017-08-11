@@ -37,7 +37,7 @@ namespace ACStdLib
             virtual ~ITexture() {}
 
             //Abstract
-            virtual ETextureType GetType() const = NULL;
+            virtual ETextureType GetType() const = 0;
         };
     }
 }

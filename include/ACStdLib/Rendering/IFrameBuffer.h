@@ -32,9 +32,9 @@ namespace ACStdLib
             virtual ~IFrameBuffer() {}
 
             //Abstract
-            virtual uint32 GetStatus() const = NULL; //TODO: only for debugging... throw it out
-            virtual void SetColorBuffer(Texture2D *pTexture) = NULL;
-            virtual void SetDepthBuffer(Texture2D *pTexture) = NULL;
+            virtual uint32 GetStatus() const = 0; //TODO: only for debugging... throw it out
+            virtual void SetColorBuffer(Texture2D *pTexture) = 0;
+            virtual void SetDepthBuffer(Texture2D *pTexture) = 0;
         };
     }
 }

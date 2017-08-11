@@ -37,8 +37,8 @@ namespace ACStdLib
             virtual ~ACheckListController() {}
 
             //Abstract
-            virtual uint32 GetNumberOfItems() const = NULL;
-            virtual String GetText(uint32 index) const = NULL;
+            virtual uint32 GetNumberOfItems() const = 0;
+            virtual String GetText(uint32 index) const = 0;
 
             //Inline
             inline void ModelChanged()

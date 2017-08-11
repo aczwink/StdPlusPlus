@@ -40,7 +40,7 @@ namespace ACStdLib
             AParser *pParser;
 
             //Abstract
-            virtual bool AllDecoderInfoIsAvailable() = NULL;
+            virtual bool AllDecoderInfoIsAvailable() = 0;
 
         public:
             //Members
@@ -57,7 +57,7 @@ namespace ACStdLib
             ~Stream();
 
             //Abstract
-            virtual DataType GetType() const = NULL;
+            virtual DataType GetType() const = 0;
 
             //Methods
             bool AllInfoIsAvailable();

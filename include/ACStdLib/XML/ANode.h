@@ -38,7 +38,7 @@ namespace ACStdLib
             }
 
             //Abstract
-            virtual ENodeType GetType() const = NULL;
+            virtual ENodeType GetType() const = 0;
         };
     }
 }

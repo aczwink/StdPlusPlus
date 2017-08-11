@@ -42,7 +42,7 @@ namespace ACStdLib
             virtual ~Frame(){}
 
             //Abstract
-            virtual DataType GetType() const = NULL;
+            virtual DataType GetType() const = 0;
         };
     }
 }

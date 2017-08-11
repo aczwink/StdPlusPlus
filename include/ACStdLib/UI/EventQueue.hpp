@@ -47,14 +47,30 @@ namespace ACStdLib
 
 			//Methods
 			bool EventsPending();
-			void PostQuitEvent();
+			/**
+			 * Dispatches pending events in this event queue and, if \p block is true, waits until new events arrive.
+			 *
+			 * @param block If \p block is true, the method waits (not busy) for new events. Else the function returns when all pending events were dispatched.
+			 * @return false if this event queue was asked to quit and all pending events were dispatched, else true.
+			 */
 			bool ProcessEvents(bool block = true);
+
+			//Inline
+			/**
+			 * Indicates that this event queue should be shut down.
+			 * All pending events will still be dispatched.
+			 */
+			inline void Quit()
+			{
+				this->quit = true;
+			}
 
 			//Functions
 			static EventQueue &GetGlobalQueue();
 
 		private:
 			//Members
+			bool quit;
 			void *internal;
 			PriorityQueue<Timer *, uint64> oneShotTimerQueue;
 
@@ -62,6 +78,7 @@ namespace ACStdLib
 			void DispatchPendingEvents();
 			void DispatchSystemEvents();
 			void DispatchTimers();
+			uint64 GetShortestTimerTimeOut();
 			void NotifyTimers();
 			/**
 			 * We need these absolute values for implementing timers with priority queue.
@@ -69,7 +86,6 @@ namespace ACStdLib
 			 * @return Monotonic time value in nanoseconds
 			 */
 			uint64 QueryMonotonicClock();
-			uint64 UpdateTimers();
 			void WaitForEvents(uint64 minWaitTime_usec);
 
 			//Inline

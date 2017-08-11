@@ -101,6 +101,5 @@ typedef double float64;
 #define IS_INSTANCE_OF(ptr, classType) (dynamic_cast<classType *>(ptr))
 
 //Things from C/C++ Standard Headers
-#define NULL 0
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1

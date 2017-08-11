@@ -44,7 +44,7 @@ namespace ACStdLib
             virtual ~Image(){}
 
             //Abstract
-            virtual ColorSpace GetColorSpace() const = NULL;
+            virtual ColorSpace GetColorSpace() const = 0;
 
             //Methods
             Image *Resample(ColorSpace desiredColorSpace) const;

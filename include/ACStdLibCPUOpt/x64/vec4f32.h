@@ -26,8 +26,7 @@
 
 namespace ACStdLib
 {
-    _MM_ALIGN16
-    class vec4f32
+    class _MM_ALIGN16 vec4f32
     {
     public:
         //Members

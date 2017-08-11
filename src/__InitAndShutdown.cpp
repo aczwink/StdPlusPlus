@@ -24,6 +24,7 @@
 #include <ACStdLib/Containers/Map/Map.hpp>
 #include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Multimedia/CodecId.hpp>
+#include <ACStdLib/UI/EventQueue.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
@@ -59,6 +60,11 @@ void ShutdownACStdLib()
 	extern ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 	g_libavcodec_codec_map.Release();
 #endif
+
+	//shut down global event queue
+	extern UI::EventQueue *g_globalEventQueue;
+	if(g_globalEventQueue)
+		delete g_globalEventQueue;
 
     //look for memory leaks
     ASSERT_MSG(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");

@@ -26,8 +26,7 @@
 
 namespace ACStdLib
 {
-    _MM_ALIGN16
-    class vec2f64
+    class _MM_ALIGN16 vec2f64
     {
     public:
         //Members

@@ -33,7 +33,7 @@ namespace ACStdLib
             }
 
             //Abstract
-            virtual void GetPixel(uint32 index, byte &refR, byte &refG, byte &refB, byte &refA) const = NULL;
+            virtual void GetPixel(uint32 index, byte &refR, byte &refG, byte &refB, byte &refA) const = 0;
 
             //Methods
             ColorSpace GetColorSpace() const;

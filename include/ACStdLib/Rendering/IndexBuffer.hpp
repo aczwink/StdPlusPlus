@@ -31,8 +31,8 @@ namespace ACStdLib
             virtual ~IndexBuffer() {}
 
             //Abstract
-            virtual void Allocate(uint32 nIndices, const uint16 *pIndices) = NULL;
-            virtual void Allocate(uint32 nIndices, const uint32 *pIndices) = NULL;
+            virtual void Allocate(uint32 nIndices, const uint16 *pIndices) = 0;
+            virtual void Allocate(uint32 nIndices, const uint32 *pIndices) = 0;
         };
     }
 }

@@ -40,19 +40,19 @@ namespace ACStdLib
             virtual ~ShaderProgram() {}
 
             //Abstract
-            virtual void AttachShader(const Shader *pShader) = NULL;
-            virtual void DetachShader(const Shader *pShader) = NULL;
-            virtual uint32 GetUniformId(const ACStdLib::ByteString &refVarName) const = NULL;
-            virtual void Link() = NULL;
-            virtual void SetUniformValue(uint32 varId, int32 value) = NULL;
-            virtual void SetUniformValue(uint32 varId, uint32 value) = NULL;
-            virtual void SetUniformValue(uint32 varId, float32 value) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector2 &refVector) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector3 &refVector) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Color &refColor) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix2x2 &refMatrix) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::CMatrix3x3 &refMatrix) = NULL;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix4x4 &refMatrix) = NULL;
+            virtual void AttachShader(const Shader *pShader) = 0;
+            virtual void DetachShader(const Shader *pShader) = 0;
+            virtual uint32 GetUniformId(const ACStdLib::ByteString &refVarName) const = 0;
+            virtual void Link() = 0;
+            virtual void SetUniformValue(uint32 varId, int32 value) = 0;
+            virtual void SetUniformValue(uint32 varId, uint32 value) = 0;
+            virtual void SetUniformValue(uint32 varId, float32 value) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector2 &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector3 &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Color &refColor) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix2x2 &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::CMatrix3x3 &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix4x4 &refMatrix) = 0;
         };
     }
 }

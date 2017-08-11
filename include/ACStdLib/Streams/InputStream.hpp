@@ -39,9 +39,9 @@ namespace ACStdLib
 		 * In any other case this method returns false
 		 * @return
 		 */
-        virtual bool IsAtEnd() const = NULL;
-        virtual uint32 ReadBytes(void *destination, uint32 count) = NULL;
-        virtual uint32 Skip(uint32 nBytes) = NULL;
+        virtual bool IsAtEnd() const = 0;
+        virtual uint32 ReadBytes(void *destination, uint32 count) = 0;
+        virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods
         uint32 FlushTo(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());

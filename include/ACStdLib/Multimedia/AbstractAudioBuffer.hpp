@@ -56,8 +56,8 @@ namespace ACStdLib
             virtual ~AbstractAudioBuffer() {}
 
             //Abstract
-            virtual uint16 GetSampleSize() const = NULL;
-            virtual EAudioSampleType GetSampleType() const = NULL;
+            virtual uint16 GetSampleSize() const = 0;
+            virtual EAudioSampleType GetSampleType() const = 0;
 
             //Methods
             uint8 GetNumberOfChannels() const;

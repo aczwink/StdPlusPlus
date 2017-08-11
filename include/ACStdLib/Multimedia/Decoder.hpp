@@ -40,7 +40,7 @@ namespace ACStdLib
             virtual ~Decoder();
 
             //Abstract
-            virtual void Decode(const Packet &packet) = NULL;
+            virtual void Decode(const Packet &packet) = 0;
 
             //Overrideable
             virtual void Reset();

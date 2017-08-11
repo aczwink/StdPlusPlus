@@ -39,8 +39,8 @@ namespace ACStdLib
             virtual ~ILayout() {}
 
             //Abstract
-            virtual Size GetPreferredSize(const WidgetContainer &refContainer) = NULL;
-            virtual void Layout(WidgetContainer &refContainer) = NULL;
+            virtual Size GetPreferredSize(const WidgetContainer &refContainer) = 0;
+            virtual void Layout(WidgetContainer &refContainer) = 0;
         };
     }
 }

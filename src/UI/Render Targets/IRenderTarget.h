@@ -29,9 +29,9 @@ namespace ACStdLib
         class IRenderTarget
         {
         public:
-            virtual ERenderMode GetRenderMode() const = NULL;
-            virtual Size GetSize() const = NULL;
-            virtual void Present() = NULL;
+            virtual ERenderMode GetRenderMode() const = 0;
+            virtual Size GetSize() const = 0;
+            virtual void Present() = 0;
         };
 
         //Functions

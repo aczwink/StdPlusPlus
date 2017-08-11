@@ -24,33 +24,39 @@
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
+//Globals
+EventQueue *g_globalEventQueue = nullptr;
+
 //Public methods
 bool EventQueue::ProcessEvents(bool block)
 {
 	if(block)
 	{
-		while(true) //TODO: quit event
+		while(this->quit)
 		{
-			uint64 minWaitTime_usec = this->UpdateTimers();
+			uint64 minWaitTime_usec = this->GetShortestTimerTimeOut();
 			this->DispatchPendingEvents();
 			this->WaitForEvents(minWaitTime_usec);
 		}
+
+		this->DispatchPendingEvents();
 	}
 	else
 	{
-		this->UpdateTimers();
+		this->GetShortestTimerTimeOut();
 		this->DispatchPendingEvents();
 	}
 
-	return true; //TODO: quit event
+	return !this->quit;
 }
 
 //Class Functions
 EventQueue &EventQueue::GetGlobalQueue()
 {
-	static EventQueue eventQueue;
+	if(!g_globalEventQueue)
+		g_globalEventQueue = new EventQueue;
 
-	return eventQueue;
+	return *g_globalEventQueue;
 }
 
 //Private methods
@@ -77,7 +83,7 @@ void EventQueue::DispatchTimers()
 	}
 }
 
-uint64 EventQueue::UpdateTimers()
+uint64 EventQueue::GetShortestTimerTimeOut()
 {
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{

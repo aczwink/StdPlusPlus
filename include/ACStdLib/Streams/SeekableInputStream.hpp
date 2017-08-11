@@ -26,10 +26,10 @@ namespace ACStdLib
     {
     public:
         //Abstract
-        virtual uint64 GetCurrentOffset() const = NULL;
-        virtual uint64 GetRemainingBytes() const = NULL;
-        virtual uint64 GetSize() const = NULL;
-        virtual void SetCurrentOffset(uint64 offset) = NULL;
+        virtual uint64 GetCurrentOffset() const = 0;
+        virtual uint64 GetRemainingBytes() const = 0;
+        virtual uint64 GetSize() const = 0;
+        virtual void SetCurrentOffset(uint64 offset) = 0;
 
         //Inline
         inline void Rewind(uint32 nBytes)

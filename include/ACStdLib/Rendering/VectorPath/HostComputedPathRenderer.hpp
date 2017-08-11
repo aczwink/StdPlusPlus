@@ -129,8 +129,8 @@ namespace ACStdLib
 			Math::Vector2 boundingRectMax;
 
 			//Abstract
-			virtual void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = NULL;
-			virtual void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes) = NULL;
+			virtual void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = 0;
+			virtual void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes) = 0;
 
 			//Methods
 			void ButtCapEnd(const FlatVectorPath::SPoint &refPoint, float64 w);

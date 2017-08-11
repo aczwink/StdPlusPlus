@@ -38,9 +38,9 @@ namespace ACStdLib
             virtual ~ITypeface() {}
 
             //Abstract
-            virtual uint32 GetGlyphIndex(uint32 codePoint) const = NULL;
-            virtual uint32 GetNumberOfGlyphs() const = NULL;
-            virtual void RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const = NULL;
+            virtual uint32 GetGlyphIndex(uint32 codePoint) const = 0;
+            virtual uint32 GetNumberOfGlyphs() const = 0;
+            virtual void RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const = 0;
 
             //Functions
             static ACSTDLIB_API ITypeface *GetInstance(ACStdLib::SeekableInputStream &refInput);

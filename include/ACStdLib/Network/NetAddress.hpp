@@ -32,7 +32,7 @@ namespace ACStdLib
 	{
 	public:
 		//Abstract
-		virtual NetworkProtocolFamily GetProtocolFamily() const = NULL;
-		virtual String ToString() const = NULL;
+		virtual NetworkProtocolFamily GetProtocolFamily() const = 0;
+		virtual String ToString() const = 0;
 	};
 }

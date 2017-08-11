@@ -38,7 +38,7 @@ namespace ACStdLib
             CFIFOBuffer output;
 
             //Abstract
-            virtual void DecompressBlock() = NULL;
+            virtual void DecompressBlock() = 0;
 
         public:
             //Constructor

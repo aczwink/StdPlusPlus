@@ -34,9 +34,9 @@ namespace ACStdLib
             }
 
             //Abstract
-            virtual void Finalize() = NULL;
-            virtual void WriteHeader() = NULL;
-            virtual void WritePacket(const Packet &refPacket) = NULL;
+            virtual void Finalize() = 0;
+            virtual void WriteHeader() = 0;
+            virtual void WritePacket(const Packet &refPacket) = 0;
 
         protected:
             //Members

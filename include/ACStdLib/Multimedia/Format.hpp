@@ -51,14 +51,14 @@ namespace ACStdLib
             virtual ~Format(){}
 
             //Abstract
-            virtual Demuxer *CreateDemuxer(SeekableInputStream &refInput) const = NULL;
-            virtual Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const = NULL;
-            virtual CodecId GetDefaultCodec(DataType dataType) const = NULL;
-            virtual String GetExtension() const = NULL;
-            virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = NULL;
-            virtual String GetName() const = NULL;
-            virtual FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const = NULL;
-            virtual float32 Matches(BufferInputStream &refBuffer) const = NULL;
+            virtual Demuxer *CreateDemuxer(SeekableInputStream &refInput) const = 0;
+            virtual Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const = 0;
+            virtual CodecId GetDefaultCodec(DataType dataType) const = 0;
+            virtual String GetExtension() const = 0;
+            virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = 0;
+            virtual String GetName() const = 0;
+            virtual FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
+            virtual float32 Matches(BufferInputStream &refBuffer) const = 0;
 
             //Functions
             static ACSTDLIB_API const Format *Find(SeekableInputStream &inputStream);

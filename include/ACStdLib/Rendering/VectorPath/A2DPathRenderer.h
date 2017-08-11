@@ -37,15 +37,15 @@ namespace ACStdLib
             virtual ~A2DPathRenderer() {}
 
             //Abstract
-            virtual void BeginPath() = NULL;
-            virtual void BezierTo(const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refTo) = NULL;
-            virtual void ClosePath() = NULL;
-            virtual void Fill() = NULL;
-            virtual void LineTo(const vec2f64 &refV) = NULL;
-            virtual void MoveTo(const vec2f64 &refV) = NULL;
-            virtual void SetStrokeColor(const Color &refStrokeColor) = NULL;
-            virtual void SetStrokeWidth(float64 strokeWidth) = NULL;
-            virtual void Stroke() = NULL;
+            virtual void BeginPath() = 0;
+            virtual void BezierTo(const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refTo) = 0;
+            virtual void ClosePath() = 0;
+            virtual void Fill() = 0;
+            virtual void LineTo(const vec2f64 &refV) = 0;
+            virtual void MoveTo(const vec2f64 &refV) = 0;
+            virtual void SetStrokeColor(const Color &refStrokeColor) = 0;
+            virtual void SetStrokeWidth(float64 strokeWidth) = 0;
+            virtual void Stroke() = 0;
 
             //Inline
             inline void BezierTo(float64 cp0x, float64 cp0y, float64 cp1x, float64 cp1y, float64 toX, float64 toY)

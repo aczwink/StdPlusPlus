@@ -31,8 +31,8 @@ namespace ACStdLib
             virtual ~VertexBuffer() {}
 
             //Abstract
-            virtual void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData) = NULL;
-            virtual void Write(uint32 offset, uint32 size, const void *data) = NULL;
+            virtual void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData) = 0;
+            virtual void Write(uint32 offset, uint32 size, const void *data) = 0;
         };
     }
 }

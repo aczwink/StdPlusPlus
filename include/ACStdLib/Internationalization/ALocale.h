@@ -28,7 +28,7 @@ namespace ACStdLib
     {
     public:
         //Abstract
-        virtual String GetEnglishName() const = NULL;
+        virtual String GetEnglishName() const = 0;
 
         //Class functions
         static ELanguage From2LetterCode(const byte(&refISO639_1_Code)[2]);

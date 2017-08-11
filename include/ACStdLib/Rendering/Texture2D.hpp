@@ -30,14 +30,14 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual void AllocateDepth(uint16 width, uint16 height) = NULL;
-            virtual void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void AllocateRGB(const Size &size, const void *pColorData) = NULL;
-            virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = NULL;
-            virtual void GenerateMipMaps() = NULL;
-            virtual void SetMaximumMipMapLevel(uint16 level) = NULL;
-            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::Vector3 *pColorData) = NULL;
+            virtual void AllocateDepth(uint16 width, uint16 height) = 0;
+            virtual void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void AllocateRGB(const Size &size, const void *pColorData) = 0;
+            virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = 0;
+            virtual void GenerateMipMaps() = 0;
+            virtual void SetMaximumMipMapLevel(uint16 level) = 0;
+            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::Vector3 *pColorData) = 0;
         };
     }
 }

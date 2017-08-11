@@ -62,8 +62,8 @@ namespace ACStdLib
             virtual ~AParser();
 
             //Abstract
-            virtual CodecId GetCodecId() const = NULL;
-            virtual void Parse(const Packet &refPacket) = NULL;
+            virtual CodecId GetCodecId() const = 0;
+            virtual void Parse(const Packet &refPacket) = 0;
 
             //Overrideable
             virtual void Reset();

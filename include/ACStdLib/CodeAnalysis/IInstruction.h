@@ -31,7 +31,7 @@ namespace ACStdLib
             virtual ~IInstruction() {}
 
             //Abstract
-            virtual uint8 GetSize() const = NULL;
+            virtual uint8 GetSize() const = 0;
         };
     }
 }

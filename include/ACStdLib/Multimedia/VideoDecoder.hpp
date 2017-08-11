@@ -44,7 +44,7 @@ namespace ACStdLib
             }
 
             //Abstract
-            virtual PixelFormat GetPixelFormat() const = NULL;
+            virtual PixelFormat GetPixelFormat() const = 0;
         };
     }
 }

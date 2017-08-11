@@ -100,6 +100,7 @@ static void DoGTKEvents(EventQueueInternal *internal, uint64 minWaitTime_usec, b
 //Constructor
 EventQueue::EventQueue()
 {
+	this->quit = false;
 	this->internal = MemAlloc(sizeof(EventQueueInternal));
 	THIS->eventObjects = nullptr;
 	THIS->nAllocatedEventObjects = 0;
@@ -111,6 +112,8 @@ EventQueue::EventQueue()
 EventQueue::~EventQueue()
 {
 	close(THIS->timerEventFd);
+	if(THIS->eventObjects)
+		MemFree(THIS->eventObjects);
 	MemFree(this->internal);
 }
 
@@ -118,12 +121,6 @@ EventQueue::~EventQueue()
 bool EventQueue::EventsPending()
 {
 	return g_main_context_pending(THIS->context) == TRUE;
-}
-
-void EventQueue::PostQuitEvent()
-{
-	//TODO: implement me!!!
-	NOT_IMPLEMENTED_ERROR;
 }
 
 //Private methods

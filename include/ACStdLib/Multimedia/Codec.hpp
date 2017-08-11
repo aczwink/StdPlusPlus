@@ -40,11 +40,11 @@ namespace ACStdLib
             virtual ~Codec(){}
 
             //Methods
-            virtual Decoder *CreateDecoder(Stream &refStream) const = NULL;
-            virtual Encoder *CreateEncoder() const = NULL;
-            virtual AParser *CreateParser() const = NULL;
-            virtual CodecId GetId() const = NULL;
-            virtual String GetName() const = NULL;
+            virtual Decoder *CreateDecoder(Stream &refStream) const = 0;
+            virtual Encoder *CreateEncoder() const = 0;
+            virtual AParser *CreateParser() const = 0;
+            virtual CodecId GetId() const = 0;
+            virtual String GetName() const = 0;
 
             //Functions
             static ACSTDLIB_API const Codec *GetCodec(CodecId codecId);

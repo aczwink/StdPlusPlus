@@ -35,7 +35,7 @@ namespace ACStdLib
             virtual ~Encoder(){}
 
             //Methods
-            virtual void Encode(const Frame &frame, Packet &packet) const = NULL;
+            virtual void Encode(const Frame &frame, Packet &packet) const = 0;
         };
     }
 }

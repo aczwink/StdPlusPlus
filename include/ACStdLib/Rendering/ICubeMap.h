@@ -28,12 +28,12 @@ namespace ACStdLib
         {
         public:
             //Abstract
-            virtual void SetBackTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void SetBottomTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void SetFrontTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void SetLeftTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void SetRightTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
-            virtual void SetTopTexture(uint16 width, uint16 height, const void *pCompressedData) = NULL;
+            virtual void SetBackTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void SetBottomTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void SetFrontTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void SetLeftTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void SetRightTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
+            virtual void SetTopTexture(uint16 width, uint16 height, const void *pCompressedData) = 0;
         };
     }
 }

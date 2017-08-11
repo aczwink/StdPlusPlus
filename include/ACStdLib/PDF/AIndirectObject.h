@@ -30,7 +30,7 @@ namespace ACStdLib
         class IDocumentTreeVisitor
         {
         public:
-            virtual void AcceptIndirectObject(AIndirectObject &refObject) = NULL;
+            virtual void AcceptIndirectObject(AIndirectObject &refObject) = 0;
         };
 
         class ACSTDLIB_API AIndirectObject
@@ -42,7 +42,7 @@ namespace ACStdLib
 
         public:
             //Abstract
-            virtual void Visit(IDocumentTreeVisitor &refVisitor) = NULL;
+            virtual void Visit(IDocumentTreeVisitor &refVisitor) = 0;
         };
     }
 }

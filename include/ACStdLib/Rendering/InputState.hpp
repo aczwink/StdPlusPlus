@@ -36,8 +36,8 @@ namespace ACStdLib
             virtual ~InputState() {}
 
             //Abstract
-            virtual void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout) = NULL;
-            virtual void SetIndexBuffer(IndexBuffer *pIndexBuffer) = NULL;
+            virtual void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout) = 0;
+            virtual void SetIndexBuffer(IndexBuffer *pIndexBuffer) = 0;
         };
     }
 }

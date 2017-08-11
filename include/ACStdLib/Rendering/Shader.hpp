@@ -41,8 +41,8 @@ namespace ACStdLib
             virtual ~Shader() {}
 
             //Abstract
-            virtual bool Compile(SeekableInputStream &refSource) = NULL;
-            virtual ACStdLib::ByteString GetCompilationLog() = NULL;
+            virtual bool Compile(SeekableInputStream &refSource) = 0;
+            virtual ACStdLib::ByteString GetCompilationLog() = 0;
         };
     }
 }
