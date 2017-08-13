@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "../../Debug.h"
+#include "ACStdLib/Definitions.h"
+#include "ACStdLib/Debug.h"
 
 namespace ACStdLib
 {
@@ -28,7 +28,7 @@ namespace ACStdLib
         //Forward declarations
         class Vector3;
 
-        class ACSTDLIB_API CVector4
+        class ACSTDLIB_API Vector4
         {
         public:
             //Members
@@ -45,7 +45,7 @@ namespace ACStdLib
             };
 
             //Constructors
-            inline CVector4()
+            inline Vector4()
             {
                 this->x = 0;
                 this->y = 0;
@@ -53,7 +53,7 @@ namespace ACStdLib
                 this->w = 0;
             }
 
-            inline CVector4(float32 x, float32 y, float32 z, float32 w)
+            inline Vector4(float32 x, float32 y, float32 z, float32 w)
             {
                 this->x = x;
                 this->y = y;
@@ -61,7 +61,7 @@ namespace ACStdLib
                 this->w = w;
             }
 
-            CVector4(const Vector3 &refXYZ, float32 w);
+            Vector4(const Vector3 &refXYZ, float32 w);
 
             //Operators
             inline float32 &operator[](uint8 idx)
@@ -78,22 +78,22 @@ namespace ACStdLib
                 return this->e[idx];
             }
 
-            inline CVector4 operator+(const CVector4 &refRight) const
+            inline Vector4 operator+(const Vector4 &refRight) const
             {
-                return CVector4(this->x + refRight.x, this->y + refRight.y, this->z + refRight.z, this->w + refRight.w);
+                return Vector4(this->x + refRight.x, this->y + refRight.y, this->z + refRight.z, this->w + refRight.w);
             }
 
-            inline CVector4 operator-(const CVector4 &refRight) const
+            inline Vector4 operator-(const Vector4 &refRight) const
             {
-                return CVector4(this->x - refRight.x, this->y - refRight.y, this->z - refRight.z, this->w - refRight.w);
+                return Vector4(this->x - refRight.x, this->y - refRight.y, this->z - refRight.z, this->w - refRight.w);
             }
 
-            inline CVector4 operator*(const CVector4 &refRight) const
+            inline Vector4 operator*(const Vector4 &refRight) const
             {
-                return CVector4(this->x * refRight.x, this->y * refRight.y, this->z * refRight.z, this->w * refRight.w);
+                return Vector4(this->x * refRight.x, this->y * refRight.y, this->z * refRight.z, this->w * refRight.w);
             }
 
-            inline CVector4 &operator*=(float32 right)
+            inline Vector4 &operator*=(float32 right)
             {
                 this->x *= right;
                 this->y *= right;

@@ -79,7 +79,7 @@ namespace ACStdLib
 
             inline AxisAlignedBox Transform(const Matrix4x4 &refTransform) const
             {
-                return AxisAlignedBox(Vector3(refTransform * CVector4(this->min, 1)), Vector3(refTransform * CVector4(this->max, 1)));
+                return AxisAlignedBox(Vector3(refTransform * Vector4(this->min, 1)), Vector3(refTransform * Vector4(this->max, 1)));
             }
         };
     }

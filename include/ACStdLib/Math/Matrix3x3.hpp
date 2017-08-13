@@ -18,38 +18,58 @@
  */
 #pragma once
 //Local
-#include "DeviceContext.hpp"
-#include "Kernel.hpp"
+#include "Vector3.hpp"
 
 namespace ACStdLib
 {
-	namespace Compute
+	namespace Math
 	{
-		class CommandQueue
+		//Forward declarations
+		class Matrix4x4;
+
+		class Matrix3x3
 		{
 		public:
-			//Constructor
-			CommandQueue(const DeviceContext &dc);
+			//Constructors
+			inline Matrix3x3()
+			{
+			}
 
-			//Destructor
-			~CommandQueue();
+			Matrix3x3(const Matrix4x4 &refMat);
 
-			//Methods
-			void EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination);
-			void EnqueueTask(const Kernel &kernel);
-			/**
-			 * Makes sure that all queued commands have been issued and completed.
-			 */
-			void Finish();
-			/**
-			 * Makes sure that all queued commands have been issued to the device.
-			 * Does not guarantee that commands have finished execution.
-			 */
-			void Flush();
+			//Operators
+			inline Vector3 &operator[](uint8 x)
+			{
+				ASSERT(x < 3);
+
+				return this->columns[x];
+			}
+
+			inline const Vector3 &operator[](uint8 x) const
+			{
+				ASSERT(x < 3);
+
+				return this->columns[x];
+			}
+
+			//Operators
+			inline float32 &operator()(uint8 y, uint8 x)
+			{
+				ASSERT(x < 3);
+
+				return this->columns[x][y];
+			}
+
+			inline const float32 &operator()(uint8 y, uint8 x) const
+			{
+				ASSERT(x < 3);
+
+				return this->columns[x][y];
+			}
 
 		private:
 			//Members
-			void *internal;
+			Vector3 columns[4];
 		};
 	}
 }

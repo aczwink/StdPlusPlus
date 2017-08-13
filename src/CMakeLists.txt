@@ -33,8 +33,11 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
 	#Math
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Degree.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix4x4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector4.cpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.cpp

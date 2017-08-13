@@ -19,8 +19,8 @@
 #pragma once
 //Local
 #include "ACStdLib/Definitions.h"
-#include "CRadian.h"
-#include "ACStdLib/Math/Geometry/CVector4.h"
+#include "Radian.hpp"
+#include "Vector4.hpp"
 
 namespace ACStdLib
 {
@@ -30,15 +30,15 @@ namespace ACStdLib
     namespace Math
     {
         //Forward declarations
-        class CMatrix3x3;
+        class Matrix3x3;
         class Vector3;
-        class CVector4;
+        class Vector4;
 
         class ACSTDLIB_API Matrix4x4
         {
         private:
             //Members
-            CVector4 columns[4];
+            Vector4 columns[4];
 
         public:
             //Constructors
@@ -46,7 +46,7 @@ namespace ACStdLib
             {
             }
 
-            inline Matrix4x4(const CVector4 &refCol1, const CVector4 &refCol2, const CVector4 &refCol3, const CVector4 &refCol4)
+            inline Matrix4x4(const Vector4 &refCol1, const Vector4 &refCol2, const Vector4 &refCol3, const Vector4 &refCol4)
             {
                 this->columns[0] = refCol1;
                 this->columns[1] = refCol2;
@@ -54,11 +54,12 @@ namespace ACStdLib
                 this->columns[3] = refCol4;
             }
 
-            Matrix4x4(const CMatrix3x3 &refMatrix);
+            Matrix4x4(const Matrix3x3 &refMatrix);
 
             //Operators
             Matrix4x4 operator*(float32 right) const;
             vec4f32 operator*(const vec4f32 &refRight) const;
+            Matrix4x4 operator*(const Matrix4x4 &refRight) const;
             Matrix4x4 &operator*=(const Matrix4x4 &refRight);
 
             //Inline operators
@@ -76,14 +77,14 @@ namespace ACStdLib
                 return this->columns[col][row];
             }
 
-            inline CVector4 &operator[](uint8 col)
+            inline Vector4 &operator[](uint8 col)
             {
                 ASSERT(col < 4);
 
                 return this->columns[col];
             }
 
-            inline const CVector4 &operator[](uint8 col) const
+            inline const Vector4 &operator[](uint8 col) const
             {
                 ASSERT(col < 4);
 
@@ -98,18 +99,17 @@ namespace ACStdLib
             static Matrix4x4 Identity();
             static Matrix4x4 LookAtRH(const Vector3 &refCamPos, const Vector3 &refCamTarget, const Vector3 &refCamUpVector);
             static Matrix4x4 OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar);
-            static Matrix4x4 PerspectiveRH(const CDegree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
-            static Matrix4x4 RotationX(const CRadian &refAngle);
-            static Matrix4x4 RotationY(const CRadian &refAngle);
-            static Matrix4x4 RotationYawPitchRoll(const CRadian &refYaw, const CRadian &refPitch, const CRadian &refRoll);
-            static Matrix4x4 RotationZ(const CRadian &refAngle);
+            static Matrix4x4 PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
+            static Matrix4x4 RotationX(const Radian &refAngle);
+            static Matrix4x4 RotationY(const Radian &refAngle);
+            static Matrix4x4 RotationYawPitchRoll(const Radian &refYaw, const Radian &refPitch, const Radian &refRoll);
+            static Matrix4x4 RotationZ(const Radian &refAngle);
             static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
             static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
             static Matrix4x4 Translation(const Vector3 &refVector);
         };
 
         //Binary operators
-        ACSTDLIB_API Matrix4x4 operator*(const Matrix4x4 &refLeft, const Matrix4x4 &refRight);
-        ACSTDLIB_API CVector4 operator*(const Matrix4x4 &refLeft, const CVector4 &refRight);
+        ACSTDLIB_API Vector4 operator*(const Matrix4x4 &refLeft, const Vector4 &refRight);
     }
 }

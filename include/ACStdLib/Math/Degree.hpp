@@ -23,51 +23,51 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CRadian;
+    class Radian;
 
-    class ACSTDLIB_API CDegree
+    class ACSTDLIB_API Degree
     {
     public:
         //Members
         float64 value;
 
         //Constructors
-        inline CDegree()
+        inline Degree()
         {
             this->value = 0;
         }
 
-        inline CDegree(float64 value)
+        inline Degree(float64 value)
         {
             this->value = value;
         }
 
-        CDegree(const CRadian &refRadian);
+        Degree(const Radian &refRadian);
 
         //Operators
-        inline CDegree &operator+=(const CDegree &refRight)
+        inline Degree &operator+=(const Degree &refRight)
         {
             this->value += refRight.value;
 
             return *this;
         }
 
-        inline CDegree operator-() const
+        inline Degree operator-() const
         {
-            return CDegree(-this->value);
+            return Degree(-this->value);
         }
 
-        inline CDegree operator-(const CDegree &refRight) const
+        inline Degree operator-(const Degree &refRight) const
         {
-            return CDegree(this->value - refRight.value);
+            return Degree(this->value - refRight.value);
         }
 
-        inline bool operator<(const CDegree &refRight)
+        inline bool operator<(const Degree &refRight)
         {
             return this->value < refRight.value;
         }
 
-        inline bool operator>(const CDegree &refRight)
+        inline bool operator>(const Degree &refRight)
         {
             return this->value > refRight.value;
         }

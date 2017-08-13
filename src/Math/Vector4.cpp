@@ -16,40 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <ACStdLib/Math/Vector4.hpp>
 //Local
-#include "DeviceContext.hpp"
-#include "Kernel.hpp"
+#include <ACStdLib/Math/Vector3.hpp>
 
-namespace ACStdLib
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::Math;
+
+//Constructors
+Vector4::Vector4(const Vector3 &refXYZ, float32 w)
 {
-	namespace Compute
-	{
-		class CommandQueue
-		{
-		public:
-			//Constructor
-			CommandQueue(const DeviceContext &dc);
-
-			//Destructor
-			~CommandQueue();
-
-			//Methods
-			void EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination);
-			void EnqueueTask(const Kernel &kernel);
-			/**
-			 * Makes sure that all queued commands have been issued and completed.
-			 */
-			void Finish();
-			/**
-			 * Makes sure that all queued commands have been issued to the device.
-			 * Does not guarantee that commands have finished execution.
-			 */
-			void Flush();
-
-		private:
-			//Members
-			void *internal;
-		};
-	}
+	this->x = refXYZ.x;
+	this->y = refXYZ.y;
+	this->z = refXYZ.z;
+	this->w = w;
 }

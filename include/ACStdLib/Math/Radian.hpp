@@ -23,31 +23,31 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class CDegree;
+    class Degree;
 
-    class ACSTDLIB_API CRadian
+    class ACSTDLIB_API Radian
     {
     public:
         //Members
         float64 value;
 
         //Constructors
-        inline CRadian()
+        inline Radian()
         {
             this->value = 0;
         }
 
-        inline CRadian(float64 value)
+        inline Radian(float64 value)
         {
             this->value = value;
         }
 
-        CRadian(const CDegree &refDegree);
+        Radian(const Degree &refDegree);
 
         //Operators
-        inline CRadian operator-() const
+        inline Radian operator-() const
         {
-            return CRadian(-this->value);
+            return Radian(-this->value);
         }
     };
 }

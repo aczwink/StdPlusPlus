@@ -16,40 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <ACStdLib/Math/Degree.hpp>
 //Local
-#include "DeviceContext.hpp"
-#include "Kernel.hpp"
+#include <ACStdLib/Math/Radian.hpp>
+#include <ACStdLib/Mathematics.h>
+//Namespaces
+using namespace ACStdLib;
 
-namespace ACStdLib
+//Constructor
+Degree::Degree(const Radian &refRadian)
 {
-	namespace Compute
-	{
-		class CommandQueue
-		{
-		public:
-			//Constructor
-			CommandQueue(const DeviceContext &dc);
-
-			//Destructor
-			~CommandQueue();
-
-			//Methods
-			void EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination);
-			void EnqueueTask(const Kernel &kernel);
-			/**
-			 * Makes sure that all queued commands have been issued and completed.
-			 */
-			void Finish();
-			/**
-			 * Makes sure that all queued commands have been issued to the device.
-			 * Does not guarantee that commands have finished execution.
-			 */
-			void Flush();
-
-		private:
-			//Members
-			void *internal;
-		};
-	}
+	this->value = refRadian.value * 180.0 / PI;
 }

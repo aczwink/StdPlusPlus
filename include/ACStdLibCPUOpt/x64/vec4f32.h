@@ -22,7 +22,7 @@
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Definitions.h>
 #include <ACStdLib/Math/Vector3.hpp>
-#include <ACStdLib/Math/Geometry/CVector4.h>
+#include <ACStdLib/Math/Vector4.hpp>
 
 namespace ACStdLib
 {
@@ -59,7 +59,7 @@ namespace ACStdLib
             this->mmValue = _mm_set_ps(w, refVec3.z, refVec3.y, refVec3.x);
         }
 
-        inline vec4f32(const Math::CVector4 &refVec)
+        inline vec4f32(const Math::Vector4 &refVec)
         {
             this->mmValue = _mm_set_ps(refVec.w, refVec.z, refVec.y, refVec.x);
         }

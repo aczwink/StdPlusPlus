@@ -50,14 +50,14 @@
 #include <ACStdLib/Filesystem/Path.hpp>
 
 //Mathematics
-#include <ACStdLib/Math/CDegree.h>
-#include <ACStdLib/Math/CRadian.h>
+#include <ACStdLib/Math/Degree.hpp>
+#include <ACStdLib/Math/Radian.hpp>
 #include <ACStdLib/Math/Size.hpp>
-//Mathematics/Geometry
+#include <ACStdLib/Math/Matrix3x3.hpp>
 #include <ACStdLib/Math/Matrix4x4.hpp>
 #include <ACStdLib/Math/Vector2.hpp>
 #include <ACStdLib/Math/Vector3.hpp>
-#include <ACStdLib/Math/Geometry/CVector4.h>
+#include <ACStdLib/Math/Vector4.hpp>
 
 //Streams
 #include <ACStdLib/Streams/AOutputStream.h>
