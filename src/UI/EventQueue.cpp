@@ -32,7 +32,7 @@ bool EventQueue::ProcessEvents(bool block)
 {
 	if(block)
 	{
-		while(this->quit)
+		while(!this->quit)
 		{
 			uint64 minWaitTime_usec = this->GetShortestTimerTimeOut();
 			this->DispatchPendingEvents();
@@ -43,7 +43,6 @@ bool EventQueue::ProcessEvents(bool block)
 	}
 	else
 	{
-		this->GetShortestTimerTimeOut();
 		this->DispatchPendingEvents();
 	}
 

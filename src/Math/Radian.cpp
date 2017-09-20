@@ -17,43 +17,15 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Multitasking/ConditionVariable.hpp>
-//Global
-#include <pthread.h>
+#include <ACStdLib/Math/Radian.hpp>
 //Local
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Multitasking/Mutex.hpp>
+#include <ACStdLib/Math/Degree.hpp>
+#include <ACStdLib/Mathematics.h>
 //Namespaces
 using namespace ACStdLib;
-//Definitions
-#define THIS ((pthread_cond_t *)this->systemHandle)
 
-//Constructor
-ConditionVariable::ConditionVariable()
+//Constructors
+Radian::Radian(const Degree &refDegree)
 {
-	this->systemHandle = MemAlloc(sizeof(pthread_cond_t));
-	pthread_cond_init(THIS, nullptr);
-}
-
-//Destructor
-ConditionVariable::~ConditionVariable()
-{
-	pthread_cond_destroy(THIS);
-	MemFree(this->systemHandle);
-}
-
-//Public methods
-void ConditionVariable::Broadcast()
-{
-	pthread_cond_broadcast(THIS);
-}
-
-void ConditionVariable::Signal()
-{
-	pthread_cond_signal(THIS);
-}
-
-void ConditionVariable::Wait(Mutex &mutex)
-{
-	pthread_cond_wait(THIS, (pthread_mutex_t *)mutex.systemHandle);
+	this->value = refDegree.value * PI / 180.0;
 }

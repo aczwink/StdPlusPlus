@@ -125,6 +125,7 @@ void CDeviceContext::CreateOSContext(const C3DView &refView, uint8 nSamples)
 {
 	this->pOSHandle = GetDC((HWND)GET_HWND(&refView));
 	this->pDeviceState = CreateGLContext((HDC)this->pOSHandle, nSamples);
+	this->screenFrameBufferId = 0; //on windows we have the real screen frame buffer
 }
 
 void CDeviceContext::DestroyOSContext()

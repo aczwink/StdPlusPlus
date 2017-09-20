@@ -20,12 +20,13 @@
 #include <ACStdLib/Rendering/DeviceContext.hpp>
 //Global
 #include <gdk/gdkx.h>
-#include <GL/glx.h>
+//#include <GL/glx.h>
 //Local
 #include <ACStdLib/Integer.hpp>
 #include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 #include "../UI/Gtk.h"
 #include "../UI/Displays/_GtkOpenGLWidget.h"
+#include "../../../src/Rendering/OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
@@ -39,6 +40,7 @@ struct X11_DisplayAndWindow
 };
 
 //Local functions
+/*
 GLXFBConfig ChooseFrameBufferConfig(Display *display, uint8 nSamples)
 {
 	static const int frameBufferConfigAttributes[] =
@@ -92,6 +94,7 @@ GLXFBConfig ChooseFrameBufferConfig(Display *display, uint8 nSamples)
 
 	return bestFB;
 }
+ */
 
 //Private methods
 void DeviceContext::BindOSContext() const
@@ -103,6 +106,10 @@ void DeviceContext::BindOSContext() const
 void DeviceContext::CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples)
 {
 	this->deviceState = gtk_gl_area_get_context(GTK_GL_AREA(PRIVATE_DATA(&renderTargetWidget)->widget));
+
+	this->BindOSContext();
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&this->screenFrameBufferId));
+
 	//this->deviceState = ac_gtk_opengl_widget_get_context(AC_GTK_OPENGL_WIDGET(PRIVATE_DATA(&renderTargetWidget)->widget));
 	/*
 	this->systemHandle = (X11_DisplayAndWindow *)MemAlloc(sizeof(X11_DisplayAndWindow));

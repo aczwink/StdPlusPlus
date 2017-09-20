@@ -354,8 +354,8 @@ void DeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
 
     if(pFrameBuffer == nullptr)
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        CFrameBuffer::currentFBO = 0;
+		glBindFramebuffer(GL_FRAMEBUFFER, this->screenFrameBufferId);
+        CFrameBuffer::currentFBO = this->screenFrameBufferId;
     }
     else
         ((CFrameBuffer *)pFrameBuffer)->Bind();

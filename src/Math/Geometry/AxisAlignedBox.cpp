@@ -17,43 +17,35 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Multitasking/ConditionVariable.hpp>
-//Global
-#include <pthread.h>
-//Local
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Multitasking/Mutex.hpp>
+#include <ACStdLib/Math/Geometry/AxisAlignedBox.hpp>
 //Namespaces
 using namespace ACStdLib;
-//Definitions
-#define THIS ((pthread_cond_t *)this->systemHandle)
-
-//Constructor
-ConditionVariable::ConditionVariable()
-{
-	this->systemHandle = MemAlloc(sizeof(pthread_cond_t));
-	pthread_cond_init(THIS, nullptr);
-}
-
-//Destructor
-ConditionVariable::~ConditionVariable()
-{
-	pthread_cond_destroy(THIS);
-	MemFree(this->systemHandle);
-}
+using namespace ACStdLib::Math;
 
 //Public methods
-void ConditionVariable::Broadcast()
+bool AxisAlignedBox::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const
 {
-	pthread_cond_broadcast(THIS);
-}
+	float32 tmin, tmax;
+	vec4f32 t0, t1;
 
-void ConditionVariable::Signal()
-{
-	pthread_cond_signal(THIS);
-}
+	//implementation using the slab method
 
-void ConditionVariable::Wait(Mutex &mutex)
-{
-	pthread_cond_wait(THIS, (pthread_mutex_t *)mutex.systemHandle);
+	t0 = (vec4f32(this->min, 0) - refOrigin) / refDir;
+	t1 = (vec4f32(this->max, 0) - refOrigin) / refDir;
+
+	//check x
+	tmin = MIN(t0.x, t1.x);
+	tmax = MAX(t0.x, t1.x);
+
+	//check y
+	tmin = MAX(tmin, MIN(t0.y, t1.y));
+	tmax = MIN(tmax, MAX(t0.y, t1.y));
+
+	//check z
+	tmin = MAX(tmin, MIN(t0.z, t1.z));
+	tmax = MIN(tmax, MAX(t0.z, t1.z));
+
+	//t can't be negative as this would be behind the ray origin...
+
+	return MAX(tmin, 0) <= tmax;
 }

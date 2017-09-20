@@ -26,29 +26,16 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CStaticThreadPool
+    class ACSTDLIB_API StaticThreadPool
     {
         class CWorkerThread;
         friend class CWorkerThread;
-    private:
-        //Members
-        uint32 nThreads;
-        CWorkerThread **ppThreads;
-
-        uint32 nActiveThreads;
-        Mutex activeThreadsLock;
-        ConditionVariable activeThreadsSignal;
-
-        LinkedList<Function<void()>> taskQueue;
-        Mutex taskQueueLock;
-        ConditionVariable taskQueueSignal;
-
     public:
         //Constructors
-        CStaticThreadPool();
+        StaticThreadPool();
 
         //Destructor
-        ~CStaticThreadPool();
+        ~StaticThreadPool();
 
         //Methods
         void EnqueueTask(const Function<void()> &refTask);
@@ -80,5 +67,18 @@ namespace ACStdLib
 
             this->activeThreadsLock.Unlock();
         }
+
+    private:
+        //Members
+        uint32 nThreads;
+        CWorkerThread **ppThreads;
+
+        uint32 nActiveThreads;
+        Mutex activeThreadsLock;
+        ConditionVariable activeThreadsSignal;
+
+        LinkedList<Function<void()>> taskQueue;
+        Mutex taskQueueLock;
+        ConditionVariable taskQueueSignal;
     };
 }

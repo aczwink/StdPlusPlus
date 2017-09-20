@@ -16,44 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/Multitasking/ConditionVariable.hpp>
-//Global
-#include <pthread.h>
+//Class Header
+#include <ACStdLib/Math/Vector3.hpp>
 //Local
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Multitasking/Mutex.hpp>
+#include <ACStdLib/Math/Vector4.hpp>
 //Namespaces
 using namespace ACStdLib;
-//Definitions
-#define THIS ((pthread_cond_t *)this->systemHandle)
+using namespace ACStdLib::Math;
 
-//Constructor
-ConditionVariable::ConditionVariable()
+//Constructors
+Vector3::Vector3(const Vector4 &refV)
 {
-	this->systemHandle = MemAlloc(sizeof(pthread_cond_t));
-	pthread_cond_init(THIS, nullptr);
-}
-
-//Destructor
-ConditionVariable::~ConditionVariable()
-{
-	pthread_cond_destroy(THIS);
-	MemFree(this->systemHandle);
-}
-
-//Public methods
-void ConditionVariable::Broadcast()
-{
-	pthread_cond_broadcast(THIS);
-}
-
-void ConditionVariable::Signal()
-{
-	pthread_cond_signal(THIS);
-}
-
-void ConditionVariable::Wait(Mutex &mutex)
-{
-	pthread_cond_wait(THIS, (pthread_mutex_t *)mutex.systemHandle);
+	this->x = refV.x;
+	this->y = refV.y;
+	this->z = refV.z;
 }

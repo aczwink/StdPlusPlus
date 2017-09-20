@@ -18,34 +18,34 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "ACStdLib/UI/Keyboard.hpp"
+#include "InputStream.hpp"
 
 namespace ACStdLib
 {
-    namespace UI
+    class ACSTDLIB_API BufferedInputStream : public InputStream
     {
-        namespace Events
-        {
-            class CKeyEvent
-            {
-            private:
-                //Members
-                KeyCode keyCode;
+    public:
+        //Constructor
+        BufferedInputStream(InputStream &refInputStream, uint32 bufferSize = 4096);
 
-            public:
-                //Constructor
-                inline CKeyEvent(KeyCode keyCode)
-                {
-                    this->keyCode = keyCode;
-                }
+        //Destructor
+        ~BufferedInputStream();
 
-                //Inline
-                inline KeyCode GetKeyCode() const
-                {
-                    return this->keyCode;
-                }
-            };
-        }
-    }
+        //Methods
+        bool IsAtEnd() const;
+        byte PeekByte();
+        byte ReadByte();
+        uint32 ReadBytes(void *pDestination, uint32 count);
+        uint32 Skip(uint32 nBytes);
+
+    private:
+        //Members
+        InputStream &refInput;
+        byte *pBuffer;
+        byte *pCurrent;
+        byte *pEnd;
+
+        //Methods
+        void FillBufferIfEmpty();
+    };
 }

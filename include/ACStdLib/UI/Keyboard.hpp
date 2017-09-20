@@ -25,7 +25,7 @@ namespace ACStdLib
     namespace UI
     {
         //Enums
-        enum class EKeyCode
+        enum class KeyCode
         {
             Shift_Left,
             Shift_Right,
@@ -59,6 +59,6 @@ namespace ACStdLib
         };
 
         //Functions
-        bool ACSTDLIB_API GetKeyState(EKeyCode keyCode);
+        ACSTDLIB_API bool GetKeyState(KeyCode keyCode);
     }
 }

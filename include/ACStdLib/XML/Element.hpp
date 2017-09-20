@@ -27,7 +27,7 @@ namespace ACStdLib
 {
     namespace XML
     {
-        class CElement : public ANode
+        class Element : public ANode
         {
         private:
             //Members
@@ -37,13 +37,13 @@ namespace ACStdLib
 
         public:
             //Constructor
-            inline CElement(const String &refName)
+            inline Element(const String &refName)
             {
                 this->name = refName;
             }
 
             //Destructor
-            ~CElement();
+            ~Element();
 
             //Methods
             ENodeType GetType() const;

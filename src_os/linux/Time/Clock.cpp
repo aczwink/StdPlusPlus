@@ -23,7 +23,7 @@
 //Namespaces
 using namespace ACStdLib;
 //Definitions
-#define NANO(x) (x * 1000000000)
+#define NANO(x) ((x) * 1000000000)
 
 //Public methods
 uint64 Clock::GetElapsedNanoseconds() const

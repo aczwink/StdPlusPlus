@@ -62,6 +62,7 @@ void RenderTargetWidget::CreateOSHandle()
 	g_signal_connect(THIS, "scroll-event", G_CALLBACK(GtkEventQueue::ScrollSlot), this);
 
 	gtk_widget_realize(THIS); //important!!!
+	gtk_gl_area_attach_buffers(GTK_GL_AREA(THIS)); //also important so that device context can read default frame buffer
 }
 
 void RenderTargetWidget::System_Destroy()

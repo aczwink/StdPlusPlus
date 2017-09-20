@@ -32,7 +32,13 @@ namespace ACStdLib
         };
 
         //Functions
-        ACSTDLIB_API void GetCursorPos(uint16 &refX, uint16 &refY);
-        ACSTDLIB_API bool GetMouseButtonState(MouseButton button);
+		ACSTDLIB_API bool GetMouseButtonState(MouseButton button);
+        /**
+         * Queries the current mouse pointer position in screen coordinates.
+         *
+         * @param x
+         * @param y - Recap the ACStdLib coordinate system
+         */
+        ACSTDLIB_API void GetMousePointerPos(uint16 &x, uint16 &y);
     }
 }

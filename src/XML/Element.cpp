@@ -16,44 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/Multitasking/ConditionVariable.hpp>
-//Global
-#include <pthread.h>
-//Local
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Multitasking/Mutex.hpp>
+//Class Header
+#include <ACStdLib/XML/Element.hpp>
 //Namespaces
 using namespace ACStdLib;
-//Definitions
-#define THIS ((pthread_cond_t *)this->systemHandle)
-
-//Constructor
-ConditionVariable::ConditionVariable()
-{
-	this->systemHandle = MemAlloc(sizeof(pthread_cond_t));
-	pthread_cond_init(THIS, nullptr);
-}
+using namespace ACStdLib::XML;
 
 //Destructor
-ConditionVariable::~ConditionVariable()
+Element::~Element()
 {
-	pthread_cond_destroy(THIS);
-	MemFree(this->systemHandle);
+	for (const ANode *const &refpChild : this->children)
+	{
+		delete refpChild;
+	}
 }
 
 //Public methods
-void ConditionVariable::Broadcast()
+ENodeType Element::GetType() const
 {
-	pthread_cond_broadcast(THIS);
-}
-
-void ConditionVariable::Signal()
-{
-	pthread_cond_signal(THIS);
-}
-
-void ConditionVariable::Wait(Mutex &mutex)
-{
-	pthread_cond_wait(THIS, (pthread_mutex_t *)mutex.systemHandle);
+	return NODE_TYPE_ELEMENT;
 }

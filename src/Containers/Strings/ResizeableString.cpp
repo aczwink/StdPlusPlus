@@ -18,6 +18,8 @@
  */
 //Class header
 #include <ACStdLib/Containers/Strings/ResizeableString.hpp>
+//Local
+#include <ACStdLib/Char.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -45,6 +47,10 @@ float64 ResizeableString<CharType>::ToFloat() const
 		return 0; //filter out empty strings
 
 	CharType *current = this->data;
+
+	//skip leading white spaces
+	while(IsWhiteSpaceChar(*current))
+		current++;
 
 	//parse sign
 	int8 sign = ParseSign(current);
@@ -133,3 +139,4 @@ float64 ResizeableString<CharType>::ToFloat() const
 
 //Explicit instatiation
 template class ResizeableString<char>;
+template class ResizeableString<uint16>;

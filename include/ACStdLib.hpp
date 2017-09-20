@@ -61,7 +61,7 @@
 
 //Streams
 #include <ACStdLib/Streams/AOutputStream.h>
-#include <ACStdLib/Streams/CBufferedInputStream.h>
+#include <ACStdLib/Streams/BufferedInputStream.hpp>
 #include <ACStdLib/Streams/BufferInputStream.hpp>
 #include <ACStdLib/Streams/CBufferOutputStream.h>
 #include <ACStdLib/Streams/CConcatenatedInputStream.h>
@@ -108,9 +108,9 @@
 #include <ACStdLib/Math/Fraction.hpp>
 #include <ACStdLib/Math/CMatrix.h>
 //Math/Geometry
-#include <ACStdLib/Math/Geometry/AxisAlignedBox.h>
+#include <ACStdLib/Math/Geometry/AxisAlignedBox.hpp>
 #include <ACStdLib/Math/Geometry/CMatrix3x3.h>
-#include <ACStdLib/Math/Geometry/ObjectIntersection.h>
+#include <ACStdLib/Math/Geometry/ObjectIntersection.hpp>
 
 //Multimedia
 #include <ACStdLib/Multimedia/AudioBuffer.hpp>
@@ -143,9 +143,9 @@
 #include <ACStdLib/Multitasking/ConditionVariable.hpp>
 #include <ACStdLib/Multitasking/Mutex.hpp>
 #include <ACStdLib/Multitasking/CProcess.h>
-#include <ACStdLib/Multitasking/CStaticThreadPool.h>
+#include <ACStdLib/Multitasking/StaticThreadPool.hpp>
 #include <ACStdLib/Multitasking/Thread.hpp>
-#include <ACStdLib/Multitasking/Multitasking.h>
+#include <ACStdLib/Multitasking/Multitasking.hpp>
 
 //Network
 #include <ACStdLib/Network/DatagramSocket.hpp>
@@ -181,7 +181,7 @@
 #include <ACStdLib/UI/CommonDialogs.h>
 #include <ACStdLib/UI/CTerminalEventQueue.h>
 #include <ACStdLib/UI/EventQueue.hpp>
-#include <ACStdLib/UI/Keyboard.h>
+#include <ACStdLib/UI/Keyboard.hpp>
 #include <ACStdLib/UI/MainAppWindow.hpp>
 #include <ACStdLib/UI/Mouse.hpp>
 //Containers
@@ -224,5 +224,5 @@
 #include <ACStdLib/UI/Views/CTreeView.h>
 
 //XML
-#include <ACStdLib/XML/CDocument.h>
-#include <ACStdLib/XML/CTextNode.h>
+#include <ACStdLib/XML/Document.hpp>
+#include <ACStdLib/XML/TextNode.hpp>

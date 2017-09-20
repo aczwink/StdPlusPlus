@@ -33,10 +33,16 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
 	#Math
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/ObjectIntersection.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Degree.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix3x3.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix4x4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Radian.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector3.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector4.cpp
 
 	#Multimedia
@@ -71,6 +77,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.cpp
 
 	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 
 	#Network
@@ -99,8 +107,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
-        #Streams
+	#Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
@@ -136,5 +145,12 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
+
+	#XML
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/CXMLParser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/CXMLParser.hpp
 
 	PARENT_SCOPE)

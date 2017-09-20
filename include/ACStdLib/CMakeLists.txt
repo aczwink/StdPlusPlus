@@ -53,6 +53,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
 
 	#Math
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/ObjectIntersection.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Degree.hpp
@@ -104,7 +106,9 @@ set(SOURCE_FILES
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Mutex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.hpp
 
 	#Network
@@ -132,11 +136,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/SeekableInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/SeekableInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.hpp
 
 	#Time
@@ -165,6 +170,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
@@ -172,8 +178,14 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
 
+	#XML
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp
+
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h

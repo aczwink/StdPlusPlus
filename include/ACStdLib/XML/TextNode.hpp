@@ -18,45 +18,34 @@
  */
 #pragma once
 //Local
-#include "../Containers/CFIFOBuffer.h"
-#include "../Definitions.h"
-#include "ECompressionAlgorithm.h"
+#include "ANode.h"
+#include "../Containers/Strings/String.hpp"
 
 namespace ACStdLib
 {
-    //Forward declarations
-    class InputStream;
-    class AOutputStream;
-
-    namespace Compression
+    namespace XML
     {
-        class ACSTDLIB_API ADecompressor
+        class TextNode : public ANode
         {
-        protected:
-            //Members
-            InputStream &refInput;
-            CFIFOBuffer output;
-
-            //Abstract
-            virtual void DecompressBlock() = 0;
-
         public:
             //Constructor
-            inline ADecompressor(InputStream &refInput) : refInput(refInput)
+            inline TextNode(const String &refText)
             {
-                this->output.SetAllocationInterval(0);
-            }
-
-            //Destructor
-            virtual ~ADecompressor()
-            {
+                this->text = refText;
             }
 
             //Methods
-            void Decompress(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());
+            ENodeType GetType() const;
 
-            //Functions
-            static ADecompressor *Create(ECompressionAlgorithm algorithm, InputStream &refInput);
+            //Inline
+            inline const String &GetText() const
+            {
+                return this->text;
+            }
+
+        private:
+            //Members
+			String text;
         };
     }
 }

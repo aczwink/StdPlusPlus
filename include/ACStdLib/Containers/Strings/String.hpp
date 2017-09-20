@@ -30,16 +30,6 @@ namespace ACStdLib
 	 */
     class ACSTDLIB_API String
     {
-    private:
-        //Members
-        bool isUTF32;
-        byte storage[sizeof(UTF16String)];
-        union
-        {
-            UTF16String *pStr16;
-            CUTF32String *pStr32;
-        };
-
     public:
         //Constructors
         inline String()
@@ -232,10 +222,25 @@ namespace ACStdLib
             return UTF16String(this->pStr16->GetC_Str() + beginOffset, length);
         }
 
+		inline float64 ToFloat() const
+		{
+			return this->pStr16->ToFloat();
+		}
+
         inline String ToLowercase() const
         {
             return this->pStr16->ToLowercase();
         }
+
+    private:
+        //Members
+        bool isUTF32;
+        byte storage[sizeof(UTF16String)];
+        union
+        {
+            UTF16String *pStr16;
+            CUTF32String *pStr32;
+        };
     };
 
     inline String operator+(char left, const String &refRight)

@@ -19,32 +19,32 @@
 #pragma once
 //Local
 #include "ACStdLib/Streams/InputStream.hpp"
-#include "CElement.h"
+#include "Element.hpp"
 
 namespace ACStdLib
 {
     namespace XML
     {
-        class ACSTDLIB_API CDocument
+        class ACSTDLIB_API Document
         {
         private:
             //Members
-            CElement *pRootElement;
+            Element *pRootElement;
 
         public:
             //Constructor
-            CDocument();
+            Document();
 
             //Destructor
-            ~CDocument();
+            ~Document();
 
             //Inline
-            inline CElement &GetRootElement()
+            inline Element &GetRootElement()
             {
                 return *this->pRootElement;
             }
 
-            inline void SetRootElement(CElement *pElement)
+            inline void SetRootElement(Element *pElement)
             {
                 if (this->pRootElement)
                     delete this->pRootElement;
@@ -53,7 +53,7 @@ namespace ACStdLib
             }
 
             //Functions
-            static CDocument *Parse(AInputStream &refInput);
+            static Document *Parse(InputStream &refInput);
         };
     }
 }

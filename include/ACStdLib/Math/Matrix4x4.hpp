@@ -36,10 +36,6 @@ namespace ACStdLib
 
         class ACSTDLIB_API Matrix4x4
         {
-        private:
-            //Members
-            Vector4 columns[4];
-
         public:
             //Constructors
             inline Matrix4x4()
@@ -59,8 +55,8 @@ namespace ACStdLib
             //Operators
             Matrix4x4 operator*(float32 right) const;
             vec4f32 operator*(const vec4f32 &refRight) const;
+            Vector4 operator*(const Vector4 &rhs) const;
             Matrix4x4 operator*(const Matrix4x4 &refRight) const;
-            Matrix4x4 &operator*=(const Matrix4x4 &refRight);
 
             //Inline operators
             inline float32 &operator()(uint8 row, uint8 col)
@@ -91,6 +87,13 @@ namespace ACStdLib
                 return this->columns[col];
             }
 
+			inline Matrix4x4 &operator*=(const Matrix4x4 &refRight)
+			{
+				*this = *this * refRight;
+
+				return *this;
+			}
+
             //Methods
             Matrix4x4 Inverse() const;
             Matrix4x4 Transpose() const;
@@ -107,9 +110,10 @@ namespace ACStdLib
             static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
             static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
             static Matrix4x4 Translation(const Vector3 &refVector);
-        };
 
-        //Binary operators
-        ACSTDLIB_API Vector4 operator*(const Matrix4x4 &refLeft, const Vector4 &refRight);
+        private:
+            //Members
+            Vector4 columns[4];
+        };
     }
 }

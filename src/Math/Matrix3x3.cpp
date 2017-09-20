@@ -16,36 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class Header
+#include <ACStdLib/Math/Matrix3x3.hpp>
 //Local
-#include "InputStream.hpp"
+#include <ACStdLib/Math/Matrix4x4.hpp>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::Math;
 
-namespace ACStdLib
+//Constructor
+Matrix3x3::Matrix3x3(const Matrix4x4 &refMat)
 {
-    class ACSTDLIB_API CBufferedInputStream : public InputStream
-    {
-    private:
-        //Members
-        InputStream &refInput;
-        byte *pBuffer;
-        byte *pCurrent;
-        byte *pEnd;
-
-        //Methods
-        void FillBufferIfEmpty();
-
-    public:
-        //Constructor
-        CBufferedInputStream(InputStream &refInputStream, uint32 bufferSize = 4096);
-
-        //Destructor
-        ~CBufferedInputStream();
-
-        //Methods
-        bool IsAtEnd() const;
-        byte PeekByte();
-        byte ReadByte();
-        uint32 ReadBytes(void *pDestination, uint32 count);
-        uint32 Skip(uint32 nBytes);
-    };
+	this->columns[0] = refMat[0];
+	this->columns[1] = refMat[1];
+	this->columns[2] = refMat[2];
 }

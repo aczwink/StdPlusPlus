@@ -67,18 +67,6 @@ namespace ACStdLib
 
         class ACSTDLIB_API DeviceContext
         {
-        private:
-            //Members
-            void *systemHandle;
-            void *deviceState;
-            InputState *currentInputState;
-
-            //Methods
-            void BindOSContext() const;
-            void CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples);
-            void DestroyOSContext();
-            void UnbindOSContext();
-
         public:
             //Constructor
             DeviceContext(const UI::RenderTargetWidget &refView);
@@ -126,6 +114,19 @@ namespace ACStdLib
 			void SetUploadAlignment(uint8 value);
             void SetViewPort(uint16 width, uint16 height);
             void SwapBuffers();
+
+        private:
+            //Members
+            void *systemHandle;
+            void *deviceState;
+			uint32 screenFrameBufferId;
+            InputState *currentInputState;
+
+            //Methods
+            void BindOSContext() const;
+            void CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples);
+            void DestroyOSContext();
+            void UnbindOSContext();
         };
     }
 }

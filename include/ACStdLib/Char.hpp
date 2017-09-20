@@ -18,34 +18,19 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "ACStdLib/UI/Keyboard.hpp"
+#include "Definitions.h"
 
 namespace ACStdLib
 {
-    namespace UI
-    {
-        namespace Events
-        {
-            class CKeyEvent
-            {
-            private:
-                //Members
-                KeyCode keyCode;
+	inline bool IsWhiteSpaceChar(char c)
+	{
+		switch(c)
+		{
+			case '\t':
+			case ' ':
+				return true;
+		}
 
-            public:
-                //Constructor
-                inline CKeyEvent(KeyCode keyCode)
-                {
-                    this->keyCode = keyCode;
-                }
-
-                //Inline
-                inline KeyCode GetKeyCode() const
-                {
-                    return this->keyCode;
-                }
-            };
-        }
-    }
+		return IN_RANGE(c, 0xA, 0xD); //\n, \v, \f, \r
+	}
 }

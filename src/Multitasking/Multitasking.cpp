@@ -16,36 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "ANode.h"
-#include "../Containers/Strings/CUTF32String.h"
+//Corresponding header
+#include <ACStdLib/Multitasking/Multitasking.hpp>
+//Global
+#include <unistd.h>
 
-namespace ACStdLib
+//Global functions
+uint32 ACStdLib::GetHardwareConcurrency()
 {
-    namespace XML
-    {
-        class CTextNode : public ANode
-        {
-        private:
-            //Members
-            CUTF32String text;
-
-        public:
-            //Constructor
-            inline CTextNode(const CUTF32String &refText)
-            {
-                this->text = refText;
-            }
-
-            //Methods
-            ENodeType GetType() const;
-
-            //Inline
-            inline const CUTF32String &GetText() const
-            {
-                return this->text;
-            }
-        };
-    }
+	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
 }
