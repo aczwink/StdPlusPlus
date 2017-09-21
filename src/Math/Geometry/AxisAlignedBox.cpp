@@ -49,3 +49,20 @@ bool AxisAlignedBox::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir)
 
 	return MAX(tmin, 0) <= tmax;
 }
+
+void AxisAlignedBox::Merge(const Vector3 &refV)
+{
+	if(refV.x < this->min.x)
+		this->min.x = refV.x;
+	if(refV.y < this->min.y)
+		this->min.y = refV.y;
+	if(refV.z < this->min.z)
+		this->min.z = refV.z;
+
+	if(refV.x > this->max.x)
+		this->max.x = refV.x;
+	if(refV.y > this->max.y)
+		this->max.y = refV.y;
+	if(refV.z > this->max.z)
+		this->max.z = refV.z;
+}

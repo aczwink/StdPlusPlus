@@ -23,6 +23,8 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-D_DEBUG)
 
     set(CMAKE_DEBUG_POSTFIX "_d")
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+	#ok
 else()
     message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
 endif()

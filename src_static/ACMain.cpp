@@ -21,7 +21,9 @@
 #include "../include/ACStdLib/__InitAndShutdown.h"
 
 //Prototypes
+#ifdef _DEBUG
 void StartUserMemoryLogging();
+#endif
 
 //Global functions
 int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
@@ -31,7 +33,9 @@ int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
     exitCode = -1;
 
     InitACStdLib();
+#ifdef _DEBUG
     StartUserMemoryLogging();
+#endif
     try
     {
         exitCode = Main(refProgramName, refArgs);

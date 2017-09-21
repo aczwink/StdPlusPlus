@@ -128,7 +128,10 @@ StaticThreadPool::StaticThreadPool()
 
 	this->ppThreads = (StaticThreadPool::CWorkerThread **)MemAlloc(this->nThreads * sizeof(*this->ppThreads));
 	for(uint32 i = 0; i < this->nThreads; i++)
+	{
 		this->ppThreads[i] = new StaticThreadPool::CWorkerThread(this);
+		this->ppThreads[i]->Start();
+	}
 }
 
 //Destructor

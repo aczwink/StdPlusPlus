@@ -27,8 +27,6 @@
 //extended asserts
 //TODO: #13 - for the following line, alter Float<float64> to Float
 #define ASSERT_FLOATS_EQUAL(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){ACStdLib::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
-#define ERROR(msg) ASSERT_MSG(false, msg)
-#define NOT_IMPLEMENTED_ERROR ERROR("You've reached a point in the program that is not implemented.")
 
 namespace ACStdLib
 {
@@ -40,7 +38,12 @@ namespace ACStdLib
 	void ACSTDLIB_API AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
 }
 #else
-#define ASSERT(expression)
-#define ASSERT_MSG(expression, message)
-#define NOT_IMPLEMENTED_ERROR
+#define ASSERT(expression) {}
+#define ASSERT_MSG(expression, message) {}
+//extended asserts
+#define ASSERT_FLOATS_EQUAL(expect, got, epsilon)
 #endif
+
+//Errors
+#define ERROR(msg) ASSERT_MSG(false, msg)
+#define NOT_IMPLEMENTED_ERROR ERROR("You've reached a point in the program that is not implemented.")
