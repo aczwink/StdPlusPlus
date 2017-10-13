@@ -1,0 +1,29 @@
+/*!
+  \page "Coordinate Systems"
+
+  Coordinate systems in ACStdLib are consistent throughout the whole library.
+  The cartesian 2D and 3D coordinate systems used in the library are always right handed coordinate systems, which is the coordinate system usually used in mathematics.
+  This might be unintuitive in some cases because other conventions have elaborated.
+
+
+  When working with images, many programmers expect the point (0,0) to be on the top-left corner of the picture.
+  By increasing x one moves to the right and by increasing y one moves downwards.
+  In other words the image is stored "top-down" and the x-axis points to the right while the y-axis points downwards.
+
+  As mentioned before in ACStdLib we have a different coordinate system.
+  The y-axis grows upwards (!).
+  Therefore images appear to be flipped, which they actually aren't.
+
+  First of all, whether images are stored "top-down" or "bottom-up" is a totally different topic and it doesn't matter when speaking about coordinate systems.
+  These terms refer to where the scanlines are stored in memory.
+  You can represent both in any coordinate system.
+  Top-down simply means that the first scanline in memory is the top row in the image and following lines are lower rows.
+  Bottom-up then obviously means that the first row in memory is the bottom row in the image.
+
+  ACStdLib does not load images different from others.
+  No matter how ACStdLib stores images in memory, when loading images, it considers y = 0 to be the top row in the image.
+  The second will be y = 1 etc.
+  As the y-axis grows upwards in ACStdLib, this is why the standard "top-row" images will appear to be flipped.
+  However, this does not force you to work only with "bottom-up" images.
+  It is the task of the programmer when displaying images to make sure that they are oriented correctly.
+*/
