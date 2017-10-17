@@ -17,12 +17,12 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Controls/CDropDown.h"
+#include <ACStdLib/UI/Controls/CDropDown.h>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include "../../../../headers/UI/AWidgetContainer.h"
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;

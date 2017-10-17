@@ -17,11 +17,11 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/UI/Views/C3DView.h"
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 #include "../../../src/Rendering/OpenGL.h"
 #include "../UI/CFullAccessWidget.h"
 #include "OpenGL.h"
@@ -112,42 +112,42 @@ static HGLRC CreateGLContext(HDC hDC, uint8 nSamples)
 }
 
 //Private methods
-void CDeviceContext::BindOSContext() const
+void DeviceContext::BindOSContext() const
 {
-	if(this->pDeviceState != g_hCurrentGLCtx)
+	if(this->deviceState != g_hCurrentGLCtx)
 	{
-		wglMakeCurrent((HDC)this->pOSHandle, (HGLRC)this->pDeviceState);
-		g_hCurrentGLCtx = this->pDeviceState;
+		wglMakeCurrent((HDC)this->systemHandle, (HGLRC)this->deviceState);
+		g_hCurrentGLCtx = this->deviceState;
 	}
 }
 
-void CDeviceContext::CreateOSContext(const C3DView &refView, uint8 nSamples)
+void DeviceContext::CreateOSContext(const RenderTargetWidget &renderTargetWidget, uint8 nSamples)
 {
-	this->pOSHandle = GetDC((HWND)GET_HWND(&refView));
-	this->pDeviceState = CreateGLContext((HDC)this->pOSHandle, nSamples);
+	this->systemHandle = GetDC((HWND)GET_HWND(&renderTargetWidget));
+	this->deviceState = CreateGLContext((HDC)this->systemHandle, nSamples);
 	this->screenFrameBufferId = 0; //on windows we have the real screen frame buffer
 }
 
-void CDeviceContext::DestroyOSContext()
+void DeviceContext::DestroyOSContext()
 {
 	HWND hWnd;
 
-	hWnd = WindowFromDC((HDC)this->pOSHandle);
+	hWnd = WindowFromDC((HDC)this->systemHandle);
 	
-	wglDeleteContext((HGLRC)this->pDeviceState);
-	ReleaseDC(hWnd, (HDC)this->pOSHandle);
+	wglDeleteContext((HGLRC)this->deviceState);
+	ReleaseDC(hWnd, (HDC)this->systemHandle);
 }
 
-void CDeviceContext::UnbindOSContext()
+void DeviceContext::UnbindOSContext()
 {
 	wglMakeCurrent(nullptr, nullptr);
 	g_hCurrentGLCtx = nullptr;
 }
 
 //Public methods
-void CDeviceContext::SwapBuffers()
+void DeviceContext::SwapBuffers()
 {
 	this->BindOSContext();
 
-	::SwapBuffers((HDC)this->pOSHandle);
+	::SwapBuffers((HDC)this->systemHandle);
 }

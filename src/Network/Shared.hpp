@@ -16,9 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <ACStdLib/InternalCompilerFlags.h>
 //Global
+#ifdef _AC_OS_WINDOWS
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <basetsd.h>
+typedef SSIZE_T ssize_t;
+#else
+#error "hi"
 #include <netinet/in.h>
 #include <sys/socket.h>
+#endif
 //Local
 #include <ACStdLib/Network/NetAddress.hpp>
 //Namespaces

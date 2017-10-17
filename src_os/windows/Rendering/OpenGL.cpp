@@ -20,7 +20,7 @@
 #include <Windows.h>
 //Local
 #include "../../../src/Rendering/OpenGL.h"
-#include "../../../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 #include "../UI/Definitions.h"
 #include "OpenGL.h"
 

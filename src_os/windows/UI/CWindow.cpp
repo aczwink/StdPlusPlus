@@ -17,12 +17,12 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../../headers/UI/CWindow.h"
+#include <ACStdLib/UI/Window.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
-#include "../../../headers/UI/Menu/CMenuBar.h"
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 #include "../../../src/UI/Render Targets/IRenderTarget.h"
 #include "CDropTarget.h"
 #include "Definitions.h"

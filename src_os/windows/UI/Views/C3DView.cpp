@@ -17,11 +17,11 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Views/C3DView.h"
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../../headers/Rendering/CDeviceContext.h"
+#include <ACStdLib/Rendering/DeviceContext.hpp>
 #include "../CFullAccessWidget.h"
 #include "../Definitions.h"
 //Namespaces
@@ -29,8 +29,8 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Private methods
-void C3DView::CreateOSWindow()
+void RenderTargetWidget::CreateOSHandle()
 {
-	this->pOSHandle = CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->systemHandle = CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
 }

@@ -17,13 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Views/CTreeView.h"
+#include <ACStdLib/UI/Views/CTreeView.h>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include "../../../../headers/UI/AWidgetContainer.h"
-#include "../../../../headers/UI/Controllers/ATreeController.h"
+#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <ACStdLib/UI/Controllers/ATreeController.h>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;
@@ -32,10 +32,10 @@ using namespace ACStdLib::UI;
 //https://msdn.microsoft.com/en-us/library/windows/desktop/bb759988(v=vs.85).aspx
 
 //Local functions
-static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const CString &refText)
+static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *pNode, const String &refText)
 {
 	TVINSERTSTRUCTW tvis;
-	CUTF16String textUTF16;
+	UTF16String textUTF16;
 
 	textUTF16 = refText.GetUTF16();
 
@@ -72,22 +72,22 @@ static void AddNodes(HWND hWnd, HTREEITEM hItem, void *pNode, ATreeController &r
 //Eventhandlers
 void CTreeView::OnModelChanged()
 {
-	TreeView_DeleteAllItems((HWND)this->pOSHandle);
+	TreeView_DeleteAllItems((HWND)this->systemHandle);
 
 	if(this->pController)
 	{
-		AddNodes((HWND)this->pOSHandle, nullptr, nullptr, *this->pController);
+		AddNodes((HWND)this->systemHandle, nullptr, nullptr, *this->pController);
 	}
 }
 
 //Private methods
 void CTreeView::CreateOSWindow()
 {
-	this->pOSHandle = CreateWindowExA(WS_EX_CLIENTEDGE, WC_TREEVIEWA, nullptr, WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->systemHandle = CreateWindowExA(WS_EX_CLIENTEDGE, WC_TREEVIEWA, nullptr, WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
 
-	SendMessage((HWND)this->pOSHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-	TreeView_SetExtendedStyle((HWND)this->pOSHandle, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	TreeView_SetExtendedStyle((HWND)this->systemHandle, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
 }
 
 //Public methods
@@ -95,13 +95,13 @@ void *CTreeView::GetSelectedNode() const
 {
 	TVITEMW tvi;
 
-	tvi.hItem = TreeView_GetSelection((HWND)this->pOSHandle);
+	tvi.hItem = TreeView_GetSelection((HWND)this->systemHandle);
 	if(!tvi.hItem)
 		return nullptr;
 
 	tvi.mask = TVIF_PARAM;
 
-	SendMessage((HWND)this->pOSHandle, TVM_GETITEMW, 0, (LPARAM)&tvi);
+	SendMessage((HWND)this->systemHandle, TVM_GETITEMW, 0, (LPARAM)&tvi);
 
 	return (void *)tvi.lParam;
 }

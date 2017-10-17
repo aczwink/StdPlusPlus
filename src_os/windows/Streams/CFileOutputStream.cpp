@@ -17,30 +17,30 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include "../../../headers/Streams/CFileOutputStream.h"
+#include <ACStdLib/Streams/FileOutputStream.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
 //Constructor
-CFileOutputStream::CFileOutputStream(const CPath &refPath)
+FileOutputStream::FileOutputStream(const Path &refPath)
 {
-	CUTF16String fileNameUTF16(refPath.GetString().GetUTF16());
+	UTF16String fileNameUTF16(refPath.GetString().GetUTF16());
 
 	this->pFileHandle = CreateFileW((LPCWSTR)fileNameUTF16.GetC_Str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 }
 
 //Destructor
-CFileOutputStream::~CFileOutputStream()
+FileOutputStream::~FileOutputStream()
 {
 	CloseHandle(this->pFileHandle);
 }
 
 //Public methods
-uint64 CFileOutputStream::GetCurrentOffset() const
+uint64 FileOutputStream::GetCurrentOffset() const
 {
 	LARGE_INTEGER offset, result;
 
@@ -51,7 +51,7 @@ uint64 CFileOutputStream::GetCurrentOffset() const
 	return result.QuadPart;
 }
 
-void CFileOutputStream::SetCurrentOffset(uint64 offset)
+void FileOutputStream::SetCurrentOffset(uint64 offset)
 {
 	LARGE_INTEGER liOffset;
 
@@ -60,14 +60,14 @@ void CFileOutputStream::SetCurrentOffset(uint64 offset)
 	SetFilePointerEx(this->pFileHandle, liOffset, nullptr, FILE_BEGIN);
 }
 
-void CFileOutputStream::WriteByte(byte b)
+void FileOutputStream::WriteByte(byte b)
 {
 	DWORD nBytesWritten;
 
 	WriteFile(this->pFileHandle, &b, 1, &nBytesWritten, NULL);
 }
 
-uint32 CFileOutputStream::WriteBytes(const void *pSource, uint32 size)
+uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
 {
 	DWORD nBytesWritten;
 

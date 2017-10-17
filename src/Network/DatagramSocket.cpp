@@ -56,7 +56,7 @@ bool DatagramSocket::ReceivePacket(Datagram &datagram)
 
 	sockaddr senderAddress;
 	socklen_t addressSize;
-	ssize_t size = recvfrom(this->systemHandle.i32, datagram.GetBuffer(), datagram.GetBufferSize(), 0, &senderAddress, &addressSize);
+	ssize_t size = recvfrom(this->systemHandle.i32, (char *)datagram.GetBuffer(), datagram.GetBufferSize(), 0, &senderAddress, &addressSize);
 	if(size >= 0)
 	{
 		datagram.sender = ParseNativeAddress(&senderAddress, datagram.senderPort);

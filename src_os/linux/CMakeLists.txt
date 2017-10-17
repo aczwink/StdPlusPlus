@@ -14,6 +14,7 @@ set(SOURCE_FILES
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Mutex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 

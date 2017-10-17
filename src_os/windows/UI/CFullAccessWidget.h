@@ -17,20 +17,20 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include "../../../headers/UI/AWidget.h"
+#include <ACStdLib/UI/Widget.hpp>
 //Global
 #include <Windows.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-class CFullAccessWidget : public AWidget
+class CFullAccessWidget : public Widget
 {
 public:
 	//Inline
 	inline HWND GetHWND()
 	{
-		return (HWND)this->pOSHandle;
+		return (HWND)this->systemHandle;
 	}
 };
 

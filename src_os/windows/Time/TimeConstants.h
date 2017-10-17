@@ -19,7 +19,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/Definitions.h"
+#include <ACStdLib/Definitions.h>
 
 inline int64 FileTimeToMilliseconds(const FILETIME &refFT)
 {

@@ -17,19 +17,19 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include "../../../headers/Streams/CFileInputStream.h"
+#include <ACStdLib/Streams/FileInputStream.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
-#include "../../../headers/ErrorHandling/CFileNotFoundException.hpp"
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <ACStdLib/ErrorHandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace ACStdLib;
 
 //Constructor
-CFileInputStream::CFileInputStream(const CPath &refPath)
+FileInputStream::FileInputStream(const Path &refPath)
 {
-	CUTF16String fileNameUTF16(refPath.GetString().GetUTF16());
+	UTF16String fileNameUTF16(refPath.GetString().GetUTF16());
 
 	this->hitEnd = false;
 	this->pFileHandle = CreateFileW((LPCWSTR)fileNameUTF16.GetC_Str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -39,19 +39,19 @@ CFileInputStream::CFileInputStream(const CPath &refPath)
 		switch(GetLastError())
 		{
 		case ERROR_PATH_NOT_FOUND:
-			throw ErrorHandling::CFileNotFoundException(refPath);
+			throw ErrorHandling::FileNotFoundException(refPath);
 		}
 	}
 }
 
 //Destructor
-CFileInputStream::~CFileInputStream()
+FileInputStream::~FileInputStream()
 {
 	CloseHandle(this->pFileHandle);
 }
 
 //Public methods
-uint64 CFileInputStream::GetCurrentOffset() const
+uint64 FileInputStream::GetCurrentOffset() const
 {
 	LARGE_INTEGER offset, result;
 
@@ -62,12 +62,12 @@ uint64 CFileInputStream::GetCurrentOffset() const
 	return result.QuadPart;
 }
 
-uint64 CFileInputStream::GetRemainingBytes() const
+uint64 FileInputStream::GetRemainingBytes() const
 {
 	return this->GetSize() - this->GetCurrentOffset();
 }
 
-uint64 CFileInputStream::GetSize() const
+uint64 FileInputStream::GetSize() const
 {
 	uint64 offset;
 	LARGE_INTEGER moveOffset, size;
@@ -84,7 +84,7 @@ uint64 CFileInputStream::GetSize() const
 	return size.QuadPart;
 }
 
-byte CFileInputStream::ReadByte()
+byte FileInputStream::ReadByte()
 {
 	byte b;
 	DWORD nReadBytes;
@@ -95,7 +95,7 @@ byte CFileInputStream::ReadByte()
 	return b;
 }
 
-uint32 CFileInputStream::ReadBytes(void *pDestination, uint32 count)
+uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
 {
 	DWORD nReadBytes;
 
@@ -105,7 +105,7 @@ uint32 CFileInputStream::ReadBytes(void *pDestination, uint32 count)
 	return nReadBytes;
 }
 
-void CFileInputStream::SetCurrentOffset(uint64 offset)
+void FileInputStream::SetCurrentOffset(uint64 offset)
 {
 	LARGE_INTEGER liOffset;
 
@@ -114,7 +114,7 @@ void CFileInputStream::SetCurrentOffset(uint64 offset)
 	SetFilePointerEx(this->pFileHandle, liOffset, nullptr, FILE_BEGIN);
 }
 
-uint32 CFileInputStream::Skip(uint32 nBytes)
+uint32 FileInputStream::Skip(uint32 nBytes)
 {
 	uint64 currentOffset;
 	LARGE_INTEGER liOffset, newFilePointer;

@@ -17,13 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Controls/CPushButton.h"
+#include <ACStdLib/UI/Controls/PushButton.hpp>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include "../../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
-#include "../../../../headers/UI/AWidgetContainer.h"
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;
@@ -37,30 +37,30 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 //Private methods
 void PushButton::CreateOSHandle()
 {
-	this->pOSHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
 
-	SendMessage((HWND)this->pOSHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }
 
 //Public methods
-CSize CPushButton::GetSizeHint() const
+Size PushButton::GetSizeHint() const
 {
 	SIZE size;
 
 	//TODO: calc min width
 	//TODO: this seems to be working... dont known how it is with different fonts
 
-	Button_GetIdealSize((HWND)this->pOSHandle, &size);
+	Button_GetIdealSize((HWND)this->systemHandle, &size);
 	if(size.cy < 25)
 		size.cy = 25; //aesthetics
 
-	return CSize((uint16)size.cx, (uint16)size.cy);
+	return Size((uint16)size.cx, (uint16)size.cy);
 }
 
-void CPushButton::SetText(const CUTF8String &refText)
+void PushButton::SetText(const UTF8String &refText)
 {
-	CUTF16String text(refText);
+	UTF16String text(refText);
 
-	SetWindowTextW((HWND)this->pOSHandle, (LPCWSTR)text.GetC_Str());
+	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
 }

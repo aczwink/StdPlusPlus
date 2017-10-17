@@ -34,7 +34,7 @@ using namespace ACStdLib::Rendering;
 using namespace ACStdLib::UI;
 
 //Global variables
-uint32 g_currentTextureId = UINT32_MAX;
+uint32 g_currentTextureId = Natural<uint32>::Max();
 
 //Local functions
 static inline uint32 MapTestEffect(ETestEffect effect)

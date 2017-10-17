@@ -17,13 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Controls/CCheckBox.h"
+#include <ACStdLib/UI/Controls/CheckBox.hpp>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include "../../../../headers/Containers/Strings/UTF-16/CUTF16String.h"
-#include "../../../../headers/UI/AWidgetContainer.h"
+#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;
@@ -35,30 +35,30 @@ https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
 */
 
 //Constructor
-CCheckBox::CCheckBox(AWidgetContainer *pParent) : AWidget(pParent)
+CheckBox::CheckBox(WidgetContainer *pParent) : Widget(pParent)
 {
-	this->pOSHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
 
-	SendMessage((HWND)this->pOSHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 
-	this->sizingPolicy.SetHorizontalPolicy(CSizingPolicy::EPolicy::Minimum);
-	this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Fixed);
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 }
 
 //Public methods
-CSize CCheckBox::GetSizeHint() const
+Size CheckBox::GetSizeHint() const
 {
 	HFONT hFont;
 	HDC hDC;
 	SIZE s;
-	CSize size;
-	CUTF16String text;
+	Size size;
+	UTF16String text;
 
 	size.width = GetSystemMetrics(SM_CXMENUCHECK);
 	size.height = GetSystemMetrics(SM_CYMENUCHECK);
 
-	hDC = GetDC((HWND)this->pOSHandle);
+	hDC = GetDC((HWND)this->systemHandle);
 	hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
 	text = this->GetText();
@@ -66,7 +66,7 @@ CSize CCheckBox::GetSizeHint() const
 	SelectObject(hDC, hFont);
 	GetTextExtentPoint32W(hDC, (LPCWSTR)text.GetC_Str(), text.GetLength(), &s);
 
-	ReleaseDC((HWND)this->pOSHandle, hDC);
+	ReleaseDC((HWND)this->systemHandle, hDC);
 
 	size.width += (uint16)s.cx;
 	size.height += (uint16)s.cy;
@@ -74,24 +74,24 @@ CSize CCheckBox::GetSizeHint() const
 	return size;
 }
 
-CUTF8String CCheckBox::GetText() const
+UTF8String CheckBox::GetText() const
 {
 	uint16 buffer[1000]; //should be sufficient
 
 						 //length = SendMessageW((HWND)this->pOSHandle, WM_GETTEXTLENGTH, 0, 0);
-	SendMessageW((HWND)this->pOSHandle, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
+	SendMessageW((HWND)this->systemHandle, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
 
-	return CUTF16String(buffer);
+	return UTF16String(buffer);
 }
 
-bool CCheckBox::IsChecked() const
+bool CheckBox::IsChecked() const
 {
-	return SendMessage((HWND)this->pOSHandle, BM_GETCHECK, 0, 0) == BST_CHECKED;
+	return SendMessage((HWND)this->systemHandle, BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
-void CCheckBox::SetText(const CUTF8String &refText)
+void CheckBox::SetText(const UTF8String &refText)
 {
-	CUTF16String text(refText);
+	UTF16String text(refText);
 
-	SetWindowTextW((HWND)this->pOSHandle, (LPCWSTR)text.GetC_Str());
+	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
 }

@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../headers/UI/AWidget.h"
+#include <ACStdLib/UI/Widget.hpp>
 //Global
 #include <Windows.h>
 //Namespaces
@@ -28,35 +28,35 @@ using namespace ACStdLib::UI;
 extern bool g_ignoreMessage;
 
 //Private methods
-CSize AWidget::GetOSSize() const
+Size Widget::System_GetSize() const
 {
 	RECT rc;
 
-	GetWindowRect((HWND)this->pOSHandle, &rc);
+	GetWindowRect((HWND)this->systemHandle, &rc);
 
-	return CSize(rc.right - rc.left, rc.bottom - rc.top);
+	return Size(rc.right - rc.left, rc.bottom - rc.top);
 }
 
 void Widget::System_SetRect(const Rect &area)
 {
-	CPoint transformed;
+	Point transformed;
 
-	transformed = this->TransformToWindow(refArea.origin);
-	SetWindowPos((HWND)this->pOSHandle, HWND_TOP, transformed.x, transformed.y, refArea.width(), refArea.height(), 0);
+	transformed = this->TransformToWindow(area.origin);
+	SetWindowPos((HWND)this->systemHandle, HWND_TOP, transformed.x, transformed.y, area.width(), area.height(), 0);
 }
 
 //Proctected functions
-void AWidget::IgnoreEvent()
+void Widget::IgnoreEvent()
 {
 	g_ignoreMessage = true;
 }
 
 //Public methods
-void AWidget::Repaint()
+void Widget::Repaint()
 {
-	if(this->pOSHandle)
+	if(this->systemHandle)
 	{
-		InvalidateRect((HWND)this->pOSHandle, nullptr, false);
+		InvalidateRect((HWND)this->systemHandle, nullptr, false);
 	}
 	else
 	{
@@ -64,12 +64,12 @@ void AWidget::Repaint()
 	}
 }
 
-void AWidget::SetEnabled(bool enable)
+void Widget::SetEnabled(bool enable)
 {
-	EnableWindow((HWND)this->pOSHandle, enable);
+	EnableWindow((HWND)this->systemHandle, enable);
 }
 
-void AWidget::Show(bool visible)
+void Widget::Show(bool visible)
 {
-	ShowWindow((HWND)this->pOSHandle, visible ? SW_SHOW : SW_HIDE);
+	ShowWindow((HWND)this->systemHandle, visible ? SW_SHOW : SW_HIDE);
 }

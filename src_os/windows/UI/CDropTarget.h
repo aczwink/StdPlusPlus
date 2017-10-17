@@ -20,13 +20,13 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/UI/CWindow.h"
-#include "../../../headers/UI/Transfer/CFileTransfer.h"
+#include <ACStdLib/UI/Window.hpp>
+#include <ACStdLib/UI/Transfer/CFileTransfer.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-#include "../../../headers/Streams/CStdOut.h"
+#include <ACStdLib/Streams/CStdOut.h>
 
 namespace ACStdLib
 {

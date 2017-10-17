@@ -17,18 +17,18 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //corresponding header
-#include "../../headers/Debug.h"
+#include <ACStdLib/Debug.h>
 //Global
 #include <Windows.h>
 //Local
-#include "../../headers/Containers/Strings/CString.h"
-#include "../../headers/Containers/Strings/String.h"
+#include <ACStdLib/Containers/Strings/String.hpp>
+#include <ACStdLib/Containers/Strings/StringUtil.h>
 
 #ifdef _DEBUG
-void ACStdLib::AssertionFailed(const char *pContext, const CString &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-	CString message;
-	CUTF16String msg16;
+	String message;
+	UTF16String msg16;
 
 	message = "Expression: ";
 	message += pContext;

@@ -75,7 +75,8 @@ namespace ACStdLib
 
 			inline void RoundedRectangle(float64 x, float64 y, float64 width, float64 height, float64 radius)
 			{
-				constexpr float64 kappa = 4 * (sqrt(2) - 1) / 3; //for a 90° arc
+				constexpr float64 sqrt2 = 1.4142135381698608398437500;
+				constexpr float64 kappa = 4 * (sqrt2 - 1) / 3; //for a 90° arc
 
 				this->BeginPath();
 				this->MoveTo(x, y + radius);

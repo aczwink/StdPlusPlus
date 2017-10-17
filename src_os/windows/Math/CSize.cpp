@@ -17,16 +17,16 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../headers/Math/CSize.h"
+#include <ACStdLib/Math/Size.hpp>
 //Global
 #include <Windows.h>
 //Namespaces
 using namespace ACStdLib;
 
 //Public methods
-CSize CSize::GetScreenSize()
+Size Size::GetScreenSize()
 {
-	CSize size;
+	Size size;
 
 	size.width = GetSystemMetrics(SM_CXSCREEN);
 	size.height = GetSystemMetrics(SM_CYSCREEN);

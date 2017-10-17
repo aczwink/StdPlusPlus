@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../../headers/Memory.h"
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -86,16 +86,16 @@ CDefaultTerminalRenderTarget::~CDefaultTerminalRenderTarget()
 }
 
 //Public methods
-CSize CDefaultTerminalRenderTarget::GetSize() const
+Size CDefaultTerminalRenderTarget::GetSize() const
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 	GetConsoleScreenBufferInfo(THIS->hFrontBuffer, &csbi);
 
-	return CSize(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+	return Size(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
 }
 
-void CDefaultTerminalRenderTarget::OutputCodepointAt(const CPoint &refPoint, uint32 codePoint)
+void CDefaultTerminalRenderTarget::OutputCodepointAt(const Point &refPoint, uint32 codePoint)
 {
 	DWORD numberOfCharsWritten;
 	COORD coord;

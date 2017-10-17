@@ -17,17 +17,17 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Menu/CMenu.h"
+#include <ACStdLib/UI/Menu/CMenu.h>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../../headers/UI/CAction.hpp"
+#include <ACStdLib/UI/CAction.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-CMenu::CMenu(const CString &refText)
+CMenu::CMenu(const String &refText)
 {
 	this->pOSHandle = CreateMenu();
 }

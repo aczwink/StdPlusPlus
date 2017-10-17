@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../headers/UI/AWidgetContainer.h"
+#include <ACStdLib/UI/WidgetContainer.hpp>
 //Global
 #include <Windows.h>
 //Local
@@ -27,15 +27,15 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Public methods
-CRect AWidgetContainer::GetChildrenRect() const
+Rect WidgetContainer::GetChildrenRect() const
 {
 	RECT rc;
-	CRect result;
+	Rect result;
 
 	if(this->systemHandle)
 		return this->System_GetChildrenRect();
 
-	GetClientRect((HWND)this->pOSHandle, &rc);
+	GetClientRect((HWND)this->systemHandle, &rc);
 
 	result.width() = rc.right;
 	result.height() = rc.bottom;

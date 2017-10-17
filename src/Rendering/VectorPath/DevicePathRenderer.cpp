@@ -22,6 +22,7 @@
 #include <ACStdLib/Rendering/InputLayout.hpp>
 #include <ACStdLib/Streams/BufferInputStream.hpp>
 //Namespaces
+using namespace ACStdLib;
 using namespace ACStdLib::Rendering;
 //Definitions
 #define LOCATION_UNIFORM_VIEWSIZE 0

@@ -17,11 +17,11 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../../headers/UI/Menu/CMenuBar.h"
+#include <ACStdLib/UI/Menu/CMenuBar.h>
 //Global
 #include <Windows.h>
 //Local
-#include "../../../../headers/UI/Menu/CMenu.h"
+#include <ACStdLib/UI/Menu/CMenu.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

@@ -72,8 +72,10 @@ target_include_directories(ACStdLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-
 target_include_directories(ACStdLibTest PUBLIC "include")
+
+target_include_directories(ACStdLib PRIVATE "ext")
+target_include_directories(ACStdLib PRIVATE ${OpenCL_INCLUDE_DIRS})
 
 #link
 target_link_libraries(ACStdLib PRIVATE ${OpenCL_LIBRARIES})

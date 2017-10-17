@@ -20,16 +20,16 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../headers/UI/CEventQueue.h"
+#include <ACStdLib/UI/EventQueue.hpp>
 
-class CWinMessageEventQueue : public ACStdLib::UI::CEventQueue
+class CWinMessageEventQueue : public ACStdLib::UI::EventQueue
 {
 private:
 	//Functions
-	static void DispatchControlEvent(ACStdLib::UI::AWidget &refWidget, UINT notificationCode);
-	static void DispatchNotificationEvent(ACStdLib::UI::AWidget &refWidget, const NMHDR &refNmHdr);
+	static void DispatchControlEvent(ACStdLib::UI::Widget &refWidget, UINT notificationCode);
+	static void DispatchNotificationEvent(ACStdLib::UI::Widget &refWidget, const NMHDR &refNmHdr);
 	//Return value: true if message was processed, false if not.
-	static bool DispatchEvent(ACStdLib::UI::AWidget &refWidget, UINT message, WPARAM wParam, LPARAM lParam);
+	static bool DispatchEvent(ACStdLib::UI::Widget &refWidget, UINT message, WPARAM wParam, LPARAM lParam);
 public:
 	//Functions
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

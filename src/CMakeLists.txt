@@ -77,7 +77,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.cpp
 
 	#Multitasking
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 

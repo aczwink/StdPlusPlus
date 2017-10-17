@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "../../../headers/UI/CEventQueue.h"
+#include <ACStdLib/UI/EventQueue.hpp>
 //Global
 #include <Windows.h>
 //Namespaces
@@ -25,12 +25,12 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Public functions
-void CEventQueue::PostQuitEvent(int32 exitCode)
+void EventQueue::PostQuitEvent(int32 exitCode)
 {
 	PostQuitMessage(exitCode);
 }
 
-int32 CEventQueue::ProcessEvents()
+int32 EventQueue::ProcessEvents()
 {
 	MSG msg;
 
@@ -43,7 +43,7 @@ int32 CEventQueue::ProcessEvents()
 	return (int32)msg.wParam;
 }
 
-bool CEventQueue::ProcessPendingEvents(int32 &refExitCode)
+bool EventQueue::ProcessPendingEvents(int32 &refExitCode)
 {
 	MSG msg;
 

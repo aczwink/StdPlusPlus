@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include "../../../headers/Time/CTime.h"
+#include <ACStdLib/Time/Time.hpp>
 //Global
 #include <Windows.h>
 //Local
@@ -26,7 +26,7 @@
 using namespace ACStdLib;
 
 //Constructor
-CTime::CTime()
+Time::Time()
 {
 	FILETIME ft;
 	TIME_ZONE_INFORMATION timeZoneInfo;
@@ -38,7 +38,7 @@ CTime::CTime()
 	this->timeZoneBias = (int8)timeZoneInfo.Bias;
 }
 
-CTime::CTime(int64 timeStamp)
+Time::Time(int64 timeStamp)
 {
 	TIME_ZONE_INFORMATION timeZoneInfo;
 
