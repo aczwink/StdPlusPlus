@@ -20,6 +20,8 @@
 #include <ACStdLib/Compute/Program.hpp>
 //Global
 #include <CL/cl.h>
+//Local
+#include <ACStdLib/Containers/Strings/String.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Compute;
@@ -44,6 +46,8 @@ Program::~Program()
 Kernel Program::GetKernel(const ByteString &kernelName)
 {
 	cl_kernel kernel = clCreateKernel(THIS, kernelName.GetC_Str(), nullptr);
+
+	ASSERT_MSG(kernel, "The kernel '" + String(kernelName.GetC_Str()) + "' does not exist.");
 
 	return Kernel(kernel);
 }
