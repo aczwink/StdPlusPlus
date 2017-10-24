@@ -51,10 +51,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCr/YCbCr420Image.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBImage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBAImage.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCrImage.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AParser.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp

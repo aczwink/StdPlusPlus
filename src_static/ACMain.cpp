@@ -22,7 +22,7 @@
 
 //Prototypes
 #ifdef _DEBUG
-void StartUserMemoryLogging();
+ACSTDLIB_API void StartUserMemoryLogging();
 #endif
 
 //Global functions

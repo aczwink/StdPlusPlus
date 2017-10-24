@@ -34,16 +34,9 @@ WinAPI Documentation:
 https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
 */
 
-//Constructor
-CheckBox::CheckBox(WidgetContainer *pParent) : Widget(pParent)
+//Destructor
+CheckBox::~CheckBox()
 {
-	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
-
-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-
-	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 }
 
 //Public methods
@@ -61,7 +54,7 @@ Size CheckBox::GetSizeHint() const
 	hDC = GetDC((HWND)this->systemHandle);
 	hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
-	text = this->GetText();
+	text = this->GetText().GetUTF16();
 
 	SelectObject(hDC, hFont);
 	GetTextExtentPoint32W(hDC, (LPCWSTR)text.GetC_Str(), text.GetLength(), &s);
@@ -74,7 +67,7 @@ Size CheckBox::GetSizeHint() const
 	return size;
 }
 
-UTF8String CheckBox::GetText() const
+String CheckBox::GetText() const
 {
 	uint16 buffer[1000]; //should be sufficient
 
@@ -89,9 +82,18 @@ bool CheckBox::IsChecked() const
 	return SendMessage((HWND)this->systemHandle, BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
-void CheckBox::SetText(const UTF8String &refText)
+void CheckBox::SetText(const String &refText)
 {
-	UTF16String text(refText);
+	const UTF16String &text = refText.GetUTF16();
 
 	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
+}
+
+//Private methods
+void CheckBox::System_CreateHandle()
+{
+	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
+
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }

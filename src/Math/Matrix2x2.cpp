@@ -22,6 +22,13 @@
 using namespace ACStdLib;
 using namespace ACStdLib::Math;
 
+//Operators
+Matrix2x2 Matrix2x2::operator*(const Matrix2x2 &refRight) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Matrix2x2();
+}
+
 //Class functions
 Matrix2x2 Matrix2x2::Identity()
 {
@@ -31,4 +38,10 @@ Matrix2x2 Matrix2x2::Identity()
 	identity(1, 1) = 1;
 
 	return identity;
+}
+
+Matrix2x2 Matrix2x2::Scale(float32 scaleX, float32 scaleY)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Matrix2x2();
 }

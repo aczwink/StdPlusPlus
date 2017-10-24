@@ -17,11 +17,27 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
+#include <ACStdLib/UI/Controls/RadioButton.hpp>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+
+//Destructor
+RadioButton::~RadioButton()
+{
+}
+
+//Public methods
+Size RadioButton::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR;
+	return Size();
+}
+
+//Private methods
+void RadioButton::System_CreateHandle()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

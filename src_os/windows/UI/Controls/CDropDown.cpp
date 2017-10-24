@@ -34,47 +34,47 @@ https://msdn.microsoft.com/en-us/library/windows/desktop/bb775792(v=vs.85).aspx
 */
 
 //Constructor
-CDropDown::CDropDown(AWidgetContainer *pParent) : AWidget(pParent)
+CDropDown::CDropDown(WidgetContainer *pParent) : Widget(pParent)
 {
-	this->pOSHandle = CreateWindowExA(0, WC_COMBOBOXA, nullptr, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->pOSHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->systemHandle = CreateWindowExA(0, WC_COMBOBOXA, nullptr, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
 
-	SendMessage((HWND)this->pOSHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 
-	this->sizingPolicy.SetVerticalPolicy(CSizingPolicy::EPolicy::Fixed);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 }
 
 //Public methods
-uint32 CDropDown::AddItem(const CString &refText)
+uint32 CDropDown::AddItem(const String &refText)
 {
-	CUTF16String textUTF16;
+	UTF16String textUTF16;
 
 	textUTF16 = refText.GetUTF16();
-	return (uint32)SendMessageW((HWND)this->pOSHandle, CB_ADDSTRING, 0, (LPARAM)textUTF16.GetC_Str());
+	return (uint32)SendMessageW((HWND)this->systemHandle, CB_ADDSTRING, 0, (LPARAM)textUTF16.GetC_Str());
 }
 
 void CDropDown::Clear()
 {
-	SendMessage((HWND)this->pOSHandle, CB_RESETCONTENT, 0, 0);
+	SendMessage((HWND)this->systemHandle, CB_RESETCONTENT, 0, 0);
 }
 
 uint32 CDropDown::GetNumberOfItems() const
 {
-	return (uint32)SendMessage((HWND)this->pOSHandle, CB_GETCOUNT, 0, 0);
+	return (uint32)SendMessage((HWND)this->systemHandle, CB_GETCOUNT, 0, 0);
 }
 
 uint16 CDropDown::GetSelectedIndex() const
 {
 	int32 selection;
 
-	selection = SendMessage((HWND)this->pOSHandle, CB_GETCURSEL, 0, 0);
+	selection = SendMessage((HWND)this->systemHandle, CB_GETCURSEL, 0, 0);
 	if(selection == CB_ERR)
 		return UINT16_MAX;
 
 	return (uint16)selection;
 }
 
-CSize CDropDown::GetSizeHint() const
+Size CDropDown::GetSizeHint() const
 {
 	uint16 x;
 	uint32 n, i;
@@ -86,7 +86,7 @@ CSize CDropDown::GetSizeHint() const
 	//TODO: this seems to be working... dont known how it is with different fonts
 	//do this correctly
 
-	hDC = GetDC((HWND)this->pOSHandle);
+	hDC = GetDC((HWND)this->systemHandle);
 	hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 	SelectObject(hDC, hFont);
 
@@ -94,28 +94,28 @@ CSize CDropDown::GetSizeHint() const
 	n = this->GetNumberOfItems();
 	for(i = 0; i < n; i++)
 	{
-		SendMessageW((HWND)this->pOSHandle, CB_GETLBTEXT, i, (LPARAM)buffer);
+		SendMessageW((HWND)this->systemHandle, CB_GETLBTEXT, i, (LPARAM)buffer);
 		GetTextExtentPoint32W(hDC, buffer, GetStringLength(buffer), &size);
 		if(size.cx > x)
 			x = (uint16)size.cx;
 	}
 
-	ReleaseDC((HWND)this->pOSHandle, hDC);
+	ReleaseDC((HWND)this->systemHandle, hDC);
 
 	x += 10; //add some spacing left and right
 
-	return CSize(x, 21);
+	return Size(x, 21);
 }
 
 void CDropDown::Select(int32 index)
 {
-	SendMessage((HWND)this->pOSHandle, CB_SETCURSEL, index, 0);
+	SendMessage((HWND)this->systemHandle, CB_SETCURSEL, index, 0);
 }
 
-void CDropDown::SetHint(const CString &refText)
+void CDropDown::SetHint(const String &refText)
 {
-	CUTF16String textUTF16;
+	UTF16String textUTF16;
 
 	textUTF16 = refText.GetUTF16();
-	SendMessageW((HWND)this->pOSHandle, CB_SETCUEBANNER, 0, (LPARAM)textUTF16.GetC_Str());
+	SendMessageW((HWND)this->systemHandle, CB_SETCUEBANNER, 0, (LPARAM)textUTF16.GetC_Str());
 }

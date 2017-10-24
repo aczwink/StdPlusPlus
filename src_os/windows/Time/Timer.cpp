@@ -17,11 +17,17 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
-//Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Time/Timer.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+
+//Public methods
+void Timer::OneShot(uint64 timeOut_usec)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void Timer::Stop()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

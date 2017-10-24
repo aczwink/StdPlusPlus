@@ -17,11 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
-//Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Multimedia/Images/RGBAImage.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+using namespace ACStdLib::Multimedia;
+
+//Public methods
+ColorSpace RGBAImage::GetColorSpace() const
+{
+	return ColorSpace::RGBA;
+}

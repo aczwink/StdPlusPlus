@@ -31,91 +31,91 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Eventhandlers
-void CWindow::OnPaint()
+void Window::OnPaint()
 {
-	if(this->pOSHandle)
+	if(this->systemHandle)
 	{
 		HBRUSH hBrush;
 		PAINTSTRUCT ps;
 
-		BeginPaint((HWND)this->pOSHandle, &ps);
+		BeginPaint((HWND)this->systemHandle, &ps);
 		hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
 
 		FillRect(ps.hdc, &ps.rcPaint, hBrush);
 
-		EndPaint((HWND)this->pOSHandle, &ps);
+		EndPaint((HWND)this->systemHandle, &ps);
 	}
 	else
 	{
-		AWidgetContainer::OnPaint();
+		WidgetContainer::OnPaint();
 
 		GetRenderTarget(this->GetRenderMode()).Present();
 	}
 }
 
 //Private methods
-void CWindow::CreateOSWindow(const CRect &refRect)
+void Window::CreateOSWindow(const Rect &refRect)
 {
-    this->pOSHandle = (void *)CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
+    this->systemHandle = (void *)CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
 }
 
-void CWindow::DestroyOSWindow()
+void Window::DestroyOSWindow()
 {
-	DestroyWindow((HWND)this->pOSHandle);
+	DestroyWindow((HWND)this->systemHandle);
 }
 
-void CWindow::MenuBarChangeOS()
+void Window::MenuBarChangeOS()
 {
 	MENUINFO mi;
 
-	::SetMenu((HWND)this->pOSHandle, (HMENU)this->pMenuBar->pOSHandle);
+	::SetMenu((HWND)this->systemHandle, (HMENU)this->pMenuBar->pOSHandle);
 
 	//bind hWnd to hMenu
 	mi.cbSize = sizeof(mi);
 	mi.fMask = MIM_MENUDATA;
-	mi.dwMenuData = (ULONG_PTR)this->pOSHandle;
+	mi.dwMenuData = (ULONG_PTR)this->systemHandle;
 
 	SetMenuInfo((HMENU)this->pMenuBar->pOSHandle, &mi);
 }
 
 //Public methods
-void CWindow::EnableDrop()
+void Window::EnableDrop()
 {
 	if(!this->pOSDropTarget)
 	{
 		this->pOSDropTarget = new CDropTarget(this);
-		RegisterDragDrop((HWND)this->pOSHandle, this->pOSDropTarget);
+		RegisterDragDrop((HWND)this->systemHandle, this->pOSDropTarget);
 	}
 }
 
-void CWindow::Maximize()
+void Window::Maximize()
 {
-	ShowWindow((HWND)this->pOSHandle, SW_MAXIMIZE);
+	ShowWindow((HWND)this->systemHandle, SW_MAXIMIZE);
 }
 
-void CWindow::SetTitle(const CUTF8String &refTitle)
+void Window::SetTitle(const String &refTitle)
 {
-	CUTF16String titleUTF16(refTitle);
+	const UTF16String &titleUTF16 = (refTitle.GetUTF16());
 
-	SendMessageW((HWND)this->pOSHandle, WM_SETTEXT, 0, (LPARAM)titleUTF16.GetC_Str());
+	SendMessageW((HWND)this->systemHandle, WM_SETTEXT, 0, (LPARAM)titleUTF16.GetC_Str());
 }
 
-void CWindow::ShowErrorBox(const CString &refTitle, const CString &refMessage)
+void Window::ShowErrorBox(const String &refTitle, const String &refMessage)
 {
-	CUTF16String title, message;
+	UTF16String title, message;
 
 	title = refTitle.GetUTF16();
 	message = refMessage.GetUTF16();
 
-	MessageBoxW((HWND)this->pOSHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONERROR);
+	MessageBoxW((HWND)this->systemHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONERROR);
 }
 
-void CWindow::ShowInformationBox(const CString &refTitle, const CString &refMessage)
+void Window::ShowInformationBox(const String &refTitle, const String &refMessage)
 {
-	CUTF16String title, message;
+	UTF16String title, message;
 
 	title = refTitle.GetUTF16();
 	message = refMessage.GetUTF16();
 
-	MessageBoxW((HWND)this->pOSHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONINFORMATION);
+	MessageBoxW((HWND)this->systemHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONINFORMATION);
 }

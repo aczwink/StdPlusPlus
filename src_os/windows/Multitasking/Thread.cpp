@@ -17,11 +17,26 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <ACStdLib/Multitasking/Thread.hpp>
 //Global
-#include <Windows.h>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Function.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+
+//Destructor
+Thread::~Thread()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+//Public methods
+void Thread::Join()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+void Thread::Start()
+{
+	NOT_IMPLEMENTED_ERROR;
+}

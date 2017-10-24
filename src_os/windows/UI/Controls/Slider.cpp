@@ -17,11 +17,26 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
-//Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/UI/Controls/Slider.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+
+//Destructor
+Slider::~Slider()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+//Public methods
+Size Slider::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Size();
+}
+
+//Private methods
+void Slider::System_CreateHandle()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

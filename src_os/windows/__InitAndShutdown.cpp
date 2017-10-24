@@ -16,12 +16,18 @@
 * You should have received a copy of the GNU General Public License
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
 //Global
-#include <Windows.h>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Debug.h>
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+
+//Global functions
+void InitACStdLib_Platform()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+void ShutdownACStdLib_Platform()
+{
+	NOT_IMPLEMENTED_ERROR;
+}

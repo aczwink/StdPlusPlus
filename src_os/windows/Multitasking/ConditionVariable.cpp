@@ -17,11 +17,42 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <ACStdLib/Multitasking/ConditionVariable.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Memory.h>
+#include <ACStdLib/Multitasking/Mutex.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+//Definitions
+#define THIS ((CONDITION_VARIABLE *)this->systemHandle)
+
+//Constructor
+ConditionVariable::ConditionVariable()
+{
+	this->systemHandle = MemAlloc(sizeof(CONDITION_VARIABLE));
+	InitializeConditionVariable(THIS);
+}
+
+//Destructor
+ConditionVariable::~ConditionVariable()
+{
+	MemFree(this->systemHandle);
+}
+
+//Public methods
+void ConditionVariable::Broadcast()
+{
+	WakeAllConditionVariable(THIS);
+}
+
+void ConditionVariable::Signal()
+{
+	WakeConditionVariable(THIS);
+}
+
+void ConditionVariable::Wait(Mutex &mutex)
+{
+	SleepConditionVariableCS(THIS, (CRITICAL_SECTION *)mutex.systemHandle, INFINITE);
+}

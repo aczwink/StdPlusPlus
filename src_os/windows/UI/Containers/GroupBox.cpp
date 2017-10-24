@@ -17,82 +17,34 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/EventQueue.hpp>
-//Global
-#include <Windows.h>
+#include <ACStdLib/UI/Containers/GroupBox.hpp>
+//Local
+#include <ACStdLib/UI/Layouts/GridLayout.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-//Constructor
-EventQueue::EventQueue()
-{
-	NOT_IMPLEMENTED_ERROR;
-}
-
 //Destructor
-EventQueue::~EventQueue()
-{
-	NOT_IMPLEMENTED_ERROR;
-}
-
-//Private methods
-void EventQueue::DispatchSystemEvents()
+GroupBox::~GroupBox()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint64 EventQueue::QueryMonotonicClock()
-{
-	NOT_IMPLEMENTED_ERROR;
-	return 0;
-}
-
-void EventQueue::WaitForEvents(uint64 minWaitTime_usec)
+//Private methods
+void GroupBox::CreateOSHandle()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 //Public methods
-/*
-void EventQueue::PostQuitEvent(int32 exitCode)
+Rect GroupBox::GetChildrenRect() const
 {
-	PostQuitMessage(exitCode);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Rect();
 }
 
-bool EventQueue::ProcessEvents(bool block)
+Size GroupBox::GetSizeHint() const
 {
-	MSG msg;
-
-	if (block)
-	{
-		while (GetMessage(&msg, NULL, 0, 0) > 0)
-		{
-			//TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
-	else
-	{
-	}
-
-	return false;
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Size();
 }
-
-bool EventQueue::ProcessPendingEvents(int32 &refExitCode)
-{
-	MSG msg;
-
-	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	{
-		if(msg.message == WM_QUIT)
-		{
-			refExitCode = (int32)msg.wParam;
-			return false;
-		}
-
-		DispatchMessage(&msg);
-	}
-
-	return true;
-}*/

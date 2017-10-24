@@ -66,3 +66,9 @@ void AxisAlignedBox::Merge(const Vector3 &refV)
 	if(refV.z > this->max.z)
 		this->max.z = refV.z;
 }
+
+float32 AxisAlignedBox::SquaredDistanceTo(const vec4f32 &refPoint) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
+}

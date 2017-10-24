@@ -17,11 +17,35 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
-//Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Multimedia/AParser.h>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+using namespace ACStdLib::Multimedia;
+
+//Destructor
+AParser::~AParser()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+//Public methods
+void AParser::Reset()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+//Protected methods
+void AParser::AddToFrameBuffer(const Packet &refPacket)
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+void AParser::AddToFrameBuffer(const void *pData, uint32 size)
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+void AParser::ReadyFrameBuffer(uint32 nOverreadBytes)
+{
+	NOT_IMPLEMENTED_ERROR;
+}

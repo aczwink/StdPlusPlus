@@ -17,11 +17,28 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
+#include <ACStdLib/UI/Controls/SpinBox.hpp>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Integer.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+
+//Destructor
+SpinBox::~SpinBox()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+//Public methods
+Size SpinBox::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Size();
+}
+
+//Private methods
+void SpinBox::System_CreateHandle()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

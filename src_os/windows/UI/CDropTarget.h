@@ -37,7 +37,7 @@ namespace ACStdLib
 		private:
 			//Members
 			uint32 referenceCounter;
-			CWindow *pWnd;
+			Window *pWnd;
 			ITransfer *pTransfer;
 
 			//Inline
@@ -89,15 +89,15 @@ namespace ACStdLib
 				uint32 nFiles;
 				wchar_t buffer[4096];
 				CFileTransfer *pFileTransfer;
-				CString fileName;
+				String fileName;
 
 				pFileTransfer = new CFileTransfer;
 
-				nFiles = DragQueryFileW(hDrop, UINT32_MAX, nullptr, 0);
+				nFiles = DragQueryFileW(hDrop, Natural<uint32>::Max(), nullptr, 0);
 				for(uint32 i = 0; i < nFiles; i++)
 				{
 					DragQueryFileW(hDrop, i, buffer, sizeof(buffer) / sizeof(buffer[0]));
-					fileName = CUTF16String((uint16 *)buffer);
+					fileName = UTF16String((uint16 *)buffer);
 
 					pFileTransfer->files.InsertTail(fileName);
 				}
@@ -107,7 +107,7 @@ namespace ACStdLib
 
 		public:
 			//Constructor
-			inline CDropTarget(CWindow *pWnd)
+			inline CDropTarget(Window *pWnd)
 			{
 				OleInitialize(nullptr);
 				this->referenceCounter = 1;

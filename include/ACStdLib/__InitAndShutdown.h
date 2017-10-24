@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Local
+#include "Definitions.h"
 
-void InitACStdLib();
-void ShutdownACStdLib();
+ACSTDLIB_API void InitACStdLib();
+ACSTDLIB_API void ShutdownACStdLib();

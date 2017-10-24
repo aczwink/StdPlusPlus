@@ -481,7 +481,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     return pMem;
 }
 
-void StartUserMemoryLogging()
+ACSTDLIB_API void StartUserMemoryLogging()
 {
     g_seqNumberUser = g_seqNumber;
 }

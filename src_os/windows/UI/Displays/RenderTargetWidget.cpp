@@ -17,11 +17,12 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
-//Global
-#include <Windows.h>
-//Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+
+void RenderTargetWidget::System_Destroy()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

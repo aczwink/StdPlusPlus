@@ -16,12 +16,15 @@
 * You should have received a copy of the GNU General Public License
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
+//Corresponding header
+#include <ACStdLib/Multitasking/Multitasking.hpp>
 //Global
-#include <Windows.h>
 //Local
-#include "CFullAccessWidget.h"
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+#include <ACStdLib/Debug.h>
+
+//Global functions
+uint32 ACStdLib::GetHardwareConcurrency()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
+}

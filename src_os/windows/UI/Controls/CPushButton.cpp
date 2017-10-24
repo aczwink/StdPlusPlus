@@ -34,6 +34,11 @@ WinAPI Documentation:
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 */
 
+//Destructor
+PushButton::~PushButton()
+{
+}
+
 //Private methods
 void PushButton::CreateOSHandle()
 {
@@ -58,9 +63,9 @@ Size PushButton::GetSizeHint() const
 	return Size((uint16)size.cx, (uint16)size.cy);
 }
 
-void PushButton::SetText(const UTF8String &refText)
+void PushButton::SetText(const String &refText)
 {
-	UTF16String text(refText);
+	const UTF16String &text = refText.GetUTF16();
 
 	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
 }

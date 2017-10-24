@@ -17,11 +17,37 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <ACStdLib/Multitasking/Mutex.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include "CFullAccessWidget.h"
+#include <ACStdLib/Memory.h>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
+//Definitions
+#define THIS ((CRITICAL_SECTION *)this->systemHandle)
+
+//Constructor
+Mutex::Mutex()
+{
+	this->systemHandle = MemAlloc(sizeof(CRITICAL_SECTION));
+	InitializeCriticalSection(THIS);
+}
+
+//Destructor
+Mutex::~Mutex()
+{
+	DeleteCriticalSection(THIS);
+	MemFree(this->systemHandle);
+}
+
+//Public methods
+void Mutex::Lock()
+{
+	EnterCriticalSection(THIS);
+}
+
+void Mutex::Unlock()
+{
+	LeaveCriticalSection(THIS);
+}
