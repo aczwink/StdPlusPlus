@@ -20,7 +20,7 @@
 //General
 #include <ACStdLib/__InitAndShutdown.h>
 #include <ACStdLib/Function.hpp>
-#include <ACStdLib/CIniFile.h>
+#include <ACStdLib/ConfigurationFile.hpp>
 #include <ACStdLib/Tuple.hpp>
 #include <ACStdLib/Float.hpp>
 #include <ACStdLib/Integer.hpp>

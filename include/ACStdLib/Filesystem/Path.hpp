@@ -21,37 +21,37 @@
 #include "ACStdLib/Containers/Strings/String.hpp"
 #include "ACStdLib/Time/Time.hpp"
 
-/*
-Naming conventions:
-	For path "C:/bla/bli/blub.txt"
-
-	root path: "C:/"
-	parent path: "C:/bla/bli"
-	name: "blub.txt"
-	title: "blub"
-	extension: "txt"
-
-	-----------------------------
-	For path "C:/bla/bli/blub"
-
-	root path: C:/
-	parent path: C:/bla/bli
-	name: "blub"
-	title: "blub"
-	extension: ""
-
-	-----------------------------
-	For path "../blub"
-
-	root path: ????????????????????????????UNDEFINED??????????????????????????
-	parent path: ????????????????????????????UNDEFINED??????????????????????????
-	name: "blub"
-*/
 namespace ACStdLib
 {
     //Forward declarations
     class PathIterator;
 
+	/**
+	 * Represents a path on the local file system.
+	 * As separator, this class always uses '/' no matter which underlying file system or operating system is used.
+	 * Path pointing to files are called "file paths" and paths pointing to directories are called "directory paths".
+	 *
+	 * To understand the anatomy of a path, lets look at an example:
+	 * Let path be: "C:/bla/bli/blub.txt"
+	 *
+	 * Then the "root" path is: "C:/"
+	 * The "parent" path is: "C:/bla/bli" (i.e. the directory in this case)
+	 * The "name" of the path is: "blub.txt"
+	 * The "title" of the path is: "blub"
+	 * and the "extension" is: "txt"
+	 * -----------------------------
+	 * Other examples:
+	 *
+	 * For path "/bla/bli/blub"
+	 *
+	 * root: /
+	 * parent: /bla/bli
+	 * name: "blub"
+	 * title: "blub"
+	 * extension: ""
+	 *
+	 * TODO: example for a relative path
+	 */
     class ACSTDLIB_API Path
     {
     public:

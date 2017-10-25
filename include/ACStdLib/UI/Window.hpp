@@ -81,7 +81,7 @@ namespace ACStdLib
             void SetMenuBar(CMenuBar *pMenuBar);
             void SetTitle(const String &title);
             void ShowErrorBox(const String &title, const String &message);
-            void ShowInformationBox(const String &refTitle, const String &refMessage);
+            void ShowInformationBox(const String &title, const String &message);
             void SwitchFullscreen(bool state);
 
             //Inline

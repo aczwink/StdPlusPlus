@@ -28,23 +28,16 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CIniFile
+    /**
+     * A configuration file with sections and key-value pairs like INI or many other cfg files.
+     */
+    class ACSTDLIB_API ConfigurationFile
     {
-    private:
-        //Members
-        bool readOnly;
-        Path path;
-        Map<String, Map<String, String>> sections;
-        //Methods
-        String ReadKey(InputStream &refInput);
-        String ReadSectionTitle(InputStream &refInput);
-        void ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput);
-        String ReadValue(InputStream &refInput);
     public:
         //Constructor
-        CIniFile(const Path &refPath, bool readOnly = false);
+        ConfigurationFile(const Path &refPath, bool readOnly = false);
         //Destructor
-        ~CIniFile();
+        ~ConfigurationFile();
 
         //Inline
         inline bool ContainsSection(const String &refSectionName)
@@ -86,5 +79,16 @@ namespace ACStdLib
         {
             this->sections[refSectionName][refKey] = ToString(value);
         }
+
+	private:
+		//Members
+		bool readOnly;
+		Path path;
+		Map<String, Map<String, String>> sections;
+		//Methods
+		String ReadKey(InputStream &refInput);
+		String ReadSectionTitle(InputStream &refInput);
+		void ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput);
+		String ReadValue(InputStream &refInput);
     };
 }

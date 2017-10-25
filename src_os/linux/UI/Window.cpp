@@ -87,3 +87,16 @@ void Window::ShowErrorBox(const String &title, const String &message)
 
 	gtk_widget_destroy(widget);
 }
+
+void Window::ShowInformationBox(const String &title, const String &message)
+{
+	UTF8String messageUTF8 = message.GetUTF16();
+	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(THIS->widget), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, (const gchar *) messageUTF8.GetC_Str());
+
+	UTF8String titleUTF8 = title.GetUTF16();
+	gtk_window_set_title(GTK_WINDOW(widget), (const gchar *) titleUTF8.GetC_Str());
+
+	gtk_dialog_run(GTK_DIALOG(widget));
+
+	gtk_widget_destroy(widget);
+}

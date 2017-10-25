@@ -34,100 +34,6 @@ namespace ACStdLib
         typedef MapNode<KeyType, ValueType> Node;
 		typedef MapIterator<KeyType, ValueType> Iterator;
         typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
-    private:
-        //Members
-        Node *root;
-
-        //Methods
-        Node *FindNode(const KeyType &refKey) const
-        {
-            Node *pNode;
-
-            pNode = this->root;
-            while(pNode)
-            {
-                if(refKey < pNode->keyValuePair.key)
-                    pNode = (Node *)pNode->pLeft;
-                else if(refKey > pNode->keyValuePair.key)
-                    pNode = (Node *)pNode->pRight;
-                else
-                    break;
-            }
-
-            return pNode;
-        }
-
-        /*
-         * The implementation of this method is a modified version of a piece of code of the following work,
-         * which was released under GNU Lesser General Public License
-         * as published by the Free Software Foundation version 2.1:
-         *
-         * avltree - Implements an AVL tree with parent pointers.
-         *
-         * Copyright (C) 2010-2014 Franck Bui-Huu <fbuihuu@gmail.com>
-         *
-         * https://github.com/fbuihuu/libtree
-         */
-        void Recolorize(Node *pNode)
-        {
-            Node *pParent, *pGrandParent, *pUncle;
-
-            while((pParent = (Node *)pNode->pParent) && pParent->IsRed())
-            {
-                pGrandParent = (Node *)pParent->pParent;
-
-                if(pParent == pGrandParent->pLeft)
-                {
-                    pUncle = (Node *)pGrandParent->pRight;
-
-                    if(pUncle && pUncle->IsRed())
-                    {
-                        pParent->isBlack = true;
-                        pUncle->isBlack = true;
-                        pGrandParent->isBlack = false;
-                        pNode = pGrandParent;
-                    }
-                    else
-                    {
-                        if(pNode == pParent->pRight)
-                        {
-                            pParent->RotateLeft();
-                            pNode = pParent;
-                            pParent = (Node *)pNode->pParent;
-                        }
-
-                        pParent->isBlack = true;
-                        pGrandParent->isBlack = false;
-                        pGrandParent->RotateRight();
-                    }
-                }
-                else
-                {
-                    pUncle = (Node *)pGrandParent->pLeft;
-
-                    if(pUncle && pUncle->IsRed())
-                    {
-                        pParent->isBlack = true;
-                        pUncle->isBlack = true;
-                        pGrandParent->isBlack = false;
-                        pNode = pGrandParent;
-                    }
-                    else
-                    {
-                        if(pNode == pParent->pLeft)
-                        {
-                            pParent->RotateRight();
-                            pNode = pParent;
-                            pParent = (Node *)pNode->pParent;
-                        }
-
-                        pParent->isBlack = true;
-                        pGrandParent->isBlack = false;
-                        pGrandParent->RotateLeft();
-                    }
-                }
-            }
-        }
 
     public:
         //Constructors
@@ -138,6 +44,7 @@ namespace ACStdLib
 
         Map(const Map &refOther) //copy ctor
         {
+			this->root = nullptr;
             *this = refOther;
         }
 
@@ -313,6 +220,101 @@ namespace ACStdLib
         ConstIterator end() const
         {
             return ConstIterator(*this, nullptr);
+        }
+
+    private:
+        //Members
+        Node *root;
+
+        //Methods
+        Node *FindNode(const KeyType &refKey) const
+        {
+            Node *pNode;
+
+            pNode = this->root;
+            while(pNode)
+            {
+                if(refKey < pNode->keyValuePair.key)
+                    pNode = (Node *)pNode->pLeft;
+                else if(refKey > pNode->keyValuePair.key)
+                    pNode = (Node *)pNode->pRight;
+                else
+                    break;
+            }
+
+            return pNode;
+        }
+
+        /*
+         * The implementation of this method is a modified version of a piece of code of the following work,
+         * which was released under GNU Lesser General Public License
+         * as published by the Free Software Foundation version 2.1:
+         *
+         * avltree - Implements an AVL tree with parent pointers.
+         *
+         * Copyright (C) 2010-2014 Franck Bui-Huu <fbuihuu@gmail.com>
+         *
+         * https://github.com/fbuihuu/libtree
+         */
+        void Recolorize(Node *pNode)
+        {
+            Node *pParent, *pGrandParent, *pUncle;
+
+            while((pParent = (Node *)pNode->pParent) && pParent->IsRed())
+            {
+                pGrandParent = (Node *)pParent->pParent;
+
+                if(pParent == pGrandParent->pLeft)
+                {
+                    pUncle = (Node *)pGrandParent->pRight;
+
+                    if(pUncle && pUncle->IsRed())
+                    {
+                        pParent->isBlack = true;
+                        pUncle->isBlack = true;
+                        pGrandParent->isBlack = false;
+                        pNode = pGrandParent;
+                    }
+                    else
+                    {
+                        if(pNode == pParent->pRight)
+                        {
+                            pParent->RotateLeft();
+                            pNode = pParent;
+                            pParent = (Node *)pNode->pParent;
+                        }
+
+                        pParent->isBlack = true;
+                        pGrandParent->isBlack = false;
+                        pGrandParent->RotateRight();
+                    }
+                }
+                else
+                {
+                    pUncle = (Node *)pGrandParent->pLeft;
+
+                    if(pUncle && pUncle->IsRed())
+                    {
+                        pParent->isBlack = true;
+                        pUncle->isBlack = true;
+                        pGrandParent->isBlack = false;
+                        pNode = pGrandParent;
+                    }
+                    else
+                    {
+                        if(pNode == pParent->pLeft)
+                        {
+                            pParent->RotateRight();
+                            pNode = pParent;
+                            pParent = (Node *)pNode->pParent;
+                        }
+
+                        pParent->isBlack = true;
+                        pGrandParent->isBlack = false;
+                        pGrandParent->RotateLeft();
+                    }
+                }
+            }
         }
     };
 }
