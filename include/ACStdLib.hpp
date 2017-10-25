@@ -71,7 +71,7 @@
 #include <ACStdLib/Streams/StdIn.hpp>
 //Streams/Bitstreams
 #include <ACStdLib/Streams/Bitstreams/CBitInputStream.h>
-#include <ACStdLib/Streams/Bitstreams/CBitInputStreamBitReversed.h>
+#include <ACStdLib/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
 
 //Readers
 #include <ACStdLib/Streams/Readers/DataReader.hpp>

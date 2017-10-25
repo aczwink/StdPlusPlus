@@ -16,21 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ACStdLib/InternalCompilerFlags.h>
-//Global
-#ifdef _AC_OS_WINDOWS
-#include <WinSock2.h>
-#include <WS2tcpip.h>
-#include <basetsd.h>
-typedef SSIZE_T ssize_t;
-#else
-#include <netinet/in.h>
-#include <sys/socket.h>
-#endif
+//Class header
+#include <ACStdLib/Streams/InputStream.hpp>
 //Local
-#include <ACStdLib/Network/NetAddress.hpp>
+#include <ACStdLib/Streams/AOutputStream.h>
 //Namespaces
 using namespace ACStdLib;
 
-//Global functions
-NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port);
+//Public methods
+uint32 InputStream::FlushTo(AOutputStream &refOutput, uint32 size)
+{
+	uint32 nReadBytes, nTotalReadBytes, leftSize;
+	byte buffer[4096];
+
+	nTotalReadBytes = 0;
+	while(size)
+	{
+		leftSize = size;
+		if(leftSize > sizeof(buffer))
+			leftSize = sizeof(buffer);
+
+		nReadBytes = this->ReadBytes(buffer, leftSize);
+		if(!nReadBytes)
+			break;
+		refOutput.WriteBytes(buffer, nReadBytes);
+
+		size -= nReadBytes;
+		nTotalReadBytes += nReadBytes;
+	}
+
+	return nTotalReadBytes;
+}

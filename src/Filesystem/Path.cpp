@@ -21,6 +21,26 @@
 //Namespaces
 using namespace ACStdLib;
 
+//Public methods
+bool Path::CreateDirectoryTree()
+{
+	if(this->Exists())
+	{
+		if(this->IsDirectory())
+			return true;
+
+		return false;
+	}
+
+	Path parent = this->GetParent();
+	if(parent == parent.GetRoot() || parent.CreateDirectoryTree()) //create parent directory
+	{
+		return this->CreateDirectory();
+	}
+
+	return false;
+}
+
 String Path::GetFileExtension() const
 {
 	uint32 pos;
@@ -31,4 +51,59 @@ String Path::GetFileExtension() const
 		return String();
 
 	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1).ToLowercase();
+}
+
+String Path::GetName() const
+{
+	uint32 pos;
+
+	pos = this->pathString.FindReverse('/');
+
+	if(pos == Natural<uint32>::Max())
+		return this->pathString;
+
+	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1);
+}
+
+Path Path::GetParent() const
+{
+	uint32 pos;
+
+	pos = this->pathString.FindReverse('/');
+	if(pos == Natural<uint32>::Max())
+		return Path();
+
+	return Path(this->pathString.SubString(0, pos));
+}
+
+Path Path::GetRoot() const
+{
+	uint32 pos;
+
+	pos = this->pathString.Find('/');
+	if(pos == Natural<uint32>::Max())
+		return Path();
+
+	return Path(this->pathString.SubString(0, pos + 1));
+}
+
+String Path::GetTitle() const
+{
+	uint32 posDot, posSlash;
+
+	posDot = this->pathString.FindReverse('.');
+	posSlash = this->pathString.FindReverse('/', posDot);
+
+	if(posSlash == Natural<uint32>::Max())
+	{
+		if(posDot == Natural<uint32>::Max())
+			return this->pathString;
+		return this->pathString.SubString(0, posDot);
+	}
+	if(posDot == Natural<uint32>::Max())
+		return this->pathString.SubString(posSlash + 1, this->pathString.GetLength() - posSlash - 1);
+	if(posSlash > posDot)
+		return String();
+
+	return this->pathString.SubString(posSlash + 1, posDot - posSlash - 1);
 }

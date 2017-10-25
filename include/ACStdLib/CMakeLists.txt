@@ -132,7 +132,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Texture2D.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
-        #Streams
+	#Streams
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.hpp

@@ -109,10 +109,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
 	#Streams
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
 

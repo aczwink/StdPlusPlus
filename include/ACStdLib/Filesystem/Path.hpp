@@ -54,10 +54,6 @@ namespace ACStdLib
 
     class ACSTDLIB_API Path
     {
-    private:
-        //Members
-        String pathString;
-
     public:
         //Constructors
         inline Path()
@@ -122,6 +118,11 @@ namespace ACStdLib
         bool IsDirectory() const;
 
         //Inline
+        inline bool IsRoot() const
+		{
+			return *this == this->GetRoot();
+		}
+
         inline const String &GetString() const
         {
             return this->pathString;
@@ -130,5 +131,9 @@ namespace ACStdLib
         //For range-based loop
         PathIterator begin() const;
         PathIterator end() const;
+
+	private:
+		//Members
+		String pathString;
     };
 }

@@ -22,7 +22,10 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CBitInputStreamBitReversed
+    /**
+     * This class reads bits from low to high significance i.e. the first bit read is the LSB of the first byte.
+     */
+    class ACSTDLIB_API BitInputStreamBitReversed
     {
     private:
         //Members
@@ -37,7 +40,7 @@ namespace ACStdLib
 
     public:
         //Constructor
-        CBitInputStreamBitReversed(InputStream &refInput);
+        BitInputStreamBitReversed(InputStream &refInput);
 
         //Methods
         uint64 Get(uint8 nBits);
