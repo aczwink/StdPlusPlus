@@ -18,37 +18,23 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/UI/Widget.hpp"
+#include "Controller.hpp"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        //Forward declarations
-        class ATreeController;
-
-        class ACSTDLIB_API CTreeView : public Widget
+        class ACSTDLIB_API ListController : public Controller
         {
-            friend class ATreeController;
-            friend class EventQueue;
-        private:
-            //Members
-            ATreeController *pController;
-
-            //Eventhandlers
-            void OnModelChanged();
-            void OnSelectionChanged();
-
-            //Methods
-            void CreateOSWindow();
-
         public:
-            //Constructor
-            CTreeView(WidgetContainer *pParent);
+            //Abstract
+            virtual uint32 GetNumberOfItems() const = 0;
+            virtual String GetText(uint32 index) const = 0;
 
-            //Methods
-            void *GetSelectedNode() const;
-            void SetController(ATreeController &refController);
+			//Methods
+			ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const;
+			uint32 GetNumberOfChildren(const ControllerIndex &parent) const;
+			String GetText(const ControllerIndex &index) const;
         };
     }
 }

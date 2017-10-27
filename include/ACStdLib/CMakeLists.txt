@@ -156,10 +156,16 @@ set(SOURCE_FILES
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/Controller.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ControllerIndex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.hpp
 
@@ -170,7 +176,11 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.h
+
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.hpp
@@ -181,9 +191,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
 
 	#XML
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/Node.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h

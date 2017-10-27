@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/Controls/CDropDown.h>
+#include <ACStdLib/UI/Views/ComboBox.hpp>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>

@@ -16,29 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <ACStdLib/UI/Views/View.hpp>
 //Local
-#include "../Definitions.h"
+#include <ACStdLib/UI/Controllers/Controller.hpp>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
 
-namespace ACStdLib
+//Public methods
+void View::SetController(Controller &controller)
 {
-    namespace XML
-    {
-        enum ENodeType
-        {
-            NODE_TYPE_ELEMENT,
-        };
+	this->controller = &controller;
+	this->controller->view = this;
 
-        class ANode
-        {
-        public:
-            //Destructor
-            virtual ~ANode()
-            {
-            }
+	this->OnModelChanged();
+}
 
-            //Abstract
-            virtual ENodeType GetType() const = 0;
-        };
-    }
+//Eventhandlers
+void View::OnSelectionChanged()
+{
+	this->controller->OnSelectionChanged();
 }

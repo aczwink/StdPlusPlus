@@ -18,6 +18,8 @@
  */
 //Class header
 #include <ACStdLib/Filesystem/Path.hpp>
+//Local
+#include <ACStdLib/Filesystem/PathIterator.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -106,4 +108,15 @@ String Path::GetTitle() const
 		return String();
 
 	return this->pathString.SubString(posSlash + 1, posDot - posSlash - 1);
+}
+
+//For range-based loop
+PathIterator Path::begin() const
+{
+	return PathIterator(*this);
+}
+
+PathIterator Path::end() const
+{
+	return PathIterator(*this, true);
 }

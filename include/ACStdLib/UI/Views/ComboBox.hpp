@@ -18,37 +18,40 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/UI/Widget.hpp"
+#include "View.hpp"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API CDropDown : public Widget
+        class ACSTDLIB_API ComboBox : public View
         {
             friend class EventQueue;
-        private:
-            //Members
-            Function<void()> onSelectionChangedHandler;
-
         public:
             //Constructor
-            CDropDown(WidgetContainer *pParent);
+            ComboBox(WidgetContainer *pParent);
+
+			//Destructor
+			~ComboBox();
 
             //Methods
-            uint32 AddItem(const String &refText);
-            void Clear();
-            uint32 GetNumberOfItems() const;
-            uint16 GetSelectedIndex() const;
             Size GetSizeHint() const;
-            void Select(int32 index);
-            void SetHint(const String &refText);
 
             //Inline
             inline void BindSelectionChanged(const Function<void()> &refHandler)
             {
                 this->onSelectionChangedHandler = refHandler;
             }
+
+		private:
+			//Members
+			Function<void()> onSelectionChangedHandler;
+
+			//Event handlers
+			void OnModelChanged();
+
+			//Methods
+			void Backend_Create();
         };
     }
 }

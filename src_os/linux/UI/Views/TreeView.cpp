@@ -17,17 +17,17 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Views/CTreeView.h>
+#include <ACStdLib/UI/Views/TreeView.hpp>
 //Global
 #include <gtk/gtk.h>
 //Local
 #include "../Gtk.h"
-#include <ACStdLib/UI/Controllers/ATreeController.h>
+#include <ACStdLib/UI/Controllers/Controller.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
-#define THIS ((GtkWidget *)(this->systemHandle))
+#define THIS (PRIVATE_DATA(this)->widget)
 
 //Local functions
 /*
@@ -51,48 +51,57 @@ static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *node, const
 }
 */
 
-static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, void *pNode, ATreeController &refController)
+/*
+static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, void *pNode, Controller &controller)
 {
     uint32 nChildren, i;
     void *pChildNode;
     GtkTreeIter childIter;
     UTF8String text;
 
-    nChildren = refController.GetNumberOfChildren(pNode);
+    nChildren = controller.GetNumberOfChildren();
     for(i = 0; i < nChildren; i++)
     {
-        pChildNode = refController.GetChild(pNode, i);
-        //hChild = InsertItemAtFront(hWnd, hItem, pChildNode, refController.GetText(pChildNode));
+        pChildNode = controller.GetChild(pNode, i);
+        //hChild = InsertItemAtFront(hWnd, hItem, pChildNode, controller.GetText(pChildNode));
 
-        text = refController.GetText(pChildNode).GetUTF16();
+        text = controller.GetText(pChildNode).GetUTF16();
         gtk_tree_store_append(store, &childIter, nodeIter);
         gtk_tree_store_set(store, &childIter, 0, text.GetC_Str(), -1);
 
-        //AddNodes(hWnd, hChild, pChildNode, refController);
+        //AddNodes(hWnd, hChild, pChildNode, controller);
     }
+}
+ */
+
+//Destructor
+TreeView::~TreeView()
+{
+	MemFree(this->systemHandle);
 }
 
 //Eventhandlers
-void CTreeView::OnModelChanged()
+void TreeView::OnModelChanged()
 {
     gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), nullptr);
 
-    if(this->pController)
+    if(this->controller)
     {
         GtkTreeStore *store;
 
         store = gtk_tree_store_new(1, G_TYPE_STRING);
 
-        AddNodes(store, nullptr, nullptr, *this->pController);
+        //AddNodes(store, nullptr, nullptr, *this->controller);
+		//TODO:
 
         gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), GTK_TREE_MODEL(store));
     }
 }
 
 //Private methods
-void CTreeView::CreateOSWindow()
+void TreeView::CreateOSWindow()
 {
-    this->systemHandle = gtk_tree_view_new();
+    this->systemHandle = CreateWidgetPrivateData(gtk_tree_view_new(), this);
     gtk_widget_set_vexpand(THIS, TRUE);
 
 	ADD_SELF_TO_PARENT(THIS);

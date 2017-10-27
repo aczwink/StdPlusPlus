@@ -19,9 +19,24 @@
 //corresponding header
 #include "Gtk.h"
 //Local
+#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "_RedirectGtkContainer.h"
 
 //Global functions
+void AddToParent(const Widget *widget, GtkWidget *gtkChild)
+{
+	widget = widget->GetParent();
+	while(widget)
+	{
+		if(PRIVATE_DATA(widget))
+		{
+			gtk_container_add(GTK_CONTAINER(PRIVATE_DATA(widget)->childAreaWidget), gtkChild);
+			break;
+		}
+		widget = widget->GetParent();
+	}
+}
+
 _AC_Gtk_WidgetPrivate *CreateWidgetPrivateData(GtkWidget *gtkWidget, Widget *widget)
 {
 	_AC_Gtk_WidgetPrivate *priv;

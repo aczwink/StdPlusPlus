@@ -18,34 +18,39 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.hpp"
-#include "../Views/CListView.h"
+#include "../Widget.hpp"
 
 namespace ACStdLib
 {
-    namespace UI
-    {
-        class ACSTDLIB_API AListController
-        {
-            friend class CListView;
-        protected:
-            //Members
-            CListView *pListView;
+	namespace UI
+	{
+		//Forward declarations
+		class Controller;
 
-            //Methods
-            inline void ModelChanged()
-            {
-                if(this->pListView)
-                    this->pListView->OnModelChanged();
-            }
-        public:
-            //Destructor
-            virtual ~AListController() {}
+		class ACSTDLIB_API View : public Widget
+		{
+			friend class Controller;
+			friend class EventQueue;
+		public:
+			//Constructor
+			inline View(WidgetContainer *parent) : Widget(parent)
+			{
+				this->controller = nullptr;
+			}
 
-            //Abstract
-            virtual uint32 GetNumberOfItems() const = 0;
-            virtual String GetText(uint32 index) const = 0;
-        };
-    }
+			//Methods
+			void SetController(Controller &controller);
+
+		protected:
+			//Members
+			Controller *controller;
+
+		private:
+			//Abstract event handlers
+			virtual void OnModelChanged() = 0;
+
+			//Eventhandlers
+			void OnSelectionChanged();
+		};
+	}
 }

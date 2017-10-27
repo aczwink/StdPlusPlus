@@ -16,23 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class Header
-#include <ACStdLib/XML/Element.hpp>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::XML;
+#pragma once
+//Local
+#include "../Widget.hpp"
 
-//Destructor
-Element::~Element()
+namespace ACStdLib
 {
-	for (const Node *const &refpChild : this->children)
-	{
-		delete refpChild;
-	}
-}
+    namespace UI
+    {
+        class ACSTDLIB_API LineEdit : public Widget
+        {
+        public:
+            //Constructor
+            LineEdit(WidgetContainer *pParent);
 
-//Public methods
-NodeType Element::GetType() const
-{
-	return NodeType::Element;
+            //Destructor
+            ~LineEdit();
+
+            //Methods
+            Size GetSizeHint() const;
+
+		private:
+			//Methods
+			void Backend_Create();
+        };
+    }
 }

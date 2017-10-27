@@ -189,16 +189,17 @@
 #include <ACStdLib/UI/Containers/GroupBox.hpp>
 //Controllers
 #include <ACStdLib/UI/Controllers/ACheckListController.h>
-#include <ACStdLib/UI/Controllers/AListController.h>
-#include <ACStdLib/UI/Controllers/ATreeController.h>
+#include <ACStdLib/UI/Controllers/ListController.hpp>
+#include <ACStdLib/UI/Controllers/Controller.hpp>
 //Controls
 #include <ACStdLib/UI/Controls/CheckBox.hpp>
-#include <ACStdLib/UI/Controls/CDropDown.h>
+#include <ACStdLib/UI/Views/ComboBox.hpp>
 #include <ACStdLib/UI/Controls/Label.hpp>
-#include <ACStdLib/UI/Controls/CLineEdit.h>
+#include <ACStdLib/UI/Controls/LineEdit.hpp>
 #include <ACStdLib/UI/Controls/CProgressBar.h>
 #include <ACStdLib/UI/Controls/PushButton.hpp>
 #include <ACStdLib/UI/Controls/RadioButton.hpp>
+#include <ACStdLib/UI/Controls/SearchBox.hpp>
 #include <ACStdLib/UI/Controls/Slider.hpp>
 #include <ACStdLib/UI/Controls/SpinBox.hpp>
 #include <ACStdLib/UI/Controls/CTextEdit.h>
@@ -221,7 +222,7 @@
 #include <ACStdLib/UI/Views/CCheckListView.h>
 #include <ACStdLib/UI/Views/CListView.h>
 #include <ACStdLib/UI/Views/CTableView.h>
-#include <ACStdLib/UI/Views/CTreeView.h>
+#include <ACStdLib/UI/Views/TreeView.hpp>
 
 //XML
 #include <ACStdLib/XML/Document.hpp>

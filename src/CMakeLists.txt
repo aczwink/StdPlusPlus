@@ -136,10 +136,16 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.cpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.cpp
@@ -148,7 +154,9 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/ATextRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
+
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.cpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp

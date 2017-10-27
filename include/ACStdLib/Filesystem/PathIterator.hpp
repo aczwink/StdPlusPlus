@@ -24,14 +24,9 @@ namespace ACStdLib
 {
     class ACSTDLIB_API PathIterator
     {
-    private:
-        //Members
-        void *pOSHandle;
-        Path currentPath;
-
     public:
         //Constructors
-        PathIterator(const Path &refPath, bool end = false);
+        PathIterator(const Path &path, bool end = false);
 
         inline PathIterator(PathIterator &&refIt) //move ctor
         {
@@ -44,12 +39,17 @@ namespace ACStdLib
 
         //Operators
         PathIterator &operator++(); //Prefix++
-        bool operator!=(const PathIterator &refOther) const;
+        bool operator!=(const PathIterator &other) const;
 
         //Inline operators
         inline Path operator*()
         {
             return this->currentPath;
         }
+
+    private:
+        //Members
+        void *pOSHandle;
+        Path currentPath;
     };
 }

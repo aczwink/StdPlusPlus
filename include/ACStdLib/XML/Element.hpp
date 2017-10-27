@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "ANode.h"
+#include "Node.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "ACStdLib/Containers/Strings/String.hpp"
@@ -27,12 +27,12 @@ namespace ACStdLib
 {
     namespace XML
     {
-        class Element : public ANode
+        class Element : public Node
         {
         private:
             //Members
             String name;
-            LinkedList<ANode *> children;
+            LinkedList<Node *> children;
             Map<String, String> attributes;
 
         public:
@@ -46,10 +46,10 @@ namespace ACStdLib
             ~Element();
 
             //Methods
-            ENodeType GetType() const;
+            NodeType GetType() const;
 
             //Inline
-            inline void AppendChild(ANode *pNode)
+            inline void AppendChild(Node *pNode)
             {
                 this->children.InsertTail(pNode);
             }
@@ -64,12 +64,12 @@ namespace ACStdLib
                 return this->attributes;
             }
 
-            inline LinkedList<ANode *> &GetChildren()
+            inline LinkedList<Node *> &GetChildren()
             {
                 return this->children;
             }
 
-            inline const LinkedList<ANode *> &GetChildren() const
+            inline const LinkedList<Node *> &GetChildren() const
             {
                 return this->children;
             }
@@ -90,22 +90,22 @@ namespace ACStdLib
             }
 
             //For range-based loops
-            inline LinkedListIterator<ANode *> begin()
+            inline LinkedListIterator<Node *> begin()
             {
                 return this->children.begin();
             }
 
-            inline LinkedListConstIterator<ANode *> begin() const
+            inline LinkedListConstIterator<Node *> begin() const
             {
                 return this->children.begin();
             }
 
-            inline LinkedListIterator<ANode *> end()
+            inline LinkedListIterator<Node *> end()
             {
                 return this->children.end();
             }
 
-            inline LinkedListConstIterator<ANode *> end() const
+            inline LinkedListConstIterator<Node *> end() const
             {
                 return this->children.end();
             }

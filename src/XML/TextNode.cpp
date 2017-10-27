@@ -25,8 +25,8 @@ using namespace ACStdLib;
 using namespace ACStdLib::XML;
 
 //Public methods
-ENodeType TextNode::GetType() const
+NodeType TextNode::GetType() const
 {
 	ASSERT(0);
-	return NODE_TYPE_ELEMENT; //WRONG
+	return NodeType::Element; //WRONG
 }

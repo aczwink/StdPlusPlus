@@ -161,6 +161,7 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 	g_return_if_fail(IS_REDIRECT_CONTAINER(redirContainer));
 
 	RedirectContainerPrivate *priv = REDIRECT_CONTAINER_PRIVATE(redirContainer);
+	WidgetContainer *thisContainer = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
 
 	gtk_widget_set_allocation(redirContainer, allocation);
 
@@ -201,6 +202,15 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 		allocation->y = bounds.y();
 		allocation->width = bounds.width();
 		allocation->height = bounds.height();
+
+		//offset bounds because the parent of the gtk widget might not be the parent of the acstdlib widget
+		const Widget *parent = widget->GetParent();
+		while(parent != thisContainer)
+		{
+			allocation->x += parent->GetBounds().x();
+			allocation->y += parent->GetBounds().y();
+			parent = parent->GetParent();
+		}
 
 		gtk_widget_size_allocate(gtkWidget, allocation);
 	}

@@ -18,39 +18,27 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.hpp"
-#include "../Views/CTreeView.h"
+#include "../Definitions.h"
 
 namespace ACStdLib
 {
-    namespace UI
+    namespace XML
     {
-        class ACSTDLIB_API ATreeController
+        enum class NodeType
         {
-            friend class CTreeView;
-        protected:
-            //Members
-            CTreeView *pTreeView;
+            Element,
+        };
 
-            //Eventhandlers
-            virtual void OnSelectionChanged() const {}
-
+        class Node
+        {
         public:
             //Destructor
-            virtual ~ATreeController() {}
+            virtual ~Node()
+            {
+            }
 
             //Abstract
-            virtual void *GetChild(void *pNode, uint32 child) const = 0;
-            virtual uint32 GetNumberOfChildren(void *pNode) const = 0;
-            virtual String GetText(void *pNode) const = 0;
-
-            //Inline
-            inline void ModelChanged()
-            {
-                if(this->pTreeView)
-                    this->pTreeView->OnModelChanged();
-            }
+            virtual NodeType GetType() const = 0;
         };
     }
 }

@@ -17,36 +17,33 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Views/CTreeView.h>
+#include <ACStdLib/UI/Controls/SearchBox.hpp>
 //Local
-#include <ACStdLib/UI/WidgetContainer.hpp>
-#include <ACStdLib/UI/Controllers/ATreeController.h>
+#include "../Gtk.h"
+#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+//Definitions
+#define THIS (PRIVATE_DATA(this)->widget)
 
-//Constructor
-CTreeView::CTreeView(WidgetContainer *pParent) : Widget(pParent)
+//Destructor
+SearchBox::~SearchBox()
 {
-    this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
-    this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
-
-    this->pController = nullptr;
-
-    this->CreateOSWindow();
-}
-
-//Eventhandlers
-void CTreeView::OnSelectionChanged()
-{
-    this->pController->OnSelectionChanged();
+	MemFree(this->systemHandle);
 }
 
 //Public methods
-void CTreeView::SetController(ATreeController &refController)
+Size SearchBox::GetSizeHint() const
 {
-    this->pController = &refController;
-    this->pController->pTreeView = this;
+	return GetPreferedSizeGtk(THIS);
+}
 
-    this->OnModelChanged();
+//Private methods
+void SearchBox::Backend_Create()
+{
+	this->systemHandle = CreateWidgetPrivateData(gtk_search_entry_new(), this);
+	gtk_widget_show(THIS); //default to show
+
+	ADD_SELF_TO_PARENT(THIS);
 }

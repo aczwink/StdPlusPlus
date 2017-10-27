@@ -42,7 +42,7 @@ CXMLParser::~CXMLParser()
 Element *CXMLParser::ParseElement()
 {
 	bool readBody;
-	ANode *pChild;
+	Node *pChild;
 	Element *pElement;
 	String elementName;
 

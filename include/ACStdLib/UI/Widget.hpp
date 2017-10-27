@@ -47,34 +47,6 @@ namespace ACStdLib
             friend class EventQueue;
 			friend class Rendering::DeviceContext;
             friend class WidgetContainer;
-        private:
-            //Members
-            WidgetContainer *parent;
-            Window *pOwner;
-            Rect bounds;
-
-            //Eventhandlers
-			virtual void OnMouseButtonPressed(MouseButton button, const Point &pos);
-			virtual void OnMouseButtonReleased(MouseButton button, const Point &pos);
-			virtual void OnMouseMoved(const Point &pos);
-			virtual void OnMouseWheelTurned(int16 delta);
-            virtual void OnPaint();
-            virtual void OnResized();
-
-            //Methods
-            Size System_GetSize() const;
-			void System_SetRect(const Rect &area);
-
-        protected:
-            //Members
-            void *systemHandle;
-
-            //Methods
-            ERenderMode GetRenderMode() const;
-
-            //Functions
-            static void IgnoreEvent();
-
         public:
             //Members
             SizingPolicy sizingPolicy;
@@ -122,6 +94,34 @@ namespace ACStdLib
                 //this is a window itself
                 return (Window *)this;
             }
+
+		protected:
+			//Members
+			void *systemHandle;
+
+			//Methods
+			ERenderMode GetRenderMode() const;
+
+			//Functions
+			static void IgnoreEvent();
+
+		private:
+			//Members
+			WidgetContainer *parent;
+			Window *pOwner;
+			Rect bounds;
+
+			//Eventhandlers
+			virtual void OnMouseButtonPressed(MouseButton button, const Point &pos);
+			virtual void OnMouseButtonReleased(MouseButton button, const Point &pos);
+			virtual void OnMouseMoved(const Point &pos);
+			virtual void OnMouseWheelTurned(int16 delta);
+			virtual void OnPaint();
+			virtual void OnResized();
+
+			//Methods
+			Size System_GetSize() const;
+			void System_SetRect(const Rect &area);
         };
     }
 }

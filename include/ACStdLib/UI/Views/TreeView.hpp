@@ -16,23 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class Header
-#include <ACStdLib/XML/Element.hpp>
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::XML;
+#pragma once
+//Local
+#include "View.hpp"
 
-//Destructor
-Element::~Element()
+namespace ACStdLib
 {
-	for (const Node *const &refpChild : this->children)
-	{
-		delete refpChild;
-	}
-}
+    namespace UI
+    {
+        //Forward declarations
+        class Controller;
 
-//Public methods
-NodeType Element::GetType() const
-{
-	return NodeType::Element;
+        class ACSTDLIB_API TreeView : public View
+        {
+            friend class Controller;
+            friend class EventQueue;
+        public:
+            //Constructor
+            TreeView(WidgetContainer *parent);
+
+			//Destructor
+			~TreeView();
+
+            //Methods
+            void *GetSelectedNode() const;
+
+        private:
+			//Event handlers
+			void OnModelChanged();
+
+            //Methods
+            void CreateOSWindow();
+        };
+    }
 }

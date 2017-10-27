@@ -33,29 +33,6 @@ namespace ACStdLib
             friend class Widget;
             friend class EventQueue;
             friend class Window;
-        private:
-            //Members
-            LinkedList<Widget *> children;
-
-            //Eventhandlers
-            virtual void OnResized();
-
-            //Inline
-            inline void RemoveChild(Widget *child)
-            {
-                int32 index = this->children.Find(child);
-                if(index != -1)
-                    this->children.Remove(index);
-            }
-
-        protected:
-            //Members
-            ILayout *layout;
-            ERenderMode renderMode;
-
-            //Eventhandlers
-            virtual void OnPaint();
-
         public:
             //Constructor
             WidgetContainer(WidgetContainer *pContainer);
@@ -80,6 +57,29 @@ namespace ACStdLib
             inline ERenderMode GetRenderMode() const
             {
                 return this->renderMode;
+            }
+
+        protected:
+            //Members
+            ILayout *layout;
+            ERenderMode renderMode;
+
+            //Eventhandlers
+            virtual void OnPaint();
+
+        private:
+            //Members
+            LinkedList<Widget *> children;
+
+            //Eventhandlers
+            virtual void OnResized();
+
+            //Inline
+            inline void RemoveChild(Widget *child)
+            {
+                int32 index = this->children.Find(child);
+                if(index != -1)
+                    this->children.Remove(index);
             }
         };
     }

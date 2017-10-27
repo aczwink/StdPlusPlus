@@ -17,13 +17,13 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/UI/Views/CTreeView.h>
+#include <ACStdLib/UI/Views/TreeView.hpp>
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
 #include <ACStdLib/UI/WidgetContainer.hpp>
-#include <ACStdLib/UI/Controllers/ATreeController.h>
+#include <ACStdLib/UI/Controllers/Controller.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;

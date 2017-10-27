@@ -18,20 +18,45 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/UI/Widget.hpp"
+#include "../../Definitions.h"
 
 namespace ACStdLib
 {
-    namespace UI
-    {
-        class ACSTDLIB_API CLineEdit : public Widget
-        {
-        public:
-            //Constructor
-            CLineEdit(WidgetContainer *pParent);
+	namespace UI
+	{
+		//Forward declarations
+		class Controller;
 
-            //Methods
-            Size GetSizeHint() const;
-        };
-    }
+		class ControllerIndex
+		{
+			friend class Controller;
+		public:
+			//Constructor
+			inline ControllerIndex()
+			{
+				this->row = Natural<uint32>::Max();
+				this->column = Natural<uint32>::Max();
+			}
+
+			//Inline
+			inline uint32 GetRow() const
+			{
+				return this->row;
+			}
+
+		private:
+			//Members
+			uint32 row;
+			uint32 column;
+			void *modelNode;
+
+			//Constructor
+			inline ControllerIndex(uint32 row, uint32 column, void *modelNode)
+			{
+				this->row = row;
+				this->column = column;
+				this->modelNode = modelNode;
+			}
+		};
+	}
 }

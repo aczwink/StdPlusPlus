@@ -22,10 +22,10 @@
 #include "../Time/Clock.hpp"
 #include "Window.hpp"
 #include "Controls/CheckBox.hpp"
-#include "Controls/CDropDown.h"
+#include "ACStdLib/UI/Views/ComboBox.hpp"
 #include "Controls/PushButton.hpp"
 #include "Controls/RadioButton.hpp"
-#include "Views/CTreeView.h"
+#include "ACStdLib/UI/Views/TreeView.hpp"
 
 namespace ACStdLib
 {
@@ -154,12 +154,12 @@ namespace ACStdLib
                 refWnd.OnResized();
             }
 
-            static inline void DispatchSelectionChangedEvent(CDropDown &refDropDown)
+            static inline void DispatchSelectionChangedEvent(ComboBox &refDropDown)
             {
                 refDropDown.onSelectionChangedHandler();
             }
 
-            static inline void DispatchSelectionChangedEvent(CTreeView &refTreeView)
+            static inline void DispatchSelectionChangedEvent(TreeView &refTreeView)
             {
                 refTreeView.OnSelectionChanged();
             }

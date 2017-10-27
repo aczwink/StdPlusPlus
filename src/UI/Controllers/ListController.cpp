@@ -16,23 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class Header
-#include <ACStdLib/XML/Element.hpp>
+//Class header
+#include <ACStdLib/UI/Controllers/ListController.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::XML;
-
-//Destructor
-Element::~Element()
-{
-	for (const Node *const &refpChild : this->children)
-	{
-		delete refpChild;
-	}
-}
+using namespace ACStdLib::UI;
 
 //Public methods
-NodeType Element::GetType() const
+ControllerIndex ListController::GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const
 {
-	return NodeType::Element;
+	return this->CreateIndex(row, 0, nullptr);
+}
+
+uint32 ListController::GetNumberOfChildren(const ControllerIndex &parent) const
+{
+	return this->GetNumberOfItems();
+}
+
+String ListController::GetText(const ControllerIndex &index) const
+{
+	return this->GetText(index.GetRow());
 }

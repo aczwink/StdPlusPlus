@@ -8,6 +8,7 @@ set(SOURCE_FILES
 
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
 
 	#Math
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.cpp
@@ -38,8 +39,10 @@ set(SOURCE_FILES
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 
@@ -52,7 +55,8 @@ set(SOURCE_FILES
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp

@@ -18,14 +18,14 @@
  */
 #pragma once
 //Local
-#include "ANode.h"
+#include "Node.hpp"
 #include "../Containers/Strings/String.hpp"
 
 namespace ACStdLib
 {
     namespace XML
     {
-        class TextNode : public ANode
+        class TextNode : public Node
         {
         public:
             //Constructor
@@ -35,7 +35,7 @@ namespace ACStdLib
             }
 
             //Methods
-            ENodeType GetType() const;
+            NodeType GetType() const;
 
             //Inline
             inline const String &GetText() const
