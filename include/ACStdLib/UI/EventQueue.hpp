@@ -154,14 +154,9 @@ namespace ACStdLib
                 refWnd.OnResized();
             }
 
-            static inline void DispatchSelectionChangedEvent(ComboBox &refDropDown)
+            static inline void DispatchSelectionChangedEvent(View &view)
             {
-                refDropDown.onSelectionChangedHandler();
-            }
-
-            static inline void DispatchSelectionChangedEvent(TreeView &refTreeView)
-            {
-                refTreeView.OnSelectionChanged();
+				view.OnSelectionChanged();
             }
 
             static inline void DispatchToggledEvent(CheckBox &refCheckBox)

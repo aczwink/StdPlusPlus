@@ -20,7 +20,7 @@
 #include <ACStdLib/UI/Views/TreeView.hpp>
 //Local
 #include <ACStdLib/UI/WidgetContainer.hpp>
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;

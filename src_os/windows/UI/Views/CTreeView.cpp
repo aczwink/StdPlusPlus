@@ -23,7 +23,7 @@
 #include <CommCtrl.h>
 //Local
 #include <ACStdLib/UI/WidgetContainer.hpp>
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
 using namespace ACStdLib;

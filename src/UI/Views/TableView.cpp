@@ -16,38 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "View.hpp"
+//Class header
+#include <ACStdLib/UI/Views/TableView.hpp>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
 
-namespace ACStdLib
+//Constructor
+TableView::TableView(WidgetContainer *parent) : View(parent)
 {
-    namespace UI
-    {
-        //Forward declarations
-        class TreeController;
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-        class ACSTDLIB_API TreeView : public View
-        {
-            friend class TreeController;
-            friend class EventQueue;
-        public:
-            //Constructor
-            TreeView(WidgetContainer *parent);
-
-			//Destructor
-			~TreeView();
-
-		protected:
-			//Event handlers
-			void OnSelectionChanged();
-
-        private:
-			//Event handlers
-			void OnModelChanged();
-
-            //Methods
-            void CreateOSWindow();
-        };
-    }
+	this->Backend_Create();
 }

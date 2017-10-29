@@ -25,23 +25,45 @@ namespace ACStdLib
 	namespace UI
 	{
 		//Forward declarations
-		class Controller;
+		class TreeController;
 
 		class ControllerIndex
 		{
-			friend class Controller;
+			friend class TreeController;
 		public:
 			//Constructor
 			inline ControllerIndex()
 			{
 				this->row = Natural<uint32>::Max();
 				this->column = Natural<uint32>::Max();
+				this->modelNode = nullptr;
+			}
+
+			//Operators
+			inline bool operator==(const ControllerIndex &other) const
+			{
+				return this->row == other.row && this->column == other.column && this->modelNode == other.modelNode;
+			}
+
+			inline bool operator!=(const ControllerIndex &other) const
+			{
+				return !((*this) == other);
 			}
 
 			//Inline
+			inline uint32 GetColumn() const
+			{
+				return this->column;
+			}
+
 			inline uint32 GetRow() const
 			{
 				return this->row;
+			}
+
+			inline bool HasParent() const
+			{
+				return (*this) != ControllerIndex();
 			}
 
 		private:

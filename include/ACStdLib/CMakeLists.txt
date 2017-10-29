@@ -156,9 +156,11 @@ set(SOURCE_FILES
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/Controller.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ControllerIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/SelectionController.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TableController.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TreeController.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
@@ -178,6 +180,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.hpp
 

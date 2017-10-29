@@ -37,16 +37,11 @@ namespace ACStdLib
             //Methods
             Size GetSizeHint() const;
 
-            //Inline
-            inline void BindSelectionChanged(const Function<void()> &refHandler)
-            {
-                this->onSelectionChangedHandler = refHandler;
-            }
+		protected:
+			//Event handlers
+			void OnSelectionChanged();
 
 		private:
-			//Members
-			Function<void()> onSelectionChangedHandler;
-
 			//Event handlers
 			void OnModelChanged();
 

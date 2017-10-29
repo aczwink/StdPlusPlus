@@ -22,7 +22,8 @@
 #include <gtk/gtk.h>
 //Local
 #include "../Gtk.h"
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include "../GtkEventQueue.hpp"
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -30,49 +31,22 @@ using namespace ACStdLib::UI;
 #define THIS (PRIVATE_DATA(this)->widget)
 
 //Local functions
-/*
-static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, void *node, const String &refText)
+static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const ControllerIndex &parent, TreeController &controller)
 {
-    TVINSERTSTRUCTW tvis;
-    UTF16String textUTF16;
-
-    textUTF16 = refText.GetUTF16();
-
-    tvis.hParent = hItem;
-    tvis.hInsertAfter = TVI_FIRST;
-
-    //item
-    tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-    tvis.item.pszText = (LPWSTR)textUTF16.GetC_Str();
-    tvis.item.cchTextMax = textUTF16.GetLength();
-    tvis.item.lParam = (LPARAM)node;
-
-    return (HTREEITEM)SendMessage(hWnd, TVM_INSERTITEMW, 0, (LPARAM)&tvis);
-}
-*/
-
-/*
-static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, void *pNode, Controller &controller)
-{
-    uint32 nChildren, i;
-    void *pChildNode;
-    GtkTreeIter childIter;
-    UTF8String text;
-
-    nChildren = controller.GetNumberOfChildren();
-    for(i = 0; i < nChildren; i++)
+    uint32 nChildren = controller.GetNumberOfChildren(parent);
+	UTF8String text;
+    for(uint32 i = 0; i < nChildren; i++)
     {
-        pChildNode = controller.GetChild(pNode, i);
-        //hChild = InsertItemAtFront(hWnd, hItem, pChildNode, controller.GetText(pChildNode));
+        ControllerIndex childIndex = controller.GetChildIndex(i, 0, parent);
+        text = controller.GetText(childIndex).GetUTF16();
 
-        text = controller.GetText(pChildNode).GetUTF16();
+		GtkTreeIter childIter;
         gtk_tree_store_append(store, &childIter, nodeIter);
         gtk_tree_store_set(store, &childIter, 0, text.GetC_Str(), -1);
 
-        //AddNodes(hWnd, hChild, pChildNode, controller);
+		AddNodes(store, &childIter, childIndex, controller);
     }
 }
- */
 
 //Destructor
 TreeView::~TreeView()
@@ -83,19 +57,43 @@ TreeView::~TreeView()
 //Eventhandlers
 void TreeView::OnModelChanged()
 {
-    gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), nullptr);
+	gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), nullptr);
 
-    if(this->controller)
-    {
-        GtkTreeStore *store;
+	if(this->controller)
+	{
+		GtkTreeStore *store;
 
-        store = gtk_tree_store_new(1, G_TYPE_STRING);
+		store = gtk_tree_store_new(1, G_TYPE_STRING);
 
-        //AddNodes(store, nullptr, nullptr, *this->controller);
-		//TODO:
+		AddNodes(store, nullptr, ControllerIndex(), *this->controller);
 
-        gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), GTK_TREE_MODEL(store));
-    }
+		gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), GTK_TREE_MODEL(store));
+	}
+}
+
+void TreeView::OnSelectionChanged()
+{
+	this->selectionController.ClearSelection();
+
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS));
+	GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(THIS));
+	GList *selectedRows = gtk_tree_selection_get_selected_rows(selection, &model);
+	while(selectedRows)
+	{
+		GtkTreePath *path = static_cast<GtkTreePath *>(selectedRows->data);
+		gint depth = gtk_tree_path_get_depth(path);
+		gint *indices = gtk_tree_path_get_indices(path);
+
+		ControllerIndex index;
+		for(gint i = 0; i < depth; i++)
+			index = this->controller->GetChildIndex(indices[i], 0, index);
+		this->selectionController.Select(index);
+
+		selectedRows = selectedRows->next;
+	}
+	g_list_free_full (selectedRows, (GDestroyNotify) gtk_tree_path_free);
+
+	View::OnSelectionChanged();
 }
 
 //Private methods
@@ -119,4 +117,7 @@ void TreeView::CreateOSWindow()
 
 
     gtk_widget_show_all(THIS); //default is show
+
+	//signals
+	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS)), "changed", G_CALLBACK(GtkEventQueue::ChangedSlot), this);
 }

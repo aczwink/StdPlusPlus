@@ -63,6 +63,11 @@ bool GtkEventQueue::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpoi
 	return !g_ignoreEvent;
 }
 
+void GtkEventQueue::ChangedSlot(GtkComboBox *comboBox, gpointer user_data)
+{
+	EventQueue::DispatchSelectionChangedEvent(*(ComboBox *)user_data);
+}
+
 void GtkEventQueue::CheckResizeSlot(GtkContainer *container, gpointer user_data)
 {
 	EventQueue::DispatchResizedEvent(*(Window *)user_data);

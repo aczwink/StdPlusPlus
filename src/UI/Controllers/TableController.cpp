@@ -16,38 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "View.hpp"
+//Class header
+#include <ACStdLib/UI/Controllers/TableController.hpp>
+//Namespaces
+using namespace ACStdLib;
+using namespace ACStdLib::UI;
 
-namespace ACStdLib
+//Public methods
+ControllerIndex TableController::GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const
 {
-    namespace UI
-    {
-        //Forward declarations
-        class TreeController;
+	return this->CreateIndex(row, column, nullptr);
+}
 
-        class ACSTDLIB_API TreeView : public View
-        {
-            friend class TreeController;
-            friend class EventQueue;
-        public:
-            //Constructor
-            TreeView(WidgetContainer *parent);
+uint32 TableController::GetNumberOfChildren(const ControllerIndex &parent) const
+{
+	if(parent.HasParent())
+		return 0; //children (items in list) have no children
 
-			//Destructor
-			~TreeView();
+	return this->GetNumberOfRows();
+}
 
-		protected:
-			//Event handlers
-			void OnSelectionChanged();
-
-        private:
-			//Event handlers
-			void OnModelChanged();
-
-            //Methods
-            void CreateOSWindow();
-        };
-    }
+String TableController::GetText(const ControllerIndex &index) const
+{
+	return this->GetText(index.GetRow(), index.GetColumn());
 }

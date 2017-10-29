@@ -190,7 +190,8 @@
 //Controllers
 #include <ACStdLib/UI/Controllers/ACheckListController.h>
 #include <ACStdLib/UI/Controllers/ListController.hpp>
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include <ACStdLib/UI/Controllers/TableController.hpp>
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 //Controls
 #include <ACStdLib/UI/Controls/CheckBox.hpp>
 #include <ACStdLib/UI/Views/ComboBox.hpp>
@@ -221,7 +222,7 @@
 #include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
 #include <ACStdLib/UI/Views/CCheckListView.h>
 #include <ACStdLib/UI/Views/CListView.h>
-#include <ACStdLib/UI/Views/CTableView.h>
+#include <ACStdLib/UI/Views/TableView.hpp>
 #include <ACStdLib/UI/Views/TreeView.hpp>
 
 //XML

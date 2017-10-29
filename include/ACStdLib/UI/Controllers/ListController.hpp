@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "Controller.hpp"
+#include "TreeController.hpp"
 
 namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API ListController : public Controller
+        class ACSTDLIB_API ListController : public TreeController
         {
         public:
             //Abstract
@@ -33,7 +33,9 @@ namespace ACStdLib
 
 			//Methods
 			ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const;
+			String GetColumnText(uint32 column) const;
 			uint32 GetNumberOfChildren(const ControllerIndex &parent) const;
+			uint32 GetNumberOfColumns() const;
 			String GetText(const ControllerIndex &index) const;
         };
     }

@@ -19,13 +19,13 @@
 //Class header
 #include <ACStdLib/UI/Views/View.hpp>
 //Local
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Public methods
-void View::SetController(Controller &controller)
+void View::SetController(TreeController &controller)
 {
 	this->controller = &controller;
 	this->controller->view = this;

@@ -26,6 +26,7 @@ class GtkEventQueue : public ACStdLib::UI::EventQueue
 public:
     //Functions;
 	static bool ButtonSlot(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
+	static void ChangedSlot(GtkComboBox *comboBox, gpointer user_data);
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
 	static void ClickedSlot(GtkButton *button, gpointer user_data);
 	static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);

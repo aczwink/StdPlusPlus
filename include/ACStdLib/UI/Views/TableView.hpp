@@ -24,30 +24,21 @@ namespace ACStdLib
 {
     namespace UI
     {
-        //Forward declarations
-        class TreeController;
-
-        class ACSTDLIB_API TreeView : public View
+        class ACSTDLIB_API TableView : public View
         {
-            friend class TreeController;
-            friend class EventQueue;
         public:
             //Constructor
-            TreeView(WidgetContainer *parent);
+            TableView(WidgetContainer *parent);
 
-			//Destructor
-			~TreeView();
+            //Destructor
+            ~TableView();
 
-		protected:
-			//Event handlers
-			void OnSelectionChanged();
-
-        private:
+		private:
 			//Event handlers
 			void OnModelChanged();
 
-            //Methods
-            void CreateOSWindow();
+			//Methods
+			void Backend_Create();
         };
     }
 }

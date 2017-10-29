@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/UI/Views/ComboBox.hpp>
 //Local
-#include <ACStdLib/UI/Controllers/Controller.hpp>
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
 //Namespaces
@@ -27,6 +27,10 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
+
+/*
+ * GtkComboBox: https://developer.gnome.org/gtk3/stable/GtkComboBox.html
+ */
 
 //Destructor
 ComboBox::~ComboBox()
@@ -48,6 +52,8 @@ void ComboBox::Backend_Create()
 	GtkCellRenderer *column = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(THIS), column, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(THIS), column, "text", 0, NULL);
+
+	g_signal_connect(THIS, "changed", G_CALLBACK(GtkEventQueue::ChangedSlot), this);
 
 	gtk_widget_show(THIS); //default to show
 
@@ -75,8 +81,16 @@ void ComboBox::OnModelChanged()
 			gtk_list_store_set(store, &iter, 0, text.GetC_Str(), -1);
 		}
 
-		gtk_combo_box_set_active(GTK_COMBO_BOX(THIS), 0);
-
 		gtk_combo_box_set_model(GTK_COMBO_BOX(THIS), GTK_TREE_MODEL(store));
 	}
+}
+
+void ComboBox::OnSelectionChanged()
+{
+	this->selectionController.ClearSelection();
+	gint index = gtk_combo_box_get_active(GTK_COMBO_BOX(THIS));
+	ControllerIndex childIndex = this->controller->GetChildIndex(index, 0, ControllerIndex());
+	this->selectionController.Select(childIndex);
+
+	View::OnSelectionChanged();
 }

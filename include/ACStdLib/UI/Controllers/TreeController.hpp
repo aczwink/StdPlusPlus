@@ -27,16 +27,29 @@ namespace ACStdLib
 {
     namespace UI
     {
-        class ACSTDLIB_API Controller
+		//Forward declarations
+		class SelectionController;
+
+        class ACSTDLIB_API TreeController
         {
             friend class View;
         public:
             //Destructor
-            virtual ~Controller() {}
+            virtual ~TreeController() {}
 
             //Abstract
             virtual ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent = ControllerIndex()) const = 0;
+			virtual String GetColumnText(uint32 column) const = 0;
             virtual uint32 GetNumberOfChildren(const ControllerIndex &parent = ControllerIndex()) const = 0;
+			/**
+			 * A special value is the return value 0. This means that the controller does not provide data in relation with columns.
+			 * In other words, the controller contains data but all ControllerIndex instances will have the column field invalid.
+			 * This is useful when no column info should be provided in the corresponding views.
+			 * For instance a simple ComboBox will have only a list of items without columns and column descriptions.
+			 *
+			 * @return
+			 */
+			virtual uint32 GetNumberOfColumns() const = 0;
             virtual String GetText(const ControllerIndex &index) const = 0;
 
             //Inline
@@ -50,14 +63,15 @@ namespace ACStdLib
             //Members
             View *view;
 
-            //Eventhandlers
-            virtual void OnSelectionChanged() const {}
-
 			//Inline
 			inline ControllerIndex CreateIndex(uint32 row, uint32 column, void *node) const
 			{
 				return ControllerIndex(row, column, node);
 			}
+
+		private:
+			//Eventhandlers
+			virtual void OnSelectionChanged() const {}
         };
     }
 }

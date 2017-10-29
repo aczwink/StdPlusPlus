@@ -138,6 +138,7 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TableController.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
@@ -155,6 +156,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.cpp
 

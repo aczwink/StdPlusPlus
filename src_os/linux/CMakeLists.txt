@@ -56,6 +56,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h

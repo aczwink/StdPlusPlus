@@ -18,47 +18,35 @@
  */
 #pragma once
 //Local
-#include "../Widget.hpp"
-#include "../Controllers/SelectionController.hpp"
+#include "../../Definitions.h"
+#include "ControllerIndex.hpp"
 
 namespace ACStdLib
 {
 	namespace UI
 	{
-		//Forward declarations
-		class TreeController;
-
-		class ACSTDLIB_API View : public Widget
+		class SelectionController
 		{
-			friend class TreeController;
-			friend class EventQueue;
 		public:
-			//Constructor
-			inline View(WidgetContainer *parent) : Widget(parent)
-			{
-				this->controller = nullptr;
-			}
-
-			//Methods
-			void SetController(TreeController &controller);
-
 			//Inline
-			inline const SelectionController &GetSelectionController() const
+			inline void ClearSelection()
 			{
-				return this->selectionController;
+				this->selectedIndexes.Release();
 			}
 
-		protected:
-			//Members
-			TreeController *controller;
-			SelectionController selectionController;
+			inline const LinkedList<ControllerIndex> &GetSelectedIndexes() const
+			{
+				return this->selectedIndexes;
+			}
 
-			//Overrideable event handlers
-			virtual void OnSelectionChanged();
+			inline void Select(const ControllerIndex &index)
+			{
+				this->selectedIndexes.InsertTail(index);
+			}
 
 		private:
-			//Abstract event handlers
-			virtual void OnModelChanged() = 0;
+			//Members
+			LinkedList<ControllerIndex> selectedIndexes;
 		};
 	}
 }
