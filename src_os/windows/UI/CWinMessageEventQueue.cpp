@@ -54,7 +54,7 @@ void CWinMessageEventQueue::DispatchControlEvent(Widget &refWidget, UINT notific
 		break;
 	case CBN_SELCHANGE:
 		{
-			CDropDown &refDropDown = (CDropDown &)refWidget;
+			ComboBox &refDropDown = (ComboBox &)refWidget;
 
 			EventQueue::DispatchSelectionChangedEvent(refDropDown);
 		}
@@ -68,7 +68,7 @@ void CWinMessageEventQueue::DispatchNotificationEvent(Widget &refWidget, const N
 	{
 	case TVN_SELCHANGEDW:
 		{
-			CTreeView &refTreeView = (CTreeView &)refWidget;
+			TreeView &refTreeView = (TreeView &)refWidget;
 
 			EventQueue::DispatchSelectionChangedEvent(refTreeView);
 		}

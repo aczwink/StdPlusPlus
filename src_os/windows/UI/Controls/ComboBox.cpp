@@ -22,6 +22,7 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
+#include <ACStdLib/UI/Controllers/TreeController.hpp>
 #include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../CFullAccessWidget.h"
 //Namespaces
@@ -33,48 +34,13 @@ WinAPI Documentation:
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb775792(v=vs.85).aspx
 */
 
-//Constructor
-CDropDown::CDropDown(WidgetContainer *pParent) : Widget(pParent)
+//Destructor
+ComboBox::~ComboBox()
 {
-	this->systemHandle = CreateWindowExA(0, WC_COMBOBOXA, nullptr, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, 0, 0, GET_HWND(pParent->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
-
-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 }
 
 //Public methods
-uint32 CDropDown::AddItem(const String &refText)
-{
-	UTF16String textUTF16;
-
-	textUTF16 = refText.GetUTF16();
-	return (uint32)SendMessageW((HWND)this->systemHandle, CB_ADDSTRING, 0, (LPARAM)textUTF16.GetC_Str());
-}
-
-void CDropDown::Clear()
-{
-	SendMessage((HWND)this->systemHandle, CB_RESETCONTENT, 0, 0);
-}
-
-uint32 CDropDown::GetNumberOfItems() const
-{
-	return (uint32)SendMessage((HWND)this->systemHandle, CB_GETCOUNT, 0, 0);
-}
-
-uint16 CDropDown::GetSelectedIndex() const
-{
-	int32 selection;
-
-	selection = SendMessage((HWND)this->systemHandle, CB_GETCURSEL, 0, 0);
-	if(selection == CB_ERR)
-		return UINT16_MAX;
-
-	return (uint16)selection;
-}
-
-Size CDropDown::GetSizeHint() const
+Size ComboBox::GetSizeHint() const
 {
 	uint16 x;
 	uint32 n, i;
@@ -91,7 +57,7 @@ Size CDropDown::GetSizeHint() const
 	SelectObject(hDC, hFont);
 
 	x = 50; //minimum
-	n = this->GetNumberOfItems();
+	n = this->controller->GetNumberOfChildren(); //number of items
 	for(i = 0; i < n; i++)
 	{
 		SendMessageW((HWND)this->systemHandle, CB_GETLBTEXT, i, (LPARAM)buffer);
@@ -107,15 +73,73 @@ Size CDropDown::GetSizeHint() const
 	return Size(x, 21);
 }
 
-void CDropDown::Select(int32 index)
+//Private methods
+void ComboBox::Backend_Create()
+{
+	this->systemHandle = CreateWindowExA(0, WC_COMBOBOXA, nullptr, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
+
+	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+}
+
+//Event handlers
+void ComboBox::OnModelChanged()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+void ComboBox::OnSelectionChanged()
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+
+/*
+OLD:
+*/
+
+/*
+void ComboBox::Select(int32 index)
 {
 	SendMessage((HWND)this->systemHandle, CB_SETCURSEL, index, 0);
 }
 
-void CDropDown::SetHint(const String &refText)
+void ComboBox::SetHint(const String &refText)
 {
 	UTF16String textUTF16;
 
 	textUTF16 = refText.GetUTF16();
 	SendMessageW((HWND)this->systemHandle, CB_SETCUEBANNER, 0, (LPARAM)textUTF16.GetC_Str());
 }
+*/
+
+/*
+uint32 ComboBox::AddItem(const String &refText)
+{
+UTF16String textUTF16;
+
+textUTF16 = refText.GetUTF16();
+return (uint32)SendMessageW((HWND)this->systemHandle, CB_ADDSTRING, 0, (LPARAM)textUTF16.GetC_Str());
+}
+
+void ComboBox::Clear()
+{
+SendMessage((HWND)this->systemHandle, CB_RESETCONTENT, 0, 0);
+}
+
+uint32 ComboBox::GetNumberOfItems() const
+{
+return (uint32)SendMessage((HWND)this->systemHandle, CB_GETCOUNT, 0, 0);
+}
+
+uint16 ComboBox::GetSelectedIndex() const
+{
+int32 selection;
+
+selection = SendMessage((HWND)this->systemHandle, CB_GETCURSEL, 0, 0);
+if(selection == CB_ERR)
+return UINT16_MAX;
+
+return (uint16)selection;
+}
+*/

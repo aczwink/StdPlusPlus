@@ -42,7 +42,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CWinMessageEventQueue.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CCheckBox.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CDropDown.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CPushButton.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
