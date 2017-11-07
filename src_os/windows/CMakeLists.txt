@@ -5,6 +5,10 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
+		#Filesystem
+		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
+
 		#Math
 		${CMAKE_CURRENT_SOURCE_DIR}/Math/CSize.cpp
 		
@@ -31,10 +35,18 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
+
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
+
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidgetContainer.cpp
@@ -47,9 +59,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
 
 		#.
         ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
