@@ -25,9 +25,9 @@
 using namespace ACStdLib;
 
 //Constructor
-BufferInputStream::BufferInputStream(const byte *pBuffer, uint32 size)
+BufferInputStream::BufferInputStream(const void *pBuffer, uint32 size)
 {
-    this->pStart = pBuffer;
+    this->pStart = static_cast<const byte *>(pBuffer);
     this->current = this->pStart;
     this->endPos = this->pStart + size;
 }

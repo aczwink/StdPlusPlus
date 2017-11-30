@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "InputStream.hpp"
-#include "../Containers/DynamicArray/DynamicArray.hpp"
+#include "ACStdLib/Containers/Array/DynamicArray.hpp"
 
 namespace ACStdLib
 {

@@ -19,6 +19,8 @@
 //Class header
 #include <ACStdLib/Filesystem/Path.hpp>
 //Global
+#include <limits.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -40,6 +42,18 @@ bool Path::Exists() const
 	UTF8String pathUTF8(this->pathString.GetUTF16());
 
 	return access((const char *)pathUTF8.GetC_Str(), F_OK) == 0;
+}
+
+Path Path::GetAbsolutePath() const
+{
+	UTF8String pathUTF8(this->pathString.GetUTF16());
+
+	char p[PATH_MAX];
+	realpath((const char *)pathUTF8.GetC_Str(), p);
+	Path result;
+	result.pathString = UTF8String(p);
+
+	return result;
 }
 
 bool Path::IsDirectory() const

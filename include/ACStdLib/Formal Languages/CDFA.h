@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/DynamicArray/DynamicArray.hpp"
+#include "ACStdLib/Containers/Array/DynamicArray.hpp"
 #include "../Containers/FiniteSet/FiniteSet.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"

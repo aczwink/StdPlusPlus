@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/DynamicArray/DynamicArray.hpp"
+#include "ACStdLib/Containers/Array/DynamicArray.hpp"
 #include "Stream.hpp"
 #include "SMetaInfo.h"
 #include "Packet.hpp"

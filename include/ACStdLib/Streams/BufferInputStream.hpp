@@ -31,7 +31,7 @@ namespace ACStdLib
         const byte *endPos;
     public:
         //Constructor
-        BufferInputStream(const byte *pBuffer, uint32 size);
+        BufferInputStream(const void *pBuffer, uint32 size);
         //Functions
         uint64 GetCurrentOffset() const;
         uint64 GetRemainingBytes() const;

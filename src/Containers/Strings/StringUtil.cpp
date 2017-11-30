@@ -235,9 +235,11 @@ uint64 ACStdLib::StringToUInt64(const String &refString)
     return result;
 }
 
-String ACStdLib::ToHexString(uint64 value, uint8 nMinChars)
+String ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 {
-    return "0x" + ::ToString(value, 16, nMinChars);
+	if(addBase)
+		return "0x" + ::ToString(value, 16, nMinChars);
+	return ::ToString(value, 16, nMinChars);
 }
 
 String ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)

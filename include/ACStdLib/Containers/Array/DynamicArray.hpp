@@ -18,10 +18,10 @@
  */
 #pragma once
 //Local
-#include "../../Natural.hpp"
-#include "../ResizeableSequenceContainer.hpp"
-#include "DynamicArrayIterator.hpp"
-#include "DynamicArrayConstIterator.hpp"
+#include "ACStdLib/Natural.hpp"
+#include "ACStdLib/Containers/ResizeableSequenceContainer.hpp"
+#include "ArrayIterator.hpp"
+#include "ConstArrayIterator.hpp"
 
 namespace ACStdLib
 {
@@ -174,24 +174,24 @@ namespace ACStdLib
         }
 
         //For range-based loops
-        inline DynamicArrayIterator<DataType> begin()
+        inline ArrayIterator<DynamicArray, DataType> begin()
         {
-            return DynamicArrayIterator<DataType>(*this);
+            return ArrayIterator<DynamicArray, DataType>(*this);
         }
 
-        inline DynamicArrayConstIterator<DataType> begin() const
+        inline ConstArrayIterator<DynamicArray, DataType> begin() const
         {
-            return DynamicArrayConstIterator<DataType>(*this);
+            return ConstArrayIterator<DynamicArray, DataType>(*this);
         }
 
-        inline DynamicArrayIterator<DataType> end()
+        inline ArrayIterator<DynamicArray, DataType> end()
         {
-            return DynamicArrayIterator<DataType>(*this, this->nElements);
+            return ArrayIterator<DynamicArray, DataType>(*this, this->nElements);
         }
 
-        inline DynamicArrayConstIterator<DataType> end() const
+        inline ConstArrayIterator<DynamicArray, DataType> end() const
         {
-            return DynamicArrayConstIterator<DataType>(*this, this->nElements);
+            return ConstArrayIterator<DynamicArray, DataType>(*this, this->nElements);
         }
     };
 }

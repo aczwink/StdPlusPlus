@@ -16,49 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace ACStdLib
 {
-    //Forward Declarations
-    template<typename DataType>
-    class DynamicArray;
-
-    template<typename DataType>
-    class DynamicArrayConstIterator
+	//template <typename DataType, template <typename> typename ArrayType>
+	template <template <typename DataType> typename ArrayType, typename DataType>
+    class ArrayIterator
     {
-        friend class DynamicArray<DataType>;
-    private:
-        //Members
-        const DynamicArray<DataType> &refArray;
-        uint32 index;
-
-        //Constructor
-        DynamicArrayConstIterator(const DynamicArray<DataType> &refArray, uint32 index = 0) : refArray(refArray)
-        {
-            this->index = index;
-        }
+        friend class ArrayType<DataType>;
     public:
         //Operators
-        DynamicArrayConstIterator &operator++() //Prefix ++
+        ArrayIterator &operator++() //Prefix ++
         {
             this->index++;
 
             return *this;
         }
 
-        const DataType &operator*() const
+        DataType &operator*()
         {
-            return this->refArray[this->index];
+            return this->array[this->index];
         }
 
-        bool operator!=(const DynamicArrayConstIterator &refOther) const
+		const DataType &operator*() const
+		{
+			return this->array[this->index];
+		}
+
+        bool operator!=(const ArrayIterator &refOther) const
         {
-            return (&this->refArray != &refOther.refArray) || (this->index != refOther.index);
+            return (&this->array != &refOther.array) || (this->index != refOther.index);
         }
 
-        //Functions
+        //Methods
         inline uint32 GetIndex() const
         {
             return this->index;
         }
+
+	private:
+		//Members
+		ArrayType<DataType> &array;
+		uint32 index;
+
+		//Constructors
+		ArrayIterator(ArrayType<DataType> &refArray, uint32 index = 0) : array(refArray)
+		{
+			this->index = index;
+		}
     };
 }

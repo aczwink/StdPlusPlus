@@ -36,7 +36,7 @@
 //FiniteSet
 #include <ACStdLib/Containers/FiniteSet/FiniteSet.hpp>
 //FixedArray
-#include <ACStdLib/Containers/FixedArray/FixedArray.hpp>
+#include <ACStdLib/Containers/Array/FixedArray.hpp>
 //LinkedList
 #include <ACStdLib/Containers/LinkedList/LinkedList.hpp>
 //Map

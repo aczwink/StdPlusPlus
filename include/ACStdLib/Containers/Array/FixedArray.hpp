@@ -18,9 +18,9 @@
  */
 #pragma once
 //Local
-#include "../../Debug.h"
-#include "../../Type.hpp"
-#include "../Container.hpp"
+#include "ACStdLib/Debug.h"
+#include "ACStdLib/Type.hpp"
+#include "ACStdLib/Containers/Container.hpp"
 
 namespace ACStdLib
 {
@@ -97,6 +97,27 @@ namespace ACStdLib
 			ASSERT(index < this->nElements);
 
 			return this->data[index];
+		}
+
+		//For range-based loops
+		inline ArrayIterator<FixedArray, DataType> begin()
+		{
+			return ArrayIterator<FixedArray, DataType>(*this);
+		}
+
+		inline ConstArrayIterator<FixedArray, DataType> begin() const
+		{
+			return ConstArrayIterator<FixedArray, DataType>(*this);
+		}
+
+		inline ArrayIterator<FixedArray, DataType> end()
+		{
+			return ArrayIterator<FixedArray, DataType>(*this, this->nElements);
+		}
+
+		inline ConstArrayIterator<FixedArray, DataType> end() const
+		{
+			return ConstArrayIterator<FixedArray, DataType>(*this, this->nElements);
 		}
 
 	private:

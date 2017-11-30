@@ -35,7 +35,7 @@ namespace ACStdLib
 	ACSTDLIB_API uint64 StringToUInt64(const ByteString &string);
     ACSTDLIB_API uint64 StringToUInt64(const String &refString);
     ACSTDLIB_API String TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
-    ACSTDLIB_API String ToHexString(uint64 value, uint8 nMinChars = 0);
+    ACSTDLIB_API String ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
     String ToString(int64 value);
     ACSTDLIB_API String ToString(uint64 value, uint8 nMinChars = 0);
     ACSTDLIB_API String ToString(float64 value);

@@ -23,8 +23,9 @@
 //Local
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
-#include <ACStdLib/Containers/FixedArray/FixedArray.hpp>
+#include <ACStdLib/Containers/Array/FixedArray.hpp>
 #include <ACStdLib/UI/Controllers/TreeController.hpp>
+#include <gobject/gvalue.h>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -57,21 +58,31 @@ void TableView::OnModelChanged()
 {
 	gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), nullptr);
 
+	//clear all columns
+	while(true)
+	{
+		GtkTreeViewColumn *column = gtk_tree_view_get_column(GTK_TREE_VIEW(THIS), 0);
+		if(!column)
+			break;
+
+		gtk_tree_view_remove_column(GTK_TREE_VIEW(THIS), column);
+	}
+
 	if(this->controller)
 	{
 		UTF8String text;
-		GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 
 		//add columns
 		uint32 nCols = this->controller->GetNumberOfColumns();
 		ASSERT_MSG(nCols, "A table must have at least one column.");
+		GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 		for (uint32 i = 0; i < nCols; i++)
 		{
 			text = this->controller->GetColumnText(i).GetUTF16();
-			GtkTreeViewColumn *column = column = gtk_tree_view_column_new_with_attributes((gchar *)text.GetC_Str(), renderer, "text", 0, nullptr);
+			GtkTreeViewColumn *column = column = gtk_tree_view_column_new_with_attributes((gchar *)text.GetC_Str(), renderer, "text", i, nullptr);
 
 			gtk_tree_view_append_column(GTK_TREE_VIEW(THIS), column);
-			gtk_tree_view_column_pack_start(column, renderer, TRUE);
+			//gtk_tree_view_column_pack_start(column, renderer, TRUE);
 		}
 
 		//fill model

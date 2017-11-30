@@ -42,10 +42,6 @@ PathIterator::PathIterator(const Path &path, bool end)
 		throw ErrorHandling::FileNotFoundException(path);
 
 	++(*this);
-	if(this->currentPath.GetString() == ".")
-		++(*this);
-	if(this->currentPath.GetString() == "..")
-		++(*this);
 }
 
 //Destructor
@@ -59,15 +55,19 @@ PathIterator::~PathIterator()
 PathIterator &PathIterator::operator++()
 {
 	dirent *ent = readdir(THIS);
-	if(ent)
+	while(ent) //unfortunately, the order of the returned files is not known. Therefore we don't know when "." and ".." will arrive...
 	{
-		this->currentPath = ent->d_name;
+		if(!(ent->d_name[0] == '.' && ((ent->d_name[1] == 0) || (ent->d_name[1] == '.' && ent->d_name[2] == 0))))
+		{
+			this->currentPath = ent->d_name;
+			return *this;
+		}
+
+		ent = readdir(THIS);
 	}
-	else
-	{
-		closedir(THIS);
-		this->pOSHandle = nullptr;
-	}
+
+	closedir(THIS);
+	this->pOSHandle = nullptr;
 
 	return *this;
 }

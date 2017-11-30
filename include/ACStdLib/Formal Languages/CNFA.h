@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/DynamicArray/DynamicArray.hpp"
+#include "ACStdLib/Containers/Array/DynamicArray.hpp"
 #include "../Containers/FiniteSet/FiniteSet.hpp"
 #include "..//Containers/Map/Map.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"

@@ -10,15 +10,14 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
 
 	#Containers
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArray.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayConstIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/DynamicArray/DynamicArrayIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/ArrayIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/ConstArrayIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/DynamicArray.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/FixedArray.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetNode.hpp
-
-    ${CMAKE_CURRENT_SOURCE_DIR}/Containers/FixedArray/FixedArray.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedList.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListConstIterator.hpp

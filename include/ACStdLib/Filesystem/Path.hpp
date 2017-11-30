@@ -109,6 +109,7 @@ namespace ACStdLib
         bool CreateDirectory();
         bool CreateDirectoryTree();
         bool Exists() const;
+		Path GetAbsolutePath() const;
         String GetFileExtension() const;
         Time GetLastModifiedTime() const;
         String GetName() const;
