@@ -65,9 +65,7 @@ namespace ACStdLib
 
         inline uint64 Read(uint8 nBits)
         {
-            register uint64 tmp;
-
-            tmp = this->Get(nBits);
+            uint64 tmp = this->Get(nBits);
             this->validBitsInBuffer -= nBits;
             this->nReadBits += nBits;
 

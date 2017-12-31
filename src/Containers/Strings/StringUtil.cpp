@@ -25,61 +25,28 @@
 #include <string.h>
 #include <locale.h>
 //Local
-#include <ACStdLib/Containers/Strings/String.hpp>
+#include <ACStdLib/Containers/Strings/OldString.hpp>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <ACStdLib/Mathematics.h>
 #include <ACStdLib/Math/Fraction.hpp>
 //Namespaces
 using namespace ACStdLib;
 
-//Local Functions
-static String ToString(uint64 value, int8 radix, uint8 nMinChars)
+OldString ACStdLib::ToString(uint64 i, uint8 bla)
 {
-    uint32 rest;
-    String buffer, result;
-
-    if(value == 0)
-        buffer = '0';
-
-    while(value > 0)
-    {
-        rest = value % radix;
-        value /= radix;
-
-        if(rest > 9) //for hex
-            buffer += (char)(rest - 10 + 'A');
-        else
-            buffer += (char)(rest + '0');
-    }
-
-    if(buffer.GetLength() < nMinChars)
-    {
-        uint8 nCharsToFill;
-
-        nCharsToFill = nMinChars - buffer.GetLength();
-
-        for(uint32 i = 0; i < nCharsToFill; i++)
-            buffer += '0';
-    }
-
-    result.EnsureCapacity(buffer.GetLength());
-
-    for(uint32 i = 0; i < buffer.GetLength(); i++)
-        result += (char)buffer[buffer.GetLength() - i - 1];
-
-    return result;
+	NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
 }
 
 //Namespace Functions
-String ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
+OldString ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
 {
-    String result;
+    OldString result;
 
     if(bitSize > MiB)
     {
         if(nFractionalDigits)
         {
-            String str;
+            OldString str;
             uint32 length;
 
             str = ToString((float64)bitSize / MiB);
@@ -87,13 +54,13 @@ String ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
             length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
             return str.SubString(0, length) + " Mibit";
         }
-        return String(bitSize / MiB) + " Mibit";
+        return OldString(bitSize / MiB) + " Mibit";
     }
     else if(bitSize > KiB)
     {
         if(nFractionalDigits)
         {
-            String str;
+            OldString str;
             uint32 length;
 
             str = ToString((float64)bitSize / KiB);
@@ -106,10 +73,10 @@ String ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
     return ToString((uint64)bitSize) + " bit";
 }
 
-String ACStdLib::FormatFileSize(uint64 fileSize, uint32 nFractionalDigits)
+OldString ACStdLib::FormatFileSize(uint64 fileSize, uint32 nFractionalDigits)
 {
     float64 fraction;
-    String suffix;
+    OldString suffix;
 
     if(fileSize > MiB)
     {
@@ -132,7 +99,7 @@ String ACStdLib::FormatFileSize(uint64 fileSize, uint32 nFractionalDigits)
     if(nFractionalDigits)
     {
         uint32 length;
-        String str;
+        OldString str;
 
         str = ToString(fraction);
         length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
@@ -169,7 +136,7 @@ bool ACStdLib::IsStringConvertibleToInteger(const ByteString &refString)
     return true;
 }
 
-int64 ACStdLib::StringToInt64(const String &refString)
+int64 ACStdLib::StringToInt64(const OldString &refString)
 {
     int64 result;
 
@@ -213,7 +180,7 @@ uint64 ACStdLib::StringToUInt64(const ByteString &string)
 	return result;
 }
 
-uint64 ACStdLib::StringToUInt64(const String &refString)
+uint64 ACStdLib::StringToUInt64(const OldString &refString)
 {
     uint32 i;
     uint64 result;
@@ -235,14 +202,17 @@ uint64 ACStdLib::StringToUInt64(const String &refString)
     return result;
 }
 
-String ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
+OldString ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 {
+    NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
+    /*
 	if(addBase)
 		return "0x" + ::ToString(value, 16, nMinChars);
 	return ::ToString(value, 16, nMinChars);
+     */
 }
 
-String ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
+OldString ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
 {
     uint64 usecs, hours, mins, secs;
 
@@ -256,7 +226,7 @@ String ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
     return ToString(hours, 2) + ':' + ToString(mins, 2) + ':' + ToString(secs, 2) + '.' + ToString(100 * usecs * refTimeScale.numerator / refTimeScale.denominator, 2);
 }
 
-String ACStdLib::ToString(int64 value)
+OldString ACStdLib::ToString(int64 value)
 {
     ByteString buffer;
     bool isNegative = false;
@@ -276,12 +246,7 @@ String ACStdLib::ToString(int64 value)
     return ToString((uint64)value);
 }
 
-String ACStdLib::ToString(uint64 value, uint8 nMinChars)
-{
-    return ::ToString(value, 10, nMinChars);
-}
-
-String ACStdLib::ToString(float64 value)
+OldString ACStdLib::ToString(float64 value)
 {
     char buf[100];
 
@@ -292,7 +257,7 @@ String ACStdLib::ToString(float64 value)
 }
 
 //8-bit functions
-ByteString ACStdLib::To8BitString(const String &refString)
+ByteString ACStdLib::To8BitString(const OldString &refString)
 {
     ByteString tmp;
 

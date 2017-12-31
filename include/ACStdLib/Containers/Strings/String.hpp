@@ -7,7 +7,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *#include "headers/Containers/Strings/UTF-16/CUTF16String.h"
+ *
  * ACStdLib is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,240 +16,379 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #pragma once
 //Local
-#include "UTF-8/UTF8String.hpp"
-#include "UTF-16/UTF16String.hpp"
-#include "StringUtil.h"
+#include "../../Debug.h"
+#include "../../Definitions.h"
+#include "../../Natural.hpp"
+#include "../../Type.hpp"
+#include "../ResizeableSequenceContainer.hpp"
 
 namespace ACStdLib
 {
+	//Forward declarations
+	class ConstStringIterator;
+
 	/**
-	 * UTF-16 string that, if needed, transforms itself to UTF-32 so that the string is always fixed length
+	 * The standard string representation of ACStdLib.
+	 * Data is Unicode codepoints, encoded in either UTF-8 or UTF-16 (host byte-order) to efficiently store data.
+	 * As these formats are variable length codings, this class does not provide the subscript-operator,
+	 * because the operation has a complexity of O(n).
+	 * When random access is required, consider using UTF32String instead, which is a fixed length coding and therefore provides constant-time access.
+	 * However, in most cases sequential access is sufficient and UTF-8/UTF-16 encondings are more space-efficient than UTF-32.
+	 *
+	 * The class defaults to use UTF-16 except on linux where UTF-8 is used, as the whole linux kernel and file system use UTF-8.
+	 *
+	 * This class uses implicitly shared resources with Copy-on-write policy.
+	 * A null byte is appended to the end of the string only if an object has exclusive access to a resource.
 	 */
-    class ACSTDLIB_API String
-    {
-    public:
-        //Constructors
-        inline String()
-        {
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String;
-        }
+	class ACSTDLIB_API String
+	{
+		friend class ConstStringIterator;
 
-		/**
-		 * We assume that c is UTF-8 encoded.
-		 * @param c
-		 */
-        inline String(char c)
-        {
-            uint16 str[] = {(uint16) c, 0};
-
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String(str);
-        }
-
-		/**
-		 * We assume that \p string is UTF-8 encoded.
-		 * @param string
-		 */
-        inline String(const char *string)
-        {
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String(UTF8String(string));
-        }
-
-        inline String(const UTF8String &refString)
-        {
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String(refString);
-        }
-
-        inline String(const UTF16String &refString)
-        {
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String(refString);
-        }
-
-        inline String(const String &refString) //copy ctor
-        {
-            this->isUTF32 = false;
-            this->pStr16 = pnew(this->storage) UTF16String;
-
-            *this = refString;
-        }
-
-        inline String(String &&refString) //move ctor
-        {
-            this->pStr16 = nullptr;
-
-            *this = (String &&)refString; //forward
-        }
-
-        //Destructor
-        inline ~String()
-        {
-            if(this->pStr16)
-                this->pStr16->~UTF16String();
-        }
-
-        //Inline operators
-		/**
-		 * We assume that \p string is UTF-8 encoded.
-		 *
-		 * @param string
-		 * @return
-		 */
-        inline String &operator=(const char *string)
-        {
-            *this->pStr16 = UTF8String(string);
-
-            return *this;
-        }
-
-        inline String &operator=(const String &refString) //copy assign
-        {
-            *this->pStr16 = *refString.pStr16;
-
-            return *this;
-        }
-
-        inline String &operator=(String &&refString) //move assign
-        {
-            if(this->pStr16)
-                this->pStr16->~UTF16String();
-
-            MemCopy(this->storage, refString.storage, sizeof(this->storage));
-            this->pStr16 = (UTF16String *)this->storage;
-
-            refString.pStr16 = nullptr;
-
-            return *this;
-        }
-
-        inline String operator+(const String &refRight) const
-        {
-            return String(*this->pStr16 + *refRight.pStr16);
-        }
-
-        inline String &operator+=(char c)
-        {
-            *this->pStr16 += c;
-
-            return *this;
-        }
-
-        inline String &operator+=(uint16 c)
-        {
-            *this->pStr16 += c;
-
-            return *this;
-        }
-
-        inline String &operator+=(uint32 c)
-        {
-            *this->pStr16 += c;
-
-            return *this;
-        }
-
-        inline String &operator+=(const String &refRight)
-        {
-            *this->pStr16 += *refRight.pStr16;
-
-            return *this;
-        }
-
-        inline uint32 operator[](uint32 index) const
-        {
-            return this->pStr16->GetC_Str()[index];
-        }
-
-        inline bool operator==(const String &refOther) const
-        {
-            return *this->pStr16 == *refOther.pStr16;
-        }
-
-        inline bool operator<(const String &refRight) const
-        {
-            return *this->pStr16 < *refRight.pStr16;
-        }
-
-        inline bool operator>(const String &refRight) const
-        {
-            return *this->pStr16 > *refRight.pStr16;
-        }
-
-        //Inline
-        inline bool Contains(uint32 codePoint) const
-        {
-            return this->pStr16->Contains(codePoint);
-        }
-
-        inline void EnsureCapacity(uint32 length)
-        {
-            this->pStr16->EnsureCapacity(length);
-        }
-
-        inline uint32 Find(uint16 c, uint32 startPos = 0) const
-        {
-            return this->pStr16->Find(c, startPos);
-        }
-
-        inline uint32 FindReverse(uint16 c, uint32 startPos = Natural<uint32>::Max()) const
-        {
-            return this->pStr16->FindReverse(c, startPos);
-        }
-
-        inline uint32 GetLength() const
-        {
-            return this->pStr16->GetLength();
-        }
-
-        inline const UTF16String &GetUTF16() const
-        {
-            return *this->pStr16;
-        }
-
-        inline bool IsEmpty() const
-        {
-            return this->pStr16->IsEmpty();
-        }
-
-        inline String SubString(uint32 beginOffset, uint32 length) const
-        {
-            return UTF16String(this->pStr16->GetC_Str() + beginOffset, length);
-        }
-
-		inline float64 ToFloat() const
+		class Resource : public ResizeableSequenceContainer<byte>
 		{
-			return this->pStr16->ToFloat();
+			friend class String;
+		public:
+			//Members
+			uint32 referenceCounter;
+			bool isUTF8;
+
+			//Constructors
+			inline Resource() : referenceCounter(1)
+			{
+#ifdef _AC_OS_LINUX
+				this->isUTF8 = true;
+#else
+				this->isUTF8 = false;
+#endif
+			}
+
+			//Inline
+			inline Resource *Copy() const
+			{
+				Resource *copy = new Resource;
+
+				copy->isUTF8 = this->isUTF8;
+				copy->EnsureCapacity(this->nElements);
+				MemCopy(copy->data, this->data, this->nElements);
+				copy->nElements = this->nElements;
+
+				return copy;
+			}
+
+			inline void EnsureCapacity(uint32 requiredNumberOfElements)
+			{
+				//always include null char in capacity so that GetRawData()
+				// does not cause a resize just because of the null byte
+				requiredNumberOfElements++;
+				ResizeableSequenceContainer<byte>::EnsureCapacity(requiredNumberOfElements);
+			}
+
+			inline void Release()
+			{
+				if(--this->referenceCounter == 0)
+					delete this;
+			}
+		};
+	public:
+		//Constructors
+		inline String() : sharedResource(nullptr), data(nullptr), length(0)
+		{
 		}
 
-        inline String ToLowercase() const
-        {
-            return this->pStr16->ToLowercase();
-        }
+		inline String(const String &other) : sharedResource(nullptr), data(nullptr) //copy ctor
+		{
+			*this = other;
+		}
 
-    private:
-        //Members
-        bool isUTF32;
-        byte storage[sizeof(UTF16String)];
-        union
-        {
-            UTF16String *pStr16;
-            CUTF32String *pStr32;
-        };
-    };
+		inline String(String &&other) : sharedResource(nullptr), data(nullptr) //move ctor
+		{
+			*this = Forward(other);
+		}
 
-    inline String operator+(char left, const String &refRight)
-    {
-        return String(left) + refRight;
-    }
+		/**
+		 * This constructor assumes that the parameter passed is UTF-8 encoded and zero terminated.
+		 * (What else should it assume?!). Therefore never provide literals without the "u8" prefix.
+		 * In addition, it assumes that the pointer is valid throughout the lifetime of the string object.
+		 * It does NOT copy the string but reference it.
+		 * For a copy instead use String::CopyRawString.
+		 *
+		 * @param utf8 An UTF-8 and zero terminated string.
+		 */
+		inline String(const char *utf8Literal) : sharedResource(nullptr), data(reinterpret_cast<const uint8 *>(utf8Literal))
+		{
+			this->length = this->CountUTF8Length(reinterpret_cast<const uint8 *>(utf8Literal), this->size);
+		}
 
-    inline String operator+(const char *pLeft, const String &refRight)
-    {
-        return String(pLeft) + refRight;
-    }
+		//Destructor
+		~String()
+		{
+			this->Release();
+		}
+
+		//Inline operators
+		inline String &operator=(const String &rhs) //copy assign
+		{
+			this->Release();
+
+			this->sharedResource = rhs.sharedResource;
+			this->data = rhs.data;
+			this->size = rhs.size;
+			this->length = rhs.length;
+			if(this->sharedResource)
+				this->sharedResource->referenceCounter++;
+
+			return *this;
+		}
+
+		inline String &operator=(String &&rhs) //move assign
+		{
+			this->Release();
+
+			this->sharedResource = rhs.sharedResource;
+			this->data = rhs.data;
+			this->size = rhs.size;
+			this->length = rhs.length;
+			rhs.sharedResource = nullptr;
+			rhs.data = nullptr;
+			rhs.size = 0;
+			rhs.length = 0;
+
+			return *this;
+		}
+
+		//Operators
+		String &operator+=(const String &rhs);
+		bool operator==(const String &rhs) const;
+
+		inline bool operator<(const String &rhs) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return false;
+		}
+
+		inline bool operator>(const String &rhs) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return false;
+		}
+
+		//Inline operators
+		inline String operator+(const String &rhs) const
+		{
+			String result(*this);
+			return result += rhs;
+		}
+
+		//Methods
+		/**
+		 * Tries to find 'string' in this string within the range of 'startPos' and 'length' and on success returns the position of the first match.
+		 * If 'string' can't be found, Natural<uint32>::Max() is returned.
+		 * The result and the range parameters are character indices, not byte indices.
+		 *
+		 * @param string
+		 * @param startPos
+		 * @param endPos
+		 * @return
+		 */
+		uint32 Find(const String &string, uint32 startPos = 0, uint32 length = Natural<uint32>::Max()) const;
+		bool StartsWith(const String &string) const;
+		/**
+		 * Convert internal representation to UTF-8 if it not already is in this enconding.
+		 *
+		 * @return *this
+		 */
+		const String &ToUTF8() const;
+
+		//Inline
+		inline uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 endPos = 0) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return 0;
+		}
+
+		inline uint32 GetLength() const
+		{
+			return this->length;
+		}
+
+		/**
+		 * Return pointer to memory containing codepoints encoded according to this strings encoding.
+		 * The memory is NOT zero terminated and therefore only the first 'size of this string' bytes that are valid.
+		 * @return
+		 */
+		inline const byte *GetRawData() const
+		{
+			return this->data;
+		}
+
+		/**
+		 * Return pointer to memory containing codepoints encoded according to this strings encoding.
+		 * The result is zero terminated.
+		 * The method can therefore cause the string to acquire an exclusive resource if it does not have already.
+		 *
+		 * @return Zero-terminated memory block of encoded codepoints
+		 */
+		inline const byte *GetRawZeroTerminatedData() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return 0;
+		}
+
+		inline uint32 GetSize() const
+		{
+			return this->size;
+		}
+
+		inline bool IsEmpty() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return 0;
+		}
+
+		inline void Release()
+		{
+			if(this->sharedResource)
+			{
+				this->sharedResource->Release();
+				this->sharedResource = nullptr;
+			}
+		}
+
+		inline String SubString(uint32 beginOffset, uint32 length) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return String();
+		}
+
+		inline String ToLowercase() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return String();
+		}
+
+		inline const String &ToUTF16() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return *this;
+		}
+
+		//Functions
+		/**
+		 * Assumes that the parameter is UTF-8 encoded and zero terminated.
+		 * Does a deep-copy of the source string.
+		 *
+		 * @param utf8
+		 * @return
+		 */
+		static String CopyRawString(const char *utf8);
+		/**
+		 * Parses a number with base 10 and returns it as a string.
+		 * The result is preceeded by length(unpadded result)-minLength zeros.
+		 *
+		 * @param value
+		 * @return
+		 */
+		static String Number(uint64 value, uint8 base = 10, uint8 minLength = 0);
+
+		//Inline functions
+		inline static String Number(uint16 natural)
+		{
+			return String::Number((uint64)natural);
+		}
+
+		inline static String Number(uint32 natural)
+		{
+			return String::Number((uint64)natural);
+		}
+
+		static String Number(float64 number)
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return String();
+		}
+
+		//For range-based loop
+		ConstStringIterator begin() const;
+		ConstStringIterator end() const;
+
+	private:
+		//Members
+		Resource *sharedResource;
+		const uint8 *data;
+		uint32 size;
+		uint32 length;
+
+		//Methods
+		void Append(uint32 codePoint);
+		uint32 DecodeUTF8(const uint8 *src, uint8 &nBytes) const;
+		uint32 DecodeUTF16(const uint16 *src, bool &isSurrogate) const;
+		/**
+		 * I.e. This wants to write the resource.
+		 */
+		void Detach();
+		uint8 EncodeUTF8(uint32 codePoint, byte *dest) const;
+
+		//Inline
+		inline uint32 CountUTF8Length(const uint8 *src, uint32 &nBytes) const
+		{
+			nBytes = 0;
+			uint32 length = 0;
+			uint8 nBytesCP;
+			while(this->DecodeUTF8(src, nBytesCP))
+			{
+				length++;
+				nBytes += nBytesCP;
+				src += nBytesCP;
+			}
+
+			return length;
+		}
+
+		inline uint32 Decode(const byte *src, uint8 &nBytes) const
+		{
+			if(this->IsUTF8())
+				return this->DecodeUTF8(src, nBytes);
+
+			bool isSurrogate;
+			uint32 codePoint = this->DecodeUTF16(reinterpret_cast<const uint16 *>(src), isSurrogate);
+			nBytes = static_cast<uint8>(2 + (isSurrogate) * 2);
+			return codePoint;
+		}
+
+		inline uint8 Encode(uint32 codePoint, byte *dest) const
+		{
+			if(this->IsUTF8())
+				return this->EncodeUTF8(codePoint, dest);
+
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me for utf16
+			return 0;
+		}
+
+		inline bool IsNull() const
+		{
+			return this->data == nullptr; //implies that also sharedResource is nullptr
+		}
+
+		inline bool IsUTF8() const
+		{
+			if(this->sharedResource)
+				return this->sharedResource->isUTF8;
+			return true; //no resource means utf8 literal
+		}
+
+		inline void ResizeAdditional(uint32 additionalSize)
+		{
+			this->sharedResource->EnsureAdditionalCapacity(additionalSize);
+			this->data = this->sharedResource->data; //resize could have moved data.
+			// However, a resize means we have exclusive access therefore data was not offset
+		}
+	};
+
+	//Operators
+	inline String operator+(const char *utf8, const String &rhs)
+	{
+		return String(utf8) + rhs;
+	}
 }

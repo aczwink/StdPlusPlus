@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Containers/Array/DynamicArray.hpp"
-#include "../Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 #include "ACStdLib/Variant.hpp"
 
@@ -41,7 +41,7 @@ namespace ACStdLib
 
 		public:
 			//Methods
-			String GetName() const;
+			OldString GetName() const;
 
 		private:
 			//Members

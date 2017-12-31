@@ -35,14 +35,14 @@ void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, c
 {
     String message;
 
-    message = "Expression: ";
-    message += pContext;
-    message += "\n";
+    message = u8"Expression: ";
+    message += String::CopyRawString(pContext);
+    message += u8"\n";
     message += refMessage;
-    message += "\nFile: ";
-    message += pFileName;
-    message += " (" + ToString((uint64)lineNumber) + ")\nFunction: ";
-    message += pFunctionName;
+    message += u8"\nFile: ";
+    message += String::CopyRawString(pFileName);
+    message += u8" (" + String::Number(lineNumber) + u8")\nFunction: ";
+    message += String::CopyRawString(pFunctionName);
 
     stdErr << message << endl;
 

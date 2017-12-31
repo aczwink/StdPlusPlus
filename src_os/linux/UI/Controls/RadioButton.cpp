@@ -64,7 +64,7 @@ Size RadioButton::GetSizeHint() const
 	return GetPreferedSizeGtk(THIS);
 }
 
-void RadioButton::SetText(const String &text)
+void RadioButton::SetText(const OldString &text)
 {
 	UTF8String textUTF8;
 

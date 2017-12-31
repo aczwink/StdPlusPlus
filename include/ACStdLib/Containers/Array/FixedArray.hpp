@@ -19,8 +19,10 @@
 #pragma once
 //Local
 #include "ACStdLib/Debug.h"
-#include "ACStdLib/Type.hpp"
-#include "ACStdLib/Containers/Container.hpp"
+#include "../../Type.hpp"
+#include "../Container.hpp"
+#include "ArrayIterator.hpp"
+#include "ConstArrayIterator.hpp"
 
 namespace ACStdLib
 {

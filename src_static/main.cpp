@@ -21,15 +21,11 @@
 
 int main(int argc, char **argv)
 {
-    String programName;
-    LinkedList<String> args;
+	argc--; //program name
+	FixedArray<String> args(argc);
 
-    programName = argv[0];
+	for(int32 i = 0; i < argc; i++)
+		args[i] = String(argv[i+1]);
 
-    for(int32 i = 1; i < argc; i++)
-    {
-        args.InsertTail(argv[i]);
-    }
-
-    return _ACMain(programName, args);
+	return _ACMain(String(argv[0]), args);
 }

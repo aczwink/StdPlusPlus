@@ -50,7 +50,7 @@ public:
 		return CodecId::BGR24;
 	}
 
-	String GetName() const
+	OldString GetName() const
 	{
 		return "24-bit B8G8R8 Interleaved (BGR24)";
 	}

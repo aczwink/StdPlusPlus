@@ -47,7 +47,7 @@ ConfigurationFile::ConfigurationFile(const Path &refPath, bool readOnly)
 
 		if(input.ReadByte() == '[')
 		{
-			String name;
+			OldString name;
 
 			name = this->ReadSectionTitle(input);
 			this->ReadSectionValues(name, input);
@@ -76,10 +76,10 @@ ConfigurationFile::~ConfigurationFile()
 }
 
 //Private methods
-String ConfigurationFile::ReadKey(InputStream &refInput)
+OldString ConfigurationFile::ReadKey(InputStream &refInput)
 {
 	char c;
-	String key;
+	OldString key;
 
 	while(true)
 	{
@@ -95,10 +95,10 @@ String ConfigurationFile::ReadKey(InputStream &refInput)
 	ASSERT(0);
 }
 
-String ConfigurationFile::ReadSectionTitle(InputStream &refInput)
+OldString ConfigurationFile::ReadSectionTitle(InputStream &refInput)
 {
 	char c;
-	String section;
+	OldString section;
 
 	DataReader reader(false, refInput);
 	while(true)
@@ -121,10 +121,10 @@ String ConfigurationFile::ReadSectionTitle(InputStream &refInput)
 	ASSERT(0);
 }
 
-void ConfigurationFile::ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput)
+void ConfigurationFile::ReadSectionValues(const OldString &refSectionName, SeekableInputStream &refInput)
 {
 	char c;
-	String key;
+	OldString key;
 
 	while(true)
 	{
@@ -143,10 +143,10 @@ void ConfigurationFile::ReadSectionValues(const String &refSectionName, Seekable
 	}
 }
 
-String ConfigurationFile::ReadValue(InputStream &refInput)
+OldString ConfigurationFile::ReadValue(InputStream &refInput)
 {
 	char c;
-	String value;
+	OldString value;
 
 	while(true)
 	{

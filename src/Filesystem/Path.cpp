@@ -47,7 +47,7 @@ String Path::GetFileExtension() const
 {
 	uint32 pos;
 
-	pos = this->pathString.FindReverse('.');
+	pos = this->pathString.FindReverse(u8".");
 
 	if(pos == Natural<uint32>::Max())
 		return String();
@@ -59,7 +59,7 @@ String Path::GetName() const
 {
 	uint32 pos;
 
-	pos = this->pathString.FindReverse('/');
+	pos = this->pathString.FindReverse(u8"/");
 
 	if(pos == Natural<uint32>::Max())
 		return this->pathString;
@@ -71,7 +71,7 @@ Path Path::GetParent() const
 {
 	uint32 pos;
 
-	pos = this->pathString.FindReverse('/');
+	pos = this->pathString.FindReverse(u8"/");
 	if(pos == Natural<uint32>::Max())
 		return Path();
 
@@ -82,7 +82,7 @@ Path Path::GetRoot() const
 {
 	uint32 pos;
 
-	pos = this->pathString.Find('/');
+	pos = this->pathString.Find(u8"/");
 	if(pos == Natural<uint32>::Max())
 		return Path();
 
@@ -93,8 +93,8 @@ String Path::GetTitle() const
 {
 	uint32 posDot, posSlash;
 
-	posDot = this->pathString.FindReverse('.');
-	posSlash = this->pathString.FindReverse('/', posDot);
+	posDot = this->pathString.FindReverse(u8".");
+	posSlash = this->pathString.FindReverse(u8"/", posDot);
 
 	if(posSlash == Natural<uint32>::Max())
 	{

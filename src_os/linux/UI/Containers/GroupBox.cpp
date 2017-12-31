@@ -72,7 +72,7 @@ Size GroupBox::GetSizeHint() const
 	return size;
 }
 
-void GroupBox::SetText(const String &text)
+void GroupBox::SetText(const OldString &text)
 {
 	UTF8String textUTF8;
 

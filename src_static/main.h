@@ -18,11 +18,12 @@
  */
 #pragma once
 //Local
+#include "../include/ACStdLib/Containers/Array/FixedArray.hpp"
 #include "../include/ACStdLib/Containers/Strings/String.hpp"
 #include "../include/ACStdLib/ErrorHandling/Exception.hpp"
 //Namespaces
 using namespace ACStdLib;
 
 //Prototypes
-int32 Main(const String &programName, const LinkedList<String> &args);
-int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs);
+int32 Main(const String &programName, const FixedArray<String> &args);
+int32 _ACMain(const String &programName, const FixedArray<String> &args);

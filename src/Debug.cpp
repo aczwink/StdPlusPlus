@@ -31,9 +31,9 @@ void ACStdLib::AssertionFailed(float64 expect, float64 got, float64 epsilon, con
 {
 	String message;
 
-	message = "Expected: " + ToString(expect) + "\n";
-	message += "Got: " + ToString(got) + "\n";
-	message += "Epsilon: " + ToString(epsilon) + "\n";
+	message = u8"Expected: " + String::Number(expect) + u8"\n";
+	message += u8"Got: " + String::Number(got) + u8"\n";
+	message += u8"Epsilon: " + String::Number(epsilon) + u8"\n";
 
 	AssertionFailed("Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
 }

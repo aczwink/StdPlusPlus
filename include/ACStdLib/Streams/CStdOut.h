@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "AOutputStream.h"
+#include "OutputStream.hpp"
 
 namespace ACStdLib
 {
@@ -26,11 +26,11 @@ namespace ACStdLib
     {
     private:
         //Members
-        AOutputStream &refOutput;
+        OutputStream &refOutput;
 
     public:
         //Constructor
-        inline CAutoLineBreaker(AOutputStream &refOutput) : refOutput(refOutput)
+        inline CAutoLineBreaker(OutputStream &refOutput) : refOutput(refOutput)
         {
         }
 
@@ -41,14 +41,14 @@ namespace ACStdLib
         }
 
         //Inline
-        inline CAutoLineBreaker &operator<<(const String &refString)
+        inline CAutoLineBreaker &operator<<(const OldString &refString)
         {
             this->refOutput << refString;
             return *this;
         }
     };
 
-    class CStdErr : public AOutputStream
+    class CStdErr : public OutputStream
     {
     public:
         //Methods
@@ -56,7 +56,7 @@ namespace ACStdLib
         uint32 WriteBytes(const void *pSource, uint32 size);
     };
 
-    class CStdOut : public AOutputStream
+    class CStdOut : public OutputStream
     {
     public:
         //Methods

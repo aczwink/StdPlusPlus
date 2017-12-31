@@ -22,7 +22,7 @@
 #include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
-#include <ACStdLib/Containers/Strings/CUTF32String.h>
+#include <ACStdLib/Containers/Strings/UTF32String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -136,7 +136,7 @@ UTF8String &UTF8String::operator=(const UTF16String &refString)
     return *this;
 }
 
-UTF8String &UTF8String::operator=(const CUTF32String &refString)
+UTF8String &UTF8String::operator=(const UTF32String &refString)
 {
     //worst-case: all need to be encoded into 4 bytes
     this->EnsureCapacity(4 * refString.GetLength());

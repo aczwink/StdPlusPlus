@@ -19,6 +19,7 @@
 //Local
 #include "main.h"
 #include "../include/ACStdLib/__InitAndShutdown.h"
+#include "../include/ACStdLib/Containers/Strings/String.hpp"
 
 //Prototypes
 #ifdef _DEBUG
@@ -26,11 +27,9 @@ ACSTDLIB_API void StartUserMemoryLogging();
 #endif
 
 //Global functions
-int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
+int32 _ACMain(const String &programName, const FixedArray<String> &args)
 {
-    int32 exitCode;
-
-    exitCode = -1;
+    int32 exitCode = -1;
 
     InitACStdLib();
 #ifdef _DEBUG
@@ -38,11 +37,11 @@ int32 _ACMain(const String &refProgramName, const LinkedList<String> &refArgs)
 #endif
     try
     {
-        exitCode = Main(refProgramName, refArgs);
+        exitCode = Main(programName, args);
     }
     catch(const ErrorHandling::Exception &e)
     {
-        ASSERT_MSG(false, "Uncaught exception: " + e.GetDescription());
+        ASSERT_MSG(false, u8"Uncaught exception: " + e.GetDescription());
     }
     catch(...)
     {

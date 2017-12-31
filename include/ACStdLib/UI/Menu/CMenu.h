@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Containers/Array/DynamicArray.hpp"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 
 namespace ACStdLib
 {
@@ -58,7 +58,7 @@ namespace ACStdLib
 
         public:
             //Constructor
-            CMenu(const String &refText);
+            CMenu(const OldString &refText);
 
             //Destructor
             ~CMenu();

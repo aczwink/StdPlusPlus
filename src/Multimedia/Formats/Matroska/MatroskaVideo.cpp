@@ -43,7 +43,7 @@ CodecId MatroskaVideo::GetDefaultCodec(DataType dataType) const
 	return CodecId::Unknown;
 }
 
-String MatroskaVideo::GetExtension() const
+OldString MatroskaVideo::GetExtension() const
 {
 	return "mkv";
 }
@@ -53,7 +53,7 @@ void MatroskaVideo::GetFormatInfo(FormatInfo &refFormatInfo) const
 	refFormatInfo.supportsByteSeeking = false;
 }
 
-String MatroskaVideo::GetName() const
+OldString MatroskaVideo::GetName() const
 {
 	return "Matroska Video";
 }

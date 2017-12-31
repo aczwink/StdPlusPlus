@@ -47,7 +47,7 @@ Size Label::GetSizeHint() const
 	return GetPreferedSizeGtk(THIS);
 }
 
-void Label::SetText(const String &text)
+void Label::SetText(const OldString &text)
 {
 	UTF8String textUTF8 = text.GetUTF16();
 	gtk_label_set_text(GTK_LABEL(THIS), (const gchar *) textUTF8.GetC_Str());

@@ -33,10 +33,8 @@ using namespace ACStdLib;
 //Constructor
 FileInputStream::FileInputStream(const Path &path)
 {
-    UTF8String fileNameUTF8(path.GetString().GetUTF16());
-
     this->hitEnd = false;
-    this->fileHandle = open((const char *)fileNameUTF8.GetC_Str(), O_RDONLY);
+    this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
 
     if(this->fileHandle == -1)
     {

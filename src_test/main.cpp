@@ -19,7 +19,7 @@
 #include <ACStdLibTest.hpp>
 
 //Functions
-int32 Main(const ACStdLib::String &programName, const ACStdLib::LinkedList<ACStdLib::String> &args)
+int32 Main(const ACStdLib::String &programName, const ACStdLib::FixedArray<ACStdLib::String> &args)
 {
 	if(ACStdLibTest::TestManager::GetInstance().RunAllTests())
 		return EXIT_SUCCESS;

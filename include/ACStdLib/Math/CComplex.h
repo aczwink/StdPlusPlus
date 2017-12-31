@@ -67,7 +67,7 @@ namespace ACStdLib
             }
 
             //Inline
-            inline String ToString() const
+            inline OldString ToString() const
             {
                 if(imag < 0)
                     return ACStdLib::ToString(this->real) + "-i" + ACStdLib::ToString(-this->imag);

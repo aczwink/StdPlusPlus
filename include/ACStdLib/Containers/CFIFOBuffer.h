@@ -19,12 +19,12 @@
 #pragma once
 //Local
 #include "ACStdLib/Streams/InputStream.hpp"
-#include "../Streams/AOutputStream.h"
+#include "ACStdLib/Streams/OutputStream.hpp"
 #include "ResizeableSequenceContainer.hpp"
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API CFIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public AOutputStream
+    class ACSTDLIB_API CFIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public OutputStream
     {
     private:
         //Members

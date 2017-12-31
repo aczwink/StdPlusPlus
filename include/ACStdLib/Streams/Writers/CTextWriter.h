@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../AOutputStream.h"
+#include "ACStdLib/Streams/OutputStream.hpp"
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 
@@ -28,11 +28,11 @@ namespace ACStdLib
     {
     private:
         //Members
-        AOutputStream &refOutput;
+        OutputStream &refOutput;
 
     public:
         //Constructor
-        inline CTextWriter(AOutputStream &refOutput) : refOutput(refOutput)
+        inline CTextWriter(OutputStream &refOutput) : refOutput(refOutput)
         {
         }
 

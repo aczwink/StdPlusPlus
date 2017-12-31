@@ -44,7 +44,7 @@ CodecId BMP_Format::GetDefaultCodec(DataType dataType) const
 	return CodecId::Unknown;
 }
 
-String BMP_Format::GetExtension() const
+OldString BMP_Format::GetExtension() const
 {
 	return "bmp";
 }
@@ -54,7 +54,7 @@ void BMP_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
 	ASSERT(0);
 }
 
-String BMP_Format::GetName() const
+OldString BMP_Format::GetName() const
 {
 	return "BMP Bitmap image";
 }

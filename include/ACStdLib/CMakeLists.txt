@@ -1,3 +1,6 @@
+add_subdirectory(Containers)
+add_subdirectory(Streams)
+
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
@@ -8,40 +11,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
-
-	#Containers
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/ArrayIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/ConstArrayIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/DynamicArray.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Array/FixedArray.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSet.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/FiniteSet/FiniteSetNode.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedList.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListConstIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/LinkedList/LinkedListNode.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/Map.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Map/MapNode.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/VariableCharLengthString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/ConstUTF8StringIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.h
-
-		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Container.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/KeyValuePair.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/PriorityQueue.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Containers/ResizeableSequenceContainer.hpp
 
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
@@ -130,20 +99,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/ShaderProgram.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Texture2D.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
-
-	#Streams
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/DataReader.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/SeekableInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.hpp
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.hpp

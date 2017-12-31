@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 #include "EnumTypes.hpp"
 
@@ -35,6 +35,6 @@ namespace ACStdLib
 
         //Functions
         ACSTDLIB_API ColorSpace GetColorSpace(PixelFormat pixelFormat);
-        ACSTDLIB_API String ToString(PixelFormat pixelFormat);
+        ACSTDLIB_API OldString ToString(PixelFormat pixelFormat);
     }
 }

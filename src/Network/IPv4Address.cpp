@@ -27,7 +27,7 @@ NetworkProtocolFamily IPv4Address::GetProtocolFamily() const
 	return NetworkProtocolFamily::IPv4;
 }
 
-String IPv4Address::ToString() const
+OldString IPv4Address::ToString() const
 {
 	return ::ToString((uint64)this->rawAddress[0]) + '.' + ::ToString((uint64)this->rawAddress[1]) + '.' + ::ToString((uint64)this->rawAddress[2]) + '.' + ::ToString((uint64)this->rawAddress[3]);
 }

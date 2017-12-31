@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "ACStdLib/Containers/Strings/StringUtil.h"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "ACStdLib/Filesystem/Path.hpp"
@@ -30,106 +30,110 @@ namespace ACStdLib
     class CLineBreak{};
     static const CLineBreak endl;
 
-    class ACSTDLIB_API AOutputStream
+    class ACSTDLIB_API OutputStream
     {
     public:
         //Destructor
-        virtual ~AOutputStream(){};
+        virtual ~OutputStream(){};
 
         //Inline Operators
-        inline AOutputStream &operator<<(char c)
+        inline OutputStream &operator<<(char c)
         {
             this->WriteByte(c);
 
             return *this;
         }
 
-        inline AOutputStream &operator<<(const char *pString)
+        inline OutputStream &operator<<(uint16 i)
         {
-            this->WriteBytes(pString, GetStringLength(pString));
-
-            return *this;
+            return *this << String::Number(i);
         }
 
-        inline AOutputStream &operator<<(uint16 i)
+        inline OutputStream &operator<<(int32 i)
         {
-            const String &refString = ToString((uint64)i);
+            const OldString &refString = ToString((int64)i);
 
             return *this << refString;
         }
 
-        inline AOutputStream &operator<<(int32 i)
+        inline OutputStream &operator<<(uint32 i)
         {
-            const String &refString = ToString((int64)i);
+            return *this << String::Number(i);
+        }
+
+        inline OutputStream &operator<<(int64 i)
+        {
+            const OldString &refString = ToString(i);
 
             return *this << refString;
         }
 
-        inline AOutputStream &operator<<(uint32 i)
+        inline OutputStream &operator<<(uint64 i)
         {
-            const String &refString = ToString((uint64)i);
+			return *this << String::Number(i);
+        }
+
+        inline OutputStream &operator<<(float64 f)
+        {
+            const OldString &refString = ToString(f);
 
             return *this << refString;
         }
 
-        inline AOutputStream &operator<<(int64 i)
-        {
-            const String &refString = ToString(i);
-
-            return *this << refString;
-        }
-
-        inline AOutputStream &operator<<(uint64 i)
-        {
-            const String &refString = ToString(i);
-
-            return *this << refString;
-        }
-
-        inline AOutputStream &operator<<(float64 f)
-        {
-            const String &refString = ToString(f);
-
-            return *this << refString;
-        }
-
-        inline AOutputStream &operator<<(const CLineBreak &refLineBreak)
+        inline OutputStream &operator<<(const CLineBreak &refLineBreak)
         {
             this->WriteBytes("\r\n", 2); //do always CR LF.. ok for windows and linux ignores CR
 
             return *this;
         }
 
-        inline AOutputStream &operator<<(const String &refString)
+		inline OutputStream &operator<<(const char *string)
+		{
+			while(*string)
+				this->WriteByte(static_cast<byte>(*string++));
+
+			return *this;
+		}
+
+        inline OutputStream &operator<<(const String &string)
         {
-            return *this << refString.GetUTF16();
+			string.ToUTF8();
+			this->WriteBytes(string.GetRawData(), string.GetSize());
+
+			return *this;
         }
 
-        inline AOutputStream &operator<<(const ByteString &refString)
+		inline OutputStream &operator<<(const OldString &string)
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: remove this method after oldstring is totally migrated
+			return *this;
+		}
+
+        inline OutputStream &operator<<(const ByteString &refString)
         {
             this->WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
 
             return *this;
         }
 
-        inline AOutputStream &operator<<(const UTF8String &refString)
+        inline OutputStream &operator<<(const UTF8String &refString)
         {
             this->WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
 
             return *this;
         }
 
-        inline AOutputStream &operator<<(const UTF16String &refString)
+        inline OutputStream &operator<<(const UTF16String &refString)
         {
             return *this << UTF8String(refString);
         }
 
-        inline AOutputStream &operator<<(const CUTF32String &refString)
+        inline OutputStream &operator<<(const UTF32String &refString)
         {
             return *this << UTF8String(refString);
         }
 
-        inline AOutputStream &operator<<(const Path &refPath)
+        inline OutputStream &operator<<(const Path &refPath)
         {
             return *this << refPath.GetString();
         }

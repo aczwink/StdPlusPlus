@@ -38,7 +38,7 @@ static void OnMenuItemActivatedHandler(GtkMenuItem *pItem, CActionEntry *pEntry)
 }
 
 //Constructor
-CMenu::CMenu(const String &refText)
+CMenu::CMenu(const OldString &refText)
 {
     UTF8String name(refText.GetUTF16());
 

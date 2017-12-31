@@ -40,7 +40,7 @@ namespace ACStdLib
 
 		//Methods
 		NetworkProtocolFamily GetProtocolFamily() const;
-		String ToString() const;
+		OldString ToString() const;
 
 		//Functions
 		/**

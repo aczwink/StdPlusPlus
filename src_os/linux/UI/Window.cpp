@@ -67,7 +67,7 @@ void Window::Maximize()
 	gtk_widget_show(THIS->widget);
 }
 
-void Window::SetTitle(const String &title)
+void Window::SetTitle(const OldString &title)
 {
 	UTF8String text;
 
@@ -75,7 +75,7 @@ void Window::SetTitle(const String &title)
 	gtk_window_set_title(GTK_WINDOW(THIS->widget), (const gchar *)text.GetC_Str());
 }
 
-void Window::ShowErrorBox(const String &title, const String &message)
+void Window::ShowErrorBox(const OldString &title, const OldString &message)
 {
 	UTF8String messageUTF8 = message.GetUTF16();
 	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(THIS->widget), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, (const gchar *) messageUTF8.GetC_Str());
@@ -88,7 +88,7 @@ void Window::ShowErrorBox(const String &title, const String &message)
 	gtk_widget_destroy(widget);
 }
 
-void Window::ShowInformationBox(const String &title, const String &message)
+void Window::ShowInformationBox(const OldString &title, const OldString &message)
 {
 	UTF8String messageUTF8 = message.GetUTF16();
 	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(THIS->widget), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, (const gchar *) messageUTF8.GetC_Str());

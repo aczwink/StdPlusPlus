@@ -29,12 +29,12 @@ namespace ACStdLib
 		public:
 			//Abstract
 			virtual uint32 GetNumberOfRows() const = 0;
-			virtual String GetText(uint32 row, uint32 column) const = 0;
+			virtual OldString GetText(uint32 row, uint32 column) const = 0;
 
 			//Methods
 			ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const;
 			uint32 GetNumberOfChildren(const ControllerIndex &parent) const;
-			String GetText(const ControllerIndex &index) const;
+			OldString GetText(const ControllerIndex &index) const;
 		};
 	}
 }

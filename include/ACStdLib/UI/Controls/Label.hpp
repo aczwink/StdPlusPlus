@@ -39,7 +39,7 @@ namespace ACStdLib
 
             //Methods
 			Size GetSizeHint() const;
-            void SetText(const String &text);
+            void SetText(const OldString &text);
         };
     }
 }

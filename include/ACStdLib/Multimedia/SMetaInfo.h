@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/Map/Map.hpp"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 
 namespace ACStdLib
@@ -28,14 +28,14 @@ namespace ACStdLib
     {
         struct SMetaInfo
         {
-            String album;
-            String artist;
-            String composer;
-            String title;
+            OldString album;
+            OldString artist;
+            OldString composer;
+            OldString title;
             uint8 trackNumber; //1-based
             uint16 year;
 
-            Map<String, String> additionalTags;
+            Map<OldString, OldString> additionalTags;
         };
     }
 }

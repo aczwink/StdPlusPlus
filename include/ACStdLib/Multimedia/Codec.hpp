@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 #include "Decoder.hpp"
 #include "AParser.h"
@@ -44,7 +44,7 @@ namespace ACStdLib
             virtual Encoder *CreateEncoder() const = 0;
             virtual AParser *CreateParser() const = 0;
             virtual CodecId GetId() const = 0;
-            virtual String GetName() const = 0;
+            virtual OldString GetName() const = 0;
 
             //Functions
             static ACSTDLIB_API const Codec *GetCodec(CodecId codecId);

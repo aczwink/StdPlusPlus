@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <ACStdLib/Containers/Strings/String.hpp>
+#include <ACStdLib/Containers/Strings/OldString.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 
 #ifdef _DEBUG

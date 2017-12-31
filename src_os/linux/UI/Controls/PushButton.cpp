@@ -50,7 +50,7 @@ Size PushButton::GetSizeHint() const
 	return GetPreferedSizeGtk(THIS);
 }
 
-void PushButton::SetText(const String &text)
+void PushButton::SetText(const OldString &text)
 {
 	UTF8String textUTF8;
 

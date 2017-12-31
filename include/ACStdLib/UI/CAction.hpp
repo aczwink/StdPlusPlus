@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "ACStdLib/Function.hpp"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 
 namespace ACStdLib
 {
@@ -29,7 +29,7 @@ namespace ACStdLib
         {
         public:
             //Members
-            String text;
+            OldString text;
             Function<void()> triggeredEvent;
         };
     }

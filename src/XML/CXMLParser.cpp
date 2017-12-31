@@ -44,7 +44,7 @@ Element *CXMLParser::ParseElement()
 	bool readBody;
 	Node *pChild;
 	Element *pElement;
-	String elementName;
+	OldString elementName;
 
 	readBody = true;
 
@@ -99,9 +99,9 @@ Element *CXMLParser::ParseElement()
 	return pElement;
 }
 
-String CXMLParser::ParseName()
+OldString CXMLParser::ParseName()
 {
-	String name;
+	OldString name;
 
 	//2.3
 
@@ -132,7 +132,7 @@ String CXMLParser::ParseName()
 
 TextNode *CXMLParser::ParseText()
 {
-	String text;
+	OldString text;
 
 	while (true)
 	{
@@ -149,9 +149,9 @@ TextNode *CXMLParser::ParseText()
 	return new TextNode(text);
 }
 
-void CXMLParser::ReadAttributes(Map<String, String> &refAttributes)
+void CXMLParser::ReadAttributes(Map<OldString, OldString> &refAttributes)
 {
-	String key, value;
+	OldString key, value;
 
 	while (true)
 	{
@@ -174,9 +174,9 @@ void CXMLParser::ReadAttributes(Map<String, String> &refAttributes)
 	end:;
 }
 
-String CXMLParser::ReadAttributeValue()
+OldString CXMLParser::ReadAttributeValue()
 {
-	String result;
+	OldString result;
 
 	this->ExpectChar('"');
 
@@ -193,8 +193,8 @@ String CXMLParser::ReadAttributeValue()
 
 void CXMLParser::ReadProlog()
 {
-	String xmlName;
-	Map<String, String> attributes;
+	OldString xmlName;
+	Map<OldString, OldString> attributes;
 
 	//2.8
 

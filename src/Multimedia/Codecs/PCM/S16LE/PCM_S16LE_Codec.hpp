@@ -29,5 +29,5 @@ public:
 	Encoder *CreateEncoder() const;
 	AParser *CreateParser() const;
 	CodecId GetId() const;
-	String GetName() const;
+	OldString GetName() const;
 };

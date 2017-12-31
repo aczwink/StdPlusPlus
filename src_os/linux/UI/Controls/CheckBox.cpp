@@ -50,7 +50,7 @@ Size CheckBox::GetSizeHint() const
 	return GetPreferedSizeGtk(THIS);
 }
 
-String CheckBox::GetText() const
+OldString CheckBox::GetText() const
 {
 	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
 }
@@ -60,7 +60,7 @@ bool CheckBox::IsChecked() const
 	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(THIS)) != 0;
 }
 
-void CheckBox::SetText(const String &text)
+void CheckBox::SetText(const OldString &text)
 {
 	UTF8String textUTF8 = text.GetUTF16();
 

@@ -36,8 +36,7 @@ PathIterator::PathIterator(const Path &path, bool end)
 		return;
 	}
 
-	UTF8String pathUTF8 = path.GetString().GetUTF16();
-	this->pOSHandle = opendir(reinterpret_cast<const char *>(pathUTF8.GetC_Str()));
+	this->pOSHandle = opendir(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()));
 	if(!this->pOSHandle)
 		throw ErrorHandling::FileNotFoundException(path);
 
@@ -59,7 +58,7 @@ PathIterator &PathIterator::operator++()
 	{
 		if(!(ent->d_name[0] == '.' && ((ent->d_name[1] == 0) || (ent->d_name[1] == '.' && ent->d_name[2] == 0))))
 		{
-			this->currentPath = ent->d_name;
+			this->currentPath = String::CopyRawString(ent->d_name);
 			return *this;
 		}
 

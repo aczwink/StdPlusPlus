@@ -21,7 +21,7 @@
 #include "Node.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 
 namespace ACStdLib
 {
@@ -31,13 +31,13 @@ namespace ACStdLib
         {
         private:
             //Members
-            String name;
+            OldString name;
             LinkedList<Node *> children;
-            Map<String, String> attributes;
+            Map<OldString, OldString> attributes;
 
         public:
             //Constructor
-            inline Element(const String &refName)
+            inline Element(const OldString &refName)
             {
                 this->name = refName;
             }
@@ -54,12 +54,12 @@ namespace ACStdLib
                 this->children.InsertTail(pNode);
             }
 
-            inline const String &GetAttribute(const String &refKey) const
+            inline const OldString &GetAttribute(const OldString &refKey) const
             {
                 return this->attributes[refKey];
             }
 
-            inline Map<String, String> &GetAttributes()
+            inline Map<OldString, OldString> &GetAttributes()
             {
                 return this->attributes;
             }
@@ -74,17 +74,17 @@ namespace ACStdLib
                 return this->children;
             }
 
-            inline const String &GetName() const
+            inline const OldString &GetName() const
             {
                 return this->name;
             }
 
-            inline bool HasAttribute(const String &refKey) const
+            inline bool HasAttribute(const OldString &refKey) const
             {
                 return this->attributes.Contains(refKey);
             }
 
-            inline void SetAttribute(const String &refKey, const String &refValue)
+            inline void SetAttribute(const OldString &refKey, const OldString &refValue)
             {
                 this->attributes[refKey] = refValue;
             }

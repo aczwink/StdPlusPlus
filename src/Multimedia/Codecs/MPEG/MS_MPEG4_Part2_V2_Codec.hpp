@@ -27,7 +27,7 @@ public:
 		return CodecId::MS_MPEG4Part2V2;
 	}
 
-	String GetName() const
+	OldString GetName() const
 	{
 		return "Microsoft MPEG-4 Part2 V2";
 	}

@@ -25,7 +25,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class AOutputStream;
+    class OutputStream;
 
     class ACSTDLIB_API InputStream
     {
@@ -44,6 +44,6 @@ namespace ACStdLib
         virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods
-        uint32 FlushTo(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());
+        uint32 FlushTo(OutputStream &refOutput, uint32 size = Natural<uint32>::Max());
     };
 }

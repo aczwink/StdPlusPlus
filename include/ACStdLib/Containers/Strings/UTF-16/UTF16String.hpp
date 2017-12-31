@@ -28,7 +28,7 @@ namespace ACStdLib
     //Forward declarations
     class ByteString;
     class UTF8String;
-    class CUTF32String;
+    class UTF32String;
 
     class ACSTDLIB_API UTF16String : public VariableCharLengthString<uint16>
     {
@@ -68,7 +68,7 @@ namespace ACStdLib
             *this = refString;
         }
 
-        inline UTF16String(const CUTF32String &refString)
+        inline UTF16String(const UTF32String &refString)
         {
             *this = refString;
         }
@@ -81,7 +81,7 @@ namespace ACStdLib
         UTF16String &operator=(const uint16 *pStr);
         UTF16String &operator=(const ByteString &refString);
         UTF16String &operator=(const UTF8String &refString);
-        UTF16String &operator=(const CUTF32String &refString);
+        UTF16String &operator=(const UTF32String &refString);
         UTF16String operator+(const UTF16String &refRight) const;
         UTF16String &operator+=(uint16 c);
         UTF16String &operator+=(const ByteString &refString);

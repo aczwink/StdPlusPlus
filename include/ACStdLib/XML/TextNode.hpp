@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Node.hpp"
-#include "../Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 
 namespace ACStdLib
 {
@@ -29,7 +29,7 @@ namespace ACStdLib
         {
         public:
             //Constructor
-            inline TextNode(const String &refText)
+            inline TextNode(const OldString &refText)
             {
                 this->text = refText;
             }
@@ -38,14 +38,14 @@ namespace ACStdLib
             NodeType GetType() const;
 
             //Inline
-            inline const String &GetText() const
+            inline const OldString &GetText() const
             {
                 return this->text;
             }
 
         private:
             //Members
-			String text;
+			OldString text;
         };
     }
 }

@@ -79,9 +79,9 @@ namespace ACStdLib
             void EnableDrop();
             void Maximize();
             void SetMenuBar(CMenuBar *pMenuBar);
-            void SetTitle(const String &title);
-            void ShowErrorBox(const String &title, const String &message);
-            void ShowInformationBox(const String &title, const String &message);
+            void SetTitle(const OldString &title);
+            void ShowErrorBox(const OldString &title, const OldString &message);
+            void ShowInformationBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
 
             //Inline

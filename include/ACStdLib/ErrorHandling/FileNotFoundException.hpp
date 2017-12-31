@@ -40,7 +40,7 @@ namespace ACStdLib
             //Inline
             inline String GetDescription() const
             {
-                return "No such file or directory: \"" + this->path.GetString() + "\"";
+                return u8"No such file or directory: \"" + this->path.GetString() + u8"\"";
             }
         };
     }

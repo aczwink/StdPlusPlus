@@ -23,7 +23,7 @@ using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
 
 //Functions
-String Multimedia::ToString(PixelFormat pixelFormat)
+OldString Multimedia::ToString(PixelFormat pixelFormat)
 {
 	switch(pixelFormat)
 	{
@@ -35,5 +35,5 @@ String Multimedia::ToString(PixelFormat pixelFormat)
 			return "YCbCr 4:2:0";
 	}
 
-	return String();
+	return OldString();
 }

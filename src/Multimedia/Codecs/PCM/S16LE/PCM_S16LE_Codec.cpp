@@ -42,7 +42,7 @@ CodecId PCM_S16LE_Codec::GetId() const
 	return CodecId::PCM_S16LE;
 }
 
-String PCM_S16LE_Codec::GetName() const
+OldString PCM_S16LE_Codec::GetName() const
 {
 	return "PCM signed 16-bit little-endian interleaved channels";
 }

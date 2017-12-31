@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "ELanguage.h"
 
 namespace ACStdLib
@@ -28,7 +28,7 @@ namespace ACStdLib
     {
     public:
         //Abstract
-        virtual String GetEnglishName() const = 0;
+        virtual OldString GetEnglishName() const = 0;
 
         //Class functions
         static ELanguage From2LetterCode(const byte(&refISO639_1_Code)[2]);

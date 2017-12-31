@@ -60,7 +60,7 @@
 #include <ACStdLib/Math/Vector4.hpp>
 
 //Streams
-#include <ACStdLib/Streams/AOutputStream.h>
+#include <ACStdLib/Streams/OutputStream.hpp>
 #include <ACStdLib/Streams/BufferedInputStream.hpp>
 #include <ACStdLib/Streams/BufferInputStream.hpp>
 #include <ACStdLib/Streams/CBufferOutputStream.h>

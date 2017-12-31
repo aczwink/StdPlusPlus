@@ -42,9 +42,9 @@ namespace ACStdLib
 
             //Methods
             Size GetSizeHint() const;
-			String GetText() const;
+			OldString GetText() const;
             bool IsChecked() const;
-            void SetText(const String &text);
+            void SetText(const OldString &text);
         };
     }
 }

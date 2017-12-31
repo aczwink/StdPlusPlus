@@ -27,11 +27,10 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Namespace functions
-Path CommonDialogs::OpenFile(const Window &refParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &filters, const Path &directory)
+Path CommonDialogs::OpenFile(const Window &refParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &filters, const Path &directory)
 {
     gint result;
     UTF8String titleUTF8;
-    String fileName;
 
     titleUTF8 = refTitle.GetUTF16();
     GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)titleUTF8.GetC_Str(), GTK_WINDOW(PRIVATE_DATA(&refParentWnd)->widget), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Open", GTK_RESPONSE_ACCEPT, nullptr);
@@ -39,9 +38,7 @@ Path CommonDialogs::OpenFile(const Window &refParentWnd, const String &refTitle,
 
 	if(!directory.GetString().IsEmpty())
 	{
-		UTF8String dir = directory.GetString().GetUTF16();
-
-		gtk_file_chooser_set_current_folder(fileChooser, (const gchar *)dir.GetC_Str());
+		gtk_file_chooser_set_current_folder(fileChooser, reinterpret_cast<const gchar *>(directory.GetString().ToUTF8().GetRawZeroTerminatedData()));
 	}
 
 	for(auto &entry : filters)
@@ -58,12 +55,13 @@ Path CommonDialogs::OpenFile(const Window &refParentWnd, const String &refTitle,
 	}
 
     result = gtk_dialog_run(GTK_DIALOG(fileChooserDialog));
+	String fileName;
     if(result == GTK_RESPONSE_ACCEPT)
     {
         char *pFileName;
 
         pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserDialog));
-        fileName = UTF8String(pFileName);
+        fileName = String::CopyRawString(pFileName);
 
         g_free(pFileName);
     }

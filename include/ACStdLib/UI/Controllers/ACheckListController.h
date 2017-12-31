@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "../Views/CCheckListView.h"
 
 namespace ACStdLib
@@ -38,7 +38,7 @@ namespace ACStdLib
 
             //Abstract
             virtual uint32 GetNumberOfItems() const = 0;
-            virtual String GetText(uint32 index) const = 0;
+            virtual OldString GetText(uint32 index) const = 0;
 
             //Inline
             inline void ModelChanged()

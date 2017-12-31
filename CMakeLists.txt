@@ -15,7 +15,7 @@ option(BUILD_DOCUMENTATION "Build documentation" OFF)
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 
 #c++ standard
-set(CMAKE_CXX_STANDARD 14) #TODO: #13 - make this 17
+set(CMAKE_CXX_STANDARD 17) #TODO: #13 - make this 17
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
 
 #currently SSE4.1 required. However, only 2 should be required for x64

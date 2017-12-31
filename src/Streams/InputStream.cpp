@@ -19,12 +19,12 @@
 //Class header
 #include <ACStdLib/Streams/InputStream.hpp>
 //Local
-#include <ACStdLib/Streams/AOutputStream.h>
+#include <ACStdLib/Streams/OutputStream.hpp>
 //Namespaces
 using namespace ACStdLib;
 
 //Public methods
-uint32 InputStream::FlushTo(AOutputStream &refOutput, uint32 size)
+uint32 InputStream::FlushTo(OutputStream &refOutput, uint32 size)
 {
 	uint32 nReadBytes, nTotalReadBytes, leftSize;
 	byte buffer[4096];

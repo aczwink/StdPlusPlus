@@ -66,9 +66,9 @@ namespace ACStdLib
     //Inline
     inline int32 MemCmp(const void *pSrc1, const void *pSrc2, uint32 size)
     {
-        register int32 difference = 0;
-        register byte *pSrc1Current = (byte *)pSrc1;
-        register byte *pSrc2Current = (byte *)pSrc2;
+        int32 difference = 0;
+        byte *pSrc1Current = (byte *)pSrc1;
+        byte *pSrc2Current = (byte *)pSrc2;
 
         while(size-- && !difference)
             difference = *(pSrc1Current++) - *(pSrc2Current++);
@@ -78,8 +78,8 @@ namespace ACStdLib
 
     inline void MemCopy(void *pDest, const void *pSrc, uint32 size)
     {
-        register byte *pDest1 = (byte *)pDest;
-        register byte *pSrc1 = (byte *)pSrc;
+        byte *pDest1 = (byte *)pDest;
+        byte *pSrc1 = (byte *)pSrc;
 
         //align on 8 bytes
         while(size & 0x7)
@@ -89,8 +89,8 @@ namespace ACStdLib
         }
 
         //copy 8 bytes based
-        register uint64 *pDest8 = (uint64 *)pDest1;
-        register uint64 *pSrc8 = (uint64 *)pSrc1;
+        uint64 *pDest8 = (uint64 *)pDest1;
+        uint64 *pSrc8 = (uint64 *)pSrc1;
 
         while(size > 32)
         {
@@ -120,7 +120,7 @@ namespace ACStdLib
 
     inline void MemSet(void *pDest, byte value, uint32 size)
     {
-        register byte *pCurrent = (byte *)pDest;
+        byte *pCurrent = (byte *)pDest;
 
         while(size--)
             *pCurrent++ = value;

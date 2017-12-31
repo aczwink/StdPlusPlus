@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "ACStdLib/Containers/Strings/String.hpp"
+#include "../Containers/Strings/String.hpp"
 #include "ACStdLib/Time/Time.hpp"
 
 namespace ACStdLib
@@ -95,12 +95,12 @@ namespace ACStdLib
 
         inline Path operator/(const Path &refRight) const
         {
-            return Path(this->pathString + '/' + refRight.pathString);
+            return Path(this->pathString + u8"/" + refRight.pathString);
         }
 
         inline Path &operator/=(const Path &refRight)
         {
-            this->pathString += '/' + refRight.pathString;
+            this->pathString += u8"/" + refRight.pathString;
 
             return *this;
         }

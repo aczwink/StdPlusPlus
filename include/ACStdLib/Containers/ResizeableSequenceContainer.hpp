@@ -28,18 +28,6 @@ namespace ACStdLib
     template<typename DataType>
     class ResizeableSequenceContainer : public Container
     {
-    protected:
-        //Members
-        DataType *data;
-        uint32 capacity; //shouldn't be altered other through methods in this class, but needed for move ctor
-        uint32 elementsAllocInterval; //shouldn't be altered other through methods in this class, but needed for move and copy ctor
-
-        //Inline
-        inline const DataType *GetEnd() const //pointer to first element after the container, shouldn't read there
-        {
-            return this->data + this->capacity;
-        }
-
     public:
         //Constructor
         ResizeableSequenceContainer()
@@ -119,6 +107,18 @@ namespace ACStdLib
         inline void SetAllocationInterval(uint32 nElementsPerInterval)
         {
             this->elementsAllocInterval = nElementsPerInterval;
+        }
+
+    protected:
+        //Members
+        DataType *data;
+        uint32 capacity; //shouldn't be altered other through methods in this class, but needed for move ctor
+        uint32 elementsAllocInterval; //shouldn't be altered other through methods in this class, but needed for move and copy ctor
+
+        //Inline
+        inline const DataType *GetEnd() const //pointer to first element after the container, shouldn't read there
+        {
+            return this->data + this->capacity;
         }
     };
 }

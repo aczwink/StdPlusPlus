@@ -60,7 +60,7 @@ namespace ACStdLibTest
 
         inline bool RunAllTests()
         {
-            ACStdLib::stdOut << "Running " << this->tests.GetNumberOfElements() << " tests..." << ACStdLib::endl;
+            ACStdLib::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << ACStdLib::endl;
             for(Test &refTest : this->tests)
             {
                 ACStdLib::stdOut << "Running test: " << refTest.pName << "..." << ACStdLib::endl;

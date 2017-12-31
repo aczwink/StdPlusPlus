@@ -50,7 +50,7 @@ public:
 		return CodecId::RGB24;
 	}
 
-	String GetName() const
+	OldString GetName() const
 	{
 		return "24-bit R8G8B8 Interleaved (RGB24)";
 	}

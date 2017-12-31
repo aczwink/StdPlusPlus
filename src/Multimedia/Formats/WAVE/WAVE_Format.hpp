@@ -28,9 +28,9 @@ public:
 	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
 	Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const;
 	CodecId GetDefaultCodec(DataType dataType) const;
-	String GetExtension() const;
+	OldString GetExtension() const;
 	void GetFormatInfo(FormatInfo &refFormatInfo) const;
-	String GetName() const;
+	OldString GetName() const;
 	FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const;
 	float32 Matches(BufferInputStream &inputStream) const;
 };

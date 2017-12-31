@@ -21,8 +21,9 @@ set(SOURCE_FILES
         #Containers
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/CUTF32String.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF32String.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/ConstUTF8StringIterator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp

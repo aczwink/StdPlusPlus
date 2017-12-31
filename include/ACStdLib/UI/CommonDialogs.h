@@ -29,12 +29,12 @@ namespace ACStdLib
         namespace CommonDialogs
         {
             //Functions
-            ACSTDLIB_API Path OpenFile(const Window &refParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters, const Path &directory = Path());
-            ACSTDLIB_API Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
-            ACSTDLIB_API bool SelectExistingDirectory(const String &refTitle, const Window &refWindow, const Function<bool(const Path &)> &refCallback, Path &refSelectedPath);
+            ACSTDLIB_API Path OpenFile(const Window &refParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters, const Path &directory = Path());
+            ACSTDLIB_API Path SaveFile(const Window *pParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters);
+            ACSTDLIB_API bool SelectExistingDirectory(const OldString &refTitle, const Window &refWindow, const Function<bool(const Path &)> &refCallback, Path &refSelectedPath);
 
             //Inline
-			inline bool SelectExistingDirectory(const String &title, const Window &window, Path &selectedPath)
+			inline bool SelectExistingDirectory(const OldString &title, const Window &window, Path &selectedPath)
 			{
 				return SelectExistingDirectory(title, window, Function<bool(const Path &)>(), selectedPath);
 			}

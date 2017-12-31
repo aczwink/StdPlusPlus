@@ -32,36 +32,27 @@ using namespace ACStdLib;
 //Public methods
 bool Path::CreateDirectory()
 {
-	UTF8String pathUTF8(this->pathString.GetUTF16());
-
-	return mkdir((const char *) pathUTF8.GetC_Str(), 0700) == 0;
+	return mkdir(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), 0700) == 0;
 }
 
 bool Path::Exists() const
 {
-	UTF8String pathUTF8(this->pathString.GetUTF16());
-
-	return access((const char *)pathUTF8.GetC_Str(), F_OK) == 0;
+	return access(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), F_OK) == 0;
 }
 
 Path Path::GetAbsolutePath() const
 {
-	UTF8String pathUTF8(this->pathString.GetUTF16());
-
 	char p[PATH_MAX];
-	realpath((const char *)pathUTF8.GetC_Str(), p);
-	Path result;
-	result.pathString = UTF8String(p);
+	realpath(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), p);
 
-	return result;
+	return {String::CopyRawString(p)};
 }
 
 bool Path::IsDirectory() const
 {
 	struct stat path_stat;
-	UTF8String pathUTF8(this->pathString.GetUTF16());
 
-	if(stat((const char *)pathUTF8.GetC_Str(), &path_stat) != 0)
+	if(stat(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), &path_stat) != 0)
 		return false;
 
 	return S_ISDIR(path_stat.st_mode);

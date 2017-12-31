@@ -20,7 +20,7 @@
 #include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 //Local
 #include <ACStdLib/Containers/Strings/StringUtil.h>
-#include <ACStdLib/Containers/Strings/CUTF32String.h>
+#include <ACStdLib/Containers/Strings/UTF32String.hpp>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
 using namespace ACStdLib;
@@ -110,7 +110,7 @@ UTF16String &UTF16String::operator=(const UTF8String &refString)
     return *this;
 }
 
-UTF16String &UTF16String::operator=(const CUTF32String &refString)
+UTF16String &UTF16String::operator=(const UTF32String &refString)
 {
     //worst-case: everything will be a surrogate
     this->EnsureCapacity(2 * refString.GetLength());

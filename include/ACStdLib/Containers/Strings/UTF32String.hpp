@@ -26,66 +26,66 @@ namespace ACStdLib
     class ByteString;
     class UTF8String;
 
-    class ACSTDLIB_API CUTF32String : public FixedCharLengthString<uint32>
+    class ACSTDLIB_API UTF32String : public FixedCharLengthString<uint32>
     {
     public:
         //Constructors
-        inline CUTF32String()
+        inline UTF32String()
         {
         }
 
-        inline CUTF32String(const CUTF32String &refString) //copy ctor
-        {
-            *this = refString;
-        }
-
-        inline CUTF32String(CUTF32String &&refString) //move ctor
+        inline UTF32String(const UTF32String &refString) //copy ctor
         {
             *this = refString;
         }
 
-        inline CUTF32String(char c)
+        inline UTF32String(UTF32String &&refString) //move ctor
+        {
+            *this = refString;
+        }
+
+        inline UTF32String(char c)
         {
             *this = (uint8)c;
         }
 
-        inline CUTF32String(const char *pString)
+        inline UTF32String(const char *pString)
         {
             *this = (const uint8 *)pString;
         }
 
-        inline CUTF32String(const uint8 *pString)
+        inline UTF32String(const uint8 *pString)
         {
             *this = pString;
         }
 
-        inline CUTF32String(const uint16 *pStr)
+        inline UTF32String(const uint16 *pStr)
         {
             *this = pStr;
         }
 
-        inline CUTF32String(const ByteString &refStr)
+        inline UTF32String(const ByteString &refStr)
         {
             *this = refStr;
         }
 
-        inline CUTF32String(const UTF8String &refString)
+        inline UTF32String(const UTF8String &refString)
         {
             *this = refString;
         }
 
         //Operators
-        CUTF32String &operator=(const CUTF32String &refString); //copy assign
-        CUTF32String &operator=(CUTF32String &&refString); //move assign
-        CUTF32String &operator=(uint8 c);
-        CUTF32String &operator=(const uint8 *pString);
-        CUTF32String &operator=(const uint16 *pStr);
-        CUTF32String &operator=(const ByteString &refStr);
-        CUTF32String &operator=(const UTF8String &refString);
+        UTF32String &operator=(const UTF32String &refString); //copy assign
+        UTF32String &operator=(UTF32String &&refString); //move assign
+        UTF32String &operator=(uint8 c);
+        UTF32String &operator=(const uint8 *pString);
+        UTF32String &operator=(const uint16 *pStr);
+        UTF32String &operator=(const ByteString &refStr);
+        UTF32String &operator=(const UTF8String &refString);
 
-        CUTF32String &operator+=(const CUTF32String &refString);
+        UTF32String &operator+=(const UTF32String &refString);
 
-        inline bool operator==(const CUTF32String &refString) const
+        inline bool operator==(const UTF32String &refString) const
         {
             if(this->GetLength() != refString.GetLength())
                 return false;
@@ -94,12 +94,12 @@ namespace ACStdLib
         }
 
         //Methods
-        CUTF32String SubString(uint32 beginOffset, uint32 length) const;
-        CUTF32String ToLowercase() const;
+        UTF32String SubString(uint32 beginOffset, uint32 length) const;
+        UTF32String ToLowercase() const;
     };
 
     //Non-Class Operators
-    ACSTDLIB_API CUTF32String operator+(const CUTF32String &refLeft, const CUTF32String &refRight);
-    ACSTDLIB_API bool operator<(const CUTF32String &refLeft, const CUTF32String &refRight);
-    ACSTDLIB_API bool operator>(const CUTF32String &refLeft, const CUTF32String &refRight);
+    ACSTDLIB_API UTF32String operator+(const UTF32String &refLeft, const UTF32String &refRight);
+    ACSTDLIB_API bool operator<(const UTF32String &refLeft, const UTF32String &refRight);
+    ACSTDLIB_API bool operator>(const UTF32String &refLeft, const UTF32String &refRight);
 }

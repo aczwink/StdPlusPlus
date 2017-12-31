@@ -31,9 +31,9 @@ namespace ACStdLib
             CTextEdit(WidgetContainer *pParent);
 
             //Methods
-            String GetText() const;
+            OldString GetText() const;
             void SetEditable(bool editable);
-            void SetText(const String &refText);
+            void SetText(const OldString &refText);
         };
     }
 }

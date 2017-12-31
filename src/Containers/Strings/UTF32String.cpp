@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include <ACStdLib/Containers/Strings/CUTF32String.h>
+#include <ACStdLib/Containers/Strings/UTF32String.hpp>
 //Local
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
@@ -25,7 +25,7 @@
 using namespace ACStdLib;
 
 //Operators
-CUTF32String &CUTF32String::operator=(const CUTF32String &refString)
+UTF32String &UTF32String::operator=(const UTF32String &refString)
 {
 	this->EnsureCapacity(refString.nElements);
 
@@ -37,7 +37,7 @@ CUTF32String &CUTF32String::operator=(const CUTF32String &refString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(CUTF32String &&refString)
+UTF32String &UTF32String::operator=(UTF32String &&refString)
 {
 	this->Release();
 
@@ -51,7 +51,7 @@ CUTF32String &CUTF32String::operator=(CUTF32String &&refString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(uint8 c)
+UTF32String &UTF32String::operator=(uint8 c)
 {
 	this->EnsureCapacity(1);
 
@@ -63,7 +63,7 @@ CUTF32String &CUTF32String::operator=(uint8 c)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(const uint8 *pString)
+UTF32String &UTF32String::operator=(const uint8 *pString)
 {
 	uint32 length;
 
@@ -79,7 +79,7 @@ CUTF32String &CUTF32String::operator=(const uint8 *pString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(const uint16 *pString)
+UTF32String &UTF32String::operator=(const uint16 *pString)
 {
 	uint32 length;
 
@@ -99,7 +99,7 @@ CUTF32String &CUTF32String::operator=(const uint16 *pString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator=(const ByteString &refString)
+UTF32String &UTF32String::operator=(const ByteString &refString)
 {
 	this->EnsureCapacity(refString.GetLength());
 
@@ -113,7 +113,7 @@ CUTF32String &CUTF32String::operator=(const ByteString &refString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator = (const UTF8String &refString)
+UTF32String &UTF32String::operator = (const UTF8String &refString)
 {
 	this->EnsureCapacity(refString.GetLength());
 	this->nElements = 0;
@@ -126,7 +126,7 @@ CUTF32String &CUTF32String::operator = (const UTF8String &refString)
 	return *this;
 }
 
-CUTF32String &CUTF32String::operator+=(const CUTF32String &refString)
+UTF32String &UTF32String::operator+=(const UTF32String &refString)
 {
 	this->EnsureAdditionalCapacity(refString.GetLength());
 
@@ -138,9 +138,9 @@ CUTF32String &CUTF32String::operator+=(const CUTF32String &refString)
 }
 
 //Public methods
-CUTF32String CUTF32String::SubString(uint32 beginOffset, uint32 length) const
+UTF32String UTF32String::SubString(uint32 beginOffset, uint32 length) const
 {
-	CUTF32String buffer;
+	UTF32String buffer;
 
 	if(length > 0)
 	{
@@ -154,9 +154,9 @@ CUTF32String CUTF32String::SubString(uint32 beginOffset, uint32 length) const
 	return buffer;
 }
 
-CUTF32String CUTF32String::ToLowercase() const
+UTF32String UTF32String::ToLowercase() const
 {
-	CUTF32String buffer;
+	UTF32String buffer;
 
 	buffer.EnsureCapacity(this->GetLength());
 	for(uint32 i = 0; i < this->GetLength(); i++)
@@ -169,9 +169,9 @@ CUTF32String CUTF32String::ToLowercase() const
 }
 
 //Non-Class Operators
-CUTF32String ACStdLib::operator+(const CUTF32String &refLeft, const CUTF32String &refRight)
+UTF32String ACStdLib::operator+(const UTF32String &refLeft, const UTF32String &refRight)
 {
-	CUTF32String tmp;
+	UTF32String tmp;
 
 	tmp.EnsureCapacity(refLeft.GetLength() + refRight.GetLength());
 	tmp += refLeft;
@@ -180,7 +180,7 @@ CUTF32String ACStdLib::operator+(const CUTF32String &refLeft, const CUTF32String
 	return tmp;
 }
 
-bool ACStdLib::operator<(const CUTF32String &refLeft, const CUTF32String &refRight)
+bool ACStdLib::operator<(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 
@@ -200,7 +200,7 @@ bool ACStdLib::operator<(const CUTF32String &refLeft, const CUTF32String &refRig
 	return MemCmp(refLeft.GetC_Str(), refRight.GetC_Str(), refLeft.GetSize()) < 0;
 }
 
-bool ACStdLib::operator>(const CUTF32String &refLeft, const CUTF32String &refRight)
+bool ACStdLib::operator>(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 

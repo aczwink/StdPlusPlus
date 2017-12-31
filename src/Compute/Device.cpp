@@ -22,7 +22,7 @@
 #include <CL/cl.h>
 //Local
 #include <ACStdLib/Memory.h>
-#include <ACStdLib/Containers/Strings/String.hpp>
+#include <ACStdLib/Containers/Strings/OldString.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 //Namespaces
 using namespace ACStdLib;
@@ -46,7 +46,7 @@ static cl_platform_id ChoosePlatform()
 }
 
 //Public methods
-String Device::GetName() const
+OldString Device::GetName() const
 {
 	cl_int result;
 	size_t size;
@@ -55,7 +55,7 @@ String Device::GetName() const
 	result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
 	ASSERT(result == CL_SUCCESS);
 
-	return String(buffer);
+	return OldString(buffer);
 }
 
 //Compute functions

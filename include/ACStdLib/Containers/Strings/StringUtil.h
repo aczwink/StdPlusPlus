@@ -24,24 +24,25 @@ namespace ACStdLib
 {
     //Forward declarations
     class Fraction;
-    class String;
+    class OldString;
+
+    OldString ToString(uint64 i, uint8 bla = 0);
 
     //Functions
-    ACSTDLIB_API String FormatBitSize(uint32 bitSize, uint32 nFractionalDigits = 0);
-    ACSTDLIB_API String FormatFileSize(uint64 fileSize, uint32 nFractionalDigits = 2);
+    ACSTDLIB_API OldString FormatBitSize(uint32 bitSize, uint32 nFractionalDigits = 0);
+    ACSTDLIB_API OldString FormatFileSize(uint64 fileSize, uint32 nFractionalDigits = 2);
     bool IsStringConvertibleToFloat(const ByteString &refString);
     bool IsStringConvertibleToInteger(const ByteString &refString);
-    ACSTDLIB_API int64 StringToInt64(const String &refString);
+    ACSTDLIB_API int64 StringToInt64(const OldString &refString);
 	ACSTDLIB_API uint64 StringToUInt64(const ByteString &string);
-    ACSTDLIB_API uint64 StringToUInt64(const String &refString);
-    ACSTDLIB_API String TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
-    ACSTDLIB_API String ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
-    String ToString(int64 value);
-    ACSTDLIB_API String ToString(uint64 value, uint8 nMinChars = 0);
-    ACSTDLIB_API String ToString(float64 value);
+    ACSTDLIB_API uint64 StringToUInt64(const OldString &refString);
+    ACSTDLIB_API OldString TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
+    ACSTDLIB_API OldString ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
+    OldString ToString(int64 value);
+    ACSTDLIB_API OldString ToString(float64 value);
 
     //8-bit functions
-    ACSTDLIB_API ByteString To8BitString(const String &refString);
+    ACSTDLIB_API ByteString To8BitString(const OldString &refString);
     ACSTDLIB_API ByteString ToString_8Bit(uint64 value, uint8 nMinChars = 0);
 
     //Inline Functions
