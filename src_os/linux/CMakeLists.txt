@@ -10,9 +10,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
 
-	#Math
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.cpp
-
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.cpp

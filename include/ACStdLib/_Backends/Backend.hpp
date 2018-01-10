@@ -16,12 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
-//Global functions
-void InitACStdLib_Platform()
+namespace ACStdLib
 {
-}
+	enum class BackendType
+	{
+		UI
+	};
 
-void ShutdownACStdLib_Platform()
-{
+	class Backend
+	{
+	public:
+		//Abstract
+		virtual BackendType GetType() const = 0;
+
+		//Overrideable
+		virtual void Load() const {};
+		virtual void Unload() const {};
+	};
 }

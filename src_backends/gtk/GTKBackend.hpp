@@ -16,12 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _ACSTDLIB_BACKEND_GTK3
+//Global
+#include <gtk/gtk.h>
+//Local
+#include <ACStdLib/_Backends/UIBackend.hpp>
 
-//Global functions
-void InitACStdLib_Platform()
+namespace ACStdLib
 {
+	class GTKBackend : public UIBackend
+	{
+	public:
+		//Methods
+		void Load() const
+		{
+			gtk_init(0, nullptr);
+		}
+	};
 }
-
-void ShutdownACStdLib_Platform()
-{
-}
+#endif

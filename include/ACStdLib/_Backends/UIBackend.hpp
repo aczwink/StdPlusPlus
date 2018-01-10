@@ -16,12 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Local
+#include "Backend.hpp"
 
-//Global functions
-void InitACStdLib_Platform()
+namespace ACStdLib
 {
-}
-
-void ShutdownACStdLib_Platform()
-{
+	class UIBackend : public Backend
+	{
+	public:
+		//Methods
+		BackendType GetType() const
+		{
+			return BackendType::UI;
+		}
+	};
 }

@@ -16,12 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Class header
+#include <ACStdLib/_Backends/BackendManager.hpp>
+//Backends
+#include "gtk/GTKBackend.hpp"
+//Namespaces
+using namespace ACStdLib;
 
-//Global functions
-void InitACStdLib_Platform()
-{
-}
+#define PRIORITY_HIGH 0
 
-void ShutdownACStdLib_Platform()
+#define ADD_BACKEND(backend, priority) this->backends[(backend)->GetType()].Insert(priority, backend);
+
+//Private methods
+void BackendManager::RegisterBackends()
 {
+#ifdef _ACSTDLIB_BACKEND_GTK3
+	GTKBackend *gtkBackend = new GTKBackend;
+
+	ADD_BACKEND(gtkBackend, PRIORITY_HIGH);
+#endif
 }

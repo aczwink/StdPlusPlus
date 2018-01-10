@@ -23,6 +23,11 @@
 
 namespace ACStdLib
 {
+	/**
+	 * A min-priority queue implementation e.g. the highest priority has the smallest priority value according to <.
+	 * @tparam DataType
+	 * @tparam PriorityType
+	 */
     template<typename DataType, typename PriorityType = uint32>
     class PriorityQueue : public Container
     {
