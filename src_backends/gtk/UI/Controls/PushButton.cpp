@@ -17,9 +17,8 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/RadioButton.hpp>
+#include <ACStdLib/UI/Controls/PushButton.hpp>
 //Local
-#include <ACStdLib/UI/WidgetContainer.hpp>
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
 //Namespaces
@@ -28,43 +27,31 @@ using namespace ACStdLib::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 
-//Local functions
-static GtkWidget *CreateRadioButtonInCorrectGroup(Widget *widget)
-{
-	for(const Widget *const& child : widget->GetParent()->GetChildren())
-	{
-		if(child == widget)
-			break;
-		if(IS_INSTANCE_OF(child, const RadioButton))
-			return gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(PRIVATE_DATA(child)->widget));
-	}
-	return gtk_radio_button_new(nullptr);
-}
-
 //Destructor
-RadioButton::~RadioButton()
+PushButton::~PushButton()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Private methods
-void RadioButton::System_CreateHandle()
+void PushButton::CreateOSHandle()
 {
-	this->systemHandle = CreateWidgetPrivateData(CreateRadioButtonInCorrectGroup(this), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_button_new(), this);
 	gtk_widget_show(THIS); //default to show
 
-	ADD_SELF_TO_PARENT(THIS);
-
 	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
+
+	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
-Size RadioButton::GetSizeHint() const
+Size PushButton::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
 }
 
-void RadioButton::SetText(const OldString &text)
+void PushButton::SetText(const OldString &text)
 {
 	UTF8String textUTF8;
 

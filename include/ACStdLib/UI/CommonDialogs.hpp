@@ -16,39 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <ACStdLib/UI/Controls/Label.hpp>
+#pragma once
 //Local
-#include "../Gtk.h"
-//Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
-//Definitions
-#define THIS (PRIVATE_DATA(this)->widget)
+#include "ACStdLib/Tuple.hpp"
+#include "ACStdLib/Filesystem/Path.hpp"
+#include "Window.hpp"
 
-//Destructor
-Label::~Label()
+namespace ACStdLib
 {
-	MemFree(this->systemHandle);
-}
-
-//Private methods
-void Label::System_CreateHandle()
-{
-	this->systemHandle = CreateWidgetPrivateData(gtk_label_new(nullptr), this);
-	gtk_widget_show(THIS); //default to show
-
-	ADD_SELF_TO_PARENT(THIS);
-}
-
-//Public methods
-Size Label::GetSizeHint() const
-{
-	return GetPreferedSizeGtk(THIS);
-}
-
-void Label::SetText(const OldString &text)
-{
-	UTF8String textUTF8 = text.GetUTF16();
-	gtk_label_set_text(GTK_LABEL(THIS), (const gchar *) textUTF8.GetC_Str());
+    namespace UI
+    {
+        namespace CommonDialogs
+        {
+            //Functions
+            ACSTDLIB_API Path OpenFile(const Window &refParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters, const Path &directory = Path());
+            ACSTDLIB_API Path SaveFile(const Window *pParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters);
+        }
+    }
 }

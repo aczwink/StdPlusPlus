@@ -178,7 +178,7 @@
 //UI
 #include <ACStdLib/UI/WidgetContainer.hpp>
 #include <ACStdLib/UI/CAction.hpp>
-#include <ACStdLib/UI/CommonDialogs.h>
+#include <ACStdLib/UI/CommonDialogs.hpp>
 #include <ACStdLib/UI/CTerminalEventQueue.h>
 #include <ACStdLib/UI/EventQueue.hpp>
 #include <ACStdLib/UI/Keyboard.hpp>

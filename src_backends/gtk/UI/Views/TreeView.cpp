@@ -34,15 +34,13 @@ using namespace ACStdLib::UI;
 static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const ControllerIndex &parent, TreeController &controller)
 {
     uint32 nChildren = controller.GetNumberOfChildren(parent);
-	UTF8String text;
     for(uint32 i = 0; i < nChildren; i++)
     {
         ControllerIndex childIndex = controller.GetChildIndex(i, 0, parent);
-        text = controller.GetText(childIndex).GetUTF16();
 
 		GtkTreeIter childIter;
         gtk_tree_store_append(store, &childIter, nodeIter);
-        gtk_tree_store_set(store, &childIter, 0, text.GetC_Str(), -1);
+        gtk_tree_store_set(store, &childIter, 0, controller.GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
 
 		AddNodes(store, &childIter, childIndex, controller);
     }
@@ -51,7 +49,7 @@ static void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const Controlle
 //Destructor
 TreeView::~TreeView()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Eventhandlers
@@ -99,7 +97,8 @@ void TreeView::OnSelectionChanged()
 //Private methods
 void TreeView::CreateOSWindow()
 {
-    this->systemHandle = CreateWidgetPrivateData(gtk_tree_view_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+    //this->backend = CreateWidgetPrivateData(gtk_tree_view_new(), this);
     gtk_widget_set_vexpand(THIS, TRUE);
 
 	ADD_SELF_TO_PARENT(THIS);

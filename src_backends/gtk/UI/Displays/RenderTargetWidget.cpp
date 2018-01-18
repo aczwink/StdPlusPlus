@@ -45,10 +45,11 @@ static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
 void RenderTargetWidget::CreateOSHandle()
 {
 	//TODO: own gtk gl area because: GL_DEPTH_TEST is enabled by gtk, when a frame buffer has a depth buffer-.-
-    //this->systemHandle = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
+    //this->backend = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
 	//ac_gtk_opengl_widget_setwidget(AC_GTK_OPENGL_WIDGET(THIS), this);
 
-	this->systemHandle = CreateWidgetPrivateData(gtk_gl_area_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_gl_area_new(), this);
 	g_signal_connect(THIS, "realize", G_CALLBACK(OnRealize), this);
 	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
 
@@ -67,5 +68,5 @@ void RenderTargetWidget::CreateOSHandle()
 
 void RenderTargetWidget::System_Destroy()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }

@@ -49,7 +49,7 @@ WidgetContainer::~WidgetContainer()
 //Eventhandlers
 void WidgetContainer::OnPaint()
 {
-    if(this->systemHandle)
+    if(this->backend)
     {
         this->IgnoreEvent();
     }

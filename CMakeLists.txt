@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(ACStdLib)
 
 #options
-option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" OFF) #TODO: make this ON again
+option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
 option(BUILD_DOCUMENTATION "Build API documentation" OFF)
 
 
@@ -15,6 +15,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class typ
 
 #machine
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1") #currently SSE4.1 required. However, only 2 should be required for x64
+
+
+
+
+#debug or release
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+	add_definitions(-D_DEBUG)
+
+	set(CMAKE_DEBUG_POSTFIX "_d")
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+	#ok
+else()
+	message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
+endif()
 
 
 
@@ -68,17 +82,6 @@ endif(USE_LIBAVCODEC)
 
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
-
-#debug or release
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    add_definitions(-D_DEBUG)
-
-    set(CMAKE_DEBUG_POSTFIX "_d")
-elseif(CMAKE_BUILD_TYPE MATCHES Release)
-	#ok
-else()
-    message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
-endif()
 
 #dependencies
 find_package(OpenCL REQUIRED)

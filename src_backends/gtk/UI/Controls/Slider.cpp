@@ -38,13 +38,14 @@ static void ValueChangedSlot(GtkRange *range, gpointer user_data)
 //Destructor
 Slider::~Slider()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Private methods
 void Slider::System_CreateHandle()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1), this);
 	gtk_widget_show(THIS); //default to show
 
 	g_signal_connect(THIS, "value-changed", G_CALLBACK(ValueChangedSlot), this);

@@ -51,10 +51,10 @@ private:
 
 	//Methods
 	Element *ParseElement();
-	OldString ParseName();
+	String ParseName();
 	TextNode *ParseText();
-	void ReadAttributes(Map<OldString, OldString> &refAttributes);
-	OldString ReadAttributeValue();
+	void ReadAttributes(Map<String, String> &refAttributes);
+	String ReadAttributeValue();
 	void ReadProlog();
 	void SkipWhitespaces();
 

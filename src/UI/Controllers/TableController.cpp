@@ -36,7 +36,7 @@ uint32 TableController::GetNumberOfChildren(const ControllerIndex &parent) const
 	return this->GetNumberOfRows();
 }
 
-OldString TableController::GetText(const ControllerIndex &index) const
+String TableController::GetText(const ControllerIndex &index) const
 {
 	return this->GetText(index.GetRow(), index.GetColumn());
 }

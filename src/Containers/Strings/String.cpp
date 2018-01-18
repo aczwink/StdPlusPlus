@@ -24,6 +24,17 @@
 using namespace ACStdLib;
 
 //Operators
+String &String::operator+=(uint32 codePoint)
+{
+	this->Detach();
+
+	this->ResizeAdditional(4);
+	uint8 nBytes = this->Encode(codePoint, &this->sharedResource->data[this->sharedResource->nElements]);
+	this->sharedResource->nElements += nBytes;
+	this->size += nBytes;
+	this->length++;
+}
+
 String &String::operator+=(const String &rhs)
 {
 	if(this->IsNull())
@@ -64,6 +75,24 @@ bool String::operator==(const String &rhs) const
 	return true;
 }
 
+bool String::operator<(const String &rhs) const
+{
+	uint32 cmpLength = MIN(this->length, rhs.length);
+	cmpLength++; //include the null byte in comparison, because this will prefer prefixes to be less
+
+	auto it = this->begin();
+	auto it2 = rhs.begin();
+	while(cmpLength--)
+	{
+		if(*it < *it2)
+			return true;
+		else if(*it > *it2)
+			return false;
+	}
+
+	return false; //only case that is left, is that both strings are equal
+}
+
 //Public methods
 uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 {
@@ -102,12 +131,71 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 	return Natural<uint32>::Max();
 }
 
+uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length) const
+{
+	startPos = MIN(startPos, this->length);
+	auto it = --this->end();
+
+	//move to correct position first
+	while(this->length > startPos)
+	{
+		++it;
+		startPos++;
+	}
+
+	while(length)
+	{
+		auto it2 = --string.end();
+
+		//try to match last code point
+		while(*it != *it2)
+		{
+			--it;
+			length--;
+
+			if(!length)
+				return Natural<uint32>::Max();
+		}
+
+		//found last code point, check for rest
+		if(length < string.length)
+			break; //can't find it anymore
+
+		if(it.EqualsReversed(it2, string.length))
+			return it.GetPosition();
+
+		//no match, skip current first char
+		--it;
+		length--;
+	}
+
+	return Natural<uint32>::Max();
+}
+
 bool String::StartsWith(const String &string) const
 {
 	if(string.length > this->length)
 		return false;
 
 	return this->begin().Equals(string.begin(), string.length);
+}
+
+String String::SubString(uint32 startPos, uint32 length) const
+{
+	auto it = this->GetIteratorAt(startPos);
+	uint32 startOffset = it.GetByteOffset();
+
+	//go to end
+	for(uint32 i = 0; i < length; i++)
+		++it;
+	uint32 size = it.GetByteOffset() - startOffset;
+
+	String result = *this;
+	result.length = length;
+	result.size = size;
+	result.data += startOffset;
+
+	return result;
 }
 
 const String &String::ToUTF8() const
@@ -121,17 +209,6 @@ const String &String::ToUTF8() const
 }
 
 //Private methods
-void String::Append(uint32 codePoint)
-{
-	this->Detach();
-
-	this->ResizeAdditional(4);
-	uint8 nBytes = this->Encode(codePoint, &this->sharedResource->data[this->sharedResource->nElements]);
-	this->sharedResource->nElements += nBytes;
-	this->size += nBytes;
-	this->length++;
-}
-
 uint32 String::DecodeUTF8(const uint8 *src, uint8 &nBytes) const
 {
 	uint32 b1;
@@ -167,7 +244,7 @@ uint32 String::DecodeUTF16(const uint16 *src, bool &isSurrogate) const
 	return static_cast<uint32>(*src);
 }
 
-void String::Detach()
+void String::Detach() const
 {
 	if(this->sharedResource)
 	{
@@ -244,6 +321,24 @@ uint8 String::EncodeUTF8(uint32 codePoint, byte *dest) const
 	return 0;
 }
 
+ConstStringIterator String::GetIteratorAt(uint32 startPos) const
+{
+	if(startPos > this->length / 2)
+	{
+		auto it = this->end();
+		while(startPos++ < this->length)
+			--it;
+
+		return it;
+	}
+
+	auto it = this->begin();
+	while(startPos--)
+		++it;
+
+	return it;
+}
+
 //Class functions
 String String::CopyRawString(const char *utf8)
 {
@@ -275,9 +370,9 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 		value /= base;
 
 		if(rest > 9) //for hex
-			buffer.Append(rest - 10 + u8'A');
+			buffer += (rest - 10 + u8'A');
 		else
-			buffer.Append(rest + u8'0');
+			buffer += (rest + u8'0');
 	}
 
 	if(buffer.GetLength() < minLength)
@@ -287,7 +382,7 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 		nCharsToFill = static_cast<uint8>(minLength - buffer.GetLength());
 
 		for(uint32 i = 0; i < nCharsToFill; i++)
-			buffer.Append(u8'0');
+			buffer += (u8'0');
 	}
 
 	result.Detach();
@@ -297,7 +392,7 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 	for(uint32 i = 0; i < buffer.GetLength(); i++)
 	{
 		--it;
-		result.Append(*it);
+		result += (*it);
 	}
 
 	return result;

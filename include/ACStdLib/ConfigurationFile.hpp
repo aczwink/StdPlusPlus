@@ -40,55 +40,55 @@ namespace ACStdLib
         ~ConfigurationFile();
 
         //Inline
-        inline bool ContainsSection(const OldString &refSectionName)
+        inline bool ContainsSection(const String &refSectionName)
         {
             return this->sections.Contains(refSectionName);
         }
 
-        inline bool ContainsValue(const OldString &refSectionName, const OldString &refKey) const
+        inline bool ContainsValue(const String &refSectionName, const String &refKey) const
         {
             return this->sections.Contains(refSectionName) && this->sections[refSectionName].Contains(refKey);
         }
 
-        inline bool GetBoolValue(const OldString &refSectionName, const OldString &refKey) const
+        inline bool GetBoolValue(const String &refSectionName, const String &refKey) const
         {
-            return this->GetStringValue(refSectionName, refKey) == "true";
+            return this->GetStringValue(refSectionName, refKey) == u8"true";
         }
 
-        inline int32 GetIntValue(const OldString &refSectionName, const OldString &refKey) const
+        inline int64 GetIntValue(const String &refSectionName, const String &refKey) const
         {
-            return (int32)StringToInt64(this->GetStringValue(refSectionName, refKey));
+            return this->GetStringValue(refSectionName, refKey).ToInt();
         }
 
-        inline OldString GetStringValue(const OldString &refSectionName, const OldString &refKey) const
+        inline String GetStringValue(const String &refSectionName, const String &refKey) const
         {
             return this->sections[refSectionName][refKey];
         }
 
-        inline void SetValue(const OldString &refSectionName, const OldString &refKey, bool value)
+        inline void SetValue(const String &refSectionName, const String &refKey, bool value)
         {
-            this->sections[refSectionName][refKey] = value ? "true" : "false";
+            this->sections[refSectionName][refKey] = value ? u8"true" : u8"false";
         }
 
-        inline void SetValue(const OldString &refSectionName, const OldString &refKey, const OldString &refValue)
+        inline void SetValue(const String &refSectionName, const String &refKey, const String &refValue)
         {
             this->sections[refSectionName][refKey] = refValue;
         }
 
-        inline void SetValue(const OldString &refSectionName, const OldString &refKey, int64 value)
+        inline void SetValue(const String &refSectionName, const String &refKey, int64 value)
         {
-            this->sections[refSectionName][refKey] = ToString(value);
+            this->sections[refSectionName][refKey] = String::Number(value);
         }
 
 	private:
 		//Members
 		bool readOnly;
 		Path path;
-		Map<OldString, Map<OldString, OldString>> sections;
+		Map<String, Map<String, String>> sections;
 		//Methods
-		OldString ReadKey(InputStream &refInput);
-		OldString ReadSectionTitle(InputStream &refInput);
-		void ReadSectionValues(const OldString &refSectionName, SeekableInputStream &refInput);
-		OldString ReadValue(InputStream &refInput);
+		String ReadKey(InputStream &refInput);
+		String ReadSectionTitle(InputStream &refInput);
+		void ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput);
+		String ReadValue(InputStream &refInput);
     };
 }

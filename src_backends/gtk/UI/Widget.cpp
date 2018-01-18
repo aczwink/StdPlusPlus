@@ -30,25 +30,6 @@ using namespace ACStdLib::UI;
 //Global variables
 extern bool g_ignoreEvent;
 
-//Private methods
-Size Widget::System_GetSize() const
-{
-	GtkAllocation alloc;
-
-	gtk_widget_get_allocation(PRIVATE_DATA(this)->widget, &alloc);
-
-	return Size((uint16)alloc.width, (uint16)alloc.height);
-}
-
-void Widget::System_SetRect(const Rect &area)
-{
-	gtk_widget_queue_resize(PRIVATE_DATA(this)->widget);
-	/*
-	if(PRIVATE_DATA(this)->childAreaWidget)
-		gtk_widget_queue_resize(PRIVATE_DATA(this)->childAreaWidget);
-	 */
-}
-
 //Proctected methods
 void Widget::IgnoreEvent()
 {
@@ -64,9 +45,4 @@ void Widget::Repaint()
 void Widget::SetEnabled(bool enable)
 {
 	gtk_widget_set_sensitive(PRIVATE_DATA(this)->widget, enable);
-}
-
-void Widget::Show(bool visible)
-{
-    gtk_widget_show(PRIVATE_DATA(this)->widget);
 }

@@ -35,13 +35,14 @@ using namespace ACStdLib::UI;
 //Destructor
 TableView::~TableView()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Private methods
 void TableView::Backend_Create()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_tree_view_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_tree_view_new(), this);
 
 	gtk_widget_set_hexpand(THIS, TRUE);
 	gtk_widget_set_vexpand(THIS, TRUE);
@@ -70,16 +71,13 @@ void TableView::OnModelChanged()
 
 	if(this->controller)
 	{
-		UTF8String text;
-
 		//add columns
 		uint32 nCols = this->controller->GetNumberOfColumns();
 		ASSERT_MSG(nCols, "A table must have at least one column.");
 		GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 		for (uint32 i = 0; i < nCols; i++)
 		{
-			text = this->controller->GetColumnText(i).GetUTF16();
-			GtkTreeViewColumn *column = column = gtk_tree_view_column_new_with_attributes((gchar *)text.GetC_Str(), renderer, "text", i, nullptr);
+			GtkTreeViewColumn *column = column = gtk_tree_view_column_new_with_attributes((gchar *)this->controller->GetColumnText(i).ToUTF8().GetRawZeroTerminatedData(), renderer, "text", i, nullptr);
 
 			gtk_tree_view_append_column(GTK_TREE_VIEW(THIS), column);
 			//gtk_tree_view_column_pack_start(column, renderer, TRUE);
@@ -100,8 +98,7 @@ void TableView::OnModelChanged()
 			{
 				ControllerIndex cellIndex = this->controller->GetChildIndex(i, j);
 
-				text = this->controller->GetText(cellIndex).GetUTF16();
-				gtk_list_store_set(store, &iter, j, text.GetC_Str(), -1);
+				gtk_list_store_set(store, &iter, j, this->controller->GetText(cellIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
 			}
 		}
 

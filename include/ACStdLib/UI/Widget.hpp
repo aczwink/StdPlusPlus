@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "../_Backends/WindowBackend.hpp"
 #include "ACStdLib/Function.hpp"
 #include "ACStdLib/Containers/Strings/OldString.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
@@ -60,8 +61,6 @@ namespace ACStdLib
             //Methods
             void Repaint();
             void SetEnabled(bool enable = true);
-            void SetRect(const Rect &area);
-            void Show(bool visible = true);
             Point TransformToWindow(const Point &refPoint) const;
 
             //Overrideable
@@ -80,10 +79,9 @@ namespace ACStdLib
 
 			inline Size GetSize() const
 			{
-				if(this->systemHandle == nullptr)
-					return this->bounds.size;
-
-				return this->System_GetSize();
+				if(this->backend)
+					return this->backend->GetSize();
+				return this->bounds.size;
 			}
 
             inline const Window *GetWindow() const
@@ -95,9 +93,24 @@ namespace ACStdLib
                 return (Window *)this;
             }
 
+			inline void SetBounds(const Rect &area)
+			{
+				this->bounds = area;
+
+				if(this->backend)
+					this->backend->SetBounds(area);
+				else
+					this->OnResized();
+			}
+
+			inline void Show(bool visible = true)
+			{
+				this->backend->Show(visible);
+			}
+
 		protected:
 			//Members
-			void *systemHandle;
+			_ACStdLib_internal::WindowBackend *backend;
 
 			//Methods
 			ERenderMode GetRenderMode() const;
@@ -118,10 +131,6 @@ namespace ACStdLib
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnPaint();
 			virtual void OnResized();
-
-			//Methods
-			Size System_GetSize() const;
-			void System_SetRect(const Rect &area);
         };
     }
 }

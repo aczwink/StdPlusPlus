@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "ACStdLib/Containers/Strings/OldString.hpp"
+#include "../../Containers/Strings/String.hpp"
 #include "../Views/View.hpp"
 #include "ControllerIndex.hpp"
 
@@ -39,7 +39,7 @@ namespace ACStdLib
 
             //Abstract
             virtual ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent = ControllerIndex()) const = 0;
-			virtual OldString GetColumnText(uint32 column) const = 0;
+			virtual String GetColumnText(uint32 column) const = 0;
             virtual uint32 GetNumberOfChildren(const ControllerIndex &parent = ControllerIndex()) const = 0;
 			/**
 			 * A special value is the return value 0. This means that the controller does not provide data in relation with columns.
@@ -50,7 +50,7 @@ namespace ACStdLib
 			 * @return
 			 */
 			virtual uint32 GetNumberOfColumns() const = 0;
-            virtual OldString GetText(const ControllerIndex &index) const = 0;
+            virtual String GetText(const ControllerIndex &index) const = 0;
 
             //Inline
             inline void ModelChanged()

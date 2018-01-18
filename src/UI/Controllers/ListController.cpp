@@ -28,9 +28,9 @@ ControllerIndex ListController::GetChildIndex(uint32 row, uint32 column, const C
 	return this->CreateIndex(row, 0, nullptr);
 }
 
-OldString ListController::GetColumnText(uint32 column) const
+String ListController::GetColumnText(uint32 column) const
 {
-	return OldString();
+	return String();
 }
 
 uint32 ListController::GetNumberOfChildren(const ControllerIndex &parent) const
@@ -46,7 +46,7 @@ uint32 ListController::GetNumberOfColumns() const
 	return 0;
 }
 
-OldString ListController::GetText(const ControllerIndex &index) const
+String ListController::GetText(const ControllerIndex &index) const
 {
 	return this->GetText(index.GetRow());
 }

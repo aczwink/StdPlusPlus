@@ -37,27 +37,10 @@ void Window::OnPaint()
 }
 
 //Private methods
-void Window::CreateOSWindow(const Rect &refRect)
-{
-	this->systemHandle = CreateWidgetContainerPrivateData(gtk_window_new(GTK_WINDOW_TOPLEVEL), this);
-
-    gtk_window_set_position(GTK_WINDOW(THIS->widget), GTK_WIN_POS_CENTER);
-    gtk_window_set_default_size(GTK_WINDOW(THIS->widget), refRect.width(), refRect.height());
-
-	g_signal_connect(THIS->widget, "check-resize", G_CALLBACK(GtkEventQueue::CheckResizeSlot), this);
-    g_signal_connect(THIS->widget, "delete-event", G_CALLBACK(GtkEventQueue::CloseSlot), nullptr);
-    g_signal_connect(THIS->widget, "destroy", G_CALLBACK(GtkEventQueue::DestroySlot), this);
-}
-
-void Window::DestroyOSWindow()
-{
-	DestroyWidgetPrivateData(THIS);
-}
-
 void Window::MenuBarChangeOS()
 {
     gtk_container_add(GTK_CONTAINER(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
-    //gtk_box_pack_start(GTK_BOX(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->systemHandle, FALSE, FALSE, 0);
+    //gtk_box_pack_start(GTK_BOX(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->backend, FALSE, FALSE, 0);
 }
 
 //Public methods
@@ -79,19 +62,6 @@ void Window::ShowErrorBox(const OldString &title, const OldString &message)
 {
 	UTF8String messageUTF8 = message.GetUTF16();
 	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(THIS->widget), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, (const gchar *) messageUTF8.GetC_Str());
-
-	UTF8String titleUTF8 = title.GetUTF16();
-	gtk_window_set_title(GTK_WINDOW(widget), (const gchar *) titleUTF8.GetC_Str());
-
-	gtk_dialog_run(GTK_DIALOG(widget));
-
-	gtk_widget_destroy(widget);
-}
-
-void Window::ShowInformationBox(const OldString &title, const OldString &message)
-{
-	UTF8String messageUTF8 = message.GetUTF16();
-	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(THIS->widget), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, (const gchar *) messageUTF8.GetC_Str());
 
 	UTF8String titleUTF8 = title.GetUTF16();
 	gtk_window_set_title(GTK_WINDOW(widget), (const gchar *) titleUTF8.GetC_Str());

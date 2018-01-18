@@ -17,9 +17,34 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <ACStdLib/UI/Controls/LineEdit.hpp>
+//Local
+#include "../Gtk.h"
+#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
+//Definitions
+#define THIS (PRIVATE_DATA(this)->widget)
+
+//Destructor
+LineEdit::~LineEdit()
+{
+	MemFree(this->backend);
+}
 
 //Public methods
+Size LineEdit::GetSizeHint() const
+{
+	return GetPreferedSizeGtk(THIS);
+}
+
+//Private methods
+void LineEdit::Backend_Create()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_entry_new(), this);
+	gtk_widget_show(THIS); //default to show
+
+	ADD_SELF_TO_PARENT(THIS);
+}

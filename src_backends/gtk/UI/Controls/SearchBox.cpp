@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/LineEdit.hpp>
+#include <ACStdLib/UI/Controls/SearchBox.hpp>
 //Local
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
@@ -28,21 +28,22 @@ using namespace ACStdLib::UI;
 #define THIS (PRIVATE_DATA(this)->widget)
 
 //Destructor
-LineEdit::~LineEdit()
+SearchBox::~SearchBox()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Public methods
-Size LineEdit::GetSizeHint() const
+Size SearchBox::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
 }
 
 //Private methods
-void LineEdit::Backend_Create()
+void SearchBox::Backend_Create()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_entry_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_search_entry_new(), this);
 	gtk_widget_show(THIS); //default to show
 
 	ADD_SELF_TO_PARENT(THIS);

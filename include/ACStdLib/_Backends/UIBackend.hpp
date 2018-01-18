@@ -18,12 +18,22 @@
  */
 //Local
 #include "Backend.hpp"
+#include "WindowBackend.hpp"
 
 namespace ACStdLib
 {
+	//Forward declarations
+	namespace UI
+	{
+		class Widget;
+	}
+
 	class UIBackend : public Backend
 	{
 	public:
+		//Abstract
+		virtual _ACStdLib_internal::WindowBackend *CreateWindowBackend(_ACStdLib_internal::WindowBackendType type, UI::Widget *widget) const = 0;
+
 		//Methods
 		BackendType GetType() const
 		{

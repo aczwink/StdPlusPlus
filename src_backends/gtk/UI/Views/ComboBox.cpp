@@ -35,7 +35,7 @@ using namespace ACStdLib::UI;
 //Destructor
 ComboBox::~ComboBox()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Public methods
@@ -47,7 +47,8 @@ Size ComboBox::GetSizeHint() const
 //Private methods
 void ComboBox::Backend_Create()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_combo_box_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_combo_box_new(), this);
 
 	GtkCellRenderer *column = gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(THIS), column, TRUE);
@@ -70,15 +71,13 @@ void ComboBox::OnModelChanged()
 		GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
 
 		uint32 nEntries = this->controller->GetNumberOfChildren();
-		UTF8String text;
 		for(uint32 i = 0; i < nEntries; i++)
 		{
 			ControllerIndex childIndex = this->controller->GetChildIndex(i, 0, ControllerIndex());
 
-			text = this->controller->GetText(childIndex).GetUTF16();
 			GtkTreeIter iter;
 			gtk_list_store_append(store, &iter);
-			gtk_list_store_set(store, &iter, 0, text.GetC_Str(), -1);
+			gtk_list_store_set(store, &iter, 0, this->controller->GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
 		}
 
 		gtk_combo_box_set_model(GTK_COMBO_BOX(THIS), GTK_TREE_MODEL(store));

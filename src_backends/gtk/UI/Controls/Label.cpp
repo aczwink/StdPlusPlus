@@ -17,10 +17,9 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/PushButton.hpp>
+#include <ACStdLib/UI/Controls/Label.hpp>
 //Local
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
@@ -28,32 +27,29 @@ using namespace ACStdLib::UI;
 #define THIS (PRIVATE_DATA(this)->widget)
 
 //Destructor
-PushButton::~PushButton()
+Label::~Label()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Private methods
-void PushButton::CreateOSHandle()
+void Label::System_CreateHandle()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_button_new(), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_label_new(nullptr), this);
 	gtk_widget_show(THIS); //default to show
-
-	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
 
 	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
-Size PushButton::GetSizeHint() const
+Size Label::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
 }
 
-void PushButton::SetText(const OldString &text)
+void Label::SetText(const OldString &text)
 {
-	UTF8String textUTF8;
-
-	textUTF8 = text.GetUTF16();
-	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *)textUTF8.GetC_Str());
+	UTF8String textUTF8 = text.GetUTF16();
+	gtk_label_set_text(GTK_LABEL(THIS), (const gchar *) textUTF8.GetC_Str());
 }

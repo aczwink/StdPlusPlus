@@ -20,6 +20,8 @@
 #include <ACStdLib/UI/Window.hpp>
 //Local
 #include <ACStdLib/UI/Menu/CMenuBar.h>
+#include <ACStdLib/_Backends/BackendManager.hpp>
+#include <ACStdLib/_Backends/UIBackend.hpp>
 #include "Render Targets/IRenderTarget.h"
 //Namespaces
 using namespace ACStdLib;
@@ -28,22 +30,23 @@ using namespace ACStdLib::UI;
 //Constructors
 Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
 {
-    Size screenSize;
-    Rect windowRect;
-
-    const float64 shrinkPercentage = -0.1;
-
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-    screenSize = GetRenderTarget(mode).GetSize();
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
 
+	//position and size
+    const float64 shrinkPercentage = -0.1;
+
+    Size screenSize = GetRenderTarget(mode).GetSize();
+
+	Rect windowRect;
     windowRect.width() = screenSize.width;
     windowRect.height() = screenSize.height;
     windowRect.Enlarge(int32(windowRect.width() * shrinkPercentage), int32(windowRect.height() * shrinkPercentage));
 
-    this->Init(windowRect);
+	this->SetBounds(windowRect);
 }
 
 Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
@@ -52,26 +55,28 @@ Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-    this->Init(refRect);
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
+	this->SetBounds(refRect);
 }
 
 Window::Window(uint16 width, uint16 height, ERenderMode mode) : WidgetContainer(nullptr)
 {
-    Rect windowRect;
-    Size screenSize;
-
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-    screenSize = GetRenderTarget(mode).GetSize();
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
 
+	//position and size
+    Size screenSize = GetRenderTarget(mode).GetSize();
+
+	Rect windowRect;
     windowRect.x() = (screenSize.width - width) / 2;
     windowRect.y() = (screenSize.height - height) / 2;
     windowRect.width() = width;
     windowRect.height() = height;
 
-    this->Init(windowRect);
+	this->SetBounds(windowRect);
 }
 
 //Destructor
@@ -81,8 +86,6 @@ Window::~Window()
         delete this->pMenuBar;
     if(this->pOSDropTarget)
         delete this->pOSDropTarget;
-
-    this->DestroyOSWindow();
 }
 
 //Eventhandlers
@@ -109,20 +112,6 @@ void Window::OnDrop(const ITransfer &refTransfer)
 {
 }
 
-//Private methods
-void Window::Init(const Rect &refRect)
-{
-    switch(this->renderMode)
-    {
-        case ERenderMode::OS:
-            this->CreateOSWindow(refRect);
-            break;
-        case ERenderMode::Text:
-            this->SetRect(refRect);
-            break;
-    }
-}
-
 //Public methods
 void Window::SetMenuBar(CMenuBar *pMenuBar)
 {
@@ -136,14 +125,14 @@ void Window::SetMenuBar(CMenuBar *pMenuBar)
 
 void Window::SwitchFullscreen(bool state)
 {
-    if(this->systemHandle)
+    if(this->backend)
     {
         //OS-handled!
         NOT_IMPLEMENTED_ERROR;
     }
     else
     {
-        this->SetRect(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
+		this->SetBounds(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
         this->Repaint();
     }
 }

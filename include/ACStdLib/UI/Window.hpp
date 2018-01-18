@@ -43,25 +43,6 @@ namespace ACStdLib
         {
             friend class CDropTarget;
             friend class EventQueue;
-        private:
-            //Members
-            CMenuBar *pMenuBar;
-            CDropTarget *pOSDropTarget;
-
-            //Eventhandlers
-            virtual void OnClose();
-            virtual EDropType OnDragEnter(const ITransfer &refTransfer);
-            virtual void OnDragLeave();
-            virtual EDropType OnDragMove();
-            virtual void OnDrop(const ITransfer &refTransfer);
-            virtual void OnPaint();
-
-            //Methods
-            void CreateOSWindow(const Rect &refRect);
-            void DestroyOSWindow();
-            void MenuBarChangeOS();
-            void Init(const Rect &refRect);
-
         protected:
             //Eventhandlers
             Function<void()> onDestroyEventHandler;
@@ -81,7 +62,6 @@ namespace ACStdLib
             void SetMenuBar(CMenuBar *pMenuBar);
             void SetTitle(const OldString &title);
             void ShowErrorBox(const OldString &title, const OldString &message);
-            void ShowInformationBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
 
             //Inline
@@ -89,6 +69,32 @@ namespace ACStdLib
             {
                 return this->pMenuBar;
             }
+
+			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = {})
+			{
+				return this->backend->SelectExistingDirectory(title, callback);
+			}
+
+			inline void ShowInformationBox(const String &title, const String &message)
+			{
+				this->backend->ShowInformationBox(title, message);
+			}
+
+        private:
+            //Members
+            CMenuBar *pMenuBar;
+            CDropTarget *pOSDropTarget;
+
+            //Eventhandlers
+            virtual void OnClose();
+            virtual EDropType OnDragEnter(const ITransfer &refTransfer);
+            virtual void OnDragLeave();
+            virtual EDropType OnDragMove();
+            virtual void OnDrop(const ITransfer &refTransfer);
+            virtual void OnPaint();
+
+            //Methods
+            void MenuBarChangeOS();
         };
     }
 }

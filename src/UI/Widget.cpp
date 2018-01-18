@@ -36,7 +36,7 @@ Widget::Widget(WidgetContainer *parent)
         ASSERT(!parent || IS_INSTANCE_OF(parent, Window));
         this->pOwner = (Window *)parent;
     }
-    this->systemHandle = nullptr;
+    this->backend = nullptr;
     if(parent)
         parent->children.InsertTail(this);
 }
@@ -46,6 +46,9 @@ Widget::~Widget()
 {
     if(this->parent)
         this->parent->RemoveChild(this);
+
+    if(this->backend)
+        delete this->backend;
 }
 
 //Eventhandlers
@@ -89,16 +92,6 @@ ERenderMode Widget::GetRenderMode() const
 Size Widget::GetSizeHint() const
 {
     return Size();
-}
-
-void Widget::SetRect(const Rect &area)
-{
-    this->bounds = area;
-
-	if(this->systemHandle)
-		this->System_SetRect(area);
-
-	this->OnResized();
 }
 
 Point Widget::TransformToWindow(const Point &refPoint) const

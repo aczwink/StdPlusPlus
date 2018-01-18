@@ -20,7 +20,6 @@
 #include "Gtk.h"
 //Local
 #include <ACStdLib/UI/WidgetContainer.hpp>
-#include "_RedirectGtkContainer.h"
 
 //Global functions
 void AddToParent(const Widget *widget, GtkWidget *gtkChild)
@@ -35,45 +34,6 @@ void AddToParent(const Widget *widget, GtkWidget *gtkChild)
 		}
 		widget = widget->GetParent();
 	}
-}
-
-_AC_Gtk_WidgetPrivate *CreateWidgetPrivateData(GtkWidget *gtkWidget, Widget *widget)
-{
-	_AC_Gtk_WidgetPrivate *priv;
-
-	priv = (_AC_Gtk_WidgetPrivate *)MemAlloc(sizeof(_AC_Gtk_WidgetPrivate));
-
-	priv->widget = gtkWidget;
-	priv->childAreaWidget = nullptr;
-
-	g_object_set_data(G_OBJECT(priv->widget), "ACStdLib", widget);
-
-	return priv;
-}
-
-_AC_Gtk_WidgetPrivate *CreateWidgetContainerPrivateData(GtkWidget *gtkWidget, Widget *widget)
-{
-	_AC_Gtk_WidgetPrivate *priv = CreateWidgetPrivateData(gtkWidget, widget);
-
-	//child area
-	priv->childAreaWidget = redirect_container_new();
-
-	g_object_set_data(G_OBJECT(priv->childAreaWidget), "ACStdLib", widget);
-
-	gtk_widget_show(priv->childAreaWidget); //default to show
-	gtk_container_add(GTK_CONTAINER(priv->widget), priv->childAreaWidget);
-
-	return priv;
-}
-
-void DestroyWidgetPrivateData(_AC_Gtk_WidgetPrivate *priv)
-{
-	if(priv->childAreaWidget)
-		gtk_widget_destroy(GTK_WIDGET(priv->childAreaWidget));
-
-	gtk_widget_destroy(GTK_WIDGET(priv->widget));
-
-	MemFree(priv);
 }
 
 Size GetPreferedSizeGtk(GtkWidget *widget)

@@ -22,6 +22,7 @@
 #include "../Containers/Map/Map.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "ACStdLib/Containers/Strings/OldString.hpp"
+#include "../Containers/Strings/String.hpp"
 
 namespace ACStdLib
 {
@@ -31,13 +32,13 @@ namespace ACStdLib
         {
         private:
             //Members
-            OldString name;
+            String name;
             LinkedList<Node *> children;
-            Map<OldString, OldString> attributes;
+            Map<String, String> attributes;
 
         public:
             //Constructor
-            inline Element(const OldString &refName)
+            inline Element(const String &refName)
             {
                 this->name = refName;
             }
@@ -54,12 +55,12 @@ namespace ACStdLib
                 this->children.InsertTail(pNode);
             }
 
-            inline const OldString &GetAttribute(const OldString &refKey) const
+            inline const String &GetAttribute(const String &refKey) const
             {
                 return this->attributes[refKey];
             }
 
-            inline Map<OldString, OldString> &GetAttributes()
+            inline Map<String, String> &GetAttributes()
             {
                 return this->attributes;
             }
@@ -74,17 +75,17 @@ namespace ACStdLib
                 return this->children;
             }
 
-            inline const OldString &GetName() const
+            inline const String &GetName() const
             {
                 return this->name;
             }
 
-            inline bool HasAttribute(const OldString &refKey) const
+            inline bool HasAttribute(const String &refKey) const
             {
                 return this->attributes.Contains(refKey);
             }
 
-            inline void SetAttribute(const OldString &refKey, const OldString &refValue)
+            inline void SetAttribute(const String &refKey, const String &refValue)
             {
                 this->attributes[refKey] = refValue;
             }

@@ -63,20 +63,6 @@ namespace ACStdLib
 		}
 
 		//Inline
-		inline bool Equals(ConstStringIterator other, uint32 length) const
-		{
-			ConstStringIterator copy = *this;
-			while(length--)
-			{
-				if(*copy != *other)
-					return false;
-				++copy;
-				++other;
-			}
-
-			return true;
-		}
-
 		inline uint32 GetPosition() const
 		{
 			return this->position;
@@ -91,6 +77,40 @@ namespace ACStdLib
 		//Constructor
 		inline ConstStringIterator(const String &string, const byte *start, uint32 pos) : string(string), current(start), position(pos)
 		{
+		}
+
+		//Inline
+		inline bool Equals(ConstStringIterator other, uint32 length) const
+		{
+			ConstStringIterator copy = *this;
+			while(length--)
+			{
+				if(*copy != *other)
+					return false;
+				++copy;
+				++other;
+			}
+
+			return true;
+		}
+
+		inline bool EqualsReversed(ConstStringIterator other, uint32 length) const
+		{
+			ConstStringIterator copy = *this;
+			while(length--)
+			{
+				if(*copy != *other)
+					return false;
+				--copy;
+				--other;
+			}
+
+			return true;
+		}
+
+		inline uint32 GetByteOffset() const
+		{
+			return static_cast<uint32>(this->current - this->string.GetRawData());
 		}
 	};
 }

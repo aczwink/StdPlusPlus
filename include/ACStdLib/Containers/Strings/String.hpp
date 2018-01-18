@@ -93,7 +93,7 @@ namespace ACStdLib
 		};
 	public:
 		//Constructors
-		inline String() : sharedResource(nullptr), data(nullptr), length(0)
+		inline String() : sharedResource(nullptr), data(nullptr), size(0), length(0)
 		{
 		}
 
@@ -159,26 +159,21 @@ namespace ACStdLib
 		}
 
 		//Operators
+		String &operator+=(uint32 codePoint);
 		String &operator+=(const String &rhs);
 		bool operator==(const String &rhs) const;
-
-		inline bool operator<(const String &rhs) const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return false;
-		}
-
-		inline bool operator>(const String &rhs) const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return false;
-		}
+		bool operator<(const String &rhs) const;
 
 		//Inline operators
 		inline String operator+(const String &rhs) const
 		{
 			String result(*this);
 			return result += rhs;
+		}
+
+		inline bool operator>(const String &rhs) const
+		{
+			return rhs < *this;
 		}
 
 		//Methods
@@ -193,20 +188,31 @@ namespace ACStdLib
 		 * @return
 		 */
 		uint32 Find(const String &string, uint32 startPos = 0, uint32 length = Natural<uint32>::Max()) const;
+		/**
+		 * The same as Find but traverses the string in reversed order. The operation starts at 'startPos' (from the beginning of the string),
+		 * and iterates at most 'length' characters backwards.
+		 *
+		 * @param string
+		 * @param startPos
+		 * @param length
+		 * @return
+		 */
+		uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 length = Natural<uint32>::Max()) const;
 		bool StartsWith(const String &string) const;
+		/**
+		 * Returns the slice defined by the range of 'startPos' and 'length' in character units.
+		 *
+		 * @param startPos
+		 * @param length
+		 * @return
+		 */
+		String SubString(uint32 startPos, uint32 length) const;
 		/**
 		 * Convert internal representation to UTF-8 if it not already is in this enconding.
 		 *
 		 * @return *this
 		 */
 		const String &ToUTF8() const;
-
-		//Inline
-		inline uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 endPos = 0) const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return 0;
-		}
 
 		inline uint32 GetLength() const
 		{
@@ -232,8 +238,13 @@ namespace ACStdLib
 		 */
 		inline const byte *GetRawZeroTerminatedData() const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return 0;
+			if(this->sharedResource)
+			{
+				this->Detach();
+				this->sharedResource->data[this->sharedResource->nElements] = 0;
+			}
+
+			return this->data;
 		}
 
 		inline uint32 GetSize() const
@@ -243,8 +254,7 @@ namespace ACStdLib
 
 		inline bool IsEmpty() const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return 0;
+			return this->length == 0;
 		}
 
 		inline void Release()
@@ -256,10 +266,16 @@ namespace ACStdLib
 			}
 		}
 
-		inline String SubString(uint32 beginOffset, uint32 length) const
+		inline int64 ToInt() const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return String();
+			NOT_IMPLEMENTED_ERROR;
+			return -1;
+		}
+
+		inline uint32 ToUInt32() const
+		{
+			NOT_IMPLEMENTED_ERROR;
+			return -1;
 		}
 
 		inline String ToLowercase() const
@@ -283,6 +299,17 @@ namespace ACStdLib
 		 * @return
 		 */
 		static String CopyRawString(const char *utf8);
+
+		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true)
+		{
+			NOT_IMPLEMENTED_ERROR;
+		}
+
+		static String Number(int64 value)
+		{
+			NOT_IMPLEMENTED_ERROR;
+		}
+
 		/**
 		 * Parses a number with base 10 and returns it as a string.
 		 * The result is preceeded by length(unpadded result)-minLength zeros.
@@ -315,20 +342,20 @@ namespace ACStdLib
 
 	private:
 		//Members
-		Resource *sharedResource;
-		const uint8 *data;
+		mutable Resource *sharedResource;
+		mutable const uint8 *data;
 		uint32 size;
 		uint32 length;
 
 		//Methods
-		void Append(uint32 codePoint);
 		uint32 DecodeUTF8(const uint8 *src, uint8 &nBytes) const;
 		uint32 DecodeUTF16(const uint16 *src, bool &isSurrogate) const;
 		/**
 		 * I.e. This wants to write the resource.
 		 */
-		void Detach();
+		void Detach() const;
 		uint8 EncodeUTF8(uint32 codePoint, byte *dest) const;
+		ConstStringIterator GetIteratorAt(uint32 startPos) const;
 
 		//Inline
 		inline uint32 CountUTF8Length(const uint8 *src, uint32 &nBytes) const

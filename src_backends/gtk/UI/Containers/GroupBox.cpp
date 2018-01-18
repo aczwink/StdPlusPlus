@@ -31,13 +31,14 @@ using namespace ACStdLib::UI;
 //Destructor
 GroupBox::~GroupBox()
 {
-	MemFree(this->systemHandle); //only free memory, don't destroy gtk objects because they get destroyed by the Window
+	MemFree(this->backend); //only free memory, don't destroy gtk objects because they get destroyed by the Window
 }
 
 //Private methods
 void GroupBox::CreateOSHandle()
 {
-	this->systemHandle = CreateWidgetContainerPrivateData(gtk_frame_new(nullptr), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetContainerPrivateData(gtk_frame_new(nullptr), this);
 
 	gtk_widget_show(THIS->widget); //default to show
 

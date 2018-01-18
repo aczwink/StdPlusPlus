@@ -8,6 +8,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/Backend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/BackendManager.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UIBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/WindowBackend.hpp
 
 	#Compute
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.hpp
@@ -143,6 +144,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.hpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.hpp

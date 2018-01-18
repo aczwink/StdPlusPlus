@@ -45,7 +45,7 @@ public:
     //Inline
     inline void *GetInternal()
     {
-        return this->systemHandle;
+        return this->backend;
     }
 };
 
@@ -57,7 +57,4 @@ public:
 
 //Prototypes
 void AddToParent(const Widget *widget, GtkWidget *gtkChild);
-_AC_Gtk_WidgetPrivate *CreateWidgetPrivateData(GtkWidget *gtkWidget, Widget *widget);
-_AC_Gtk_WidgetPrivate *CreateWidgetContainerPrivateData(GtkWidget *gtkWidget, Widget *widget);
-void DestroyWidgetPrivateData(_AC_Gtk_WidgetPrivate *priv);
 Size GetPreferedSizeGtk(GtkWidget *widget);

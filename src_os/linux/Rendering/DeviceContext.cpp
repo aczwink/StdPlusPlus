@@ -19,13 +19,13 @@
 //Class header
 #include <ACStdLib/Rendering/DeviceContext.hpp>
 //Global
-#include <gdk/gdkx.h>
+//#include <gdk/gdkx.h>
 //#include <GL/glx.h>
 //Local
 #include <ACStdLib/Integer.hpp>
 #include <ACStdLib/UI/Displays/RenderTargetWidget.hpp>
-#include "../UI/Gtk.h"
-#include "../UI/Displays/_GtkOpenGLWidget.h"
+//#include "../UI/Gtk.h"
+//#include "../UI/Displays/_GtkOpenGLWidget.h"
 #include "../../../src/Rendering/OpenGL.h"
 //Namespaces
 using namespace ACStdLib;
@@ -33,11 +33,13 @@ using namespace ACStdLib::Rendering;
 //Definitions
 #define THIS ((X11_DisplayAndWindow *)this->systemHandle)
 
+/*
 struct X11_DisplayAndWindow
 {
 	Display *display;
 	::Window windowId;
 };
+*/
 
 //Local functions
 /*
@@ -99,22 +101,24 @@ GLXFBConfig ChooseFrameBufferConfig(Display *display, uint8 nSamples)
 //Private methods
 void DeviceContext::BindOSContext() const
 {
-	gdk_gl_context_make_current((GdkGLContext *)this->deviceState);
+	NOT_IMPLEMENTED_ERROR; //TODO: next line was correct implementation
+	//gdk_gl_context_make_current((GdkGLContext *)this->deviceState);
 	//glXMakeCurrent(THIS->display, THIS->windowId, (GLXContext)this->deviceState);
 }
 
 void DeviceContext::CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples)
 {
-	this->deviceState = gtk_gl_area_get_context(GTK_GL_AREA(PRIVATE_DATA(&renderTargetWidget)->widget));
+	NOT_IMPLEMENTED_ERROR; //TODO: next line was correct implementation
+	//this->deviceState = gtk_gl_area_get_context(GTK_GL_AREA(PRIVATE_DATA(&renderTargetWidget)->widget));
 
 	this->BindOSContext();
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&this->screenFrameBufferId));
 
 	//this->deviceState = ac_gtk_opengl_widget_get_context(AC_GTK_OPENGL_WIDGET(PRIVATE_DATA(&renderTargetWidget)->widget));
 	/*
-	this->systemHandle = (X11_DisplayAndWindow *)MemAlloc(sizeof(X11_DisplayAndWindow));
+	this->backend = (X11_DisplayAndWindow *)MemAlloc(sizeof(X11_DisplayAndWindow));
 	THIS->display = gdk_x11_get_default_xdisplay();
-	THIS->windowId = gdk_x11_window_get_xid(gtk_widget_get_window((GtkWidget *)renderTargetWidget.systemHandle));
+	THIS->windowId = gdk_x11_window_get_xid(gtk_widget_get_window((GtkWidget *)renderTargetWidget.backend));
 
 	GLXFBConfig bestFbc = ChooseFrameBufferConfig(THIS->display, nSamples);
 
@@ -143,7 +147,8 @@ void DeviceContext::DestroyOSContext()
 
 void DeviceContext::UnbindOSContext()
 {
-	gdk_gl_context_clear_current();
+	NOT_IMPLEMENTED_ERROR; //TODO: next line was correct implementation
+	//gdk_gl_context_clear_current();
 	//glXMakeCurrent(display, 0, 0);
 }
 

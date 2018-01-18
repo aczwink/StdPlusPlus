@@ -34,13 +34,14 @@ using namespace ACStdLib::UI;
 //Destructor
 SpinBox::~SpinBox()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
 }
 
 //Private methods
 void SpinBox::System_CreateHandle()
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0), this);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0), this);
 	gtk_widget_show(THIS); //default to show
 
 	ADD_SELF_TO_PARENT(THIS);

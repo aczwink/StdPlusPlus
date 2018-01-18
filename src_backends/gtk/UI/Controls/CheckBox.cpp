@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/SearchBox.hpp>
+#include <ACStdLib/UI/Controls/CheckBox.hpp>
 //Local
 #include "../Gtk.h"
 #include "../GtkEventQueue.hpp"
@@ -28,22 +28,42 @@ using namespace ACStdLib::UI;
 #define THIS (PRIVATE_DATA(this)->widget)
 
 //Destructor
-SearchBox::~SearchBox()
+CheckBox::~CheckBox()
 {
-	MemFree(this->systemHandle);
+	MemFree(this->backend);
+}
+
+//Private methods
+void CheckBox::System_CreateHandle()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//this->backend = CreateWidgetPrivateData(gtk_check_button_new(), this);
+	gtk_widget_show(THIS); //default to show
+
+	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventQueue::ToggledSlot), this);
+
+	ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
-Size SearchBox::GetSizeHint() const
+Size CheckBox::GetSizeHint() const
 {
 	return GetPreferedSizeGtk(THIS);
 }
 
-//Private methods
-void SearchBox::Backend_Create()
+OldString CheckBox::GetText() const
 {
-	this->systemHandle = CreateWidgetPrivateData(gtk_search_entry_new(), this);
-	gtk_widget_show(THIS); //default to show
+	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
+}
 
-	ADD_SELF_TO_PARENT(THIS);
+bool CheckBox::IsChecked() const
+{
+	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(THIS)) != 0;
+}
+
+void CheckBox::SetText(const OldString &text)
+{
+	UTF8String textUTF8 = text.GetUTF16();
+
+	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *) textUTF8.GetC_Str());
 }

@@ -21,6 +21,7 @@
 #include <gtk/gtk.h>
 //Local
 #include <ACStdLib/_Backends/UIBackend.hpp>
+#include "UI/GtkWindowBackend.hpp"
 
 namespace ACStdLib
 {
@@ -28,6 +29,11 @@ namespace ACStdLib
 	{
 	public:
 		//Methods
+		_ACStdLib_internal::WindowBackend *CreateWindowBackend(_ACStdLib_internal::WindowBackendType type, Widget *widget) const
+		{
+			return new _ACStdLib_internal::GtkWindowBackend(type, widget);
+		}
+
 		void Load() const
 		{
 			gtk_init(0, nullptr);

@@ -306,7 +306,7 @@ void GridLayout::PositionChild(Widget &refWidget, const Rect &bounds)
 		widgetBounds.y() += (bounds.height() - sizeHint.height) / 2;
     }
 
-    refWidget.SetRect(widgetBounds);
+	refWidget.SetBounds(widgetBounds);
 }
 
 //Public methods
