@@ -160,24 +160,7 @@ int64 ACStdLib::StringToInt64(const OldString &refString)
 
 uint64 ACStdLib::StringToUInt64(const ByteString &string)
 {
-	uint32 i;
-	uint64 result;
-
-	i = 0;
-	result = 0;
-
-	if(string[0] == '+')
-		i++;
-
-	for(; i < string.GetLength(); i++)
-	{
-		if(!IN_RANGE(string[i], '0', '9'))
-			return -1;
-
-		result += Power((uint64)10, (uint64)(string.GetLength() - i - 1)) * (string[i] - '0');
-	}
-
-	return result;
+    NOT_IMPLEMENTED_ERROR; //TODO: deprecated
 }
 
 uint64 ACStdLib::StringToUInt64(const OldString &refString)

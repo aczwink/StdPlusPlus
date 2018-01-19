@@ -55,6 +55,16 @@ namespace ACStdLib
 			return *this;
 		}
 
+		inline bool operator==(const ConstStringIterator &rhs) const
+		{
+			return &this->string == &rhs.string && this->position == rhs.position;
+		}
+
+		inline bool operator!=(const ConstStringIterator &rhs) const
+		{
+			return !(*this == rhs);
+		}
+
 		inline uint32 operator*() const
 		{
 			uint8 nBytes;

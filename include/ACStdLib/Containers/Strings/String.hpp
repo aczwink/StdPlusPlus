@@ -207,6 +207,8 @@ namespace ACStdLib
 		 * @return
 		 */
 		String SubString(uint32 startPos, uint32 length) const;
+		String ToLowercase() const;
+		uint64 ToUInt() const;
 		/**
 		 * Convert internal representation to UTF-8 if it not already is in this enconding.
 		 *
@@ -274,14 +276,7 @@ namespace ACStdLib
 
 		inline uint32 ToUInt32() const
 		{
-			NOT_IMPLEMENTED_ERROR;
-			return -1;
-		}
-
-		inline String ToLowercase() const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return String();
+			return static_cast<uint32>(this->ToUInt());
 		}
 
 		inline const String &ToUTF16() const

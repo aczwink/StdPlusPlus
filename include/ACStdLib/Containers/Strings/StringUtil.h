@@ -55,11 +55,4 @@ namespace ACStdLib
 
         return uint32(pEnd - pStr);
     }
-
-    inline uint32 ToLowercase(uint32 codePoint)
-    {
-        if(IN_RANGE(codePoint, 'A', 'Z'))
-            return codePoint + 32;
-        return codePoint;
-    }
 }

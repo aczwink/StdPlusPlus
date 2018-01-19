@@ -20,6 +20,8 @@
 #include <ACStdLib/Containers/Strings/String.hpp>
 //Local
 #include <ACStdLib/Containers/Strings/ConstStringIterator.hpp>
+#include <ACStdLib/Char.hpp>
+#include <ACStdLib/Mathematics.h>
 //Namespaces
 using namespace ACStdLib;
 
@@ -78,7 +80,6 @@ bool String::operator==(const String &rhs) const
 bool String::operator<(const String &rhs) const
 {
 	uint32 cmpLength = MIN(this->length, rhs.length);
-	cmpLength++; //include the null byte in comparison, because this will prefer prefixes to be less
 
 	auto it = this->begin();
 	auto it2 = rhs.begin();
@@ -88,9 +89,12 @@ bool String::operator<(const String &rhs) const
 			return true;
 		else if(*it > *it2)
 			return false;
+
+		++it;
+		++it2;
 	}
 
-	return false; //only case that is left, is that both strings are equal
+	return this->length < rhs.length; //either left is a prefix or (right is a prefix or both are equal)
 }
 
 //Public methods
@@ -134,15 +138,8 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length) const
 {
 	startPos = MIN(startPos, this->length);
-	auto it = --this->end();
 
-	//move to correct position first
-	while(this->length > startPos)
-	{
-		++it;
-		startPos++;
-	}
-
+	auto it = this->GetIteratorAt(startPos);
 	while(length)
 	{
 		auto it2 = --string.end();
@@ -194,6 +191,44 @@ String String::SubString(uint32 startPos, uint32 length) const
 	result.length = length;
 	result.size = size;
 	result.data += startOffset;
+
+	return result;
+}
+
+String String::ToLowercase() const
+{
+	String tmp;
+
+	tmp.sharedResource = new Resource;
+	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes
+	for(uint32 codePoint : *this)
+	{
+		tmp.sharedResource->nElements += this->EncodeUTF8(ACStdLib::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+	}
+	tmp.data = tmp.sharedResource->data;
+	tmp.length = this->length;
+	tmp.size = tmp.sharedResource->nElements;
+
+	return tmp;
+}
+
+uint64 String::ToUInt() const
+{
+	auto it = this->begin();
+
+	//skip optional +
+	if(*it == u8'+')
+		++it;
+
+	uint64 result = 0;
+	while(it != this->end())
+	{
+		if(!IN_RANGE(*it, u8'0', u8'9'))
+			NOT_IMPLEMENTED_ERROR;
+
+		result += Power((uint64)10, (uint64)(this->length - it.GetPosition() - 1)) * (*it - u8'0');
+		++it;
+	}
 
 	return result;
 }

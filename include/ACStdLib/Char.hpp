@@ -26,11 +26,18 @@ namespace ACStdLib
 	{
 		switch(c)
 		{
-			case '\t':
-			case ' ':
+			case u8'\t':
+			case u8' ':
 				return true;
 		}
 
 		return IN_RANGE(c, 0xA, 0xD); //\n, \v, \f, \r
+	}
+
+	inline uint32 ToLowercase(uint32 codePoint)
+	{
+		if(IN_RANGE(codePoint, u8'A', u8'Z'))
+			return codePoint + 32;
+		return codePoint;
 	}
 }

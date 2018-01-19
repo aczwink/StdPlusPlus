@@ -22,6 +22,7 @@
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 #include <ACStdLib/Containers/Strings/UTF32String.hpp>
 #include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
+#include <ACStdLib/Char.hpp>
 //Namespaces
 using namespace ACStdLib;
 
