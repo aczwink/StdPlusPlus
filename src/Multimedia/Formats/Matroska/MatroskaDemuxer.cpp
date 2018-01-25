@@ -155,7 +155,7 @@ uint64 MatroskaDemuxer::DecodeVariableLengthInteger(uint8 &refLength)
 		mask >>= 1;
 	}
 
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 	return result;
 }
 
@@ -372,7 +372,7 @@ uint64 MatroskaDemuxer::ParseElement()
 			}
 				break;
 			default:
-				ASSERT(0);
+				NOT_IMPLEMENTED_ERROR;
 		}
 	}
 	else
@@ -473,7 +473,7 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 				}
 					break;
 				default:
-					ASSERT(0);
+					NOT_IMPLEMENTED_ERROR;
 			}
 		}
 		else

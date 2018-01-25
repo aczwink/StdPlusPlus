@@ -80,7 +80,7 @@ namespace ACStdLib
             Node *pNode;
 
             pNode = this->FindNode(refKey);
-            ASSERT_MSG(pNode, "A non-existant key of const map was accessed.");
+            ASSERT(pNode, "A non-existant key of const map was accessed.");
 
             return pNode->keyValuePair.value;
         }

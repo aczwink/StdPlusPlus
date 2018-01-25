@@ -65,7 +65,7 @@ void AudioBuffer<SampleType>::AllocateMemory()
 			this->pChannels[(uint32)Channel::Right] = (SampleType *)MemAlloc(this->GetChannelSize());
 			break;
 		default:
-			ASSERT(0);
+			NOT_IMPLEMENTED_ERROR;
 	}
 }
 

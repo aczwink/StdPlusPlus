@@ -64,7 +64,7 @@ namespace ACStdLib
 		//Operators
 		FixedArray<DataType> &operator=(const FixedArray<DataType> &source) //copy assign
 		{
-			ASSERT(this->nElements == source.nElements);
+			ASSERT(this->nElements == source.nElements, "Can't assign FixedArray when right side has a different number of elemens");
 
 			for(uint32 i = 0; i < source.GetNumberOfElements(); i++)
 			{
@@ -89,14 +89,14 @@ namespace ACStdLib
 
 		inline DataType &operator[](uint32 index)
 		{
-			ASSERT(index < this->nElements);
+			ASSERT(index < this->nElements, "Index out of bounds");
 
 			return this->data[index];
 		}
 
 		inline const DataType &operator[](uint32 index) const
 		{
-			ASSERT(index < this->nElements);
+			ASSERT(index < this->nElements, "Index out of bounds");
 
 			return this->data[index];
 		}

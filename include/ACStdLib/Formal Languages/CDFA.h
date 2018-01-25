@@ -42,7 +42,7 @@ namespace ACStdLib
         //Inline
         inline void AddTransition(uint32 inputSymbol, CDFAState *pStateTo)
         {
-            ASSERT(!this->transitions.Contains(inputSymbol));
+            ASSERT(!this->transitions.Contains(inputSymbol), "If you see this, report to ACStdLib");
 
             this->transitions[inputSymbol] = pStateTo;
         }

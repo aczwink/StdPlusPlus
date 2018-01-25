@@ -210,7 +210,7 @@ void HostComputedPathRenderer::ExpandStroke(float64 w)
 
 			if(refPoint.bevelInner || refPoint.bevelOuter)
 			{
-				ASSERT(0);
+				NOT_IMPLEMENTED_ERROR;
 			}
 			else
 			{

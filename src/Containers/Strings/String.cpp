@@ -255,7 +255,7 @@ uint32 String::DecodeUTF8(const uint8 *src, uint8 &nBytes) const
 		if(b1 & 0x20)
 		{
 			//3 or 4 bytes
-			ASSERT(0);
+			NOT_IMPLEMENTED_ERROR;
 		}
 
 		nBytes = 2;
@@ -272,7 +272,7 @@ uint32 String::DecodeUTF16(const uint16 *src, bool &isSurrogate) const
 {
 	if(*src > 0xD800)
 	{
-		ASSERT(0); //surrogate-pair
+		NOT_IMPLEMENTED_ERROR; //surrogate-pair
 	}
 
 	isSurrogate = false;
@@ -349,7 +349,7 @@ uint8 String::EncodeUTF8(uint32 codePoint, byte *dest) const
 	if(codePoint <= 0x10FFFF)
 	{
 		//4 bytes
-		ASSERT(0);
+		NOT_IMPLEMENTED_ERROR;
 	}
 
 	NOT_IMPLEMENTED_ERROR; //illegal code point

@@ -73,7 +73,7 @@ void TableView::OnModelChanged()
 	{
 		//add columns
 		uint32 nCols = this->controller->GetNumberOfColumns();
-		ASSERT_MSG(nCols, "A table must have at least one column.");
+		ASSERT(nCols, "A table must have at least one column.");
 		GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
 		for (uint32 i = 0; i < nCols; i++)
 		{

@@ -67,16 +67,16 @@ namespace ACStdLib
             //Inline operators
             inline ScalarType &operator()(uint32 row, uint32 col)
             {
-                ASSERT(col < this->nColumns);
-                ASSERT(row < this->nRows);
+                ASSERT(col < this->nColumns, "Column out of bounds");
+                ASSERT(row < this->nRows, "Row out of bounds");
 
                 return this->pValues[row * this->nColumns + col];
             }
 
             inline const ScalarType &operator()(uint32 row, uint32 col) const
             {
-                ASSERT(col < this->nColumns);
-                ASSERT(row < this->nRows);
+                ASSERT(col < this->nColumns, "Column out of bounds");
+                ASSERT(row < this->nRows, "Row out of bounds");
 
                 return this->pValues[row * this->nColumns + col];
             }
@@ -122,7 +122,7 @@ namespace ACStdLib
                 uint32 col, row, k;
                 ScalarType sum;
 
-                ASSERT(this->nColumns == refRight.nRows);
+                ASSERT(this->nColumns == refRight.nRows, "Matrix-multiplication requires that left matrices' number of columns are equal to right matrices number of rows'");
 
                 CMatrix result(this->nRows, refRight.nColumns);
 

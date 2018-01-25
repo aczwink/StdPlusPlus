@@ -48,7 +48,7 @@ OldString WAVE_Format::GetExtension() const
 
 void WAVE_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
 {
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 }
 
 OldString WAVE_Format::GetName() const

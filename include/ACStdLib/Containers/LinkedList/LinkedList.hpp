@@ -69,7 +69,7 @@ namespace ACStdLib
 		{
 			Node *pNode = this->FindNode(index);
 
-			ASSERT(pNode);
+			ASSERT(pNode, "Index out of bounds");
 
 			return pNode->data;
 		}
@@ -78,7 +78,7 @@ namespace ACStdLib
 		{
 			Node *pNode = ((LinkedList<DataType> *)this)->FindNode(index);
 
-			ASSERT(pNode);
+			ASSERT(pNode, "Index out of bounds");
 
 			return pNode->data;
 		}
@@ -151,14 +151,14 @@ namespace ACStdLib
             Node *pNode;
 
             pNode = this->FindNode(index);
-            ASSERT(pNode);
+            ASSERT(pNode, "Index out of bounds");
 
             return pNode->data;
         }
 
         inline const DataType &GetFront() const
         {
-            ASSERT(this->head);
+            ASSERT(this->head, "Can't get front from empty list");
 
             return this->head->data;
         }
@@ -234,7 +234,7 @@ namespace ACStdLib
             if(!this->nElements)
             {
                 //throw exception
-                ASSERT(0);
+                NOT_IMPLEMENTED_ERROR;
                 return DataType();
             }
 

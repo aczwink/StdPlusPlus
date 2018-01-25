@@ -161,7 +161,7 @@ uint32 TextReader::ReadUTF8()
 	if(b[0] & 0x80)
     {
         //more than one byte
-        ASSERT(b[0] & 0x40); //this is always set for more than one byte
+        ASSERT(b[0] & 0x40, "If you see this, report to ACStdLib"); //this is always set for more than one byte
 
         if(b[0] & 0x20)
         {

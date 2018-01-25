@@ -27,6 +27,6 @@ using namespace ACStdLib::XML;
 //Public methods
 NodeType TextNode::GetType() const
 {
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 	return NodeType::Element; //WRONG
 }

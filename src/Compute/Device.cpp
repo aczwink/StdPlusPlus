@@ -33,15 +33,15 @@ static cl_platform_id ChoosePlatform()
 {
 	cl_uint nPlatforms;
 	cl_int result = clGetPlatformIDs(0, nullptr, &nPlatforms);
-	ASSERT(result == CL_SUCCESS);
+	ASSERT(result == CL_SUCCESS, "If you see this, report to ACStdLib");
 
 	cl_platform_id platformIds[10];
-	ASSERT(nPlatforms < sizeof(platformIds) / sizeof(platformIds[0]));
+	ASSERT(nPlatforms < sizeof(platformIds) / sizeof(platformIds[0]), "If you see this, report to ACStdLib");
 	result = clGetPlatformIDs(nPlatforms, platformIds, nullptr);
-	ASSERT(result == CL_SUCCESS);
+	ASSERT(result == CL_SUCCESS, "If you see this, report to ACStdLib");
 
 	//TODO: currently we just return the first one
-	ASSERT(nPlatforms == 1);
+	ASSERT(nPlatforms == 1, "If you see this, report to ACStdLib");
 	return platformIds[0];
 }
 
@@ -53,7 +53,7 @@ OldString Device::GetName() const
 	char buffer[1024];
 
 	result = clGetDeviceInfo((cl_device_id)this->deviceId.ptr, CL_DEVICE_NAME, sizeof(buffer), buffer, &size);
-	ASSERT(result == CL_SUCCESS);
+	ASSERT(result == CL_SUCCESS, "If you see this, report to ACStdLib");
 
 	return OldString(buffer);
 }
@@ -64,12 +64,12 @@ DynamicArray<Device *> Compute::QueryDevices()
 	cl_platform_id platformId = ChoosePlatform();
 	cl_uint nDevices;
 	cl_int result = clGetDeviceIDs(platformId, CL_DEVICE_TYPE_DEFAULT, 0, nullptr, &nDevices);
-	ASSERT(result == CL_SUCCESS);
+	ASSERT(result == CL_SUCCESS, "If you see this, report to ACStdLib");
 
 	cl_device_id deviceIds[10];
-	ASSERT(nDevices < sizeof(deviceIds) / sizeof(deviceIds[0]));
+	ASSERT(nDevices < sizeof(deviceIds) / sizeof(deviceIds[0]), "If you see this, report to ACStdLib");
 	result = clGetDeviceIDs(platformId, CL_DEVICE_TYPE_DEFAULT, nDevices, deviceIds, nullptr);
-	ASSERT(result == CL_SUCCESS);
+	ASSERT(result == CL_SUCCESS, "If you see this, report to ACStdLib");
 
 	DynamicArray<Device *> devices;
 	for(cl_int i = 0; i < nDevices; i++)
@@ -88,7 +88,7 @@ Device *Compute::QueryOptimalDevice()
 	DynamicArray<Device *> devices = QueryDevices();
 
 	//TODO: implement this
-	ASSERT(devices.GetNumberOfElements() == 1);
+	ASSERT(devices.GetNumberOfElements() == 1, "If you see this, report to ACStdLib");
 
 	return devices[0];
 }

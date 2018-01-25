@@ -41,11 +41,11 @@ int32 _ACMain(const String &programName, const FixedArray<String> &args)
     }
     catch(const ErrorHandling::Exception &e)
     {
-        ASSERT_MSG(false, u8"Uncaught exception: " + e.GetDescription());
+        ASSERT(false, u8"Uncaught exception: " + e.GetDescription());
     }
     catch(...)
     {
-        ASSERT_MSG(false, "Uncaught exception (not ACStdLib)");
+        ASSERT(false, "Uncaught exception (not ACStdLib)");
     }
     ShutdownACStdLib();
 

@@ -67,5 +67,5 @@ void ShutdownACStdLib()
 		delete g_globalEventQueue;
 
     //look for memory leaks
-    ASSERT_MSG(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");
+    ASSERT(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");
 }

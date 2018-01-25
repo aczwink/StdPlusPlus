@@ -42,7 +42,7 @@ void MatroskaMuxer::ComputeTimeScales()
 {
 	this->UpdateTimingInfo();
 
-	ASSERT(this->timeScale.numerator == 1); //TODO: what happens if not?
+	ASSERT(this->timeScale.numerator == 1, "If you see this, report to ACStdLib"); //TODO: what happens if not?
 
 	//make sure time scale is precise enough
 	while(this->MapSeconds(30) > Integer<int16>::Max())
@@ -126,13 +126,13 @@ void MatroskaMuxer::WriteEBMLUInt(uint64 value)
 	}
 	else
 	{
-		ASSERT(0);
+		NOT_IMPLEMENTED_ERROR;
 	}
 }
 
 void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 {
-	ASSERT(refStream.GetCodec());
+	ASSERT(refStream.GetCodec(), "If you see this, report to ACStdLib");
 
 	switch(refStream.GetCodec()->GetId())
 	{
@@ -148,7 +148,7 @@ void MatroskaMuxer::WriteCodecElement(Stream &refStream)
 {
 	ByteString codecId;
 
-	ASSERT(refStream.GetCodec());
+	ASSERT(refStream.GetCodec(), "If you see this, report to ACStdLib");
 
 	codecId = MapToCodecString(refStream.GetCodec()->GetId());
 	if(!codecId.IsEmpty())

@@ -51,7 +51,7 @@ OldString BMP_Format::GetExtension() const
 
 void BMP_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
 {
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 }
 
 OldString BMP_Format::GetName() const

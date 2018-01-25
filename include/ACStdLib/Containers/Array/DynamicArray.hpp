@@ -78,14 +78,14 @@ namespace ACStdLib
 
         inline DataType &operator[](uint32 index)
         {
-            ASSERT(index < this->nElements);
+            ASSERT(index < this->nElements, "Index out of bounds");
 
             return this->data[index];
         }
 
         inline const DataType &operator[](uint32 index) const
         {
-            ASSERT(index < this->nElements);
+            ASSERT(index < this->nElements, "Index out of bounds");
 
             return this->data[index];
         }

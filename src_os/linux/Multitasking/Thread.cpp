@@ -59,7 +59,7 @@ void Thread::Join()
 
 void Thread::Start()
 {
-	ASSERT_MSG(this->systemHandle == nullptr, "Can't start an already started thread");
+	ASSERT(this->systemHandle == nullptr, "Can't start an already started thread");
 
 	pthread_t threadId;
 	if(this->function)

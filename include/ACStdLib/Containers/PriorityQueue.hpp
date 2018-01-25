@@ -104,7 +104,7 @@ namespace ACStdLib
             Node *pNode;
             DataType tmp;
 
-            ASSERT(this->nElements);
+            ASSERT(this->nElements, "Can't pop from empty queue");
 
             tmp = this->head->data;
             pNode = this->head;

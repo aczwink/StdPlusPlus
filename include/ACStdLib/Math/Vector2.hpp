@@ -61,14 +61,14 @@ namespace ACStdLib
             //Operators
             inline float32 &operator[](uint8 idx)
             {
-                ASSERT(idx < 2);
+                ASSERT(idx < 2, "Column must be < 2");
 
                 return this->e[idx];
             }
 
             inline const float32 &operator[](uint8 idx) const
             {
-                ASSERT(idx < 2);
+                ASSERT(idx < 2, "Column must be < 2");
 
                 return this->e[idx];
             }

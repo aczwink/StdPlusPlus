@@ -72,7 +72,7 @@ private:
 
 	inline void ExpectChar(uint32 c)
 	{
-		ASSERT(this->lookAhead[0] == c);
+		ASSERT(this->lookAhead[0] == c, "If you see this, report to ACStdLib");
 		this->UpdateLookAhead();
 	}
 

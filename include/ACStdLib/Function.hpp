@@ -110,7 +110,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage));
+            ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a ACStdLib bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = new (pMem)CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
@@ -121,7 +121,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage));
+            ASSERT(sizeof(CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a ACStdLib bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = new (pMem)CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>(pMethod, pObject);
@@ -132,7 +132,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage));
+            ASSERT(sizeof(CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage), "Storage too small. Report this as a ACStdLib bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = pnew(pMem) CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>((LambdaType &&)refLambda);

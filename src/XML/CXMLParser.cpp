@@ -76,7 +76,7 @@ Element *CXMLParser::ParseElement()
 
 					elementName = this->ParseName();
 
-					ASSERT(elementName == pElement->GetName());
+					ASSERT(elementName == pElement->GetName(), "If you see this, report to ACStdLib");
 					this->ExpectChar('>');
 					break;
 				}
@@ -122,7 +122,7 @@ String CXMLParser::ParseName()
 			;
 	};
 
-	ASSERT(refNameStartCharFunc(this->lookAhead[0]));
+	ASSERT(refNameStartCharFunc(this->lookAhead[0]), "If you see this, report to ACStdLib");
 
 	while (refNameCharFunc(this->lookAhead[0]) || refNameStartCharFunc(this->lookAhead[0]))
 		name += this->ReadNextCodepoint();
@@ -202,17 +202,17 @@ void CXMLParser::ReadProlog()
 	this->ExpectChar('<');
 	this->ExpectChar('?');
 	xmlName = this->ParseName();
-	ASSERT(xmlName == "xml");
+	ASSERT(xmlName == "xml", "If you see this, report to ACStdLib");
 
 	this->ReadAttributes(attributes);
 
 	//version
-	ASSERT(attributes.Contains("version"));
-	ASSERT(attributes["version"] == "1.0");
+	ASSERT(attributes.Contains("version"), "If you see this, report to ACStdLib");
+	ASSERT(attributes["version"] == "1.0", "If you see this, report to ACStdLib");
 
 	//encoding
-	ASSERT(attributes.Contains("encoding"));
-	ASSERT(attributes["encoding"].ToLowercase() == "utf-8");
+	ASSERT(attributes.Contains("encoding"), "If you see this, report to ACStdLib");
+	ASSERT(attributes["encoding"].ToLowercase() == "utf-8", "If you see this, report to ACStdLib");
 
 	//end
 	this->ExpectChar('?');

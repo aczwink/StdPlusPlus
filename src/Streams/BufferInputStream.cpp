@@ -69,7 +69,7 @@ uint32 BufferInputStream::ReadBytes(void *pDestination, uint32 count)
 
 void BufferInputStream::SetCurrentOffset(uint64 offset)
 {
-    ASSERT(this->pStart + offset <= this->endPos);
+    ASSERT(this->pStart + offset <= this->endPos, "If you see this, report to ACStdLib");
 
     this->current = this->pStart + offset;
 }

@@ -362,7 +362,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     if(!CheckBytes(pMemBlock + 1, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
     {
 		g_memMutex.Unlock(); //we need to free the lock so that ASSERT can allocate
-        ASSERT_MSG(false, "HEAP CORRUPTED. Check memory dump!");
+        ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
 		g_memMutex.Lock();
     }
 
@@ -370,7 +370,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     if(!CheckBytes((byte *)pMem + pMemBlock->userSize, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
     {
 		g_memMutex.Unlock();
-        ASSERT_MSG(false, "HEAP CORRUPTED. Check memory dump!");
+        ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
 		g_memMutex.Lock();
     }
 
@@ -381,7 +381,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pMemBlock);
+        ASSERT(g_pLastMemBlock == pMemBlock, "If you see this, report to ACStdLib");
         g_pLastMemBlock = pMemBlock->pPrev;
     }
 
@@ -391,7 +391,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pMemBlock);
+        ASSERT(g_pFirstMemBlock == pMemBlock, "If you see this, report to ACStdLib");
         g_pFirstMemBlock = pMemBlock->pNext;
     }
 
@@ -418,7 +418,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
 
     //do reallocate
     pNewBlock = (SDebugMemBlockHeader *)MemoryReallocate(pOldBlock, size + sizeof(SDebugMemBlockHeader) + 2 * HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
-    ASSERT(pNewBlock);
+    ASSERT(pNewBlock, "If you see this, report to ACStdLib");
     pMem = ((byte *)(pNewBlock + 1)) + HEAP_CORRUPTION_DETECTIONSECTION_SIZE;
 
     if(size > pNewBlock->userSize)
@@ -452,7 +452,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pOldBlock);
+        ASSERT(g_pLastMemBlock == pOldBlock, "If you see this, report to ACStdLib");
         g_pLastMemBlock = pNewBlock->pPrev;
     }
 
@@ -462,7 +462,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pOldBlock);
+        ASSERT(g_pFirstMemBlock == pOldBlock, "If you see this, report to ACStdLib");
         g_pFirstMemBlock = pNewBlock->pNext;
     }
 

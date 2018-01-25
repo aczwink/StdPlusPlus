@@ -34,7 +34,7 @@ void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
 	const AbstractAudioBuffer *pAudioBuffer;
 	const AudioBuffer<int16> *sourceBuffer;
 
-	ASSERT(frame.GetType() == DataType::Audio);
+	ASSERT(frame.GetType() == DataType::Audio, "If you see this, report to ACStdLib");
 
 	const AudioFrame &refAudioFrame = (const AudioFrame &)frame;
 

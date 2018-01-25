@@ -70,7 +70,7 @@ namespace ACStdLib
                 }
 
                 pNewBuffer = (DataType *)MemRealloc(this->data, newNElements * sizeof(DataType));
-                ASSERT(pNewBuffer);
+                ASSERT(pNewBuffer, "If you see this, report it to ACStdLib");
 
                 this->data = pNewBuffer;
                 this->capacity = newNElements;

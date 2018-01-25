@@ -88,14 +88,14 @@ namespace ACStdLib
         //Operators
         inline float64 &operator[](uint8 index)
         {
-            ASSERT(index < 2);
+            ASSERT(index < 2, "Column must be < 2");
 
             return this->e[index];
         }
 
         inline float64 operator[](uint8 index) const
         {
-            ASSERT(index < 2);
+            ASSERT(index < 2, "Column must be < 2");
 
             return this->e[index];
         }

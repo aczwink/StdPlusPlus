@@ -38,7 +38,7 @@ uint16 WAVE_Muxer::GetBitsPerSample(CodecId codecId) const
 			return 16;
 	}
 
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 	return 0;
 }
 

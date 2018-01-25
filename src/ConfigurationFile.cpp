@@ -92,7 +92,7 @@ String ConfigurationFile::ReadKey(InputStream &refInput)
 		key += c;
 	}
 	//throw CException(SJCLIBE_REACHEDEOF, "Expected '=' after a key");
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 }
 
 String ConfigurationFile::ReadSectionTitle(InputStream &refInput)
@@ -118,7 +118,7 @@ String ConfigurationFile::ReadSectionTitle(InputStream &refInput)
 	}
 
 	//throw CException(SJCLIBE_REACHEDEOF, "Unclosed sectionname.");
-	ASSERT(0);
+	NOT_IMPLEMENTED_ERROR;
 }
 
 void ConfigurationFile::ReadSectionValues(const String &refSectionName, SeekableInputStream &refInput)

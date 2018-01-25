@@ -71,7 +71,7 @@ namespace ACStdLib
             //Inline
             inline void GetParsedFrame(Packet &refPacket)
             {
-                ASSERT(this->IsFrameReady());
+                ASSERT(this->IsFrameReady(), "If you see this, report to ACStdLib");
 
                 refPacket = parsedFrames.PopFront();
             }

@@ -269,7 +269,7 @@ void GridLayout::EnsureGridBigEnough(uint8 nCells)
         }
     }
 
-    ASSERT(this->nColumns * this->nRows >= nCells);
+    ASSERT(this->nColumns * this->nRows >= nCells, "If you see this, report to ACStdLib");
 }
 
 Rect GridLayout::GetChildrenRect(const WidgetContainer &refContainer) const

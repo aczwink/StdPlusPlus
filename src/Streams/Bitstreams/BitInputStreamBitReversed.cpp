@@ -35,7 +35,7 @@ BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : re
 //Public methods
 uint64 BitInputStreamBitReversed::Get(uint8 nBits)
 {
-	ASSERT(nBits <= 64);
+	ASSERT(nBits <= 64, "If you see this, report to ACStdLib");
 
 	this->EnsureBufferFilled(nBits);
 
@@ -69,13 +69,13 @@ void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 #ifdef _DEBUG
 	if(nBits > 64)
 	{
-		ASSERT(0);
+		NOT_IMPLEMENTED_ERROR;
 	}
 #endif
 
 	while(this->validBitsInBuffer < nBits)
 	{
-		ASSERT(this->validBitsInBuffer + 8 <= 64);
+		ASSERT(this->validBitsInBuffer + 8 <= 64, "If you see this, report to ACStdLib");
 
 		if(this->refInput.IsAtEnd())
 		{

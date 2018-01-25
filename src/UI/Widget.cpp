@@ -33,7 +33,7 @@ Widget::Widget(WidgetContainer *parent)
         this->pOwner = parent->pOwner;
     else
     {
-        ASSERT(!parent || IS_INSTANCE_OF(parent, Window));
+        ASSERT(!parent || IS_INSTANCE_OF(parent, Window), "A widget must have a parent or it must be a window itself");
         this->pOwner = (Window *)parent;
     }
     this->backend = nullptr;

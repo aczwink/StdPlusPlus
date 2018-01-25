@@ -89,7 +89,7 @@ static void redirect_container_add(GtkContainer *container, GtkWidget *widget)
 
 	RedirectContainerPrivate *priv = REDIRECT_CONTAINER_PRIVATE(container);
 
-	ASSERT(widget);
+	ASSERT(widget, "If you see this, report to ACStdLib");
 
 	priv->firstChild = g_list_append(priv->firstChild, widget);
 	gtk_widget_set_parent(widget, GTK_WIDGET(container));

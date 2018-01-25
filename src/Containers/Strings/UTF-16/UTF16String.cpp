@@ -56,7 +56,7 @@ UTF16String &UTF16String::operator=(const UTF16String &refString) //copy assign
 
 UTF16String &UTF16String::operator=(UTF16String &&refString) //move assign
 {
-    ASSERT(0);
+    NOT_IMPLEMENTED_ERROR;
     return *this;
 }
 
@@ -229,7 +229,7 @@ uint32 UTF16String::Decode(const uint16 *pSrc, bool &refIsSurrogate) const
 {
     if(*pSrc > 0xD800)
     {
-        ASSERT(0);
+        NOT_IMPLEMENTED_ERROR;
     }
 
     refIsSurrogate = false;
@@ -244,7 +244,7 @@ bool UTF16String::Encode(uint32 codePoint, uint16 *pDest)
         return false;
     }
 
-    ASSERT(0);
+    NOT_IMPLEMENTED_ERROR;
     return true;
 }
 

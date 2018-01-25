@@ -37,21 +37,21 @@ namespace ACStdLib
             //Inline operators
             inline float32 &operator()(uint8 x, uint8 y)
             {
-                ASSERT(x < 2);
+                ASSERT(x < 2, "Column must be < 2");
 
                 return this->columns[x][y];
             }
 
             inline const float32 &operator()(uint8 x, uint8 y) const
             {
-                ASSERT(x < 2);
+                ASSERT(x < 2, "Column must be < 2");
 
                 return this->columns[x][y];
             }
 
             inline Vector2 &operator[](uint8 x)
             {
-                ASSERT(x < 2);
+                ASSERT(x < 2, "Column must be < 2");
 
                 return this->columns[x];
             }

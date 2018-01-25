@@ -40,14 +40,14 @@ namespace ACStdLib
 			//Operators
 			inline Vector3 &operator[](uint8 x)
 			{
-				ASSERT(x < 3);
+				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x];
 			}
 
 			inline const Vector3 &operator[](uint8 x) const
 			{
-				ASSERT(x < 3);
+				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x];
 			}
@@ -55,14 +55,14 @@ namespace ACStdLib
 			//Operators
 			inline float32 &operator()(uint8 y, uint8 x)
 			{
-				ASSERT(x < 3);
+				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x][y];
 			}
 
 			inline const float32 &operator()(uint8 y, uint8 x) const
 			{
-				ASSERT(x < 3);
+				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x][y];
 			}

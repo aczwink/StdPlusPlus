@@ -188,7 +188,7 @@ uint32 UTF8String::Decode(const byte *pSrc, uint8 &refNBytes) const
         if(b1 & 0x20)
         {
             //3 or 4 bytes
-            ASSERT(0);
+            NOT_IMPLEMENTED_ERROR;
         }
 
         refNBytes = 2;
@@ -246,9 +246,9 @@ uint8 UTF8String::Encode(uint32 codePoint, byte *pDest) const
     if(codePoint <= 0x10FFFF)
     {
         //4 bytes
-        ASSERT(0);
+        NOT_IMPLEMENTED_ERROR;
     }
 
-    ASSERT(0); //illegal code point
+    NOT_IMPLEMENTED_ERROR; //illegal code point
     return 0;
 }

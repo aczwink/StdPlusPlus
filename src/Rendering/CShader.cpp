@@ -38,7 +38,7 @@ CShader::CShader(Shader::ShaderType type)
             this->id = glCreateShader(GL_VERTEX_SHADER);
             break;
         default:
-            ASSERT(0);
+            NOT_IMPLEMENTED_ERROR;
     }
 }
 

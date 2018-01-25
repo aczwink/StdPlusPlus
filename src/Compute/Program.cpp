@@ -47,7 +47,7 @@ Kernel Program::GetKernel(const ByteString &kernelName)
 {
 	cl_kernel kernel = clCreateKernel(THIS, kernelName.GetC_Str(), nullptr);
 
-	ASSERT_MSG(kernel, u8"The kernel '" + String(kernelName.GetC_Str()) + u8"' does not exist.");
+	ASSERT(kernel, u8"The kernel '" + String(kernelName.GetC_Str()) + u8"' does not exist.");
 
 	return Kernel(kernel);
 }
