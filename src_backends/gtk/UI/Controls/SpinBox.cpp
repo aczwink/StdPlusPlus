@@ -44,13 +44,14 @@ void SpinBox::System_CreateHandle()
 	//this->backend = CreateWidgetPrivateData(gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0), this);
 	gtk_widget_show(THIS); //default to show
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
 Size SpinBox::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 int32 SpinBox::GetValue() const

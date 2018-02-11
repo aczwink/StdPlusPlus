@@ -23,6 +23,14 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
 
 	#Filesystem
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/File.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
 
@@ -106,6 +114,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Texture2D.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
 
+	#Smart Pointers
+	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/UniquePointer.hpp
+
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
@@ -167,6 +179,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Deleters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp

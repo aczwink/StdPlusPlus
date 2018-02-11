@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -60,7 +60,6 @@ namespace ACStdLib
 
             //Methods
             void Repaint();
-            void SetEnabled(bool enable = true);
             Point TransformToWindow(const Point &refPoint) const;
 
             //Overrideable
@@ -103,6 +102,16 @@ namespace ACStdLib
 					this->OnResized();
 			}
 
+			inline void SetEnabled(bool enable = true)
+			{
+				this->backend->SetEnabled(enable);
+			}
+
+			inline void SetHint(const String &text)
+			{
+				this->backend->SetHint(text);
+			}
+
 			inline void Show(bool visible = true)
 			{
 				this->backend->Show(visible);
@@ -114,6 +123,14 @@ namespace ACStdLib
 
 			//Methods
 			ERenderMode GetRenderMode() const;
+
+			//Inline
+			inline _ACStdLib_internal::WindowBackend *GetParentBackend() const
+			{
+				if(this->backend)
+					return this->backend;
+				return ((Widget *)this->parent)->GetParentBackend();
+			}
 
 			//Functions
 			static void IgnoreEvent();

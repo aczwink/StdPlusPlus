@@ -27,63 +27,50 @@ using namespace ACStdLib;
 //Constructor
 BufferedInputStream::BufferedInputStream(InputStream &refInputStream, uint32 bufferSize) : refInput(refInputStream)
 {
-	this->pBuffer = (byte *)MemAlloc(bufferSize);
-	this->pEnd = this->pBuffer + bufferSize;
-	this->pCurrent = this->pEnd;
+	this->buffer = (byte *)MemAlloc(bufferSize);
+	this->pEnd = this->buffer + bufferSize;
+	this->current = this->pEnd;
 }
 
 //Destructor
 BufferedInputStream::~BufferedInputStream()
 {
-	MemFree(this->pBuffer);
+	MemFree(this->buffer);
 }
 
 //Private methods
 void BufferedInputStream::FillBufferIfEmpty()
 {
-	if(this->pCurrent == this->pEnd)
+	if(this->current == this->pEnd)
 	{
-		this->pEnd = this->pBuffer + this->refInput.ReadBytes(this->pBuffer, uint32(this->pEnd - this->pBuffer));
-		this->pCurrent = this->pBuffer;
+		this->pEnd = this->buffer + this->refInput.ReadBytes(this->buffer, uint32(this->pEnd - this->buffer));
+		this->current = this->buffer;
 	}
 }
 
 //Public methods
 bool BufferedInputStream::IsAtEnd() const
 {
-	return this->pCurrent == this->pEnd && this->refInput.IsAtEnd();
+	return this->current == this->pEnd && this->refInput.IsAtEnd();
 }
 
-byte BufferedInputStream::ReadByte()
+uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)
 {
-	this->FillBufferIfEmpty();
-	if(this->pCurrent == this->pEnd)
-		return -1;
-
-	return *this->pCurrent++;
-}
-
-uint32 BufferedInputStream::ReadBytes(void *pDestination, uint32 count)
-{
-	uint32 size, nReadBytes;
-	byte *pDest;
-
-	pDest = (byte *)pDestination;
-	nReadBytes = 0;
-
+	byte *byteDestination = (byte *)destination;
+	uint32 nReadBytes = 0;
 	while(count)
 	{
 		this->FillBufferIfEmpty();
-		if(this->pCurrent == this->pEnd)
+		if(this->current == this->pEnd)
 			return nReadBytes;
 
-		size = uint32(this->pEnd - this->pCurrent);
+		uint32 size = uint32(this->pEnd - this->current);
 		if(size > count)
 			size = count;
 
-		MemCopy(pDestination, this->pCurrent, size);
-		this->pCurrent += size;
-		pDest += size;
+		MemCopy(byteDestination, this->current, size);
+		this->current += size;
+		byteDestination += size;
 		count -= size;
 		nReadBytes += size;
 	}
@@ -99,14 +86,14 @@ uint32 BufferedInputStream::Skip(uint32 nBytes)
 	while(nBytes)
 	{
 		this->FillBufferIfEmpty();
-		if(this->pCurrent == this->pEnd)
+		if(this->current == this->pEnd)
 			break;
 
-		size = uint32(this->pEnd - this->pCurrent);
+		size = uint32(this->pEnd - this->current);
 		if(size > nBytes)
 			size = nBytes;
 
-		this->pCurrent += size;
+		this->current += size;
 		nBytes -= size;
 
 		nBytesSkipped += size;

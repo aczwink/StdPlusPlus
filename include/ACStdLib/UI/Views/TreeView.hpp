@@ -35,9 +35,6 @@ namespace ACStdLib
             //Constructor
             TreeView(WidgetContainer *parent);
 
-			//Destructor
-			~TreeView();
-
 		protected:
 			//Event handlers
 			void OnSelectionChanged();
@@ -45,9 +42,6 @@ namespace ACStdLib
         private:
 			//Event handlers
 			void OnModelChanged();
-
-            //Methods
-            void CreateOSWindow();
         };
     }
 }

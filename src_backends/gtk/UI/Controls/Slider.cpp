@@ -50,7 +50,7 @@ void Slider::System_CreateHandle()
 
 	g_signal_connect(THIS, "value-changed", G_CALLBACK(ValueChangedSlot), this);
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
@@ -61,7 +61,8 @@ uint32 Slider::GetPosition() const
 
 Size Slider::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 void Slider::SetMaximum(uint32 max)

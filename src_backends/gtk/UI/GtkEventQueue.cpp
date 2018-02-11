@@ -63,7 +63,7 @@ bool GtkEventQueue::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpoi
 	return !g_ignoreEvent;
 }
 
-void GtkEventQueue::ChangedSlot(GtkComboBox *comboBox, gpointer user_data)
+void GtkEventQueue::ChangedSlot(GtkComboBox *gtkComboBox, gpointer user_data)
 {
 	EventQueue::DispatchSelectionChangedEvent(*(ComboBox *)user_data);
 }
@@ -134,7 +134,17 @@ bool GtkEventQueue::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpoi
 	return !g_ignoreEvent;
 }
 
+void GtkEventQueue::SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data)
+{
+	EventQueue::DispatchResizedEvent(*(Widget *)user_data);
+}
+
 void GtkEventQueue::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data)
 {
 	EventQueue::DispatchToggledEvent(*(CheckBox *)user_data);
+}
+
+void GtkEventQueue::TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data)
+{
+	EventQueue::DispatchSelectionChangedEvent(*(TreeView *)user_data);
 }

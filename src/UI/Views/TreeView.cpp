@@ -31,5 +31,18 @@ TreeView::TreeView(WidgetContainer *pParent) : View(pParent)
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-    this->CreateOSWindow();
+    this->backend = this->GetParentBackend()->CreateChildBackend(_ACStdLib_internal::WindowBackendType::TreeView, this);
+}
+
+//Eventhandlers
+void TreeView::OnModelChanged()
+{
+    this->backend->ClearView();
+}
+
+void TreeView::OnSelectionChanged()
+{
+	this->backend->UpdateSelection(this->selectionController);
+
+	View::OnSelectionChanged();
 }

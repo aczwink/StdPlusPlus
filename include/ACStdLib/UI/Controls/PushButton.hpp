@@ -26,10 +26,6 @@ namespace ACStdLib
     {
         class ACSTDLIB_API PushButton : public Widget
         {
-        private:
-            //Methods
-			void CreateOSHandle();
-
         public:
 			//Dynamic event handlers
 			Function<void()> onActivatedHandler;
@@ -37,12 +33,11 @@ namespace ACStdLib
             //Constructor
             PushButton(WidgetContainer *pParent);
 
-            //Destructor
-			~PushButton();
-
             //Methods
-            Size GetSizeHint() const;
-            void SetText(const OldString &text);
+            inline void SetText(const String &text)
+			{
+				this->backend->SetText(text);
+			}
         };
     }
 }

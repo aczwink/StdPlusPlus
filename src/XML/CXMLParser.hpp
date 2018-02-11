@@ -104,6 +104,6 @@ private:
 		for (uint8 i = 0; i < sizeof(this->lookAhead) / sizeof(this->lookAhead[0]) - 1; i++)
 			this->lookAhead[i] = this->lookAhead[i + 1];
 
-		this->lookAhead[sizeof(this->lookAhead) / sizeof(this->lookAhead[0]) - 1] = TextReader(this->input).ReadUTF8();
+		this->lookAhead[sizeof(this->lookAhead) / sizeof(this->lookAhead[0]) - 1] = TextReader(this->input, TextCodecType::UTF8).ReadUTF8();
 	}
 };

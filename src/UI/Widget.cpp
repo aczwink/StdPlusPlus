@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -91,6 +91,9 @@ ERenderMode Widget::GetRenderMode() const
 //Public methods
 Size Widget::GetSizeHint() const
 {
+    if(this->backend)
+        return this->backend->GetSizeHint();
+
     return Size();
 }
 

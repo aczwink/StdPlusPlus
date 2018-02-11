@@ -43,6 +43,16 @@ namespace ACStdLib
 			void SetController(TreeController &controller);
 
 			//Inline
+			inline TreeController *GetController()
+			{
+				return this->controller;
+			}
+
+			inline const TreeController *GetController() const
+			{
+				return this->controller;
+			}
+
 			inline const SelectionController &GetSelectionController() const
 			{
 				return this->selectionController;

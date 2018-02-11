@@ -27,16 +27,18 @@ namespace ACStdLib
     class PathIterator;
 
 	/**
-	 * Represents a path on the local file system.
+	 * Represents a path to a file or directory.
+	 * This class has very much in common with URLs, except that it also supports relative paths.
+	 * It does not know any context in which it is used.
+	 * For instance it doesn't know if the path is used on the local file system or somewhere else.
 	 * As separator, this class always uses '/' no matter which underlying file system or operating system is used.
-	 * Path pointing to files are called "file paths" and paths pointing to directories are called "directory paths".
+	 * There is always exactly one root path, which is "/".
+	 * For instance the path "C:\" on Windows is represented as "/C:/" by this class.
+	 * Paths pointing to files are called "file paths" and paths pointing to directories are called "directory paths".
 	 *
 	 * To understand the anatomy of a path, lets look at an example:
-	 * Let path be: "C:/bla/bli/blub.txt"
 	 *
 	 * Then the "root" path is: "C:/"
-	 * The "parent" path is: "C:/bla/bli" (i.e. the directory in this case)
-	 * The "name" of the path is: "blub.txt"
 	 * The "title" of the path is: "blub"
 	 * and the "extension" is: "txt"
 	 * -----------------------------
@@ -45,8 +47,6 @@ namespace ACStdLib
 	 * For path "/bla/bli/blub"
 	 *
 	 * root: /
-	 * parent: /bla/bli
-	 * name: "blub"
 	 * title: "blub"
 	 * extension: ""
 	 *
@@ -106,22 +106,55 @@ namespace ACStdLib
         }
 
         //Methods
-        bool CreateDirectory();
-        bool CreateDirectoryTree();
-        bool Exists() const;
 		Path GetAbsolutePath() const;
         String GetFileExtension() const;
         Time GetLastModifiedTime() const;
+		/**
+		 * Returns the name of the file or directory that the path refers to.
+		 * Examples:
+		 * Let path be: "/C:/bla/bli/blub.txt"
+		 * Then the name is: "blub.txt"
+		 *
+		 * Let path be "/bla/bli/blub"
+		 * Then the name is: "blub"
+		 * @return
+		 */
         String GetName() const;
+		/**
+		 * Returns the parent path of this path.
+		 * If this path is a directory path, then the parent directory path is returned.
+		 * If this path is a file path, then the directory path containing the file is returned.
+		 * Examples:
+		 * Let path be: "/C:/bla/bli/blub.txt"
+		 * Then "parent" path is: "/C:/bla/bli" (i.e. the directory in this case)
+		 *
+		 * Let path be "/bla/bli/blub"
+		 * Then parent path is: /bla/bli
+		 *
+		 * @return
+		 */
         Path GetParent() const;
-        Path GetRoot() const;
         String GetTitle() const;
         bool IsDirectory() const;
+		/**
+		 * Returns the leftmost part of this path and sets the remaining part to the 'subPath' arg.
+		 * Example:
+		 * Let this be: "bla/bli/blub"
+		 * Then this method returns "bla" and sets 'subPath' to "bli/blub"
+		 * @param path
+		 * @return
+		 */
+		String SplitOutmostPathPart(Path &subPath) const;
 
         //Inline
+		inline bool IsAbsolute() const
+		{
+			return this->pathString.StartsWith(u8"/");
+		}
+
         inline bool IsRoot() const
 		{
-			return *this == this->GetRoot();
+			return this->pathString.GetLength() == 1 && this->pathString.StartsWith(u8"/");
 		}
 
         inline const String &GetString() const

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -40,9 +40,4 @@ void Widget::IgnoreEvent()
 void Widget::Repaint()
 {
 	gtk_widget_queue_draw(PRIVATE_DATA(this)->widget);
-}
-
-void Widget::SetEnabled(bool enable)
-{
-	gtk_widget_set_sensitive(PRIVATE_DATA(this)->widget, enable);
 }

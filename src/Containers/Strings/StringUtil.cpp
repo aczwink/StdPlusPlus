@@ -49,7 +49,8 @@ OldString ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
             OldString str;
             uint32 length;
 
-            str = ToString((float64)bitSize / MiB);
+			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
+            //str = ToString((float64)bitSize / MiB);
 
             length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
             return str.SubString(0, length) + " Mibit";
@@ -63,51 +64,16 @@ OldString ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
             OldString str;
             uint32 length;
 
-            str = ToString((float64)bitSize / KiB);
+			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
+            //str = ToString((float64)bitSize / KiB);
 
             length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
             return str.SubString(0, length) + " Kibit";
         }
-        return ToString((float64)bitSize / KiB) + " Kibit";
+		NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
+        //return ToString((float64)bitSize / KiB) + " Kibit";
     }
     return ToString((uint64)bitSize) + " bit";
-}
-
-OldString ACStdLib::FormatFileSize(uint64 fileSize, uint32 nFractionalDigits)
-{
-    float64 fraction;
-    OldString suffix;
-
-    if(fileSize > MiB)
-    {
-        fraction = (float64)fileSize / MiB;
-        fileSize /= MiB;
-        suffix = " MiB";
-    }
-    else if(fileSize > KiB)
-    {
-        fraction = (float64)fileSize / KiB;
-        fileSize /= KiB;
-        suffix = " KiB";
-    }
-    else
-    {
-        nFractionalDigits = 0;
-        suffix = " B";
-    }
-
-    if(nFractionalDigits)
-    {
-        uint32 length;
-        OldString str;
-
-        str = ToString(fraction);
-        length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
-
-        return str.SubString(0, length) + suffix;
-    }
-
-    return ToString(fileSize) + suffix;
 }
 
 bool ACStdLib::IsStringConvertibleToFloat(const ByteString &refString)
@@ -227,16 +193,6 @@ OldString ACStdLib::ToString(int64 value)
         return '-' + ToString((uint64)value);
 
     return ToString((uint64)value);
-}
-
-OldString ACStdLib::ToString(float64 value)
-{
-    char buf[100];
-
-    sprintf(buf, "%.*g", DBL_DIG, value);
-    //sprintf_s(buf, sizeof(buf), "%.*g", DBL_DIG, value);
-
-    return buf;
 }
 
 //8-bit functions

@@ -46,6 +46,11 @@ uint32 ListController::GetNumberOfColumns() const
 	return 0;
 }
 
+ControllerIndex ListController::GetParentIndex(const ControllerIndex &index) const
+{
+	return ControllerIndex(); //flat structure
+}
+
 String ListController::GetText(const ControllerIndex &index) const
 {
 	return this->GetText(index.GetRow());

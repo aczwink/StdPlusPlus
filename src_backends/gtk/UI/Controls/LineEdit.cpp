@@ -36,7 +36,8 @@ LineEdit::~LineEdit()
 //Public methods
 Size LineEdit::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 //Private methods
@@ -46,5 +47,5 @@ void LineEdit::Backend_Create()
 	//this->backend = CreateWidgetPrivateData(gtk_entry_new(), this);
 	gtk_widget_show(THIS); //default to show
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 }

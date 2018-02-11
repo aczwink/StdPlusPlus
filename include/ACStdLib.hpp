@@ -17,15 +17,6 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//General
-#include <ACStdLib/__InitAndShutdown.h>
-#include <ACStdLib/Function.hpp>
-#include <ACStdLib/ConfigurationFile.hpp>
-#include <ACStdLib/Tuple.hpp>
-#include <ACStdLib/Float.hpp>
-#include <ACStdLib/Integer.hpp>
-#include <ACStdLib/Mathematics.h>
-
 //Compute
 #include <ACStdLib/Compute/CommandQueue.hpp>
 #include <ACStdLib/Compute/Device.hpp>
@@ -47,6 +38,9 @@
 #include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
 
 //Filesystem
+#include <ACStdLib/Filesystem/ContainerFileSystem.hpp>
+#include <ACStdLib/Filesystem/FileSystem.hpp>
+#include <ACStdLib/Filesystem/FileSystemFormat.hpp>
 #include <ACStdLib/Filesystem/Path.hpp>
 
 //Mathematics
@@ -228,3 +222,13 @@
 //XML
 #include <ACStdLib/XML/Document.hpp>
 #include <ACStdLib/XML/TextNode.hpp>
+
+//.
+#include <ACStdLib/__InitAndShutdown.h>
+#include <ACStdLib/Function.hpp>
+#include <ACStdLib/ConfigurationFile.hpp>
+#include <ACStdLib/Tuple.hpp>
+#include <ACStdLib/Float.hpp>
+#include <ACStdLib/Integer.hpp>
+#include <ACStdLib/Mathematics.h>
+#include <ACStdLib/SmartPointers/UniquePointer.hpp>

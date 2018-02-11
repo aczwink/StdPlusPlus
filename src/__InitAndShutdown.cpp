@@ -25,6 +25,8 @@
 #include <ACStdLib/Containers/Strings/ByteString.hpp>
 #include <ACStdLib/Multimedia/CodecId.hpp>
 #include <ACStdLib/UI/EventQueue.hpp>
+#include <ACStdLib/_Backends/BackendManager.hpp>
+#include <ACStdLib/Filesystem/FileSystemFormat.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::Multimedia;
@@ -34,18 +36,9 @@ void InitACStdLib_Platform();
 void MultimediaRegisterCodecsAndFormats();
 void ShutdownACStdLib_Platform();
 
-//Global functions
-void InitACStdLib()
+//Local functions
+static void FreeAudioVideo()
 {
-	MultimediaRegisterCodecsAndFormats();
-
-	InitACStdLib_Platform();
-}
-
-void ShutdownACStdLib()
-{
-	ShutdownACStdLib_Platform();
-
 	//free static variables so that they don't get reported as memory leaks
 	extern Map<ByteString, CodecId> g_matroskaCodecStringMap;
 	g_matroskaCodecStringMap.Release();
@@ -60,12 +53,36 @@ void ShutdownACStdLib()
 	extern ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 	g_libavcodec_codec_map.Release();
 #endif
+}
+
+//Global functions
+void InitACStdLib()
+{
+	MultimediaRegisterCodecsAndFormats();
+
+	InitACStdLib_Platform();
+}
+
+void ShutdownACStdLib()
+{
+	ShutdownACStdLib_Platform();
+
+	FreeAudioVideo();
+
+	//release file system formats
+	extern DynamicArray<const FileSystemFormat *> g_fsFormats;
+	for(const FileSystemFormat *format : g_fsFormats)
+		delete(format);
+	g_fsFormats.Release();
 
 	//shut down global event queue
 	extern UI::EventQueue *g_globalEventQueue;
 	if(g_globalEventQueue)
 		delete g_globalEventQueue;
 
+	//release backends
+	BackendManager::GetInstance().ReleaseAll();
+
     //look for memory leaks
-    ASSERT(!DebugDumpMemoryLeaks(), "You have memory leaks. Check ACStdLib MemLeaks.txt");
+    ASSERT(!DebugDumpMemoryLeaks(), u8"You have memory leaks. Check ACStdLib MemLeaks.txt");
 }

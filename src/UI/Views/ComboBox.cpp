@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -17,34 +17,28 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Controls/SearchBox.hpp>
-//Local
-#include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include <ACStdLib/UI/Views/ComboBox.hpp>
 //Namespaces
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
-//Definitions
-#define THIS (PRIVATE_DATA(this)->widget)
 
-//Destructor
-SearchBox::~SearchBox()
+//Constructor
+ComboBox::ComboBox(WidgetContainer *parent) : View(parent)
 {
-	MemFree(this->backend);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+
+	this->backend = this->GetParentBackend()->CreateChildBackend(_ACStdLib_internal::WindowBackendType::ComboBox, this);
 }
 
-//Public methods
-Size SearchBox::GetSizeHint() const
+//Event handlers
+void ComboBox::OnModelChanged()
 {
-	return GetPreferedSizeGtk(THIS);
+	this->backend->ClearView();
 }
 
-//Private methods
-void SearchBox::Backend_Create()
+void ComboBox::OnSelectionChanged()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//this->backend = CreateWidgetPrivateData(gtk_search_entry_new(), this);
-	gtk_widget_show(THIS); //default to show
+	this->backend->UpdateSelection(this->selectionController);
 
-	ADD_SELF_TO_PARENT(THIS);
+	View::OnSelectionChanged();
 }

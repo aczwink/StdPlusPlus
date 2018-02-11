@@ -37,15 +37,29 @@ namespace _ACStdLib_internal
 		~GtkWindowBackend();
 
 		//Methods
+		void ClearView() const;
+		WindowBackend *CreateChildBackend(_ACStdLib_internal::WindowBackendType type, ACStdLib::UI::Widget *widget) const;
 		ACStdLib::Size GetSize() const;
+		ACStdLib::Size GetSizeHint() const;
+		void Select(ControllerIndex &controllerIndex) const;
 		Path SelectExistingDirectory(const String &title, const Function<bool(ACStdLib::Path &)> callback) const;
 		void SetBounds(const ACStdLib::Rect &area);
+		void SetEnabled(bool enable) const;
+		void SetHint(const ACStdLib::String &text) const;
+		void SetText(const ACStdLib::String &text);
 		void Show(bool visible);
 		void ShowInformationBox(const String &title, const String &message) const;
+		void UpdateSelection(ACStdLib::UI::SelectionController &selectionController) const;
 
 	private:
 		//Members
+		_ACStdLib_internal::WindowBackendType type;
+		ACStdLib::UI::Widget *widget;
 		GtkWidget *gtkWidget; //the widget, window whatever itself
 		GtkWidget *childAreaWidget; //its child area
+		GtkWidget *headerBar; //for windows
+
+		//Methods
+		void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const ACStdLib::UI::ControllerIndex &parent, const ACStdLib::UI::TreeController &controller) const;
 	};
 }

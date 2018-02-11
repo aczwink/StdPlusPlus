@@ -19,12 +19,14 @@
 //Local
 #include "ACStdLib/Containers/PriorityQueue.hpp"
 #include "ACStdLib/Containers/Map/Map.hpp"
+#include "../__InitAndShutdown.h"
 #include "Backend.hpp"
 
 namespace ACStdLib
 {
 	class BackendManager
 	{
+		friend void ::ShutdownACStdLib();
 	public:
 		//Inline
 		inline Backend *GetActiveBackend(BackendType type)
@@ -70,6 +72,15 @@ namespace ACStdLib
 		inline Backend *GetPreferredBackend(BackendType type) const
 		{
 			return this->backends[type].GetFirst();
+		}
+
+		inline void ReleaseAll()
+		{
+			for(auto &kv : this->backends)
+				while(!kv.value.IsEmpty())
+					delete kv.value.PopFirst();
+			this->backends.Release();
+			this->activeBackends.Release();
 		}
 	};
 }

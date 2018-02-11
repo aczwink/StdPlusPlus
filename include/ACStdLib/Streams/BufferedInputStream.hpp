@@ -34,15 +34,14 @@ namespace ACStdLib
         //Methods
         bool IsAtEnd() const;
         byte PeekByte();
-        byte ReadByte();
-        uint32 ReadBytes(void *pDestination, uint32 count);
+        uint32 ReadBytes(void *destination, uint32 count);
         uint32 Skip(uint32 nBytes);
 
     private:
         //Members
         InputStream &refInput;
-        byte *pBuffer;
-        byte *pCurrent;
+        byte *buffer;
+        byte *current;
         byte *pEnd;
 
         //Methods

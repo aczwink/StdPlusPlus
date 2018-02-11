@@ -29,16 +29,6 @@ namespace ACStdLib
 		public:
 			//Constructor
 			SearchBox(WidgetContainer *parent);
-
-			//Destructor
-			~SearchBox();
-
-			//Methods
-			Size GetSizeHint() const;
-
-		private:
-			//Methods
-			void Backend_Create();
 		};
 	}
 }

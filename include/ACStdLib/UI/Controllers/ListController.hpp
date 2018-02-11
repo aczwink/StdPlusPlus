@@ -36,6 +36,7 @@ namespace ACStdLib
 			String GetColumnText(uint32 column) const;
 			uint32 GetNumberOfChildren(const ControllerIndex &parent) const;
 			uint32 GetNumberOfColumns() const;
+			ControllerIndex GetParentIndex(const ControllerIndex &index) const;
 			String GetText(const ControllerIndex &index) const;
         };
     }

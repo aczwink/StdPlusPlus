@@ -53,7 +53,7 @@ void RenderTargetWidget::CreateOSHandle()
 	g_signal_connect(THIS, "realize", G_CALLBACK(OnRealize), this);
 	g_signal_connect(THIS, "render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 	gtk_widget_show(THIS);
 
 	gtk_widget_add_events(THIS, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);

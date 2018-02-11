@@ -28,7 +28,8 @@ using namespace ACStdLib;
 //Constructor
 ConfigurationFile::ConfigurationFile(const Path &refPath, bool readOnly)
 {
-	if(!refPath.Exists())
+	NOT_IMPLEMENTED_ERROR; //TODO: new file system implementation
+	//if(!refPath.Exists())
 	{
 		FileOutputStream file(refPath);
 	}

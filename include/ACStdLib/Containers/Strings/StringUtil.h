@@ -30,7 +30,6 @@ namespace ACStdLib
 
     //Functions
     ACSTDLIB_API OldString FormatBitSize(uint32 bitSize, uint32 nFractionalDigits = 0);
-    ACSTDLIB_API OldString FormatFileSize(uint64 fileSize, uint32 nFractionalDigits = 2);
     bool IsStringConvertibleToFloat(const ByteString &refString);
     bool IsStringConvertibleToInteger(const ByteString &refString);
     ACSTDLIB_API int64 StringToInt64(const OldString &refString);
@@ -39,7 +38,6 @@ namespace ACStdLib
     ACSTDLIB_API OldString TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
     ACSTDLIB_API OldString ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
     OldString ToString(int64 value);
-    ACSTDLIB_API OldString ToString(float64 value);
 
     //8-bit functions
     ACSTDLIB_API ByteString To8BitString(const OldString &refString);

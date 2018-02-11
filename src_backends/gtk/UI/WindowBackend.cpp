@@ -39,7 +39,7 @@ void Window::OnPaint()
 //Private methods
 void Window::MenuBarChangeOS()
 {
-    gtk_container_add(GTK_CONTAINER(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
+    //gtk_container_add(GTK_CONTAINER(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->pOSHandle);
     //gtk_box_pack_start(GTK_BOX(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->backend, FALSE, FALSE, 0);
 }
 
@@ -48,14 +48,6 @@ void Window::Maximize()
 {
 	gtk_window_maximize(GTK_WINDOW(THIS->widget));
 	gtk_widget_show(THIS->widget);
-}
-
-void Window::SetTitle(const OldString &title)
-{
-	UTF8String text;
-
-	text = title.GetUTF16();
-	gtk_window_set_title(GTK_WINDOW(THIS->widget), (const gchar *)text.GetC_Str());
 }
 
 void Window::ShowErrorBox(const OldString &title, const OldString &message)

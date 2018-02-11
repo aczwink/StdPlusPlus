@@ -99,25 +99,6 @@ int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) cons
     return Natural<uint32>::Max();
 }
 
-void ByteString::Replace(const ByteString &refSearch, const ByteString &refReplace)
-{
-    ByteString buffer;
-    int32 pos = 0, oldPos = 0;
-
-    if(refSearch.IsEmpty())
-        return;
-
-    while((pos = this->Find(refSearch, pos)) != Natural<uint32>::Max())
-    {
-        buffer += this->SubString(oldPos, pos - oldPos) + refReplace;
-        pos += refSearch.GetLength();
-        oldPos = pos;
-    }
-    buffer += this->SubString(oldPos, this->GetLength() - oldPos);
-
-    *this = buffer;
-}
-
 void ByteString::Resize(uint32 newLength)
 {
     if(newLength > this->nElements)

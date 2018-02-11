@@ -28,23 +28,6 @@ using namespace ACStdLib::UI;
 //Definitions
 #define THIS PRIVATE_DATA(this)
 
-//Destructor
-GroupBox::~GroupBox()
-{
-	MemFree(this->backend); //only free memory, don't destroy gtk objects because they get destroyed by the Window
-}
-
-//Private methods
-void GroupBox::CreateOSHandle()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//this->backend = CreateWidgetContainerPrivateData(gtk_frame_new(nullptr), this);
-
-	gtk_widget_show(THIS->widget); //default to show
-
-	ADD_SELF_TO_PARENT(THIS->widget);
-}
-
 //Public methods
 Rect GroupBox::GetChildrenRect() const
 {
@@ -57,20 +40,6 @@ Rect GroupBox::GetChildrenRect() const
 	rect.height() -= 10;
 
 	return rect;
-}
-
-Size GroupBox::GetSizeHint() const
-{
-	//we need to query layout and gtk, because the group box title text may be longer than the width of the children area
-	Size size = Size(); //GetPreferedSizeGtk(THIS->widget); //we can't ask the Gtk widget because then this method gets called again -> stack overflow
-	if(this->layout)
-	{
-		Size layoutSize = this->layout->GetPreferredSize(*this);
-		size.width = MAX(size.width, layoutSize.width);
-		size.height = MAX(size.height, layoutSize.height);
-	}
-
-	return size;
 }
 
 void GroupBox::SetText(const OldString &text)

@@ -33,9 +33,7 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 
@@ -46,14 +44,11 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventQueue.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventQueue.hpp

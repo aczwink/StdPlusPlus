@@ -39,13 +39,14 @@ void Label::System_CreateHandle()
 	//this->backend = CreateWidgetPrivateData(gtk_label_new(nullptr), this);
 	gtk_widget_show(THIS); //default to show
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
 Size Label::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 void Label::SetText(const OldString &text)

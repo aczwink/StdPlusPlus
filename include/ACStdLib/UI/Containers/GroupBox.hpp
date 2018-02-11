@@ -26,20 +26,12 @@ namespace ACStdLib
     {
         class ACSTDLIB_API GroupBox : public WidgetContainer
         {
-        private:
-            //Methods
-            void CreateOSHandle();
-
         public:
             //Constructor
             GroupBox(WidgetContainer *pParent);
 
-			//Destructor
-			~GroupBox();
-
             //Methods
             Rect GetChildrenRect() const;
-			Size GetSizeHint() const;
             void SetText(const OldString &text);
         };
     }

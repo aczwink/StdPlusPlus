@@ -42,13 +42,14 @@ void CheckBox::System_CreateHandle()
 
 	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventQueue::ToggledSlot), this);
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 }
 
 //Public methods
 Size CheckBox::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 OldString CheckBox::GetText() const

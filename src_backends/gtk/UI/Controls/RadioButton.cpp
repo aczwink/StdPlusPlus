@@ -54,7 +54,7 @@ void RadioButton::System_CreateHandle()
 	//this->backend = CreateWidgetPrivateData(CreateRadioButtonInCorrectGroup(this), this);
 	gtk_widget_show(THIS); //default to show
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 
 	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
 }
@@ -62,7 +62,8 @@ void RadioButton::System_CreateHandle()
 //Public methods
 Size RadioButton::GetSizeHint() const
 {
-	return GetPreferedSizeGtk(THIS);
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	//return GetPreferedSizeGtk(THIS);
 }
 
 void RadioButton::SetText(const OldString &text)

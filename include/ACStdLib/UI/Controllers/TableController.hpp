@@ -34,6 +34,7 @@ namespace ACStdLib
 			//Methods
 			ControllerIndex GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const;
 			uint32 GetNumberOfChildren(const ControllerIndex &parent) const;
+			ControllerIndex GetParentIndex(const ControllerIndex &index) const;
 			String GetText(const ControllerIndex &index) const;
 		};
 	}

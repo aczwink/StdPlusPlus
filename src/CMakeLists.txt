@@ -31,6 +31,12 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
 
 	#Filesystem
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
 	#Math
@@ -112,6 +118,8 @@ set(SOURCE_FILES
 	#Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Textcodecs/ASCIITextCodec.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.cpp
@@ -119,6 +127,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/TextCodec.cpp
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp
@@ -138,11 +147,11 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ControllerIndex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TableController.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
@@ -157,6 +166,7 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.cpp

@@ -30,6 +30,7 @@
 using namespace ACStdLib;
 
 //Public methods
+/* TODO: new file system implementation
 bool Path::CreateDirectory()
 {
 	return mkdir(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), 0700) == 0;
@@ -39,6 +40,7 @@ bool Path::Exists() const
 {
 	return access(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), F_OK) == 0;
 }
+*/
 
 Path Path::GetAbsolutePath() const
 {

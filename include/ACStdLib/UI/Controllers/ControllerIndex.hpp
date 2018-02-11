@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
+#include "../../Natural.hpp"
 
 namespace ACStdLib
 {
@@ -32,7 +33,7 @@ namespace ACStdLib
 			friend class TreeController;
 		public:
 			//Constructor
-			inline ControllerIndex()
+			inline ControllerIndex() : treeController(nullptr)
 			{
 				this->row = Natural<uint32>::Max();
 				this->column = Natural<uint32>::Max();
@@ -49,6 +50,9 @@ namespace ACStdLib
 			{
 				return !((*this) == other);
 			}
+
+			//Methods
+			ControllerIndex GetParent() const;
 
 			//Inline
 			inline uint32 GetColumn() const
@@ -70,10 +74,14 @@ namespace ACStdLib
 			//Members
 			uint32 row;
 			uint32 column;
+			/**
+			 * The node from the real data model tree.
+			 */
 			void *modelNode;
+			const TreeController *treeController;
 
 			//Constructor
-			inline ControllerIndex(uint32 row, uint32 column, void *modelNode)
+			inline ControllerIndex(uint32 row, uint32 column, void *modelNode, const TreeController *treeController) : treeController(treeController)
 			{
 				this->row = row;
 				this->column = column;

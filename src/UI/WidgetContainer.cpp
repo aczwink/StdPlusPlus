@@ -88,6 +88,8 @@ Size WidgetContainer::GetSizeHint() const
 {
     if(this->layout)
         return this->layout->GetPreferredSize(*this);
+    if(this->backend)
+        return this->backend->GetSizeHint();
 
     return Size();
 }

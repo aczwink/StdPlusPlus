@@ -22,6 +22,7 @@
 #include <ACStdLib/Debug.h>
 #include <ACStdLib/Memory.h>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
+#include <ACStdLib/Containers/Strings/String.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -72,50 +73,17 @@ TextReader &TextReader::operator>>(ByteString &target)
 	return *this;
 }
 
-//Private methods
-bool TextReader::IsWhitespace(byte b)
-{
-	switch(b)
-	{
-		case ' ':
-		case '\t':
-		case '\r':
-		case '\n':
-			return true;
-	}
-
-	return false;
-}
-
-byte TextReader::SkipWhitespaces()
-{
-	byte b;
-
-	while(true)
-	{
-		if(this->inputStream.IsAtEnd())
-			return -1;
-		this->dataReader >> b;
-		if(!this->IsWhitespace(b))
-			break;
-	}
-
-	return b;
-}
-
 //Public methods
-ByteString TextReader::ReadASCII(uint32 length)
+String TextReader::ReadString(uint32 length)
 {
-    char c;
-    ByteString buffer;
+	String result;
+	while(!this->inputStream.IsAtEnd() && length--)
+	{
+		uint32 codePoint = this->codec->ReadCodePoint(this->dataReader);
+		result += codePoint;
+	}
 
-    while(!this->inputStream.IsAtEnd() && length--)
-    {
-		this->dataReader >> c;
-        buffer += c;
-    }
-
-    return buffer;
+	return result;
 }
 
 ByteString TextReader::ReadASCII_Line()
@@ -217,4 +185,35 @@ UTF8String TextReader::ReadUTF8Line()
     }
 
     return result;
+}
+
+//Private methods
+bool TextReader::IsWhitespace(byte b)
+{
+	switch(b)
+	{
+		case ' ':
+		case '\t':
+		case '\r':
+		case '\n':
+			return true;
+	}
+
+	return false;
+}
+
+byte TextReader::SkipWhitespaces()
+{
+	byte b;
+
+	while(true)
+	{
+		if(this->inputStream.IsAtEnd())
+			return -1;
+		this->dataReader >> b;
+		if(!this->IsWhitespace(b))
+			break;
+	}
+
+	return b;
 }

@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "../Controllers/TreeController.hpp"
 #include "View.hpp"
 
 namespace ACStdLib
@@ -31,11 +32,12 @@ namespace ACStdLib
             //Constructor
             ComboBox(WidgetContainer *pParent);
 
-			//Destructor
-			~ComboBox();
-
-            //Methods
-            Size GetSizeHint() const;
+			//Inline
+			inline void Select(uint32 index)
+			{
+				ControllerIndex controllerIndex = this->GetController()->GetChildIndex(index, 0, ControllerIndex());
+				this->backend->Select(controllerIndex);
+			}
 
 		protected:
 			//Event handlers
@@ -44,9 +46,6 @@ namespace ACStdLib
 		private:
 			//Event handlers
 			void OnModelChanged();
-
-			//Methods
-			void Backend_Create();
         };
     }
 }

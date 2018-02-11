@@ -149,9 +149,9 @@ namespace ACStdLib
                 refWidget.OnPaint();
             }
 
-            static inline void DispatchResizedEvent(Window &refWnd)
+            static inline void DispatchResizedEvent(Widget &widget)
             {
-                refWnd.OnResized();
+				widget.OnResized();
             }
 
             static inline void DispatchSelectionChangedEvent(View &view)

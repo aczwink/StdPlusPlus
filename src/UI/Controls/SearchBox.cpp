@@ -28,5 +28,5 @@ SearchBox::SearchBox(WidgetContainer *parent) : Widget(parent)
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->Backend_Create();
+	this->backend = this->GetParentBackend()->CreateChildBackend(_ACStdLib_internal::WindowBackendType::SearchBox, this);
 }

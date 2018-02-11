@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "../TextCodec.hpp"
 #include "ACStdLib/Streams/InputStream.hpp"
 #include "ACStdLib/Containers/Strings/ByteString.hpp"
 #include "ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp"
@@ -27,20 +28,18 @@ namespace ACStdLib
 {
     class ACSTDLIB_API TextReader
     {
-    private:
-        //Members
-        InputStream &inputStream;
-		DataReader dataReader;
-
-		//Methods
-		bool IsWhitespace(byte b);
-		byte SkipWhitespaces();
-
     public:
         //Constructor
-        inline TextReader(InputStream &inputStream) : inputStream(inputStream), dataReader(true, inputStream)
+        inline TextReader(InputStream &inputStream, TextCodecType codecType) : inputStream(inputStream), codec(TextCodec::GetCodec(codecType)), dataReader(true, inputStream)
         {
         }
+
+		//Destructor
+		inline ~TextReader()
+		{
+			if(this->codec)
+				delete this->codec;
+		}
 
 		//Operators
 		TextReader &operator>>(uint32 &i);
@@ -48,10 +47,26 @@ namespace ACStdLib
 		TextReader &operator>>(ByteString &target);
 
         //Methods
-        ByteString ReadASCII(uint32 length);
+		/**
+		 * Read 'length' characters and return them as string.
+		 *
+		 * @param length
+		 * @return
+		 */
+        String ReadString(uint32 length);
         ByteString ReadASCII_Line();
         ByteString ReadASCII_ZeroTerminated();
         uint32 ReadUTF8();
         UTF8String ReadUTF8Line();
+
+	private:
+		//Members
+		InputStream &inputStream;
+		DataReader dataReader;
+		TextCodec *codec;
+
+		//Methods
+		bool IsWhitespace(byte b);
+		byte SkipWhitespaces();
     };
 }

@@ -48,7 +48,7 @@ void TableView::Backend_Create()
 	gtk_widget_set_vexpand(THIS, TRUE);
 	gtk_widget_show_all(THIS); //default is show
 
-	ADD_SELF_TO_PARENT(THIS);
+	//ADD_SELF_TO_PARENT(THIS);
 
 	//signals
 	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS)), "changed", G_CALLBACK(GtkEventQueue::ChangedSlot), this);

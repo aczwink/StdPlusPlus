@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -29,5 +29,5 @@ GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
 {
 	this->SetLayout(new VerticalLayout);
 
-	this->CreateOSHandle();
+	this->backend = this->GetParentBackend()->CreateChildBackend(_ACStdLib_internal::WindowBackendType::GroupBox, this);
 }

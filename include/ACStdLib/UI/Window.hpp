@@ -60,7 +60,6 @@ namespace ACStdLib
             void EnableDrop();
             void Maximize();
             void SetMenuBar(CMenuBar *pMenuBar);
-            void SetTitle(const OldString &title);
             void ShowErrorBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
 
@@ -73,6 +72,11 @@ namespace ACStdLib
 			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = {})
 			{
 				return this->backend->SelectExistingDirectory(title, callback);
+			}
+
+			inline void SetTitle(const String &title)
+			{
+				this->backend->SetText(title);
 			}
 
 			inline void ShowInformationBox(const String &title, const String &message)

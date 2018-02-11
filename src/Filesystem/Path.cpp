@@ -24,25 +24,6 @@
 using namespace ACStdLib;
 
 //Public methods
-bool Path::CreateDirectoryTree()
-{
-	if(this->Exists())
-	{
-		if(this->IsDirectory())
-			return true;
-
-		return false;
-	}
-
-	Path parent = this->GetParent();
-	if(parent == parent.GetRoot() || parent.CreateDirectoryTree()) //create parent directory
-	{
-		return this->CreateDirectory();
-	}
-
-	return false;
-}
-
 String Path::GetFileExtension() const
 {
 	uint32 pos;
@@ -78,17 +59,6 @@ Path Path::GetParent() const
 	return Path(this->pathString.SubString(0, pos));
 }
 
-Path Path::GetRoot() const
-{
-	uint32 pos;
-
-	pos = this->pathString.Find(u8"/");
-	if(pos == Natural<uint32>::Max())
-		return Path();
-
-	return Path(this->pathString.SubString(0, pos + 1));
-}
-
 String Path::GetTitle() const
 {
 	uint32 posDot, posSlash;
@@ -108,6 +78,18 @@ String Path::GetTitle() const
 		return String();
 
 	return this->pathString.SubString(posSlash + 1, posDot - posSlash - 1);
+}
+
+String Path::SplitOutmostPathPart(Path &subPath) const
+{
+	uint32 posSlash = this->pathString.Find(u8"/");
+	if(posSlash == Natural<uint32>::Max())
+	{
+		subPath = u8"";
+		return this->pathString;
+	}
+	subPath = this->pathString.SubString(posSlash+1);
+	return this->pathString.SubString(0, posSlash);
 }
 
 //For range-based loop

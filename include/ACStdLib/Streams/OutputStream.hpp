@@ -75,9 +75,7 @@ namespace ACStdLib
 
         inline OutputStream &operator<<(float64 f)
         {
-            const OldString &refString = ToString(f);
-
-            return *this << refString;
+            return *this << String::Number(f);
         }
 
         inline OutputStream &operator<<(const CLineBreak &refLineBreak)

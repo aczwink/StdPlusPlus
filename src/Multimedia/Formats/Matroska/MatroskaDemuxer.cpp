@@ -310,9 +310,10 @@ uint64 MatroskaDemuxer::ParseElement()
 			{
 				ByteString str;
 
-				TextReader reader(this->inputStream);
+				TextReader reader(this->inputStream, TextCodecType::ASCII);
 
-				str = reader.ReadASCII(size);
+				NOT_IMPLEMENTED_ERROR; //TODO: needs new string class
+				//str = reader.ReadString(size);
 				this->ParseASCIIString(id, str);
 			}
 				break;

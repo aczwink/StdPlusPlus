@@ -18,6 +18,8 @@
  */
 //Class header
 #include <ACStdLib/Containers/Strings/String.hpp>
+//Global
+#include <cstdio>
 //Local
 #include <ACStdLib/Containers/Strings/ConstStringIterator.hpp>
 #include <ACStdLib/Char.hpp>
@@ -100,6 +102,8 @@ bool String::operator<(const String &rhs) const
 //Public methods
 uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 {
+	length = MIN(length, this->length);
+
 	auto it = this->begin();
 
 	//skip to startPos first
@@ -137,7 +141,8 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 
 uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length) const
 {
-	startPos = MIN(startPos, this->length);
+	startPos = MIN(startPos, this->length - 1);
+	length = MIN(length, startPos + 1);
 
 	auto it = this->GetIteratorAt(startPos);
 	while(length)
@@ -169,6 +174,33 @@ uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length)
 	return Natural<uint32>::Max();
 }
 
+String String::Replace(const String &from, const String &to) const
+{
+	if(from.IsEmpty())
+		return *this;
+
+	String result;
+	result.Detach();
+	result.ResizeAdditional(this->size);
+	for(auto it = this->begin(); it != this->end();)
+	{
+		auto it2 = from.begin();
+		if(it.Equals(it2, from.length)) //we are at the start of a from
+		{
+			result += to; //append to
+			for(uint32 i = 0; i < from.length; i++) //skip from
+				++it;
+		}
+		else //not at from
+		{
+			result += *it; //append current char
+			++it;
+		}
+	}
+
+	return result;
+}
+
 bool String::StartsWith(const String &string) const
 {
 	if(string.length > this->length)
@@ -181,6 +213,7 @@ String String::SubString(uint32 startPos, uint32 length) const
 {
 	auto it = this->GetIteratorAt(startPos);
 	uint32 startOffset = it.GetByteOffset();
+	length = MIN(length, this->length - startPos);
 
 	//go to end
 	for(uint32 i = 0; i < length; i++)
@@ -286,7 +319,7 @@ void String::Detach() const
 		if(this->sharedResource->referenceCounter != 1)
 		{
 			this->sharedResource->referenceCounter--;
-			this->sharedResource = this->sharedResource->Copy();
+			this->sharedResource = this->sharedResource->Copy(this->GetByteOffset(), this->size);
 			this->data = this->sharedResource->data;
 		}
 	}
@@ -391,6 +424,31 @@ String String::CopyRawString(const char *utf8)
 	return str;
 }
 
+String String::FormatByteSize(uint64 byteSize)
+{
+	static const char * prefixes[] = {u8"", u8"Ki", u8"Mi", u8"Gi"};
+	uint32 i;
+	float64 scaled = byteSize;
+	for(i = 0; i < sizeof(prefixes)/sizeof(prefixes[0]); i++)
+	{
+		if(scaled < 1024)
+			break;
+		scaled /= 1024;
+	}
+	if(i == sizeof(prefixes)/sizeof(prefixes[0]))
+		i--;
+
+	const auto suffix = u8"B";
+
+	String result;
+	if(i == 0)
+		result = String::Number(byteSize);
+	else
+		result = String::Number(scaled, 3);
+
+	return result + u8" " + prefixes[i] + suffix;
+}
+
 String String::Number(uint64 value, uint8 base, uint8 minLength)
 {
 	uint64 rest;
@@ -421,7 +479,7 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 	}
 
 	result.Detach();
-	result.ResizeAdditional(buffer.sharedResource->nElements);
+	result.ResizeAdditional(buffer.size);
 
 	auto it = buffer.end();
 	for(uint32 i = 0; i < buffer.GetLength(); i++)
@@ -431,6 +489,16 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 	}
 
 	return result;
+}
+
+String String::Number(float64 number, uint8 precision)
+{
+	char buf[1024];
+
+	sprintf(buf, "%.*g", precision, number);
+	//sprintf_s(buf, sizeof(buf), "%.*g", DBL_DIG, value);
+
+	return String::CopyRawString(buf);
 }
 
 //For range-based loop

@@ -50,6 +50,7 @@ namespace ACStdLib
 			 * @return
 			 */
 			virtual uint32 GetNumberOfColumns() const = 0;
+			virtual ControllerIndex GetParentIndex(const ControllerIndex &index) const = 0;
             virtual String GetText(const ControllerIndex &index) const = 0;
 
             //Inline
@@ -64,9 +65,9 @@ namespace ACStdLib
             View *view;
 
 			//Inline
-			inline ControllerIndex CreateIndex(uint32 row, uint32 column, void *node) const
+			inline ControllerIndex CreateIndex(uint32 row, uint32 column, void *modelNode) const
 			{
-				return ControllerIndex(row, column, node);
+				return ControllerIndex(row, column, modelNode, this);
 			}
 
 		private:

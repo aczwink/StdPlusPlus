@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -17,15 +17,12 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Views/ComboBox.hpp>
+#include <ACStdLib/Filesystem/ContainerFile.hpp>
 //Namespaces
 using namespace ACStdLib;
-using namespace ACStdLib::UI;
 
-//Constructor
-ComboBox::ComboBox(WidgetContainer *parent) : View(parent)
+//Public methods
+uint64 ContainerFile::GetSize() const
 {
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
-
-	this->Backend_Create();
+	return this->size;
 }

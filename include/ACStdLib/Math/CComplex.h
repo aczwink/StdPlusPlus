@@ -67,12 +67,12 @@ namespace ACStdLib
             }
 
             //Inline
-            inline OldString ToString() const
+            inline String ToString() const
             {
                 if(imag < 0)
-                    return ACStdLib::ToString(this->real) + "-i" + ACStdLib::ToString(-this->imag);
+                    return String::Number(this->real) + "-i" + String::Number(-this->imag);
 
-                return ACStdLib::ToString(this->real) + "+i" + ACStdLib::ToString(this->imag);
+                return String::Number(this->real) + "+i" + String::Number(this->imag);
             }
         };
     }

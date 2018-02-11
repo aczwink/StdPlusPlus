@@ -65,14 +65,14 @@ namespace ACStdLib
 			}
 
 			//Inline
-			inline Resource *Copy() const
+			inline Resource *Copy(uint32 offset, uint32 size) const
 			{
 				Resource *copy = new Resource;
 
 				copy->isUTF8 = this->isUTF8;
-				copy->EnsureCapacity(this->nElements);
-				MemCopy(copy->data, this->data, this->nElements);
-				copy->nElements = this->nElements;
+				copy->EnsureCapacity(size);
+				MemCopy(copy->data, this->data + offset, size);
+				copy->nElements = size;
 
 				return copy;
 			}
@@ -198,15 +198,17 @@ namespace ACStdLib
 		 * @return
 		 */
 		uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 length = Natural<uint32>::Max()) const;
+		String Replace(const String &from, const String &to) const;
 		bool StartsWith(const String &string) const;
 		/**
 		 * Returns the slice defined by the range of 'startPos' and 'length' in character units.
+		 * If the end of the slice is outside this string, the slice is trimmed to match the end of this string.
 		 *
 		 * @param startPos
 		 * @param length
 		 * @return
 		 */
-		String SubString(uint32 startPos, uint32 length) const;
+		String SubString(uint32 startPos, uint32 length = Natural<uint32>::Max()) const;
 		String ToLowercase() const;
 		uint64 ToUInt() const;
 		/**
@@ -295,6 +297,15 @@ namespace ACStdLib
 		 */
 		static String CopyRawString(const char *utf8);
 
+		/**
+		 * Formats a byte size using binary prefixes.
+		 * For instance the input 1024 is transformed to "1 KiB".
+		 *
+		 * @param size in bytes
+		 * @return
+		 */
+		static String FormatByteSize(uint64 size);
+
 		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true)
 		{
 			NOT_IMPLEMENTED_ERROR;
@@ -313,6 +324,7 @@ namespace ACStdLib
 		 * @return
 		 */
 		static String Number(uint64 value, uint8 base = 10, uint8 minLength = 0);
+		static String Number(float64 number, uint8 precision = 6);
 
 		//Inline functions
 		inline static String Number(uint16 natural)
@@ -323,12 +335,6 @@ namespace ACStdLib
 		inline static String Number(uint32 natural)
 		{
 			return String::Number((uint64)natural);
-		}
-
-		static String Number(float64 number)
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return String();
 		}
 
 		//For range-based loop
@@ -386,6 +392,11 @@ namespace ACStdLib
 
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me for utf16
 			return 0;
+		}
+
+		inline uint32 GetByteOffset() const
+		{
+			return this->data - this->sharedResource->data;
 		}
 
 		inline bool IsNull() const
