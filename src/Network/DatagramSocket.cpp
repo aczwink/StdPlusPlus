@@ -56,6 +56,7 @@ bool DatagramSocket::ReceivePacket(Datagram &datagram)
 
 	sockaddr senderAddress;
 	socklen_t addressSize;
+	addressSize = sizeof(senderAddress);
 	ssize_t size = recvfrom(this->systemHandle.i32, (char *)datagram.GetBuffer(), datagram.GetBufferSize(), 0, &senderAddress, &addressSize);
 	if(size >= 0)
 	{

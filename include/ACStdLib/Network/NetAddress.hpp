@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "ACStdLib/Containers/Strings/OldString.hpp"
+#include "ACStdLib/Containers/Strings/String.hpp"
 
 namespace ACStdLib
 {
@@ -33,6 +33,6 @@ namespace ACStdLib
 	public:
 		//Abstract
 		virtual NetworkProtocolFamily GetProtocolFamily() const = 0;
-		virtual OldString ToString() const = 0;
+		virtual String ToString() const = 0;
 	};
 }
