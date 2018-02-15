@@ -32,7 +32,7 @@ NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port)
 		{
 			sockaddr_in *addrv4 = (sockaddr_in *) address;
 
-			port = addrv4->sin_port;
+			port = ntohs(addrv4->sin_port);
 
 			IPv4Address *result = new IPv4Address;
 			MemCopy(result->rawAddress, &addrv4->sin_addr.s_addr, 4); //s_addr is in network order
