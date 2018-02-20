@@ -35,6 +35,7 @@ using namespace ACStdLib;
 OldString ACStdLib::ToString(uint64 i, uint8 bla)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
+	return OldString();
 }
 
 //Namespace Functions
@@ -127,6 +128,7 @@ int64 ACStdLib::StringToInt64(const OldString &refString)
 uint64 ACStdLib::StringToUInt64(const ByteString &string)
 {
     NOT_IMPLEMENTED_ERROR; //TODO: deprecated
+	return 0;
 }
 
 uint64 ACStdLib::StringToUInt64(const OldString &refString)
@@ -159,6 +161,7 @@ OldString ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 		return "0x" + ::ToString(value, 16, nMinChars);
 	return ::ToString(value, 16, nMinChars);
      */
+	return OldString();
 }
 
 OldString ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)

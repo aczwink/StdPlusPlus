@@ -27,24 +27,6 @@ using namespace ACStdLib::UI;
 //Global Variables
 extern bool g_ignoreMessage;
 
-//Private methods
-Size Widget::System_GetSize() const
-{
-	RECT rc;
-
-	GetWindowRect((HWND)this->systemHandle, &rc);
-
-	return Size(rc.right - rc.left, rc.bottom - rc.top);
-}
-
-void Widget::System_SetRect(const Rect &area)
-{
-	Point transformed;
-
-	transformed = this->TransformToWindow(area.origin);
-	SetWindowPos((HWND)this->systemHandle, HWND_TOP, transformed.x, transformed.y, area.width(), area.height(), 0);
-}
-
 //Proctected functions
 void Widget::IgnoreEvent()
 {
@@ -54,22 +36,12 @@ void Widget::IgnoreEvent()
 //Public methods
 void Widget::Repaint()
 {
-	if(this->systemHandle)
+	if(this->backend)
 	{
-		InvalidateRect((HWND)this->systemHandle, nullptr, false);
+		InvalidateRect((HWND)this->backend, nullptr, false);
 	}
 	else
 	{
 		this->OnPaint();
 	}
-}
-
-void Widget::SetEnabled(bool enable)
-{
-	EnableWindow((HWND)this->systemHandle, enable);
-}
-
-void Widget::Show(bool visible)
-{
-	ShowWindow((HWND)this->systemHandle, visible ? SW_SHOW : SW_HIDE);
 }

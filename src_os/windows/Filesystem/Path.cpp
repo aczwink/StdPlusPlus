@@ -22,18 +22,6 @@
 using namespace ACStdLib;
 
 //Public methods
-bool Path::CreateDirectory()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
-bool Path::Exists() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 bool Path::IsDirectory() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

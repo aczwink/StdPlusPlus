@@ -21,10 +21,11 @@
 namespace ACStdLib
 {
 	//template <typename DataType, template <typename> typename ArrayType>
-	template <template <typename DataType> typename ArrayType, typename DataType>
+	//template <template <typename DataType> typename ArrayType, typename DataType>
+	template<typename ArrayType, typename DataType>
     class ArrayIterator
     {
-        friend class ArrayType<DataType>;
+        friend ArrayType;
     public:
         //Operators
         ArrayIterator &operator++() //Prefix ++
@@ -57,11 +58,11 @@ namespace ACStdLib
 
 	private:
 		//Members
-		ArrayType<DataType> &array;
+		ArrayType &array;
 		uint32 index;
 
 		//Constructors
-		ArrayIterator(ArrayType<DataType> &refArray, uint32 index = 0) : array(refArray)
+		ArrayIterator(ArrayType &refArray, uint32 index = 0) : array(refArray)
 		{
 			this->index = index;
 		}

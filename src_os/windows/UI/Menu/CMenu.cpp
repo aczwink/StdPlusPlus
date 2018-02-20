@@ -27,7 +27,7 @@ using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
 //Constructor
-CMenu::CMenu(const String &refText)
+CMenu::CMenu(const OldString &refText)
 {
 	this->pOSHandle = CreateMenu();
 }

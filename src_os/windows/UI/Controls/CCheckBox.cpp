@@ -51,7 +51,7 @@ Size CheckBox::GetSizeHint() const
 	size.width = GetSystemMetrics(SM_CXMENUCHECK);
 	size.height = GetSystemMetrics(SM_CYMENUCHECK);
 
-	hDC = GetDC((HWND)this->systemHandle);
+	hDC = GetDC((HWND)this->backend);
 	hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 
 	text = this->GetText().GetUTF16();
@@ -59,7 +59,7 @@ Size CheckBox::GetSizeHint() const
 	SelectObject(hDC, hFont);
 	GetTextExtentPoint32W(hDC, (LPCWSTR)text.GetC_Str(), text.GetLength(), &s);
 
-	ReleaseDC((HWND)this->systemHandle, hDC);
+	ReleaseDC((HWND)this->backend, hDC);
 
 	size.width += (uint16)s.cx;
 	size.height += (uint16)s.cy;
@@ -67,33 +67,33 @@ Size CheckBox::GetSizeHint() const
 	return size;
 }
 
-String CheckBox::GetText() const
+OldString CheckBox::GetText() const
 {
 	uint16 buffer[1000]; //should be sufficient
 
 						 //length = SendMessageW((HWND)this->pOSHandle, WM_GETTEXTLENGTH, 0, 0);
-	SendMessageW((HWND)this->systemHandle, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
+	SendMessageW((HWND)this->backend, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
 
 	return UTF16String(buffer);
 }
 
 bool CheckBox::IsChecked() const
 {
-	return SendMessage((HWND)this->systemHandle, BM_GETCHECK, 0, 0) == BST_CHECKED;
+	return SendMessage((HWND)this->backend, BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
-void CheckBox::SetText(const String &refText)
+void CheckBox::SetText(const OldString &refText)
 {
 	const UTF16String &text = refText.GetUTF16();
 
-	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
+	SetWindowTextW((HWND)this->backend, (LPCWSTR)text.GetC_Str());
 }
 
 //Private methods
 void CheckBox::System_CreateHandle()
 {
-	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
+	this->backend = (_ACStdLib_internal::WindowBackend *)CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->backend, GWLP_USERDATA, (LONG_PTR)this);
 
-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	SendMessage((HWND)this->backend, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }

@@ -36,7 +36,6 @@ set(SOURCE_FILES
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 

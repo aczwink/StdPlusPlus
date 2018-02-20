@@ -17,6 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Global
+#include <Windows.h>
 //Local
 #include <ACStdLib/Debug.h>
 //Namespaces
@@ -24,10 +25,23 @@
 //Global functions
 void InitACStdLib_Platform()
 {
-	NOT_IMPLEMENTED_ERROR;
+	//set console codepage to UTF8
+	SetConsoleCP(CP_UTF8);
+	SetConsoleOutputCP(CP_UTF8);
+
+	//set console font
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 0;
+	cfi.dwFontSize.X = 0;
+	cfi.dwFontSize.Y = 14;
+	cfi.FontFamily = FF_DONTCARE;
+	cfi.FontWeight = FW_NORMAL;
+	wcscpy_s(cfi.FaceName, L"Consolas");
+
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 }
 
 void ShutdownACStdLib_Platform()
 {
-	NOT_IMPLEMENTED_ERROR;
 }

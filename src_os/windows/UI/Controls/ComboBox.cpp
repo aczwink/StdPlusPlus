@@ -33,12 +33,7 @@ using namespace ACStdLib::UI;
 WinAPI Documentation:
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb775792(v=vs.85).aspx
 */
-
-//Destructor
-ComboBox::~ComboBox()
-{
-}
-
+/*
 //Public methods
 Size ComboBox::GetSizeHint() const
 {
@@ -72,8 +67,9 @@ Size ComboBox::GetSizeHint() const
 
 	return Size(x, 21);
 }
-
+*/
 //Private methods
+/*
 void ComboBox::Backend_Create()
 {
 	this->systemHandle = CreateWindowExA(0, WC_COMBOBOXA, nullptr, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
@@ -81,18 +77,7 @@ void ComboBox::Backend_Create()
 
 	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }
-
-//Event handlers
-void ComboBox::OnModelChanged()
-{
-	NOT_IMPLEMENTED_ERROR;
-}
-
-void ComboBox::OnSelectionChanged()
-{
-	NOT_IMPLEMENTED_ERROR;
-}
-
+*/
 
 /*
 OLD:

@@ -24,27 +24,9 @@
 using namespace ACStdLib;
 using namespace ACStdLib::UI;
 
-//Destructor
-GroupBox::~GroupBox()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-//Private methods
-void GroupBox::CreateOSHandle()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 //Public methods
 Rect GroupBox::GetChildrenRect() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return Rect();
-}
-
-Size GroupBox::GetSizeHint() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Size();
 }

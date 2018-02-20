@@ -34,38 +34,10 @@ WinAPI Documentation:
 https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 */
 
-//Destructor
-PushButton::~PushButton()
-{
-}
-
-//Private methods
-void PushButton::CreateOSHandle()
-{
-	this->systemHandle = CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
-
-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-}
-
 //Public methods
-Size PushButton::GetSizeHint() const
-{
-	SIZE size;
-
-	//TODO: calc min width
-	//TODO: this seems to be working... dont known how it is with different fonts
-
-	Button_GetIdealSize((HWND)this->systemHandle, &size);
-	if(size.cy < 25)
-		size.cy = 25; //aesthetics
-
-	return Size((uint16)size.cx, (uint16)size.cy);
-}
-
+/*
 void PushButton::SetText(const String &refText)
 {
-	const UTF16String &text = refText.GetUTF16();
-
-	SetWindowTextW((HWND)this->systemHandle, (LPCWSTR)text.GetC_Str());
+	SetWindowTextW((HWND)this->backend, (LPCWSTR)refText.ToUTF16().GetRawZeroTerminatedData());
 }
+*/

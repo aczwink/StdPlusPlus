@@ -31,6 +31,6 @@ using namespace ACStdLib::UI;
 //Private methods
 void RenderTargetWidget::CreateOSHandle()
 {
-	this->systemHandle = CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
+	//this->backend = CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->backend, GWLP_USERDATA, (LONG_PTR)this);
 }

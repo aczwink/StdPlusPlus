@@ -29,10 +29,8 @@ using namespace ACStdLib;
 //Constructor
 FileInputStream::FileInputStream(const Path &refPath)
 {
-	UTF16String fileNameUTF16(refPath.GetString().GetUTF16());
-
 	this->hitEnd = false;
-	this->pFileHandle = CreateFileW((LPCWSTR)fileNameUTF16.GetC_Str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	this->pFileHandle = CreateFileW((LPCWSTR)refPath.GetString().ToUTF16().GetRawZeroTerminatedData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if(this->pFileHandle == INVALID_HANDLE_VALUE)
 	{

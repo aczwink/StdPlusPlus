@@ -97,7 +97,8 @@ namespace ACStdLib
 				for(uint32 i = 0; i < nFiles; i++)
 				{
 					DragQueryFileW(hDrop, i, buffer, sizeof(buffer) / sizeof(buffer[0]));
-					fileName = UTF16String((uint16 *)buffer);
+					NOT_IMPLEMENTED_ERROR; //TODO: fix below line
+					//fileName = UTF16String((uint16 *)buffer);
 
 					pFileTransfer->files.InsertTail(fileName);
 				}

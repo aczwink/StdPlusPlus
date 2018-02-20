@@ -21,10 +21,11 @@
 namespace ACStdLib
 {
 	//This class is unfortunately needed because of the need of "array" to be const.
-	template <template <typename DataType> typename ArrayType, typename DataType>
+	//template <template <typename DataType> typename ArrayType, typename DataType>
+	template<typename ArrayType, typename DataType>
 	class ConstArrayIterator
 	{
-		friend class ArrayType<DataType>;
+		friend ArrayType;
 	public:
 		//Operators
 		ConstArrayIterator &operator++() //Prefix ++
@@ -52,10 +53,10 @@ namespace ACStdLib
 
 	private:
 		//Members
-		const ArrayType<DataType> &array;
+		const ArrayType &array;
 		uint32 index;
 
-		ConstArrayIterator(const ArrayType<DataType> &array, uint32 index = 0) : array(array)
+		ConstArrayIterator(const ArrayType &array, uint32 index = 0) : array(array)
 		{
 			this->index = index;
 		}

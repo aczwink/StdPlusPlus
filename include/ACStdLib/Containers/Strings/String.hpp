@@ -217,7 +217,13 @@ namespace ACStdLib
 		 * @return *this
 		 */
 		const String &ToUTF8() const;
-
+		/**
+		* Convert internal representation to UTF-16 if it not already is in this enconding.
+		*
+		* @return *this
+		*/
+		const String &ToUTF16() const;
+		
 		inline uint32 GetLength() const
 		{
 			return this->length;
@@ -245,7 +251,10 @@ namespace ACStdLib
 			if(this->sharedResource)
 			{
 				this->Detach();
-				this->sharedResource->data[this->sharedResource->nElements] = 0;
+				if (this->sharedResource->isUTF8)
+					this->sharedResource->data[this->sharedResource->nElements] = 0;
+				else
+					*((uint16 *)&this->sharedResource->data[this->sharedResource->nElements]) = 0;
 			}
 
 			return this->data;
@@ -281,12 +290,6 @@ namespace ACStdLib
 			return static_cast<uint32>(this->ToUInt());
 		}
 
-		inline const String &ToUTF16() const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return *this;
-		}
-
 		//Functions
 		/**
 		 * Assumes that the parameter is UTF-8 encoded and zero terminated.
@@ -308,12 +311,14 @@ namespace ACStdLib
 
 		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true)
 		{
-			NOT_IMPLEMENTED_ERROR;
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return String();
 		}
 
 		static String Number(int64 value)
 		{
-			NOT_IMPLEMENTED_ERROR;
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return String();
 		}
 
 		/**
@@ -345,7 +350,7 @@ namespace ACStdLib
 		//Members
 		mutable Resource *sharedResource;
 		mutable const uint8 *data;
-		uint32 size;
+		mutable uint32 size;
 		uint32 length;
 
 		//Methods
@@ -356,6 +361,7 @@ namespace ACStdLib
 		 */
 		void Detach() const;
 		uint8 EncodeUTF8(uint32 codePoint, byte *dest) const;
+		bool EncodeUTF16(uint32 codePoint, uint16 *dest) const;
 		ConstStringIterator GetIteratorAt(uint32 startPos) const;
 
 		//Inline
@@ -389,9 +395,7 @@ namespace ACStdLib
 		{
 			if(this->IsUTF8())
 				return this->EncodeUTF8(codePoint, dest);
-
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me for utf16
-			return 0;
+			return 2 + 2 * this->EncodeUTF16(codePoint, (uint16 *)dest);
 		}
 
 		inline uint32 GetByteOffset() const
@@ -402,6 +406,13 @@ namespace ACStdLib
 		inline bool IsNull() const
 		{
 			return this->data == nullptr; //implies that also sharedResource is nullptr
+		}
+
+		inline bool IsUTF16() const
+		{
+			if (this->sharedResource)
+				return !this->sharedResource->isUTF8;
+			return false; //no resource means utf8 literal
 		}
 
 		inline bool IsUTF8() const

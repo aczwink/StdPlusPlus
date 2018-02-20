@@ -30,7 +30,7 @@ public:
 	//Inline
 	inline HWND GetHWND()
 	{
-		return (HWND)this->systemHandle;
+		return (HWND)this->backend;
 	}
 };
 

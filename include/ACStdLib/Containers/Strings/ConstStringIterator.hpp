@@ -48,7 +48,11 @@ namespace ACStdLib
 				while((*this->current & 0xC0) == 0x80);
 			}
 			else
-				NOT_IMPLEMENTED_ERROR; //TODO: impelment me
+			{
+				this->current -= 2;
+				if ((*(uint16 *)this->current) & 0xFFFFFC00 == 0xDC00)
+					this->current -= 2; //surrogate pair
+			}
 
 			this->position--;
 

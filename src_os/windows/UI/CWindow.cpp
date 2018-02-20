@@ -33,17 +33,17 @@ using namespace ACStdLib::UI;
 //Eventhandlers
 void Window::OnPaint()
 {
-	if(this->systemHandle)
+	if(this->backend)
 	{
 		HBRUSH hBrush;
 		PAINTSTRUCT ps;
 
-		BeginPaint((HWND)this->systemHandle, &ps);
+		BeginPaint((HWND)this->backend, &ps);
 		hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
 
 		FillRect(ps.hdc, &ps.rcPaint, hBrush);
 
-		EndPaint((HWND)this->systemHandle, &ps);
+		EndPaint((HWND)this->backend, &ps);
 	}
 	else
 	{
@@ -54,6 +54,7 @@ void Window::OnPaint()
 }
 
 //Private methods
+/*
 void Window::CreateOSWindow(const Rect &refRect)
 {
     this->systemHandle = (void *)CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
@@ -63,17 +64,18 @@ void Window::DestroyOSWindow()
 {
 	DestroyWindow((HWND)this->systemHandle);
 }
+*/
 
 void Window::MenuBarChangeOS()
 {
 	MENUINFO mi;
 
-	::SetMenu((HWND)this->systemHandle, (HMENU)this->pMenuBar->pOSHandle);
+	::SetMenu((HWND)this->backend, (HMENU)this->pMenuBar->pOSHandle);
 
 	//bind hWnd to hMenu
 	mi.cbSize = sizeof(mi);
 	mi.fMask = MIM_MENUDATA;
-	mi.dwMenuData = (ULONG_PTR)this->systemHandle;
+	mi.dwMenuData = (ULONG_PTR)this->backend;
 
 	SetMenuInfo((HMENU)this->pMenuBar->pOSHandle, &mi);
 }
@@ -84,22 +86,23 @@ void Window::EnableDrop()
 	if(!this->pOSDropTarget)
 	{
 		this->pOSDropTarget = new CDropTarget(this);
-		RegisterDragDrop((HWND)this->systemHandle, this->pOSDropTarget);
+		RegisterDragDrop((HWND)this->backend, this->pOSDropTarget);
 	}
 }
 
 void Window::Maximize()
 {
-	ShowWindow((HWND)this->systemHandle, SW_MAXIMIZE);
+	ShowWindow((HWND)this->backend, SW_MAXIMIZE);
 }
 
+/*
 void Window::SetTitle(const String &refTitle)
 {
-	const UTF16String &titleUTF16 = (refTitle.GetUTF16());
-
-	SendMessageW((HWND)this->systemHandle, WM_SETTEXT, 0, (LPARAM)titleUTF16.GetC_Str());
+	SendMessageW((HWND)this->backend, WM_SETTEXT, 0, (LPARAM)refTitle.ToUTF16().GetRawZeroTerminatedData());
 }
+*/
 
+/*
 void Window::ShowErrorBox(const String &refTitle, const String &refMessage)
 {
 	UTF16String title, message;
@@ -109,13 +112,10 @@ void Window::ShowErrorBox(const String &refTitle, const String &refMessage)
 
 	MessageBoxW((HWND)this->systemHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONERROR);
 }
-
+*/
+/*
 void Window::ShowInformationBox(const String &refTitle, const String &refMessage)
 {
-	UTF16String title, message;
-
-	title = refTitle.GetUTF16();
-	message = refMessage.GetUTF16();
-
-	MessageBoxW((HWND)this->systemHandle, (LPCWSTR)message.GetC_Str(), (LPCWSTR)title.GetC_Str(), MB_OK | MB_ICONINFORMATION);
+	MessageBoxW((HWND)this->backend, (LPCWSTR)refMessage.ToUTF16().GetRawZeroTerminatedData(), (LPCWSTR)refTitle.ToUTF16().GetRawZeroTerminatedData(), MB_OK | MB_ICONINFORMATION);
 }
+*/

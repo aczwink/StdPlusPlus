@@ -35,17 +35,14 @@ using namespace ACStdLib::UI;
 static HTREEITEM InsertItemAtFront(HWND hWnd, HTREEITEM hItem, const String &refText)
 {
 	TVINSERTSTRUCTW tvis;
-	UTF16String textUTF16;
-
-	textUTF16 = refText.GetUTF16();
 
 	tvis.hParent = hItem;
 	tvis.hInsertAfter = TVI_FIRST;
 
 	//item
 	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-	tvis.item.pszText = (LPWSTR)textUTF16.GetC_Str();
-	tvis.item.cchTextMax = textUTF16.GetLength();
+	tvis.item.pszText = (LPWSTR)refText.ToUTF16().GetRawZeroTerminatedData();
+	tvis.item.cchTextMax = refText.GetLength();
 	//tvis.item.lParam = (LPARAM)pNode;
 
 	return (HTREEITEM)SendMessage(hWnd, TVM_INSERTITEMW, 0, (LPARAM)&tvis);
@@ -68,36 +65,17 @@ static void AddNodes(HWND hWnd, HTREEITEM hItem, const ControllerIndex &parent, 
 	}
 }
 
-//Destructor
-TreeView::~TreeView()
-{
-}
-
-//Private methods
-void TreeView::CreateOSWindow()
-{
-	this->systemHandle = CreateWindowExA(WS_EX_CLIENTEDGE, WC_TREEVIEWA, nullptr, WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
-
-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-	TreeView_SetExtendedStyle((HWND)this->systemHandle, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
-}
-
 //Eventhandlers
+/*
 void TreeView::OnModelChanged()
 {
-	TreeView_DeleteAllItems((HWND)this->systemHandle);
+	TreeView_DeleteAllItems((HWND)this->backend);
 
 	if (this->controller)
 	{
-		AddNodes((HWND)this->systemHandle, nullptr, ControllerIndex(), *this->controller);
+		AddNodes((HWND)this->backend, nullptr, ControllerIndex(), *this->controller);
 	}
-}
-
-void TreeView::OnSelectionChanged()
-{
-	NOT_IMPLEMENTED_ERROR;
-}
+}*/
 
 
 /*

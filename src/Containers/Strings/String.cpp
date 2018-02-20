@@ -37,6 +37,8 @@ String &String::operator+=(uint32 codePoint)
 	this->sharedResource->nElements += nBytes;
 	this->size += nBytes;
 	this->length++;
+
+	return *this;
 }
 
 String &String::operator+=(const String &rhs)
@@ -47,11 +49,14 @@ String &String::operator+=(const String &rhs)
 		return *this;
 	}
 
-	//either both UTF8 or both UTF16
-	if(this->IsUTF8() != rhs.IsUTF8())
-		this->ToUTF16();
-
 	this->Detach();
+
+	//either both UTF8 or both UTF16
+	if (rhs.IsUTF16() && !this->IsUTF16())
+		this->ToUTF16();
+	else if (rhs.IsUTF8() && !this->IsUTF8())
+		this->ToUTF8();
+
 	this->ResizeAdditional(rhs.size);
 	MemCopy(&this->sharedResource->data[this->sharedResource->GetNumberOfElements()], rhs.data, rhs.size);
 	this->sharedResource->nElements += rhs.size;
@@ -270,7 +275,55 @@ const String &String::ToUTF8() const
 {
 	if(!this->IsUTF8())
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: impelment me
+		Resource *newRes = new Resource;
+		newRes->isUTF8 = true;
+		newRes->EnsureCapacity(this->length * 4); //worst-case: every codepoint takes 4 bytes
+		uint8 *current = newRes->data;
+		uint32 size = 0;
+		for (uint32 codePoint : *this)
+		{
+			uint8 nBytes = this->EncodeUTF8(codePoint, current);
+			current += nBytes;
+			size += nBytes;
+		}
+
+		if (this->sharedResource)
+			this->sharedResource->Release();
+		this->sharedResource = newRes;
+		this->sharedResource->nElements = size;
+		this->data = this->sharedResource->data;
+		this->size = size;
+	}
+
+	return *this;
+}
+
+const String &String::ToUTF16() const
+{
+	if (!this->IsUTF16())
+	{
+		Resource *newRes = new Resource;
+		newRes->isUTF8 = false;
+		newRes->EnsureCapacity(this->length * 4); //worst-case: everything is surrogate
+		uint16 *current = (uint16 *)newRes->data;
+		uint32 newSize = 0;
+		for (uint32 codePoint : *this)
+		{
+			if (this->EncodeUTF16(codePoint, current))
+			{
+				current++;
+				newSize += 2;
+			}
+			current++;
+			newSize += 2;
+		}
+
+		if (this->sharedResource)
+			this->sharedResource->Release();
+		this->sharedResource = newRes;
+		this->sharedResource->nElements = newSize;
+		this->data = this->sharedResource->data;
+		this->size = newSize;
 	}
 
 	return *this;
@@ -329,10 +382,37 @@ void String::Detach() const
 
 		if(this->data) //we have a literal, copy it now
 		{
-			this->sharedResource->EnsureCapacity(this->size);
-			this->sharedResource->nElements = this->size;
-			MemCopy(this->sharedResource->data, this->data, this->size);
+			if (this->sharedResource->isUTF8)
+			{
+				this->sharedResource->EnsureCapacity(this->size);
+				MemCopy(this->sharedResource->data, this->data, this->size);
+			}
+			else
+			{
+				//encode to utf16
+				this->sharedResource->EnsureCapacity(this->length * 4); //worst-case: everything is a surrogate
+				uint16 *current = (uint16 *)this->sharedResource->data;
+				uint32 targetSize = 0;
+				for (uint32 i = 0; i < this->size; )
+				{
+					uint8 nBytes;
+					uint32 codePoint = this->DecodeUTF8(&this->data[i], nBytes);
+					if (this->EncodeUTF16(codePoint, current))
+					{
+						current++;
+						targetSize += 2;
+					}
+					current++;
+					targetSize += 2;
+
+					i += nBytes;
+				}
+
+				this->size = targetSize;
+			}
+
 			this->data = this->sharedResource->data;
+			this->sharedResource->nElements = this->size;
 		}
 	}
 }
@@ -387,6 +467,18 @@ uint8 String::EncodeUTF8(uint32 codePoint, byte *dest) const
 
 	NOT_IMPLEMENTED_ERROR; //illegal code point
 	return 0;
+}
+
+bool String::EncodeUTF16(uint32 codePoint, uint16 *pDest) const
+{
+	if (codePoint < 0x10000)
+	{
+		*pDest = (uint16)codePoint;
+		return false;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+	return true;
 }
 
 ConstStringIterator String::GetIteratorAt(uint32 startPos) const

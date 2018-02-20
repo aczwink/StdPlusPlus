@@ -21,14 +21,13 @@
 //Global
 #include <Windows.h>
 //Local
-#include <ACStdLib/Containers/Strings/OldString.hpp>
+#include <ACStdLib/Containers/Strings/String.hpp>
 #include <ACStdLib/Containers/Strings/StringUtil.h>
 
 #ifdef _DEBUG
 void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
 	String message;
-	UTF16String msg16;
 
 	message = "Expression: ";
 	message += pContext;
@@ -36,11 +35,10 @@ void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, c
 	message += refMessage;
 	message += "\nFile: ";
 	message += pFileName;
-	message += " (" + ToString((uint64)lineNumber) + ")\nFunction: ";
+	message += " (" + String::Number(lineNumber) + ")\nFunction: ";
 	message += pFunctionName;
 
-	msg16 = message.GetUTF16();
-	MessageBoxW(NULL, (LPCWSTR)msg16.GetC_Str(), L"Assertion", MB_ICONERROR | MB_TASKMODAL);
+	MessageBoxW(NULL, (LPCWSTR)message.ToUTF16().GetRawZeroTerminatedData(), L"Assertion", MB_ICONERROR | MB_TASKMODAL);
 	abort();
 }
 #endif
