@@ -24,7 +24,7 @@
 namespace ACStdLib
 {
     //Forward declarations
-    class PathIterator;
+    class DirectoryIterator;
 
 	/**
 	 * Represents a path to a file or directory.
@@ -163,8 +163,8 @@ namespace ACStdLib
         }
 
         //For range-based loop
-        PathIterator begin() const;
-        PathIterator end() const;
+        DirectoryIterator begin() const;
+        DirectoryIterator end() const;
 
 	private:
 		//Members

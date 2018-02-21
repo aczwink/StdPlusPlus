@@ -19,7 +19,7 @@
 //Class header
 #include <ACStdLib/Filesystem/Path.hpp>
 //Local
-#include <ACStdLib/Filesystem/PathIterator.hpp>
+#include <ACStdLib/Filesystem/DirectoryIterator.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -93,12 +93,12 @@ String Path::SplitOutmostPathPart(Path &subPath) const
 }
 
 //For range-based loop
-PathIterator Path::begin() const
+DirectoryIterator Path::begin() const
 {
-	return PathIterator(*this);
+	return DirectoryIterator(*this);
 }
 
-PathIterator Path::end() const
+DirectoryIterator Path::end() const
 {
-	return PathIterator(*this, true);
+	return DirectoryIterator(*this, true);
 }

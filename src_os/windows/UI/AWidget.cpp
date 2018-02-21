@@ -45,3 +45,31 @@ void Widget::Repaint()
 		this->OnPaint();
 	}
 }
+
+/*
+ * void Widget::SetEnabled(bool enable)
+-{
+-	EnableWindow((HWND)this->systemHandle, enable);
+-}
+-
+-void Widget::Show(bool visible)
+-{
+-	ShowWindow((HWND)this->systemHandle, visible ? SW_SHOW : SW_HIDE);
+
+ -Size Widget::System_GetSize() const
+-{
+-	RECT rc;
+-
+-	GetWindowRect((HWND)this->systemHandle, &rc);
+-
+-	return Size(rc.right - rc.left, rc.bottom - rc.top);
+-}
+-
+-void Widget::System_SetRect(const Rect &area)
+-{
+-	Point transformed;
+-
+-	transformed = this->TransformToWindow(area.origin);
+-	SetWindowPos((HWND)this->systemHandle, HWND_TOP, transformed.x, transformed.y, area.width(), area.height(), 0);
+-}
+ */

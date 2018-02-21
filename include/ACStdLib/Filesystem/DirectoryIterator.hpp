@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of ACStdLib.
  *
@@ -22,24 +22,24 @@
 
 namespace ACStdLib
 {
-    class ACSTDLIB_API PathIterator
+    class ACSTDLIB_API DirectoryIterator
     {
     public:
         //Constructors
-        PathIterator(const Path &path, bool end = false);
+        DirectoryIterator(const Path &path, bool end = false);
 
-        inline PathIterator(PathIterator &&refIt) //move ctor
+        inline DirectoryIterator(DirectoryIterator &&refIt) //move ctor
         {
             this->pOSHandle = refIt.pOSHandle;
             refIt.pOSHandle = nullptr;
         }
 
         //Destructor
-        ~PathIterator();
+        ~DirectoryIterator();
 
         //Operators
-        PathIterator &operator++(); //Prefix++
-        bool operator!=(const PathIterator &other) const;
+        DirectoryIterator &operator++(); //Prefix++
+        bool operator!=(const DirectoryIterator &other) const;
 
         //Inline operators
         inline Path operator*()

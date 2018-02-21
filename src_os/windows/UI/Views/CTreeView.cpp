@@ -81,6 +81,15 @@ void TreeView::OnModelChanged()
 /*
 OLD:
 
+ void TreeView::CreateOSWindow()
+-{
+-	this->systemHandle = CreateWindowExA(WS_EX_CLIENTEDGE, WC_TREEVIEWA, nullptr, WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+-	SetWindowLongPtr((HWND)this->systemHandle, GWLP_USERDATA, (LONG_PTR)this);
+-
+-	SendMessage((HWND)this->systemHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+-	TreeView_SetExtendedStyle((HWND)this->systemHandle, TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
+-}
+
 void *TreeView::GetSelectedNode() const
 {
 	TVITEMW tvi;

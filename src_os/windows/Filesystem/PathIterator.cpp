@@ -17,7 +17,7 @@
 * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <ACStdLib/Filesystem/PathIterator.hpp>
+#include <ACStdLib/Filesystem/DirectoryIterator.hpp>
 //Local
 #include <ACStdLib/ErrorHandling/FileNotFoundException.hpp>
 //Namespaces

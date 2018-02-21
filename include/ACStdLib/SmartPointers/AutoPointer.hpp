@@ -103,6 +103,12 @@ namespace ACStdLib
 			return *this;
 		}
 
+		inline const ValueType &operator*() const
+		{
+			ASSERT(this->pointer, u8"Can't dereference nullptr");
+			return *this->pointer;
+		}
+
 		inline ValueType *operator->()
 		{
 			ASSERT(this->pointer, u8"Can't access nullptr");

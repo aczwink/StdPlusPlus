@@ -44,5 +44,9 @@ namespace ACStdLib
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
+
+		//For range-based loop
+		virtual DirectoryIterator begin() const = 0;
+		virtual DirectoryIterator end() const = 0;
 	};
 }

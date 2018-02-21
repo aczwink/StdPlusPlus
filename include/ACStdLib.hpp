@@ -88,7 +88,7 @@
 
 //Filesystem
 #include <ACStdLib/Filesystem/Path.hpp>
-#include <ACStdLib/Filesystem/PathIterator.hpp>
+#include <ACStdLib/Filesystem/DirectoryIterator.hpp>
 
 //Formal languages
 #include <ACStdLib/Formal Languages/CRegEx.h>

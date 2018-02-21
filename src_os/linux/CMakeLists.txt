@@ -8,7 +8,7 @@ set(SOURCE_FILES
 
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryIterator.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp

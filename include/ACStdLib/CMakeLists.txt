@@ -27,12 +27,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/File.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.hpp
 
 	#Math
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.hpp

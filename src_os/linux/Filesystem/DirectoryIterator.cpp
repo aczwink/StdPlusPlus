@@ -17,7 +17,7 @@
  * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Filesystem/PathIterator.hpp>
+#include <ACStdLib/Filesystem/DirectoryIterator.hpp>
 //Global
 #include <dirent.h>
 //Local
@@ -28,7 +28,7 @@ using namespace ACStdLib;
 #define THIS ((DIR *)this->pOSHandle)
 
 //Constructor
-PathIterator::PathIterator(const Path &path, bool end)
+DirectoryIterator::DirectoryIterator(const Path &path, bool end)
 {
 	if(end)
 	{
@@ -44,14 +44,14 @@ PathIterator::PathIterator(const Path &path, bool end)
 }
 
 //Destructor
-PathIterator::~PathIterator()
+DirectoryIterator::~DirectoryIterator()
 {
 	if(this->pOSHandle)
 		closedir(THIS);
 }
 
 //Operators
-PathIterator &PathIterator::operator++()
+DirectoryIterator &DirectoryIterator::operator++()
 {
 	dirent *ent = readdir(THIS);
 	while(ent) //unfortunately, the order of the returned files is not known. Therefore we don't know when "." and ".." will arrive...
@@ -71,7 +71,7 @@ PathIterator &PathIterator::operator++()
 	return *this;
 }
 
-bool PathIterator::operator!=(const PathIterator &other) const
+bool DirectoryIterator::operator!=(const DirectoryIterator &other) const
 {
 	return this->pOSHandle != other.pOSHandle;
 }
