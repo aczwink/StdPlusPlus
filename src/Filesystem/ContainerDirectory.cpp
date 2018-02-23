@@ -18,6 +18,8 @@
  */
 //Class header
 #include <ACStdLib/Filesystem/ContainerDirectory.hpp>
+//Local
+#include <ACStdLib/Filesystem/DirectoryIterator.hpp>
 //Namespaces
 using namespace ACStdLib;
 
@@ -46,6 +48,17 @@ uint64 ContainerDirectory::GetSize() const
 AutoPointer<Directory> ContainerDirectory::GetSubDirectory(const String &name)
 {
 	return this->subDirectories[name].StaticCast<Directory>();
+}
+
+//For range-based loop
+DirectoryIterator ContainerDirectory::begin() const
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
+DirectoryIterator ContainerDirectory::end() const
+{
+	NOT_IMPLEMENTED_ERROR;
 }
 
 //Private methods

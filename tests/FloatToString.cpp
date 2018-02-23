@@ -25,6 +25,6 @@ TEST_SUITE(FloatToStringTest)
 	{
 		ByteString str = "3.42708e-05";
 
-		ASSERT_FLOATS_EQUAL(3.42708e-05, str.ToFloat(), Float<float64>::MachineEpsilon());
+		ASSERT_FLOATS_EQUAL_64(3.42708e-05, str.ToFloat(), Float<float64>::MachineEpsilon());
 	}
 };

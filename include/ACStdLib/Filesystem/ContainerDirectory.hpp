@@ -47,6 +47,10 @@ namespace ACStdLib
 			return nullptr;
 		}
 
+		//For range-based loop
+		DirectoryIterator begin() const;
+		DirectoryIterator end() const;
+
 	private:
 		//Members
 		Map<String, AutoPointer<ContainerFile>> files;
