@@ -1,6 +1,6 @@
 /*!
   \page "Angles"
 
-  ACStdLib considers angles always to be in radians and never in degrees.
+  Std++ considers angles always to be in radians and never in degrees.
   Whenever you want to use degrees, use the "Degree" class that ensures correct conversion.
 */

@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Streams/Readers/TextReader.hpp>
+#include <Std++/Streams/Readers/TextReader.hpp>
 //Local
-#include <ACStdLib/Debug.h>
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Containers/Strings/StringUtil.h>
-#include <ACStdLib/Containers/Strings/String.hpp>
+#include <Std++/Debug.h>
+#include <Std++/Memory.h>
+#include <Std++/Containers/Strings/StringUtil.h>
+#include <Std++/Containers/Strings/String.hpp>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 //Operators
 TextReader &TextReader::operator>>(uint32 &i)
@@ -129,7 +129,7 @@ uint32 TextReader::ReadUTF8()
 	if(b[0] & 0x80)
     {
         //more than one byte
-        ASSERT(b[0] & 0x40, "If you see this, report to ACStdLib"); //this is always set for more than one byte
+        ASSERT(b[0] & 0x40, "If you see this, report to StdPlusPlus"); //this is always set for more than one byte
 
         if(b[0] & 0x20)
         {

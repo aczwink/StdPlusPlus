@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Window.hpp>
+#include <Std++/UI/Window.hpp>
 //Local
-#include <ACStdLib/UI/Menu/CMenuBar.h>
-#include <ACStdLib/_Backends/BackendManager.hpp>
-#include <ACStdLib/_Backends/UIBackend.hpp>
+#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UIBackend.hpp>
 #include "Render Targets/IRenderTarget.h"
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
 //Constructors
 Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
@@ -34,7 +34,7 @@ Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 
 	//position and size
     const float64 shrinkPercentage = -0.1;
@@ -55,7 +55,7 @@ Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 	this->SetBounds(refRect);
 }
 
@@ -65,7 +65,7 @@ Window::Window(uint16 width, uint16 height, ERenderMode mode) : WidgetContainer(
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_ACStdLib_internal::WindowBackendType::Window, this);
+	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 
 	//position and size
     Size screenSize = GetRenderTarget(mode).GetSize();

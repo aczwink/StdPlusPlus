@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include <ACStdLib/__InitAndShutdown.h>
+#include <Std++/__InitAndShutdown.h>
 //Local
-#include <ACStdLib/Debug.h>
-#include <ACStdLib/Memory.h>
-#include <ACStdLib/Containers/Map/Map.hpp>
-#include <ACStdLib/Containers/Strings/ByteString.hpp>
-#include <ACStdLib/Multimedia/CodecId.hpp>
-#include <ACStdLib/UI/EventQueue.hpp>
-#include <ACStdLib/_Backends/BackendManager.hpp>
-#include <ACStdLib/Filesystem/FileSystemFormat.hpp>
+#include <Std++/Debug.h>
+#include <Std++/Memory.h>
+#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/Strings/ByteString.hpp>
+#include <Std++/Multimedia/CodecId.hpp>
+#include <Std++/UI/EventQueue.hpp>
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/Filesystem/FileSystemFormat.hpp>
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Multimedia;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Multimedia;
 
 //Prototypes
-void InitACStdLib_Platform();
+void InitStdPlusPlus_Platform();
 void MultimediaRegisterCodecsAndFormats();
-void ShutdownACStdLib_Platform();
+void ShutdownStdPlusPlus_Platform();
 
 //Local functions
 static void FreeAudioVideo()
@@ -50,22 +50,22 @@ static void FreeAudioVideo()
 	g_ms_video_fourCC_map.Release();
 
 #ifdef _AC_LIB_USEAVCODEC
-	extern ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+	extern StdPlusPlus::Map<StdPlusPlus::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 	g_libavcodec_codec_map.Release();
 #endif
 }
 
 //Global functions
-void InitACStdLib()
+void InitStdPlusPlus()
 {
 	MultimediaRegisterCodecsAndFormats();
 
-	InitACStdLib_Platform();
+	InitStdPlusPlus_Platform();
 }
 
-void ShutdownACStdLib()
+void ShutdownStdPlusPlus()
 {
-	ShutdownACStdLib_Platform();
+	ShutdownStdPlusPlus_Platform();
 
 	FreeAudioVideo();
 
@@ -84,5 +84,5 @@ void ShutdownACStdLib()
 	BackendManager::GetInstance().ReleaseAll();
 
     //look for memory leaks
-    ASSERT(!DebugDumpMemoryLeaks(), u8"You have memory leaks. Check ACStdLib MemLeaks.txt");
+    ASSERT(!DebugDumpMemoryLeaks(), u8"You have memory leaks. Check StdPlusPlus MemLeaks.txt");
 }

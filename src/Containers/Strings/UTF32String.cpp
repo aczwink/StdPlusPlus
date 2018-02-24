@@ -1,29 +1,29 @@
 /*
-* Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
 *
-* This file is part of ACStdLib.
+* This file is part of Std++.
 *
-* ACStdLib is free software: you can redistribute it and/or modify
+* Std++ is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* ACStdLib is distributed in the hope that it will be useful,
+* Std++ is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+* along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include <ACStdLib/Containers/Strings/UTF32String.hpp>
+#include <Std++/Containers/Strings/UTF32String.hpp>
 //Local
-#include <ACStdLib/Containers/Strings/StringUtil.h>
-#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <ACStdLib/Char.hpp>
+#include <Std++/Containers/Strings/StringUtil.h>
+#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
+#include <Std++/Char.hpp>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 //Operators
 UTF32String &UTF32String::operator=(const UTF32String &refString)
@@ -162,7 +162,7 @@ UTF32String UTF32String::ToLowercase() const
 	buffer.EnsureCapacity(this->GetLength());
 	for(uint32 i = 0; i < this->GetLength(); i++)
 	{
-		buffer.data[i] = ACStdLib::ToLowercase(this->data[i]);
+		buffer.data[i] = StdPlusPlus::ToLowercase(this->data[i]);
 	}
 	buffer.nElements = this->nElements;
 
@@ -170,7 +170,7 @@ UTF32String UTF32String::ToLowercase() const
 }
 
 //Non-Class Operators
-UTF32String ACStdLib::operator+(const UTF32String &refLeft, const UTF32String &refRight)
+UTF32String StdPlusPlus::operator+(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	UTF32String tmp;
 
@@ -181,7 +181,7 @@ UTF32String ACStdLib::operator+(const UTF32String &refLeft, const UTF32String &r
 	return tmp;
 }
 
-bool ACStdLib::operator<(const UTF32String &refLeft, const UTF32String &refRight)
+bool StdPlusPlus::operator<(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 
@@ -201,7 +201,7 @@ bool ACStdLib::operator<(const UTF32String &refLeft, const UTF32String &refRight
 	return MemCmp(refLeft.GetC_Str(), refRight.GetC_Str(), refLeft.GetSize()) < 0;
 }
 
-bool ACStdLib::operator>(const UTF32String &refLeft, const UTF32String &refRight)
+bool StdPlusPlus::operator>(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 

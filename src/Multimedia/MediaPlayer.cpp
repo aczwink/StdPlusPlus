@@ -1,28 +1,28 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Multimedia/MediaPlayer.hpp>
+#include <Std++/Multimedia/MediaPlayer.hpp>
 //Local
-#include <ACStdLib/UI/Displays/VideoWidget.hpp>
+#include <Std++/UI/Displays/VideoWidget.hpp>
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Multimedia;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Multimedia;
 
 //Constructor
 MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this, CodecId::PCM_S16LE), demuxerThread(this), videoDecodeThread(this, CodecId::RGB24)

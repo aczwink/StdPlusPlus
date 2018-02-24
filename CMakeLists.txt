@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(ACStdLib)
+project(Std++)
 
 #options
 option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
@@ -33,12 +33,12 @@ endif()
 
 
 
-#---TARGET: ACStdLib---
-set(ACSTDLIB_PRIVATE_LIBRARIES)
-add_library(ACStdLib SHARED)
+#---TARGET: Std++---
+set(STDPLUSPLUS_PRIVATE_LIBRARIES)
+add_library(Std++ SHARED)
 
 
-add_subdirectory(include/ACStdLib)
+add_subdirectory(include/Std++)
 add_subdirectory(src)
 add_subdirectory(src_backends)
 if (UNIX)
@@ -47,14 +47,14 @@ endif (UNIX)
 if(WIN32)
 	add_subdirectory(src_os/windows)
 endif(WIN32)
-target_sources(ACStdLib PRIVATE ${SOURCE_FILES})
+target_sources(Std++ PRIVATE ${SOURCE_FILES})
 
 
-target_include_directories(ACStdLib PUBLIC
+target_include_directories(Std++ PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:include>
 	)
-target_link_libraries(ACStdLib PRIVATE ${ACSTDLIB_PRIVATE_LIBRARIES})
+target_link_libraries(Std++ PRIVATE ${STDPLUSPLUS_PRIVATE_LIBRARIES})
 
 
 
@@ -86,37 +86,37 @@ endif(USE_LIBAVCODEC)
 #dependencies
 find_package(OpenCL REQUIRED)
 
-add_library(ACStdLibStatic STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
-add_library(ACStdLibTest STATIC src_test/main.cpp)
-add_executable(tests_ACStdLib ${TEST_FILES})
+add_library(Std++Static STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
+add_library(Std++Test STATIC src_test/main.cpp)
+add_executable(tests_Std++ ${TEST_FILES})
 
 #platform stuff
 if(WIN32)
-	set_target_properties(ACStdLib PROPERTIES COMPILE_DEFINITIONS _ACSTDLIB_EXPORT)
+	set_target_properties(Std++ PROPERTIES COMPILE_DEFINITIONS _STDPLUSPLUS_EXPORT)
 endif()
 
 #includes
-target_include_directories(ACStdLibTest PUBLIC "include")
+target_include_directories(Std++Test PUBLIC "include")
 
-target_include_directories(ACStdLib PRIVATE "ext")
-target_include_directories(ACStdLib PRIVATE ${OpenCL_INCLUDE_DIRS})
+target_include_directories(Std++ PRIVATE "ext")
+target_include_directories(Std++ PRIVATE ${OpenCL_INCLUDE_DIRS})
 
 #link
-target_link_libraries(ACStdLib PRIVATE ${OpenCL_LIBRARIES})
+target_link_libraries(Std++ PRIVATE ${OpenCL_LIBRARIES})
 if(UNIX)
-	target_link_libraries(ACStdLib PRIVATE ${GLX_LIBRARY})
+	target_link_libraries(Std++ PRIVATE ${GLX_LIBRARY})
 endif(UNIX)
 if(WIN32)
-	target_link_libraries(ACStdLib PRIVATE opengl32.lib)
-	target_link_libraries(ACStdLib PRIVATE ws2_32.lib)
+	target_link_libraries(Std++ PRIVATE opengl32.lib)
+	target_link_libraries(Std++ PRIVATE ws2_32.lib)
 endif(WIN32)
 
 if(USE_LIBAVCODEC)
-	target_link_libraries(ACStdLib PRIVATE ${FFMPEG_LIBRARIES})
+	target_link_libraries(Std++ PRIVATE ${FFMPEG_LIBRARIES})
 endif(USE_LIBAVCODEC)
 
-target_include_directories(tests_ACStdLib PUBLIC "include")
-target_link_libraries(tests_ACStdLib LINK_PUBLIC ACStdLib ACStdLibStatic ACStdLibTest)
+target_include_directories(tests_Std++ PUBLIC "include")
+target_link_libraries(tests_Std++ LINK_PUBLIC Std++ Std++Static Std++Test)
 
 
 
@@ -147,13 +147,13 @@ endif()
 #---INSTALLATION---
 
 #install target
-install(TARGETS ACStdLib ACStdLibStatic EXPORT ACStdLibConfig
+install(TARGETS Std++ Std++Static EXPORT Std++Config
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         )
-install(EXPORT ACStdLibConfig DESTINATION share/ACStdLib/cmake)
+install(EXPORT Std++Config DESTINATION share/Std++/cmake)
 
-#install public ACStdLib
+#install public Std++
 function(installHeaderDir sourceDir targetDir)
     file(GLOB LOCAL_FILES_AND_DIRS "${sourceDir}/*")
     foreach(ITEM ${LOCAL_FILES_AND_DIRS})

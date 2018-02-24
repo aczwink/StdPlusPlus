@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Multimedia/MediaObject.hpp>
+#include <Std++/Multimedia/MediaObject.hpp>
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Multimedia;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Multimedia;
 
 //Destructor
 MediaObject::~MediaObject()
@@ -49,7 +49,7 @@ void MediaObject::UpdateTimingInfo()
 				continue; //no time scale for this stream
 
 			timeScale = timeScale.Reduce();
-			ASSERT(timeScale.numerator == 1, "If you see this, report to ACStdLib"); //TODO: figure out what happens if numerator is not 1
+			ASSERT(timeScale.numerator == 1, "If you see this, report to StdPlusPlus"); //TODO: figure out what happens if numerator is not 1
 			this->timeScale.denominator = ComputeLeastCommonMultiple(this->timeScale.denominator, timeScale.denominator);
 		}
 		this->timeScale.numerator = 1; //TODO: figure out what happens if numerator of stream is not 1

@@ -1,27 +1,27 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <ACStdLib/UI/EventQueue.hpp>
+#include <Std++/UI/EventQueue.hpp>
 
-class GtkEventQueue : public ACStdLib::UI::EventQueue
+class GtkEventQueue : public StdPlusPlus::UI::EventQueue
 {
 public:
     //Functions;
@@ -39,8 +39,8 @@ public:
 	static void TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data);
 
 	//Inline
-	inline static void OpenGLWidgetRender(ACStdLib::UI::Widget *widget)
+	inline static void OpenGLWidgetRender(StdPlusPlus::UI::Widget *widget)
 	{
-		ACStdLib::UI::EventQueue::DispatchPaintEvent(*widget);
+		StdPlusPlus::UI::EventQueue::DispatchPaintEvent(*widget);
 	}
 };

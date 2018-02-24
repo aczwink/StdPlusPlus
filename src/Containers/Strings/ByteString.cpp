@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Containers/Strings/ByteString.hpp>
+#include <Std++/Containers/Strings/ByteString.hpp>
 //Global
 #include <ctype.h>
 #include <string.h>
 //Local
-#include <ACStdLib/Definitions.h>
-#include <ACStdLib/Memory.h>
+#include <Std++/Definitions.h>
+#include <Std++/Memory.h>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 //Operators
 ByteString &ByteString::operator=(const char *pStr)
@@ -177,7 +177,7 @@ ByteString ByteString::ToUppercase() const
 }
 
 //Outside class operators
-ByteString ACStdLib::operator+(const ByteString &left, const ByteString &right)
+ByteString StdPlusPlus::operator+(const ByteString &left, const ByteString &right)
 {
     ByteString buffer(left);
 
@@ -186,21 +186,21 @@ ByteString ACStdLib::operator+(const ByteString &left, const ByteString &right)
     return buffer;
 }
 
-bool ACStdLib::operator==(const ByteString &left, const ByteString &right)
+bool StdPlusPlus::operator==(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return false;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) == 0;
 }
 
-bool ACStdLib::operator!=(const ByteString &left, const ByteString &right)
+bool StdPlusPlus::operator!=(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return true;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) != 0;
 }
 
-bool ACStdLib::operator<(const ByteString &left, const ByteString &right)
+bool StdPlusPlus::operator<(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 
@@ -220,7 +220,7 @@ bool ACStdLib::operator<(const ByteString &left, const ByteString &right)
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) < 0;
 }
 
-bool ACStdLib::operator>(const ByteString &left, const ByteString &right)
+bool StdPlusPlus::operator>(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 

@@ -1,27 +1,27 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Containers/Strings/FixedCharLengthString.hpp>
+#include <Std++/Containers/Strings/FixedCharLengthString.hpp>
 //Local
-#include <ACStdLib/Mathematics.h>
+#include <Std++/Mathematics.h>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 //Definitions
 #define SJCLIB_CHAR_ZERO 48
 #define SJCLIB_CHAR_NINE 57
@@ -98,5 +98,5 @@ int32 FixedCharLengthString<CharType>::FindReverse(CharType c, uint32 startPos) 
 }
 
 //Instantiate the Baseclass
-template class ACStdLib::FixedCharLengthString<char>;
-template class ACStdLib::FixedCharLengthString<uint32>;
+template class StdPlusPlus::FixedCharLengthString<char>;
+template class StdPlusPlus::FixedCharLengthString<uint32>;

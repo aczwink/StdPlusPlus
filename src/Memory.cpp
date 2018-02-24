@@ -1,32 +1,32 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef _DEBUG
 //corresponding header
-#include <ACStdLib/Memory.h>
+#include <Std++/Memory.h>
 //Global
 #include <stdio.h>
 //Local
-#include <ACStdLib/Debug.h>
-#include <ACStdLib/Streams/FileOutputStream.hpp>
-#include <ACStdLib/Streams/CStdOut.h>
+#include <Std++/Debug.h>
+#include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Streams/CStdOut.h>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 //Definitions
 #define HEAP_CORRUPTION_DETECTIONSECTION_SIZE 12
 #define HEAP_CORRUPTION_DETECTIONSECTION_VALUE 0xFD
@@ -217,14 +217,14 @@ inline byte *GetSecondHeapCorruptionDetectionAddress(SDebugMemBlockHeader *pBloc
 }
 
 //Namespace Functions
-bool ACStdLib::DebugDumpMemoryLeaks()
+bool StdPlusPlus::DebugDumpMemoryLeaks()
 {
     bool hasLeaks, heapCorrupt;
     byte *pCorrupt1, *pCorrupt2;
     SDebugMemBlockHeader *pBlock;
     FILE *fp;
 
-    g_memMutex.Lock(); //VERY IMPORTANT! From now on, no allocation whatsoever is allowed to be made using ACStdLib::MemAllocDebug or the other ACStdLib Memory Debug functions
+    g_memMutex.Lock(); //VERY IMPORTANT! From now on, no allocation whatsoever is allowed to be made using Std++::MemAllocDebug or the other Std++ Memory Debug functions
 
     hasLeaks = false;
     pBlock = g_pFirstMemBlock;
@@ -244,7 +244,7 @@ bool ACStdLib::DebugDumpMemoryLeaks()
         return false;
     }
 
-    //fp = fopen("ACStdLib MemLeaks.txt", "w"); //we use the standard library here in order to not generate any memory allocations
+    //fp = fopen("StdPlusPlus MemLeaks.txt", "w"); //we use the standard library here in order to not generate any memory allocations
     fp = stderr;
 
     fprintf(fp, "Memory leaks:\r\n");
@@ -313,7 +313,7 @@ bool ACStdLib::DebugDumpMemoryLeaks()
     return true;
 }
 
-void *ACStdLib::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNumber)
+void *StdPlusPlus::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNumber)
 {
     byte *pUserData;
     SDebugMemBlockHeader *pMemBlock;
@@ -331,7 +331,7 @@ void *ACStdLib::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNum
     pMemBlock->seqNumber = g_seqNumber++;
     pMemBlock->userSize = size;
 
-    //link block ACStdLib
+    //link block StdPlusPlus
     if(g_pLastMemBlock)
         g_pLastMemBlock->pNext = pMemBlock;
     else
@@ -350,7 +350,7 @@ void *ACStdLib::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNum
     return pUserData;
 }
 
-void ACStdLib::MemFreeDebug(void *pMem)
+void StdPlusPlus::MemFreeDebug(void *pMem)
 {
     SDebugMemBlockHeader *pMemBlock;
 
@@ -381,7 +381,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pMemBlock, "If you see this, report to ACStdLib");
+        ASSERT(g_pLastMemBlock == pMemBlock, "If you see this, report to StdPlusPlus");
         g_pLastMemBlock = pMemBlock->pPrev;
     }
 
@@ -391,7 +391,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pMemBlock, "If you see this, report to ACStdLib");
+        ASSERT(g_pFirstMemBlock == pMemBlock, "If you see this, report to StdPlusPlus");
         g_pFirstMemBlock = pMemBlock->pNext;
     }
 
@@ -404,7 +404,7 @@ void ACStdLib::MemFreeDebug(void *pMem)
     g_memMutex.Unlock();
 }
 
-void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, uint32 lineNumber)
+void *StdPlusPlus::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, uint32 lineNumber)
 {
     SDebugMemBlockHeader *pNewBlock, *pOldBlock;
 
@@ -418,7 +418,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
 
     //do reallocate
     pNewBlock = (SDebugMemBlockHeader *)MemoryReallocate(pOldBlock, size + sizeof(SDebugMemBlockHeader) + 2 * HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
-    ASSERT(pNewBlock, "If you see this, report to ACStdLib");
+    ASSERT(pNewBlock, "If you see this, report to StdPlusPlus");
     pMem = ((byte *)(pNewBlock + 1)) + HEAP_CORRUPTION_DETECTIONSECTION_SIZE;
 
     if(size > pNewBlock->userSize)
@@ -452,7 +452,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pOldBlock, "If you see this, report to ACStdLib");
+        ASSERT(g_pLastMemBlock == pOldBlock, "If you see this, report to StdPlusPlus");
         g_pLastMemBlock = pNewBlock->pPrev;
     }
 
@@ -462,7 +462,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pOldBlock, "If you see this, report to ACStdLib");
+        ASSERT(g_pFirstMemBlock == pOldBlock, "If you see this, report to StdPlusPlus");
         g_pFirstMemBlock = pNewBlock->pNext;
     }
 
@@ -481,7 +481,7 @@ void *ACStdLib::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, 
     return pMem;
 }
 
-ACSTDLIB_API void StartUserMemoryLogging()
+STDPLUSPLUS_API void StartUserMemoryLogging()
 {
     g_seqNumberUser = g_seqNumber;
 }

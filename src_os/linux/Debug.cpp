@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //corresponding header
-#include <ACStdLib/Debug.h>
+#include <Std++/Debug.h>
 //Global
 #include <iostream>
 //Local
-#include <ACStdLib/Containers/Strings/String.hpp>
-#include <ACStdLib/Containers/Strings/StringUtil.h>
-#include <ACStdLib/Streams/CStdOut.h>
+#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Containers/Strings/StringUtil.h>
+#include <Std++/Streams/CStdOut.h>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 #ifdef _DEBUG
 //Prototypes
-void ShutdownACStdLib();
+void ShutdownStdPlusPlus();
 
-void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void StdPlusPlus::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
     String message;
 
@@ -50,7 +50,7 @@ void ACStdLib::AssertionFailed(const char *pContext, const String &refMessage, c
 	if(shutdown)
 	{
 		shutdown = false;
-		ShutdownACStdLib(); //call the shutdown function that will report memory leaks and so on
+		ShutdownStdPlusPlus(); //call the shutdown function that will report memory leaks and so on
 	}
     exit(1);
 }

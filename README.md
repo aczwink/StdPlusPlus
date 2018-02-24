@@ -1,5 +1,5 @@
-# ACStdLib
-ACStdLib is an attempt to create a strong cross-platform standard library for C++.
+# Std++
+Std++ is an attempt to create a strong cross-platform standard library for C++.
 
 ## Support
 
@@ -14,11 +14,11 @@ Supported compilers:
 * Visual Studio
 
 ## Backends
-Several features of ACStdLib are split into frontends and backends.
-The programmer writes his code using the frontend (without having to know [to some extent] the backend), while ACStdLib maps the calls made to the backend.
-A good example is the UI-module of ACStdLib that can interact with several GUI-libraries/Toolkits/APIs etc.
-Not only does this approach make ACStdLib more flexible but this also helps in achieving the cross-platform goal.
-With this design decision, it is for example not mandatory to compile ACStdLib with a GUI-backend.
+Several features of Std++ are split into frontends and backends.
+The programmer writes his code using the frontend (without having to know [to some extent] the backend), while Std++ maps the calls made to the backend.
+A good example is the UI-module of Std++ that can interact with several GUI-libraries/Toolkits/APIs etc.
+Not only does this approach make Std++ more flexible but this also helps in achieving the cross-platform goal.
+With this design decision, it is for example not mandatory to compile Std++ with a GUI-backend.
 Like this, code is more reusable.
 
 The following UI-backends are currently implemented:

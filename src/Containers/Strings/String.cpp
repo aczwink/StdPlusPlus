@@ -1,31 +1,31 @@
 /*
  * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/Containers/Strings/String.hpp>
+#include <Std++/Containers/Strings/String.hpp>
 //Global
 #include <cstdio>
 //Local
-#include <ACStdLib/Containers/Strings/ConstStringIterator.hpp>
-#include <ACStdLib/Char.hpp>
-#include <ACStdLib/Mathematics.h>
+#include <Std++/Containers/Strings/ConstStringIterator.hpp>
+#include <Std++/Char.hpp>
+#include <Std++/Mathematics.h>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 //Operators
 String &String::operator+=(uint32 codePoint)
@@ -241,7 +241,7 @@ String String::ToLowercase() const
 	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes
 	for(uint32 codePoint : *this)
 	{
-		tmp.sharedResource->nElements += this->EncodeUTF8(ACStdLib::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+		tmp.sharedResource->nElements += this->EncodeUTF8(StdPlusPlus::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
 	}
 	tmp.data = tmp.sharedResource->data;
 	tmp.length = this->length;

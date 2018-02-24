@@ -1,30 +1,30 @@
 /*
  * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
 #include "GtkWindowBackend.hpp"
 //Local
-#include <ACStdLib/UI/Controllers/TreeController.hpp>
-#include <ACStdLib/Containers/Array/FixedArray.hpp>
+#include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/Containers/Array/FixedArray.hpp>
 #include "_RedirectGtkContainer.h"
 #include "GtkEventQueue.hpp"
 //Namespaces
-using namespace _ACStdLib_internal;
+using namespace _stdpp;
 
 struct FileChooserData
 {
@@ -48,7 +48,7 @@ static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 };
 
 //Constructor
-GtkWindowBackend::GtkWindowBackend(_ACStdLib_internal::WindowBackendType type, Widget *widget) : type(type), widget(widget)
+GtkWindowBackend::GtkWindowBackend(_stdpp::WindowBackendType type, Widget *widget) : type(type), widget(widget)
 {
 	bool isContainer = false;
 	switch(type)
@@ -123,13 +123,13 @@ GtkWindowBackend::GtkWindowBackend(_ACStdLib_internal::WindowBackendType type, W
 	if(!GTK_IS_WINDOW(this->gtkWidget))
 		gtk_widget_show(this->gtkWidget); //default to show
 
-	g_object_set_data(G_OBJECT(this->gtkWidget), u8"ACStdLib", widget);
+	g_object_set_data(G_OBJECT(this->gtkWidget), u8"StdPlusPlus", widget);
 
 	this->childAreaWidget = nullptr;
 	if(isContainer)
 	{
 		this->childAreaWidget = redirect_container_new();
-		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"ACStdLib", widget);
+		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"StdPlusPlus", widget);
 		gtk_container_add(GTK_CONTAINER(this->gtkWidget), this->childAreaWidget);
 		gtk_widget_show(this->childAreaWidget); //default to show
 	}
@@ -221,7 +221,7 @@ void GtkWindowBackend::ClearView() const
 	}
 }
 
-WindowBackend *GtkWindowBackend::CreateChildBackend(_ACStdLib_internal::WindowBackendType type, Widget *widget) const
+WindowBackend *GtkWindowBackend::CreateChildBackend(_stdpp::WindowBackendType type, Widget *widget) const
 {
 	GtkWindowBackend *child = new GtkWindowBackend(type, widget);
 
@@ -280,7 +280,7 @@ Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Functi
 	return fileName;
 }
 
-void GtkWindowBackend::SetBounds(const ACStdLib::Rect &area)
+void GtkWindowBackend::SetBounds(const Rect &area)
 {
 	if(GTK_IS_WINDOW(this->gtkWidget))
 		gtk_window_set_default_size(GTK_WINDOW(this->gtkWidget), area.width(), area.height());

@@ -64,10 +64,10 @@ if(${BACKEND_GTK3})
 
 		PARENT_SCOPE)
 
-	target_compile_definitions(ACStdLib PRIVATE _ACSTDLIB_BACKEND_GTK3)
+	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_GTK3)
 	add_definitions(${GTK3_CFLAGS_OTHER})
-	target_include_directories(ACStdLib PRIVATE ${GTK3_INCLUDE_DIRS})
-	set(ACSTDLIB_PRIVATE_LIBRARIES ${ACSTDLIB_PRIVATE_LIBRARIES} ${GTK3_LIBRARIES} PARENT_SCOPE)
+	target_include_directories(Std++ PRIVATE ${GTK3_INCLUDE_DIRS})
+	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GTK3_LIBRARIES} PARENT_SCOPE)
 
 	#GLX is needed for getting opengl extensions
 	pkg_check_modules(PC_GLX QUIET glx)

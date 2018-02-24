@@ -1,34 +1,34 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <ACStdLib/UI/Window.hpp>
+#include <Std++/UI/Window.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
-#include <ACStdLib/UI/Menu/CMenuBar.h>
+#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <Std++/UI/Menu/CMenuBar.h>
 #include "../../../src/UI/Render Targets/IRenderTarget.h"
 #include "CDropTarget.h"
 #include "Definitions.h"
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::UI;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
 //Eventhandlers
 void Window::OnPaint()
@@ -57,7 +57,7 @@ void Window::OnPaint()
 /*
 void Window::CreateOSWindow(const Rect &refRect)
 {
-    this->systemHandle = (void *)CreateWindowExW(0, ACSTDLIB_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
+    this->systemHandle = (void *)CreateWindowExW(0, STDLPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
 }
 
 void Window::DestroyOSWindow()

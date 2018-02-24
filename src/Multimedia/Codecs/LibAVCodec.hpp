@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef _AC_LIB_USEAVCODEC
 extern "C"
@@ -22,14 +22,14 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 //Local
-#include <ACStdLib/Containers/DynamicArray/DynamicArray.hpp>
-#include <ACStdLib/Multimedia/CodecId.hpp>
-#include <ACStdLib/Multimedia/Decoder.hpp>
-#include <ACStdLib/Multimedia/Packet.hpp>
-#include <ACStdLib/Multimedia/Stream.hpp>
+#include <StdPlusPlus/Containers/DynamicArray/DynamicArray.hpp>
+#include <StdPlusPlus/Multimedia/CodecId.hpp>
+#include <StdPlusPlus/Multimedia/Decoder.hpp>
+#include <StdPlusPlus/Multimedia/Packet.hpp>
+#include <StdPlusPlus/Multimedia/Stream.hpp>
 //Namespaces
-using namespace ACStdLib;
-using namespace ACStdLib::Multimedia;
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Multimedia;
 
 struct CodecState
 {
@@ -41,8 +41,8 @@ struct CodecState
 };
 
 //Functions
-void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames);
+void DecodePacket(CodecState &state, const StdPlusPlus::Multimedia::Packet &packet, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames);
 void FreeCodecState(CodecState &state);
-void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream);
-AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId);
+void InitCodecState(CodecState &state, StdPlusPlus::Multimedia::CodecId codecId, Stream &stream);
+AVCodecID MapCodecId(StdPlusPlus::Multimedia::CodecId codecId);
 #endif

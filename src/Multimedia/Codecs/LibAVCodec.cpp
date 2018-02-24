@@ -1,33 +1,33 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef _AC_LIB_USEAVCODEC
 #include "LibAVCodec.hpp"
 //Local
-#include <ACStdLib/Containers/Map/Map.hpp>
-#include <ACStdLib/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
-#include <ACStdLib/Multimedia/AudioBuffer.hpp>
-#include <ACStdLib/Multimedia/AudioFrame.hpp>
-#include <ACStdLib/Multimedia/VideoFrame.hpp>
-#include <ACStdLib/Multimedia/VideoStream.hpp>
+#include <StdPlusPlus/Containers/Map/Map.hpp>
+#include <StdPlusPlus/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
+#include <StdPlusPlus/Multimedia/AudioBuffer.hpp>
+#include <StdPlusPlus/Multimedia/AudioFrame.hpp>
+#include <StdPlusPlus/Multimedia/VideoFrame.hpp>
+#include <StdPlusPlus/Multimedia/VideoStream.hpp>
 
 //Global variables
-ACStdLib::Map<ACStdLib::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+StdPlusPlus::Map<StdPlusPlus::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 
 //Local functions
 static void LoadMap()
@@ -66,7 +66,7 @@ static void CopyImportantInfo(const AVFrame &src, Frame &dest)
 	dest.pts = src.pts;
 }
 
-static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames)
+static void Decode(CodecState &state, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames)
 {
 	int ret = avcodec_send_packet(state.codecContext, state.pkt);
 	if(ret < 0)
@@ -133,7 +133,7 @@ static void Decode(CodecState &state, ACStdLib::DynamicArray<ACStdLib::Multimedi
 }
 
 //Functions
-void DecodePacket(CodecState &state, const ACStdLib::Multimedia::Packet &packet, ACStdLib::DynamicArray<ACStdLib::Multimedia::Frame *> &frames)
+void DecodePacket(CodecState &state, const StdPlusPlus::Multimedia::Packet &packet, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames)
 {
 	const byte *data = packet.GetData();
 	uint32 leftSize = packet.GetSize();
@@ -171,7 +171,7 @@ void FreeCodecState(CodecState &state)
 	av_packet_free(&state.pkt);
 }
 
-void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, Stream &stream)
+void InitCodecState(CodecState &state, StdPlusPlus::Multimedia::CodecId codecId, Stream &stream)
 {
 	state.pkt = av_packet_alloc();
 	state.codec = avcodec_find_decoder(MapCodecId(codecId));
@@ -197,7 +197,7 @@ void InitCodecState(CodecState &state, ACStdLib::Multimedia::CodecId codecId, St
 	int ret = avcodec_open2(state.codecContext, state.codec, nullptr);
 }
 
-AVCodecID MapCodecId(ACStdLib::Multimedia::CodecId codecId)
+AVCodecID MapCodecId(StdPlusPlus::Multimedia::CodecId codecId)
 {
 	LoadMap();
 

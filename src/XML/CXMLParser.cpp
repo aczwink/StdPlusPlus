@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
 #include "CXMLParser.hpp"
 //Local
-#include <ACStdLib/Debug.h>
-#include <ACStdLib/Memory.h>
+#include <Std++/Debug.h>
+#include <Std++/Memory.h>
 
 //Constructor
 CXMLParser::CXMLParser(InputStream &refInput) : input(refInput)
@@ -76,7 +76,7 @@ Element *CXMLParser::ParseElement()
 
 					elementName = this->ParseName();
 
-					ASSERT(elementName == pElement->GetName(), "If you see this, report to ACStdLib");
+					ASSERT(elementName == pElement->GetName(), "If you see this, report to StdPlusPlus");
 					this->ExpectChar('>');
 					break;
 				}
@@ -122,7 +122,7 @@ String CXMLParser::ParseName()
 			;
 	};
 
-	ASSERT(refNameStartCharFunc(this->lookAhead[0]), "If you see this, report to ACStdLib");
+	ASSERT(refNameStartCharFunc(this->lookAhead[0]), "If you see this, report to StdPlusPlus");
 
 	while (refNameCharFunc(this->lookAhead[0]) || refNameStartCharFunc(this->lookAhead[0]))
 		name += this->ReadNextCodepoint();
@@ -202,17 +202,17 @@ void CXMLParser::ReadProlog()
 	this->ExpectChar('<');
 	this->ExpectChar('?');
 	xmlName = this->ParseName();
-	ASSERT(xmlName == "xml", "If you see this, report to ACStdLib");
+	ASSERT(xmlName == "xml", "If you see this, report to StdPlusPlus");
 
 	this->ReadAttributes(attributes);
 
 	//version
-	ASSERT(attributes.Contains("version"), "If you see this, report to ACStdLib");
-	ASSERT(attributes["version"] == "1.0", "If you see this, report to ACStdLib");
+	ASSERT(attributes.Contains("version"), "If you see this, report to StdPlusPlus");
+	ASSERT(attributes["version"] == "1.0", "If you see this, report to StdPlusPlus");
 
 	//encoding
-	ASSERT(attributes.Contains("encoding"), "If you see this, report to ACStdLib");
-	ASSERT(attributes["encoding"].ToLowercase() == "utf-8", "If you see this, report to ACStdLib");
+	ASSERT(attributes.Contains("encoding"), "If you see this, report to StdPlusPlus");
+	ASSERT(attributes["encoding"].ToLowercase() == "utf-8", "If you see this, report to StdPlusPlus");
 
 	//end
 	this->ExpectChar('?');

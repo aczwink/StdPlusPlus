@@ -1,23 +1,23 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include <ACStdLib/Containers/Strings/StringUtil.h>
+#include <Std++/Containers/Strings/StringUtil.h>
 //Global
 #include <float.h>
 #include <stdio.h>
@@ -25,21 +25,21 @@
 #include <string.h>
 #include <locale.h>
 //Local
-#include <ACStdLib/Containers/Strings/OldString.hpp>
-#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <ACStdLib/Mathematics.h>
-#include <ACStdLib/Math/Fraction.hpp>
+#include <Std++/Containers/Strings/OldString.hpp>
+#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
+#include <Std++/Mathematics.h>
+#include <Std++/Math/Fraction.hpp>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
-OldString ACStdLib::ToString(uint64 i, uint8 bla)
+OldString StdPlusPlus::ToString(uint64 i, uint8 bla)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
 	return OldString();
 }
 
 //Namespace Functions
-OldString ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
+OldString StdPlusPlus::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
 {
     OldString result;
 
@@ -77,7 +77,7 @@ OldString ACStdLib::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
     return ToString((uint64)bitSize) + " bit";
 }
 
-bool ACStdLib::IsStringConvertibleToFloat(const ByteString &refString)
+bool StdPlusPlus::IsStringConvertibleToFloat(const ByteString &refString)
 {
     char *pStr;
 
@@ -86,7 +86,7 @@ bool ACStdLib::IsStringConvertibleToFloat(const ByteString &refString)
     return (refString.GetC_Str() + refString.GetLength()) == pStr;
 }
 
-bool ACStdLib::IsStringConvertibleToInteger(const ByteString &refString)
+bool StdPlusPlus::IsStringConvertibleToInteger(const ByteString &refString)
 {
     uint32 i;
 
@@ -103,7 +103,7 @@ bool ACStdLib::IsStringConvertibleToInteger(const ByteString &refString)
     return true;
 }
 
-int64 ACStdLib::StringToInt64(const OldString &refString)
+int64 StdPlusPlus::StringToInt64(const OldString &refString)
 {
     int64 result;
 
@@ -125,13 +125,13 @@ int64 ACStdLib::StringToInt64(const OldString &refString)
     return StringToUInt64(refString);
 }
 
-uint64 ACStdLib::StringToUInt64(const ByteString &string)
+uint64 StdPlusPlus::StringToUInt64(const ByteString &string)
 {
     NOT_IMPLEMENTED_ERROR; //TODO: deprecated
 	return 0;
 }
 
-uint64 ACStdLib::StringToUInt64(const OldString &refString)
+uint64 StdPlusPlus::StringToUInt64(const OldString &refString)
 {
     uint32 i;
     uint64 result;
@@ -153,7 +153,7 @@ uint64 ACStdLib::StringToUInt64(const OldString &refString)
     return result;
 }
 
-OldString ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
+OldString StdPlusPlus::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 {
     NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
     /*
@@ -164,7 +164,7 @@ OldString ACStdLib::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 	return OldString();
 }
 
-OldString ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
+OldString StdPlusPlus::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
 {
     uint64 usecs, hours, mins, secs;
 
@@ -178,7 +178,7 @@ OldString ACStdLib::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
     return ToString(hours, 2) + ':' + ToString(mins, 2) + ':' + ToString(secs, 2) + '.' + ToString(100 * usecs * refTimeScale.numerator / refTimeScale.denominator, 2);
 }
 
-OldString ACStdLib::ToString(int64 value)
+OldString StdPlusPlus::ToString(int64 value)
 {
     ByteString buffer;
     bool isNegative = false;
@@ -199,7 +199,7 @@ OldString ACStdLib::ToString(int64 value)
 }
 
 //8-bit functions
-ByteString ACStdLib::To8BitString(const OldString &refString)
+ByteString StdPlusPlus::To8BitString(const OldString &refString)
 {
     ByteString tmp;
 
@@ -215,7 +215,7 @@ ByteString ACStdLib::To8BitString(const OldString &refString)
     return tmp;
 }
 
-ByteString ACStdLib::ToString_8Bit(uint64 value, uint8 nMinChars)
+ByteString StdPlusPlus::ToString_8Bit(uint64 value, uint8 nMinChars)
 {
     uint32 rest;
     ByteString buffer, result;

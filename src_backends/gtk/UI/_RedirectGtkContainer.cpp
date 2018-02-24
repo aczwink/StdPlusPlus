@@ -1,20 +1,20 @@
 #include "_RedirectGtkContainer.h"/*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
 #include "_RedirectGtkContainer.h"
@@ -22,7 +22,7 @@
 #include <gtk/gtk.h>
 #include <math.h>
 //Local
-#include <ACStdLib/UI/WidgetContainer.hpp>
+#include <Std++/UI/WidgetContainer.hpp>
 #include "Gtk.h"
 
 #define REDIRECT_CONTAINER_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), REDIRECT_CONTAINER_TYPE, RedirectContainerPrivate))
@@ -89,7 +89,7 @@ static void redirect_container_add(GtkContainer *container, GtkWidget *widget)
 
 	RedirectContainerPrivate *priv = REDIRECT_CONTAINER_PRIVATE(container);
 
-	ASSERT(widget, "If you see this, report to ACStdLib");
+	ASSERT(widget, "If you see this, report to StdPlusPlus");
 
 	priv->firstChild = g_list_append(priv->firstChild, widget);
 	gtk_widget_set_parent(widget, GTK_WIDGET(container));
@@ -203,7 +203,7 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 		allocation->width = bounds.width();
 		allocation->height = bounds.height();
 
-		//offset bounds because the parent of the gtk widget might not be the parent of the acstdlib widget
+		//offset bounds because the parent of the gtk widget might not be the parent of the std++ widget
 		const Widget *parent = widget->GetParent();
 		while(parent != thisContainer)
 		{

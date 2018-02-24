@@ -1,28 +1,28 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
 #include "PCM_S16LE_Encoder.hpp"
 //Local
-#include <ACStdLib/Debug.h>
-#include <ACStdLib/Multimedia/AudioBuffer.hpp>
-#include <ACStdLib/Multimedia/AudioFrame.hpp>
-#include <ACStdLib/Multimedia/Packet.hpp>
+#include <Std++/Debug.h>
+#include <Std++/Multimedia/AudioBuffer.hpp>
+#include <Std++/Multimedia/AudioFrame.hpp>
+#include <Std++/Multimedia/Packet.hpp>
 
 //Public methods
 void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
@@ -34,7 +34,7 @@ void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
 	const AbstractAudioBuffer *pAudioBuffer;
 	const AudioBuffer<int16> *sourceBuffer;
 
-	ASSERT(frame.GetType() == DataType::Audio, "If you see this, report to ACStdLib");
+	ASSERT(frame.GetType() == DataType::Audio, "If you see this, report to StdPlusPlus");
 
 	const AudioFrame &refAudioFrame = (const AudioFrame &)frame;
 

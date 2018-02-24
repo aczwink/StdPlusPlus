@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
  *
- * This file is part of ACStdLib.
+ * This file is part of Std++.
  *
- * ACStdLib is free software: you can redistribute it and/or modify
+ * Std++ is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * ACStdLib is distributed in the hope that it will be useful,
+ * Std++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <ACStdLib/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 //Local
-#include <ACStdLib/Containers/Strings/StringUtil.h>
-#include <ACStdLib/Containers/Strings/UTF32String.hpp>
-#include <ACStdLib/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <ACStdLib/Char.hpp>
+#include <Std++/Containers/Strings/StringUtil.h>
+#include <Std++/Containers/Strings/UTF32String.hpp>
+#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
+#include <Std++/Char.hpp>
 //Namespaces
-using namespace ACStdLib;
+using namespace StdPlusPlus;
 
 //Constructors
 UTF16String::UTF16String(const uint16 *pString, uint32 length)
@@ -293,7 +293,7 @@ UTF16String UTF16String::ToLowercase() const
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
     {
-        buffer.data[i] = ACStdLib::ToLowercase(this->data[i]);
+        buffer.data[i] = StdPlusPlus::ToLowercase(this->data[i]);
     }
     buffer.nElements = this->nElements;
     buffer.length = this->length;

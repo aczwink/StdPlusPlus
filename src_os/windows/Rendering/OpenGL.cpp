@@ -1,26 +1,26 @@
 /*
-* Copyright (c) 2017 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
 *
-* This file is part of ACStdLib.
+* This file is part of Std++.
 *
-* ACStdLib is free software: you can redistribute it and/or modify
+* Std++ is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
-* ACStdLib is distributed in the hope that it will be useful,
+* Std++ is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with ACStdLib.  If not, see <http://www.gnu.org/licenses/>.
+* along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Global
 #include <Windows.h>
 //Local
 #include "../../../src/Rendering/OpenGL.h"
-#include <ACStdLib/Debug.h>
+#include <Std++/Debug.h>
 #include "../UI/Definitions.h"
 #include "OpenGL.h"
 
@@ -89,7 +89,7 @@ void LoadOpenGL()
 	HWND hFakeWnd;
 
 	//step 1: we need to have a window to initialize OpenGL extensions
-	hFakeWnd = CreateWindowW(ACSTDLIB_WIN_WNDCLASS, nullptr, WS_POPUP, 0, 0, 640, 480, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+	hFakeWnd = CreateWindowW(STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_POPUP, 0, 0, 640, 480, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
 	InitExtensions(hFakeWnd);
 	DestroyWindow(hFakeWnd);
 
