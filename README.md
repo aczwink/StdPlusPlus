@@ -36,4 +36,5 @@ None.
 
 ### Optional dependencies
 
+* OpenCL ICD loader for the OpenCL backend.
 * GTK 3 and PkgConfig for the GTK 3 backend.
