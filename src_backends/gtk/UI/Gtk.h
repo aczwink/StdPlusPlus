@@ -51,4 +51,4 @@ public:
 
 //Definitions
 #define PRIVATE_DATA(widget) ((_AC_Gtk_WidgetPrivate *)((CFullAccessWidget *)widget)->GetInternal())
-#define WIDGET_FROM_GTK(gtkWidget) ((Widget *)g_object_get_data(G_OBJECT(gtkWidget), "Std++"))
+#define WIDGET_FROM_GTK(gtkWidget) ((Widget *)g_object_get_data(G_OBJECT(gtkWidget), u8"Std++"))

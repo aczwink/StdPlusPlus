@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+#include "../Containers/Strings/String.hpp"
 
 namespace StdPlusPlus
 {
-	enum class BackendType
+	enum class DeviceType
 	{
-		Compute,
-		UI,
+		Compute
 	};
 
-	class Backend
+	class Device
 	{
 	public:
 		//Abstract
-		virtual BackendType GetType() const = 0;
-
-		//Overrideable
-		virtual void Load() const {};
-		virtual void Unload() const {};
+		virtual String GetName() const = 0;
 	};
 }

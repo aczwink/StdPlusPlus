@@ -19,17 +19,38 @@
 //Class header
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
+#include "OpenCL/OpenCLBackend.hpp"
 #include "gtk/GTKBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 
 #define PRIORITY_HIGH 0
+#define PRIORITY_NORMAL 1
 
 #define ADD_BACKEND(backend, priority) this->backends[(backend)->GetType()].Insert(priority, backend);
 
 //Private methods
 void BackendManager::RegisterBackends()
 {
+	//Compute backends
+#ifdef _STDPLUSPLUS_BACKEND_OPENCL
+	{
+		for(auto platformId : OpenCLBackend::GetPlatformIds())
+		{
+			char buffer[4096];
+			clGetPlatformInfo(platformId, CL_PLATFORM_NAME, sizeof(buffer), buffer, nullptr);
+
+			uint32 priority = PRIORITY_NORMAL;
+			if(MemCmp(buffer, u8"NVIDIA CUDA", 11) == 0)
+				priority = PRIORITY_HIGH;
+
+			OpenCLBackend *openclBackend = new OpenCLBackend(platformId);
+			ADD_BACKEND(openclBackend, priority);
+		}
+	}
+#endif
+
+	//UI backends
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 	GTKBackend *gtkBackend = new GTKBackend;
 

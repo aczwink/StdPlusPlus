@@ -1,4 +1,5 @@
 add_subdirectory(gtk)
+add_subdirectory(OpenCL)
 
 set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)
 

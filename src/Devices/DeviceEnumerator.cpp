@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Devices/DeviceEnumerator.hpp>
+//Local
+#include <Std++/_Backends/BackendManager.hpp>
+//Namespaces
+using namespace StdPlusPlus;
 
-namespace StdPlusPlus
+//Constructor
+DeviceEnumerator::DeviceEnumerator(DeviceType filter)
 {
-	enum class BackendType
+	switch(filter)
 	{
-		Compute,
-		UI,
-	};
-
-	class Backend
-	{
-	public:
-		//Abstract
-		virtual BackendType GetType() const = 0;
-
-		//Overrideable
-		virtual void Load() const {};
-		virtual void Unload() const {};
-	};
+		case DeviceType::Compute:
+			this->state = BackendManager::GetInstance().GetActiveComputeBackend()->GetDeviceEnumeratorState();
+			break;
+	}
 }

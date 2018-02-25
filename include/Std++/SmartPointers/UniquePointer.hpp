@@ -93,11 +93,6 @@ namespace StdPlusPlus
 			return this->pointer;
 		}
 
-		inline operator bool() const
-		{
-			return this->pointer != nullptr;
-		}
-
 	private:
 		//Members
 		ValueType *pointer;

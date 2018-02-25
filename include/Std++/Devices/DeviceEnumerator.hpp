@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,42 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "../Containers/Array/DynamicArray.hpp"
-#include "../Containers/Strings/OldString.hpp"
-#include "../Definitions.h"
-#include "../Variant.hpp"
+#include "../_Backends/DeviceEnumeratorState.hpp"
+#include "../SmartPointers/AutoPointer.hpp"
+#include "../SmartPointers/UniquePointer.hpp"
+#include "Device.hpp"
 
 namespace StdPlusPlus
 {
-	namespace Compute
+	class DeviceEnumerator
 	{
-		//Forward declaration
-		class Device;
+	public:
+		//Constructor
+		DeviceEnumerator(DeviceType filter);
 
-		//Functions
-		DynamicArray<Device *> QueryDevices();
-		Device *QueryOptimalDevice();
-
-		class STDPLUSPLUS_API Device
+		//Inline
+		inline AutoPointer<Device> GetNextDevice()
 		{
-			friend class DeviceContext;
-			friend DynamicArray<Device *> QueryDevices();
+			return this->state->GetNextDevice();
+		}
 
-		public:
-			//Methods
-			OldString GetName() const;
-
-		private:
-			//Members
-			Variant deviceId;
-
-			//Constructor
-			inline Device(Variant deviceId)
-			{
-				this->deviceId = deviceId;
-			}
-		};
-	}
+	private:
+		//Members
+		UniquePointer<_stdpp::DeviceEnumeratorState> state;
+	};
 }

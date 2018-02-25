@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,23 +17,22 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "../SmartPointers/AutoPointer.hpp"
 
+//Forward declarations
 namespace StdPlusPlus
 {
-	enum class BackendType
-	{
-		Compute,
-		UI,
-	};
+	class Device;
+}
 
-	class Backend
+namespace _stdpp
+{
+	class DeviceEnumeratorState
 	{
 	public:
+		virtual ~DeviceEnumeratorState(){}
 		//Abstract
-		virtual BackendType GetType() const = 0;
-
-		//Overrideable
-		virtual void Load() const {};
-		virtual void Unload() const {};
+		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
 	};
 }

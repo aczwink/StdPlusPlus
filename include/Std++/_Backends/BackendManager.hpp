@@ -21,6 +21,7 @@
 #include "../Containers/Map/Map.hpp"
 #include "../__InitAndShutdown.h"
 #include "Backend.hpp"
+#include "ComputeBackend.hpp"
 
 namespace StdPlusPlus
 {
@@ -35,6 +36,11 @@ namespace StdPlusPlus
 				this->SetActiveBackend(this->GetPreferredBackend(type));
 
 			return this->activeBackends[type];
+		}
+
+		inline ComputeBackend *GetActiveComputeBackend()
+		{
+			return static_cast<ComputeBackend *>(this->GetActiveBackend(BackendType::Compute));
 		}
 
 		inline void SetActiveBackend(Backend *backend)

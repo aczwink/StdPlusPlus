@@ -37,6 +37,9 @@
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 
+//Devices
+#include <Std++/Devices/DeviceEnumerator.hpp>
+
 //Filesystem
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>

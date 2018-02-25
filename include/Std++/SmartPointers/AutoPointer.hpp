@@ -135,6 +135,11 @@ namespace StdPlusPlus
 			return result;
 		}
 
+		inline bool IsNull() const
+		{
+			return this->pointer == nullptr;
+		}
+
 		template <typename CastToType>
 		inline AutoPointer<CastToType> StaticCast() const
 		{
@@ -160,7 +165,8 @@ namespace StdPlusPlus
 				if(this->isOwner)
 				{
 					this->controlBlock->expired = true;
-					delete this->pointer;
+					if(this->pointer)
+						delete this->pointer;
 					this->pointer = nullptr;
 				}
 				if(--this->controlBlock->referenceCount == 0)

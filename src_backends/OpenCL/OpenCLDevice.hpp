@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Global
+#include <CL/cl.h>
+//Local
+#include <Std++/Devices/Device.hpp>
+//Namespaces
+using namespace StdPlusPlus;
 
-namespace StdPlusPlus
+class OpenCLDevice : public Device
 {
-	enum class BackendType
+public:
+	//Constructor
+	inline OpenCLDevice(cl_device_id deviceId) : deviceId(deviceId)
 	{
-		Compute,
-		UI,
-	};
+	}
 
-	class Backend
+	//Methods
+	String GetName() const
 	{
-	public:
-		//Abstract
-		virtual BackendType GetType() const = 0;
+		char buffer[4096];
+		cl_int result = clGetDeviceInfo(this->deviceId, CL_DEVICE_NAME, sizeof(buffer), buffer, nullptr);
+		ASSERT(result == CL_SUCCESS, "If you see this, report to Std++");
 
-		//Overrideable
-		virtual void Load() const {};
-		virtual void Unload() const {};
-	};
-}
+		return String::CopyRawString(buffer);
+	}
+
+private:
+	//Members
+	cl_device_id deviceId;
+};

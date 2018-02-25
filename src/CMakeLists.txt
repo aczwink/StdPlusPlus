@@ -10,14 +10,6 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
-	#Compute
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/CommandQueue.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.cpp
-
         #Containers
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.cpp
@@ -29,6 +21,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
+
+	#Devices
+	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
 
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.cpp

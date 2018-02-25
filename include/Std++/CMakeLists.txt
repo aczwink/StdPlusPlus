@@ -7,16 +7,21 @@ set(SOURCE_FILES
 	#_Backends
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/Backend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/BackendManager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/ComputeBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/DeviceEnumeratorState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/WindowBackend.hpp
 
 	#Compute
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/CommandQueue.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Device.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
+
+	#Devices
+	${CMAKE_CURRENT_SOURCE_DIR}/Devices/Device.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.hpp
 
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp

@@ -21,6 +21,9 @@ Not only does this approach make Std++ more flexible but this also helps in achi
 With this design decision, it is for example not mandatory to compile Std++ with a GUI-backend.
 Like this, code is more reusable.
 
+The following Compute-backends are currently implemented:
+* OpenCL
+
 The following UI-backends are currently implemented:
 * GTK 3
 * Common Controls Library (Windows)

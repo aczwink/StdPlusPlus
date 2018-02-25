@@ -20,7 +20,6 @@
 //Local
 #include "../Containers/Strings/ByteString.hpp"
 #include "Buffer.hpp"
-#include "Device.hpp"
 #include "Program.hpp"
 
 namespace StdPlusPlus
@@ -32,7 +31,7 @@ namespace StdPlusPlus
 			friend class CommandQueue;
 		public:
 			//Constructor
-			DeviceContext(const Device &device);
+			//DeviceContext(const Device &device);
 
 			//Destructor
 			~DeviceContext();

@@ -27,10 +27,12 @@ using namespace StdPlusPlus::Compute;
 #define THIS ((cl_context)this->internal)
 
 //Constructor
+/*
 DeviceContext::DeviceContext(const Device &device)
 {
 	this->internal = clCreateContext(nullptr, 1, reinterpret_cast<cl_device_id const *>(&device.deviceId.ptr), nullptr, nullptr, nullptr);
 }
+ */
 
 //Destructor
 DeviceContext::~DeviceContext()

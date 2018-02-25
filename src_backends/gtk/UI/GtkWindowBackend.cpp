@@ -123,13 +123,13 @@ GtkWindowBackend::GtkWindowBackend(_stdpp::WindowBackendType type, Widget *widge
 	if(!GTK_IS_WINDOW(this->gtkWidget))
 		gtk_widget_show(this->gtkWidget); //default to show
 
-	g_object_set_data(G_OBJECT(this->gtkWidget), u8"StdPlusPlus", widget);
+	g_object_set_data(G_OBJECT(this->gtkWidget), u8"Std++", widget);
 
 	this->childAreaWidget = nullptr;
 	if(isContainer)
 	{
 		this->childAreaWidget = redirect_container_new();
-		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"StdPlusPlus", widget);
+		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"Std++", widget);
 		gtk_container_add(GTK_CONTAINER(this->gtkWidget), this->childAreaWidget);
 		gtk_widget_show(this->childAreaWidget); //default to show
 	}

@@ -83,9 +83,6 @@ endif(USE_LIBAVCODEC)
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 
-#dependencies
-find_package(OpenCL REQUIRED)
-
 add_library(Std++Static STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
 add_library(Std++Test STATIC src_test/main.cpp)
 add_executable(tests_Std++ ${TEST_FILES})
@@ -99,10 +96,8 @@ endif()
 target_include_directories(Std++Test PUBLIC "include")
 
 target_include_directories(Std++ PRIVATE "ext")
-target_include_directories(Std++ PRIVATE ${OpenCL_INCLUDE_DIRS})
 
 #link
-target_link_libraries(Std++ PRIVATE ${OpenCL_LIBRARIES})
 if(UNIX)
 	target_link_libraries(Std++ PRIVATE ${GLX_LIBRARY})
 endif(UNIX)
