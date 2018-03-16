@@ -72,7 +72,7 @@ public:
 	}
 };
 #endif
-#ifdef _AC_OS_LINUX
+#ifdef _STDPP_OS_LINUX
 #include <pthread.h>
 class InternalMutex
 {

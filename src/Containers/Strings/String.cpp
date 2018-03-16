@@ -105,6 +105,14 @@ bool String::operator<(const String &rhs) const
 }
 
 //Public methods
+bool String::EndsWith(const String &string) const
+{
+	if(string.length > this->length)
+		return false;
+
+	return this->end().EqualsReversed(string.end(), string.length + 1); //+1 because the comparison will include the null byte
+}
+
 uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 {
 	length = MIN(length, this->length);

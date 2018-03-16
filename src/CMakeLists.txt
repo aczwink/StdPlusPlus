@@ -1,26 +1,9 @@
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
-
-	#.
-        ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
-
-        #Containers
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/FixedCharLengthString.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ByteString.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF32String.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/ResizeableString.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/String.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/StringUtil.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/ConstUTF8StringIterator.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-8/UTF8String.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/UTF16String.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Containers/Strings/UTF-16/CConstUTF16StringIterator.cpp
 
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
@@ -28,8 +11,10 @@ set(SOURCE_FILES
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryWalker.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
@@ -174,6 +159,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/CXMLParser.hpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
 	PARENT_SCOPE)

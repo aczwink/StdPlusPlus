@@ -26,7 +26,7 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-        //Forward declarations
+        //Move declarations
         class CDropTarget;
         class CMenuBar;
         class ITransfer;

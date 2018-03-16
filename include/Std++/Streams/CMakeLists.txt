@@ -8,6 +8,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/TextReader.hpp
 
+	#Writers
+	${CMAKE_CURRENT_SOURCE_DIR}/Writers/DataWriter.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Writers/TextWriter.hpp
+
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp

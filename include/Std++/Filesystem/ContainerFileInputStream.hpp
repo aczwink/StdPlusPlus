@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "../OutputStream.hpp"
-#include "../../Containers/Strings/ByteString.hpp"
-#include "../../Containers/Strings/UTF-8/UTF8String.hpp"
+#include "../Streams/SeekableInputStream.hpp"
 
 namespace StdPlusPlus
 {
-    class STDPLUSPLUS_API CTextWriter
-    {
-    private:
-        //Members
-        OutputStream &refOutput;
+	//Move declarations
+	class ContainerFile;
 
-    public:
-        //Constructor
-        inline CTextWriter(OutputStream &refOutput) : refOutput(refOutput)
-        {
-        }
+	class ContainerFileInputStream : public SeekableInputStream
+	{
+	public:
+		//Constructor
+		ContainerFileInputStream(const ContainerFile &file);
 
-        //Methods
-        void WriteUTF8(uint32 codePoint);
-        void WriteUTF8_ZeroTerminated(const UTF8String &refString);
-    };
+		//Methods
+		uint64 GetCurrentOffset() const override;
+		uint64 GetRemainingBytes() const override;
+		uint64 GetSize() const override;
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
+		void SetCurrentOffset(uint64 offset) override;
+
+	private:
+		//Members
+		const ContainerFile &file;
+		uint64 currentOffset;
+	};
 }

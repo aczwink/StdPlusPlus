@@ -30,8 +30,15 @@ public:
 	uint32 ReadCodePoint(DataReader &reader) const
 	{
 		byte b = reader.ReadByte();
-		ASSERT(b <= 0x7F, "Invalid ASCII value");
+		ASSERT(b <= 0x7F, u8"Invalid ASCII value");
 
 		return b; //ascii directly maps to unicode
+	}
+
+	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
+	{
+		ASSERT(codePoint <= 0x7F, u8"Invalid ASCII value");
+		byte b = static_cast<byte>(codePoint); //ascii directly maps to unicode
+		outputStream.WriteBytes(&b, 1);
 	}
 };

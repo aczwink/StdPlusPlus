@@ -36,6 +36,18 @@ void FileSystem::CreateDirectoryTree(const Path &directoryPath)
 
 //Class functions
 extern DynamicArray<const FileSystemFormat *> g_fsFormats;
+
+UniquePointer<FileSystem> FileSystem::Create(const String &id, const Path &p)
+{
+	for(const FileSystemFormat *const& fileSystemFormat : g_fsFormats)
+	{
+		if(fileSystemFormat->GetId() == id)
+			return fileSystemFormat->CreateFileSystem(p);
+	}
+
+	return nullptr;
+}
+
 UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
 {
 	UniquePointer<SeekableInputStream> file = new FileInputStream(p);
@@ -63,7 +75,8 @@ UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
 	if(bestFormat)
 	{
 		file->SetCurrentOffset(0);
-		return bestFormat->CreateFileSystem(Forward(file));
+		file = nullptr; //free the file
+		return bestFormat->CreateFileSystem(p);
 	}
 
 	return nullptr;

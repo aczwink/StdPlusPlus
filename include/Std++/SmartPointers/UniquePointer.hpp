@@ -93,6 +93,12 @@ namespace StdPlusPlus
 			return this->pointer;
 		}
 
+		//Inline
+		inline bool IsNull() const
+		{
+			return this->pointer == nullptr;
+		}
+
 	private:
 		//Members
 		ValueType *pointer;

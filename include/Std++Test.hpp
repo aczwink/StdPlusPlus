@@ -27,7 +27,7 @@
 //Test classes
 namespace StdPlusPlusTest
 {
-    //Forward declarations
+    //Move declarations
     class TestSuite;
 
     class TestManager

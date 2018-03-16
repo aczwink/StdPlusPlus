@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Integer.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
+#include <Std++/Streams/Writers/DataWriter.hpp>
 
 //Constructor
 MatroskaMuxer::MatroskaMuxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
@@ -122,7 +123,8 @@ void MatroskaMuxer::WriteEBMLUInt(uint64 value)
 {
 	if(value < 126) //2^7 - 2
 	{
-		this->refOutput.WriteByte(0x80 | (byte)value);
+		byte b = 0x80 | (byte)value;
+		this->refOutput.WriteBytes(&b, 1);
 	}
 	else
 	{
@@ -199,10 +201,12 @@ void MatroskaMuxer::WriteCuePoints()
 
 void MatroskaMuxer::WriteId(EMatroskaId id)
 {
+	DataWriter writer(true, this->refOutput);
+
 	if((id & 0xFF) == id)
 	{
 		//Class A
-		this->refOutput.WriteByte(id & 0xFF);
+		writer.WriteByte(id & 0xFF);
 	}
 	else if((id & 0xFFFF) == id)
 	{
@@ -212,21 +216,23 @@ void MatroskaMuxer::WriteId(EMatroskaId id)
 	else if((id & 0xFFFFFF) == id)
 	{
 		//Class C
-		this->refOutput.WriteByte((id >> 16) & 0xFF);
+		writer.WriteByte((id >> 16) & 0xFF);
 		this->refOutput.WriteUInt16BE(id & 0xFFFF);
 	}
 	else
 	{
 		//Class D
-		this->refOutput.WriteUInt32BE(id);
+		writer.WriteUInt32(id);
 	}
 }
 
 void MatroskaMuxer::WriteUInt(uint64 value)
 {
+	DataWriter writer(true, this->refOutput);
+
 	if(value == 0)
 	{
-		this->refOutput.WriteByte(0);
+		writer.WriteByte(0);
 		return;
 	}
 
@@ -238,7 +244,7 @@ void MatroskaMuxer::WriteUInt(uint64 value)
 			//write remaining bytes
 			while(value & ((uint64)0xFF << 56))
 			{
-				this->refOutput.WriteByte(value >> 56);
+				writer.WriteByte(value >> 56);
 				value <<= 8;
 			}
 			return;
@@ -452,8 +458,9 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 
 	this->BeginElement(MATROSKA_ID_SIMPLEBLOCK);
 	this->WriteEBMLUInt(packet.streamIndex + 1);
-	this->refOutput.WriteInt16BE(pts);
-	this->refOutput.WriteByte(flags);
+	DataWriter writer(true, this->refOutput);
+	writer.WriteInt16(pts);
+	writer.WriteByte(flags);
 	this->refOutput.WriteBytes(packet.GetData(), packet.GetSize());
 	this->EndElement();
 

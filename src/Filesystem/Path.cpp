@@ -91,14 +91,3 @@ String Path::SplitOutmostPathPart(Path &subPath) const
 	subPath = this->pathString.SubString(posSlash+1);
 	return this->pathString.SubString(0, posSlash);
 }
-
-//For range-based loop
-DirectoryIterator Path::begin() const
-{
-	return DirectoryIterator(*this);
-}
-
-DirectoryIterator Path::end() const
-{
-	return DirectoryIterator(*this, true);
-}

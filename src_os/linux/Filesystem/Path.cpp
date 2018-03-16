@@ -30,32 +30,10 @@
 using namespace StdPlusPlus;
 
 //Public methods
-/* TODO: new file system implementation
-bool Path::CreateDirectory()
-{
-	return mkdir(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), 0700) == 0;
-}
-
-bool Path::Exists() const
-{
-	return access(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), F_OK) == 0;
-}
-*/
-
 Path Path::GetAbsolutePath() const
 {
 	char p[PATH_MAX];
 	realpath(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), p);
 
 	return {String::CopyRawString(p)};
-}
-
-bool Path::IsDirectory() const
-{
-	struct stat path_stat;
-
-	if(stat(reinterpret_cast<const char *>(this->pathString.ToUTF8().GetRawZeroTerminatedData()), &path_stat) != 0)
-		return false;
-
-	return S_ISDIR(path_stat.st_mode);
 }

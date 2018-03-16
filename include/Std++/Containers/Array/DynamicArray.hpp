@@ -127,6 +127,18 @@ namespace StdPlusPlus
             return this->Find(refValue) != Natural<uint32>::Max();
         }
 
+		inline DataType &Last()
+		{
+			ASSERT(!this->IsEmpty(), u8"Can't get last element from empty array.");
+			return this->data[this->nElements - 1];
+		}
+
+        inline const DataType &Last() const
+		{
+			ASSERT(!this->IsEmpty(), u8"Can't get last element from empty array.");
+			return this->data[this->nElements - 1];
+		}
+
         DataType Pop()
         {
             DataType data;

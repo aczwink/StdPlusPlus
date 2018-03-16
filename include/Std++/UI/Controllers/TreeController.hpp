@@ -27,7 +27,7 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-		//Forward declarations
+		//Move declarations
 		class SelectionController;
 
         class STDPLUSPLUS_API TreeController

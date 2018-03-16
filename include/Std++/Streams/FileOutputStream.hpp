@@ -25,13 +25,6 @@ namespace StdPlusPlus
 {
     class STDPLUSPLUS_API FileOutputStream : public ASeekableOutputStream
     {
-    private:
-        //Members
-        union
-        {
-            void *pFileHandle;
-            int fileHandle;
-        };
     public:
         //Constructor
         FileOutputStream(const Path &refPath);
@@ -42,5 +35,20 @@ namespace StdPlusPlus
         void SetCurrentOffset(uint64 offset);
         void WriteByte(byte b);
         uint32 WriteBytes(const void *pSource, uint32 size);
+
+		//Inline
+		inline const Path &GetPath() const
+		{
+			return this->filePath;
+		}
+
+    private:
+        //Members
+        union
+        {
+            void *pFileHandle;
+            int fileHandle;
+        };
+		Path filePath;
     };
 }

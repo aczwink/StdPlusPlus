@@ -32,7 +32,7 @@ struct _RedirectContainerPrivate
 	GList *firstChild;
 };
 
-//Forward declarations of the "methods"
+//Move declarations of the "methods"
 static void redirect_container_add(GtkContainer *container, GtkWidget *widget);
 static GType redirect_container_child_type(GtkContainer *container);
 static void redirect_container_forall(GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data);

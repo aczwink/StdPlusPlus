@@ -19,14 +19,14 @@
 
 //determine cpu architecture
 #if defined(_M_X64) || defined(__x86_64__)
-#define _AC_ARCH_X64
+#define _STDPP_ARCH_X64
 #else
 #error "undefined architecture"
 #endif
 
 //endianness
-#ifdef _AC_ARCH_X64
-#define _AC_ENDIAN_LITTLE
+#ifdef _STDPP_ARCH_X64
+#define _STDPP_ENDIAN_LITTLE
 #else
 #error "undefined endianness"
 #endif
@@ -35,12 +35,12 @@
 #ifdef _WIN32
 #define _AC_OS_WINDOWS
 #elif __linux__
-#define _AC_OS_LINUX
+#define _STDPP_OS_LINUX
 #else
 #error "undefined operating system"
 #endif
 
 //compiler
 #ifdef __GNUC__
-#define _AC_COMPILER_GCC
+#define _STDPP_COMPILER_GCC
 #endif

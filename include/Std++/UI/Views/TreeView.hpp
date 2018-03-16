@@ -24,7 +24,7 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-        //Forward declarations
+        //Move declarations
         class TreeController;
 
         class STDPLUSPLUS_API TreeView : public View

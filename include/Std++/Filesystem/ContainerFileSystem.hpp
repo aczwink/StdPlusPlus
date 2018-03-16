@@ -18,6 +18,8 @@
  */
 #pragma once
 //Local
+#include <Std++/Streams/FileInputStream.hpp>
+#include <Std++/Streams/FileOutputStream.hpp>
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 
@@ -25,21 +27,30 @@ namespace StdPlusPlus
 {
 	class ContainerFileSystem : public FileSystem
 	{
+		friend class ContainerDirectory;
+		friend class ContainerFileInputStream;
 	public:
 		//Constructor
-		ContainerFileSystem(const FileSystemFormat *format, UniquePointer<SeekableInputStream> &&inputStream);
+		ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath);
 
 		//Methods
+		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
+		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override;
 		AutoPointer<Directory> GetRoot() override;
 		uint64 GetSize() const override;
+		void Move(const Path &from, const Path &to) override;
 
 	protected:
 		//Members
 		AutoPointer<Directory> root;
-		UniquePointer<SeekableInputStream> inputStream;
+		Path fileSystemPath;
+		UniquePointer<FileInputStream> containerInputStream;
+		bool isFlushed;
 
 		//Methods
 		void AddSourceFile(const Path &path, uint64 offset, uint64 size);
+		UniquePointer<FileOutputStream> OpenTempContainer();
+		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
 	};
 }

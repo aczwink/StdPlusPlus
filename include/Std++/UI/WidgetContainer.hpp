@@ -25,7 +25,7 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-        //Forward declarations
+        //Move declarations
         class ILayout;
 
         class STDPLUSPLUS_API WidgetContainer : public Widget

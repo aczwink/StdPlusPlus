@@ -20,7 +20,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     template<typename ValueType>
     class FiniteSetNode;
     template<typename ValueType>

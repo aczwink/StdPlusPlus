@@ -33,13 +33,13 @@ namespace StdPlusPlus
 {
 	namespace Rendering
 	{
-		//Forward declarations
+		//Move declarations
 		class DeviceContext;
 	}
 
     namespace UI
     {
-        //Forward declarations
+        //Move declarations
         class WidgetContainer;
         class Window;
 

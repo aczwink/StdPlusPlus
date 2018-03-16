@@ -25,7 +25,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class ByteString;
     class UTF8String;
     class UTF32String;

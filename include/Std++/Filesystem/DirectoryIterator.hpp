@@ -18,7 +18,9 @@
  */
 #pragma once
 //Local
-#include "Path.hpp"
+#include "../_Backends/DirectoryIteratorState.hpp"
+#include "../SmartPointers/AutoPointer.hpp"
+#include "FileSystemNode.hpp"
 
 namespace StdPlusPlus
 {
@@ -26,30 +28,52 @@ namespace StdPlusPlus
     {
     public:
         //Constructors
-        DirectoryIterator(const Path &path, bool end = false);
+        inline DirectoryIterator(_stdpp::DirectoryIteratorState *iteratorState) : iteratorState(iteratorState)
+		{
+		}
 
-        inline DirectoryIterator(DirectoryIterator &&refIt) //move ctor
-        {
-            this->pOSHandle = refIt.pOSHandle;
-            refIt.pOSHandle = nullptr;
+		//move ctor
+		inline DirectoryIterator(DirectoryIterator &&other) : iteratorState(other.iteratorState)
+		{
+            other.iteratorState = nullptr;
         }
 
         //Destructor
-        ~DirectoryIterator();
+        inline ~DirectoryIterator()
+		{
+			if(this->iteratorState)
+				delete this->iteratorState;
+		}
 
         //Operators
-        DirectoryIterator &operator++(); //Prefix++
-        bool operator!=(const DirectoryIterator &other) const;
+        inline DirectoryIterator &operator++() //Prefix++
+		{
+			this->iteratorState->Next();
+			return *this;
+		}
+
+		inline bool operator==(const DirectoryIterator &other) const
+		{
+			if(this->iteratorState != nullptr)
+				return this->iteratorState->Equals(other.iteratorState);
+			if(other.iteratorState != nullptr)
+				return other.iteratorState->Equals(this->iteratorState);
+			return true; //both are nullptr
+		}
+
+        inline bool operator!=(const DirectoryIterator &other) const
+		{
+			return !(*this == other);
+		}
 
         //Inline operators
-        inline Path operator*()
+        inline AutoPointer<FileSystemNode> operator*()
         {
-            return this->currentPath;
+			return this->iteratorState->GetCurrent();
         }
 
     private:
         //Members
-        void *pOSHandle;
-        Path currentPath;
+		_stdpp::DirectoryIteratorState *iteratorState;
     };
 }

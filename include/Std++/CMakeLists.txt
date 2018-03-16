@@ -1,4 +1,5 @@
 add_subdirectory(Containers)
+add_subdirectory(Filesystem)
 add_subdirectory(Streams)
 
 set(SOURCE_FILES
@@ -9,6 +10,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/BackendManager.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/ComputeBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/DeviceEnumeratorState.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/DirectoryIteratorState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/WindowBackend.hpp
 
@@ -26,18 +28,6 @@ set(SOURCE_FILES
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
-
-	#Filesystem
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/File.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemNode.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.hpp
 
 	#Math
 	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.hpp
@@ -188,6 +178,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/InternalCompilerFlags.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Natural.hpp

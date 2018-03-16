@@ -24,7 +24,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class vec2f64;
 
     namespace Math

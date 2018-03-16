@@ -24,7 +24,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class OutputStream;
 
     class STDPLUSPLUS_API InputStream

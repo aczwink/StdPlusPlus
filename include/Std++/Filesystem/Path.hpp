@@ -23,7 +23,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class DirectoryIterator;
 
 	/**
@@ -93,9 +93,11 @@ namespace StdPlusPlus
 			return Path(this->GetString() + other.GetString());
 		}
 
-        inline Path operator/(const Path &refRight) const
+        inline Path operator/(const Path &rhs) const
         {
-            return Path(this->pathString + u8"/" + refRight.pathString);
+			if(this->pathString.EndsWith(u8"/"))
+				return Path(this->pathString + rhs.pathString);
+            return Path(this->pathString + u8"/" + rhs.pathString);
         }
 
         inline Path &operator/=(const Path &refRight)
@@ -135,7 +137,6 @@ namespace StdPlusPlus
 		 */
         Path GetParent() const;
         String GetTitle() const;
-        bool IsDirectory() const;
 		/**
 		 * Returns the leftmost part of this path and sets the remaining part to the 'subPath' arg.
 		 * Example:
@@ -161,10 +162,6 @@ namespace StdPlusPlus
         {
             return this->pathString;
         }
-
-        //For range-based loop
-        DirectoryIterator begin() const;
-        DirectoryIterator end() const;
 
 	private:
 		//Members

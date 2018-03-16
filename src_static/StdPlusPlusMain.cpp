@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "main.h"
+#include "main.hpp"
 #include "../include/Std++/__InitAndShutdown.h"
 #include "../include/Std++/Containers/Strings/String.hpp"
 
@@ -27,7 +27,7 @@ STDPLUSPLUS_API void StartUserMemoryLogging();
 #endif
 
 //Global functions
-int32 _ACMain(const String &programName, const FixedArray<String> &args)
+int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args)
 {
     int32 exitCode = -1;
 
@@ -45,7 +45,7 @@ int32 _ACMain(const String &programName, const FixedArray<String> &args)
     }
     catch(...)
     {
-        ASSERT(false, "Uncaught exception (not StdPlusPlus)");
+        ASSERT(false, u8"Uncaught exception (not StdPlusPlus)");
     }
 	ShutdownStdPlusPlus();
 

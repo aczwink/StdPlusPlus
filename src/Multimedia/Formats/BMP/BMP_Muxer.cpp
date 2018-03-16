@@ -19,6 +19,7 @@
 //Class Header
 #include "BMP_Muxer.hpp"
 //Local
+#include <Std++/Streams/Writers/DataWriter.hpp>
 #include "BMP.h"
 //Definitions
 #define BMP_FILEHEADER_SIZE 14
@@ -26,17 +27,17 @@
 //Public methods
 void BMP_Muxer::Finalize()
 {
-	uint64 currentOffset;
+	uint64 currentOffset = this->refOutput.GetCurrentOffset();
 
-	currentOffset = this->refOutput.GetCurrentOffset();
+	DataWriter dataWriter(false, this->refOutput);
 
 	//Update file size
 	this->refOutput.SetCurrentOffset(this->startOffset + BMP_HEADER_TYPE_SIZE);
-	this->refOutput.WriteUInt32LE((uint32)(currentOffset - this->startOffset));
+	dataWriter.WriteUInt32((uint32)(currentOffset - this->startOffset));
 
 	//Update image size
 	this->refOutput.SetCurrentOffset(this->startOffset + BMP_FILEHEADER_SIZE + 20);
-	this->refOutput.WriteUInt32LE(this->imageSize);
+	dataWriter.WriteUInt32(this->imageSize);
 }
 
 void BMP_Muxer::WriteHeader()
@@ -47,25 +48,27 @@ void BMP_Muxer::WriteHeader()
 
 	this->startOffset = this->refOutput.GetCurrentOffset();
 
+	DataWriter dataWriter(false, this->refOutput);
+
 	//bitmap file header
 	this->refOutput.WriteBytes(BMP_HEADER_TYPE, BMP_HEADER_TYPE_SIZE);
-	this->refOutput.WriteUInt32LE(0); //file size... updated in finalize
+	dataWriter.WriteUInt32(0); //file size... updated in finalize
 	this->refOutput.WriteUInt16LE(0); //reserved1
 	this->refOutput.WriteUInt16LE(0); //reserved2
-	this->refOutput.WriteUInt32LE(BMP_FILEHEADER_SIZE + BMP_INFOHEADER_SIZE); //data offset
+	dataWriter.WriteUInt32(BMP_FILEHEADER_SIZE + BMP_INFOHEADER_SIZE); //data offset
 
 	//bitmap info header
-	this->refOutput.WriteUInt32LE(BMP_INFOHEADER_SIZE);
-	this->refOutput.WriteUInt32LE(pStream->width);
-	this->refOutput.WriteUInt32LE(-(int32)pStream->height);
+	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
+	dataWriter.WriteUInt32(pStream->width);
+	dataWriter.WriteUInt32(-(int32)pStream->height);
 	this->refOutput.WriteUInt16LE(1); //number of planes
 	this->refOutput.WriteUInt16LE(24); //bits per pixel
-	this->refOutput.WriteUInt32LE(0); //compression
-	this->refOutput.WriteUInt32LE(0); //image size... updated in finalize
-	this->refOutput.WriteUInt32LE(0); //pixels per meter horizontal
-	this->refOutput.WriteUInt32LE(0); //pixels per meter vertical
-	this->refOutput.WriteUInt32LE(0); //number of color indexes
-	this->refOutput.WriteUInt32LE(0); //biClrImportant
+	dataWriter.WriteUInt32(0); //compression
+	dataWriter.WriteUInt32(0); //image size... updated in finalize
+	dataWriter.WriteUInt32(0); //pixels per meter horizontal
+	dataWriter.WriteUInt32(0); //pixels per meter vertical
+	dataWriter.WriteUInt32(0); //number of color indexes
+	dataWriter.WriteUInt32(0); //biClrImportant
 }
 
 void BMP_Muxer::WritePacket(const Packet &refPacket)
@@ -88,8 +91,9 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 				this->refOutput.WriteBytes(pCurrent, rowSize);
 
 				//write padding
+				static byte null = 0;
 				for(uint8 p = 0; p < rowSize % 4; p++)
-					this->refOutput.WriteByte(0);
+					this->refOutput.WriteBytes(&null, 1);
 
 				pCurrent += rowSize;
 			}

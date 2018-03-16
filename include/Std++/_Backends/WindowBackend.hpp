@@ -25,7 +25,7 @@
 #include "../UI/Controllers/SelectionController.hpp"
 #include "../Function.hpp"
 
-//Forward declarations
+//Move declarations
 namespace StdPlusPlus
 {
 	namespace UI

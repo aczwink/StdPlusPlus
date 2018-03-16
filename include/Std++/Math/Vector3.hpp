@@ -26,7 +26,7 @@ namespace StdPlusPlus
 {
     namespace Math
     {
-        //Forward declarations
+        //Move declarations
         class Vector4;
 
         class STDPLUSPLUS_API Vector3

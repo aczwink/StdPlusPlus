@@ -54,7 +54,7 @@ namespace StdPlusPlus
 		{
 		}
 
-		inline AutoPointer(ValueType *pointer) : pointer(pointer), isOwner(true)
+		inline AutoPointer(ValueType *pointer, bool owned = true) : pointer(pointer), isOwner(owned)
 		{
 			this->controlBlock = new _stdpp::AutoPointerControlBlock;
 			this->controlBlock->referenceCount = 1;
@@ -71,6 +71,7 @@ namespace StdPlusPlus
 		{
 			rhs.pointer = nullptr;
 			rhs.controlBlock = nullptr;
+			rhs.isOwner = false;
 		}
 
 		//Destructor
@@ -94,13 +95,28 @@ namespace StdPlusPlus
 		inline AutoPointer &operator=(AutoPointer &&rhs) //Move assign
 		{
 			this->Release();
+
 			this->pointer = rhs.pointer;
 			rhs.pointer = nullptr;
+
 			this->controlBlock = rhs.controlBlock;
 			rhs.controlBlock = nullptr;
+
 			this->isOwner = rhs.isOwner;
+			rhs.isOwner = false;
 
 			return *this;
+		}
+
+		inline bool operator==(const AutoPointer &rhs) const
+		{
+			return this->pointer == rhs.pointer;
+		}
+
+		inline ValueType &operator*()
+		{
+			ASSERT(this->pointer, u8"Can't dereference nullptr");
+			return *this->pointer;
 		}
 
 		inline const ValueType &operator*() const
@@ -125,7 +141,7 @@ namespace StdPlusPlus
 
 		//Inline
 		template <typename CastToType>
-		inline AutoPointer<CastToType> DynamicCast() const
+		inline AutoPointer<CastToType> Cast() const
 		{
 			AutoPointer<CastToType> result;
 			result.pointer = dynamic_cast<CastToType *>(this->pointer);
@@ -135,20 +151,15 @@ namespace StdPlusPlus
 			return result;
 		}
 
+		template <typename TargetType>
+		inline bool IsInstanceOf()
+		{
+			return dynamic_cast<TargetType *>(this->pointer) != nullptr;
+		}
+
 		inline bool IsNull() const
 		{
 			return this->pointer == nullptr;
-		}
-
-		template <typename CastToType>
-		inline AutoPointer<CastToType> StaticCast() const
-		{
-			AutoPointer<CastToType> result;
-			result.pointer = static_cast<CastToType *>(this->pointer);
-			result.controlBlock = this->controlBlock;
-			result.controlBlock->referenceCount++;
-
-			return result;
 		}
 
 	private:

@@ -24,7 +24,7 @@
 
 namespace StdPlusPlus
 {
-	//Forward declarations
+	//Move declarations
 	class FileSystemFormat;
 
 	class FileSystem
@@ -41,15 +41,20 @@ namespace StdPlusPlus
 		}
 
 		//Abstract
-		//virtual bool Exists(const Path &path) const = 0; //TODO
+		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
+		virtual bool Exists(const Path &path) const = 0;
+		virtual void Flush() = 0;
 		virtual AutoPointer<Directory> GetDirectory(const Path &directoryPath) = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
 		virtual uint64 GetSize() const = 0;
+		virtual void Move(const Path &from, const Path &to) = 0;
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
 
 		//Functions
+		static UniquePointer<FileSystem> Create(const String &id, const Path &p);
+		static FileSystem &GetOSFileSystem();
 		static UniquePointer<FileSystem> LoadFromFile(const Path &p);
 
 		//Inline

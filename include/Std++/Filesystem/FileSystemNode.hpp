@@ -17,13 +17,26 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "../Containers/Strings/String.hpp"
+#include "../SmartPointers/AutoPointer.hpp"
+#include "Path.hpp"
 
 namespace StdPlusPlus
 {
+	//Move declarations
+	class Directory;
+	class FileSystem;
+
 	class FileSystemNode
 	{
 	public:
 		//Abstract
+		virtual FileSystem *GetFileSystem() = 0;
+		virtual const FileSystem *GetFileSystem() const = 0;
+		virtual String GetName() const = 0;
+		virtual AutoPointer<Directory> GetParent() const = 0;
+		virtual Path GetPath() const = 0;
 		virtual uint64 GetSize() const = 0;
 	};
 }

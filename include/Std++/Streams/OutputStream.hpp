@@ -37,13 +37,6 @@ namespace StdPlusPlus
         virtual ~OutputStream(){};
 
         //Inline Operators
-        inline OutputStream &operator<<(char c)
-        {
-            this->WriteByte(c);
-
-            return *this;
-        }
-
         inline OutputStream &operator<<(uint16 i)
         {
             return *this << String::Number(i);
@@ -87,9 +80,7 @@ namespace StdPlusPlus
 
 		inline OutputStream &operator<<(const char *string)
 		{
-			while(*string)
-				this->WriteByte(static_cast<byte>(*string++));
-
+			*this << String(string);
 			return *this;
 		}
 
@@ -137,11 +128,10 @@ namespace StdPlusPlus
         }
 
         //Abstract
-        virtual void WriteByte(byte b) = 0;
-        virtual uint32 WriteBytes(const void *pSource, uint32 size) = 0;
+        virtual uint32 WriteBytes(const void *source, uint32 size) = 0;
 
         //Inline
-#ifdef _AC_ENDIAN_LITTLE
+#ifdef _STDPP_ENDIAN_LITTLE
         inline void WriteFloat32LE(float32 value)
 		{
 			this->WriteBytes(&value, sizeof(value));
@@ -162,16 +152,6 @@ namespace StdPlusPlus
 		inline void WriteFloat64LE(float64 value)
 		{
 			this->WriteBytes(&value, sizeof(value));
-		}
-
-		inline void WriteInt16BE(int16 value)
-		{
-			byte b[2];
-
-			b[0] = (uint8)(value >> 8);
-			b[1] = (uint8)(value & 0xFF);
-
-			this->WriteBytes(&b, sizeof(b));
 		}
 
 		inline void WriteInt32LE(int32 value)
@@ -195,23 +175,6 @@ namespace StdPlusPlus
 		}
 
 		inline void WriteUInt16LE(uint16 value)
-		{
-			this->WriteBytes(&value, sizeof(value));
-		}
-
-		inline void WriteUInt32BE(uint32 value)
-		{
-			byte b[4];
-
-			b[0] = (uint8)(value >> 24);
-			b[1] = (uint8)((value >> 16) & 0xFF);
-			b[2] = (uint8)((value >> 8) & 0xFF);
-			b[3] = (uint8)(value & 0xFF);
-
-			this->WriteBytes(&b, sizeof(b));
-		}
-
-		inline void WriteUInt32LE(uint32 value)
 		{
 			this->WriteBytes(&value, sizeof(value));
 		}

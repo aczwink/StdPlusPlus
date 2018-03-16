@@ -20,7 +20,7 @@
 //Local
 #include "../SmartPointers/AutoPointer.hpp"
 
-//Forward declarations
+//Move declarations
 namespace StdPlusPlus
 {
 	class Device;

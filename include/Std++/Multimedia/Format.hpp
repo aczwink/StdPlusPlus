@@ -30,7 +30,7 @@ namespace StdPlusPlus
 {
     namespace Multimedia
     {
-        //Forward declarations
+        //Move declarations
         class Demuxer;
         class Muxer;
         class Codec;

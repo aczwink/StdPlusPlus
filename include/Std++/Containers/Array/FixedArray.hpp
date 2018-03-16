@@ -51,7 +51,7 @@ namespace StdPlusPlus
 		inline FixedArray(FixedArray<DataType> &&source) //move ctor
 		{
 			this->data = nullptr;
-			*this = Forward(source);
+			*this = Move(source);
 		}
 
 		//Destructor

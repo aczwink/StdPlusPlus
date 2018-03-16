@@ -27,13 +27,13 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-        //Forward declarations
+        //Move declarations
         class RenderTargetWidget;
     }
 
     namespace Rendering
     {
-        //Forward declarations
+        //Move declarations
         class ICubeMap;
         class IFrameBuffer;
         class IndexBuffer;

@@ -27,21 +27,28 @@ namespace StdPlusPlus
     public:
         //Variables
         T data;
-        Node *pPrevious;
+        Node *prev;
         Node *next;
 
         //Constructors
         LinkedListNode(const T &refData)
         {
             this->data = refData;
-            this->pPrevious = NULL;
+            this->prev = NULL;
             this->next = NULL;
         }
+
+        LinkedListNode(T &&data)
+		{
+			this->data = Move(data);
+			this->prev = nullptr;
+			this->next = nullptr;
+		}
 
         LinkedListNode(const T &refData, Node *pPrevious, Node *pNext)
         {
             this->data = refData;
-            this->pPrevious = pPrevious;
+            this->prev = pPrevious;
             this->next = pNext;
         }
     };

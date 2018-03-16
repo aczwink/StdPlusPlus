@@ -23,29 +23,38 @@
 
 namespace StdPlusPlus
 {
+	//Move declarations
+	class ContainerFileSystem;
+
 	class ContainerDirectory : public Directory
 	{
 		friend class ContainerFileSystem;
 	public:
+		//Constructors
+		inline ContainerDirectory(ContainerFileSystem *fileSystem) : fileSystem(fileSystem), parent(nullptr)
+		{
+			//this is the root dir
+		}
+
+		inline ContainerDirectory(const String &name, ContainerDirectory *parent) :
+			fileSystem(reinterpret_cast<ContainerFileSystem *>(parent->GetFileSystem())), name(name), parent(parent)
+		{
+		}
+
 		//Methods
+		bool ContainsFile(const String &name) const override;
 		bool ContainsSubDirectory(const String &name) const override;
+		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
+		bool Exists(const Path &path) const override;
+		FileSystem *GetFileSystem() override;
+		const FileSystem *GetFileSystem() const override;
+		String GetName() const override;
+		AutoPointer<Directory> GetParent() const override;
+		Path GetPath() const override;
 		uint64 GetSize() const override;
 		AutoPointer<Directory> GetSubDirectory(const String &name) override;
-
-
-
-
-		bool ContainsFile(const String &name) const override
-		{
-			return false;
-		}
-
-		FileSystem *GetFileSystem() override
-		{
-			NOT_IMPLEMENTED_ERROR;
-			return nullptr;
-		}
+		AutoPointer<const Directory> GetSubDirectory(const String &name) const override;
 
 		//For range-based loop
 		DirectoryIterator begin() const;
@@ -53,6 +62,9 @@ namespace StdPlusPlus
 
 	private:
 		//Members
+		ContainerFileSystem *fileSystem;
+		String name;
+		ContainerDirectory *parent;
 		Map<String, AutoPointer<ContainerFile>> files;
 		Map<String, AutoPointer<ContainerDirectory>> subDirectories;
 

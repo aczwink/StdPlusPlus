@@ -24,7 +24,7 @@ namespace StdPlusPlus
 {
 	namespace Math
 	{
-		//Forward declarations
+		//Move declarations
 		class Matrix4x4;
 
 		class Matrix3x3

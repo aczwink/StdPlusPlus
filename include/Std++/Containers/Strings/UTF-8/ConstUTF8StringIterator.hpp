@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class UTF8String;
 
     class STDPLUSPLUS_API ConstUTF8StringIterator

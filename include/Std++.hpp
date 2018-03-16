@@ -19,7 +19,6 @@
 
 //Compute
 #include <Std++/Compute/CommandQueue.hpp>
-#include <Std++/Compute/Device.hpp>
 #include <Std++/Compute/DeviceContext.hpp>
 
 //Containers
@@ -42,6 +41,8 @@
 
 //Filesystem
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
+#include <Std++/Filesystem/DirectoryWalker.hpp>
+#include <Std++/Filesystem/File.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/Filesystem/Path.hpp>
@@ -74,7 +75,8 @@
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 //Streams/Writers
-#include <Std++/Streams/Writers/CTextWriter.h>
+#include <Std++/Streams/Writers/DataWriter.hpp>
+#include <Std++/Streams/Writers/TextWriter.hpp>
 
 //CodeAnalysis
 #include <Std++/CodeAnalysis/CProgram.h>

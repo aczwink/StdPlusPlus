@@ -22,7 +22,7 @@ namespace StdPlusPlus
 {
 	//Functions
 	template <typename T>
-	constexpr T &&Forward(T &reference)
+	constexpr T &&Move(T &reference)
 	{
 		return (T &&)reference;
 	}

@@ -24,12 +24,12 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class vec4f32;
 
     namespace Math
     {
-        //Forward declarations
+        //Move declarations
         class Matrix3x3;
         class Vector3;
         class Vector4;

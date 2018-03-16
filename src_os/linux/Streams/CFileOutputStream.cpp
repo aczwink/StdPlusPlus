@@ -27,7 +27,7 @@
 using namespace StdPlusPlus;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &refPath)
+FileOutputStream::FileOutputStream(const Path &refPath) : filePath(refPath)
 {
     this->fileHandle = open(reinterpret_cast<const char *>(refPath.GetString().ToUTF8().GetRawZeroTerminatedData()), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }

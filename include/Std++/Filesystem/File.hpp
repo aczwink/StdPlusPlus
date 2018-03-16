@@ -16,11 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
+//Local
+#include "../SmartPointers/UniquePointer.hpp"
+#include "../Streams/InputStream.hpp"
 #include "FileSystemNode.hpp"
 
 namespace StdPlusPlus
 {
 	class File : public FileSystemNode
 	{
+	public:
+		//Abstract
+		virtual UniquePointer<InputStream> OpenForReading() const = 0;
+		virtual UniquePointer<OutputStream> OpenForWriting() = 0;
 	};
 }

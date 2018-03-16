@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     template<typename... ElementTypes>
     class Tuple;
 }

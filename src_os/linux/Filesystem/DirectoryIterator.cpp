@@ -25,32 +25,37 @@
 //Namespaces
 using namespace StdPlusPlus;
 //Definitions
-#define THIS ((DIR *)this->pOSHandle)
+#define THIS ((DIR *)this->iteratorState)
 
+/*
 //Constructor
-DirectoryIterator::DirectoryIterator(const Path &path, bool end)
+DirectoryIterator::DirectoryIterator(_stdpp::DirectoryIteratorState *iteratorState)
 {
 	if(end)
 	{
-		this->pOSHandle = nullptr;
+		this->iteratorState = nullptr;
 		return;
 	}
 
-	this->pOSHandle = opendir(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()));
-	if(!this->pOSHandle)
+	this->iteratorState = opendir(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()));
+	if(!this->iteratorState)
 		throw ErrorHandling::FileNotFoundException(path);
 
 	++(*this);
 }
+*/
 
+/*
 //Destructor
 DirectoryIterator::~DirectoryIterator()
 {
-	if(this->pOSHandle)
+	if(this->iteratorState)
 		closedir(THIS);
 }
+ */
 
 //Operators
+/*
 DirectoryIterator &DirectoryIterator::operator++()
 {
 	dirent *ent = readdir(THIS);
@@ -66,12 +71,8 @@ DirectoryIterator &DirectoryIterator::operator++()
 	}
 
 	closedir(THIS);
-	this->pOSHandle = nullptr;
+	this->iteratorState = nullptr;
 
 	return *this;
 }
-
-bool DirectoryIterator::operator!=(const DirectoryIterator &other) const
-{
-	return this->pOSHandle != other.pOSHandle;
-}
+ */

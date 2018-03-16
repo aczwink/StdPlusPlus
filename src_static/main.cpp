@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Main Header
-#include "main.h"
+#include "main.hpp"
 
 int main(int argc, char **argv)
 {
@@ -27,5 +27,5 @@ int main(int argc, char **argv)
 	for(int32 i = 0; i < argc; i++)
 		args[i] = String(argv[i+1]);
 
-	return _ACMain(String(argv[0]), args);
+	return _StdPlusPlusMain(String(argv[0]), args);
 }

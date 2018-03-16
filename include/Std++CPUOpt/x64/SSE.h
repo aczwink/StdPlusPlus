@@ -25,6 +25,6 @@
 #include <smmintrin.h> //SSE4.1 according to steam supported by 87.68%
 //TODO: could be that SSE4.1 needs to be thrown out if compiled for older processor
 
-#ifdef _AC_COMPILER_GCC
+#ifdef _STDPP_COMPILER_GCC
 #define _MM_ALIGN16 __attribute__((aligned (16)))
 #endif

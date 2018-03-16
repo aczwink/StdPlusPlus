@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class Mutex;
 
     class STDPLUSPLUS_API ConditionVariable

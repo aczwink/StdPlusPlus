@@ -23,7 +23,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class UTF16String;
 
     class CConstUTF16StringIterator

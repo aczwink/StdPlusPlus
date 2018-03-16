@@ -35,7 +35,7 @@ namespace StdPlusPlus
 {
 	namespace Multimedia
 	{
-		//Forward declarations
+		//Move declarations
 		class MediaPlayer;
 	}
 }
@@ -189,7 +189,7 @@ namespace StdPlusPlus
 {
 	namespace UI
 	{
-		//Forward declarations
+		//Move declarations
 		class VideoWidget;
 	}
 

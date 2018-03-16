@@ -20,6 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "Readers/DataReader.hpp"
+#include "OutputStream.hpp"
 
 namespace StdPlusPlus
 {
@@ -34,6 +35,7 @@ namespace StdPlusPlus
 	public:
 		//Abstract
 		virtual uint32 ReadCodePoint(DataReader &reader) const = 0;
+		virtual void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const = 0;
 
 		//Functions
 		static TextCodec *GetCodec(TextCodecType codecType);

@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-	//Forward declarations
+	//Move declarations
 	namespace UI
 	{
 		class Widget;

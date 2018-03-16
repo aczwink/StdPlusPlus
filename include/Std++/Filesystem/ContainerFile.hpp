@@ -16,22 +16,46 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
+#include "Std++/Containers/FIFOBuffer.hpp"
 #include "../Definitions.h"
 #include "File.hpp"
 
 namespace StdPlusPlus
 {
+	//Move declarations
+	class ContainerDirectory;
+
 	class ContainerFile : public File
 	{
 		friend class ContainerDirectory;
+		friend class ContainerFileInputStream;
 	public:
+		//Constructor
+		inline ContainerFile(const String &name, ContainerDirectory *parent) : name(name), parent(parent), offset(0), size(0)
+		{
+		}
+
 		//Methods
+		FileSystem *GetFileSystem() override;
+		const FileSystem *GetFileSystem() const override;
+		String GetName() const override;
+		AutoPointer<Directory> GetParent() const override;
+		Path GetPath() const override;
 		uint64 GetSize() const override;
+		UniquePointer<InputStream> OpenForReading() const override;
+		UniquePointer<OutputStream> OpenForWriting() override;
 
 	private:
 		//Members
+		String name;
+		ContainerDirectory *parent;
 		uint64 offset;
 		uint64 size;
+		/**
+		 * Data written to the file but not yet flushed to the output container.
+		 */
+		UniquePointer<FIFOBuffer> buffer;
 	};
 }

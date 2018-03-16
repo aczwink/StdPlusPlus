@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/CFIFOBuffer.h"
+#include "Std++/Containers/FIFOBuffer.hpp"
 #include "../Definitions.h"
 #include "ECompressionAlgorithm.h"
 
@@ -35,7 +35,7 @@ namespace StdPlusPlus
         protected:
             //Members
             InputStream &refInput;
-            CFIFOBuffer output;
+            FIFOBuffer output;
 
             //Abstract
             virtual void DecompressBlock() = 0;

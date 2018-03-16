@@ -26,7 +26,7 @@
 
 namespace StdPlusPlus
 {
-	//Forward declarations
+	//Move declarations
 	class ConstStringIterator;
 
 	/**
@@ -57,7 +57,7 @@ namespace StdPlusPlus
 			//Constructors
 			inline Resource() : referenceCounter(1)
 			{
-#ifdef _AC_OS_LINUX
+#ifdef _STDPP_OS_LINUX
 				this->isUTF8 = true;
 #else
 				this->isUTF8 = false;
@@ -104,7 +104,7 @@ namespace StdPlusPlus
 
 		inline String(String &&other) : sharedResource(nullptr), data(nullptr) //move ctor
 		{
-			*this = Forward(other);
+			*this = Move(other);
 		}
 
 		/**
@@ -177,6 +177,7 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		bool EndsWith(const String &string) const;
 		/**
 		 * Tries to find 'string' in this string within the range of 'startPos' and 'length' and on success returns the position of the first match.
 		 * If 'string' can't be found, Natural<uint32>::Max() is returned.

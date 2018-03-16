@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward Declarations
+    //Move Declarations
     template<typename T>
     class LinkedList;
 
@@ -56,7 +56,7 @@ namespace StdPlusPlus
 
         LinkedListConstIterator &operator--() //Prefix --
         {
-            this->node = this->node->pPrevious;
+            this->node = this->node->prev;
             this->index--;
 
             return *this;

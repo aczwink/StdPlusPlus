@@ -24,35 +24,34 @@
 
 namespace StdPlusPlus
 {
-    class STDPLUSPLUS_API CFIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public OutputStream
+    class STDPLUSPLUS_API FIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public OutputStream
     {
-    private:
-        //Members
-        byte *pCurrentFront;
-        byte *pCurrentTail;
-        bool hitEnd;
-
-        //Methods
-        void EnsureStorage(uint32 requiredAdditionalSize);
-
     public:
         //Constructor
-        CFIFOBuffer();
+        FIFOBuffer();
 
         //Methods
-        void EnsureCapacity(uint32 requiredNumberOfElements);
-        bool IsAtEnd() const;
-        byte ReadByte();
-        uint32 ReadBytes(void *pDestination, uint32 count);
-        void Release();
-        uint32 Skip(uint32 nBytes);
-        void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 count);
+        void EnsureCapacity(uint32 requiredNumberOfElements) override;
+        bool IsAtEnd() const override;
+        uint32 PeekBytes(void *destination, uint32 offset, uint32 count) const;
+        uint32 ReadBytes(void *pDestination, uint32 count) override;
+        void Release() override;
+        uint32 Skip(uint32 nBytes) override;
+        uint32 WriteBytes(const void *pSource, uint32 count) override;
 
         //Inline
         inline uint32 GetRemainingBytes() const
         {
             return (uint32)(this->pCurrentTail - this->pCurrentFront);
         }
+
+    private:
+        //Members
+        byte *pCurrentFront;
+        byte *pCurrentTail;
+        bool atEnd;
+
+        //Methods
+        void EnsureStorage(uint32 requiredAdditionalSize);
     };
 }

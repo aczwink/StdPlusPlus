@@ -30,7 +30,7 @@ namespace StdPlusPlus
 {
     namespace Rendering
     {
-        //Forward declarations
+        //Move declarations
         class Shader;
 
         class STDPLUSPLUS_API ShaderProgram

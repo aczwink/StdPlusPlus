@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,12 +18,19 @@
  */
 #pragma once
 //Local
-#include "../include/Std++/Containers/Array/FixedArray.hpp"
-#include "../include/Std++/Containers/Strings/String.hpp"
-#include "../include/Std++/ErrorHandling/Exception.hpp"
-//Namespaces
-using namespace StdPlusPlus;
+#include "../Filesystem/FileSystemNode.hpp"
+#include "../SmartPointers/AutoPointer.hpp"
 
-//Prototypes
-int32 Main(const String &programName, const FixedArray<String> &args);
-int32 _ACMain(const String &programName, const FixedArray<String> &args);
+//Move declarations
+namespace _stdpp
+{
+	class DirectoryIteratorState
+	{
+	public:
+		virtual ~DirectoryIteratorState(){}
+		//Abstract
+		virtual bool Equals(DirectoryIteratorState *other) const = 0;
+		virtual StdPlusPlus::AutoPointer<StdPlusPlus::FileSystemNode> GetCurrent() const = 0;
+		virtual void Next() = 0;
+	};
+}

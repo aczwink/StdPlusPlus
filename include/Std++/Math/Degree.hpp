@@ -22,7 +22,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     class Radian;
 
     class STDPLUSPLUS_API Degree

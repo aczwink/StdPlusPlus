@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../../Debug.h"
+#include "../../Type.hpp"
 #include "../ResizeableSequenceContainer.hpp"
 #include "LinkedListConstIterator.hpp"
 #include "LinkedListIterator.hpp"
@@ -185,13 +186,13 @@ namespace StdPlusPlus
                 pPrevious = this->tail;
                 index = this->GetNumberOfElements() - index;
                 while(--index)
-                    pPrevious = pPrevious->pPrevious;
+                    pPrevious = pPrevious->prev;
             }
 
             pNew = new Node(refData);
-            pNew->pPrevious = pPrevious;
+            pNew->prev = pPrevious;
             pNew->next = pPrevious->next;
-            pPrevious->next->pPrevious = pNew;
+            pPrevious->next->prev = pNew;
             pPrevious->next = pNew;
             this->nElements++;
         }
@@ -206,25 +207,24 @@ namespace StdPlusPlus
                 return;
             }
 
-            this->head->pPrevious = new Node(refData, NULL, this->head);
-            this->head = this->head->pPrevious;
+            this->head->prev = new Node(refData, NULL, this->head);
+            this->head = this->head->prev;
             this->nElements++;
         }
 
-        void InsertTail(const DataType &refData)
-        {
-            if(!this->head)
-            {
-                this->head = new Node(refData);
-                this->tail = this->head;
-                this->nElements = 1;
-                return;
-            }
+		inline DataType &Last()
+		{
+			ASSERT(this->tail, "Can't get last from empty list");
 
-            this->tail->next = new Node(refData, this->tail, NULL);
-            this->tail = this->tail->next;
-            this->nElements++;
-        }
+			return this->tail->data;
+		}
+
+		inline const DataType &Last() const
+		{
+			ASSERT(this->tail, "Can't get last from empty list");
+
+			return this->tail->data;
+		}
 
         DataType PopFront()
         {
@@ -248,7 +248,7 @@ namespace StdPlusPlus
             else
             {
                 this->head = pNode->next;
-                this->head->pPrevious = nullptr;
+                this->head->prev = nullptr;
             }
 
             delete pNode;
@@ -270,9 +270,9 @@ namespace StdPlusPlus
 
             pNode = this->tail;
             data = pNode->data;
-            if(this->tail->pPrevious)
+            if(this->tail->prev)
             {
-                this->tail = this->tail->pPrevious;
+                this->tail = this->tail->prev;
                 this->tail->next = NULL;
             }
             else
@@ -299,6 +299,17 @@ namespace StdPlusPlus
                 this->PopTail();
             }
         }
+
+		//Inline
+		inline void InsertTail(const DataType &data)
+		{
+			this->InsertNodeAtTail(new Node(data));
+		}
+
+		inline void InsertTail(DataType &&data)
+		{
+			this->InsertNodeAtTail(new Node(Move(data)));
+		}
 
 		//For range-based loops
 		Iterator begin()
@@ -353,7 +364,7 @@ namespace StdPlusPlus
 
                 while(index--)
                 {
-                    pNode = pNode->pPrevious;
+                    pNode = pNode->prev;
                 }
 
                 return pNode;
@@ -361,6 +372,24 @@ namespace StdPlusPlus
 
             return NULL;
         }
+
+		void InsertNodeAtTail(Node *node)
+		{
+			if(!this->head)
+			{
+				this->head = node;
+				node->next = node->prev = nullptr;
+				this->tail = this->head;
+				this->nElements = 1;
+				return;
+			}
+
+			this->tail->next = node;
+			node->prev = this->tail;
+			node->next = nullptr;
+			this->tail = this->tail->next;
+			this->nElements++;
+		}
 
 		void Remove(Node *node)
 		{
@@ -377,13 +406,13 @@ namespace StdPlusPlus
 				}
 				else if(node == this->tail)
 				{
-					this->tail = this->tail->pPrevious;
+					this->tail = this->tail->prev;
 					this->tail->next = nullptr;
 				}
 				else
 				{
-					node->pPrevious->next = node->next;
-					node->next->pPrevious = node->pPrevious;
+					node->prev->next = node->next;
+					node->next->prev = node->prev;
 				}
 
 				this->nElements--;

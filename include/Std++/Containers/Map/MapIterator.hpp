@@ -21,7 +21,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     template<typename KeyType, typename ValueType>
     class MapNode;
     template<typename KeyType, typename ValueType>

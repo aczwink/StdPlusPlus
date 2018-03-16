@@ -29,7 +29,7 @@
 
 namespace StdPlusPlus
 {
-	//Forward declarations
+	//Move declarations
 	class Timer;
 
     namespace UI

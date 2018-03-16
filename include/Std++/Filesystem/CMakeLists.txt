@@ -1,0 +1,18 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/ContainerDirectory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Directory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryWalker.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/File.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemNode.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Path.hpp
+
+	PARENT_SCOPE)

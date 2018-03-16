@@ -24,7 +24,7 @@ namespace StdPlusPlus
 {
     namespace Rendering
     {
-        //Forward declarations
+        //Move declarations
         class InputLayout;
         class IndexBuffer;
         class VertexBuffer;

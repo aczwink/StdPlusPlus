@@ -24,7 +24,7 @@
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-//Forward declarations
+//Move declarations
 class OpenGLIndexBuffer;
 
 class OpenGLInputState : public InputState

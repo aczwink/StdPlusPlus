@@ -21,7 +21,7 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
+    //Move declarations
     template<typename DataType>
     class FiniteSet;
     template<typename DataType>

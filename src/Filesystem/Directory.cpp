@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Filesystem/Directory.hpp>
 //Local
+#include <Std++/Filesystem/DirectoryWalker.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>
 //Namespaces
 using namespace StdPlusPlus;
@@ -42,4 +43,9 @@ void Directory::CreateDirectoryTree(const Path &directoryPath)
 		this->CreateSubDirectory(part);
 
 	this->GetSubDirectory(part)->CreateDirectoryTree(subPath);
+}
+
+DirectoryWalkerWrapper Directory::WalkFiles()
+{
+	return DirectoryWalkerWrapper(AutoPointer<const Directory>(this, false));
 }

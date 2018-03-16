@@ -38,7 +38,7 @@ set(STDPLUSPLUS_PRIVATE_LIBRARIES)
 add_library(Std++ SHARED)
 
 
-add_subdirectory(include/Std++)
+add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(src_backends)
 if (UNIX)
@@ -55,6 +55,23 @@ target_include_directories(Std++ PUBLIC
 	$<INSTALL_INTERFACE:include>
 	)
 target_link_libraries(Std++ PRIVATE ${STDPLUSPLUS_PRIVATE_LIBRARIES})
+
+
+
+
+
+#---TARGET: Std++Static---
+add_library(Std++Static STATIC src_static/main.cpp src_static/main.hpp src_static/StdPlusPlusMain.cpp src_static/windows.cpp)
+
+
+
+
+#---TARGET: Std++Test---
+add_library(Std++Test STATIC src_test/main.cpp)
+target_include_directories(Std++Test PRIVATE "include")
+
+
+
 
 
 
@@ -82,9 +99,6 @@ endif(USE_LIBAVCODEC)
 
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
-
-add_library(Std++Static STATIC src_static/main.cpp src_static/main.cpp src_static/main.h src_static/ACMain.cpp src_static/windows.cpp)
-add_library(Std++Test STATIC src_test/main.cpp)
 add_executable(tests_Std++ ${TEST_FILES})
 
 #platform stuff
@@ -93,8 +107,6 @@ if(WIN32)
 endif()
 
 #includes
-target_include_directories(Std++Test PUBLIC "include")
-
 target_include_directories(Std++ PRIVATE "ext")
 
 #link

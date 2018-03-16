@@ -27,7 +27,8 @@ namespace StdPlusPlus
 	{
 	public:
 		//Abstract
-		virtual FileSystem *CreateFileSystem(UniquePointer<SeekableInputStream> inputStream) const = 0;
+		virtual FileSystem *CreateFileSystem(const Path &fileSystemPath) const = 0;
+		virtual String GetId() const = 0;
 		virtual String GetName() const = 0;
 		virtual float32 Matches(SeekableInputStream &inputStream) const = 0;
 

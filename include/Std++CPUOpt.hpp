@@ -19,7 +19,7 @@
 #include <Std++/InternalCompilerFlags.h>
 
 //now include the correct architecture header
-#ifdef _AC_ARCH_X64
+#ifdef _STDPP_ARCH_X64
 //vector types
 #include <Std++CPUOpt/x64/vec2f64.h>
 #include <Std++CPUOpt/x64/vec4f32.h>

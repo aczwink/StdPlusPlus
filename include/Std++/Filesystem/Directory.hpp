@@ -19,13 +19,15 @@
 #pragma once
 //Local
 #include "../SmartPointers/AutoPointer.hpp"
+#include "../SmartPointers/UniquePointer.hpp"
+#include "../Streams/OutputStream.hpp"
 #include "FileSystemNode.hpp"
 #include "Path.hpp"
 
 namespace StdPlusPlus
 {
-	//Forward declarations
-	class FileSystem;
+	//Move declarations
+	class DirectoryWalkerWrapper;
 
 	class Directory : public FileSystemNode
 	{
@@ -38,12 +40,15 @@ namespace StdPlusPlus
 		//Abstract
 		virtual bool ContainsFile(const String &name) const = 0;
 		virtual bool ContainsSubDirectory(const String &name) const = 0;
+		virtual UniquePointer<OutputStream> CreateFile(const String &name) = 0;
 		virtual void CreateSubDirectory(const String &name) = 0;
-		virtual FileSystem *GetFileSystem() = 0;
+		virtual bool Exists(const Path &path) const = 0;
 		virtual AutoPointer<Directory> GetSubDirectory(const String &name) = 0;
+		virtual AutoPointer<const Directory> GetSubDirectory(const String &name) const = 0;
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
+		DirectoryWalkerWrapper WalkFiles();
 
 		//For range-based loop
 		virtual DirectoryIterator begin() const = 0;

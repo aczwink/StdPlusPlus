@@ -28,7 +28,7 @@
 
 namespace StdPlusPlus
 {
-	//Forward declarations
+	//Move declarations
 	class String;
 
 	void STDPLUSPLUS_API AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);

@@ -23,13 +23,26 @@
 //Namespaces
 using namespace StdPlusPlus;
 
-ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, UniquePointer<SeekableInputStream> &&inputStream) : FileSystem(format),
-																															 inputStream(Forward(inputStream)),
-																															 root(new ContainerDirectory)
+//Constructor
+ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath) : FileSystem(format),
+																									   fileSystemPath(fileSystemPath),
+																									   containerInputStream((FileSystem::GetOSFileSystem().Exists(fileSystemPath.GetAbsolutePath())) ? (new FileInputStream(fileSystemPath)) : nullptr),
+																									   root(new ContainerDirectory(this))
 {
+	this->isFlushed = !this->containerInputStream.IsNull();
 }
 
 //Public methods
+UniquePointer<OutputStream> ContainerFileSystem::CreateFile(const Path &filePath)
+{
+	return this->GetDirectory(filePath.GetParent())->CreateFile(filePath.GetName());
+}
+
+bool ContainerFileSystem::Exists(const Path &path) const
+{
+	return this->root->Exists(path);
+}
+
 AutoPointer<Directory> ContainerFileSystem::GetDirectory(const Path &directoryPath)
 {
 	if(directoryPath.IsRoot())
@@ -65,10 +78,41 @@ uint64 ContainerFileSystem::GetSize() const
 //Protected methods
 void ContainerFileSystem::AddSourceFile(const Path &filePath, uint64 offset, uint64 size)
 {
+	bool flushStatus = this->isFlushed;
+
 	Path directoryPath = filePath.GetParent();
 	this->CreateDirectoryTree(directoryPath);
 	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
-	AutoPointer<ContainerDirectory> containerDirectory = dir.DynamicCast<ContainerDirectory>();
+	AutoPointer<ContainerDirectory> containerDirectory = dir.Cast<ContainerDirectory>();
 
 	containerDirectory->AddSourceFile(filePath.GetName(), offset, size);
+
+	this->isFlushed = flushStatus; //the flushed status is not affected by source files
+}
+
+UniquePointer<FileOutputStream> ContainerFileSystem::OpenTempContainer()
+{
+	Path p = this->fileSystemPath + Path(u8".stdpptmp");
+	ASSERT(!FileSystem::GetOSFileSystem().Exists(p), u8"If you see this, report to StdPlusPlus please");
+
+	return new FileOutputStream(p);
+}
+
+void ContainerFileSystem::SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer)
+{
+	if(!this->containerInputStream.IsNull())
+		this->containerInputStream = nullptr; //close file
+
+	Path tempPath = tempContainer->GetPath();
+	tempContainer = nullptr; //close temp file
+
+	FileSystem::GetOSFileSystem().Move(tempPath, this->fileSystemPath);
+
+	//TODO: we now have to reopen this->containerInputStream and read again all offsets...
+	//TODO: also all files that have buffers must be closed now... i.e. the buffers must be deleted
+}
+
+void ContainerFileSystem::Move(const Path &from, const Path &to)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

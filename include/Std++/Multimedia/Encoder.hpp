@@ -24,7 +24,7 @@ namespace StdPlusPlus
 {
     namespace Multimedia
     {
-        //Forward declarations
+        //Move declarations
 		class Frame;
 		class Packet;
 

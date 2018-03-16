@@ -27,7 +27,7 @@ namespace StdPlusPlus
 {
     namespace Multimedia
     {
-        //Forward declarations
+        //Move declarations
         class Format;
 
         class STDPLUSPLUS_API MediaObject
