@@ -27,6 +27,8 @@
 #include <Std++/UI/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
+#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Multimedia;
@@ -58,6 +60,11 @@ static void FreeAudioVideo()
 //Global functions
 void InitStdPlusPlus()
 {
+	void RegisterComputeBackends();
+	RegisterComputeBackends();
+	void RegisterUIBackends();
+	RegisterUIBackends();
+
 	MultimediaRegisterCodecsAndFormats();
 
 	InitStdPlusPlus_Platform();
@@ -81,7 +88,9 @@ void ShutdownStdPlusPlus()
 		delete g_globalEventQueue;
 
 	//release backends
-	BackendManager::GetInstance().ReleaseAll();
+	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();
+	BackendManager<RenderBackend>::GetRootInstance().ReleaseAll();
+	BackendManager<UIBackend>::GetRootInstance().ReleaseAll();
 
     //look for memory leaks
     ASSERT(!DebugDumpMemoryLeaks(), u8"You have memory leaks. Check StdPlusPlus MemLeaks.txt");

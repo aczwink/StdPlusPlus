@@ -29,42 +29,37 @@ using namespace StdPlusPlus;
 //Operators
 TextReader &TextReader::operator>>(uint32 &i)
 {
-	ByteString tmp;
-
+	String tmp;
 	*this >> tmp;
-	i = (uint32)StringToUInt64(tmp);
+	i = tmp.ToUInt32();
 
 	return *this;
 }
 
 TextReader &TextReader::operator>>(float32 &f)
 {
-	ByteString tmp;
-
+	String tmp;
 	*this >> tmp;
-	f = (float32)tmp.ToFloat();
+	f = tmp.ToFloat32();
 
 	return *this;
 }
 
-TextReader &TextReader::operator>>(ByteString &target)
+TextReader &TextReader::operator>>(String &target)
 {
-	byte b;
+	target = String();
 
-	b = this->SkipWhitespaces();
+	uint32 codePoint = this->SkipWhitespaces();
 	if(this->inputStream.IsAtEnd())
-	{
-		target = ByteString();
 		return *this;
-	}
+	target += codePoint;
 
-	target = b;
 	while(true)
 	{
-		this->dataReader >> b;
-		if(this->IsWhitespace(b))
+		codePoint = this->codec->ReadCodePoint(this->dataReader);
+		if(this->IsWhitespace(codePoint))
 			break;
-		target += b;
+		target += codePoint;
 
 		if(this->inputStream.IsAtEnd())
 			break;
@@ -188,9 +183,9 @@ UTF8String TextReader::ReadUTF8Line()
 }
 
 //Private methods
-bool TextReader::IsWhitespace(byte b)
+bool TextReader::IsWhitespace(uint32 codePoint)
 {
-	switch(b)
+	switch(codePoint)
 	{
 		case ' ':
 		case '\t':
@@ -202,18 +197,17 @@ bool TextReader::IsWhitespace(byte b)
 	return false;
 }
 
-byte TextReader::SkipWhitespaces()
+uint32 TextReader::SkipWhitespaces()
 {
-	byte b;
-
+	uint32 codePoint;
 	while(true)
 	{
 		if(this->inputStream.IsAtEnd())
 			return -1;
-		this->dataReader >> b;
-		if(!this->IsWhitespace(b))
+		codePoint = this->codec->ReadCodePoint(this->dataReader);
+		if(!this->IsWhitespace(codePoint))
 			break;
 	}
 
-	return b;
+	return codePoint;
 }

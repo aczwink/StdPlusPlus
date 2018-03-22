@@ -25,7 +25,8 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Constructors
-Vector3::Vector3(const Vector4 &refV)
+template <typename ScalarType>
+Vector3<ScalarType>::Vector3(const Vector4<ScalarType> &refV)
 {
 	this->x = refV.x;
 	this->y = refV.y;

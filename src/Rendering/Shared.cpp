@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Shared.hpp"
+#include "../../src_backends/OpenGL/Rendering/Shared.hpp"
 
 //Global functions
 GLenum AllocationPolicyToGL(AllocationPolicy policy)

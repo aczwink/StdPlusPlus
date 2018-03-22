@@ -37,7 +37,7 @@ namespace StdPlusPlus
             virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = 0;
             virtual void GenerateMipMaps() = 0;
             virtual void SetMaximumMipMapLevel(uint16 level) = 0;
-            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::Vector3 *pColorData) = 0;
+            virtual void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Math::Vector3s *pColorData) = 0;
         };
     }
 }

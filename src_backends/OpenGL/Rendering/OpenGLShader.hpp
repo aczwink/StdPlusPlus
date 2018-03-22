@@ -18,45 +18,26 @@
  */
 #pragma once
 //Local
-#include <Std++/Rendering/IFrameBuffer.h>
-#include <Std++/Rendering/DeviceContext.hpp>
-#include "OpenGL.h"
+#include <Std++/Rendering/Shader.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-class CFrameBuffer : public IFrameBuffer
+class OpenGLShader : public Shader
 {
-    friend class StdPlusPlus::Rendering::DeviceContext;
+    friend class OpenGLShaderProgram;
 private:
     //Members
     uint32 id;
 
-    //Static fields
-    static uint32 currentFBO;
-
-    //Inline
-    inline void Bind() const
-    {
-        if(currentFBO != this->id)
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, this->id);
-            currentFBO = this->id;
-        }
-    }
-
 public:
     //Constructor
-    inline CFrameBuffer()
-    {
-        glGenFramebuffers(1, &this->id);
-    }
+    OpenGLShader(Shader::ShaderType type);
 
     //Destructor
-    ~CFrameBuffer();
+    ~OpenGLShader();
 
     //Methods
-    uint32 GetStatus() const;
-    void SetColorBuffer(Texture2D *pTexture);
-    void SetDepthBuffer(Texture2D *pTexture);
+    bool Compile(SeekableInputStream &refSource);
+    String GetCompilationLog();
 };

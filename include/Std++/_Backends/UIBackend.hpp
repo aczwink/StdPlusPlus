@@ -18,7 +18,15 @@
  */
 //Local
 #include "Backend.hpp"
-#include "WindowBackend.hpp"
+#include "BackendManager.hpp"
+#include "RenderBackend.hpp"
+#include "WindowBackendType.hpp"
+
+//Forward declarations
+namespace _stdpp
+{
+	class WindowBackend;
+}
 
 namespace StdPlusPlus
 {
@@ -31,8 +39,11 @@ namespace StdPlusPlus
 	class UIBackend : public Backend
 	{
 	public:
+		//Members
+		BackendManager<RenderBackend> renderBackends;
+
 		//Abstract
-		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) const = 0;
+		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) = 0;
 
 		//Methods
 		BackendType GetType() const

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Widget.hpp>
-//Global
-#include <gtk/gtk.h>
+#pragma once
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
-#include "Gtk.h"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+#include <Std++/Rendering/DeviceContext.hpp>
+#include "Backend.hpp"
 
-//Global variables
-extern bool g_ignoreEvent;
-
-//Proctected methods
-void Widget::IgnoreEvent()
+//Forward declarations
+namespace _stdpp
 {
-	g_ignoreEvent = true;
+	class WindowBackend;
+}
+
+namespace StdPlusPlus
+{
+	class RenderBackend : public Backend
+	{
+	public:
+		//Abstract
+		virtual Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const = 0;
+
+		//Methods
+		BackendType GetType() const
+		{
+			return BackendType::Compute;
+		}
+	};
 }

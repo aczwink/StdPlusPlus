@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,36 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include "GTKOpenGLBackend.hpp"
 //Local
-#include <Std++/Rendering/VertexBuffer.hpp>
-#include <Std++/Rendering/DeviceContext.hpp>
-#include "OpenGL.h"
+#include "Rendering/GtkOpenGLDeviceContext.hpp"
+#include "UI/GtkWindowBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdpp;
 
-class OpenGLVertexBuffer : public VertexBuffer
+void *GTKLoadGLExtension(const char *extensionName);
+//Constructor
+GTKOpenGLBackend::GTKOpenGLBackend() : OpenGLBackend(GTKLoadGLExtension)
 {
-private:
-    //Members
-    uint32 id;
-    AllocationPolicy policy;
+}
 
-public:
-    //Constructor
-    OpenGLVertexBuffer(AllocationPolicy policy);
-
-    //Destructor
-    ~OpenGLVertexBuffer();
-
-    //Methods
-    void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData);
-    void Write(uint32 offset, uint32 size, const void *data);
-
-    //Inline
-    inline void Bind() const
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, this->id);
-    }
-};
+//Public methods
+Rendering::DeviceContext *GTKOpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+{
+	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
+	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+}

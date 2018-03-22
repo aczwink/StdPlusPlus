@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Rendering/ICubeMap.h>
-#include "OpenGL.h"
+#include "../GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
@@ -27,7 +27,7 @@ using namespace StdPlusPlus::Rendering;
 //Global variables
 extern uint32 g_currentTextureId;
 
-class CCubeMap : public ICubeMap
+class OpenGLCubeMap : public ICubeMap
 {
     friend class DeviceContext;
 private:
@@ -46,10 +46,10 @@ private:
 
 public:
     //Constructor
-    CCubeMap();
+    OpenGLCubeMap();
 
     //Destructor
-    ~CCubeMap();
+    ~OpenGLCubeMap();
 
     //Methods
     ETextureType GetType() const;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,12 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include <Std++/Rendering/DeviceContext.hpp>
-#include "OpenGL.h"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+#pragma once
 
-//Global functions
-GLenum AllocationPolicyToGL(AllocationPolicy policy);
+namespace _stdpp
+{
+	enum class WindowBackendType
+	{
+		ComboBox,
+		GroupBox,
+		PushButton,
+		RenderTarget,
+		SearchBox,
+		TreeView,
+		Window
+	};
+}

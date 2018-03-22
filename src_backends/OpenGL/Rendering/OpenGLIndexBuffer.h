@@ -18,26 +18,46 @@
  */
 #pragma once
 //Local
-#include <Std++/Rendering/Shader.hpp>
+#include <Std++/Rendering/DeviceContext.hpp>
+#include <Std++/Rendering/IndexBuffer.hpp>
+#include "../GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-class CShader : public Shader
+class OpenGLIndexBuffer : public IndexBuffer
 {
-    friend class CShaderProgram;
 private:
     //Members
     uint32 id;
+    uint32 nIndices;
+    bool isShort;
+	AllocationPolicy policy;
 
 public:
     //Constructor
-    CShader(Shader::ShaderType type);
+    OpenGLIndexBuffer(AllocationPolicy policy);
 
     //Destructor
-    ~CShader();
+    ~OpenGLIndexBuffer();
 
     //Methods
-    bool Compile(SeekableInputStream &refSource);
-    ByteString GetCompilationLog();
+    void Allocate(uint32 nIndices, const uint16 *pIndices);
+    void Allocate(uint32 nIndices, const uint32 *pIndices);
+
+    //Inline
+    inline void Bind() const
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
+    }
+
+    inline uint32 GetNumberOfIndices() const
+    {
+        return this->nIndices;
+    }
+
+    inline bool IndicesShort() const
+    {
+        return this->isShort;
+    }
 };

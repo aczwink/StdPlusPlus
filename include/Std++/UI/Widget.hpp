@@ -59,7 +59,6 @@ namespace StdPlusPlus
             virtual ~Widget();
 
             //Methods
-            void Repaint();
             Point TransformToWindow(const Point &refPoint) const;
 
             //Overrideable
@@ -91,6 +90,11 @@ namespace StdPlusPlus
                 //this is a window itself
                 return (Window *)this;
             }
+
+			inline void Repaint()
+			{
+				this->backend->Repaint();
+			}
 
 			inline void SetBounds(const Rect &area)
 			{

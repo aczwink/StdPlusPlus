@@ -20,7 +20,7 @@
 //Global
 #include <CL/cl.h>
 //Local
-#include <Std++/_Backends/Backend.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "OpenCLDeviceEnumeratorState.hpp"
 

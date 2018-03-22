@@ -68,63 +68,52 @@ namespace StdPlusPlus
         class STDPLUSPLUS_API DeviceContext
         {
         public:
-            //Constructor
-            DeviceContext(const UI::RenderTargetWidget &refView);
-            DeviceContext(const UI::RenderTargetWidget &refView, uint8 nSamples);
-
-            //Destructor
-            ~DeviceContext();
-
-            //Methods
-            void ClearColorBuffer(const Color &refColor);
-            void ClearDepthBuffer();
-            ICubeMap *CreateCubeMap();
-            IFrameBuffer *CreateFrameBuffer();
-            IndexBuffer *CreateIndexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
-            InputState *CreateInputState();
-            Shader *CreateShader(Shader::ShaderType type);
-            ShaderProgram *CreateShaderProgram();
-            Texture2D *CreateTexture2D();
-            VertexBuffer *CreateVertexBuffer(AllocationPolicy policy = AllocationPolicy::Static);
-            void DrawLines(uint32 startVertexIndex, uint32 nLines);
-			void DrawPoints(uint32 startVertexIndex, uint32 count);
-            void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices);
-            void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles);
-            void DrawTrianglesIndexed();
-            void DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices);
-            void EnableBlending(bool enabled = true);
-            void EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha);
-            void EnableDepthBufferWriting(bool writeEnable);
-            void EnableDepthTest(bool enabled = true);
-            void EnableFaceCulling(bool enabled = true);
-            void EnablePolygonFilling(bool enabled = true);
-            void EnableStencilTest(bool enabled = true);
-            uint32 GetNumberOfTextureUnits() const;
-            void ReadDepthBuffer(const Rect &block, float32 *output);
-            void SetDepthTest(TestFunction function);
-            void SetFrameBuffer(IFrameBuffer *pFrameBuffer);
-            void SetInputState(InputState *pInputState);
-			void SetPointSize(uint32 size);
-            void SetProgram(ShaderProgram *pProgram);
-            void SetStencilTest(TestFunction function, uint32 referenceValue, uint32 mask);
-            void SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);
-            void SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect);
-            void SetStencilWriteMask(uint32 mask);
-            void SetTexture(uint8 unit, ITexture *pTexture);
-			void SetUploadAlignment(uint8 value);
-            void SetViewPort(uint16 width, uint16 height);
+			//Abstract
+			virtual void ClearColorBuffer(const Color &refColor) = 0;
+			virtual void ClearDepthBuffer() = 0;
+			virtual ICubeMap *CreateCubeMap() = 0;
+			virtual IFrameBuffer *CreateFrameBuffer() = 0;
+			virtual IndexBuffer *CreateIndexBuffer(AllocationPolicy policy = AllocationPolicy::Static) = 0;
+			virtual InputState *CreateInputState() = 0;
+			virtual Shader *CreateShader(Shader::ShaderType type) = 0;
+			virtual ShaderProgram *CreateShaderProgram() = 0;
+			virtual Texture2D *CreateTexture2D() = 0;
+			virtual VertexBuffer *CreateVertexBuffer(AllocationPolicy policy = AllocationPolicy::Static) = 0;
+			virtual void DrawLines(uint32 startVertexIndex, uint32 nLines) = 0;
+			virtual void DrawPoints(uint32 startVertexIndex, uint32 count) = 0;
+			virtual void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices) = 0;
+			virtual void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles) = 0;
+			virtual void DrawTrianglesIndexed() = 0;
+			virtual void DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices) = 0;
+			virtual void EnableBlending(bool enabled = true) = 0;
+			virtual void EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha) = 0;
+			virtual void EnableDepthBufferWriting(bool writeEnable) = 0;
+			virtual void EnableDepthTest(bool enabled = true) = 0;
+			virtual void EnableFaceCulling(bool enabled = true) = 0;
+			virtual void EnablePolygonFilling(bool enabled = true) = 0;
+			virtual void EnableStencilTest(bool enabled = true) = 0;
+			virtual uint32 GetNumberOfTextureUnits() const = 0;
+			virtual void ReadDepthBuffer(const Rect &block, float32 *output) = 0;
+			virtual void SetDepthTest(TestFunction function) = 0;
+            virtual void SetFrameBuffer(IFrameBuffer *pFrameBuffer) = 0;
+            virtual void SetInputState(InputState *pInputState) = 0;
+			virtual void SetPointSize(uint32 size) = 0;
+            virtual void SetProgram(ShaderProgram *pProgram) = 0;
+            virtual void SetStencilTest(TestFunction function, uint32 referenceValue, uint32 mask) = 0;
+            virtual void SetStencilTestEffects(ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect) = 0;
+            virtual void SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect, ETestEffect stencilTestPassedDepthTestFailedEffect, ETestEffect stencilAndDepthTestsPassedEffect) = 0;
+            virtual void SetStencilWriteMask(uint32 mask) = 0;
+            virtual void SetTexture(uint8 unit, ITexture *pTexture) = 0;
+			virtual void SetUploadAlignment(uint8 value) = 0;
+            virtual void SetViewPort(uint16 width, uint16 height) = 0;
             void SwapBuffers();
 
         private:
             //Members
             void *systemHandle;
             void *deviceState;
-			uint32 screenFrameBufferId;
-            InputState *currentInputState;
 
             //Methods
-            void BindOSContext() const;
-            void CreateOSContext(const UI::RenderTargetWidget &renderTargetWidget, uint8 nSamples);
             void DestroyOSContext();
             void UnbindOSContext();
         };

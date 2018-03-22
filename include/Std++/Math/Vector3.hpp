@@ -26,22 +26,25 @@ namespace StdPlusPlus
 {
     namespace Math
     {
-        //Move declarations
-        class Vector4;
+		//Forward declarations
+		template <typename ScalarType>
+		class Vector4;
 
-        class STDPLUSPLUS_API Vector3
+        template <typename ScalarType>
+		class STDPLUSPLUS_API Vector3
         {
+			typedef Vector3<ScalarType> vec3;
         public:
             //Members
             union
             {
                 struct
                 {
-                    float32 x;
-                    float32 y;
-                    float32 z;
+					ScalarType x;
+					ScalarType y;
+					ScalarType z;
                 };
-                float32 e[3];
+				ScalarType e[3];
             };
 
             //Constructors
@@ -52,24 +55,29 @@ namespace StdPlusPlus
                 this->z = 0;
             }
 
-            inline Vector3(float32 x, float32 y, float32 z)
+            inline Vector3(ScalarType x, ScalarType y, ScalarType z)
             {
                 this->x = x;
                 this->y = y;
                 this->z = z;
             }
 
-            Vector3(const Vector4 &refV);
+			template<typename OtherScalarType>
+			inline Vector3(const Vector3<OtherScalarType> &other) : x(other.x), y(other.y), z(other.z)
+			{
+			}
+
+            Vector3(const Vector4<ScalarType> &refV);
 
             //Operators
-            inline float32 &operator[](uint8 idx)
+            inline ScalarType &operator[](uint8 idx)
             {
                 ASSERT(idx < 3, "Column must be < 3");
 
                 return this->e[idx];
             }
 
-            inline const float32 &operator[](uint8 idx) const
+            inline const ScalarType &operator[](uint8 idx) const
             {
                 ASSERT(idx < 3, "Column must be < 3");
 
@@ -85,83 +93,92 @@ namespace StdPlusPlus
                 return *this;
             }
 
-            inline Vector3 &operator+=(const Vector3 &refOther)
-            {
-                this->x += refOther.x;
-                this->y += refOther.y;
-                this->z += refOther.z;
+			inline Vector3 operator+(const vec3 &rhs) const
+			{
+				return vec3(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
+			}
 
-                return *this;
-            }
+			inline Vector3 &operator+=(const Vector3 &refOther)
+			{
+				this->x += refOther.x;
+				this->y += refOther.y;
+				this->z += refOther.z;
 
-            inline Vector3 &operator-=(const Vector3 &refOther)
-            {
-                this->x -= refOther.x;
-                this->y -= refOther.y;
-                this->z -= refOther.z;
+				return *this;
+			}
 
-                return *this;
-            }
+			inline Vector3 operator-(const vec3 &rhs) const
+			{
+				return vec3(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
+			}
+
+			inline Vector3 &operator-=(const Vector3 &refOther)
+			{
+				this->x -= refOther.x;
+				this->y -= refOther.y;
+				this->z -= refOther.z;
+
+				return *this;
+			}
+
+			inline Vector3 operator*(ScalarType scalar) const
+			{
+				return vec3(this->x * scalar, this->y * scalar, this->z * scalar);
+			}
+
+			inline Vector3 operator/(ScalarType scalar) const
+			{
+				return vec3(this->x / scalar, this->y / scalar, this->z / scalar);
+			}
+
+			inline Vector3 &operator/=(ScalarType scalar)
+			{
+				this->x /= scalar;
+				this->y /= scalar;
+				this->z /= scalar;
+
+				return *this;
+			}
 
             inline Vector3 operator-() const
             {
                 return Vector3(-this->x, -this->y, -this->z);
             }
 
-            //Methods
-            Vector3 Cross(const Vector3 &refRight) const;
-
             //Inline
-            inline float32 Length() const
+			inline Vector3 Cross(const Vector3 &rhs) const
+			{
+				return vec3(
+					this->y * rhs.z - this->z * rhs.y,
+					this->z * rhs.x - this->x * rhs.z,
+					this->x * rhs.y - this->y * rhs.x
+				);
+			}
+
+			inline ScalarType Dot(const vec3 &rhs) const
+			{
+				return ScalarType((float64)this->x * (float64)rhs.x + (float64)this->y * (float64)rhs.y + (float64)this->z * (float64)rhs.z);
+			}
+
+            inline ScalarType Length() const
             {
-                return sqrtf(this->SquaredLength());
+                return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
             }
 
-            inline Vector3 Normalize() const
+            inline vec3 Normalized() const
             {
-                float32 length;
-
-                length = this->Length();
-
-                return Vector3(this->x / length, this->y / length, this->z / length);
-            }
-
-            inline float32 SquaredLength() const
-            {
-                return this->x * this->x + this->y * this->y + this->z * this->z;
+				ScalarType length = this->Length();
+				return vec3(this->x / length, this->y / length, this->z / length);
             }
         };
 
         //Class operators
-        inline Vector3 operator+(const Vector3 &refLeft, const Vector3 &refRight)
+		template <typename ScalarType>
+        inline Vector3<ScalarType> operator*(ScalarType scalar, const Vector3<ScalarType> &refRight)
         {
-            return Vector3(refLeft.x + refRight.x, refLeft.y + refRight.y, refLeft.z + refRight.z);
+            return Vector3<ScalarType>(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
         }
 
-        inline Vector3 operator-(const Vector3 &refLeft, const Vector3 &refRight)
-        {
-            return Vector3(refLeft.x - refRight.x, refLeft.y - refRight.y, refLeft.z - refRight.z);
-        }
-
-        inline Vector3 operator*(float32 scalar, const Vector3 &refRight)
-        {
-            return Vector3(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
-        }
-
-        inline Vector3 operator*(const Vector3 &refLeft, float32 scalar)
-        {
-            return Vector3(scalar * refLeft.x, scalar * refLeft.y, scalar * refLeft.z);
-        }
-
-        //Inline Functions
-        inline Vector3 Cross(const Vector3 &refLeft, const Vector3 &refRight)
-        {
-            return Vector3(refLeft.y * refRight.z - refLeft.z * refRight.y, refLeft.z * refRight.x - refLeft.x * refRight.z, refLeft.x * refRight.y - refLeft.y * refRight.x);
-        }
-
-        inline float32 Dot(const Vector3 &refLeft, const Vector3 &refRight)
-        {
-            return float32((float64)refLeft.x * (float64)refRight.x + (float64)refLeft.y * (float64)refRight.y + (float64)refLeft.z * (float64)refRight.z);
-        }
+		typedef Vector3<float32> Vector3s;
     }
 }

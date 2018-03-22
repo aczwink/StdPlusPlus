@@ -25,9 +25,12 @@ namespace StdPlusPlus
 {
     namespace Math
     {
-        //Move declarations
+        //Forward declarations
+        template<typename ScalarType>
         class Vector3;
 
+
+		template<typename ScalarType>
         class STDPLUSPLUS_API Vector4
         {
         public:
@@ -61,7 +64,7 @@ namespace StdPlusPlus
                 this->w = w;
             }
 
-            Vector4(const Vector3 &refXYZ, float32 w);
+            Vector4(const Vector3<ScalarType> &refXYZ, float32 w);
 
             //Operators
             inline float32 &operator[](uint8 idx)

@@ -17,10 +17,10 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CCubeMap.h"
+#include "../../src_backends/OpenGL/Rendering/OpenGLCubeMap.hpp"
 
 //Constructor
-CCubeMap::CCubeMap()
+OpenGLCubeMap::OpenGLCubeMap()
 {
     glGenTextures(1, &this->id);
 
@@ -34,18 +34,18 @@ CCubeMap::CCubeMap()
 }
 
 //Destructor
-CCubeMap::~CCubeMap()
+OpenGLCubeMap::~OpenGLCubeMap()
 {
     glDeleteTextures(1, &this->id);
 }
 
 //Public methods
-ETextureType CCubeMap::GetType() const
+ETextureType OpenGLCubeMap::GetType() const
 {
     return ETextureType::CubeMap;
 }
 
-void CCubeMap::SetBackTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetBackTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
@@ -54,14 +54,14 @@ void CCubeMap::SetBackTexture(uint16 width, uint16 height, const void *pCompress
     glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
 }
 
-void CCubeMap::SetBottomTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetBottomTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
     glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
 }
 
-void CCubeMap::SetFrontTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetFrontTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
@@ -70,21 +70,21 @@ void CCubeMap::SetFrontTexture(uint16 width, uint16 height, const void *pCompres
     glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
 }
 
-void CCubeMap::SetLeftTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetLeftTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
     glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
 }
 
-void CCubeMap::SetRightTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetRightTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
     glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_COMPRESSED_RGB_S3TC_DXT1_EXT, width, height, 0, width * height * 8 / 16, pCompressedData);
 }
 
-void CCubeMap::SetTopTexture(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLCubeMap::SetTopTexture(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 

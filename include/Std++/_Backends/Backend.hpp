@@ -23,6 +23,7 @@ namespace StdPlusPlus
 	enum class BackendType
 	{
 		Compute,
+		Render,
 		UI,
 	};
 
@@ -33,7 +34,7 @@ namespace StdPlusPlus
 		virtual BackendType GetType() const = 0;
 
 		//Overrideable
-		virtual void Load() const {};
+		virtual void Load() {};
 		virtual void Unload() const {};
 	};
 }

@@ -22,21 +22,32 @@
 //Local
 #include <Std++/_Backends/UIBackend.hpp>
 #include "UI/GtkWindowBackend.hpp"
+#include "GTKOpenGLBackend.hpp"
 
 namespace StdPlusPlus
 {
 	class GTKBackend : public UIBackend
 	{
 	public:
-		//Methods
-		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget) const
+		//Constructor
+		GTKBackend()
 		{
-			return new _stdpp::GtkWindowBackend(type, widget);
+			//register render backends
+#ifdef _STDPLUSPLUS_BACKEND_OPENGL
+			GTKOpenGLBackend *gtkOpenGLBackend = new GTKOpenGLBackend;
+			this->renderBackends.RegisterBackend(gtkOpenGLBackend, 0);
+#endif
 		}
 
-		void Load() const
+		//Methods
+		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget)
 		{
-			gtk_init(0, nullptr);
+			return new _stdpp::GtkWindowBackend(this, type, widget);
+		}
+
+		void Load()
+		{
+			gtk_init(nullptr, nullptr);
 		}
 	};
 }

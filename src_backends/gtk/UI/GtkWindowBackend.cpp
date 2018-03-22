@@ -32,6 +32,18 @@ struct FileChooserData
 	GtkWidget *acceptButton;
 };
 
+//Local functions
+static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
+{
+	GtkGLArea *glArea = GTK_GL_AREA(gtkWidget);
+
+	gtk_gl_area_make_current(glArea);
+
+	//enable depth buffer
+	gtk_gl_area_set_has_depth_buffer(glArea, true);
+	//glDisable(GL_DEPTH_TEST); //stupid gtk!!! GL_DEPTH_TEST is disabled by default even if the def framebuffer has a depth buffer
+}
+
 static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 {
 	bool accept = false;
@@ -48,7 +60,7 @@ static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 };
 
 //Constructor
-GtkWindowBackend::GtkWindowBackend(_stdpp::WindowBackendType type, Widget *widget) : type(type), widget(widget)
+GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget) : uiBackend(uiBackend), type(type), widget(widget)
 {
 	bool isContainer = false;
 	switch(type)
@@ -75,6 +87,24 @@ GtkWindowBackend::GtkWindowBackend(_stdpp::WindowBackendType type, Widget *widge
 			this->gtkWidget = gtk_button_new();
 
 			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), widget);
+		}
+		break;
+		case WindowBackendType::RenderTarget:
+		{
+			//TODO: own gtk gl area because: GL_DEPTH_TEST is enabled by gtk, when a frame buffer has a depth buffer-.-
+			//this->backend = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
+			//ac_gtk_opengl_widget_setwidget(AC_GTK_OPENGL_WIDGET(THIS), this);
+
+			this->gtkWidget = gtk_gl_area_new();
+
+			g_signal_connect(this->gtkWidget, u8"realize", G_CALLBACK(OnRealize), this);
+			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
+
+			gtk_widget_add_events(this->gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
+			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
+			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
+			g_signal_connect(this->gtkWidget, u8"motion-notify-event", G_CALLBACK(GtkEventQueue::MouseMotionSlot), this);
+			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventQueue::ScrollSlot), this);
 		}
 		break;
 		case WindowBackendType::SearchBox:
@@ -223,7 +253,7 @@ void GtkWindowBackend::ClearView() const
 
 WindowBackend *GtkWindowBackend::CreateChildBackend(_stdpp::WindowBackendType type, Widget *widget) const
 {
-	GtkWindowBackend *child = new GtkWindowBackend(type, widget);
+	GtkWindowBackend *child = new GtkWindowBackend(this->uiBackend, type, widget);
 
 	gtk_container_add(GTK_CONTAINER(this->childAreaWidget), child->gtkWidget);
 
@@ -247,6 +277,16 @@ Size GtkWindowBackend::GetSizeHint() const
 	gtk_widget_get_preferred_height(this->gtkWidget, &min2, &nat2);
 
 	return Size(nat1, nat2);
+}
+
+UIBackend *GtkWindowBackend::GetUIBackend()
+{
+	return this->uiBackend;
+}
+
+void GtkWindowBackend::Repaint()
+{
+	gtk_widget_queue_draw(this->gtkWidget);
 }
 
 void GtkWindowBackend::Select(ControllerIndex &controllerIndex) const

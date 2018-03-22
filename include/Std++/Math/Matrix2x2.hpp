@@ -24,11 +24,13 @@ namespace StdPlusPlus
 {
     namespace Math
     {
+        template <typename ScalarType>
         class STDPLUSPLUS_API Matrix2x2
         {
+			typedef Vector2<ScalarType> vec2;
         private:
             //Members
-            Vector2 columns[2];
+			vec2 columns[2];
 
         public:
             //Operators
@@ -49,7 +51,7 @@ namespace StdPlusPlus
                 return this->columns[x][y];
             }
 
-            inline Vector2 &operator[](uint8 x)
+            inline vec2 &operator[](uint8 x)
             {
                 ASSERT(x < 2, "Column must be < 2");
 
@@ -60,5 +62,7 @@ namespace StdPlusPlus
             static Matrix2x2 Identity();
             static Matrix2x2 Scale(float32 scaleX, float32 scaleY);
         };
+
+		typedef Matrix2x2<float32> Matrix2s;
     }
 }

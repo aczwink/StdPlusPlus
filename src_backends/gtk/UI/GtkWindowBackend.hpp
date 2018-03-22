@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Global
 #include <gtk/gtk.h>
 //Local
@@ -31,7 +32,7 @@ namespace _stdpp
 	{
 	public:
 		//Constructor
-		GtkWindowBackend(_stdpp::WindowBackendType type, Widget *widget);
+		GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget);
 
 		//Destructor
 		~GtkWindowBackend();
@@ -41,6 +42,8 @@ namespace _stdpp
 		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const;
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
+		UIBackend *GetUIBackend() override;
+		void Repaint() override;
 		void Select(ControllerIndex &controllerIndex) const;
 		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;
 		void SetBounds(const StdPlusPlus::Rect &area);
@@ -51,8 +54,15 @@ namespace _stdpp
 		void ShowInformationBox(const String &title, const String &message) const;
 		void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const;
 
+		//Inline
+		inline GtkWidget *GetGtkWidget() const
+		{
+			return this->gtkWidget;
+		}
+
 	private:
 		//Members
+		UIBackend *uiBackend;
 		_stdpp::WindowBackendType type;
 		StdPlusPlus::UI::Widget *widget;
 		GtkWidget *gtkWidget; //the widget, window whatever itself

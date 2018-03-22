@@ -1,20 +1,23 @@
 cmake_minimum_required(VERSION 3.6)
 project(Std++)
 
+find_package(XP-CMake) #we need advanced cmake modules
+
 #options
 option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
 option(BUILD_DOCUMENTATION "Build API documentation" OFF)
+
+option(OPTFORHOST "Optimize for host machine. Output will quite likely not run on an older processor" ON)
+if(OPTFORHOST)
+	Compiler_OptForHost()
+endif()
+
 
 
 
 #c++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
-
-
-
-#machine
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse4.1") #currently SSE4.1 required. However, only 2 should be required for x64
 
 
 
@@ -76,7 +79,7 @@ target_include_directories(Std++Test PRIVATE "include")
 
 
 
-#tests target
+#---TARGET: Tests---
 add_subdirectory(tests)
 
 
@@ -110,9 +113,6 @@ endif()
 target_include_directories(Std++ PRIVATE "ext")
 
 #link
-if(UNIX)
-	target_link_libraries(Std++ PRIVATE ${GLX_LIBRARY})
-endif(UNIX)
 if(WIN32)
 	target_link_libraries(Std++ PRIVATE opengl32.lib)
 	target_link_libraries(Std++ PRIVATE ws2_32.lib)

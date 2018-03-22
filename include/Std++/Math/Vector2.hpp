@@ -29,18 +29,20 @@ namespace StdPlusPlus
 
     namespace Math
     {
+        template <typename ScalarType>
         class Vector2
         {
+			typedef Vector2<ScalarType> vec2;
         public:
             //Members
             union
             {
                 struct
                 {
-                    float32 x;
-                    float32 y;
+					ScalarType x;
+					ScalarType y;
                 };
-                float32 e[2];
+				ScalarType e[2];
             };
 
             //Constructors
@@ -50,7 +52,7 @@ namespace StdPlusPlus
                 this->y = 0;
             }
 
-            inline Vector2(float32 x, float32 y)
+            inline Vector2(ScalarType x, ScalarType y)
             {
                 this->x = x;
                 this->y = y;
@@ -59,14 +61,14 @@ namespace StdPlusPlus
             Vector2(const vec2f64 &refV);
 
             //Operators
-            inline float32 &operator[](uint8 idx)
+            inline ScalarType &operator[](uint8 idx)
             {
                 ASSERT(idx < 2, "Column must be < 2");
 
                 return this->e[idx];
             }
 
-            inline const float32 &operator[](uint8 idx) const
+            inline const ScalarType &operator[](uint8 idx) const
             {
                 ASSERT(idx < 2, "Column must be < 2");
 
@@ -89,7 +91,7 @@ namespace StdPlusPlus
                 return Vector2(this->x - refRight.x, this->y - refRight.y);
             }
 
-            inline Vector2 operator*(float32 right) const
+            inline Vector2 operator*(ScalarType right) const
             {
                 return Vector2(this->x * right, this->y * right);
             }
@@ -99,7 +101,7 @@ namespace StdPlusPlus
                 return Vector2(this->x * refRight.x, this->y * refRight.y);
             }
 
-            inline Vector2 &operator*=(float32 right)
+            inline Vector2 &operator*=(ScalarType right)
             {
                 this->x *= right;
                 this->y *= right;
@@ -107,36 +109,41 @@ namespace StdPlusPlus
                 return *this;
             }
 
-            inline Vector2 operator/(float32 right) const
+            inline Vector2 operator/(ScalarType right) const
             {
                 return Vector2(this->x / right, this->y / right);
             }
 
             //Inline
-            inline float32 Length() const
+			inline ScalarType Dot(const vec2 &rhs) const
+			{
+				return this->x * rhs.x + this->y * rhs.y;
+			}
+
+            inline ScalarType Length() const
             {
-                return sqrtf(this->x * this->x + this->y * this->y);
+                return sqrt(this->x * this->x + this->y * this->y);
             }
 
-            inline float32 LengthSquared() const
+            inline ScalarType LengthSquared() const
             {
                 return this->x * this->x + this->y * this->y;
             }
 
-            inline Vector2 Normalize() const
+            inline vec2 Normalized() const
             {
-                float32 length;
-
-                length = this->Length();
-
-                return Vector2(this->x / length, this->y / length);
+				ScalarType length = this->Length();
+                return vec2(this->x / length, this->y / length);
             }
         };
 
         //Binary operators
-        inline Vector2 operator*(float32 left, const Vector2 &refRight)
+		template <typename ScalarType>
+        inline Vector2<ScalarType> operator*(ScalarType left, const Vector2<ScalarType> &refRight)
         {
-            return Vector2(left * refRight.x, left * refRight.y);
+            return Vector2<ScalarType>(left * refRight.x, left * refRight.y);
         }
+
+		typedef Vector2<float32> Vector2s;
     }
 }

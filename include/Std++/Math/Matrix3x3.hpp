@@ -25,27 +25,30 @@ namespace StdPlusPlus
 	namespace Math
 	{
 		//Move declarations
+		template <typename ScalarType>
 		class Matrix4x4;
 
+		template <typename ScalarType>
 		class Matrix3x3
 		{
+			typedef Vector3<ScalarType> vec3;
 		public:
 			//Constructors
 			inline Matrix3x3()
 			{
 			}
 
-			Matrix3x3(const Matrix4x4 &refMat);
+			Matrix3x3(const Matrix4x4<ScalarType> &refMat);
 
 			//Operators
-			inline Vector3 &operator[](uint8 x)
+			inline vec3 &operator[](uint8 x)
 			{
 				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x];
 			}
 
-			inline const Vector3 &operator[](uint8 x) const
+			inline const vec3 &operator[](uint8 x) const
 			{
 				ASSERT(x < 3, "Column must be < 3");
 
@@ -53,14 +56,14 @@ namespace StdPlusPlus
 			}
 
 			//Operators
-			inline float32 &operator()(uint8 y, uint8 x)
+			inline ScalarType &operator()(uint8 y, uint8 x)
 			{
 				ASSERT(x < 3, "Column must be < 3");
 
 				return this->columns[x][y];
 			}
 
-			inline const float32 &operator()(uint8 y, uint8 x) const
+			inline const ScalarType &operator()(uint8 y, uint8 x) const
 			{
 				ASSERT(x < 3, "Column must be < 3");
 
@@ -69,7 +72,9 @@ namespace StdPlusPlus
 
 		private:
 			//Members
-			Vector3 columns[4];
+			vec3 columns[4];
 		};
+
+		typedef Matrix3x3<float32> Matrix3s;
 	}
 }

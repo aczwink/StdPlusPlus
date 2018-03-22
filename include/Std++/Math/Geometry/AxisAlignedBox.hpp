@@ -27,19 +27,23 @@ namespace StdPlusPlus
 {
     namespace Math
     {
+		template <typename ScalarType>
         class STDPLUSPLUS_API AxisAlignedBox
         {
+            typedef Vector3<ScalarType> vec3;
+			typedef Vector4<ScalarType> vec4;
+			typedef Matrix4x4<ScalarType> mat4;
         public:
             //Members
-            Vector3 min;
-            Vector3 max;
+			vec3 min;
+			vec3 max;
 
             //Constructors
             inline AxisAlignedBox()
             {
             }
 
-            inline AxisAlignedBox(const Vector3 &refMin, const Vector3 &refMax)
+            inline AxisAlignedBox(const vec3 &refMin, const vec3 &refMax)
             {
                 this->min = refMin;
                 this->max = refMax;
@@ -47,7 +51,7 @@ namespace StdPlusPlus
 
             //Methods
             bool Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const;
-            void Merge(const Vector3 &refV);
+            void Merge(const vec3 &refV);
             float32 SquaredDistanceTo(const vec4f32 &refPoint) const;
 
             //Inline
@@ -63,23 +67,23 @@ namespace StdPlusPlus
                 return sqrtf(this->SquaredDistanceTo(refPoint));
             }
 
-            inline Vector3 GetSize() const
+            inline vec3 GetSize() const
             {
                 return this->max - this->min;
             }
 
             inline float32 GetVolume() const
             {
-                Vector3 v;
+				vec3 v;
 
                 v = this->GetSize();
 
                 return v.x * v.y * v.z;
             }
 
-            inline AxisAlignedBox Transform(const Matrix4x4 &refTransform) const
+            inline AxisAlignedBox Transform(const mat4 &refTransform) const
             {
-                return AxisAlignedBox(Vector3(refTransform * Vector4(this->min, 1)), Vector3(refTransform * Vector4(this->max, 1)));
+                return AxisAlignedBox<ScalarType>(vec3(refTransform * vec4(this->min, 1)), vec3(refTransform * vec4(this->max, 1)));
             }
         };
     }

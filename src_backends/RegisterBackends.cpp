@@ -19,20 +19,18 @@
 //Class header
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
-#include "OpenCL/OpenCLBackend.hpp"
 #include "gtk/GTKBackend.hpp"
+#include "OpenCL/OpenCLBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 
 #define PRIORITY_HIGH 0
 #define PRIORITY_NORMAL 1
 
-#define ADD_BACKEND(backend, priority) this->backends[(backend)->GetType()].Insert(priority, backend);
-
-//Private methods
-void BackendManager::RegisterBackends()
+//Global functions
+void RegisterComputeBackends()
 {
-	//Compute backends
+#define ADD_BACKEND(backend, priority) BackendManager<ComputeBackend>::GetRootInstance().RegisterBackend(backend, priority);
 #ifdef _STDPLUSPLUS_BACKEND_OPENCL
 	{
 		for(auto platformId : OpenCLBackend::GetPlatformIds())
@@ -49,11 +47,16 @@ void BackendManager::RegisterBackends()
 		}
 	}
 #endif
+#undef ADD_BACKEND
+}
 
+void RegisterUIBackends()
+{
+#define ADD_BACKEND(backend, priority) BackendManager<UIBackend>::GetRootInstance().RegisterBackend(backend, priority);
 	//UI backends
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 	GTKBackend *gtkBackend = new GTKBackend;
-
 	ADD_BACKEND(gtkBackend, PRIORITY_HIGH);
 #endif
+#undef ADD_BACKEND
 }

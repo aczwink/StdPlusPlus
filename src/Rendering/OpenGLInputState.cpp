@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "OpenGLInputState.hpp"
+#include "../../src_backends/OpenGL/Rendering/OpenGLInputState.hpp"
 //Local
 #include <Std++/Rendering/InputLayout.hpp>
-#include "OpenGLIndexBuffer.h"
-#include "OpenGLVertexBuffer.hpp"
+#include "../../src_backends/OpenGL/Rendering/OpenGLIndexBuffer.h"
+#include "../../src_backends/OpenGL/Rendering/OpenGLVertexBuffer.hpp"
 
 //Constructor
 OpenGLInputState::OpenGLInputState()

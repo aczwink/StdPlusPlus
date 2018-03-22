@@ -190,13 +190,13 @@ void DevicePathRenderer::InitRendering()
 	pVSShader = refDC.CreateShader(Shader::ShaderType::VertexShader);
 	BufferInputStream vsInput((byte *)vsShaderCode, sizeof(vsShaderCode));
 	result = pVSShader->Compile(vsInput);
-	ASSERT(result, pVSShader->GetCompilationLog().GetC_Str());
+	ASSERT(result, pVSShader->GetCompilationLog());
 
 	//compile fragment shader
 	pFSShader = refDC.CreateShader(Shader::ShaderType::FragmentShader);
 	BufferInputStream fsInput((byte *)fsShaderCode, sizeof(fsShaderCode));
 	result = pFSShader->Compile(fsInput);
-	ASSERT(result, pFSShader->GetCompilationLog().GetC_Str());
+	ASSERT(result, pFSShader->GetCompilationLog());
 
 	//create program
 	this->pShaderProgram = refDC.CreateShaderProgram();

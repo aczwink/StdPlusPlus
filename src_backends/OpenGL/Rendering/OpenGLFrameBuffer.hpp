@@ -18,42 +18,46 @@
  */
 #pragma once
 //Local
-#include <Std++/Rendering/InputState.hpp>
-#include "OpenGL.h"
+#include <Std++/Rendering/IFrameBuffer.h>
+#include <Std++/Rendering/DeviceContext.hpp>
+#include "../GLFunctions.h"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-//Move declarations
-class OpenGLIndexBuffer;
-
-class OpenGLInputState : public InputState
+class OpenGLFrameBuffer : public IFrameBuffer
 {
+    friend class _stdpp::OpenGLDeviceContext;
 private:
     //Members
     uint32 id;
-    uint8 currentAttributeIndex;
-    OpenGLIndexBuffer *pIndexBuffer;
 
-public:
-    //Constructor
-    OpenGLInputState();
-
-    //Destructor
-    ~OpenGLInputState();
-
-    //Methods
-    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout);
-    void SetIndexBuffer(IndexBuffer *pIndexBuffer);
+    //Static fields
+    static uint32 currentFBO;
 
     //Inline
     inline void Bind() const
     {
-        glBindVertexArray(this->id);
+        if(currentFBO != this->id)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+            currentFBO = this->id;
+        }
     }
 
-    inline OpenGLIndexBuffer *GetIndexBuffer()
+public:
+    //Constructor
+    inline OpenGLFrameBuffer()
     {
-        return this->pIndexBuffer;
+        glGenFramebuffers(1, &this->id);
     }
+
+    //Destructor
+    ~OpenGLFrameBuffer();
+
+    //Methods
+    uint32 GetStatus() const;
+    void SetColorBuffer(Texture2D *pTexture);
+    void SetDepthBuffer(Texture2D *pTexture);
 };

@@ -16,21 +16,44 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Math/Vector4.hpp>
+#pragma once
 //Local
-#include <Std++/Math/Vector3.hpp>
-
+#include <Std++/Rendering/InputState.hpp>
+#include "../GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdPlusPlus::Rendering;
 
-//Constructors
-template <typename ScalarType>
-Vector4<ScalarType>::Vector4(const Vector3<ScalarType> &refXYZ, float32 w)
+//Move declarations
+class OpenGLIndexBuffer;
+
+class OpenGLInputState : public InputState
 {
-	this->x = refXYZ.x;
-	this->y = refXYZ.y;
-	this->z = refXYZ.z;
-	this->w = w;
-}
+private:
+    //Members
+    uint32 id;
+    uint8 currentAttributeIndex;
+    OpenGLIndexBuffer *pIndexBuffer;
+
+public:
+    //Constructor
+    OpenGLInputState();
+
+    //Destructor
+    ~OpenGLInputState();
+
+    //Methods
+    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout);
+    void SetIndexBuffer(IndexBuffer *pIndexBuffer);
+
+    //Inline
+    inline void Bind() const
+    {
+        glBindVertexArray(this->id);
+    }
+
+    inline OpenGLIndexBuffer *GetIndexBuffer()
+    {
+        return this->pIndexBuffer;
+    }
+};

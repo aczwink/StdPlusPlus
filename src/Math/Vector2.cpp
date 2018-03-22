@@ -25,8 +25,12 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Constructor
-Vector2::Vector2(const vec2f64 &refV)
+template <typename ScalarType>
+Vector2<ScalarType>::Vector2(const vec2f64 &refV)
 {
 	this->x = (float32)refV.x;
 	this->y = (float32)refV.y;
 }
+
+//Explicit instantiations
+template class Vector2<float32>;

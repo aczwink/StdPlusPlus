@@ -39,7 +39,6 @@ if(${BACKEND_GTK3})
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.h
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
@@ -61,18 +60,37 @@ if(${BACKEND_GTK3})
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/GTKBackend.hpp
-
-		PARENT_SCOPE)
+		)
 
 	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_GTK3)
 	add_definitions(${GTK3_CFLAGS_OTHER})
 	target_include_directories(Std++ PRIVATE ${GTK3_INCLUDE_DIRS})
-	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GTK3_LIBRARIES} PARENT_SCOPE)
+	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GTK3_LIBRARIES})
 
-	#GLX is needed for getting opengl extensions
-	pkg_check_modules(PC_GLX QUIET glx)
-	find_library(GLX_LIBRARY
-		GL
-		HINTS ${PC_GLX_LIBDIR} ${PC_GLX_LIBRARY_DIRS}
-	)
+	#OpenGL extension
+	if(${BACKEND_OPENGL})
+		set(SOURCE_FILES
+			${SOURCE_FILES}
+
+			#Rendering
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/GtkOpenGLDeviceContext.hpp
+
+			#.
+			${CMAKE_CURRENT_SOURCE_DIR}/GLLoader.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/GTKOpenGLBackend.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/GTKOpenGLBackend.hpp
+			)
+
+		#GLX is needed for getting opengl extensions
+		pkg_check_modules(PC_GLX QUIET glx)
+		find_library(GLX_LIBRARY
+			GL
+			HINTS ${PC_GLX_LIBDIR} ${PC_GLX_LIBRARY_DIRS}
+			)
+		set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GLX_LIBRARY})
+	endif ()
+
+	#set in parent scope
+	set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
+	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)
 endif ()

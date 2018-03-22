@@ -26,7 +26,8 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Constructor
-Matrix4x4::Matrix4x4(const Matrix3x3 &refMatrix)
+template <typename ScalarType>
+Matrix4x4<ScalarType>::Matrix4x4(const Matrix3x3<ScalarType> &refMatrix)
 {
 	this->columns[0] = Vector4(refMatrix[0], 0);
 	this->columns[1] = Vector4(refMatrix[1], 0);
@@ -35,7 +36,8 @@ Matrix4x4::Matrix4x4(const Matrix3x3 &refMatrix)
 }
 
 //Operators
-Matrix4x4 Matrix4x4::operator*(float32 right) const
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::operator*(float32 right) const
 {
 	Matrix4x4 tmp;
 
@@ -48,7 +50,8 @@ Matrix4x4 Matrix4x4::operator*(float32 right) const
 	return tmp;
 }
 
-vec4f32 Matrix4x4::operator*(const vec4f32 &refRight) const
+template <typename ScalarType>
+vec4f32 Matrix4x4<ScalarType>::operator*(const vec4f32 &refRight) const
 {
 	float64 current;
 	vec4f32 result;
@@ -67,10 +70,11 @@ vec4f32 Matrix4x4::operator*(const vec4f32 &refRight) const
 	return result;
 }
 
-Vector4 Matrix4x4::operator*(const Vector4 &rhs) const
+template <typename ScalarType>
+Vector4<ScalarType> Matrix4x4<ScalarType>::operator*(const Vector4<ScalarType> &rhs) const
 {
 	float64 current;
-	Vector4 result;
+	vec4 result;
 
 	for(uint8 row = 0; row < 4; row++)
 	{
@@ -80,13 +84,14 @@ Vector4 Matrix4x4::operator*(const Vector4 &rhs) const
 			current += this->operator()(row, j) * rhs[j];
 		}
 
-		result[row] = (float32)current;
+		result[row] = (ScalarType)current;
 	}
 
 	return result;
 }
 
-Matrix4x4 Matrix4x4::operator*(const Matrix4x4 &refRight) const
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::operator*(const Matrix4x4 &refRight) const
 {
 	float64 current;
 	Matrix4x4 result;
@@ -109,7 +114,8 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4 &refRight) const
 }
 
 //Public methods
-Matrix4x4 Matrix4x4::Inverse() const
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Inverse() const
 {
 	/**
 	 * This method was copied and changed such that it matches this class.
@@ -172,7 +178,8 @@ Matrix4x4 Matrix4x4::Inverse() const
 	return Inverse * OneOverDeterminant;
 }
 
-Matrix4x4 Matrix4x4::Transpose() const
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Transpose() const
 {
 	Matrix4x4 result;
 
@@ -188,7 +195,8 @@ Matrix4x4 Matrix4x4::Transpose() const
 }
 
 //Class functions
-Matrix4x4 Matrix4x4::Identity()
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Identity()
 {
 	Matrix4x4 identity;
 
@@ -200,7 +208,8 @@ Matrix4x4 Matrix4x4::Identity()
 	return identity;
 }
 
-Matrix4x4 Matrix4x4::OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar)
 {
 	Matrix4x4 ortho;
 
@@ -215,7 +224,8 @@ Matrix4x4 Matrix4x4::OrthographicRH(float32 left, float32 right, float32 bottom,
 	return ortho;
 }
 
-Matrix4x4 Matrix4x4::PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar)
 {
 	float32 tanHalfFovY, range;
 	Matrix4x4 perspective;
@@ -233,7 +243,8 @@ Matrix4x4 Matrix4x4::PerspectiveRH(const Degree &refFovY, float32 aspectRatio, f
 	return perspective;
 }
 
-Matrix4x4 Matrix4x4::RotationX(const Radian &refAngle)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationX(const Radian &refAngle)
 {
 	Matrix4x4 rotate;
 
@@ -247,7 +258,8 @@ Matrix4x4 Matrix4x4::RotationX(const Radian &refAngle)
 	return rotate;
 }
 
-Matrix4x4 Matrix4x4::RotationY(const Radian &refAngle)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationY(const Radian &refAngle)
 {
 	Matrix4x4 rotate;
 
@@ -261,12 +273,14 @@ Matrix4x4 Matrix4x4::RotationY(const Radian &refAngle)
 	return rotate;
 }
 
-Matrix4x4 Matrix4x4::RotationYawPitchRoll(const Radian &refYaw, const Radian &refPitch, const Radian &refRoll)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationYawPitchRoll(const Radian &refYaw, const Radian &refPitch, const Radian &refRoll)
 {
 	return Matrix4x4::RotationX(refPitch) * Matrix4x4::RotationY(refYaw) * Matrix4x4::RotationZ(refRoll);
 }
 
-Matrix4x4 Matrix4x4::RotationZ(const Radian &refAngle)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationZ(const Radian &refAngle)
 {
 	Matrix4x4 rotate;
 
@@ -280,7 +294,8 @@ Matrix4x4 Matrix4x4::RotationZ(const Radian &refAngle)
 	return rotate;
 }
 
-Matrix4x4 Matrix4x4::Scale(float32 scaleX, float32 scaleY, float32 scaleZ)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Scale(float32 scaleX, float32 scaleY, float32 scaleZ)
 {
 	Matrix4x4 scale;
 
@@ -292,7 +307,8 @@ Matrix4x4 Matrix4x4::Scale(float32 scaleX, float32 scaleY, float32 scaleZ)
 	return scale;
 }
 
-Matrix4x4 Matrix4x4::Translation(float32 dx, float32 dy, float32 dz)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(float32 dx, float32 dy, float32 dz)
 {
 	Matrix4x4 translate;
 
@@ -304,7 +320,8 @@ Matrix4x4 Matrix4x4::Translation(float32 dx, float32 dy, float32 dz)
 	return translate;
 }
 
-Matrix4x4 Matrix4x4::Translation(const Vector3 &refVector)
+template <typename ScalarType>
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const Vector3<ScalarType> &refVector)
 {
 	return Matrix4x4::Translation(refVector.x, refVector.y, refVector.z);
 }

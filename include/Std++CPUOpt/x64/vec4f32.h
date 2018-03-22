@@ -54,12 +54,12 @@ namespace StdPlusPlus
             this->mmValue = mmValue;
         }
 
-        inline vec4f32(const Math::Vector3 &refVec3, float32 w)
+        inline vec4f32(const Math::Vector3<float32> &refVec3, float32 w)
         {
             this->mmValue = _mm_set_ps(w, refVec3.z, refVec3.y, refVec3.x);
         }
 
-        inline vec4f32(const Math::Vector4 &refVec)
+        inline vec4f32(const Math::Vector4<float32> &refVec)
         {
             this->mmValue = _mm_set_ps(refVec.w, refVec.z, refVec.y, refVec.x);
         }

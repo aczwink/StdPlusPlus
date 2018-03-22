@@ -23,14 +23,16 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Operators
-Matrix2x2 Matrix2x2::operator*(const Matrix2x2 &refRight) const
+template <typename ScalarType>
+Matrix2x2<ScalarType> Matrix2x2<ScalarType>::operator*(const Matrix2x2 &refRight) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return Matrix2x2();
 }
 
 //Class functions
-Matrix2x2 Matrix2x2::Identity()
+template <typename ScalarType>
+Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Identity()
 {
 	Matrix2x2 identity;
 
@@ -40,8 +42,12 @@ Matrix2x2 Matrix2x2::Identity()
 	return identity;
 }
 
-Matrix2x2 Matrix2x2::Scale(float32 scaleX, float32 scaleY)
+template <typename ScalarType>
+Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scaleY)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return Matrix2x2();
 }
+
+//Explicit instantiations
+template class Matrix2x2<float32>;

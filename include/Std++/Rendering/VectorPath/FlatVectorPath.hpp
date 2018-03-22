@@ -32,10 +32,10 @@ namespace StdPlusPlus
         public:
             struct SPoint
             {
-                Math::Vector2 pos;
-                Math::Vector2 dir;
+                Math::Vector2s pos;
+                Math::Vector2s dir;
                 float64 length;
-                Math::Vector2 extrusion;
+                Math::Vector2s extrusion;
                 bool isCorner;
                 bool bevelInner;
                 bool bevelOuter;
@@ -60,14 +60,14 @@ namespace StdPlusPlus
             void ComputePointAttributes();
 
             //Inline
-            inline void AddCorner(const Math::Vector2 &refV)
+            inline void AddCorner(const Math::Vector2s &refV)
             {
                 this->AddPoint(refV, true);
             }
 
-            inline void AddPoint(const Math::Vector2 &refV, bool isCorner)
+            inline void AddPoint(const Math::Vector2s &refV, bool isCorner)
             {
-                this->points.InsertTail({refV, Math::Vector2(), 0, Math::Vector2(), isCorner, false, false});
+                this->points.InsertTail({refV, Math::Vector2s(), 0, Math::Vector2s(), isCorner, false, false});
             }
 
             inline const SPoint &GetPoint(uint32 index) const

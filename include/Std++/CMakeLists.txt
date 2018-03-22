@@ -1,18 +1,10 @@
+add_subdirectory(_Backends)
 add_subdirectory(Containers)
 add_subdirectory(Filesystem)
 add_subdirectory(Streams)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
-
-	#_Backends
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/Backend.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/BackendManager.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/ComputeBackend.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/DeviceEnumeratorState.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/DirectoryIteratorState.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UIBackend.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/WindowBackend.hpp
 
 	#Compute
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.hpp

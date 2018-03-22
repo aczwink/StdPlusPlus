@@ -20,12 +20,10 @@
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
+#include <Std++/_Backends/UIBackend.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
-
-//Prototypes
-void LoadOpenGL();
 
 //Constructor
 RenderTargetWidget::RenderTargetWidget(WidgetContainer *pParent) : WidgetContainer(pParent)
@@ -33,19 +31,14 @@ RenderTargetWidget::RenderTargetWidget(WidgetContainer *pParent) : WidgetContain
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-    LoadOpenGL();
-
-    this->CreateOSHandle();
-
-    this->deviceContext = new Rendering::DeviceContext(*this, 4);
+    this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::RenderTarget, this);
+	this->deviceContext = this->backend->GetUIBackend()->renderBackends.GetActiveBackend()->CreateDeviceContext(*this->backend, 4);
 }
 
 //Destructor
 RenderTargetWidget::~RenderTargetWidget()
 {
-	this->System_Destroy();
-
-    delete this->deviceContext;
+	delete this->deviceContext;
 }
 
 //Eventhandlers

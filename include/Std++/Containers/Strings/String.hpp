@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Array/DynamicArray.hpp>
 #include "../../Debug.h"
 #include "../../Definitions.h"
 #include "../../Natural.hpp"
@@ -280,6 +281,12 @@ namespace StdPlusPlus
 			}
 		}
 
+		inline DynamicArray<String> Split(const String &seperator) const
+		{
+			NOT_IMPLEMENTED_ERROR;
+			return {};
+		}
+
 		inline int64 ToInt() const
 		{
 			NOT_IMPLEMENTED_ERROR;
@@ -289,6 +296,12 @@ namespace StdPlusPlus
 		inline uint32 ToUInt32() const
 		{
 			return static_cast<uint32>(this->ToUInt());
+		}
+
+		inline float32 ToFloat32() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO implement me
+			return -1;
 		}
 
 		//Functions

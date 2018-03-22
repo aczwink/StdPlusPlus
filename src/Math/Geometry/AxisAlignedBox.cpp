@@ -23,7 +23,8 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Public methods
-bool AxisAlignedBox::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const
+template <typename ScalarType>
+bool AxisAlignedBox<ScalarType>::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const
 {
 	float32 tmin, tmax;
 	vec4f32 t0, t1;
@@ -50,7 +51,8 @@ bool AxisAlignedBox::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir)
 	return MAX(tmin, 0) <= tmax;
 }
 
-void AxisAlignedBox::Merge(const Vector3 &refV)
+template <typename ScalarType>
+void AxisAlignedBox<ScalarType>::Merge(const Vector3<ScalarType> &refV)
 {
 	if(refV.x < this->min.x)
 		this->min.x = refV.x;
@@ -67,7 +69,8 @@ void AxisAlignedBox::Merge(const Vector3 &refV)
 		this->max.z = refV.z;
 }
 
-float32 AxisAlignedBox::SquaredDistanceTo(const vec4f32 &refPoint) const
+template <typename ScalarType>
+float32 AxisAlignedBox<ScalarType>::SquaredDistanceTo(const vec4f32 &refPoint) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;

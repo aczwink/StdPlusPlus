@@ -103,7 +103,7 @@ void FlatVectorPath::ComputePointAttributes()
 		this->points[index].dir = this->points[nextIndex].pos - this->points[index].pos;
 
 		this->points[index].length = this->points[index].dir.Length();
-		this->points[index].dir = this->points[index].dir.Normalize();
+		this->points[index].dir = this->points[index].dir.Normalized();
 
 		index = nextIndex++;
 	}

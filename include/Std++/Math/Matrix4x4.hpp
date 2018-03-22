@@ -30,19 +30,26 @@ namespace StdPlusPlus
     namespace Math
     {
         //Move declarations
+        template <typename ScalarType>
         class Matrix3x3;
+		template <typename ScalarType>
         class Vector3;
+		template <typename ScalarType>
         class Vector4;
 
+		template <typename ScalarType>
         class STDPLUSPLUS_API Matrix4x4
         {
+			typedef Vector3<ScalarType> vec3;
+			typedef Vector4<ScalarType> vec4;
+			typedef Matrix4x4<ScalarType> mat4;
         public:
             //Constructors
             inline Matrix4x4()
             {
             }
 
-            inline Matrix4x4(const Vector4 &refCol1, const Vector4 &refCol2, const Vector4 &refCol3, const Vector4 &refCol4)
+            inline Matrix4x4(const vec4 &refCol1, const vec4 &refCol2, const vec4 &refCol3, const vec4 &refCol4)
             {
                 this->columns[0] = refCol1;
                 this->columns[1] = refCol2;
@@ -50,12 +57,12 @@ namespace StdPlusPlus
                 this->columns[3] = refCol4;
             }
 
-            Matrix4x4(const Matrix3x3 &refMatrix);
+            Matrix4x4(const Matrix3x3<ScalarType> &refMatrix);
 
             //Operators
             Matrix4x4 operator*(float32 right) const;
             vec4f32 operator*(const vec4f32 &refRight) const;
-            Vector4 operator*(const Vector4 &rhs) const;
+			vec4 operator*(const vec4 &rhs) const;
             Matrix4x4 operator*(const Matrix4x4 &refRight) const;
 
             //Inline operators
@@ -73,14 +80,14 @@ namespace StdPlusPlus
                 return this->columns[col][row];
             }
 
-            inline Vector4 &operator[](uint8 col)
+            inline vec4 &operator[](uint8 col)
             {
                 ASSERT(col < 4, "Column must be < 4");
 
                 return this->columns[col];
             }
 
-            inline const Vector4 &operator[](uint8 col) const
+            inline const vec4 &operator[](uint8 col) const
             {
                 ASSERT(col < 4, "Column must be < 4");
 
@@ -100,7 +107,7 @@ namespace StdPlusPlus
 
             //Functions
             static Matrix4x4 Identity();
-            static Matrix4x4 LookAtRH(const Vector3 &refCamPos, const Vector3 &refCamTarget, const Vector3 &refCamUpVector);
+            static Matrix4x4 LookAtRH(const vec3 &refCamPos, const vec3 &refCamTarget, const vec3 &refCamUpVector);
             static Matrix4x4 OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar);
             static Matrix4x4 PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
             static Matrix4x4 RotationX(const Radian &refAngle);
@@ -109,11 +116,13 @@ namespace StdPlusPlus
             static Matrix4x4 RotationZ(const Radian &refAngle);
             static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
             static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
-            static Matrix4x4 Translation(const Vector3 &refVector);
+            static Matrix4x4 Translation(const vec3 &refVector);
 
         private:
             //Members
-            Vector4 columns[4];
+            vec4 columns[4];
         };
+
+		typedef Matrix4x4<float32> Matrix4s;
     }
 }

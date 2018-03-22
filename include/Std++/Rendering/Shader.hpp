@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/ByteString.hpp"
+#include "../Containers/Strings/String.hpp"
 #include "../Definitions.h"
 #include "../Streams/SeekableInputStream.hpp"
 
@@ -42,7 +42,7 @@ namespace StdPlusPlus
 
             //Abstract
             virtual bool Compile(SeekableInputStream &refSource) = 0;
-            virtual StdPlusPlus::ByteString GetCompilationLog() = 0;
+            virtual StdPlusPlus::String GetCompilationLog() = 0;
         };
     }
 }

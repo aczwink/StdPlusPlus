@@ -125,12 +125,6 @@ int64 StdPlusPlus::StringToInt64(const OldString &refString)
     return StringToUInt64(refString);
 }
 
-uint64 StdPlusPlus::StringToUInt64(const ByteString &string)
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: deprecated
-	return 0;
-}
-
 uint64 StdPlusPlus::StringToUInt64(const OldString &refString)
 {
     uint32 i;

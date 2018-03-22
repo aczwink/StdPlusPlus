@@ -212,6 +212,7 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 			parent = parent->GetParent();
 		}
 
-		gtk_widget_size_allocate(gtkWidget, allocation);
+		if(gtk_widget_get_realized(gtkWidget))
+			gtk_widget_size_allocate(gtkWidget, allocation);
 	}
 }

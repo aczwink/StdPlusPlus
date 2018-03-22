@@ -21,7 +21,7 @@
 #include "../Color.hpp"
 #include "../Containers/Strings/ByteString.hpp"
 #include "../Math/Matrix2x2.hpp"
-#include "../Math/Geometry/CMatrix3x3.h"
+#include "../Math/Matrix3x3.hpp"
 #include "../Math/Matrix4x4.hpp"
 #include "../Math/Vector2.hpp"
 #include "../Math/Vector3.hpp"
@@ -47,12 +47,12 @@ namespace StdPlusPlus
             virtual void SetUniformValue(uint32 varId, int32 value) = 0;
             virtual void SetUniformValue(uint32 varId, uint32 value) = 0;
             virtual void SetUniformValue(uint32 varId, float32 value) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector2 &refVector) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector3 &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector2s &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector3s &refVector) = 0;
             virtual void SetUniformValue(uint32 varId, const Color &refColor) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix2x2 &refMatrix) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::CMatrix3x3 &refMatrix) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix4x4 &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix2s &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix3s &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix4s &refMatrix) = 0;
         };
     }
 }

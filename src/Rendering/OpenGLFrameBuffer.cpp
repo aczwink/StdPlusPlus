@@ -17,36 +17,36 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CFrameBuffer.h"
+#include "../../src_backends/OpenGL/Rendering/OpenGLFrameBuffer.hpp"
 //Local
-#include "CTexture2D.h"
+#include "../../src_backends/OpenGL/Rendering/OpenGLTexture2D.hpp"
 
 //Static fields
-uint32 CFrameBuffer::currentFBO;
+uint32 OpenGLFrameBuffer::currentFBO;
 
 //Destructor
-CFrameBuffer::~CFrameBuffer()
+OpenGLFrameBuffer::~OpenGLFrameBuffer()
 {
     glDeleteFramebuffers(1, &this->id);
 }
 
 //Public methods
-uint32 CFrameBuffer::GetStatus() const
+uint32 OpenGLFrameBuffer::GetStatus() const
 {
     this->Bind();
 
     return glCheckFramebufferStatus(GL_FRAMEBUFFER);
 }
 
-void CFrameBuffer::SetColorBuffer(Texture2D *pTexture)
+void OpenGLFrameBuffer::SetColorBuffer(Texture2D *pTexture)
 {
     this->Bind();
 
     if(pTexture)
     {
-        CTexture2D *pGL_Texture;
+        OpenGLTexture2D *pGL_Texture;
 
-        pGL_Texture = (CTexture2D *)pTexture;
+        pGL_Texture = (OpenGLTexture2D *)pTexture;
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pGL_Texture->GetId(), 0);
     }
@@ -58,13 +58,13 @@ void CFrameBuffer::SetColorBuffer(Texture2D *pTexture)
     }
 }
 
-void CFrameBuffer::SetDepthBuffer(Texture2D *pTexture)
+void OpenGLFrameBuffer::SetDepthBuffer(Texture2D *pTexture)
 {
     if(pTexture)
     {
-        CTexture2D *pGL_Texture;
+        OpenGLTexture2D *pGL_Texture;
 
-        pGL_Texture = (CTexture2D *)pTexture;
+        pGL_Texture = (OpenGLTexture2D *)pTexture;
 
         this->Bind();
 

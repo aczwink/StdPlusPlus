@@ -18,46 +18,34 @@
  */
 #pragma once
 //Local
+#include <Std++/Rendering/VertexBuffer.hpp>
 #include <Std++/Rendering/DeviceContext.hpp>
-#include <Std++/Rendering/IndexBuffer.hpp>
-#include "OpenGL.h"
+#include "../GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-class OpenGLIndexBuffer : public IndexBuffer
+class OpenGLVertexBuffer : public VertexBuffer
 {
 private:
     //Members
     uint32 id;
-    uint32 nIndices;
-    bool isShort;
-	AllocationPolicy policy;
+    AllocationPolicy policy;
 
 public:
     //Constructor
-    OpenGLIndexBuffer(AllocationPolicy policy);
+    OpenGLVertexBuffer(AllocationPolicy policy);
 
     //Destructor
-    ~OpenGLIndexBuffer();
+    ~OpenGLVertexBuffer();
 
     //Methods
-    void Allocate(uint32 nIndices, const uint16 *pIndices);
-    void Allocate(uint32 nIndices, const uint32 *pIndices);
+    void Allocate(uint32 nVertices, uint32 vertexSize, const void *pData);
+    void Write(uint32 offset, uint32 size, const void *data);
 
     //Inline
     inline void Bind() const
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
-    }
-
-    inline uint32 GetNumberOfIndices() const
-    {
-        return this->nIndices;
-    }
-
-    inline bool IndicesShort() const
-    {
-        return this->isShort;
+        glBindBuffer(GL_ARRAY_BUFFER, this->id);
     }
 };

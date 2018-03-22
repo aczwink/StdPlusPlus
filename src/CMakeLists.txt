@@ -82,18 +82,15 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.cpp
 
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CCubeMap.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLCubeMap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CFrameBuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLFrameBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLInputState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CShaderProgram.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CTexture2D.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShaderProgram.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
 	#Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.cpp

@@ -44,7 +44,7 @@ namespace StdPlusPlus
 		//Operators
 		TextReader &operator>>(uint32 &i);
 		TextReader &operator>>(float32 &f);
-		TextReader &operator>>(ByteString &target);
+		TextReader &operator>>(String &target);
 
         //Methods
 		/**
@@ -66,7 +66,7 @@ namespace StdPlusPlus
 		TextCodec *codec;
 
 		//Methods
-		bool IsWhitespace(byte b);
-		byte SkipWhitespaces();
+		bool IsWhitespace(uint32 codePoint);
+		uint32 SkipWhitespaces();
     };
 }

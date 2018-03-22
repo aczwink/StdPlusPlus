@@ -19,27 +19,27 @@
 #pragma once
 //Local
 #include <Std++/Rendering/ShaderProgram.hpp>
-#include "OpenGL.h"
+#include "../GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 using namespace StdPlusPlus::Rendering;
 
-class CShaderProgram : public ShaderProgram
+class OpenGLShaderProgram : public ShaderProgram
 {
 private:
     //Members
     uint32 id;
 
     //Static members
-    static const CShaderProgram *pCurrentProgram;
+    static const OpenGLShaderProgram *pCurrentProgram;
 
 public:
     //Constructor
-    CShaderProgram();
+    OpenGLShaderProgram();
 
     //Destructor
-    ~CShaderProgram();
+    ~OpenGLShaderProgram();
 
     //Methods
     void AttachShader(const Shader *pShader);
@@ -49,20 +49,20 @@ public:
     void SetUniformValue(uint32 varId, int32 value);
     void SetUniformValue(uint32 varId, uint32 value);
     void SetUniformValue(uint32 varId, float32 value);
-    void SetUniformValue(uint32 varId, const Vector2 &refVector);
-    void SetUniformValue(uint32 varId, const Vector3 &refVector);
+    void SetUniformValue(uint32 varId, const Vector2s &refVector);
+    void SetUniformValue(uint32 varId, const Vector3s &refVector);
     void SetUniformValue(uint32 varId, const Color &refColor);
-    void SetUniformValue(uint32 varId, const Matrix2x2 &refMatrix);
-    void SetUniformValue(uint32 varId, const CMatrix3x3 &refMatrix);
-    void SetUniformValue(uint32 varId, const Matrix4x4 &refMatrix);
+    void SetUniformValue(uint32 varId, const Matrix2s &refMatrix);
+    void SetUniformValue(uint32 varId, const Matrix3s &refMatrix);
+    void SetUniformValue(uint32 varId, const Matrix4s &refMatrix);
 
     //Inline
     inline void Use() const
     {
-        if(this != CShaderProgram::pCurrentProgram)
+        if(this != OpenGLShaderProgram::pCurrentProgram)
         {
             glUseProgram(this->id);
-            CShaderProgram::pCurrentProgram = this;
+            OpenGLShaderProgram::pCurrentProgram = this;
         }
     }
 };

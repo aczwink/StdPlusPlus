@@ -52,7 +52,8 @@ namespace StdPlusPlus
             this->mmValue = _mm_set_pd(y, x);
         }
 
-        inline vec2f64(const Math::Vector2 &refV)
+		template <typename ScalarType>
+        inline vec2f64(const Math::Vector2<ScalarType> &refV)
         {
             this->mmValue = _mm_set_pd(refV.y, refV.x);
         }

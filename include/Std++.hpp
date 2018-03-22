@@ -108,7 +108,6 @@
 #include <Std++/Math/CMatrix.h>
 //Math/Geometry
 #include <Std++/Math/Geometry/AxisAlignedBox.hpp>
-#include <Std++/Math/Geometry/CMatrix3x3.h>
 #include <Std++/Math/Geometry/ObjectIntersection.hpp>
 
 //Multimedia

@@ -16,77 +16,75 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include "../Containers/PriorityQueue.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../__InitAndShutdown.h"
-#include "Backend.hpp"
-#include "ComputeBackend.hpp"
 
 namespace StdPlusPlus
 {
+	template<typename BackendClassType>
 	class BackendManager
 	{
 		friend void ::ShutdownStdPlusPlus();
 	public:
+		//Constructor
+		inline BackendManager() : activeBackend(nullptr)
+		{
+		}
+
+		//Destructor
+		inline ~BackendManager()
+		{
+			this->ReleaseAll();
+		}
+
 		//Inline
-		inline Backend *GetActiveBackend(BackendType type)
+		inline BackendClassType *GetActiveBackend()
 		{
-			if(!this->activeBackends.Contains(type))
-				this->SetActiveBackend(this->GetPreferredBackend(type));
-
-			return this->activeBackends[type];
+			if(this->activeBackend == nullptr)
+				this->SetActiveBackend(this->GetPreferredBackend());
+			return this->activeBackend;
 		}
 
-		inline ComputeBackend *GetActiveComputeBackend()
+		inline void RegisterBackend(BackendClassType *backend, uint32 priority)
 		{
-			return static_cast<ComputeBackend *>(this->GetActiveBackend(BackendType::Compute));
+			this->backends.Insert(priority, backend);
 		}
 
-		inline void SetActiveBackend(Backend *backend)
+		inline void SetActiveBackend(BackendClassType *backend)
 		{
-			if(this->activeBackends.Contains(backend->GetType()))
-				this->activeBackends[backend->GetType()]->Unload();
-
+			if(this->activeBackend != nullptr)
+				this->activeBackend->Unload();
 			backend->Load();
-			this->activeBackends[backend->GetType()] = backend;
+			this->activeBackend = backend;
 		}
 
 		//Inline functions
-		static BackendManager &GetInstance()
+		static BackendManager<BackendClassType> &GetRootInstance()
 		{
-			static BackendManager instance;
+			static BackendManager<BackendClassType> instance;
 
 			return instance;
 		}
 
 	private:
 		//Members
-		Map<BackendType, PriorityQueue<Backend *>> backends;
-		Map<BackendType, Backend *> activeBackends;
-
-		//Constructor
-		inline BackendManager()
-		{
-			this->RegisterBackends();
-		}
-
-		//Methods
-		void RegisterBackends();
+		PriorityQueue<BackendClassType *> backends;
+		BackendClassType *activeBackend;
 
 		//Inline
-		inline Backend *GetPreferredBackend(BackendType type) const
+		inline BackendClassType *GetPreferredBackend() const
 		{
-			return this->backends[type].GetFirst();
+			return this->backends.GetFirst();
 		}
 
 		inline void ReleaseAll()
 		{
-			for(auto &kv : this->backends)
-				while(!kv.value.IsEmpty())
-					delete kv.value.PopFirst();
+			while(!this->backends.IsEmpty())
+				delete this->backends.PopFirst();
 			this->backends.Release();
-			this->activeBackends.Release();
 		}
 	};
 }

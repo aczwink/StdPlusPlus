@@ -17,14 +17,15 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CShader.h"
+#include "OpenGLShader.hpp"
 //Local
 #include <Std++/Debug.h>
 #include <Std++/Memory.h>
-#include "OpenGL.h"
+#include <Std++/Containers/Array/FixedArray.hpp>
+#include "../GLFunctions.h"
 
 //Constructor
-CShader::CShader(Shader::ShaderType type)
+OpenGLShader::OpenGLShader(Shader::ShaderType type)
 {
     switch(type)
     {
@@ -43,13 +44,13 @@ CShader::CShader(Shader::ShaderType type)
 }
 
 //Destructor
-CShader::~CShader()
+OpenGLShader::~OpenGLShader()
 {
     glDeleteShader(this->id);
 }
 
 //Public methods
-bool CShader::Compile(SeekableInputStream &refSource)
+bool OpenGLShader::Compile(SeekableInputStream &refSource)
 {
     byte *pShaderText;
     int32 result;
@@ -70,14 +71,12 @@ bool CShader::Compile(SeekableInputStream &refSource)
     return result != 0;
 }
 
-ByteString CShader::GetCompilationLog()
+String OpenGLShader::GetCompilationLog()
 {
     GLint len;
-    ByteString result;
-
     glGetShaderiv(this->id, GL_INFO_LOG_LENGTH, &len);
-    result.Resize(len - 1);
-    glGetShaderInfoLog(this->id, len, NULL, (char *)result.GetC_Str());
+    FixedArray<char> msg(static_cast<uint32>(len - 1));
+    glGetShaderInfoLog(this->id, len, nullptr, &msg[0]);
 
-    return result;
+	return String::CopyRawString(&msg[0]);
 }

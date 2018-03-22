@@ -64,7 +64,7 @@ namespace StdPlusPlus
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::Vector2);
+                this->offset += sizeof(Math::Vector2s);
             }
 
             inline void AddAttribute3()
@@ -73,7 +73,7 @@ namespace StdPlusPlus
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::Vector3);
+                this->offset += sizeof(Math::Vector3s);
             }
 
             inline const SInputAttribute &GetAttribute(uint8 index) const

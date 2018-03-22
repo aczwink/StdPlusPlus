@@ -24,6 +24,9 @@ Like this, code is more reusable.
 The following Compute-backends are currently implemented:
 * OpenCL
 
+The following Render-backends are currently implemented:
+* OpenGL
+
 The following UI-backends are currently implemented:
 * GTK 3
 * Common Controls Library (Windows)

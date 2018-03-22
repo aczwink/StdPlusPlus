@@ -37,7 +37,7 @@ namespace StdPlusPlus
             {
                 float64 miterLimit;
                 ELineCap lineCap;
-                Math::Matrix2x2 transform;
+                Math::Matrix2s transform;
 
                 Color fillColor;
 
@@ -54,7 +54,7 @@ namespace StdPlusPlus
 
             struct SVertex
             {
-                Math::Vector2 position;
+                Math::Vector2s position;
             };
 
         public:
@@ -125,8 +125,8 @@ namespace StdPlusPlus
 			bool freeCurrentPath;
 			DynamicArray<FlatVectorPath *> pathCache;
 			DynamicArray<SPathAttributes> pathAttributes;
-			Math::Vector2 boundingRectMin;
-			Math::Vector2 boundingRectMax;
+			Math::Vector2s boundingRectMin;
+			Math::Vector2s boundingRectMax;
 
 			//Abstract
 			virtual void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = 0;

@@ -17,10 +17,10 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CTexture2D.h"
+#include "../../src_backends/OpenGL/Rendering/OpenGLTexture2D.hpp"
 
 //Constructor
-CTexture2D::CTexture2D()
+OpenGLTexture2D::OpenGLTexture2D()
 {
     glGenTextures(1, &this->id);
 
@@ -32,13 +32,13 @@ CTexture2D::CTexture2D()
 }
 
 //Destructor
-CTexture2D::~CTexture2D()
+OpenGLTexture2D::~OpenGLTexture2D()
 {
     glDeleteTextures(1, &this->id);
 }
 
 //Public methods
-void CTexture2D::AllocateDepth(uint16 width, uint16 height)
+void OpenGLTexture2D::AllocateDepth(uint16 width, uint16 height)
 {
     this->Bind();
 
@@ -49,7 +49,7 @@ void CTexture2D::AllocateDepth(uint16 width, uint16 height)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 }
 
-void CTexture2D::AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLTexture2D::AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
@@ -60,7 +60,7 @@ void CTexture2D::AllocateDXT1(uint16 width, uint16 height, const void *pCompress
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void CTexture2D::AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData)
+void OpenGLTexture2D::AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData)
 {
     this->Bind();
 
@@ -71,7 +71,7 @@ void CTexture2D::AllocateDXT5(uint16 width, uint16 height, const void *pCompress
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void CTexture2D::AllocateRGB(const Size &size, const void *pColorData)
+void OpenGLTexture2D::AllocateRGB(const Size &size, const void *pColorData)
 {
     this->Bind();
 
@@ -82,7 +82,7 @@ void CTexture2D::AllocateRGB(const Size &size, const void *pColorData)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void CTexture2D::AllocateRGBA(uint16 width, uint16 height, const void *pColorData)
+void OpenGLTexture2D::AllocateRGBA(uint16 width, uint16 height, const void *pColorData)
 {
     this->Bind();
 
@@ -93,26 +93,26 @@ void CTexture2D::AllocateRGBA(uint16 width, uint16 height, const void *pColorDat
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void CTexture2D::GenerateMipMaps()
+void OpenGLTexture2D::GenerateMipMaps()
 {
     this->Bind();
 
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-ETextureType CTexture2D::GetType() const
+ETextureType OpenGLTexture2D::GetType() const
 {
     return ETextureType::Texture_2D;
 }
 
-void CTexture2D::SetMaximumMipMapLevel(uint16 level)
+void OpenGLTexture2D::SetMaximumMipMapLevel(uint16 level)
 {
     this->Bind();
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, level);
 }
 
-void CTexture2D::UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Vector3 *pColorData)
+void OpenGLTexture2D::UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Vector3s *pColorData)
 {
     this->Bind();
 

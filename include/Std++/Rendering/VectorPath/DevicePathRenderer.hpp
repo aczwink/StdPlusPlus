@@ -64,7 +64,7 @@ namespace StdPlusPlus
             //Inline
             inline void Scale(float32 scaleX, float32 scaleY)
             {
-                this->state.transform = Math::Matrix2x2::Scale(scaleX, scaleY) * this->state.transform;
+                this->state.transform = Math::Matrix2s::Scale(scaleX, scaleY) * this->state.transform;
             }
 
             inline void SetFillColor(const Color &refFillColor)
@@ -89,7 +89,7 @@ namespace StdPlusPlus
 
             inline void SetViewPort(const Size &size)
             {
-                this->viewSize = Math::Vector2(size.width, size.height);
+                this->viewSize = Math::Vector2s(size.width, size.height);
             }
 
         private:
@@ -99,7 +99,7 @@ namespace StdPlusPlus
             InputState *pInputState;
             VertexBuffer *pVertexBuffer;
             ITexture *pTexture;
-            Math::Vector2 viewSize;
+            Math::Vector2s viewSize;
 
             DeviceContext &refDC;
 

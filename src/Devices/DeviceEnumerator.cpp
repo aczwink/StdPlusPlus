@@ -20,6 +20,7 @@
 #include <Std++/Devices/DeviceEnumerator.hpp>
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -29,7 +30,7 @@ DeviceEnumerator::DeviceEnumerator(DeviceType filter)
 	switch(filter)
 	{
 		case DeviceType::Compute:
-			this->state = BackendManager::GetInstance().GetActiveComputeBackend()->GetDeviceEnumeratorState();
+			this->state = BackendManager<ComputeBackend>::GetRootInstance().GetActiveBackend()->GetDeviceEnumeratorState();
 			break;
 	}
 }

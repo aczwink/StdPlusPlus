@@ -32,13 +32,12 @@ namespace StdPlusPlus
     {
         class STDPLUSPLUS_API RenderTargetWidget : public WidgetContainer
         {
-        private:
-            //Eventhandlers
-            virtual void OnPaint();
+        public:
+            //Constructor
+            RenderTargetWidget(WidgetContainer *pParent);
 
-            //Methods
-            void CreateOSHandle();
-            void System_Destroy();
+            //Destructor
+            ~RenderTargetWidget();
 
         protected:
             //Members
@@ -47,12 +46,9 @@ namespace StdPlusPlus
             //Eventhandlers
             virtual void OnResized();
 
-        public:
-            //Constructor
-            RenderTargetWidget(WidgetContainer *pParent);
-
-            //Destructor
-            ~RenderTargetWidget();
+        private:
+            //Eventhandlers
+            virtual void OnPaint();
         };
     }
 }

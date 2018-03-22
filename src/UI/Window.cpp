@@ -34,7 +34,7 @@ Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 
 	//position and size
     const float64 shrinkPercentage = -0.1;
@@ -55,7 +55,7 @@ Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 	this->SetBounds(refRect);
 }
 
@@ -65,7 +65,7 @@ Window::Window(uint16 width, uint16 height, ERenderMode mode) : WidgetContainer(
     this->pOSDropTarget = nullptr;
     this->renderMode = mode;
 
-	this->backend = ((UIBackend *)BackendManager::GetInstance().GetActiveBackend(BackendType::UI))->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
 
 	//position and size
     Size screenSize = GetRenderTarget(mode).GetSize();

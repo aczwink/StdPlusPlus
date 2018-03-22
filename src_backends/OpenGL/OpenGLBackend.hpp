@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Widget.hpp>
-//Global
-#include <gtk/gtk.h>
+#ifdef _STDPLUSPLUS_BACKEND_OPENGL
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
-#include "Gtk.h"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+#include <Std++/_Backends/RenderBackend.hpp>
 
-//Global variables
-extern bool g_ignoreEvent;
-
-//Proctected methods
-void Widget::IgnoreEvent()
+namespace StdPlusPlus
 {
-	g_ignoreEvent = true;
+	typedef void *(*GL_EXT_LOADER)(const char *extensionName);
+
+	class OpenGLBackend : public RenderBackend
+	{
+	public:
+		//Constructor
+		OpenGLBackend(GL_EXT_LOADER extensionLoaderFunction);
+
+		//Methods
+		void Load() override;
+
+	private:
+		//Members
+		bool extensionsLoaded;
+		GL_EXT_LOADER extensionLoaderFunction;
+
+		//Methods
+		void LoadOpenGLExtensions();
+	};
 }
+#endif

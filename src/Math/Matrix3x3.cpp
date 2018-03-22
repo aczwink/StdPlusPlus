@@ -25,7 +25,8 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 
 //Constructor
-Matrix3x3::Matrix3x3(const Matrix4x4 &refMat)
+template <typename ScalarType>
+Matrix3x3<ScalarType>::Matrix3x3(const Matrix4x4<ScalarType> &refMat)
 {
 	this->columns[0] = refMat[0];
 	this->columns[1] = refMat[1];
