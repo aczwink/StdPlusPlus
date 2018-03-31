@@ -222,11 +222,6 @@ namespace StdPlusPlus
             return UTF16String(this->pStr16->GetC_Str() + beginOffset, length);
         }
 
-		inline float64 ToFloat() const
-		{
-			return this->pStr16->ToFloat();
-		}
-
         inline OldString ToLowercase() const
         {
             return this->pStr16->ToLowercase();

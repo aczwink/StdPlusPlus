@@ -130,11 +130,19 @@ namespace StdPlusPlus
                 return this->x * this->x + this->y * this->y;
             }
 
+            inline vec2 &Normalize()
+            {
+                *this = this->Normalized();
+                return *this;
+            }
+
             inline vec2 Normalized() const
             {
 				ScalarType length = this->Length();
                 return vec2(this->x / length, this->y / length);
             }
+
+			inline vec2 Rotate(ScalarType angle) const;
         };
 
         //Binary operators

@@ -113,25 +113,6 @@ void ByteString::Resize(uint32 newLength)
     }
 }
 
-LinkedList<ByteString> ByteString::Split(const ByteString &refDelimiter) const
-{
-    LinkedList<ByteString> result;
-    int32 pos, oldPos = 0;
-
-    while((pos = this->Find(refDelimiter, oldPos)) != Natural<uint32>::Max())
-    {
-        result.InsertTail(this->SubString(oldPos, pos - oldPos));
-        oldPos = pos + refDelimiter.GetLength();
-    }
-
-    if(this->GetLength() - oldPos != 0)
-    {
-        result.InsertTail(this->SubString(oldPos, this->GetLength() - oldPos));
-    }
-
-    return result;
-}
-
 ByteString ByteString::SubString(uint32 beginOffset, uint32 length) const
 {
     ByteString buffer;

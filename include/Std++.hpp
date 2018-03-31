@@ -54,6 +54,7 @@
 #include <Std++/Math/Matrix3x3.hpp>
 #include <Std++/Math/Matrix4x4.hpp>
 #include <Std++/Math/Vector2.hpp>
+#include <Std++/Math/Vector2.inl>
 #include <Std++/Math/Vector3.hpp>
 #include <Std++/Math/Vector4.hpp>
 

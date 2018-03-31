@@ -22,16 +22,16 @@
 
 namespace StdPlusPlus
 {
-	inline bool IsWhiteSpaceChar(char c)
+	inline bool IsWhiteSpaceChar(uint32 codePoint)
 	{
-		switch(c)
+		switch(codePoint)
 		{
-			case u8'\t':
 			case u8' ':
+			case u8'\t':
 				return true;
 		}
 
-		return IN_RANGE(c, 0xA, 0xD); //\n, \v, \f, \r
+		return IN_RANGE(codePoint, 0xA, 0xD); //\n, \v, \f, \r
 	}
 
 	inline uint32 ToLowercase(uint32 codePoint)

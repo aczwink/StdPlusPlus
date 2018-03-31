@@ -92,7 +92,6 @@ namespace StdPlusPlus
         using FixedCharLengthString<char>::FindReverse;
         int32 FindReverse(const ByteString &refSearch, uint32 startPos = Natural<uint32>::Max()) const;
         void Resize(uint32 newLength);
-        LinkedList<ByteString> Split(const ByteString &refDelimiter) const;
         ByteString SubString(uint32 beginOffset, uint32 length) const;
         ByteString ToLowercase() const;
         ByteString ToUppercase() const;

@@ -145,6 +145,11 @@ namespace StdPlusPlus
                 return Vector3(-this->x, -this->y, -this->z);
             }
 
+			inline bool operator==(const vec3 &rhs) const
+			{
+				return this->x == rhs.x && this->y == rhs.y && this->z == rhs.z;
+			}
+
             //Inline
 			inline Vector3 Cross(const Vector3 &rhs) const
 			{
@@ -164,6 +169,12 @@ namespace StdPlusPlus
             {
                 return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
             }
+
+			inline vec3 &Normalize()
+			{
+				*this = this->Normalized();
+				return *this;
+			}
 
             inline vec3 Normalized() const
             {

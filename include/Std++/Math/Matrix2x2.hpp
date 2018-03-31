@@ -27,40 +27,44 @@ namespace StdPlusPlus
         template <typename ScalarType>
         class STDPLUSPLUS_API Matrix2x2
         {
+			typedef Matrix2x2<ScalarType> mat2;
 			typedef Vector2<ScalarType> vec2;
-        private:
-            //Members
-			vec2 columns[2];
 
         public:
             //Operators
             Matrix2x2 operator*(const Matrix2x2 &refRight) const;
+			vec2 operator*(const vec2 &v) const;
 
             //Inline operators
-            inline float32 &operator()(uint8 x, uint8 y)
+            inline ScalarType &operator()(uint8 row, uint8 col)
             {
-                ASSERT(x < 2, "Column must be < 2");
+                ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[x][y];
+                return this->columns[col][row];
             }
 
-            inline const float32 &operator()(uint8 x, uint8 y) const
+            inline const float32 &operator()(uint8 row, uint8 col) const
             {
-                ASSERT(x < 2, "Column must be < 2");
+                ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[x][y];
+                return this->columns[col][row];
             }
 
-            inline vec2 &operator[](uint8 x)
+            inline vec2 &operator[](uint8 col)
             {
-                ASSERT(x < 2, "Column must be < 2");
+                ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[x];
+                return this->columns[col];
             }
 
             //Functions
             static Matrix2x2 Identity();
+			static mat2 Rotate(ScalarType angle);
             static Matrix2x2 Scale(float32 scaleX, float32 scaleY);
+
+		private:
+			//Members
+			vec2 columns[2];
         };
 
 		typedef Matrix2x2<float32> Matrix2s;

@@ -109,11 +109,11 @@ namespace StdPlusPlus
             static Matrix4x4 Identity();
             static Matrix4x4 LookAtRH(const vec3 &refCamPos, const vec3 &refCamTarget, const vec3 &refCamUpVector);
             static Matrix4x4 OrthographicRH(float32 left, float32 right, float32 bottom, float32 top, float32 zNear, float32 zFar);
-            static Matrix4x4 PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
-            static Matrix4x4 RotationX(const Radian &refAngle);
-            static Matrix4x4 RotationY(const Radian &refAngle);
-            static Matrix4x4 RotationYawPitchRoll(const Radian &refYaw, const Radian &refPitch, const Radian &refRoll);
-            static Matrix4x4 RotationZ(const Radian &refAngle);
+            static Matrix4x4 PerspectiveRH(const Degree<ScalarType> &refFovY, float32 aspectRatio, float32 zNear, float32 zFar);
+            static Matrix4x4 RotationX(const Radian<ScalarType> &refAngle);
+            static Matrix4x4 RotationY(const Radian<ScalarType> &refAngle);
+            static Matrix4x4 RotationYawPitchRoll(const Radian<ScalarType> &refYaw, const Radian<ScalarType> &refPitch, const Radian<ScalarType> &refRoll);
+            static Matrix4x4 RotationZ(const Radian<ScalarType> &refAngle);
             static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
             static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
             static Matrix4x4 Translation(const vec3 &refVector);

@@ -201,6 +201,7 @@ namespace StdPlusPlus
 		 */
 		uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 length = Natural<uint32>::Max()) const;
 		String Replace(const String &from, const String &to) const;
+		DynamicArray<String> Split(const String &seperator) const;
 		bool StartsWith(const String &string) const;
 		/**
 		 * Returns the slice defined by the range of 'startPos' and 'length' in character units.
@@ -211,6 +212,7 @@ namespace StdPlusPlus
 		 * @return
 		 */
 		String SubString(uint32 startPos, uint32 length = Natural<uint32>::Max()) const;
+		float64 ToFloat() const;
 		String ToLowercase() const;
 		uint64 ToUInt() const;
 		/**
@@ -225,7 +227,8 @@ namespace StdPlusPlus
 		* @return *this
 		*/
 		const String &ToUTF16() const;
-		
+
+		//Inline
 		inline uint32 GetLength() const
 		{
 			return this->length;
@@ -281,10 +284,9 @@ namespace StdPlusPlus
 			}
 		}
 
-		inline DynamicArray<String> Split(const String &seperator) const
+		inline float32 ToFloat32() const
 		{
-			NOT_IMPLEMENTED_ERROR;
-			return {};
+			return static_cast<float32>(this->ToFloat());
 		}
 
 		inline int64 ToInt() const
@@ -296,12 +298,6 @@ namespace StdPlusPlus
 		inline uint32 ToUInt32() const
 		{
 			return static_cast<uint32>(this->ToUInt());
-		}
-
-		inline float32 ToFloat32() const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO implement me
-			return -1;
 		}
 
 		//Functions

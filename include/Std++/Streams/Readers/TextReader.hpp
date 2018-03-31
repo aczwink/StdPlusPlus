@@ -66,7 +66,6 @@ namespace StdPlusPlus
 		TextCodec *codec;
 
 		//Methods
-		bool IsWhitespace(uint32 codePoint);
 		uint32 SkipWhitespaces();
     };
 }

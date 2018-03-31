@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Debug.h"
-#include "../../Type.hpp"
+#include <Std++/Type.hpp>
 #include "../Container.hpp"
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"

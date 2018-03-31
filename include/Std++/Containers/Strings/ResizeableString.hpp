@@ -32,9 +32,6 @@ namespace StdPlusPlus
 			this->SetAllocationInterval(16);
 		}
 
-		//Methods
-		float64 ToFloat() const;
-
 		//Inline
 		inline void EnsureCapacity(uint32 requiredNumberOfElements)
 		{

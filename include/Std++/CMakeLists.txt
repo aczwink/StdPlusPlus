@@ -1,6 +1,7 @@
 add_subdirectory(_Backends)
 add_subdirectory(Containers)
 add_subdirectory(Filesystem)
+add_subdirectory(Math)
 add_subdirectory(Streams)
 
 set(SOURCE_FILES
@@ -20,23 +21,6 @@ set(SOURCE_FILES
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
-
-	#Math
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/ObjectIntersection.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/Rect.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Degree.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Fraction.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix3x3.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix4x4.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Point.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Radian.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector3.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector4.hpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.hpp

@@ -18,9 +18,7 @@
  */
 #pragma once
 //Local
-#include "../include/Std++/Containers/Array/FixedArray.hpp"
-#include "../include/Std++/Containers/Strings/String.hpp"
-#include "../include/Std++/ErrorHandling/Exception.hpp"
+#include <Std++.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 

@@ -20,6 +20,30 @@
 
 namespace StdPlusPlus
 {
+	//Traits
+	template <typename T, T v>
+	struct IntegralConstant
+	{
+		typedef T ValueType;
+		static constexpr ValueType value = v;
+		constexpr operator ValueType() const noexcept { return value; }
+		constexpr ValueType operator()() const noexcept { return value; }
+	};
+	template<bool B>
+	using BoolConstant = IntegralConstant<bool, B>;
+
+	//EnableIf
+	template <bool, typename T = void>
+	struct EnableIf{};
+	template <typename T>
+	struct EnableIf<true, T> { typedef T type; };
+
+	//IsTrivial
+#ifdef _STDPP_COMPILER_GCC
+	template <typename T>
+	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
+#endif
+
 	//Functions
 	template <typename T>
 	constexpr T &&Move(T &reference)

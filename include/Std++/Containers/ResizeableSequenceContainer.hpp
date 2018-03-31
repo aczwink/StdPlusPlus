@@ -21,6 +21,7 @@
 //Local
 #include "../Debug.h"
 #include "../Memory.h"
+#include "../Type.hpp"
 #include "Container.hpp"
 
 namespace StdPlusPlus
@@ -34,54 +35,28 @@ namespace StdPlusPlus
         {
             this->elementsAllocInterval = 0;
             this->capacity = 0;
-            this->data = NULL;
+            this->data = nullptr;
         }
 
         //Destructor
         virtual ~ResizeableSequenceContainer()
         {
             if(this->data)
-                MemFree(this->data);
+				this->FreeContainer();
         }
 
         //Overwriteable
         virtual void EnsureCapacity(uint32 requiredNumberOfElements)
         {
             if(this->capacity < requiredNumberOfElements)
-            {
-                uint32 newNElements;
-                DataType *pNewBuffer;
-
-                if(this->elementsAllocInterval == 0)
-                {
-                    newNElements = 2 * this->capacity;
-                    if(newNElements < requiredNumberOfElements)
-                        newNElements = requiredNumberOfElements;
-                }
-                else
-                {
-                    uint32 nAllocationIntervals;
-
-                    nAllocationIntervals = requiredNumberOfElements / this->elementsAllocInterval;
-                    if(requiredNumberOfElements % this->elementsAllocInterval)
-                        nAllocationIntervals++;
-
-                    newNElements = nAllocationIntervals * this->elementsAllocInterval;
-                }
-
-                pNewBuffer = (DataType *)MemRealloc(this->data, newNElements * sizeof(DataType));
-                ASSERT(pNewBuffer, "If you see this, report it to StdPlusPlus");
-
-                this->data = pNewBuffer;
-                this->capacity = newNElements;
-            }
-        }
+				this->AllocateContainer(requiredNumberOfElements);
+		}
 
         virtual void Release()
         {
             if(this->data)
             {
-                MemFree(this->data);
+				this->FreeContainer();
                 this->data = nullptr;
             }
             this->capacity = 0;
@@ -120,5 +95,66 @@ namespace StdPlusPlus
         {
             return this->data + this->capacity;
         }
+
+	private:
+		//Inline
+		template <typename T = DataType>
+		typename EnableIf<IsTrivial<T>::value, void>::type
+		inline AllocateContainer(uint32 requiredNumberOfElements)
+		{
+			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
+			DataType *pNewBuffer = (DataType *)MemRealloc(this->data, newElementsCount * sizeof(DataType));
+			ASSERT(pNewBuffer, u8"If you see this, report it to StdPlusPlus");
+
+			this->data = pNewBuffer;
+			this->capacity = newElementsCount;
+		}
+
+		template <typename T = DataType>
+		typename EnableIf<!IsTrivial<T>::value, void>::type
+		inline AllocateContainer(uint32 requiredNumberOfElements)
+		{
+			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
+			DataType *newBuffer = new DataType[newElementsCount];
+			ASSERT(newBuffer, u8"If you see this, report it to StdPlusPlus");
+
+			for(uint32 i = 0; i < this->nElements; i++)
+				newBuffer[i] = this->data[i];
+
+			delete[] this->data;
+			this->data = newBuffer;
+			this->capacity = newElementsCount;
+		}
+
+		template <typename T = DataType>
+		typename EnableIf<IsTrivial<T>::value, void>::type
+		inline FreeContainer()
+		{
+			MemFree(this->data);
+		};
+
+		template <typename T = DataType>
+		typename EnableIf<!IsTrivial<T>::value, void>::type
+		inline FreeContainer()
+		{
+			delete[] this->data;
+		};
+
+		inline uint32 GetAllocationElementsCount(uint32 requiredNumberOfElements)
+		{
+			if(this->elementsAllocInterval == 0)
+			{
+				uint32 newNElements = 2 * this->capacity;
+				if(newNElements < requiredNumberOfElements)
+					newNElements = requiredNumberOfElements;
+				return newNElements;
+			}
+
+			uint32 nAllocationIntervals = requiredNumberOfElements / this->elementsAllocInterval;
+			if(requiredNumberOfElements % this->elementsAllocInterval)
+				nAllocationIntervals++;
+
+			return nAllocationIntervals * this->elementsAllocInterval;
+		}
     };
 }

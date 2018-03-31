@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Radian.hpp>
 #include "Vector3.hpp"
 
 namespace StdPlusPlus
@@ -31,6 +32,7 @@ namespace StdPlusPlus
 		template <typename ScalarType>
 		class Matrix3x3
 		{
+			typedef Matrix3x3<ScalarType> mat3;
 			typedef Vector3<ScalarType> vec3;
 		public:
 			//Constructors
@@ -41,6 +43,8 @@ namespace StdPlusPlus
 			Matrix3x3(const Matrix4x4<ScalarType> &refMat);
 
 			//Operators
+			vec3 operator*(const vec3 &v) const;
+
 			inline vec3 &operator[](uint8 x)
 			{
 				ASSERT(x < 3, "Column must be < 3");
@@ -55,7 +59,6 @@ namespace StdPlusPlus
 				return this->columns[x];
 			}
 
-			//Operators
 			inline ScalarType &operator()(uint8 y, uint8 x)
 			{
 				ASSERT(x < 3, "Column must be < 3");
@@ -70,9 +73,12 @@ namespace StdPlusPlus
 				return this->columns[x][y];
 			}
 
+			//Functions
+			static mat3 Rotation(const Radian<ScalarType> &angle, const vec3 &axis);
+
 		private:
 			//Members
-			vec3 columns[4];
+			vec3 columns[3];
 		};
 
 		typedef Matrix3x3<float32> Matrix3s;

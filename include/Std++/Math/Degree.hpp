@@ -22,9 +22,11 @@
 
 namespace StdPlusPlus
 {
-    //Move declarations
+    //Forward declarations
+    template <typename ScalarType>
     class Radian;
 
+	template <typename ScalarType>
     class STDPLUSPLUS_API Degree
     {
     public:
@@ -42,7 +44,7 @@ namespace StdPlusPlus
             this->value = value;
         }
 
-        Degree(const Radian &refRadian);
+        Degree(const Radian<ScalarType> &refRadian);
 
         //Operators
         inline Degree &operator+=(const Degree &refRight)

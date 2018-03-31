@@ -19,10 +19,7 @@
 //Class Header
 #include <Std++/Streams/Readers/TextReader.hpp>
 //Local
-#include <Std++/Debug.h>
-#include <Std++/Memory.h>
-#include <Std++/Containers/Strings/StringUtil.h>
-#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Char.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -57,7 +54,7 @@ TextReader &TextReader::operator>>(String &target)
 	while(true)
 	{
 		codePoint = this->codec->ReadCodePoint(this->dataReader);
-		if(this->IsWhitespace(codePoint))
+		if(IsWhiteSpaceChar(codePoint))
 			break;
 		target += codePoint;
 
@@ -183,20 +180,6 @@ UTF8String TextReader::ReadUTF8Line()
 }
 
 //Private methods
-bool TextReader::IsWhitespace(uint32 codePoint)
-{
-	switch(codePoint)
-	{
-		case ' ':
-		case '\t':
-		case '\r':
-		case '\n':
-			return true;
-	}
-
-	return false;
-}
-
 uint32 TextReader::SkipWhitespaces()
 {
 	uint32 codePoint;
@@ -205,7 +188,7 @@ uint32 TextReader::SkipWhitespaces()
 		if(this->inputStream.IsAtEnd())
 			return -1;
 		codePoint = this->codec->ReadCodePoint(this->dataReader);
-		if(!this->IsWhitespace(codePoint))
+		if(!IsWhiteSpaceChar(codePoint))
 			break;
 	}
 

@@ -25,7 +25,8 @@
 using namespace StdPlusPlus;
 
 //Constructors
-Radian::Radian(const Degree &refDegree)
+template <typename ScalarType>
+Radian<ScalarType>::Radian(const Degree<ScalarType> &refDegree)
 {
 	this->value = refDegree.value * PI / 180.0;
 }

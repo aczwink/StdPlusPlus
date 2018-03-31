@@ -32,3 +32,6 @@ Vector3<ScalarType>::Vector3(const Vector4<ScalarType> &refV)
 	this->y = refV.y;
 	this->z = refV.z;
 }
+
+//Explicit instantiations
+template class Vector3<float64>;

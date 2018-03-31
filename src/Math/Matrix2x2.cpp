@@ -30,6 +30,22 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::operator*(const Matrix2x2 &refRight
 	return Matrix2x2();
 }
 
+template<typename ScalarType>
+Vector2<ScalarType> Matrix2x2<ScalarType>::operator*(const vec2 &v) const
+{
+	vec2 result;
+	for(uint8 row = 0; row < 2; row++)
+	{
+		ScalarType sum = 0;
+		for(uint8 j = 0; j < 2; j++)
+			sum += this->columns[j][row] * v[j];
+
+		result[row] = sum;
+	}
+
+	return result;
+}
+
 //Class functions
 template <typename ScalarType>
 Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Identity()
@@ -42,6 +58,21 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Identity()
 	return identity;
 }
 
+template<typename ScalarType>
+Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Rotate(ScalarType angle)
+{
+	ScalarType c = cos(angle);
+	ScalarType s = sin(angle);
+
+	mat2 result;
+	result(0, 0) = c;
+	result(0, 1) = -s;
+	result(1, 0) = s;
+	result(1, 1) = c;
+
+	return result;
+}
+
 template <typename ScalarType>
 Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scaleY)
 {
@@ -51,3 +82,4 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scale
 
 //Explicit instantiations
 template class Matrix2x2<float32>;
+template class Matrix2x2<float64>;

@@ -18,8 +18,7 @@
  */
 //Local
 #include "main.hpp"
-#include "../include/Std++/__InitAndShutdown.h"
-#include "../include/Std++/Containers/Strings/String.hpp"
+#include <Std++.hpp>
 
 //Prototypes
 #ifdef _DEBUG

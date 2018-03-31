@@ -225,7 +225,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::OrthographicRH(float32 left, float3
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::PerspectiveRH(const Degree &refFovY, float32 aspectRatio, float32 zNear, float32 zFar)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::PerspectiveRH(const Degree<ScalarType> &refFovY, float32 aspectRatio, float32 zNear, float32 zFar)
 {
 	float32 tanHalfFovY, range;
 	Matrix4x4 perspective;
@@ -244,7 +244,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::PerspectiveRH(const Degree &refFovY
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationX(const Radian &refAngle)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationX(const Radian<ScalarType> &refAngle)
 {
 	Matrix4x4 rotate;
 
@@ -259,7 +259,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationX(const Radian &refAngle)
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationY(const Radian &refAngle)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationY(const Radian<ScalarType> &refAngle)
 {
 	Matrix4x4 rotate;
 
@@ -274,13 +274,13 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationY(const Radian &refAngle)
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationYawPitchRoll(const Radian &refYaw, const Radian &refPitch, const Radian &refRoll)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationYawPitchRoll(const Radian<ScalarType> &refYaw, const Radian<ScalarType> &refPitch, const Radian<ScalarType> &refRoll)
 {
 	return Matrix4x4::RotationX(refPitch) * Matrix4x4::RotationY(refYaw) * Matrix4x4::RotationZ(refRoll);
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationZ(const Radian &refAngle)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationZ(const Radian<ScalarType> &refAngle)
 {
 	Matrix4x4 rotate;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
-using namespace StdPlusPlus;
+#pragma once
+#include "Matrix2x2.hpp"
+#include "Vector2.hpp"
 
-TEST_SUITE(FloatToStringTest)
+namespace StdPlusPlus
 {
-	TEST(BugReports) //where the function failed in practice
+	namespace Math
 	{
-		String str = u8"3.42708e-05";
-
-		ASSERT_FLOATS_EQUAL_64(3.42708e-05, str.ToFloat(), Float<float64>::MachineEpsilon());
+		template<typename ScalarType>
+		Vector2<ScalarType> Vector2<ScalarType>::Rotate(ScalarType angle) const
+		{
+			return Matrix2x2<ScalarType>::Rotate(angle) * (*this);
+		}
 	}
-};
+}
