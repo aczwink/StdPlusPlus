@@ -44,3 +44,6 @@
 #ifdef __GNUC__
 #define _STDPP_COMPILER_GCC
 #endif
+#ifdef _MSC_VER
+#define _STDPP_COMPILER_MSVC
+#endif

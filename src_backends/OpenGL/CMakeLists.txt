@@ -40,4 +40,7 @@ if(${BACKEND_OPENGL})
 		#here we need GLX
 		set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GLX_LIBRARY} PARENT_SCOPE)
 	endif(UNIX)
+    if(MSVC)
+        target_include_directories(Std++ PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/_extheaders") #MSVC does not deliver GL headers
+    endif()
 endif ()
