@@ -6,6 +6,7 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
 		#Filesystem
+		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
 
@@ -38,8 +39,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
-
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 

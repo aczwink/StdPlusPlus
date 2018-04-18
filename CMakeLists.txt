@@ -59,12 +59,17 @@ target_include_directories(Std++ PUBLIC
 	)
 target_link_libraries(Std++ PRIVATE ${STDPLUSPLUS_PRIVATE_LIBRARIES})
 
+if(WIN32)
+	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_EXPORT)
+endif()
+
 
 
 
 
 #---TARGET: Std++Static---
 add_library(Std++Static STATIC src_static/main.cpp src_static/main.hpp src_static/StdPlusPlusMain.cpp src_static/windows.cpp)
+target_include_directories(Std++Static PRIVATE "include")
 
 
 
@@ -105,10 +110,6 @@ endif(USE_LIBAVCODEC)
 add_executable(tests_Std++ ${TEST_FILES})
 
 #platform stuff
-if(WIN32)
-	set_target_properties(Std++ PROPERTIES COMPILE_DEFINITIONS _STDPLUSPLUS_EXPORT)
-endif()
-
 #includes
 target_include_directories(Std++ PRIVATE "ext")
 
@@ -154,11 +155,18 @@ endif()
 #---INSTALLATION---
 
 #install target
-install(TARGETS Std++ Std++Static EXPORT Std++Config
+install(TARGETS Std++ Std++Static EXPORT StdPlusPlusConfig
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         )
-install(EXPORT Std++Config DESTINATION share/Std++/cmake)
+install(EXPORT StdPlusPlusConfig DESTINATION share/Std++/cmake)
+if(WIN32)
+	install(EXPORT StdPlusPlusConfig DESTINATION cmake)
+	#add it to the package registry
+	install(CODE
+		"execute_process(COMMAND reg add \"HKCU\\\\Software\\\\Kitware\\\\CMake\\\\Packages\\\\StdPlusPlus\" /v Path /t REG_SZ /f /d \"${CMAKE_INSTALL_PREFIX}\")"
+	)
+endif(WIN32)
 
 #install public Std++
 function(installHeaderDir sourceDir targetDir)

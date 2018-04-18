@@ -34,6 +34,7 @@ void Widget::IgnoreEvent()
 }
 
 //Public methods
+/*
 void Widget::Repaint()
 {
 	if(this->backend)
@@ -45,7 +46,7 @@ void Widget::Repaint()
 		this->OnPaint();
 	}
 }
-
+*/
 /*
  * void Widget::SetEnabled(bool enable)
 -{

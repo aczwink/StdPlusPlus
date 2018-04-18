@@ -22,8 +22,8 @@
 using namespace StdPlusPlus;
 
 //Public methods
-bool Path::IsDirectory() const
+Path Path::GetAbsolutePath() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return Path();
 }

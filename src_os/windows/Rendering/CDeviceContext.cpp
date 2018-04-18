@@ -22,7 +22,7 @@
 #include <Windows.h>
 //Local
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
-#include "../../../src/Rendering/OpenGL.h"
+#include "../../../src_backends/OpenGL/GLFunctions.h"
 #include "../UI/CFullAccessWidget.h"
 #include "OpenGL.h"
 //Namespaces
@@ -112,6 +112,7 @@ static HGLRC CreateGLContext(HDC hDC, uint8 nSamples)
 }
 
 //Private methods
+/*
 void DeviceContext::BindOSContext() const
 {
 	if(this->deviceState != g_hCurrentGLCtx)
@@ -126,7 +127,7 @@ void DeviceContext::CreateOSContext(const RenderTargetWidget &renderTargetWidget
 	this->systemHandle = GetDC((HWND)GET_HWND(&renderTargetWidget));
 	this->deviceState = CreateGLContext((HDC)this->systemHandle, nSamples);
 	this->screenFrameBufferId = 0; //on windows we have the real screen frame buffer
-}
+}*/
 
 void DeviceContext::DestroyOSContext()
 {
@@ -147,7 +148,8 @@ void DeviceContext::UnbindOSContext()
 //Public methods
 void DeviceContext::SwapBuffers()
 {
-	this->BindOSContext();
+	NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//this->BindOSContext();
 
 	::SwapBuffers((HDC)this->systemHandle);
 }

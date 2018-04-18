@@ -22,28 +22,3 @@
 #include <Std++/ErrorHandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdPlusPlus;
-
-//Constructor
-PathIterator::PathIterator(const Path &path, bool end)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-//Destructor
-PathIterator::~PathIterator()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-//Operators
-PathIterator &PathIterator::operator++()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return *this;
-}
-
-bool PathIterator::operator!=(const PathIterator &other) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}

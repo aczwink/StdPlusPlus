@@ -19,7 +19,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../src/Rendering/OpenGL.h"
+#include "../../../src_backends/OpenGL/GLFunctions.h"
 #include <Std++/Debug.h>
 #include "../UI/Definitions.h"
 #include "OpenGL.h"
@@ -71,7 +71,8 @@ static void InitExtensions(HWND hWnd)
 
 	//load extensions
 	LoadPlatformExtensions();
-	LoadOpenGLExtensions(OpenGL_LoadExtensionWindows);
+	NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//LoadOpenGLExtensions(OpenGL_LoadExtensionWindows);
 
 	//clean up
 	wglMakeCurrent(nullptr, nullptr);

@@ -35,7 +35,7 @@ Matrix3x3<ScalarType>::Matrix3x3(const Matrix4x4<ScalarType> &refMat)
 
 //Operators
 template<typename ScalarType>
-Vector3<ScalarType> Matrix3x3<ScalarType>::operator*(const Matrix3x3::vec3 &v) const
+Vector3<ScalarType> Matrix3x3<ScalarType>::operator*(const vec3 &v) const
 {
 	vec3 result;
 	for(uint8 row = 0; row < 3; row++)
