@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
 project(Std++)
-
 find_package(XP-CMake) #we need advanced cmake modules
 
 #options
@@ -13,27 +12,12 @@ if(OPTFORHOST)
 endif()
 
 
-
-
+#general settings
 #c++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
 
-
-
-
-#debug or release
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-	add_definitions(-D_DEBUG)
-
-	set(CMAKE_DEBUG_POSTFIX "_d")
-elseif(CMAKE_BUILD_TYPE MATCHES Release)
-	#ok
-else()
-	message(FATAL_ERROR "Unknown build type. Must be either 'Debug' or 'Release'")
-endif()
-
-
+Compiler_AutoBuildType()
 
 
 #---TARGET: Std++---
@@ -159,14 +143,7 @@ install(TARGETS Std++ Std++Static EXPORT StdPlusPlusConfig
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         )
-install(EXPORT StdPlusPlusConfig DESTINATION share/Std++/cmake)
-if(WIN32)
-	install(EXPORT StdPlusPlusConfig DESTINATION cmake)
-	#add it to the package registry
-	install(CODE
-		"execute_process(COMMAND reg add \"HKCU\\\\Software\\\\Kitware\\\\CMake\\\\Packages\\\\StdPlusPlus\" /v Path /t REG_SZ /f /d \"${CMAKE_INSTALL_PREFIX}\")"
-	)
-endif(WIN32)
+Install_ExportAndRegisterPackage("StdPlusPlusConfig" "StdPlusPlus")
 
 #install public Std++
 function(installHeaderDir sourceDir targetDir)
