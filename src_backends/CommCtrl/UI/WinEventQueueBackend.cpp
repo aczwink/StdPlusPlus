@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "Window.hpp"
+//Class header
+#include "WinEventQueueBackend.hpp"
+//Global
+#include <Windows.h>
+//Namespaces
+using namespace _stdpp;
 
-namespace StdPlusPlus
+//Public methods
+void WinEventQueueBackend::DispatchPendingEvents()
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API MainAppWindow : public Window
-        {
-        public:
-            //Constructor
-			MainAppWindow();
+	MSG msg;
+	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	{
+		if(msg.message == WM_QUIT)
+			break;
 
-            //Destructor
-			~MainAppWindow();
-        };
-    }
+		DispatchMessage(&msg);
+	}
+}
+
+void WinEventQueueBackend::PostQuitEvent()
+{
+	PostQuitMessage(EXIT_SUCCESS);
+}
+
+void WinEventQueueBackend::WaitForEvents(uint64 minWaitTime_usec)
+{
+	MsgWaitForMultipleObjectsEx(0, nullptr, static_cast<DWORD>(minWaitTime_usec / 1000), QS_ALLINPUT, MWMO_INPUTAVAILABLE);
 }

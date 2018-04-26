@@ -31,8 +31,16 @@ namespace StdPlusPlus
 	class Clock
 	{
 	public:
+		//Constructor
+		Clock();
+
 		//Methods
 		uint64 GetElapsedNanoseconds() const;
+		/**
+		 * Queries the current value of the clock.
+		 * @return in nanoseconds
+		 */
+		uint64 GetCurrentValue() const;
 		/**
 		 * Sets the start point for time differences.
 		 */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "Window.hpp"
+#include <Std++/_Backends/EventQueueBackend.hpp>
+#include <Std++/UI/EventQueue.hpp>
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
-namespace StdPlusPlus
+namespace _stdpp
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API MainAppWindow : public Window
-        {
-        public:
-            //Constructor
-			MainAppWindow();
+	class WinEventQueueBackend : public EventQueueBackend
+	{
+	public:
+		//Constructor
+		inline WinEventQueueBackend(EventQueue &eventQueue) : eventQueue(eventQueue)
+		{
+		}
 
-            //Destructor
-			~MainAppWindow();
-        };
-    }
+		//Methods
+		void DispatchPendingEvents() override;
+		void PostQuitEvent() override;
+		void WaitForEvents(uint64 minWaitTime_usec) override;
+
+	private:
+		//Members
+		EventQueue &eventQueue;
+	};
 }

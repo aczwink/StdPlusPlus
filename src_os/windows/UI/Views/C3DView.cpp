@@ -23,7 +23,6 @@
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
 #include "../CFullAccessWidget.h"
-#include "../Definitions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

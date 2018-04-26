@@ -21,6 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
+#include <Std++/Debug.h>
 #include "TimeConstants.h"
 //Namespaces
 using namespace StdPlusPlus;
@@ -30,8 +31,9 @@ Time::Time()
 {
 	FILETIME ft;
 	TIME_ZONE_INFORMATION timeZoneInfo;
-	
-	GetSystemTimePreciseAsFileTime(&ft);
+
+	NOT_IMPLEMENTED_ERROR; //TODO: next line works only since windows 10	
+	//GetSystemTimePreciseAsFileTime(&ft);
 	this->timeStamp = FileTimeToMilliseconds(ft);
 	GetTimeZoneInformation(&timeZoneInfo);
 

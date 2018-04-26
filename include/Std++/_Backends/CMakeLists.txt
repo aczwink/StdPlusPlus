@@ -6,6 +6,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputeBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DeviceEnumeratorState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIteratorState.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventQueueBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RenderBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WindowBackend.hpp

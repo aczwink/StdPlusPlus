@@ -30,10 +30,10 @@ using namespace StdPlusPlus::UI;
 MainAppWindow::MainAppWindow()
 {
     this->SetMenuBar(new CMenuBar);
+}
 
-    //set event handlers
-    this->onDestroyEventHandler = []()
-    {
-		EventQueue::GetGlobalQueue().Quit();
-    };
+//Destructor
+MainAppWindow::~MainAppWindow()
+{
+	EventQueue::GetGlobalQueue().Quit();
 }

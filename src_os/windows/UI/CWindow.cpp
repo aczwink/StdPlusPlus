@@ -25,7 +25,6 @@
 #include <Std++/UI/Menu/CMenuBar.h>
 #include "../../../src/UI/Render Targets/IRenderTarget.h"
 #include "CDropTarget.h"
-#include "Definitions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -54,18 +53,6 @@ void Window::OnPaint()
 }
 
 //Private methods
-/*
-void Window::CreateOSWindow(const Rect &refRect)
-{
-    this->systemHandle = (void *)CreateWindowExW(0, STDLPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, refRect.x(), refRect.y(), refRect.width(), refRect.height(), NULL, NULL, GetModuleHandle(NULL), this);
-}
-
-void Window::DestroyOSWindow()
-{
-	DestroyWindow((HWND)this->systemHandle);
-}
-*/
-
 void Window::MenuBarChangeOS()
 {
 	MENUINFO mi;
@@ -94,13 +81,6 @@ void Window::Maximize()
 {
 	ShowWindow((HWND)this->backend, SW_MAXIMIZE);
 }
-
-/*
-void Window::SetTitle(const String &refTitle)
-{
-	SendMessageW((HWND)this->backend, WM_SETTEXT, 0, (LPARAM)refTitle.ToUTF16().GetRawZeroTerminatedData());
-}
-*/
 
 /*
 void Window::ShowErrorBox(const String &refTitle, const String &refMessage)

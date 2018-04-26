@@ -17,12 +17,12 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include "CWinMessageEventQueue.h"
+#include "WinMessageEventQueue.hpp"
 //Global
 #include <CommCtrl.h>
 //Local
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
-#include "CFullAccessWidget.h"
+#include "../../../src_os/windows/UI/CFullAccessWidget.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -32,7 +32,7 @@ bool g_ignoreMessage;
 LRESULT g_messageResult;
 
 //Private functions
-void CWinMessageEventQueue::DispatchControlEvent(Widget &refWidget, UINT notificationCode)
+void WinMessageEventQueue::DispatchControlEvent(Widget &refWidget, UINT notificationCode)
 {
 	switch(notificationCode)
 	{
@@ -62,7 +62,7 @@ void CWinMessageEventQueue::DispatchControlEvent(Widget &refWidget, UINT notific
 	}
 }
 
-void CWinMessageEventQueue::DispatchNotificationEvent(Widget &refWidget, const NMHDR &refNmHdr)
+void WinMessageEventQueue::DispatchNotificationEvent(Widget &refWidget, const NMHDR &refNmHdr)
 {
 	switch(refNmHdr.code)
 	{
@@ -76,7 +76,7 @@ void CWinMessageEventQueue::DispatchNotificationEvent(Widget &refWidget, const N
 	}
 }
 
-bool CWinMessageEventQueue::DispatchEvent(Widget &refWidget, UINT message, WPARAM wParam, LPARAM lParam)
+bool WinMessageEventQueue::DispatchEvent(Widget &refWidget, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
 
@@ -84,16 +84,6 @@ bool CWinMessageEventQueue::DispatchEvent(Widget &refWidget, UINT message, WPARA
 
 	switch(message)
 	{
-	case WM_DESTROY:
-		{
-			//only forward to windows
-			if(dynamic_cast<Window *>(&refWidget))
-			{
-				EventQueue::DispatchDestroyEvent(refWnd);
-				g_messageResult = 0;
-			}
-		}
-		break;
 	case WM_SIZE:
 		{
 			EventQueue::DispatchResizedEvent(refWnd);
@@ -184,7 +174,7 @@ bool CWinMessageEventQueue::DispatchEvent(Widget &refWidget, UINT message, WPARA
 }
 
 //Public functions
-LRESULT CALLBACK CWinMessageEventQueue::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WinMessageEventQueue::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	Widget *pWidget;
 
@@ -199,7 +189,7 @@ LRESULT CALLBACK CWinMessageEventQueue::WndProc(HWND hWnd, UINT message, WPARAM 
 		pWidget = (Widget *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	}
 
-	if(pWidget && CWinMessageEventQueue::DispatchEvent(*pWidget, message, wParam, lParam))
+	if(pWidget && WinMessageEventQueue::DispatchEvent(*pWidget, message, wParam, lParam))
 		return g_messageResult;
 
 	return DefWindowProcW(hWnd, message, wParam, lParam);

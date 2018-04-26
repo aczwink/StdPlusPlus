@@ -43,10 +43,6 @@ namespace StdPlusPlus
         {
             friend class CDropTarget;
             friend class EventQueue;
-        protected:
-            //Eventhandlers
-            Function<void()> onDestroyEventHandler;
-
         public:
             //Constructors
             Window(ERenderMode mode = ERenderMode::OS);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,20 +18,21 @@
  */
 #pragma once
 //Local
-#include "Window.hpp"
+#include <Std++/Definitions.h>
 
-namespace StdPlusPlus
+namespace _stdpp
 {
-    namespace UI
+    class EventQueueBackend
     {
-        class STDPLUSPLUS_API MainAppWindow : public Window
-        {
-        public:
-            //Constructor
-			MainAppWindow();
+    public:
+        //Destructor
+        virtual ~EventQueueBackend()
+		{
+        }
 
-            //Destructor
-			~MainAppWindow();
-        };
-    }
+        //Abstract
+		virtual void DispatchPendingEvents() = 0;
+        virtual void PostQuitEvent() = 0;
+		virtual void WaitForEvents(uint64 minWaitTime_usec) = 0;
+    };
 }

@@ -21,10 +21,12 @@
 #include "BackendManager.hpp"
 #include "RenderBackend.hpp"
 #include "WindowBackendType.hpp"
+#include "../../../src_backends/CommCtrl/UI/WinMessageEventQueue.hpp"
 
 //Forward declarations
 namespace _stdpp
 {
+	class EventQueueBackend;
 	class WindowBackend;
 }
 
@@ -33,6 +35,7 @@ namespace StdPlusPlus
 	//Move declarations
 	namespace UI
 	{
+		class EventQueue;
 		class Widget;
 	}
 
@@ -43,6 +46,7 @@ namespace StdPlusPlus
 		BackendManager<RenderBackend> renderBackends;
 
 		//Abstract
+		virtual _stdpp::EventQueueBackend *CreateEventQueueBackend(UI::EventQueue &eventQueue) = 0;
 		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) = 0;
 
 		//Methods

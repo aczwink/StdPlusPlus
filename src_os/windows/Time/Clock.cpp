@@ -18,10 +18,21 @@
 */
 //Class header
 #include <Std++/Time/Clock.hpp>
+//Global
+#include <Windows.h>
 //Local
 #include <Std++/Debug.h>
 //Namespaces
 using namespace StdPlusPlus;
+
+//Local variables
+static LARGE_INTEGER frequency;
+
+//Constructor
+Clock::Clock()
+{
+	QueryPerformanceFrequency(&frequency);
+}
 
 //Public methods
 uint64 Clock::GetElapsedNanoseconds() const
@@ -33,4 +44,12 @@ uint64 Clock::GetElapsedNanoseconds() const
 void Clock::Start()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+uint64 Clock::GetCurrentValue() const
+{
+	LARGE_INTEGER current;
+	QueryPerformanceCounter(&current);
+
+	return static_cast<uint64>(current.QuadPart * 1000000000 / frequency.QuadPart);
 }

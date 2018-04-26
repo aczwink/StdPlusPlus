@@ -19,13 +19,27 @@
 //Class header
 #include <Std++/UI/EventQueue.hpp>
 //Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UIBackend.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
-//Globals
+//Global variables
 EventQueue *g_globalEventQueue = nullptr;
+
+//Constructor
+EventQueue::EventQueue()
+		: quit(false)
+{
+}
+
+//Destructor
+EventQueue::~EventQueue()
+{
+	delete this->backend;
+}
 
 //Public methods
 bool EventQueue::ProcessEvents(bool block)
@@ -36,7 +50,8 @@ bool EventQueue::ProcessEvents(bool block)
 		{
 			uint64 minWaitTime_usec = this->GetShortestTimerTimeOut();
 			this->DispatchPendingEvents();
-			this->WaitForEvents(minWaitTime_usec);
+			if(this->backend)
+				this->backend->WaitForEvents(minWaitTime_usec);
 		}
 
 		this->DispatchPendingEvents();
@@ -49,11 +64,14 @@ bool EventQueue::ProcessEvents(bool block)
 	return !this->quit;
 }
 
-//Class Functions
+//Class functions
 EventQueue &EventQueue::GetGlobalQueue()
 {
-	if(!g_globalEventQueue)
+	if(g_globalEventQueue == nullptr)
+	{
 		g_globalEventQueue = new EventQueue;
+		g_globalEventQueue->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateEventQueueBackend(*g_globalEventQueue);
+	}
 
 	return *g_globalEventQueue;
 }
@@ -62,13 +80,13 @@ EventQueue &EventQueue::GetGlobalQueue()
 void EventQueue::DispatchPendingEvents()
 {
 	this->DispatchTimers();
-	if(this == &EventQueue::GetGlobalQueue())
-		this->DispatchSystemEvents();
+	if(this->backend)
+		this->backend->DispatchPendingEvents();
 }
 
 void EventQueue::DispatchTimers()
 {
-	uint64 currentClock = this->QueryMonotonicClock();
+	uint64 currentClock = this->clock.GetCurrentValue();
 	while(!this->oneShotTimerQueue.IsEmpty())
 	{
 		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
@@ -86,7 +104,7 @@ uint64 EventQueue::GetShortestTimerTimeOut()
 {
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{
-		uint64 currentClock = this->QueryMonotonicClock();
+		uint64 currentClock = this->clock.GetCurrentValue();
 		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
 			return 0;
 		return (currentClock - this->oneShotTimerQueue.GetFirstPriority()) / 1000;

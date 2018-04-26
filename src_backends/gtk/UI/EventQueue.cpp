@@ -100,7 +100,6 @@ static void DoGTKEvents(EventQueueInternal *internal, uint64 minWaitTime_usec, b
 //Constructor
 EventQueue::EventQueue()
 {
-	this->quit = false;
 	this->internal = MemAlloc(sizeof(EventQueueInternal));
 	THIS->eventObjects = nullptr;
 	THIS->nAllocatedEventObjects = 0;

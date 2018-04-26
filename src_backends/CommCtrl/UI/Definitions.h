@@ -18,4 +18,4 @@
 */
 #pragma once
 #define STDPLUSPLUS_WIN_WNDCLASS L"Std++"
-#define STDPLUSPLUS_WIN_WNDCLASS_LENGTH 9 //including null byte
+#define STDPLUSPLUS_WIN_WNDCLASS_LENGTH 6 //including null byte

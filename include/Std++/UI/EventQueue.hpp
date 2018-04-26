@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/EventQueueBackend.hpp>
 #include "../Containers/PriorityQueue.hpp"
 #include "../Time/Clock.hpp"
 #include "Window.hpp"
@@ -63,6 +64,8 @@ namespace StdPlusPlus
 			inline void Quit()
 			{
 				this->quit = true;
+				if(this->backend)
+					this->backend->PostQuitEvent(); //wake up queue thread in case it is sleeping
 			}
 
 			//Functions
@@ -71,28 +74,20 @@ namespace StdPlusPlus
 		private:
 			//Members
 			bool quit;
-			void *internal;
+			_stdpp::EventQueueBackend *backend;
+			Clock clock;
 			PriorityQueue<Timer *, uint64> oneShotTimerQueue;
 
 			//Methods
 			void DispatchPendingEvents();
-			void DispatchSystemEvents();
 			void DispatchTimers();
 			uint64 GetShortestTimerTimeOut();
 			void NotifyTimers();
-			/**
-			 * We need these absolute values for implementing timers with priority queue.
-			 *
-			 * @return Monotonic time value in nanoseconds
-			 */
-			uint64 QueryMonotonicClock();
-			void WaitForEvents(uint64 minWaitTime_usec);
 
 			//Inline
 			inline void AddOneShotTimer(uint64 timeOut_usec, Timer *timer)
 			{
-				this->oneShotTimerQueue.Insert(this->QueryMonotonicClock() + timeOut_usec * 1000, timer);
-				this->QueryMonotonicClock();
+				this->oneShotTimerQueue.Insert(this->clock.GetCurrentValue() + timeOut_usec * 1000, timer);
 			}
 
 			inline void RemoveTimer(Timer *timer)
@@ -117,11 +112,6 @@ namespace StdPlusPlus
             static inline void DispatchCloseEvent(Window &refWnd)
             {
                 refWnd.OnClose();
-            }
-
-            static inline void DispatchDestroyEvent(Window &refWnd)
-            {
-                refWnd.onDestroyEventHandler();
             }
 
 			static inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Point &pos)

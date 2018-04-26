@@ -21,7 +21,6 @@
 //Local
 #include "../../../src_backends/OpenGL/GLFunctions.h"
 #include <Std++/Debug.h>
-#include "../UI/Definitions.h"
 #include "OpenGL.h"
 
 //WGL Function pointers
@@ -90,7 +89,8 @@ void LoadOpenGL()
 	HWND hFakeWnd;
 
 	//step 1: we need to have a window to initialize OpenGL extensions
-	hFakeWnd = CreateWindowW(STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_POPUP, 0, 0, 640, 480, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+    NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//hFakeWnd = CreateWindowW(STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_POPUP, 0, 0, 640, 480, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
 	InitExtensions(hFakeWnd);
 	DestroyWindow(hFakeWnd);
 

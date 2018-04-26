@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
+#include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk/GTKBackend.hpp"
 #include "OpenCL/OpenCLBackend.hpp"
 //Namespaces
@@ -57,6 +58,10 @@ void RegisterUIBackends()
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 	GTKBackend *gtkBackend = new GTKBackend;
 	ADD_BACKEND(gtkBackend, PRIORITY_HIGH);
+#endif
+#ifdef _STDPLUSPLUS_BACKEND_COMMCTRL
+	CommCtrlBackend *commCtrlBackend = new CommCtrlBackend;
+	ADD_BACKEND(commCtrlBackend, PRIORITY_NORMAL);
 #endif
 #undef ADD_BACKEND
 }

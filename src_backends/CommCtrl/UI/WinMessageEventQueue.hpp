@@ -22,7 +22,7 @@
 //Local
 #include <Std++/UI/EventQueue.hpp>
 
-class CWinMessageEventQueue : public StdPlusPlus::UI::EventQueue
+class WinMessageEventQueue : public StdPlusPlus::UI::EventQueue
 {
 private:
 	//Functions

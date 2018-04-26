@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(Std++)
-find_package(XP-CMake) #we need advanced cmake modules
+find_package(XP-CMake REQUIRED) #we need advanced cmake modules
 
 #options
 option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
@@ -92,10 +92,6 @@ endif(USE_LIBAVCODEC)
 
 #set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 add_executable(tests_Std++ ${TEST_FILES})
-
-#platform stuff
-#includes
-target_include_directories(Std++ PRIVATE "ext")
 
 #link
 if(WIN32)
