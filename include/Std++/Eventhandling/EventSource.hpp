@@ -16,30 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include <Std++/_Backends/EventQueueBackend.hpp>
-#include <Std++/UI/EventQueue.hpp>
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+#include <Std++/Definitions.h>
 
-namespace _stdpp
+namespace StdPlusPlus
 {
-	class WinEventQueueBackend : public EventQueueBackend
+	class EventSource
 	{
 	public:
-		//Constructor
-		inline WinEventQueueBackend(EventQueue &eventQueue) : eventQueue(eventQueue)
-		{
-		}
+		//Abstract
+		virtual void DispatchPendingEvents() = 0;
 
-		//Methods
-		void DispatchPendingEvents() override;
-		void PostQuitEvent() override;
-		void WaitForEvents(uint64 minWaitTime_usec) override;
-
-	private:
-		//Members
-		EventQueue &eventQueue;
+		/**
+		 * Return the maximum time until this source expects a new event.
+		 * Event queues will take this information to determine its sleeping duration.
+		 *
+		 * @return in nanoseconds
+		 */
+		virtual uint64 GetMaxTimeout() const = 0;
 	};
 }

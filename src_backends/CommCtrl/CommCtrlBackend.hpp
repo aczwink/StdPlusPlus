@@ -22,10 +22,10 @@
 #include <CommCtrl.h>
 //Local
 #include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/Definitions.h"
-#include "UI/WinEventQueueBackend.hpp"
-#include "UI/WinMessageEventQueue.hpp"
+#include "UI/WindowsMessageQueueEventSource.hpp"
 
 //Manifest definition. Without it, InitCommonControls will fail and Visual Styles won't work
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -38,17 +38,18 @@ namespace StdPlusPlus
 		//Constructor
 		CommCtrlBackend()
 		{
+			this->eventSource = new WindowsMessageQueueEventSource;
 		}
 
 		//Methods
-		_stdpp::EventQueueBackend *CreateEventQueueBackend(UI::EventQueue &eventQueue) override
-		{
-			return new _stdpp::WinEventQueueBackend(eventQueue);
-		}
-
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget)
 		{
 		    return new _stdpp::CommCtrlWindowBackend(this, type, widget);
+		}
+
+		EventSource *GetEventSource() const override
+		{
+			return this->eventSource.operator->();
 		}
 
 		void Load() override
@@ -66,7 +67,7 @@ namespace StdPlusPlus
             //wcex.style = CS_OWNDC;
             wcex.cbSize = sizeof(wcex);
             wcex.hInstance = GetModuleHandle(NULL);;
-            wcex.lpfnWndProc = WinMessageEventQueue::WndProc;
+            wcex.lpfnWndProc = WindowsMessageQueueEventSource::WndProc;
             wcex.lpszClassName = STDPLUSPLUS_WIN_WNDCLASS;
 
             ASSERT(RegisterClassExW(&wcex), u8"Could not register window class");
@@ -97,6 +98,10 @@ namespace StdPlusPlus
                 }
             }
 		}
+
+	private:
+		//Members
+		mutable UniquePointer<EventSource> eventSource;
 	};
 }
 #endif

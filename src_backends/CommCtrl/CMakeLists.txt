@@ -19,10 +19,8 @@ if(${BACKEND_COMMCTRL})
             ${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
             ${CMAKE_CURRENT_SOURCE_DIR}/UI/Definitions.h
-			${CMAKE_CURRENT_SOURCE_DIR}/UI/WinEventQueueBackend.cpp
-			${CMAKE_CURRENT_SOURCE_DIR}/UI/WinEventQueueBackend.hpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/UI/WinMessageEventQueue.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/UI/WinMessageEventQueue.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.hpp
 
             #.
             ${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlBackend.hpp

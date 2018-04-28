@@ -3,6 +3,7 @@ add_subdirectory(Containers)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
 add_subdirectory(Streams)
+add_subdirectory(UI)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -21,6 +22,11 @@ set(SOURCE_FILES
 	#ErrorHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
+
+	#Eventhandling
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventSource.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.hpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.hpp
@@ -95,47 +101,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
-
-	#UI
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ControllerIndex.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/SelectionController.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TableController.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TreeController.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.h
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.hpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp

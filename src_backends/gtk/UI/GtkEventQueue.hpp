@@ -19,7 +19,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Eventhandling/EventQueue.hpp>
 
 class GtkEventQueue : public StdPlusPlus::UI::EventQueue
 {

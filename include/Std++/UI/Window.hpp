@@ -42,7 +42,7 @@ namespace StdPlusPlus
         class STDPLUSPLUS_API Window : public WidgetContainer
         {
             friend class CDropTarget;
-            friend class EventQueue;
+            friend class UIEventSource;
         public:
             //Constructors
             Window(ERenderMode mode = ERenderMode::OS);
@@ -91,7 +91,6 @@ namespace StdPlusPlus
             virtual void OnDragLeave();
             virtual EDropType OnDragMove();
             virtual void OnDrop(const ITransfer &refTransfer);
-            virtual void OnPaint();
 
             //Methods
             void MenuBarChangeOS();

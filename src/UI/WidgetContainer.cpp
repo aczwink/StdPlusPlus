@@ -49,15 +49,12 @@ WidgetContainer::~WidgetContainer()
 //Eventhandlers
 void WidgetContainer::OnPaint()
 {
-    if(this->backend)
-    {
-        this->IgnoreEvent();
-    }
-    else
-    {
-        for(Widget *const& refpChild : this->children)
-            refpChild->Repaint();
-    }
+    this->backend->Paint();
+    if(!this->backend)
+	{
+		for(Widget *const& refpChild : this->children)
+			refpChild->Repaint();
+	}
 }
 
 void WidgetContainer::OnResized()

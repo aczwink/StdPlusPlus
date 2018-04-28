@@ -28,7 +28,8 @@ using namespace _stdpp;
 
 //Constructor
 CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget)
-        : widget(widget)
+        : type(type),
+		  widget(widget)
 {
     switch(type)
     {
@@ -78,6 +79,26 @@ UIBackend *CommCtrlWindowBackend::GetUIBackend()
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
+}
+
+void CommCtrlWindowBackend::Paint()
+{
+	switch(this->type)
+	{
+		case WindowBackendType::Window:
+		{
+			HBRUSH hBrush;
+			PAINTSTRUCT ps;
+
+			BeginPaint(this->hWnd, &ps);
+			hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
+
+			FillRect(ps.hdc, &ps.rcPaint, hBrush);
+
+			EndPaint(this->hWnd, &ps);
+		}
+		break;
+	}
 }
 
 void CommCtrlWindowBackend::Repaint()

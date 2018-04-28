@@ -30,7 +30,7 @@ namespace _stdpp
     {
     public:
         //Constructor
-        CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget);
+        CommCtrlWindowBackend(UIBackend *uiBackend, WindowBackendType type, Widget *widget);
 
         //Destructor
         ~CommCtrlWindowBackend();
@@ -41,6 +41,7 @@ namespace _stdpp
         Size GetSize() const override;
         Size GetSizeHint() const override;
         UIBackend *GetUIBackend() override;
+        void Paint() override;
         void Repaint() override;
         void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const override;
         Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const override;
@@ -55,6 +56,7 @@ namespace _stdpp
     private:
         //Members
         HWND hWnd;
+		WindowBackendType type;
         Widget *widget;
     };
 }

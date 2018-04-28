@@ -8,6 +8,10 @@ set(SOURCE_FILES
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
 
+	#Eventhandling
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.cpp
+
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.cpp
@@ -110,13 +114,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp
 
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp

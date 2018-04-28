@@ -52,6 +52,7 @@ namespace _stdpp
 		virtual StdPlusPlus::Size GetSize() const = 0;
 		virtual StdPlusPlus::Size GetSizeHint() const = 0;
 		virtual StdPlusPlus::UIBackend *GetUIBackend() = 0;
+		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const = 0;
 		virtual StdPlusPlus::Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const = 0;

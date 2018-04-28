@@ -39,6 +39,9 @@
 //Devices
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
+//Eventhandling
+#include <Std++/Eventhandling/StandardEventQueue.hpp>
+
 //Filesystem
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 #include <Std++/Filesystem/DirectoryWalker.hpp>
@@ -179,7 +182,7 @@
 #include <Std++/UI/CAction.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/UI/Keyboard.hpp>
 #include <Std++/UI/MainAppWindow.hpp>
 #include <Std++/UI/Mouse.hpp>

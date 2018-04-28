@@ -20,14 +20,14 @@
 #include <Std++/UI/MainAppWindow.hpp>
 //Local
 #include <Std++/Streams/CStdOut.h>
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/UI/Menu/CMenuBar.h>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
 //Constructor
-MainAppWindow::MainAppWindow()
+MainAppWindow::MainAppWindow(EventQueue &eventQueue) : eventQueue(eventQueue)
 {
     this->SetMenuBar(new CMenuBar);
 }
@@ -35,5 +35,5 @@ MainAppWindow::MainAppWindow()
 //Destructor
 MainAppWindow::~MainAppWindow()
 {
-	EventQueue::GetGlobalQueue().Quit();
+	this->eventQueue.Quit();
 }

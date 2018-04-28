@@ -20,17 +20,33 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/UI/UIEventSource.hpp>
+#include <Std++/UI/Widget.hpp>
 
-class WinMessageEventQueue : public StdPlusPlus::UI::EventQueue
+class WindowsMessageQueueEventSource : public StdPlusPlus::UI::UIEventSource
 {
-private:
-	//Functions
-	static void DispatchControlEvent(StdPlusPlus::UI::Widget &refWidget, UINT notificationCode);
-	static void DispatchNotificationEvent(StdPlusPlus::UI::Widget &refWidget, const NMHDR &refNmHdr);
-	//Return value: true if message was processed, false if not.
-	static bool DispatchEvent(StdPlusPlus::UI::Widget &refWidget, UINT message, WPARAM wParam, LPARAM lParam);
 public:
+	//Constructor
+	WindowsMessageQueueEventSource();
+
+	//Methods
+	void DispatchPendingEvents() override;
+	uint64 GetMaxTimeout() const override;
+
 	//Functions
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+private:
+	//Methods
+	void DispatchControlEvent(StdPlusPlus::UI::Widget &widget, UINT notificationCode);
+	/**
+	 *
+	 * @param widget
+	 * @param message
+	 * @param wParam
+	 * @param lParam
+	 * @return true if message was processed, false if not.
+	 */
+	bool DispatchMessageEvent(StdPlusPlus::UI::Widget &widget, UINT message, WPARAM wParam, LPARAM lParam);
+	void DispatchNotificationEvent(StdPlusPlus::UI::Widget &refWidget, const NMHDR &refNmHdr);
 };

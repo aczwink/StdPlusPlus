@@ -22,9 +22,8 @@
 using namespace StdPlusPlus;
 
 //Constructor
-Timer::Timer(const Function<void()> &timedOutCallback, UI::EventQueue &eventQueue) : eventQueue(eventQueue)
+Timer::Timer(const Function<void()> &timedOutCallback, TimerEventSource &eventSource) : eventSource(eventSource)
 {
-	this->systemHandle = nullptr;
 	this->timedOutCallback = timedOutCallback;
 }
 

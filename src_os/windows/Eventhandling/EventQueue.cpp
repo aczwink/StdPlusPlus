@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,27 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
+//Class header
 #include <Std++/Eventhandling/EventQueue.hpp>
-#include "Window.hpp"
+//Global
+#include <Windows.h>
+//Namespaces
+using namespace StdPlusPlus;
 
-namespace StdPlusPlus
+//Private methods
+void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API MainAppWindow : public Window
-        {
-        public:
-            //Constructor
-			MainAppWindow(EventQueue &eventQueue);
-
-            //Destructor
-			~MainAppWindow();
-
-		private:
-			//Members
-			EventQueue &eventQueue;
-        };
-    }
+	DWORD waitTime = static_cast<DWORD>(timeOut / 1000000);
+	if(waitTime == 0)
+		waitTime = 1; //timeout can't be 0
+	MsgWaitForMultipleObjectsEx(0, nullptr, waitTime, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
 }

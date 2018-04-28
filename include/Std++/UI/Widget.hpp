@@ -33,19 +33,19 @@ namespace StdPlusPlus
 {
 	namespace Rendering
 	{
-		//Move declarations
+		//Forward declarations
 		class DeviceContext;
 	}
 
     namespace UI
     {
-        //Move declarations
+        //Forward declarations
         class WidgetContainer;
         class Window;
 
         class STDPLUSPLUS_API Widget
         {
-            friend class EventQueue;
+            friend class UIEventSource;
 			friend class Rendering::DeviceContext;
             friend class WidgetContainer;
         public:

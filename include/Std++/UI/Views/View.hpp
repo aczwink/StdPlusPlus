@@ -23,15 +23,18 @@
 
 namespace StdPlusPlus
 {
+	//Forward declarations
+	class EventQueue;
+
 	namespace UI
 	{
-		//Move declarations
+		//Forward declarations
 		class TreeController;
 
 		class STDPLUSPLUS_API View : public Widget
 		{
 			friend class TreeController;
-			friend class EventQueue;
+			friend class UIEventSource;
 		public:
 			//Constructor
 			inline View(WidgetContainer *parent) : Widget(parent)

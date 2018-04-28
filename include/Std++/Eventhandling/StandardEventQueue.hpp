@@ -18,21 +18,14 @@
  */
 #pragma once
 //Local
-#include <Std++/Definitions.h>
+#include "EventQueue.hpp"
 
-namespace _stdpp
+namespace StdPlusPlus
 {
-    class EventQueueBackend
-    {
-    public:
-        //Destructor
-        virtual ~EventQueueBackend()
-		{
-        }
-
-        //Abstract
-		virtual void DispatchPendingEvents() = 0;
-        virtual void PostQuitEvent() = 0;
-		virtual void WaitForEvents(uint64 minWaitTime_usec) = 0;
-    };
+	class STDPLUSPLUS_API StandardEventQueue : public EventQueue
+	{
+	public:
+		//Constructor
+		StandardEventQueue();
+	};
 }

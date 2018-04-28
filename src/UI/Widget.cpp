@@ -74,7 +74,7 @@ void Widget::OnMouseWheelTurned(int16 delta)
 
 void Widget::OnPaint()
 {
-    this->IgnoreEvent();
+    this->backend->Paint();
 }
 
 void Widget::OnResized()

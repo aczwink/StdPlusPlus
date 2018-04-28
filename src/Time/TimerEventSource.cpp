@@ -1,5 +1,7 @@
+#include <Std++/Definitions.h>
+
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,74 +19,18 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Time/TimerEventSource.hpp>
 //Local
-#include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/Natural.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
 using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
 
-//Global variables
-EventQueue *g_globalEventQueue = nullptr;
-
-//Constructor
-EventQueue::EventQueue()
-		: quit(false)
-{
-}
-
-//Destructor
-EventQueue::~EventQueue()
-{
-	delete this->backend;
-}
+//Class members
+TimerEventSource *TimerEventSource::globalSource = nullptr;
 
 //Public methods
-bool EventQueue::ProcessEvents(bool block)
-{
-	if(block)
-	{
-		while(!this->quit)
-		{
-			uint64 minWaitTime_usec = this->GetShortestTimerTimeOut();
-			this->DispatchPendingEvents();
-			if(this->backend)
-				this->backend->WaitForEvents(minWaitTime_usec);
-		}
-
-		this->DispatchPendingEvents();
-	}
-	else
-	{
-		this->DispatchPendingEvents();
-	}
-
-	return !this->quit;
-}
-
-//Class functions
-EventQueue &EventQueue::GetGlobalQueue()
-{
-	if(g_globalEventQueue == nullptr)
-	{
-		g_globalEventQueue = new EventQueue;
-		g_globalEventQueue->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateEventQueueBackend(*g_globalEventQueue);
-	}
-
-	return *g_globalEventQueue;
-}
-
-//Private methods
-void EventQueue::DispatchPendingEvents()
-{
-	this->DispatchTimers();
-	if(this->backend)
-		this->backend->DispatchPendingEvents();
-}
-
-void EventQueue::DispatchTimers()
+void TimerEventSource::DispatchPendingEvents()
 {
 	uint64 currentClock = this->clock.GetCurrentValue();
 	while(!this->oneShotTimerQueue.IsEmpty())
@@ -100,7 +46,7 @@ void EventQueue::DispatchTimers()
 	}
 }
 
-uint64 EventQueue::GetShortestTimerTimeOut()
+uint64 TimerEventSource::GetMaxTimeout() const
 {
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{

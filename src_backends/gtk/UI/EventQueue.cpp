@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Eventhandling/EventQueue.hpp>
 //Global
 #include <gtk/gtk.h>
 #include <poll.h>

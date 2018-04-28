@@ -29,29 +29,6 @@
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
-//Eventhandlers
-void Window::OnPaint()
-{
-	if(this->backend)
-	{
-		HBRUSH hBrush;
-		PAINTSTRUCT ps;
-
-		BeginPaint((HWND)this->backend, &ps);
-		hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
-
-		FillRect(ps.hdc, &ps.rcPaint, hBrush);
-
-		EndPaint((HWND)this->backend, &ps);
-	}
-	else
-	{
-		WidgetContainer::OnPaint();
-
-		GetRenderTarget(this->GetRenderMode()).Present();
-	}
-}
-
 //Private methods
 void Window::MenuBarChangeOS()
 {

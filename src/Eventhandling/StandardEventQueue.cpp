@@ -17,31 +17,23 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "WinEventQueueBackend.hpp"
-//Global
-#include <Windows.h>
+#include <Std++/Eventhandling/StandardEventQueue.hpp>
+//Local
+#include <Std++/Time/TimerEventSource.hpp>
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UIBackend.hpp>
 //Namespaces
-using namespace _stdpp;
+using namespace StdPlusPlus;
 
-//Public methods
-void WinEventQueueBackend::DispatchPendingEvents()
+//Constructor
+StandardEventQueue::StandardEventQueue()
 {
-	MSG msg;
-	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-	{
-		if(msg.message == WM_QUIT)
-			break;
+	//timer events
+	TimerEventSource *timerEventSource = new TimerEventSource;
+	this->AddSource(timerEventSource);
+	TimerEventSource::globalSource = timerEventSource;
 
-		DispatchMessage(&msg);
-	}
-}
-
-void WinEventQueueBackend::PostQuitEvent()
-{
-	PostQuitMessage(EXIT_SUCCESS);
-}
-
-void WinEventQueueBackend::WaitForEvents(uint64 minWaitTime_usec)
-{
-	MsgWaitForMultipleObjectsEx(0, nullptr, static_cast<DWORD>(minWaitTime_usec / 1000), QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+	//ui events
+	EventSource *uiSource = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->GetEventSource();
+	this->AddSource(uiSource);
 }

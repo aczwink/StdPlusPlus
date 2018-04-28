@@ -24,7 +24,7 @@
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/ByteString.hpp>
 #include <Std++/Multimedia/CodecId.hpp>
-#include <Std++/UI/EventQueue.hpp>
+#include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/_Backends/UIBackend.hpp>
@@ -83,7 +83,7 @@ void ShutdownStdPlusPlus()
 	g_fsFormats.Release();
 
 	//shut down global event queue
-	extern UI::EventQueue *g_globalEventQueue;
+	extern EventQueue *g_globalEventQueue;
 	if(g_globalEventQueue)
 		delete g_globalEventQueue;
 

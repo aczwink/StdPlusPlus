@@ -20,16 +20,16 @@
 //Local
 #include "../Definitions.h"
 #include "../Function.hpp"
-#include "../UI/EventQueue.hpp"
+#include "TimerEventSource.hpp"
 
 namespace StdPlusPlus
 {
     class STDPLUSPLUS_API Timer
     {
-		friend class UI::EventQueue;
+		friend class TimerEventSource;
     public:
         //Constructor
-        Timer(const Function<void()> &timedOutCallback, UI::EventQueue &eventQueue = UI::EventQueue::GetGlobalQueue());
+        Timer(const Function<void()> &timedOutCallback, TimerEventSource &eventSource = *TimerEventSource::globalSource);
 
         //Destructor
         ~Timer();
@@ -41,8 +41,7 @@ namespace StdPlusPlus
 
 	private:
 		//Members
-		UI::EventQueue &eventQueue;
-		void *systemHandle;
+		TimerEventSource &eventSource;
 		Function<void()> timedOutCallback;
     };
 }
