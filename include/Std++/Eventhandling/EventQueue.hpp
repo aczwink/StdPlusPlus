@@ -62,47 +62,14 @@ namespace StdPlusPlus
 		//Members
 		bool quit;
 		DynamicArray<EventSource *> sources;
+		void *internal;
 
 		//Methods
 		void DispatchPendingEvents();
-		void NotifyTimers();
+		void System_CollectWaitObjects();
+		void System_Init();
+		void System_Shutdown();
 		void System_WaitForEvents(uint64 timeOut);
 		void WaitForEvents();
-
-	protected:
-		/*
-		//Inline functions
-		static inline void DispatchActivatedEvent(UI::PushButton &refButton)
-		{
-			if (refButton.onActivatedHandler)
-				refButton.onActivatedHandler();
-		}
-
-		static inline void DispatchActivatedEvent(UI::RadioButton &button)
-		{
-			if (button.onActivatedHandler)
-				button.onActivatedHandler();
-		}
-
-		static inline void DispatchMouseButtonPressed(UI::Widget &widget, UI::MouseButton button, const Point &pos)
-		{
-			widget.OnMouseButtonPressed(button, pos);
-		}
-
-		static inline void DispatchMouseButtonReleased(UI::Widget &widget, UI::MouseButton button, const Point &pos)
-		{
-			widget.OnMouseButtonReleased(button, pos);
-		}
-
-		static inline void DispatchMouseMovedEvent(UI::Widget &widget, const Point &pos)
-		{
-			widget.OnMouseMoved(pos);
-		}
-
-		static inline void DispatchMouseWheelEvent(UI::Widget &widget, int16 delta)
-		{
-			widget.OnMouseWheelTurned(delta);
-		}
-		 */
 	};
 }

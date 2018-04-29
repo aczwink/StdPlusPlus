@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,18 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Time/Timer.hpp>
-//Namespaces
-using namespace StdPlusPlus;
-
-//Public methods
-void Timer::OneShot(uint64 timeOut_usec)
+namespace StdPlusPlus
 {
-	this->eventQueue.AddOneShotTimer(timeOut_usec, this);
-}
-
-void Timer::Stop()
-{
-	this->eventQueue.RemoveTimer(this);
+	class EventWaiter
+	{
+	};
 }

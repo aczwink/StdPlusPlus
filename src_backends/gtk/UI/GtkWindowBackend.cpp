@@ -22,7 +22,7 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "_RedirectGtkContainer.h"
-#include "GtkEventQueue.hpp"
+#include "GtkEventSource.hpp"
 //Namespaces
 using namespace _stdpp;
 
@@ -73,7 +73,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(this->gtkWidget), column, TRUE);
 			gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(this->gtkWidget), column, u8"text", 0, NULL);
 
-			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventQueue::ChangedSlot), widget);
+			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), widget);
 		}
 		break;
 		case WindowBackendType::GroupBox:
@@ -86,7 +86,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		{
 			this->gtkWidget = gtk_button_new();
 
-			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), widget);
+			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventSource::ClickedSlot), widget);
 		}
 		break;
 		case WindowBackendType::RenderTarget:
@@ -98,13 +98,13 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			this->gtkWidget = gtk_gl_area_new();
 
 			g_signal_connect(this->gtkWidget, u8"realize", G_CALLBACK(OnRealize), this);
-			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventQueue::PaintSlot), this);
+			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventSource::PaintSlot), this);
 
 			gtk_widget_add_events(this->gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
-			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
-			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventQueue::ButtonSlot), this);
-			g_signal_connect(this->gtkWidget, u8"motion-notify-event", G_CALLBACK(GtkEventQueue::MouseMotionSlot), this);
-			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventQueue::ScrollSlot), this);
+			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
+			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
+			g_signal_connect(this->gtkWidget, u8"motion-notify-event", G_CALLBACK(GtkEventSource::MouseMotionSlot), this);
+			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventSource::ScrollSlot), this);
 		}
 		break;
 		case WindowBackendType::SearchBox:
@@ -124,7 +124,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			gtk_widget_show_all(this->gtkWidget); //default is show
 
 			//signals
-			g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(this->gtkWidget)), u8"changed", G_CALLBACK(GtkEventQueue::TreeSelectionSlot), widget);
+			g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(this->gtkWidget)), u8"changed", G_CALLBACK(GtkEventSource::TreeSelectionSlot), widget);
 		}
 		break;
 		case WindowBackendType::Window:
@@ -139,16 +139,15 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 
 			gtk_window_set_titlebar(GTK_WINDOW(this->gtkWidget), this->headerBar);
 
-			//g_signal_connect(this->gtkWidget, u8"check-resize", G_CALLBACK(GtkEventQueue::CheckResizeSlot), widget);
-			g_signal_connect(this->gtkWidget, u8"delete-event", G_CALLBACK(GtkEventQueue::CloseSlot), nullptr);
-			g_signal_connect(this->gtkWidget, u8"destroy", G_CALLBACK(GtkEventQueue::DestroySlot), widget);
+			//g_signal_connect(this->gtkWidget, u8"check-resize", G_CALLBACK(GtkEventSource::CheckResizeSlot), widget);
+			g_signal_connect(this->gtkWidget, u8"delete-event", G_CALLBACK(GtkEventSource::CloseSlot), nullptr);
 
 			gtk_window_set_position(GTK_WINDOW(this->gtkWidget), GTK_WIN_POS_CENTER);
 		}
 		break;
 	}
 
-	g_signal_connect(this->gtkWidget, u8"size-allocate", G_CALLBACK(GtkEventQueue::SizeAllocateSlot), widget);
+	g_signal_connect(this->gtkWidget, u8"size-allocate", G_CALLBACK(GtkEventSource::SizeAllocateSlot), widget);
 
 	if(!GTK_IS_WINDOW(this->gtkWidget))
 		gtk_widget_show(this->gtkWidget); //default to show
@@ -282,6 +281,10 @@ Size GtkWindowBackend::GetSizeHint() const
 UIBackend *GtkWindowBackend::GetUIBackend()
 {
 	return this->uiBackend;
+}
+
+void GtkWindowBackend::Paint()
+{
 }
 
 void GtkWindowBackend::Repaint()

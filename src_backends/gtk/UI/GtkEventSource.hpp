@@ -19,18 +19,26 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/Containers/Array/DynamicArray.hpp>
+#include <Std++/UI/UIEventSource.hpp>
 
-class GtkEventQueue : public StdPlusPlus::UI::EventQueue
+class GtkEventSource : public StdPlusPlus::UI::UIEventSource
 {
 public:
+	//Constructor
+	GtkEventSource();
+
+	//Methods
+	void DispatchPendingEvents() override;
+	uint64 GetMaxTimeout() const override;
+	void VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const override;
+
     //Functions;
 	static bool ButtonSlot(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 	static void ChangedSlot(GtkComboBox *comboBox, gpointer user_data);
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
 	static void ClickedSlot(GtkButton *button, gpointer user_data);
 	static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);
-    static void DestroySlot(GtkWidget *pWidget, gpointer data);
 	static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data);
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
 	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);
@@ -39,8 +47,13 @@ public:
 	static void TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data);
 
 	//Inline
-	inline static void OpenGLWidgetRender(StdPlusPlus::UI::Widget *widget)
+	inline void OpenGLWidgetRender(StdPlusPlus::UI::Widget *widget)
 	{
-		StdPlusPlus::UI::EventQueue::DispatchPaintEvent(*widget);
+		this->DispatchPaintEvent(*widget);
 	}
+
+private:
+	//Members
+	GMainContext *context;
+	mutable StdPlusPlus::DynamicArray<GPollFD> pollFds;
 };

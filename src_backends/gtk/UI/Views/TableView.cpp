@@ -23,7 +23,7 @@
 #include <gobject/gvalue.h>
 //Local
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
 //Namespaces
@@ -51,7 +51,7 @@ void TableView::Backend_Create()
 	//ADD_SELF_TO_PARENT(THIS);
 
 	//signals
-	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS)), "changed", G_CALLBACK(GtkEventQueue::ChangedSlot), this);
+	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS)), "changed", G_CALLBACK(GtkEventSource::ChangedSlot), this);
 }
 
 //Event handlers

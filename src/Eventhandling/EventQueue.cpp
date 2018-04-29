@@ -33,6 +33,7 @@ EventQueue *g_globalEventQueue = nullptr;
 EventQueue::EventQueue()
 		: quit(false)
 {
+	this->System_Init();
 }
 
 //Destructor
@@ -40,6 +41,8 @@ EventQueue::~EventQueue()
 {
 	for(EventSource *source : this->sources)
 		delete source;
+
+	this->System_Shutdown();
 }
 
 //Public methods
@@ -85,5 +88,6 @@ void EventQueue::WaitForEvents()
 	if(minWaitTime == 0)
 		return;
 
+	this->System_CollectWaitObjects();
 	this->System_WaitForEvents(minWaitTime);
 }

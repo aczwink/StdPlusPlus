@@ -21,8 +21,10 @@
 #include <gtk/gtk.h>
 //Local
 #include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/GtkWindowBackend.hpp"
 #include "GTKOpenGLBackend.hpp"
+#include "UI/GtkEventSource.hpp"
 
 namespace StdPlusPlus
 {
@@ -32,6 +34,8 @@ namespace StdPlusPlus
 		//Constructor
 		GTKBackend()
 		{
+			this->eventSource = new GtkEventSource;
+
 			//register render backends
 #ifdef _STDPLUSPLUS_BACKEND_OPENGL
 			GTKOpenGLBackend *gtkOpenGLBackend = new GTKOpenGLBackend;
@@ -45,10 +49,19 @@ namespace StdPlusPlus
 			return new _stdpp::GtkWindowBackend(this, type, widget);
 		}
 
+		EventSource *GetEventSource() const override
+		{
+			this->eventSource.operator->();
+		}
+
 		void Load()
 		{
 			gtk_init(nullptr, nullptr);
 		}
+
+	private:
+		//Members
+		UniquePointer<GtkEventSource> eventSource;
 	};
 }
 #endif

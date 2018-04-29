@@ -20,7 +20,7 @@
 #include "_GtkOpenGLWidget.h"
 //Local
 #include "../../../OpenGL/GLFunctions.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 
 typedef struct {
 	StdPlusPlus::UI::Widget *widget;
@@ -262,7 +262,8 @@ static gboolean ac_gtk_opengl_widget_draw(GtkWidget *widget, cairo_t *cr)
 	GLenum status = glCheckFramebufferStatus (GL_FRAMEBUFFER);
 	if (status == GL_FRAMEBUFFER_COMPLETE)
 	{
-		GtkEventQueue::OpenGLWidgetRender(priv->widget);
+		NOT_IMPLEMENTED_ERROR; //TODO: next line
+		//GtkEventSource::OpenGLWidgetRender(priv->widget);
 
 		gdk_cairo_draw_from_gl(cr, gtk_widget_get_window (widget), priv->texture, GL_TEXTURE, scale, 0, 0, w, h);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -58,3 +58,7 @@ uint64 TimerEventSource::GetMaxTimeout() const
 
 	return Natural<uint64>::Max();
 }
+
+void TimerEventSource::VisitWaitObjects(const Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const
+{
+}

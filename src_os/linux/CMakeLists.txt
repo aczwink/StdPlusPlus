@@ -1,10 +1,8 @@
 set(SOURCE_FILES
-        ${SOURCE_FILES}
+	${SOURCE_FILES}
 
-        #.
-        ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
+	#Eventhandling
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 
 	#Filesystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryIterator.cpp
@@ -27,9 +25,13 @@ set(SOURCE_FILES
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 
 	#UI
 	${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 
 	PARENT_SCOPE)

@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
+#include <Std++/Eventhandling/EventSource.hpp>
 #include "Backend.hpp"
 #include "BackendManager.hpp"
 #include "RenderBackend.hpp"
 #include "WindowBackendType.hpp"
-#include "../../../src_backends/CommCtrl/UI/WindowsMessageQueueEventSource.hpp"
 
 //Forward declarations
 namespace _stdpp

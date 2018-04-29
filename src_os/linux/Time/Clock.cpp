@@ -25,6 +25,11 @@ using namespace StdPlusPlus;
 //Definitions
 #define NANO(x) ((x) * 1000000000)
 
+//Constructor
+Clock::Clock()
+{
+}
+
 //Public methods
 uint64 Clock::GetElapsedNanoseconds() const
 {
@@ -36,6 +41,15 @@ uint64 Clock::GetElapsedNanoseconds() const
 		return NANO(current.tv_sec - this->startSeconds - 1) + ((current.tv_nsec + NANO(1)) - this->startNanoSeconds);
 
 	return NANO(current.tv_sec - this->startSeconds) + (current.tv_nsec - this->startNanoSeconds);
+}
+
+uint64 Clock::GetCurrentValue() const
+{
+	timespec current;
+
+	clock_gettime(CLOCK_MONOTONIC, &current);
+
+	return static_cast<uint64>(current.tv_sec * 1000000000 + current.tv_nsec);
 }
 
 void Clock::Start()

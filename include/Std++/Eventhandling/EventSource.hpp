@@ -19,12 +19,25 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
+#include <Std++/Function.hpp>
+
+namespace _stdpp
+{
+	union WaitObjHandle
+	{
+		void *handle;
+		int fd;
+	};
+}
 
 namespace StdPlusPlus
 {
 	class EventSource
 	{
 	public:
+		//Destructor
+		virtual ~EventSource() = default;
+
 		//Abstract
 		virtual void DispatchPendingEvents() = 0;
 
@@ -35,5 +48,7 @@ namespace StdPlusPlus
 		 * @return in nanoseconds
 		 */
 		virtual uint64 GetMaxTimeout() const = 0;
+
+		virtual void VisitWaitObjects(const Function<void (_stdpp::WaitObjHandle, bool)> &visitFunc) const = 0;
 	};
 }

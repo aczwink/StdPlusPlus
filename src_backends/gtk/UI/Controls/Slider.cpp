@@ -20,7 +20,7 @@
 #include <Std++/UI/Controls/Slider.hpp>
 //Local
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

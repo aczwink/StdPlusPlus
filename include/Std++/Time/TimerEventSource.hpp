@@ -53,6 +53,8 @@ namespace StdPlusPlus
 			this->oneShotTimerQueue.Remove(timer);
 		}
 
+		void VisitWaitObjects(const Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const override;
+
 	private:
 		//Members
 		Clock clock;

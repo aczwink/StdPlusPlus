@@ -43,6 +43,7 @@ namespace _stdpp
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
 		UIBackend *GetUIBackend() override;
+		void Paint() override;
 		void Repaint() override;
 		void Select(ControllerIndex &controllerIndex) const;
 		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;

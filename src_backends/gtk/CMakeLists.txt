@@ -47,10 +47,9 @@ if(${BACKEND_GTK3})
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/EventQueue.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.h
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventQueue.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventQueue.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.cpp

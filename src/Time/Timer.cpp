@@ -32,3 +32,14 @@ Timer::~Timer()
 {
 	this->Stop();
 }
+
+//Public methods
+void Timer::OneShot(uint64 timeOut_usec)
+{
+	this->eventSource.AddOneShotTimer(timeOut_usec, this);
+}
+
+void Timer::Stop()
+{
+	this->eventSource.RemoveTimer(this);
+}

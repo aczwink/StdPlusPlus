@@ -20,7 +20,7 @@
 #include <Std++/UI/Controls/CheckBox.hpp>
 //Local
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -40,7 +40,7 @@ void CheckBox::System_CreateHandle()
 	//this->backend = CreateWidgetPrivateData(gtk_check_button_new(), this);
 	gtk_widget_show(THIS); //default to show
 
-	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventQueue::ToggledSlot), this);
+	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this);
 
 	//ADD_SELF_TO_PARENT(THIS);
 }

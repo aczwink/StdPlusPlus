@@ -20,6 +20,8 @@
 #include <Std++/Eventhandling/EventSource.hpp>
 #include <Std++/UI/Controls/CheckBox.hpp>
 #include <Std++/UI/Views/View.hpp>
+#include <Std++/UI/Controls/PushButton.hpp>
+#include <Std++/UI/Controls/RadioButton.hpp>
 #include "Widget.hpp"
 #include "Window.hpp"
 
@@ -31,9 +33,41 @@ namespace StdPlusPlus
 		{
 		protected:
 			//Inline
+			inline void DispatchActivatedEvent(PushButton &refButton)
+			{
+				if (refButton.onActivatedHandler)
+					refButton.onActivatedHandler();
+			}
+
+			inline void DispatchActivatedEvent(RadioButton &button)
+			{
+				if (button.onActivatedHandler)
+					button.onActivatedHandler();
+			}
+
 			inline void DispatchCloseEvent(Window &window)
 			{
 				window.OnClose();
+			}
+
+			inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Point &pos)
+			{
+				widget.OnMouseButtonPressed(button, pos);
+			}
+
+			inline void DispatchMouseButtonReleased(Widget &widget, MouseButton button, const Point &pos)
+			{
+				widget.OnMouseButtonReleased(button, pos);
+			}
+
+			inline void DispatchMouseMovedEvent(Widget &widget, const Point &pos)
+			{
+				widget.OnMouseMoved(pos);
+			}
+
+			inline void DispatchMouseWheelEvent(Widget &widget, int16 delta)
+			{
+				widget.OnMouseWheelTurned(delta);
 			}
 
 			inline void DispatchPaintEvent(Widget &widget)

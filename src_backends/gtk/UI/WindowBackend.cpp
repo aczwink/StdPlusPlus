@@ -22,19 +22,13 @@
 #include <gtk/gtk.h>
 //Local
 #include <Std++/UI/Menu/CMenuBar.h>
-#include "GtkEventQueue.hpp"
+#include "GtkEventSource.hpp"
 #include "Gtk.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS PRIVATE_DATA(this)
-
-//Eventhandlers
-void Window::OnPaint()
-{
-    NOT_IMPLEMENTED_ERROR;
-}
 
 //Private methods
 void Window::MenuBarChangeOS()

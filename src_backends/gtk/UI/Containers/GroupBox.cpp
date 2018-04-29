@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/Layouts/GridLayout.hpp>
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/WidgetContainer.hpp>
 #include "../Gtk.h"
-#include "../GtkEventQueue.hpp"
+#include "../GtkEventSource.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -56,7 +56,7 @@ void RadioButton::System_CreateHandle()
 
 	//ADD_SELF_TO_PARENT(THIS);
 
-	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventQueue::ClickedSlot), this);
+	g_signal_connect(THIS, "clicked", G_CALLBACK(GtkEventSource::ClickedSlot), this);
 }
 
 //Public methods

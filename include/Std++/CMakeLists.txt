@@ -26,6 +26,7 @@ set(SOURCE_FILES
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventSource.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.hpp
 
 	#Multimedia
