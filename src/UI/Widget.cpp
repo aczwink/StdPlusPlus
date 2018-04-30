@@ -99,21 +99,13 @@ Size Widget::GetSizeHint() const
 
 Point Widget::TransformToWindow(const Point &refPoint) const
 {
-    WidgetContainer *pParent;
-    Point transformed;
-    Rect rcParent;
-
-    pParent = this->parent;
-    transformed = refPoint + this->bounds.origin;
-    while(pParent != this->pOwner)
+	Point transformed;
+	const Widget *current = this;
+    while(current != this->pOwner)
     {
-        rcParent = pParent->bounds;
-
-        transformed.x += rcParent.x();
-        transformed.y += rcParent.y();
-
-        pParent = pParent->parent;
-    }
+		transformed += current->bounds.origin;
+		current = current->parent;
+	}
 
     return transformed;
 }

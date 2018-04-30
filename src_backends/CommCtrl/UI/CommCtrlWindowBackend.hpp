@@ -17,12 +17,15 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
+#define ISOLATION_AWARE_ENABLED 1
 #include <Windows.h>
 //Local
 #include <Std++/_Backends/WindowBackend.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
+//Definitions
+#undef SendMessage
 
 namespace _stdpp
 {
@@ -30,7 +33,7 @@ namespace _stdpp
     {
     public:
         //Constructor
-        CommCtrlWindowBackend(UIBackend *uiBackend, WindowBackendType type, Widget *widget);
+        CommCtrlWindowBackend(UIBackend *uiBackend, WindowBackendType type, Widget *widget, HWND hParent = nullptr);
 
         //Destructor
         ~CommCtrlWindowBackend();
@@ -40,7 +43,6 @@ namespace _stdpp
         WindowBackend *CreateChildBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget) const override;
         Size GetSize() const override;
         Size GetSizeHint() const override;
-        UIBackend *GetUIBackend() override;
         void Paint() override;
         void Repaint() override;
         void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const override;
@@ -56,7 +58,11 @@ namespace _stdpp
     private:
         //Members
         HWND hWnd;
-		WindowBackendType type;
-        Widget *widget;
+
+		//Inline
+		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
+		{
+			return SendMessageW(this->hWnd, Msg, wParam, lParam);
+		}
     };
 }

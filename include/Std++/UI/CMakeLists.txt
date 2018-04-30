@@ -20,6 +20,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/SearchBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/Slider.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/SpinBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controls/TextEdit.hpp
 
 	#Displays
 	${CMAKE_CURRENT_SOURCE_DIR}/Displays/PathRenderTargetWidget.hpp

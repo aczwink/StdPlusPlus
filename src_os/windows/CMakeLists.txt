@@ -29,7 +29,6 @@ set(SOURCE_FILES
 		#Time
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 
         #UI
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
@@ -46,7 +45,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidgetContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CCheckBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp

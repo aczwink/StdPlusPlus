@@ -22,8 +22,35 @@
 #include <Windows.h>
 //Namespaces
 using namespace StdPlusPlus;
+//Definitions
+#define THIS ((DynamicArray<HANDLE> *)this->internal)
 
 //Private methods
+void EventQueue::System_CollectWaitObjects()
+{
+	THIS->Resize(0);
+
+	auto collector = [this](_stdpp::WaitObjHandle waitObjHandle, bool input)
+	{
+		THIS->Push(waitObjHandle.handle);
+	};
+
+	for (const EventSource *const& source : this->sources)
+	{
+		source->VisitWaitObjects(collector);
+	}
+}
+
+void EventQueue::System_Init()
+{
+	this->internal = new DynamicArray<HANDLE>;
+}
+
+void EventQueue::System_Shutdown()
+{
+	delete THIS;
+}
+
 void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
 	DWORD waitTime = static_cast<DWORD>(timeOut / 1000000);

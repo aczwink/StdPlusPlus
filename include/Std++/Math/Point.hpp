@@ -48,6 +48,13 @@ namespace StdPlusPlus
             return Point(this->x + refRight.x, this->y + refRight.y);
         }
 
+		inline Point &operator+=(const Point &rhs)
+		{
+			this->x += rhs.x;
+			this->y += rhs.y;
+			return *this;
+		}
+
         inline Point operator-(const Point &right) const
         {
             return Point(this->x - right.x, this->y - right.y);

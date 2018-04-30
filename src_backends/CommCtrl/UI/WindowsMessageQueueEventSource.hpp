@@ -20,8 +20,8 @@
 //Global
 #include <Windows.h>
 //Local
+#include <Std++/Function.hpp>
 #include <Std++/UI/UIEventSource.hpp>
-#include <Std++/UI/Widget.hpp>
 
 class WindowsMessageQueueEventSource : public StdPlusPlus::UI::UIEventSource
 {
@@ -32,6 +32,7 @@ public:
 	//Methods
 	void DispatchPendingEvents() override;
 	uint64 GetMaxTimeout() const override;
+	void VisitWaitObjects(const StdPlusPlus::Function<void (_stdpp::WaitObjHandle, bool)>& visitFunc) const override;
 
 	//Functions
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

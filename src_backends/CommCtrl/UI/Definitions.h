@@ -17,5 +17,6 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
+
 #define STDPLUSPLUS_WIN_WNDCLASS L"Std++"
 #define STDPLUSPLUS_WIN_WNDCLASS_LENGTH 6 //including null byte

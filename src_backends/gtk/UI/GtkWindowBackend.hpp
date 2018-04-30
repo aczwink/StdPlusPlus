@@ -63,9 +63,6 @@ namespace _stdpp
 
 	private:
 		//Members
-		UIBackend *uiBackend;
-		_stdpp::WindowBackendType type;
-		StdPlusPlus::UI::Widget *widget;
 		GtkWidget *gtkWidget; //the widget, window whatever itself
 		GtkWidget *childAreaWidget; //its child area
 		GtkWidget *headerBar; //for windows

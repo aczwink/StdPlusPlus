@@ -205,7 +205,7 @@
 #include <Std++/UI/Controls/SearchBox.hpp>
 #include <Std++/UI/Controls/Slider.hpp>
 #include <Std++/UI/Controls/SpinBox.hpp>
-#include <Std++/UI/Controls/CTextEdit.h>
+#include <Std++/UI/Controls/TextEdit.hpp>
 //Displays
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Events

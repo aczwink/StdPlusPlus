@@ -20,27 +20,44 @@
  */
 //Class header
 #include "CommCtrlWindowBackend.hpp"
+//Global
+#include <Windows.h>
+#include <CommCtrl.h>
 //Local
 #include <Std++/UI/Widget.hpp>
 #include "Definitions.h"
 //Namespaces
 using namespace _stdpp;
 
+/*
+WinAPI Documentation:
+	PushButon: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
+*/
+
 //Constructor
-CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget)
-        : type(type),
-		  widget(widget)
+CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, HWND hParent) : WindowBackend(uiBackend, type, widget)
 {
+	HINSTANCE hInstance = GetModuleHandle(NULL);
     switch(type)
     {
+		case WindowBackendType::PushButton:
+		{
+			this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+		}
+		break;
         case WindowBackendType::Window:
             {
-                this->hWnd = CreateWindowExW(0, STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), widget);
+                this->hWnd = CreateWindowExW(0, STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0, 0, 0, 0, hParent, NULL, hInstance, widget);
             }
             break;
         default:
             NOT_IMPLEMENTED_ERROR; //TODO: implement me
     }
+
+	if(this->type != WindowBackendType::Window)
+		SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)this);
+
+	this->SendMessage(WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }
 
 //Destructor
@@ -55,10 +72,9 @@ void CommCtrlWindowBackend::ClearView() const
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-WindowBackend *CommCtrlWindowBackend::CreateChildBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget) const
+WindowBackend *CommCtrlWindowBackend::CreateChildBackend(WindowBackendType type, Widget *widget) const
 {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
+	return new CommCtrlWindowBackend(this->GetUIBackend(), type, widget, this->hWnd);
 }
 
 Size CommCtrlWindowBackend::GetSize() const
@@ -71,14 +87,24 @@ Size CommCtrlWindowBackend::GetSize() const
 
 Size CommCtrlWindowBackend::GetSizeHint() const
 {
+	switch (type)
+	{
+		case WindowBackendType::PushButton:
+		{			
+			//TODO: calc min width
+			//TODO: this seems to be working... dont known how it is with different fonts
+
+			SIZE size{};
+			this->SendMessage(BCM_GETIDEALSIZE, 0, (LPARAM)&size);
+			if (size.cy < 25)
+				size.cy = 25; //aesthetics
+			return Size((uint16)size.cx, (uint16)size.cy);
+		}
+		break;
+	}
+
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return Size();
-}
-
-UIBackend *CommCtrlWindowBackend::GetUIBackend()
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
 }
 
 void CommCtrlWindowBackend::Paint()

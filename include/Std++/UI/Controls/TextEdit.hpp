@@ -24,11 +24,11 @@ namespace StdPlusPlus
 {
     namespace UI
     {
-        class STDPLUSPLUS_API CTextEdit : public Widget
+        class STDPLUSPLUS_API TextEdit : public Widget
         {
         public:
             //Constructor
-            CTextEdit(WidgetContainer *pParent);
+            TextEdit(WidgetContainer *parent);
 
             //Methods
             OldString GetText() const;

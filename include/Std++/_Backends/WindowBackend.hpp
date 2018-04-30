@@ -42,6 +42,15 @@ namespace _stdpp
 	class WindowBackend
 	{
 	public:
+		//Constructor
+		inline WindowBackend(StdPlusPlus::UIBackend *uiBackend, _stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget)
+			: uiBackend(uiBackend),
+			type(type),
+			widget(widget)
+		{
+		}
+
+		//Destructor
 		virtual ~WindowBackend()
 		{
 		}
@@ -51,7 +60,6 @@ namespace _stdpp
 		virtual WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const = 0;
 		virtual StdPlusPlus::Size GetSize() const = 0;
 		virtual StdPlusPlus::Size GetSizeHint() const = 0;
-		virtual StdPlusPlus::UIBackend *GetUIBackend() = 0;
 		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const = 0;
@@ -63,5 +71,20 @@ namespace _stdpp
 		virtual void Show(bool visible) = 0;
 		virtual void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const = 0;
 		virtual void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const = 0;
+
+		//Inline
+		inline StdPlusPlus::UIBackend *GetUIBackend() const
+		{
+			return this->uiBackend;
+		}
+
+	protected:
+		//Members
+		_stdpp::WindowBackendType type;
+		StdPlusPlus::UI::Widget *widget;
+
+	private:
+		//Members
+		StdPlusPlus::UIBackend * uiBackend;
 	};
 }

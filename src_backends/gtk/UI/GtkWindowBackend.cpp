@@ -60,7 +60,7 @@ static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 };
 
 //Constructor
-GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget) : uiBackend(uiBackend), type(type), widget(widget)
+GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget)
 {
 	bool isContainer = false;
 	switch(type)
