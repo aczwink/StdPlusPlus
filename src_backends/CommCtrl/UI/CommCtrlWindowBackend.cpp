@@ -25,6 +25,7 @@
 #include <CommCtrl.h>
 //Local
 #include <Std++/UI/Widget.hpp>
+#include <Std++/UI/WidgetContainer.hpp>
 #include "Definitions.h"
 //Namespaces
 using namespace _stdpp;
@@ -75,6 +76,14 @@ void CommCtrlWindowBackend::ClearView() const
 WindowBackend *CommCtrlWindowBackend::CreateChildBackend(WindowBackendType type, Widget *widget) const
 {
 	return new CommCtrlWindowBackend(this->GetUIBackend(), type, widget, this->hWnd);
+}
+
+Rect CommCtrlWindowBackend::GetChildrenRect() const
+{
+	RECT rc;
+	GetClientRect(this->hWnd, &rc);
+
+	return {rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top};
 }
 
 Size CommCtrlWindowBackend::GetSize() const
@@ -145,8 +154,13 @@ Path CommCtrlWindowBackend::SelectExistingDirectory(const StdPlusPlus::String &t
 
 void CommCtrlWindowBackend::SetBounds(const Rect &area)
 {
-    Point transformed = this->widget->TransformToWindow(area.origin);
-    SetWindowPos(this->hWnd, HWND_TOP, transformed.x, transformed.y, area.width(), area.height(), 0);
+	Point translated;
+	if(this->type == WindowBackendType::Window)
+		translated = area.origin;
+	else
+		//we got called just after this->bounds = area happened
+		translated = this->widget->TranslateToOwnerCoords(Point()); //area.origin is relative to the parent!
+    SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
 }
 
 void CommCtrlWindowBackend::SetEnabled(bool enable) const

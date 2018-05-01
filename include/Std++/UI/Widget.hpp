@@ -59,7 +59,13 @@ namespace StdPlusPlus
             virtual ~Widget();
 
             //Methods
-            Point TransformToWindow(const Point &refPoint) const;
+			/**
+			 * Returns the point in coordinates of the child area of the owner window.
+			 *
+			 * @param point
+			 * @return
+			 */
+            Point TranslateToOwnerCoords(const Point &point) const;
 
             //Overrideable
             virtual Size GetSizeHint() const;
@@ -84,8 +90,8 @@ namespace StdPlusPlus
 
             inline const Window *GetWindow() const
             {
-                if(this->pOwner)
-                    return this->pOwner;
+                if(this->owner)
+                    return this->owner;
 
                 //this is a window itself
                 return (Window *)this;
@@ -142,7 +148,7 @@ namespace StdPlusPlus
 		private:
 			//Members
 			WidgetContainer *parent;
-			Window *pOwner;
+			Window *owner;
 			Rect bounds;
 
 			//Eventhandlers

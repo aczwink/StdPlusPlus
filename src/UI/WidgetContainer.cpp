@@ -73,7 +73,9 @@ void WidgetContainer::SetLayout(ILayout *pLayout)
 //Public methods
 Rect WidgetContainer::GetChildrenRect() const
 {
-	return Rect(Point(0, 0), this->GetSize());
+	if(this->backend)
+		return this->backend->GetChildrenRect();
+	return {Point(), this->GetSize()};
 }
 
 ERenderMode WidgetContainer::GetChildrenRenderMode() const

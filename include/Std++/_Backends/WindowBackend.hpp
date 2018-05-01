@@ -58,6 +58,7 @@ namespace _stdpp
 		//Abstract
 		virtual void ClearView() const = 0;
 		virtual WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const = 0;
+		virtual StdPlusPlus::Rect GetChildrenRect() const = 0;
 		virtual StdPlusPlus::Size GetSize() const = 0;
 		virtual StdPlusPlus::Size GetSizeHint() const = 0;
 		virtual void Paint() = 0;

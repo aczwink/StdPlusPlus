@@ -29,12 +29,12 @@ using namespace StdPlusPlus::UI;
 Widget::Widget(WidgetContainer *parent)
 {
     this->parent = parent;
-    if(parent && parent->pOwner)
-        this->pOwner = parent->pOwner;
+    if(parent && parent->owner)
+        this->owner = parent->owner;
     else
     {
         ASSERT(!parent || IS_INSTANCE_OF(parent, Window), "A widget must have a parent or it must be a window itself");
-        this->pOwner = (Window *)parent;
+        this->owner = (Window *)parent;
     }
     this->backend = nullptr;
     if(parent)
@@ -97,15 +97,15 @@ Size Widget::GetSizeHint() const
     return Size();
 }
 
-Point Widget::TransformToWindow(const Point &refPoint) const
+Point Widget::TranslateToOwnerCoords(const Point &point) const
 {
-	Point transformed;
+	Point translated = point;
 	const Widget *current = this;
-    while(current != this->pOwner)
+    while(current != this->owner)
     {
-		transformed += current->bounds.origin;
+		translated += current->bounds.origin;
 		current = current->parent;
 	}
 
-    return transformed;
+    return translated;
 }
