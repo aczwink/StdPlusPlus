@@ -46,7 +46,7 @@ namespace StdPlusPlus
             void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
             void EnsureGridBigEnough(uint8 nCells);
             Rect GetChildrenRect(const WidgetContainer &refContainer) const;
-            void PositionChild(Widget &refWidget, const Rect &bounds);
+            void PositionChild(Widget &widget, const Rect &bounds);
 
         protected:
             //Members

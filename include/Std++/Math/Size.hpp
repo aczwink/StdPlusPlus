@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include <Std++/Mathematics.hpp>
 
 namespace StdPlusPlus
 {
@@ -65,6 +66,25 @@ namespace StdPlusPlus
         {
             return Size(this->width / i, this->height / i);
         }
+
+        //Inline
+		inline void Add(int32 dx, int32 dy)
+		{
+			if(this->width + dx < 0)
+				this->width = 0;
+			else
+				this->width += dx;
+
+			if(this->height + dy < 0)
+				this->height = 0;
+			else
+				this->height += dy;
+		}
+
+		inline Size Max(const Size &rhs) const
+		{
+			return Size(StdPlusPlus::Max(this->width, rhs.width), StdPlusPlus::Max(this->height, rhs.height));
+		}
 
         //Functions
         static Size GetScreenSize();

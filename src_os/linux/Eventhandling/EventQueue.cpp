@@ -35,6 +35,7 @@ void EventQueue::System_CollectWaitObjects()
 		pollfd pfd;
 		pfd.fd = waitObjHandle.fd;
 		pfd.events = static_cast<short>(input ? POLLIN : POLLOUT);
+		pfd.revents = 0;
 
 		THIS->Push(pfd);
 	};

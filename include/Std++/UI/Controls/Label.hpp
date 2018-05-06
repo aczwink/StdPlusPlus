@@ -26,20 +26,15 @@ namespace StdPlusPlus
     {
         class STDPLUSPLUS_API Label : public Widget
         {
-        private:
-            //Methods
-			void System_CreateHandle();
-
         public:
             //Constructor
             Label(WidgetContainer *parent);
 
-			//Destructor
-			~Label();
-
-            //Methods
-			Size GetSizeHint() const;
-            void SetText(const OldString &text);
+			//Inline
+			inline void SetText(const String &text)
+			{
+				this->backend->SetText(text);
+			}
         };
     }
 }

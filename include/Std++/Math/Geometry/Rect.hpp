@@ -63,8 +63,7 @@ namespace StdPlusPlus
         {
             this->origin.x -= dx;
             this->origin.y -= dy;
-            this->size.width += 2 * dx;
-            this->size.height += 2 * dy;
+			this->size.Add(2 * dx, 2 * dy);
         }
 
         inline int32 GetBottom() const

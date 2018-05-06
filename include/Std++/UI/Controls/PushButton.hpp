@@ -33,7 +33,7 @@ namespace StdPlusPlus
             //Constructor
             PushButton(WidgetContainer *pParent);
 
-            //Methods
+            //Inline
             inline void SetText(const String &text)
 			{
 				this->backend->SetText(text);

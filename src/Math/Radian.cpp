@@ -20,7 +20,7 @@
 #include <Std++/Math/Radian.hpp>
 //Local
 #include <Std++/Math/Degree.hpp>
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -30,3 +30,6 @@ Radian<ScalarType>::Radian(const Degree<ScalarType> &refDegree)
 {
 	this->value = refDegree.value * PI / 180.0;
 }
+
+//Explicit instantiations
+template class Radian<float32>;

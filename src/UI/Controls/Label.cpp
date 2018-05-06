@@ -25,5 +25,5 @@ using namespace StdPlusPlus::UI;
 //Constructor
 Label::Label(WidgetContainer *parent) : Widget(parent)
 {
-	this->System_CreateHandle();
+	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::Label, this);
 }

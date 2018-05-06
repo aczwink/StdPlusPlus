@@ -19,11 +19,12 @@
 //Class header
 #include <Std++/Containers/Strings/String.hpp>
 //Global
+#include <clocale>
 #include <cstdio>
 //Local
 #include <Std++/Containers/Strings/ConstStringIterator.hpp>
 #include <Std++/Char.hpp>
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -723,8 +724,10 @@ String String::Number(float64 number, uint8 precision)
 {
 	char buf[1024];
 
+	char *currentLocale = setlocale(LC_NUMERIC, "C");
 	sprintf(buf, "%.*g", precision, number);
 	//sprintf_s(buf, sizeof(buf), "%.*g", DBL_DIG, value);
+	setlocale(LC_NUMERIC, currentLocale);
 
 	return String::CopyRawString(buf);
 }

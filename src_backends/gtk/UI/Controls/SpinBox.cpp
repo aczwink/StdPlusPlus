@@ -31,29 +31,7 @@ using namespace StdPlusPlus::UI;
  * https://developer.gnome.org/gtk3/stable/GtkSpinButton.html
  */
 
-//Destructor
-SpinBox::~SpinBox()
-{
-	MemFree(this->backend);
-}
-
-//Private methods
-void SpinBox::System_CreateHandle()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//this->backend = CreateWidgetPrivateData(gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0), this);
-	gtk_widget_show(THIS); //default to show
-
-	//ADD_SELF_TO_PARENT(THIS);
-}
-
 //Public methods
-Size SpinBox::GetSizeHint() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//return GetPreferedSizeGtk(THIS);
-}
-
 int32 SpinBox::GetValue() const
 {
 	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(THIS));
@@ -71,9 +49,4 @@ void SpinBox::SetMinimum(int32 min)
 	GtkAdjustment *adjustment = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(THIS));
 
 	gtk_spin_button_set_range(GTK_SPIN_BUTTON(THIS), min, gtk_adjustment_get_upper(adjustment));
-}
-
-void SpinBox::SetValue(int32 value)
-{
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(THIS), value);
 }

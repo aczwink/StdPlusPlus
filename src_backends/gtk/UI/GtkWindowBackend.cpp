@@ -21,6 +21,7 @@
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/Integer.hpp>
 #include "_RedirectGtkContainer.h"
 #include "GtkEventSource.hpp"
 //Namespaces
@@ -60,11 +61,18 @@ static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 };
 
 //Constructor
-GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget)
+GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, const GtkWindowBackend *parentBackend) : WindowBackend(uiBackend, type, widget)
 {
 	bool isContainer = false;
 	switch(type)
 	{
+		case WindowBackendType::CheckBox:
+		{
+			this->gtkWidget = gtk_check_button_new();
+
+			g_signal_connect(this->gtkWidget, u8"toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this);
+		}
+		break;
 		case WindowBackendType::ComboBox:
 		{
 			this->gtkWidget = gtk_combo_box_new();
@@ -82,11 +90,38 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			this->gtkWidget = gtk_frame_new(nullptr);
 		}
 		break;
+		case WindowBackendType::Label:
+		{
+			this->gtkWidget = gtk_label_new(nullptr);
+		}
+		break;
 		case WindowBackendType::PushButton:
 		{
 			this->gtkWidget = gtk_button_new();
 
 			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventSource::ClickedSlot), widget);
+		}
+		break;
+		case WindowBackendType::RadioButton:
+		{
+			GtkWidget *buttonGroupWidget = nullptr;
+			GList *child = gtk_container_get_children(GTK_CONTAINER(parentBackend->childAreaWidget));
+			while((child = g_list_next(child)) != nullptr)
+			{
+				GtkWidget *childWidget = static_cast<GtkWidget *>(child->data);
+				if(GTK_IS_RADIO_BUTTON(childWidget))
+				{
+					buttonGroupWidget = childWidget;
+					break;
+				}
+			}
+
+			if(buttonGroupWidget)
+				this->gtkWidget = gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(buttonGroupWidget));
+			else
+				this->gtkWidget = gtk_radio_button_new(nullptr);
+
+			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventSource::ClickedSlot), this->widget);
 		}
 		break;
 		case WindowBackendType::RenderTarget:
@@ -98,7 +133,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			this->gtkWidget = gtk_gl_area_new();
 
 			g_signal_connect(this->gtkWidget, u8"realize", G_CALLBACK(OnRealize), this);
-			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventSource::PaintSlot), this);
+			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventSource::PaintSlot), this->widget);
 
 			gtk_widget_add_events(this->gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
 			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
@@ -110,6 +145,18 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		case WindowBackendType::SearchBox:
 		{
 			this->gtkWidget = gtk_search_entry_new();
+		}
+		break;
+		case WindowBackendType::Slider:
+		{
+			this->gtkWidget = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1);
+
+			g_signal_connect(this->gtkWidget, u8"value-changed", G_CALLBACK(GtkEventSource::ValueChangedSlot), this->widget);
+		}
+		break;
+		case WindowBackendType::SpinBox:
+		{
+			this->gtkWidget = gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0);
 		}
 		break;
 		case WindowBackendType::TreeView:
@@ -252,11 +299,31 @@ void GtkWindowBackend::ClearView() const
 
 WindowBackend *GtkWindowBackend::CreateChildBackend(_stdpp::WindowBackendType type, Widget *widget) const
 {
-	GtkWindowBackend *child = new GtkWindowBackend(this->uiBackend, type, widget);
+	GtkWindowBackend *child = new GtkWindowBackend(this->GetUIBackend(), type, widget, this);
 
 	gtk_container_add(GTK_CONTAINER(this->childAreaWidget), child->gtkWidget);
 
 	return child;
+}
+
+Rect GtkWindowBackend::GetChildrenRect() const
+{
+	GtkAllocation alloc;
+
+	gtk_widget_get_allocation(this->childAreaWidget, &alloc);
+
+	return Rect(alloc.x, alloc.y, alloc.width, alloc.height);
+	/*
+	 * Rect rect;
+
+	rect = this->GetBounds();
+
+	//TODO: shit we dont know this correctly...
+	rect.y() += 10;
+	rect.height() -= 10;
+
+	return rect;
+	 */
 }
 
 Size GtkWindowBackend::GetSize() const
@@ -272,15 +339,19 @@ Size GtkWindowBackend::GetSizeHint() const
 {
 	int min1, nat1, min2, nat2;
 
+	if(IS_REDIRECT_CONTAINER(this->childAreaWidget))
+		return Size();
+
 	gtk_widget_get_preferred_width(this->gtkWidget, &min1, &nat1);
 	gtk_widget_get_preferred_height(this->gtkWidget, &min2, &nat2);
 
 	return Size(nat1, nat2);
 }
 
-UIBackend *GtkWindowBackend::GetUIBackend()
+void GtkWindowBackend::Maximize() const
 {
-	return this->uiBackend;
+	gtk_window_maximize(GTK_WINDOW(this->gtkWidget));
+	gtk_widget_show(this->gtkWidget);
 }
 
 void GtkWindowBackend::Paint()
@@ -341,18 +412,55 @@ void GtkWindowBackend::SetHint(const String &text) const
 	gtk_widget_set_tooltip_text(this->gtkWidget, reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
 }
 
+void GtkWindowBackend::SetMaximum(uint32 max) const
+{
+	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
+
+	gtk_range_set_range(GTK_RANGE(this->gtkWidget), gtk_adjustment_get_lower(adjustment), max);
+}
+
+void GtkWindowBackend::SetMinimum(uint32 min) const
+{
+	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
+
+	gtk_range_set_range(GTK_RANGE(this->gtkWidget), min, gtk_adjustment_get_upper(adjustment));
+}
+
+void GtkWindowBackend::SetPosition(uint32 pos) const
+{
+	gtk_range_set_value(GTK_RANGE(this->gtkWidget), pos);
+}
+
 void GtkWindowBackend::SetText(const String &text)
 {
+	const gchar *gtkText = reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData());
 	switch(this->type)
 	{
+		case WindowBackendType::CheckBox:
+			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
+			break;
+		case WindowBackendType::GroupBox:
+			gtk_frame_set_label(GTK_FRAME(this->gtkWidget), gtkText);
+			break;
+		case WindowBackendType::Label:
+			gtk_label_set_text(GTK_LABEL(this->gtkWidget), gtkText);
+			break;
 		case WindowBackendType::PushButton:
-			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
+			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
+			break;
+		case WindowBackendType::RadioButton:
+			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
 			break;
 		case WindowBackendType::Window:
-			gtk_window_set_title(GTK_WINDOW(this->gtkWidget), reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
-			gtk_header_bar_set_title(GTK_HEADER_BAR(this->headerBar), reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
+			gtk_window_set_title(GTK_WINDOW(this->gtkWidget), gtkText);
+			gtk_header_bar_set_title(GTK_HEADER_BAR(this->headerBar), gtkText);
 			break;
 	}
+}
+
+void GtkWindowBackend::SetValue(int32 value) const
+{
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(this->gtkWidget), value);
 }
 
 void GtkWindowBackend::Show(bool visible)

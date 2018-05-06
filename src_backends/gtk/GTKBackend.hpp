@@ -46,7 +46,7 @@ namespace StdPlusPlus
 		//Methods
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget)
 		{
-			return new _stdpp::GtkWindowBackend(this, type, widget);
+			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);
 		}
 
 		EventSource *GetEventSource() const override

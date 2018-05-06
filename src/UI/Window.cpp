@@ -136,3 +136,9 @@ void Window::SwitchFullscreen(bool state)
         this->Repaint();
     }
 }
+
+void Window::OnResized()
+{
+	this->bounds.size = this->backend->GetSize(); //size has changed
+    WidgetContainer::OnResized();
+}

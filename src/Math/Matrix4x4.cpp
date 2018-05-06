@@ -147,30 +147,30 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Inverse() const
 	float32 Coef22 = this->columns[1][0] * this->columns[3][1] - this->columns[3][0] * this->columns[1][1];
 	float32 Coef23 = this->columns[1][0] * this->columns[2][1] - this->columns[2][0] * this->columns[1][1];
 
-	Vector4 Fac0(Coef00, Coef00, Coef02, Coef03);
-	Vector4 Fac1(Coef04, Coef04, Coef06, Coef07);
-	Vector4 Fac2(Coef08, Coef08, Coef10, Coef11);
-	Vector4 Fac3(Coef12, Coef12, Coef14, Coef15);
-	Vector4 Fac4(Coef16, Coef16, Coef18, Coef19);
-	Vector4 Fac5(Coef20, Coef20, Coef22, Coef23);
+	vec4 Fac0(Coef00, Coef00, Coef02, Coef03);
+	vec4 Fac1(Coef04, Coef04, Coef06, Coef07);
+	vec4 Fac2(Coef08, Coef08, Coef10, Coef11);
+	vec4 Fac3(Coef12, Coef12, Coef14, Coef15);
+	vec4 Fac4(Coef16, Coef16, Coef18, Coef19);
+	vec4 Fac5(Coef20, Coef20, Coef22, Coef23);
 
-	Vector4 Vec0(this->columns[1][0], this->columns[0][0], this->columns[0][0], this->columns[0][0]);
-	Vector4 Vec1(this->columns[1][1], this->columns[0][1], this->columns[0][1], this->columns[0][1]);
-	Vector4 Vec2(this->columns[1][2], this->columns[0][2], this->columns[0][2], this->columns[0][2]);
-	Vector4 Vec3(this->columns[1][3], this->columns[0][3], this->columns[0][3], this->columns[0][3]);
+	vec4 Vec0(this->columns[1][0], this->columns[0][0], this->columns[0][0], this->columns[0][0]);
+	vec4 Vec1(this->columns[1][1], this->columns[0][1], this->columns[0][1], this->columns[0][1]);
+	vec4 Vec2(this->columns[1][2], this->columns[0][2], this->columns[0][2], this->columns[0][2]);
+	vec4 Vec3(this->columns[1][3], this->columns[0][3], this->columns[0][3], this->columns[0][3]);
 
-	Vector4 Inv0(Vec1 * Fac0 - Vec2 * Fac1 + Vec3 * Fac2);
-	Vector4 Inv1(Vec0 * Fac0 - Vec2 * Fac3 + Vec3 * Fac4);
-	Vector4 Inv2(Vec0 * Fac1 - Vec1 * Fac3 + Vec3 * Fac5);
-	Vector4 Inv3(Vec0 * Fac2 - Vec1 * Fac4 + Vec2 * Fac5);
+	vec4 Inv0(Vec1 * Fac0 - Vec2 * Fac1 + Vec3 * Fac2);
+	vec4 Inv1(Vec0 * Fac0 - Vec2 * Fac3 + Vec3 * Fac4);
+	vec4 Inv2(Vec0 * Fac1 - Vec1 * Fac3 + Vec3 * Fac5);
+	vec4 Inv3(Vec0 * Fac2 - Vec1 * Fac4 + Vec2 * Fac5);
 
-	Vector4 SignA(+1, -1, +1, -1);
-	Vector4 SignB(-1, +1, -1, +1);
+	vec4 SignA(+1, -1, +1, -1);
+	vec4 SignB(-1, +1, -1, +1);
 	Matrix4x4 Inverse(Inv0 * SignA, Inv1 * SignB, Inv2 * SignA, Inv3 * SignB);
 
-	Vector4 Row0(Inverse[0][0], Inverse[1][0], Inverse[2][0], Inverse[3][0]);
+	vec4 Row0(Inverse[0][0], Inverse[1][0], Inverse[2][0], Inverse[3][0]);
 
-	Vector4 Dot0(this->columns[0] * Row0);
+	vec4 Dot0(this->columns[0] * Row0);
 	float32 Dot1 = (Dot0.x + Dot0.y) + (Dot0.z + Dot0.w);
 
 	float32 OneOverDeterminant = 1 / Dot1;
@@ -295,33 +295,30 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::RotationZ(const Radian<ScalarType> 
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Scale(float32 scaleX, float32 scaleY, float32 scaleZ)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Scale(const vec3 &s)
 {
 	Matrix4x4 scale;
 
-	scale(0, 0) = scaleX;
-	scale(1, 1) = scaleY;
-	scale(2, 2) = scaleZ;
+	scale(0, 0) = s.x;
+	scale(1, 1) = s.y;
+	scale(2, 2) = s.z;
 	scale(3, 3) = 1;
 
 	return scale;
 }
 
 template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(float32 dx, float32 dy, float32 dz)
+Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const vec3 &t)
 {
 	Matrix4x4 translate;
 
 	translate(0, 0) = 1;
 	translate(1, 1) = 1;
 	translate(2, 2) = 1;
-	translate[3] = Vector4(dx, dy, dz, 1);
+	translate[3] = Vector4(t, 1);
 
 	return translate;
 }
 
-template <typename ScalarType>
-Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const Vector3<ScalarType> &refVector)
-{
-	return Matrix4x4::Translation(refVector.x, refVector.y, refVector.z);
-}
+//Explicit instantiations
+template class Matrix4x4<float32>;

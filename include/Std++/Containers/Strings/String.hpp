@@ -324,13 +324,6 @@ namespace StdPlusPlus
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			return String();
 		}
-
-		static String Number(int64 value)
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return String();
-		}
-
 		/**
 		 * Parses a number with base 10 and returns it as a string.
 		 * The result is preceeded by length(unpadded result)-minLength zeros.
@@ -347,9 +340,21 @@ namespace StdPlusPlus
 			return String::Number((uint64)natural);
 		}
 
+		inline static String Number(int32 natural)
+		{
+			return String::Number((int64)natural);
+		}
+
 		inline static String Number(uint32 natural)
 		{
 			return String::Number((uint64)natural);
+		}
+
+		inline static String Number(int64 value)
+		{
+			if(value < 0)
+				return String(u8"-") + String::Number((uint64)(-value));
+			return String::Number((uint64)value);
 		}
 
 		//For range-based loop

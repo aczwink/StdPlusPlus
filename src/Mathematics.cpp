@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //corresponding header
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 
 uint64 StdPlusPlus::Power(uint64 base, uint64 exponent)
 {

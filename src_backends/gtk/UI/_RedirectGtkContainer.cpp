@@ -118,9 +118,7 @@ static void redirect_container_get_preferred_height(GtkWidget *redirContainer, i
 	WidgetContainer *container = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
 
 	*minimal = container->GetSizeHint().height;
-	*natural = container->GetSize().height;
-	if(*natural < *minimal)
-		*natural = *minimal;
+	*natural = *minimal;
 }
 
 static void redirect_container_get_preferred_width(GtkWidget *redirContainer, int *minimal, int *natural)
@@ -131,9 +129,7 @@ static void redirect_container_get_preferred_width(GtkWidget *redirContainer, in
 	WidgetContainer *container = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
 
 	*minimal = container->GetSizeHint().width;
-	*natural = container->GetSize().width;
-	if(*natural < *minimal)
-		*natural = *minimal;
+	*natural = *minimal;
 }
 
 static void redirect_container_remove(GtkContainer *container, GtkWidget *widget)
@@ -174,26 +170,7 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 			gtk_widget_get_preferred_width(gtkWidget, &tmp, &tmp); //make gtk happy, else it will print out warnings -.-
 		}
 
-		/*
-		printf("gtkWidget: %p \t\t", gtkWidget);
-		if(!gtk_widget_get_visible(gtkWidget))
-			continue;
-		if(GTK_IS_BUTTON(gtkWidget))
-		{
-			printf("BUTTON TEXT: %s \t\t", gtk_button_get_label(GTK_BUTTON(gtkWidget)));
-		}
-		else if(GTK_IS_FRAME(gtkWidget))
-		{
-			printf("FRAME TEXT: %s \t\t", gtk_frame_get_label(GTK_FRAME(gtkWidget)));
-		}
-		else if(GTK_IS_MENU(gtkWidget))
-		{
-			printf("type: \t\t", gtkWidget);
-		}
-		*/
-
 		Widget *widget = WIDGET_FROM_GTK(gtkWidget);
-		//printf("widget: %p\n", widget);
 		if(!widget)
 			continue;
 		const Rect &bounds = widget->GetBounds();

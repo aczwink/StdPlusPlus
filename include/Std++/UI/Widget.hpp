@@ -48,6 +48,7 @@ namespace StdPlusPlus
             friend class UIEventSource;
 			friend class Rendering::DeviceContext;
             friend class WidgetContainer;
+			friend class Window;
         public:
             //Members
             SizingPolicy sizingPolicy;

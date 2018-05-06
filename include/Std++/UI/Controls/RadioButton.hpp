@@ -32,10 +32,6 @@ namespace StdPlusPlus
 		 */
 		class STDPLUSPLUS_API RadioButton : public Widget
 		{
-		private:
-			//Methods
-			void System_CreateHandle();
-
 		public:
 			//Dynamic event handlers
 			Function<void()> onActivatedHandler;
@@ -43,12 +39,11 @@ namespace StdPlusPlus
 			//Constructor
 			RadioButton(WidgetContainer *parent);
 
-			//Destructor
-			~RadioButton();
-
-			//Methods
-			Size GetSizeHint() const;
-			void SetText(const OldString &text);
+			//Inline
+			inline void SetText(const String &text)
+			{
+				this->backend->SetText(text);
+			}
 		};
 	}
 }

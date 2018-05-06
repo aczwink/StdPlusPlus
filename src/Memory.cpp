@@ -24,7 +24,7 @@
 //Local
 #include <Std++/Debug.h>
 #include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 //Definitions

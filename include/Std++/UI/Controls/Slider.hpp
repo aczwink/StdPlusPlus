@@ -26,10 +26,6 @@ namespace StdPlusPlus
     {
         class STDPLUSPLUS_API Slider : public Widget
         {
-        private:
-            //Methods
-            void System_CreateHandle();
-
         public:
 			//Dynamic event handlers
 			Function<void()> onValueChangedHandler;
@@ -37,15 +33,24 @@ namespace StdPlusPlus
             //Constructor
             Slider(WidgetContainer *pParent);
 
-			//Destructor
-			~Slider();
-
             //Methods
 			uint32 GetPosition() const;
-            Size GetSizeHint() const;
-            void SetMaximum(uint32 max);
-            void SetMinimum(uint32 min);
-            void SetPosition(uint32 pos);
+
+			//Inline
+			inline void SetMaximum(uint32 max)
+			{
+				this->backend->SetMaximum(max);
+			}
+
+			inline void SetMinimum(uint32 min)
+			{
+				this->backend->SetMinimum(min);
+			}
+
+			inline void SetPosition(uint32 pos)
+			{
+				this->backend->SetPosition(pos);
+			}
         };
     }
 }

@@ -1,6 +1,8 @@
+add_subdirectory(CommonFileFormats)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
+add_subdirectory(Streams)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -95,20 +97,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
-
-	#Streams
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Bitstreams/BitInputStreamBitReversed.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Textcodecs/ASCIITextCodec.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/Readers/TextReader.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferedInputStream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/BufferInputStream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/InputStream.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Streams/CStdOut.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Streams/TextCodec.cpp
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp

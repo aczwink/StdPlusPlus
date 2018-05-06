@@ -27,7 +27,7 @@
 //Local
 #include <Std++/Containers/Strings/OldString.hpp>
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 #include <Std++/Math/Fraction.hpp>
 //Namespaces
 using namespace StdPlusPlus;
@@ -170,26 +170,6 @@ OldString StdPlusPlus::TimeToString(uint64 timeStamp, const Fraction &refTimeSca
     mins %= 60;
 
     return ToString(hours, 2) + ':' + ToString(mins, 2) + ':' + ToString(secs, 2) + '.' + ToString(100 * usecs * refTimeScale.numerator / refTimeScale.denominator, 2);
-}
-
-OldString StdPlusPlus::ToString(int64 value)
-{
-    ByteString buffer;
-    bool isNegative = false;
-
-    if(value == 0)
-        return '0';
-
-    if(value < 0)
-    {
-        isNegative = true;
-        value = -value;
-    }
-
-    if(isNegative)
-        return '-' + ToString((uint64)value);
-
-    return ToString((uint64)value);
 }
 
 //8-bit functions

@@ -19,9 +19,10 @@
 //Class header
 #include "GtkEventSource.hpp"
 //Local
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 #include <Std++/UI/Views/ComboBox.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
+#include <Std++/UI/Controls/Slider.hpp>
 #include "Gtk.h"
 //Namespaces
 using namespace StdPlusPlus;
@@ -215,4 +216,11 @@ void GtkEventSource::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_da
 void GtkEventSource::TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data)
 {
 	l_gtkEvtSrc->DispatchSelectionChangedEvent(*(TreeView *)user_data);
+}
+
+void GtkEventSource::ValueChangedSlot(GtkRange *range, gpointer user_data)
+{
+	Slider *slider = (Slider *) user_data;
+	if(slider->onValueChangedHandler)
+		slider->onValueChangedHandler();
 }

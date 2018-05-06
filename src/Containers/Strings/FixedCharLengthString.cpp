@@ -19,7 +19,7 @@
 //Class Header
 #include <Std++/Containers/Strings/FixedCharLengthString.hpp>
 //Local
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 //Definitions

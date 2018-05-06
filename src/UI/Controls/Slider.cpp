@@ -28,5 +28,5 @@ Slider::Slider(WidgetContainer *pParent) : Widget(pParent)
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->System_CreateHandle();
+	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::Slider, this);
 }

@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Math/Geometry/AxisAlignedBox.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
@@ -36,19 +38,19 @@ bool AxisAlignedBox<ScalarType>::Intersects(const vec4f32 &refOrigin, const vec4
 
 	//check x
 	tmin = MIN(t0.x, t1.x);
-	tmax = MAX(t0.x, t1.x);
+	tmax = Max(t0.x, t1.x);
 
 	//check y
-	tmin = MAX(tmin, MIN(t0.y, t1.y));
-	tmax = MIN(tmax, MAX(t0.y, t1.y));
+	tmin = Max(tmin, MIN(t0.y, t1.y));
+	tmax = MIN(tmax, Max(t0.y, t1.y));
 
 	//check z
-	tmin = MAX(tmin, MIN(t0.z, t1.z));
-	tmax = MIN(tmax, MAX(t0.z, t1.z));
+	tmin = Max(tmin, MIN(t0.z, t1.z));
+	tmax = MIN(tmax, Max(t0.z, t1.z));
 
 	//t can't be negative as this would be behind the ray origin...
 
-	return MAX(tmin, 0) <= tmax;
+	return Max(tmin, ScalarType(0)) <= tmax;
 }
 
 template <typename ScalarType>

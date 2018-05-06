@@ -20,6 +20,7 @@
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Local
 #include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Streams/StdOut.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace StdPlusPlus;
@@ -282,23 +283,23 @@ Rect GridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
     return rc;
 }
 
-void GridLayout::PositionChild(Widget &refWidget, const Rect &bounds)
+void GridLayout::PositionChild(Widget &widget, const Rect &bounds)
 {
     Size sizeHint;
     Rect widgetBounds;
 
     widgetBounds = bounds;
-    sizeHint = refWidget.GetSizeHint();
+    sizeHint = widget.GetSizeHint();
 
     /*
-    if(!refWidget.sizingPolicy.GetHorizontalAttributes().grow && sizeHint.width < widgetBounds.width)
+    if(!widget.sizingPolicy.GetHorizontalAttributes().grow && sizeHint.width < widgetBounds.width)
     {
         widgetBounds.width = sizeHint.width;
         widgetBounds.x = (bounds.width - sizeHint.width) / 2;
     }
     */
 
-    if(!refWidget.sizingPolicy.GetVerticalAttributes().grow && sizeHint.height < widgetBounds.height())
+    if(!widget.sizingPolicy.GetVerticalAttributes().grow && sizeHint.height < widgetBounds.height())
     {
         //fixed height widgets like sliders
 		//put them in vertical center
@@ -306,7 +307,7 @@ void GridLayout::PositionChild(Widget &refWidget, const Rect &bounds)
 		widgetBounds.y() += (bounds.height() - sizeHint.height) / 2;
     }
 
-	refWidget.SetBounds(widgetBounds);
+	widget.SetBounds(widgetBounds);
 }
 
 //Public methods
@@ -331,6 +332,9 @@ void GridLayout::Layout(WidgetContainer &refContainer)
     //collect info
     rc = this->GetChildrenRect(refContainer);
     minSize = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
+
+    //ASSERT(minSize.width <= rc.width(), u8"Can't do that allocation");
+	//ASSERT(minSize.height <= rc.height(), u8"Can't do that allocation");
 
     this->DistributeLeftOverSize(refContainer, minSize, columnWidths, rowHeights);
 

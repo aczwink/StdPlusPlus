@@ -36,7 +36,6 @@ namespace StdPlusPlus
     STDPLUSPLUS_API uint64 StringToUInt64(const OldString &refString);
     STDPLUSPLUS_API OldString TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
     STDPLUSPLUS_API OldString ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
-    OldString ToString(int64 value);
 
     //8-bit functions
     STDPLUSPLUS_API ByteString To8BitString(const OldString &refString);

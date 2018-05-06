@@ -1,4 +1,5 @@
 add_subdirectory(_Backends)
+add_subdirectory(CommonFileFormats)
 add_subdirectory(Containers)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
@@ -111,6 +112,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.hpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/__Globaldependencies.h
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.hpp
@@ -122,7 +124,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InternalCompilerFlags.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Natural.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp

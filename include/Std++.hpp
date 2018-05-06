@@ -17,6 +17,10 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//CommonFileFormats
+//CommonFileFormats/CSV
+#include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
+
 //Compute
 #include <Std++/Compute/CommandQueue.hpp>
 #include <Std++/Compute/DeviceContext.hpp>
@@ -69,7 +73,7 @@
 #include <Std++/Streams/CConcatenatedInputStream.h>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 #include <Std++/Streams/StdIn.hpp>
 //Streams/Bitstreams
 #include <Std++/Streams/Bitstreams/CBitInputStream.h>
@@ -238,5 +242,5 @@
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
 #include <Std++/Integer.hpp>
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>

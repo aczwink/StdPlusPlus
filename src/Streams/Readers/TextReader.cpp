@@ -53,7 +53,7 @@ TextReader &TextReader::operator>>(String &target)
 
 	while(true)
 	{
-		codePoint = this->codec->ReadCodePoint(this->dataReader);
+		codePoint = this->codec->ReadCodePoint(this->inputStream);
 		if(IsWhiteSpaceChar(codePoint))
 			break;
 		target += codePoint;
@@ -71,7 +71,7 @@ String TextReader::ReadString(uint32 length)
 	String result;
 	while(!this->inputStream.IsAtEnd() && length--)
 	{
-		uint32 codePoint = this->codec->ReadCodePoint(this->dataReader);
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
 		result += codePoint;
 	}
 
@@ -187,7 +187,7 @@ uint32 TextReader::SkipWhitespaces()
 	{
 		if(this->inputStream.IsAtEnd())
 			return -1;
-		codePoint = this->codec->ReadCodePoint(this->dataReader);
+		codePoint = this->codec->ReadCodePoint(this->inputStream);
 		if(!IsWhiteSpaceChar(codePoint))
 			break;
 	}

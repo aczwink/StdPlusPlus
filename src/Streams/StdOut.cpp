@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 //Global
 #include <stdio.h>
 //Namespaces
@@ -25,7 +25,7 @@ using namespace StdPlusPlus;
 
 //Global Variables
 CStdErr STDPLUSPLUS_API StdPlusPlus::stdErr;
-CStdOut STDPLUSPLUS_API StdPlusPlus::stdOut;
+StdOut STDPLUSPLUS_API StdPlusPlus::stdOut;
 
 //CStdErr Public methods
 void CStdErr::WriteByte(byte b)
@@ -38,13 +38,13 @@ uint32 CStdErr::WriteBytes(const void *pSource, uint32 count)
     return (uint32)fwrite(pSource, 1, count, stderr);
 }
 
-//CStdOut Public methods
-void CStdOut::WriteByte(byte b)
+//StdOut Public methods
+void StdOut::WriteByte(byte b)
 {
     putc(b, stdout);
 }
 
-uint32 CStdOut::WriteBytes(const void *pSource, uint32 count)
+uint32 StdOut::WriteBytes(const void *pSource, uint32 count)
 {
     return (uint32)fwrite(pSource, 1, count, stdout);
 }

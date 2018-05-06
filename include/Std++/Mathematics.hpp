@@ -16,36 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Containers/GroupBox.hpp>
+#pragma once
+
 //Local
-#include <Std++/UI/Layouts/GridLayout.hpp>
-#include "../Gtk.h"
-#include "../GtkEventSource.hpp"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
-//Definitions
-#define THIS PRIVATE_DATA(this)
+#include "Definitions.h"
+#include "__Globaldependencies.h"
 
-//Public methods
-Rect GroupBox::GetChildrenRect() const
+//Constants
+#define PI 3.1415926535897932384626433832795
+
+namespace StdPlusPlus
 {
-	Rect rect;
+	template <typename T>
+	constexpr T Cot(const T &x)
+	{
+		return 1 / tan(x);
+	}
 
-	rect = this->GetBounds();
+	template <typename T>
+	constexpr T Max(const T &a, const T &b)
+	{
+		return ((a) > (b)) ? (a) : (b);
+	}
 
-	//TODO: shit we dont know this correctly...
-	rect.y() += 10;
-	rect.height() -= 10;
-
-	return rect;
-}
-
-void GroupBox::SetText(const OldString &text)
-{
-	UTF8String textUTF8;
-
-	textUTF8 = text.GetUTF16();
-	gtk_frame_set_label(GTK_FRAME(THIS->widget), (const gchar *)textUTF8.GetC_Str());
+    uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
 }

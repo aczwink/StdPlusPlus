@@ -30,9 +30,11 @@ namespace StdPlusPlus
             //Constructor
             GroupBox(WidgetContainer *pParent);
 
-            //Methods
-            Rect GetChildrenRect() const;
-            void SetText(const OldString &text);
+			//Inline
+            inline void SetText(const String &text)
+            {
+                this->backend->SetText(text);
+            }
         };
     }
 }

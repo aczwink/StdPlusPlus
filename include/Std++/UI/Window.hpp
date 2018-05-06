@@ -54,7 +54,6 @@ namespace StdPlusPlus
 
             //Methods
             void EnableDrop();
-            void Maximize();
             void SetMenuBar(CMenuBar *pMenuBar);
             void ShowErrorBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
@@ -64,6 +63,11 @@ namespace StdPlusPlus
             {
                 return this->pMenuBar;
             }
+
+			inline void Maximize()
+			{
+				this->backend->Maximize();
+			}
 
 			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = {})
 			{
@@ -91,6 +95,7 @@ namespace StdPlusPlus
             virtual void OnDragLeave();
             virtual EDropType OnDragMove();
             virtual void OnDrop(const ITransfer &refTransfer);
+			virtual void OnResized();
 
             //Methods
             void MenuBarChangeOS();

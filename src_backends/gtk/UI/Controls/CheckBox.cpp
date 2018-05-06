@@ -27,31 +27,7 @@ using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 
-//Destructor
-CheckBox::~CheckBox()
-{
-	MemFree(this->backend);
-}
-
-//Private methods
-void CheckBox::System_CreateHandle()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//this->backend = CreateWidgetPrivateData(gtk_check_button_new(), this);
-	gtk_widget_show(THIS); //default to show
-
-	g_signal_connect(THIS, "toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this);
-
-	//ADD_SELF_TO_PARENT(THIS);
-}
-
 //Public methods
-Size CheckBox::GetSizeHint() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//return GetPreferedSizeGtk(THIS);
-}
-
 OldString CheckBox::GetText() const
 {
 	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
@@ -60,11 +36,4 @@ OldString CheckBox::GetText() const
 bool CheckBox::IsChecked() const
 {
 	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(THIS)) != 0;
-}
-
-void CheckBox::SetText(const OldString &text)
-{
-	UTF8String textUTF8 = text.GetUTF16();
-
-	gtk_button_set_label(GTK_BUTTON(THIS), (const gchar *) textUTF8.GetC_Str());
 }

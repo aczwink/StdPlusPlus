@@ -61,6 +61,7 @@ namespace _stdpp
 		virtual StdPlusPlus::Rect GetChildrenRect() const = 0;
 		virtual StdPlusPlus::Size GetSize() const = 0;
 		virtual StdPlusPlus::Size GetSizeHint() const = 0;
+		virtual void Maximize() const = 0;
 		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const = 0;
@@ -68,7 +69,11 @@ namespace _stdpp
 		virtual void SetBounds(const StdPlusPlus::Rect &area) = 0;
 		virtual void SetEnabled(bool enable) const = 0;
 		virtual void SetHint(const StdPlusPlus::String &text) const = 0;
+		virtual void SetMaximum(uint32 max) const = 0;
+		virtual void SetMinimum(uint32 min) const = 0;
+		virtual void SetPosition(uint32 pos) const = 0;
 		virtual void SetText(const StdPlusPlus::String &text) = 0;
+		virtual void SetValue(int32 value) const = 0;
 		virtual void Show(bool visible) = 0;
 		virtual void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const = 0;
 		virtual void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const = 0;

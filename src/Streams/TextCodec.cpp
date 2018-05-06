@@ -20,6 +20,7 @@
 #include <Std++/Streams/TextCodec.hpp>
 //Codecs
 #include "Textcodecs/ASCIITextCodec.hpp"
+#include "Textcodecs/UTF8TextCodec.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -30,6 +31,8 @@ TextCodec *TextCodec::GetCodec(TextCodecType codecType)
 	{
 		case TextCodecType::ASCII:
 			return new ASCIITextCodec;
+		case TextCodecType::UTF8:
+			return new UTF8TextCodec;
 	}
 
 	return nullptr;

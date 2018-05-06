@@ -56,7 +56,7 @@ namespace StdPlusPlus
         uint32 WriteBytes(const void *pSource, uint32 size);
     };
 
-    class CStdOut : public OutputStream
+    class StdOut : public OutputStream
     {
     public:
         //Methods
@@ -66,5 +66,5 @@ namespace StdPlusPlus
 
     //Global Instances
     extern CStdErr STDPLUSPLUS_API stdErr;
-    extern CStdOut STDPLUSPLUS_API stdOut;
+    extern StdOut STDPLUSPLUS_API stdOut;
 }

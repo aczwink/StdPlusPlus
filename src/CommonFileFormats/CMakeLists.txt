@@ -1,0 +1,5 @@
+add_subdirectory(CSV)
+
+set(SOURCE_FILES
+	${SOURCE_FILES}
+	PARENT_SCOPE)

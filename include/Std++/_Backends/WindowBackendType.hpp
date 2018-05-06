@@ -22,11 +22,16 @@ namespace _stdpp
 {
 	enum class WindowBackendType
 	{
+		CheckBox,
 		ComboBox,
 		GroupBox,
+		Label,
 		PushButton,
+		RadioButton,
 		RenderTarget,
 		SearchBox,
+		Slider,
+		SpinBox,
 		TreeView,
 		Window
 	};

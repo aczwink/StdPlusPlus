@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,17 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 //Local
-#include "Definitions.h"
-
-//Constants
-#define PI 3.1415926535897932384626433832795
-
-//Function-like
-#define COT(x) (1.0 / tan(x))
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
-    uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
+	namespace CommonFileFormats
+	{
+		class CSVDialect
+		{
+		public:
+			//Members
+			String separator;
+			String lineSeparator;
+
+			//Constructor
+			CSVDialect(const String &separator, const String &lineSeparator) : separator(separator),
+																			   lineSeparator(lineSeparator)
+			{
+			}
+		};
+
+		//Instances
+		static CSVDialect csvDialect_excel(u8",", u8"\r\n");
+	}
 }

@@ -27,9 +27,10 @@ class ASCIITextCodec : public TextCodec
 {
 public:
 	//Methods
-	uint32 ReadCodePoint(DataReader &reader) const
+	uint32 ReadCodePoint(InputStream &inputStream) const override
 	{
-		byte b = reader.ReadByte();
+		byte b;
+		inputStream.ReadBytes(&b, 1);
 		ASSERT(b <= 0x7F, u8"Invalid ASCII value");
 
 		return b; //ascii directly maps to unicode

@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Streams/TextCodec.hpp>
 #include "../OutputStream.hpp"
 #include "../../Containers/Strings/ByteString.hpp"
 #include "../../Containers/Strings/ConstStringIterator.hpp"
@@ -48,9 +49,7 @@ namespace StdPlusPlus
 		inline void WriteString(const String &string)
 		{
 			for(uint32 codePoint : string)
-			{
 				this->codec->WriteCodePoint(codePoint, this->outputStream);
-			}
 		}
 
     private:

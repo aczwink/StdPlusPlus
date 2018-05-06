@@ -27,8 +27,8 @@
 
 namespace StdPlusPlus
 {
-    class CLineBreak{};
-    static const CLineBreak endl;
+    class LineBreak{};
+    static const LineBreak endl;
 
     class STDPLUSPLUS_API OutputStream
     {
@@ -44,9 +44,7 @@ namespace StdPlusPlus
 
         inline OutputStream &operator<<(int32 i)
         {
-            const OldString &refString = ToString((int64)i);
-
-            return *this << refString;
+			return *this << String::Number(i);
         }
 
         inline OutputStream &operator<<(uint32 i)
@@ -71,7 +69,7 @@ namespace StdPlusPlus
             return *this << String::Number(f);
         }
 
-        inline OutputStream &operator<<(const CLineBreak &refLineBreak)
+        inline OutputStream &operator<<(const LineBreak &refLineBreak)
         {
             this->WriteBytes("\r\n", 2); //do always CR LF.. ok for windows and linux ignores CR
 

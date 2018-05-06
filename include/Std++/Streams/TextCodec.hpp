@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "Readers/DataReader.hpp"
+#include "InputStream.hpp"
 #include "OutputStream.hpp"
 
 namespace StdPlusPlus
@@ -34,7 +34,7 @@ namespace StdPlusPlus
 	{
 	public:
 		//Abstract
-		virtual uint32 ReadCodePoint(DataReader &reader) const = 0;
+		virtual uint32 ReadCodePoint(InputStream &inputStream) const = 0;
 		virtual void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const = 0;
 
 		//Functions

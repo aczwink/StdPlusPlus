@@ -38,12 +38,6 @@ void Window::MenuBarChangeOS()
 }
 
 //Public methods
-void Window::Maximize()
-{
-	gtk_window_maximize(GTK_WINDOW(THIS->widget));
-	gtk_widget_show(THIS->widget);
-}
-
 void Window::ShowErrorBox(const OldString &title, const OldString &message)
 {
 	UTF8String messageUTF8 = message.GetUTF16();

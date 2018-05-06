@@ -38,26 +38,9 @@ struct EventQueueInternal
 	int timerEventFd;
 };
 
-static void DoGTKEvents(EventQueueInternal *internal, uint64 minWaitTime_usec, bool block)
-{
-
-	{
-		uint32 currentFDIndex = nUIEventObjects;
-		//add timer event object
-		{
-			pollfd &fd = internal->eventObjects[currentFDIndex++];
-
-			fd.fd = internal->timerEventFd;
-			fd.events = POLLIN;
-			fd.revents = 0;
-		}
-	}
-}
-
 //Constructor
 EventQueue::EventQueue()
 {
-	THIS->eventObjects = nullptr;
 	THIS->timerEventFd = eventfd(0, 0);
 }
 

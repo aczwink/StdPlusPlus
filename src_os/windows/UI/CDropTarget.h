@@ -26,7 +26,7 @@
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 
 namespace StdPlusPlus
 {

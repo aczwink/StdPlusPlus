@@ -26,10 +26,6 @@ namespace StdPlusPlus
     {
         class STDPLUSPLUS_API CheckBox : public Widget
         {
-        private:
-			//Methods
-			void System_CreateHandle();
-
         public:
             //Dynamic event handlers
             Function<void()> onToggledHandler;
@@ -37,14 +33,15 @@ namespace StdPlusPlus
             //Constructor
             CheckBox(WidgetContainer *parent);
 
-			//Destructor
-			~CheckBox();
-
             //Methods
-            Size GetSizeHint() const;
 			OldString GetText() const;
             bool IsChecked() const;
-            void SetText(const OldString &text);
+
+			//Inline
+			inline void SetText(const String &text)
+			{
+				this->backend->SetText(text);
+			}
         };
     }
 }

@@ -20,7 +20,7 @@
 #include <Std++/Math/Degree.hpp>
 //Local
 #include <Std++/Math/Radian.hpp>
-#include <Std++/Mathematics.h>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 

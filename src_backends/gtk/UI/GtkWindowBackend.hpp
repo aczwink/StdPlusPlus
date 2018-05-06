@@ -32,7 +32,7 @@ namespace _stdpp
 	{
 	public:
 		//Constructor
-		GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget);
+		GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, const GtkWindowBackend *parentBackend);
 
 		//Destructor
 		~GtkWindowBackend();
@@ -40,9 +40,10 @@ namespace _stdpp
 		//Methods
 		void ClearView() const;
 		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const;
+		Rect GetChildrenRect() const override;
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
-		UIBackend *GetUIBackend() override;
+		void Maximize() const override;
 		void Paint() override;
 		void Repaint() override;
 		void Select(ControllerIndex &controllerIndex) const;
@@ -50,7 +51,11 @@ namespace _stdpp
 		void SetBounds(const StdPlusPlus::Rect &area);
 		void SetEnabled(bool enable) const;
 		void SetHint(const StdPlusPlus::String &text) const;
+		void SetMaximum(uint32 max) const override;
+		void SetMinimum(uint32 min) const override;
+		void SetPosition(uint32 pos) const override;
 		void SetText(const StdPlusPlus::String &text);
+		void SetValue(int32 value) const override;
 		void Show(bool visible);
 		void ShowInformationBox(const String &title, const String &message) const;
 		void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const;

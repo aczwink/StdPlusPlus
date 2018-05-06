@@ -85,10 +85,11 @@ ERenderMode WidgetContainer::GetChildrenRenderMode() const
 
 Size WidgetContainer::GetSizeHint() const
 {
+	Size size;
+	if(this->backend)
+		size = size.Max(this->backend->GetSizeHint());
     if(this->layout)
-        return this->layout->GetPreferredSize(*this);
-    if(this->backend)
-        return this->backend->GetSizeHint();
+		size = size.Max(this->layout->GetPreferredSize(*this));
 
-    return Size();
+	return size;
 }

@@ -28,5 +28,5 @@ CheckBox::CheckBox(WidgetContainer *parent) : Widget(parent)
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->System_CreateHandle();
+	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::CheckBox, this);
 }

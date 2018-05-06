@@ -17,7 +17,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CStdOut.h
+	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/OutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SeekableInputStream.hpp

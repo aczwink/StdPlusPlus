@@ -61,10 +61,6 @@
 
 #define CLAMP(x, min, max) (((x) < (min)) ? (min) : (((x) > (max)) ? (max) : (x)))
 
-#ifndef MAX //maybe defined by the user
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-#endif
-
 #ifndef MIN //maybe defined by the user
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif

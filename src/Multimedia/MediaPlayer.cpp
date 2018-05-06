@@ -170,7 +170,7 @@ void MediaPlayer::OnMasterClockTriggered()
 
 	//set up next call
 	int64 nextDelay = MIN(this->videoFrameDelay, 0); //TODO: audioframedealy
-	nextDelay = MAX(nextDelay, 1);
+	nextDelay = Max(nextDelay, int64(1));
 
 	this->masterClockTimer.OneShot((uint32) (nextDelay * 1000));
 }

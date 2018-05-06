@@ -26,23 +26,20 @@ namespace StdPlusPlus
 	{
 		class STDPLUSPLUS_API SpinBox : public Widget
 		{
-		private:
-			//Methods
-			void System_CreateHandle();
-
 		public:
 			//Constructor
 			SpinBox(WidgetContainer *parent);
 
-			//Destructor
-			~SpinBox();
-
 			//Methods
-			Size GetSizeHint() const;
 			int32 GetValue() const;
 			void SetMaximum(int32 max);
 			void SetMinimum(int32 min);
-			void SetValue(int32 value);
+
+			//Inline
+			inline void SetValue(int32 value)
+			{
+				this->backend->SetValue(value);
+			}
 		};
 	}
 }

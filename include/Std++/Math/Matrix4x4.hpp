@@ -114,9 +114,8 @@ namespace StdPlusPlus
             static Matrix4x4 RotationY(const Radian<ScalarType> &refAngle);
             static Matrix4x4 RotationYawPitchRoll(const Radian<ScalarType> &refYaw, const Radian<ScalarType> &refPitch, const Radian<ScalarType> &refRoll);
             static Matrix4x4 RotationZ(const Radian<ScalarType> &refAngle);
-            static Matrix4x4 Scale(float32 scaleX, float32 scaleY, float32 scaleZ);
-            static Matrix4x4 Translation(float32 dx, float32 dy, float32 dz);
-            static Matrix4x4 Translation(const vec3 &refVector);
+            static Matrix4x4 Scale(const vec3 &s);
+            static Matrix4x4 Translation(const vec3 &t);
 
         private:
             //Members

@@ -23,7 +23,7 @@
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/Strings/StringUtil.h>
-#include <Std++/Streams/CStdOut.h>
+#include <Std++/Streams/StdOut.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 

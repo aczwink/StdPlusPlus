@@ -33,7 +33,7 @@ public:
 	uint64 GetMaxTimeout() const override;
 	void VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const override;
 
-    //Functions;
+    //Slots:
 	static bool ButtonSlot(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 	static void ChangedSlot(GtkComboBox *comboBox, gpointer user_data);
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
@@ -45,6 +45,7 @@ public:
 	static void SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
 	static void ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data);
 	static void TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data);
+	static void ValueChangedSlot(GtkRange *range, gpointer user_data);
 
 	//Inline
 	inline void OpenGLWidgetRender(StdPlusPlus::UI::Widget *widget)
