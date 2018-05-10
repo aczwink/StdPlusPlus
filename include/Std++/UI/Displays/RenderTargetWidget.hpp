@@ -34,7 +34,7 @@ namespace StdPlusPlus
         {
         public:
             //Constructor
-            RenderTargetWidget(WidgetContainer *pParent);
+            RenderTargetWidget(WidgetContainer *parent);
 
             //Destructor
             ~RenderTargetWidget();

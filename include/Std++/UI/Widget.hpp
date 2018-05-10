@@ -27,7 +27,6 @@
 #include "../Math/Size.hpp"
 #include "Mouse.hpp"
 #include "SizingPolicy.hpp"
-#include "ERenderMode.h"
 
 namespace StdPlusPlus
 {
@@ -48,7 +47,6 @@ namespace StdPlusPlus
             friend class UIEventSource;
 			friend class Rendering::DeviceContext;
             friend class WidgetContainer;
-			friend class Window;
         public:
             //Members
             SizingPolicy sizingPolicy;
@@ -60,13 +58,7 @@ namespace StdPlusPlus
             virtual ~Widget();
 
             //Methods
-			/**
-			 * Returns the point in coordinates of the child area of the owner window.
-			 *
-			 * @param point
-			 * @return
-			 */
-            Point TranslateToOwnerCoords(const Point &point) const;
+			Point TranslateToAncestorCoords(const Point &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
             virtual Size GetSizeHint() const;
@@ -77,6 +69,16 @@ namespace StdPlusPlus
 				return this->bounds;
 			}
 
+			/**
+			 * Returns a rectangle that describes the area of this widget locally (i.e. without considering parents).
+			 * In its own coordinate system, this widget always has the origin (0, 0).
+			 * @return
+			 */
+			inline Rect GetLocalBounds() const
+			{
+				return Rect(Point(), this->GetSize());
+			}
+
             inline const WidgetContainer *GetParent() const
             {
                 return this->parent;
@@ -84,8 +86,6 @@ namespace StdPlusPlus
 
 			inline Size GetSize() const
 			{
-				if(this->backend)
-					return this->backend->GetSize();
 				return this->bounds.size;
 			}
 
@@ -105,12 +105,7 @@ namespace StdPlusPlus
 
 			inline void SetBounds(const Rect &area)
 			{
-				this->bounds = area;
-
-				if(this->backend)
-					this->backend->SetBounds(area);
-				else
-					this->OnResized();
+				this->OnResizing(area);
 			}
 
 			inline void SetEnabled(bool enable = true)
@@ -128,12 +123,19 @@ namespace StdPlusPlus
 				this->backend->Show(visible);
 			}
 
+			inline Point TranslateToOwnerCoords(const Point &point) const
+			{
+				return this->TranslateToAncestorCoords(point, reinterpret_cast<const WidgetContainer *>(this->owner));
+			}
+
+			inline Point TranslateToParentCoords(const Point &point) const
+			{
+				return this->bounds.origin + point;
+			}
+
 		protected:
 			//Members
 			_stdpp::WindowBackend *backend;
-
-			//Methods
-			ERenderMode GetRenderMode() const;
 
 			//Inline
 			inline _stdpp::WindowBackend *GetParentBackend() const
@@ -150,6 +152,10 @@ namespace StdPlusPlus
 			//Members
 			WidgetContainer *parent;
 			Window *owner;
+			/**
+			 * Defines a rectangular area of this widget within the children rectangle of its parent.
+			 * The bounds are always relative to the parents child area coordinates.
+			 */
 			Rect bounds;
 
 			//Eventhandlers
@@ -159,6 +165,7 @@ namespace StdPlusPlus
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnPaint();
 			virtual void OnResized();
+			virtual void OnResizing(const Rect &newBounds);
         };
     }
 }

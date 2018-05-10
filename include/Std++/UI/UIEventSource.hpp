@@ -75,6 +75,11 @@ namespace StdPlusPlus
 				widget.OnPaint();
 			}
 
+			inline void DispatchResizingEvent(Widget &widget, const Rect &newBounds)
+			{
+				widget.OnResizing(newBounds);
+			}
+
 			inline void DispatchResizedEvent(Widget &widget)
 			{
 				widget.OnResized();

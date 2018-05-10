@@ -21,6 +21,7 @@
 #include "../../Definitions.h"
 #include "../Point.hpp"
 #include "../Size.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
@@ -96,6 +97,12 @@ namespace StdPlusPlus
             this->origin.x += dx;
             this->origin.y += dy;
         }
+
+        inline String ToString() const
+		{
+			return u8"Rect(" + String::Number(this->origin.x) + u8", " + String::Number(this->origin.y) + u8", "
+				   + String::Number(this->size.width) + u8", " + String::Number(this->size.height) + u8")";
+		}
 
         inline uint16 &width()
         {

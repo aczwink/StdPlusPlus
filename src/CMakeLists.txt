@@ -3,6 +3,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
 add_subdirectory(Streams)
+add_subdirectory(UI)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -103,42 +104,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp
-
-	#UI
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/PathRenderTargetWidget.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/RenderTargetWidget.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/VideoWidget.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/WidgetContainer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/MainAppWindow.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/SizingPolicy.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Window.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ControllerIndex.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/ListController.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controllers/TableController.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/PushButton.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SearchBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Layouts/GridLayout.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/ATextRenderTarget.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDesktopRenderTarget.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/IRenderTarget.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/ComboBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TreeView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/View.cpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp

@@ -36,6 +36,7 @@ set(SOURCE_FILES
 
 	#Views
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ComboBox.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.hpp

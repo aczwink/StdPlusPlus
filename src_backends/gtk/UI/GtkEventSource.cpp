@@ -205,7 +205,22 @@ bool GtkEventSource::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpo
 
 void GtkEventSource::SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data)
 {
-	l_gtkEvtSrc->DispatchResizedEvent(*(Widget *)user_data);
+	Rect rc;
+	if(gtk_widget_get_parent_window(widget) == nullptr)
+	{
+		gint x, y;
+		gtk_window_get_position(GTK_WINDOW(widget), &x, &y);
+		rc.x() = x;
+		rc.y() = y;
+	}
+	else
+	{
+		rc.x() = allocation->x;
+		rc.y() = allocation->y;
+	}
+	rc.width() = static_cast<uint16>(allocation->width);
+	rc.height() = static_cast<uint16>(allocation->height);
+	l_gtkEvtSrc->DispatchResizingEvent(*(Widget *)user_data, rc);
 }
 
 void GtkEventSource::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data)

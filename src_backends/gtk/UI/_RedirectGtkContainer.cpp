@@ -173,22 +173,19 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 		Widget *widget = WIDGET_FROM_GTK(gtkWidget);
 		if(!widget)
 			continue;
-		const Rect &bounds = widget->GetBounds();
+		Rect bounds = widget->GetLocalBounds();
+
+		//offset bounds because the parent of the gtk widget might not be the parent of the std++ widget
+		bounds.origin = widget->TranslateToAncestorCoords(bounds.origin, thisContainer);
+		//the gtk allocation is in coordinates of the widget, not its child i.e. the redirect container
+		bounds.origin = thisContainer->TranslateChildToWidgetCoords(bounds.origin);
 
 		allocation->x = bounds.x();
 		allocation->y = bounds.y();
 		allocation->width = bounds.width();
 		allocation->height = bounds.height();
-
-		//offset bounds because the parent of the gtk widget might not be the parent of the std++ widget
-		const Widget *parent = widget->GetParent();
-		while(parent != thisContainer)
-		{
-			allocation->x += parent->GetBounds().x();
-			allocation->y += parent->GetBounds().y();
-			parent = parent->GetParent();
-		}
-
+		//fprintf(stderr, "size-allocate: %p -> %d, %d, %d, %d\n", widget, bounds.x(), bounds.y(), bounds.width(), bounds.height());
+		//fflush(stderr);
 		if(gtk_widget_get_realized(gtkWidget))
 			gtk_widget_size_allocate(gtkWidget, allocation);
 	}

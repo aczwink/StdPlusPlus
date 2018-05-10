@@ -28,55 +28,12 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
 //Constructors
-Window::Window(ERenderMode mode) : WidgetContainer(nullptr)
+Window::Window() : WidgetContainer(nullptr)
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
-    this->renderMode = mode;
 
 	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
-
-	//position and size
-    const float64 shrinkPercentage = -0.1;
-
-    Size screenSize = GetRenderTarget(mode).GetSize();
-
-	Rect windowRect;
-    windowRect.width() = screenSize.width;
-    windowRect.height() = screenSize.height;
-    windowRect.Enlarge(int32(windowRect.width() * shrinkPercentage), int32(windowRect.height() * shrinkPercentage));
-
-	this->SetBounds(windowRect);
-}
-
-Window::Window(const Rect &refRect, ERenderMode mode) : WidgetContainer(nullptr)
-{
-    this->pMenuBar = nullptr;
-    this->pOSDropTarget = nullptr;
-    this->renderMode = mode;
-
-	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
-	this->SetBounds(refRect);
-}
-
-Window::Window(uint16 width, uint16 height, ERenderMode mode) : WidgetContainer(nullptr)
-{
-    this->pMenuBar = nullptr;
-    this->pOSDropTarget = nullptr;
-    this->renderMode = mode;
-
-	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
-
-	//position and size
-    Size screenSize = GetRenderTarget(mode).GetSize();
-
-	Rect windowRect;
-    windowRect.x() = (screenSize.width - width) / 2;
-    windowRect.y() = (screenSize.height - height) / 2;
-    windowRect.width() = width;
-    windowRect.height() = height;
-
-	this->SetBounds(windowRect);
 }
 
 //Destructor
@@ -132,13 +89,8 @@ void Window::SwitchFullscreen(bool state)
     }
     else
     {
-		this->SetBounds(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
+		//this->SetBounds(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
+        NOT_IMPLEMENTED_ERROR;
         this->Repaint();
     }
-}
-
-void Window::OnResized()
-{
-	this->bounds.size = this->backend->GetSize(); //size has changed
-    WidgetContainer::OnResized();
 }

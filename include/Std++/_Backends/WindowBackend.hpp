@@ -61,12 +61,13 @@ namespace _stdpp
 		virtual StdPlusPlus::Rect GetChildrenRect() const = 0;
 		virtual StdPlusPlus::Size GetSize() const = 0;
 		virtual StdPlusPlus::Size GetSizeHint() const = 0;
-		virtual void Maximize() const = 0;
+		virtual void Maximize() = 0;
 		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const = 0;
 		virtual StdPlusPlus::Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const = 0;
 		virtual void SetBounds(const StdPlusPlus::Rect &area) = 0;
+		virtual void SetEditable(bool enable) const = 0;
 		virtual void SetEnabled(bool enable) const = 0;
 		virtual void SetHint(const StdPlusPlus::String &text) const = 0;
 		virtual void SetMaximum(uint32 max) const = 0;

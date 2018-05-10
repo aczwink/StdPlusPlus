@@ -51,6 +51,31 @@ Widget::~Widget()
         delete this->backend;
 }
 
+//Public methods
+Size Widget::GetSizeHint() const
+{
+	if(this->backend)
+		return this->backend->GetSizeHint();
+
+	return Size();
+}
+
+Point Widget::TranslateToAncestorCoords(const Point &point, const WidgetContainer *ancestor) const
+{
+	if(this == ancestor)
+		return point;
+
+	Point translated = this->TranslateToParentCoords(point);
+	const WidgetContainer *current = this->GetParent();
+	while(current != ancestor)
+	{
+		translated = current->TranslateChildToWidgetCoords(translated);
+		translated = current->TranslateToParentCoords(translated);
+		current = current->parent;
+	}
+	return translated;
+}
+
 //Eventhandlers
 void Widget::OnMouseButtonPressed(MouseButton button, const Point &pos)
 {
@@ -82,30 +107,10 @@ void Widget::OnResized()
     this->IgnoreEvent();
 }
 
-//Protected methods
-ERenderMode Widget::GetRenderMode() const
+void Widget::OnResizing(const Rect &newBounds)
 {
-    return this->parent->GetRenderMode();
-}
-
-//Public methods
-Size Widget::GetSizeHint() const
-{
-    if(this->backend)
-        return this->backend->GetSizeHint();
-
-    return Size();
-}
-
-Point Widget::TranslateToOwnerCoords(const Point &point) const
-{
-	Point translated = point;
-	const Widget *current = this;
-    while(current != this->owner)
-    {
-		translated += current->bounds.origin;
-		current = current->parent;
-	}
-
-    return translated;
+	this->bounds = newBounds;
+	if(this->backend)
+		this->backend->SetBounds(newBounds);
+	this->OnResized();
 }

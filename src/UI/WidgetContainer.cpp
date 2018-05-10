@@ -29,8 +29,6 @@ using namespace StdPlusPlus::UI;
 WidgetContainer::WidgetContainer(WidgetContainer *pContainer) : Widget(pContainer)
 {
     this->layout = new GridLayout;
-    if(pContainer)
-        this->renderMode = pContainer->renderMode;
 }
 
 //Destructor
@@ -76,11 +74,6 @@ Rect WidgetContainer::GetChildrenRect() const
 	if(this->backend)
 		return this->backend->GetChildrenRect();
 	return {Point(), this->GetSize()};
-}
-
-ERenderMode WidgetContainer::GetChildrenRenderMode() const
-{
-    return this->GetWindow()->GetRenderMode();
 }
 
 Size WidgetContainer::GetSizeHint() const

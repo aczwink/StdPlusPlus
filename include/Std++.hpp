@@ -227,7 +227,7 @@
 #include <Std++/UI/Displays/PathRenderTargetWidget.hpp>
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 #include <Std++/UI/Views/CCheckListView.h>
-#include <Std++/UI/Views/CListView.h>
+#include <Std++/UI/Views/ListView.hpp>
 #include <Std++/UI/Views/TableView.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
 

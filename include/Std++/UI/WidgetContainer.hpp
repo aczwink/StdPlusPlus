@@ -44,8 +44,13 @@ namespace StdPlusPlus
             void SetLayout(ILayout *pLayout);
 
             //Overrideable
+            /**
+             * The rectangle in which the children widgets are placed.
+             * It is relative to this widgets area (i.e. Rect(Point(0, 0), this->GetSize()).
+             * It must lay inside this widgets area or can be exactly this widgets area.
+             * @return
+             */
 			virtual Rect GetChildrenRect() const;
-            virtual ERenderMode GetChildrenRenderMode() const;
             virtual Size GetSizeHint() const;
 
             //Inline
@@ -54,25 +59,22 @@ namespace StdPlusPlus
                 return this->children;
             }
 
-            inline ERenderMode GetRenderMode() const
-            {
-                return this->renderMode;
-            }
+			inline Point TranslateChildToWidgetCoords(const Point &point) const
+			{
+				return this->GetChildrenRect().origin + point;
+			}
 
         protected:
             //Members
             ILayout *layout;
-            ERenderMode renderMode;
 
             //Eventhandlers
             virtual void OnPaint();
+			virtual void OnResized();
 
         private:
             //Members
             LinkedList<Widget *> children;
-
-            //Eventhandlers
-            virtual void OnResized();
 
             //Inline
             inline void RemoveChild(Widget *child)

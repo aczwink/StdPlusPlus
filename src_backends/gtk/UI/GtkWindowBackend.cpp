@@ -95,6 +95,11 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			this->gtkWidget = gtk_label_new(nullptr);
 		}
 		break;
+		case WindowBackendType::ListView:
+		{
+			this->gtkWidget = gtk_list_box_new();
+		}
+		break;
 		case WindowBackendType::PushButton:
 		{
 			this->gtkWidget = gtk_button_new();
@@ -157,6 +162,11 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		case WindowBackendType::SpinBox:
 		{
 			this->gtkWidget = gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0);
+		}
+		break;
+		case WindowBackendType::TextEdit:
+		{
+			this->gtkWidget = gtk_text_view_new();
 		}
 		break;
 		case WindowBackendType::TreeView:
@@ -348,10 +358,10 @@ Size GtkWindowBackend::GetSizeHint() const
 	return Size(nat1, nat2);
 }
 
-void GtkWindowBackend::Maximize() const
+void GtkWindowBackend::Maximize()
 {
 	gtk_window_maximize(GTK_WINDOW(this->gtkWidget));
-	gtk_widget_show(this->gtkWidget);
+	this->Show(true);
 }
 
 void GtkWindowBackend::Paint()
@@ -396,10 +406,16 @@ Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Functi
 
 void GtkWindowBackend::SetBounds(const Rect &area)
 {
-	if(GTK_IS_WINDOW(this->gtkWidget))
-		gtk_window_set_default_size(GTK_WINDOW(this->gtkWidget), area.width(), area.height());
-	else
-		gtk_widget_queue_resize(this->gtkWidget);
+	gtk_widget_queue_resize(this->gtkWidget);
+	if(this->childAreaWidget)
+		gtk_container_check_resize(GTK_CONTAINER(this->childAreaWidget));
+
+	//printf("SetBounds: %p -> %d, %d, %d, %d\n", this, area.x(), area.y(), area.width(), area.height());
+}
+
+void GtkWindowBackend::SetEditable(bool enable) const
+{
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(this->gtkWidget), enable);
 }
 
 void GtkWindowBackend::SetEnabled(bool enable) const
@@ -465,6 +481,18 @@ void GtkWindowBackend::SetValue(int32 value) const
 
 void GtkWindowBackend::Show(bool visible)
 {
+	if(this->type == WindowBackendType::Window)
+	{
+		Size size = this->widget->GetSizeHint();
+
+		//add titlebar
+		int min, nat;
+		gtk_widget_get_preferred_height(this->headerBar, &min, &nat);
+		size.height += Max(min, nat);
+
+		gtk_window_set_default_size(GTK_WINDOW(this->gtkWidget), size.width, size.height);
+	}
+
 	if(visible)
 		gtk_widget_show(this->gtkWidget);
 	else

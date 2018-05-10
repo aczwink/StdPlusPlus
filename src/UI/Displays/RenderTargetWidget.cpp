@@ -26,7 +26,7 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
 //Constructor
-RenderTargetWidget::RenderTargetWidget(WidgetContainer *pParent) : WidgetContainer(pParent)
+RenderTargetWidget::RenderTargetWidget(WidgetContainer *parent) : WidgetContainer(parent), deviceContext(nullptr)
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
@@ -51,9 +51,9 @@ void RenderTargetWidget::OnPaint()
 
 void RenderTargetWidget::OnResized()
 {
-    Size size;
-
-    size = this->GetSize();
-
-    this->deviceContext->SetViewPort(size.width, size.height);
+	if(this->deviceContext)
+	{
+		Size size = this->GetSize();
+		this->deviceContext->SetViewPort(size.width, size.height);
+	}
 }

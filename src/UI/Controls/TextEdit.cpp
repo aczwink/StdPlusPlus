@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,33 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Widget.hpp"
+//Class header
+#include <Std++/UI/Controls/TextEdit.hpp>
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
-namespace StdPlusPlus
+//Constructor
+TextEdit::TextEdit(WidgetContainer *parent) : Widget(parent)
 {
-    namespace UI
-    {
-        //Forward declarations
-        class AListController;
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-        class STDPLUSPLUS_API CListView : public Widget
-        {
-            friend class AListController;
-        private:
-            //Members
-            AListController *pController;
-
-            //Eventhandlers
-            void OnModelChanged();
-
-        public:
-            //Constructor
-            CListView(WidgetContainer *pParent);
-
-            //Methods
-            void SetController(AListController &refController);
-        };
-    }
+	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TextEdit, this);
 }

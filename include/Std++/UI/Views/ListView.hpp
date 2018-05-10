@@ -17,15 +17,25 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "View.hpp"
 
 namespace StdPlusPlus
 {
     namespace UI
     {
-        enum class ERenderMode
+        //Forward declarations
+        class AListController;
+
+        class STDPLUSPLUS_API ListView : public View
         {
-            OS,
-            Text,
-        };
+            friend class AListController;
+        public:
+            //Constructor
+            ListView(WidgetContainer *parent);
+
+		private:
+			void OnModelChanged() override;
+		};
     }
 }

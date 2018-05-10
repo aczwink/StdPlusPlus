@@ -45,9 +45,7 @@ namespace StdPlusPlus
             friend class UIEventSource;
         public:
             //Constructors
-            Window(ERenderMode mode = ERenderMode::OS);
-            Window(const Rect &refRect, ERenderMode mode = ERenderMode::OS);
-            Window(uint16 width, uint16 height, ERenderMode mode = ERenderMode::OS);
+            Window();
 
             //Destructor
             ~Window();
@@ -95,7 +93,6 @@ namespace StdPlusPlus
             virtual void OnDragLeave();
             virtual EDropType OnDragMove();
             virtual void OnDrop(const ITransfer &refTransfer);
-			virtual void OnResized();
 
             //Methods
             void MenuBarChangeOS();

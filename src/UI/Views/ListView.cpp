@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Widget.hpp"
+//Class header
+#include <Std++/UI/Views/ListView.hpp>
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
-namespace StdPlusPlus
+//Constructor
+ListView::ListView(WidgetContainer *parent) : View(parent)
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API TextEdit : public Widget
-        {
-        public:
-            //Constructor
-            TextEdit(WidgetContainer *parent);
+	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-            //Methods
-            OldString GetText() const;
-            void SetText(const OldString &refText);
+	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::ListView, this);
+}
 
-            //Inline
-			inline void SetEditable(bool editable)
-			{
-				this->backend->SetEditable(editable);
-			}
-        };
-    }
+void ListView::OnModelChanged()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

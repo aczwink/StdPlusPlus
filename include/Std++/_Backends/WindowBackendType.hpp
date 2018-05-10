@@ -26,12 +26,14 @@ namespace _stdpp
 		ComboBox,
 		GroupBox,
 		Label,
+		ListView,
 		PushButton,
 		RadioButton,
 		RenderTarget,
 		SearchBox,
 		Slider,
 		SpinBox,
+		TextEdit,
 		TreeView,
 		Window
 	};

@@ -43,12 +43,13 @@ namespace _stdpp
 		Rect GetChildrenRect() const override;
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
-		void Maximize() const override;
+		void Maximize() override;
 		void Paint() override;
 		void Repaint() override;
 		void Select(ControllerIndex &controllerIndex) const;
 		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;
 		void SetBounds(const StdPlusPlus::Rect &area);
+		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) const;
 		void SetHint(const StdPlusPlus::String &text) const;
 		void SetMaximum(uint32 max) const override;

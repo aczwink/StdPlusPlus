@@ -118,7 +118,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
     Rect rc;
     Map<uint16, uint8> expandCols, expandRows, growCols, growRows;
 
-    rc = this->GetChildrenRect(refContainer);
+    rc = this->GetPlacementRect(refContainer);
 
     //calculate left over size
     if(rc.width() > refMinSize.width)
@@ -273,12 +273,11 @@ void GridLayout::EnsureGridBigEnough(uint8 nCells)
     ASSERT(this->nColumns * this->nRows >= nCells, "If you see this, report to StdPlusPlus");
 }
 
-Rect GridLayout::GetChildrenRect(const WidgetContainer &refContainer) const
+Rect GridLayout::GetPlacementRect(const WidgetContainer &container) const
 {
     Rect rc;
-
-    rc = refContainer.GetChildrenRect();
-    rc.Enlarge(-(int32)this->margin, -(int32)this->margin);
+	rc.size = container.GetChildrenRect().size;
+	rc.Enlarge(-(int32)this->margin, -(int32)this->margin);
 
     return rc;
 }
@@ -330,11 +329,11 @@ void GridLayout::Layout(WidgetContainer &refContainer)
     DynamicArray<uint16> columnWidths, rowHeights;
 
     //collect info
-    rc = this->GetChildrenRect(refContainer);
+    rc = this->GetPlacementRect(refContainer);
     minSize = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
 
-    //ASSERT(minSize.width <= rc.width(), u8"Can't do that allocation");
-	//ASSERT(minSize.height <= rc.height(), u8"Can't do that allocation");
+    //ASSERT(minSize.width <= rc.width(), u8"TODO: Can't do that allocation. Need to shrink widgets");
+	//ASSERT(minSize.height <= rc.height(), u8"TODO: Can't do that allocation. Need to shrink widgets");
 
     this->DistributeLeftOverSize(refContainer, minSize, columnWidths, rowHeights);
 
