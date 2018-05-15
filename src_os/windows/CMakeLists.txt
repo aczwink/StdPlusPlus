@@ -31,12 +31,7 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
 
         #UI
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/GroupBox.cpp
-
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Label.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Slider.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 
@@ -49,7 +44,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CCheckBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CPushButton.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/RadioButton.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
 

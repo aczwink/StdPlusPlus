@@ -44,14 +44,20 @@ namespace _stdpp
 		Rect GetChildrenRect() const override;
         Size GetSize() const override;
         Size GetSizeHint() const override;
+		void Maximize() override;
         void Paint() override;
         void Repaint() override;
         void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const override;
         Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const override;
         void SetBounds(const StdPlusPlus::Rect &area) override;
+		void SetEditable(bool enable) const override;
         void SetEnabled(bool enable) const override;
         void SetHint(const StdPlusPlus::String &text) const override;
+		void SetMaximum(uint32 max) const override;
+		void SetMinimum(uint32 min) const override;
+		void SetPosition(uint32 pos) const override;
         void SetText(const StdPlusPlus::String &text) override;
+		void SetValue(int32 value) const override;
         void Show(bool visible) override;
         void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const override;
         void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const override;
@@ -65,5 +71,5 @@ namespace _stdpp
 		{
 			return SendMessageW(this->hWnd, Msg, wParam, lParam);
 		}
-    };
+	};
 }

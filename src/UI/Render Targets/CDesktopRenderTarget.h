@@ -27,7 +27,6 @@ namespace StdPlusPlus
         {
         public:
             //Methods
-            ERenderMode GetRenderMode() const override;
             Size GetSize() const override;
             void Present() override;
         };

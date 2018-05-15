@@ -29,9 +29,9 @@ using namespace StdPlusPlus::Math;
 template <typename ScalarType>
 Matrix4x4<ScalarType>::Matrix4x4(const Matrix3x3<ScalarType> &refMatrix)
 {
-	this->columns[0] = Vector4(refMatrix[0], 0);
-	this->columns[1] = Vector4(refMatrix[1], 0);
-	this->columns[2] = Vector4(refMatrix[2], 0);
+	this->columns[0] = vec4(refMatrix[0], 0);
+	this->columns[1] = vec4(refMatrix[1], 0);
+	this->columns[2] = vec4(refMatrix[2], 0);
 	this->columns[3].w = 1;
 }
 
@@ -230,7 +230,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::PerspectiveRH(const Degree<ScalarTy
 	float32 tanHalfFovY, range;
 	Matrix4x4 perspective;
 
-	tanHalfFovY = tanf(Radian(refFovY).value / 2);
+	tanHalfFovY = tanf(Radian<ScalarType>(refFovY).value / 2);
 
 	range = (zFar - zNear);
 
@@ -315,7 +315,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const vec3 &t)
 	translate(0, 0) = 1;
 	translate(1, 1) = 1;
 	translate(2, 2) = 1;
-	translate[3] = Vector4(t, 1);
+	translate[3] = vec4(t, 1);
 
 	return translate;
 }

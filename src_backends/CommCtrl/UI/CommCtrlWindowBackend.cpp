@@ -41,9 +41,24 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 	HINSTANCE hInstance = GetModuleHandle(NULL);
     switch(type)
     {
+	case WindowBackendType::CheckBox:
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+	break;
+	case WindowBackendType::ListView:
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+	break;
 		case WindowBackendType::PushButton:
 		{
 			this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+		}
+		break;
+		case WindowBackendType::TextEdit:
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 		break;
         case WindowBackendType::Window:
@@ -116,6 +131,11 @@ Size CommCtrlWindowBackend::GetSizeHint() const
     return Size();
 }
 
+void CommCtrlWindowBackend::Maximize()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 void CommCtrlWindowBackend::Paint()
 {
 	switch(this->type)
@@ -163,6 +183,11 @@ void CommCtrlWindowBackend::SetBounds(const Rect &area)
     SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
 }
 
+void CommCtrlWindowBackend::SetEditable(bool enable) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 void CommCtrlWindowBackend::SetEnabled(bool enable) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -173,9 +198,29 @@ void CommCtrlWindowBackend::SetHint(const StdPlusPlus::String &text) const
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
+void CommCtrlWindowBackend::SetMaximum(uint32 max) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CommCtrlWindowBackend::SetMinimum(uint32 min) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CommCtrlWindowBackend::SetPosition(uint32 pos) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 void CommCtrlWindowBackend::SetText(const String &text)
 {
     SendMessageW(this->hWnd, WM_SETTEXT, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
+}
+
+void CommCtrlWindowBackend::SetValue(int32 value) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CommCtrlWindowBackend::Show(bool visible)

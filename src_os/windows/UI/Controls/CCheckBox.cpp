@@ -33,12 +33,7 @@ using namespace StdPlusPlus::UI;
 WinAPI Documentation:
 https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
 */
-
-//Destructor
-CheckBox::~CheckBox()
-{
-}
-
+/* OLD STUFF:
 //Public methods
 Size CheckBox::GetSizeHint() const
 {
@@ -65,7 +60,22 @@ Size CheckBox::GetSizeHint() const
 	size.height += (uint16)s.cy;
 
 	return size;
-}
+
+	void CheckBox::SetText(const OldString &refText)
+	{
+	const UTF16String &text = refText.GetUTF16();
+
+	SetWindowTextW((HWND)this->backend, (LPCWSTR)text.GetC_Str());
+	}
+
+	void CheckBox::System_CreateHandle()
+	{
+	this->backend = (_stdpp::WindowBackend *)CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
+	SetWindowLongPtr((HWND)this->backend, GWLP_USERDATA, (LONG_PTR)this);
+
+	SendMessage((HWND)this->backend, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	}
+}*/
 
 OldString CheckBox::GetText() const
 {
@@ -80,20 +90,4 @@ OldString CheckBox::GetText() const
 bool CheckBox::IsChecked() const
 {
 	return SendMessage((HWND)this->backend, BM_GETCHECK, 0, 0) == BST_CHECKED;
-}
-
-void CheckBox::SetText(const OldString &refText)
-{
-	const UTF16String &text = refText.GetUTF16();
-
-	SetWindowTextW((HWND)this->backend, (LPCWSTR)text.GetC_Str());
-}
-
-//Private methods
-void CheckBox::System_CreateHandle()
-{
-	this->backend = (_stdpp::WindowBackend *)CreateWindowExA(0, WC_BUTTONA, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, GET_HWND(this->GetParent()->GetWindow()), nullptr, GetModuleHandle(nullptr), nullptr);
-	SetWindowLongPtr((HWND)this->backend, GWLP_USERDATA, (LONG_PTR)this);
-
-	SendMessage((HWND)this->backend, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }
