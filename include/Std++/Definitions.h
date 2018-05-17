@@ -59,13 +59,9 @@
 #define ABS(x) (((x) < 0) ? -(x) : (x))
 #endif
 
-#define CLAMP(x, min, max) (((x) < (min)) ? (min) : (((x) > (max)) ? (max) : (x)))
-
 #ifndef MIN //maybe defined by the user
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif
-
-#define IN_RANGE(x, min, max) ((x) >= (min) && (x) <= (max))
 
 #define IS_POWER_OF_TWO(x) (((x) != 0) && (((x) & ((x) - 1)) == 0))
 

@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Mathematics.hpp>
 #include "Definitions.h"
 
 namespace StdPlusPlus
@@ -31,12 +32,12 @@ namespace StdPlusPlus
 				return true;
 		}
 
-		return IN_RANGE(codePoint, 0xA, 0xD); //\n, \v, \f, \r
+		return Math::IsValueInInterval(codePoint, (uint32)0xA, (uint32)0xD); //\n, \v, \f, \r
 	}
 
 	inline uint32 ToLowercase(uint32 codePoint)
 	{
-		if(IN_RANGE(codePoint, u8'A', u8'Z'))
+		if(Math::IsValueInInterval(codePoint, (uint32)u8'A', (uint32)u8'Z'))
 			return codePoint + 32;
 		return codePoint;
 	}

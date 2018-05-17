@@ -35,9 +35,13 @@ namespace StdPlusPlus
 
             //Methods
 			OldString GetText() const;
-            bool IsChecked() const;
 
 			//Inline
+			inline bool IsChecked() const
+			{
+				return this->backend->IsChecked();
+			}
+
 			inline void SetText(const String &text)
 			{
 				this->backend->SetText(text);

@@ -18,8 +18,10 @@
  */
 //corresponding header
 #include <Std++/Mathematics.hpp>
+//Namespaces
+using namespace StdPlusPlus;
 
-uint64 StdPlusPlus::Power(uint64 base, uint64 exponent)
+uint64 Math::Power(uint64 base, uint64 exponent)
 {
     uint64 result = 1;
 

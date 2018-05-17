@@ -46,7 +46,7 @@ namespace StdPlusPlus
 
 		//Abstract
 		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) = 0;
-		virtual EventSource *GetEventSource() const = 0;
+		virtual EventSource *GetEventSource() = 0;
 
 		//Methods
 		BackendType GetType() const

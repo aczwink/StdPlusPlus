@@ -27,7 +27,7 @@
 namespace StdPlusPlus
 {
 	/**
-	 * This container allocates on construction storage for a fixed number of elements.
+	 * This container allocates, on construction, storage for a fixed number of elements.
 	 * It can then NOT be resized anymore and is therefore fixed.
 	 *
 	 * @tparam DataType
@@ -64,7 +64,7 @@ namespace StdPlusPlus
 		//Operators
 		FixedArray<DataType> &operator=(const FixedArray<DataType> &source) //copy assign
 		{
-			ASSERT(this->nElements == source.nElements, "Can't assign FixedArray when right side has a different number of elemens");
+			ASSERT(this->nElements == source.nElements, u8"Can't assign FixedArray when right side has a different number of elemens");
 
 			for(uint32 i = 0; i < source.GetNumberOfElements(); i++)
 			{
@@ -89,16 +89,29 @@ namespace StdPlusPlus
 
 		inline DataType &operator[](uint32 index)
 		{
-			ASSERT(index < this->nElements, "Index out of bounds");
+			ASSERT(index < this->nElements, u8"Index out of bounds");
 
 			return this->data[index];
 		}
 
 		inline const DataType &operator[](uint32 index) const
 		{
-			ASSERT(index < this->nElements, "Index out of bounds");
+			ASSERT(index < this->nElements, u8"Index out of bounds");
 
 			return this->data[index];
+		}
+
+		//Inline
+		inline DataType &Last()
+		{
+			ASSERT(!this->IsEmpty(), u8"Can't get last element from empty array.");
+			return this->data[this->nElements - 1];
+		}
+
+		inline const DataType &Last() const
+		{
+			ASSERT(!this->IsEmpty(), u8"Can't get last element from empty array.");
+			return this->data[this->nElements - 1];
 		}
 
 		//For range-based loops

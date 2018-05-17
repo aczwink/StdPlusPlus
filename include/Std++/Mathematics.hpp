@@ -19,6 +19,8 @@
 #pragma once
 
 //Local
+#include <Std++/Math/Radian.hpp>
+#include "Debug.h"
 #include "Definitions.h"
 #include "__Globaldependencies.h"
 
@@ -27,17 +29,39 @@
 
 namespace StdPlusPlus
 {
-	template <typename T>
-	constexpr T Cot(const T &x)
+	namespace Math
 	{
-		return 1 / tan(x);
-	}
+		template<typename T>
+		constexpr bool IsValueInInterval(const T &x, const T &min, const T &max)
+		{
+			return ((x) >= (min) && (x) <= (max));
+		}
 
-	template <typename T>
-	constexpr T Max(const T &a, const T &b)
-	{
-		return ((a) > (b)) ? (a) : (b);
-	}
+		template<typename T>
+		constexpr Radian<T> ArcCos(const T &x)
+		{
+			ASSERT(IsValueInInterval(x, T(-1), T(1)), u8"ArcCos input must be in range [-1, 1]");
+			return acos(x);
+		}
 
-    uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
+		template<typename T>
+		constexpr T Clamp(const T &x, const T &min, const T &max)
+		{
+			return (((x) < (min)) ? (min) : (((x) > (max)) ? (max) : (x)));
+		}
+
+		template<typename T>
+		constexpr T Cot(const T &x)
+		{
+			return 1 / tan(x);
+		}
+
+		template<typename T>
+		constexpr T Max(const T &a, const T &b)
+		{
+			return ((a) > (b)) ? (a) : (b);
+		}
+
+		uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
+	}
 }

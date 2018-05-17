@@ -22,56 +22,59 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
-    template <typename ScalarType>
-    class Radian;
-
-	template <typename ScalarType>
-    class STDPLUSPLUS_API Degree
+    namespace Math
     {
-    public:
-        //Members
-        float64 value;
+        //Forward declarations
+        template<typename ScalarType>
+        class Radian;
 
-        //Constructors
-        inline Degree()
+        template<typename ScalarType>
+        class STDPLUSPLUS_API Degree
         {
-            this->value = 0;
-        }
+        public:
+            //Members
+            float64 value;
 
-        inline Degree(float64 value)
-        {
-            this->value = value;
-        }
+            //Constructors
+            inline Degree()
+            {
+                this->value = 0;
+            }
 
-        Degree(const Radian<ScalarType> &refRadian);
+            inline Degree(float64 value)
+            {
+                this->value = value;
+            }
 
-        //Operators
-        inline Degree &operator+=(const Degree &refRight)
-        {
-            this->value += refRight.value;
+            Degree(const Radian<ScalarType> &refRadian);
 
-            return *this;
-        }
+            //Operators
+            inline Degree &operator+=(const Degree &refRight)
+            {
+                this->value += refRight.value;
 
-        inline Degree operator-() const
-        {
-            return Degree(-this->value);
-        }
+                return *this;
+            }
 
-        inline Degree operator-(const Degree &refRight) const
-        {
-            return Degree(this->value - refRight.value);
-        }
+            inline Degree operator-() const
+            {
+                return Degree(-this->value);
+            }
 
-        inline bool operator<(const Degree &refRight)
-        {
-            return this->value < refRight.value;
-        }
+            inline Degree operator-(const Degree &refRight) const
+            {
+                return Degree(this->value - refRight.value);
+            }
 
-        inline bool operator>(const Degree &refRight)
-        {
-            return this->value > refRight.value;
-        }
-    };
+            inline bool operator<(const Degree &refRight)
+            {
+                return this->value < refRight.value;
+            }
+
+            inline bool operator>(const Degree &refRight)
+            {
+                return this->value > refRight.value;
+            }
+        };
+    }
 }

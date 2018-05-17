@@ -83,7 +83,7 @@ namespace StdPlusPlus
 
 		inline Size Max(const Size &rhs) const
 		{
-			return Size(StdPlusPlus::Max(this->width, rhs.width), StdPlusPlus::Max(this->height, rhs.height));
+			return Size(Math::Max(this->width, rhs.width), Math::Max(this->height, rhs.height));
 		}
 
         //Functions

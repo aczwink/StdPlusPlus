@@ -41,8 +41,10 @@ namespace _stdpp
 		void ClearView() const;
 		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const;
 		Rect GetChildrenRect() const override;
+		uint32 GetPosition() const override;
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
+		bool IsChecked() const override;
 		void Maximize() override;
 		void Paint() override;
 		void Repaint() override;

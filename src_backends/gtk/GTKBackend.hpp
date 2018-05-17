@@ -49,9 +49,9 @@ namespace StdPlusPlus
 			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);
 		}
 
-		EventSource *GetEventSource() const override
+		EventSource *GetEventSource() override
 		{
-			this->eventSource.operator->();
+			return this->eventSource.operator->();
 		}
 
 		void Load()

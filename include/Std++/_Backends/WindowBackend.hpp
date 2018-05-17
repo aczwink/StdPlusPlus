@@ -79,6 +79,12 @@ namespace _stdpp
 		virtual void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const = 0;
 		virtual void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const = 0;
 
+		//Abstract, for CheckBox
+		virtual bool IsChecked() const = 0;
+
+		//Abstract, for Slider
+		virtual uint32 GetPosition() const = 0;
+
 		//Inline
 		inline StdPlusPlus::UIBackend *GetUIBackend() const
 		{

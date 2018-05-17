@@ -23,6 +23,7 @@
 #include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Math;
 
 //Constructors
 template <typename ScalarType>

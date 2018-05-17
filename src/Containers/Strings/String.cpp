@@ -27,6 +27,7 @@
 #include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Math;
 
 //Operators
 String &String::operator+=(uint32 codePoint)
@@ -283,9 +284,9 @@ float64 String::ToFloat() const
 
 	//parse the integer part
 	float64 integerPart = 0;
-	while(*it)
+	while(it != this->end())
 	{
-		if(IN_RANGE(*it, u8'0', u8'9'))
+		if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
 		{
 			integerPart = integerPart * 10 + (*it - u8'0');
 
@@ -314,7 +315,7 @@ float64 String::ToFloat() const
 		++it;
 		while(it != this->end())
 		{
-			if(IN_RANGE(*it, u8'0', u8'9'))
+			if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
 			{
 				fractionPart = fractionPart*10 + (*it - u8'0');
 				divisor *= 10;
@@ -351,7 +352,7 @@ float64 String::ToFloat() const
 		int16 exp = 0;
 		while(*it)
 		{
-			if(IN_RANGE(*it, u8'0', u8'9'))
+			if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
 			{
 				exp = exp * 10 + (*it - u8'0');
 			}
@@ -398,7 +399,7 @@ uint64 String::ToUInt() const
 	uint64 result = 0;
 	while(it != this->end())
 	{
-		if(!IN_RANGE(*it, u8'0', u8'9'))
+		if(!IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
 			NOT_IMPLEMENTED_ERROR;
 
 		result += Power((uint64)10, (uint64)(this->length - it.GetPosition() - 1)) * (*it - u8'0');

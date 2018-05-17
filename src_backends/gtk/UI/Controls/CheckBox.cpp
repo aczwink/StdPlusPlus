@@ -32,8 +32,3 @@ OldString CheckBox::GetText() const
 {
 	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
 }
-
-bool CheckBox::IsChecked() const
-{
-	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(THIS)) != 0;
-}

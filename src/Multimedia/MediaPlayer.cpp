@@ -22,6 +22,7 @@
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Math;
 using namespace StdPlusPlus::Multimedia;
 
 //Constructor

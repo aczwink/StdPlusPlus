@@ -162,7 +162,7 @@ namespace StdPlusPlus
 
 			inline ScalarType Dot(const vec3 &rhs) const
 			{
-				return ScalarType((float64)this->x * (float64)rhs.x + (float64)this->y * (float64)rhs.y + (float64)this->z * (float64)rhs.z);
+				return ScalarType(this->x * rhs.x + this->y * rhs.y + this->z * rhs.z);
 			}
 
             inline ScalarType Length() const

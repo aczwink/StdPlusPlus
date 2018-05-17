@@ -21,6 +21,9 @@
 //Local
 #include <Std++/Debug.h>
 #include <Std++/Memory.h>
+#include <Std++/Mathematics.hpp>
+//Namespaces
+using namespace StdPlusPlus::Math;
 
 //Constructor
 CXMLParser::CXMLParser(InputStream &refInput) : input(refInput)
@@ -108,9 +111,9 @@ String CXMLParser::ParseName()
 	static const auto &refNameStartCharFunc = [](uint32 c)
 	{
 		return (c == ':') ||
-			   IN_RANGE(c, 'A', 'Z') ||
+				IsValueInInterval(c, (uint32)'A', (uint32)'Z') ||
 			   (c == '_') ||
-			   IN_RANGE(c, 'a', 'z')
+				IsValueInInterval(c, (uint32)'a', (uint32)'z')
 			;
 	};
 
@@ -118,7 +121,7 @@ String CXMLParser::ParseName()
 	{
 		return (c == '-') ||
 			   (c == '.') ||
-			   IN_RANGE(c, '0', '9')
+				IsValueInInterval(c, (uint32)'0', (uint32)'9')
 			;
 	};
 

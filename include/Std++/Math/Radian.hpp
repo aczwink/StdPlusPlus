@@ -22,34 +22,37 @@
 
 namespace StdPlusPlus
 {
-    //Forward declarations
-	template <typename ScalarType>
-    class Degree;
+	namespace Math
+	{
+		//Forward declarations
+		template<typename ScalarType>
+		class Degree;
 
-	template <typename ScalarType>
-	class STDPLUSPLUS_API Radian
-    {
-    public:
-        //Members
-		ScalarType value;
+		template<typename ScalarType>
+		class STDPLUSPLUS_API Radian
+		{
+		public:
+			//Members
+			ScalarType value;
 
-        //Constructors
-        inline Radian()
-        {
-            this->value = 0;
-        }
+			//Constructors
+			inline Radian()
+			{
+				this->value = 0;
+			}
 
-        inline Radian(ScalarType value)
-        {
-            this->value = value;
-        }
+			inline Radian(ScalarType value)
+			{
+				this->value = value;
+			}
 
-        Radian(const Degree<ScalarType> &refDegree);
+			Radian(const Degree<ScalarType> &refDegree);
 
-        //Operators
-        inline Radian operator-() const
-        {
-            return Radian(-this->value);
-        }
-    };
+			//Operators
+			inline Radian operator-() const
+			{
+				return Radian(-this->value);
+			}
+		};
+	}
 }

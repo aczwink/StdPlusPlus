@@ -70,7 +70,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		{
 			this->gtkWidget = gtk_check_button_new();
 
-			g_signal_connect(this->gtkWidget, u8"toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this);
+			g_signal_connect(this->gtkWidget, u8"toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this->widget);
 		}
 		break;
 		case WindowBackendType::ComboBox:
@@ -81,7 +81,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(this->gtkWidget), column, TRUE);
 			gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(this->gtkWidget), column, u8"text", 0, NULL);
 
-			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), widget);
+			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), this->widget);
 		}
 		break;
 		case WindowBackendType::GroupBox:
@@ -144,7 +144,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
 			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
 			g_signal_connect(this->gtkWidget, u8"motion-notify-event", G_CALLBACK(GtkEventSource::MouseMotionSlot), this);
-			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventSource::ScrollSlot), this);
+			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventSource::ScrollSlot), this->widget);
 		}
 		break;
 		case WindowBackendType::SearchBox:
@@ -336,6 +336,11 @@ Rect GtkWindowBackend::GetChildrenRect() const
 	 */
 }
 
+uint32 GtkWindowBackend::GetPosition() const
+{
+	return (uint32) gtk_range_get_value(GTK_RANGE(this->gtkWidget));
+}
+
 Size GtkWindowBackend::GetSize() const
 {
 	GtkAllocation alloc;
@@ -356,6 +361,11 @@ Size GtkWindowBackend::GetSizeHint() const
 	gtk_widget_get_preferred_height(this->gtkWidget, &min2, &nat2);
 
 	return Size(nat1, nat2);
+}
+
+bool GtkWindowBackend::IsChecked() const
+{
+	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(this->gtkWidget)) != 0;
 }
 
 void GtkWindowBackend::Maximize()
@@ -488,7 +498,7 @@ void GtkWindowBackend::Show(bool visible)
 		//add titlebar
 		int min, nat;
 		gtk_widget_get_preferred_height(this->headerBar, &min, &nat);
-		size.height += Max(min, nat);
+		size.height += Math::Max(min, nat);
 
 		gtk_window_set_default_size(GTK_WINDOW(this->gtkWidget), size.width, size.height);
 	}

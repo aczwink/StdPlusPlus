@@ -33,10 +33,12 @@ namespace StdPlusPlus
             //Constructor
             Slider(WidgetContainer *pParent);
 
-            //Methods
-			uint32 GetPosition() const;
-
 			//Inline
+			inline uint32 GetPosition() const
+			{
+				return this->backend->GetPosition();
+			}
+
 			inline void SetMaximum(uint32 max)
 			{
 				this->backend->SetMaximum(max);

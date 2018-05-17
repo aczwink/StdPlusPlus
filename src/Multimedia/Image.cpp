@@ -23,8 +23,10 @@
 #include <Std++/Multimedia/Images/RGB/R8G8B8Image.hpp>
 #include <Std++/Multimedia/Images/RGBAImage.hpp>
 #include <Std++/Multimedia/Images/YCbCrImage.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Math;
 using namespace StdPlusPlus::Multimedia;
 
 //Local functions
@@ -94,13 +96,13 @@ static void ConvertColor(uint32 i, const Image &refSourceImage, Image &refTarget
 					tmp = 255.0 / 219.0 * (Y - 16);
 
 					value = int32(tmp + 255.0 / 112.0 * 0.701 * (((int32)Cr) - 128));
-					refDestImage.GetRedChannel()[i] = CLAMP(value, 0, 0xFF);
+					refDestImage.GetRedChannel()[i] = Clamp(value, 0, 0xFF);
 
 					value = int32(tmp - 255.0 / 112.0 * 0.886 * 0.114 / 0.587 * (((int32)Cb) - 128) - 255.0 / 112.0 * 0.701 * 0.299 / 0.587 * (((int32)Cr) - 128));
-					refDestImage.GetGreenChannel()[i] = CLAMP(value, 0, 0xFF);
+					refDestImage.GetGreenChannel()[i] = Clamp(value, 0, 0xFF);
 
 					value = int32(tmp + 255.0 / 112.0 * 0.886 * (((int32)Cb) - 128));
-					refDestImage.GetBlueChannel()[i] = CLAMP(value, 0, 0xFF);
+					refDestImage.GetBlueChannel()[i] = Clamp(value, 0, 0xFF);
 				}
 					break;
 				default:

@@ -31,6 +31,7 @@
 #include <Std++/Math/Fraction.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Math;
 
 OldString StdPlusPlus::ToString(uint64 i, uint8 bla)
 {
@@ -96,7 +97,7 @@ bool StdPlusPlus::IsStringConvertibleToInteger(const ByteString &refString)
 
     for(; i < refString.GetLength(); i++)
     {
-        if(!IN_RANGE(refString[i], '0', '9'))
+        if(!IsValueInInterval(refString[i], '0', '9'))
             return false;
     }
 
@@ -114,7 +115,7 @@ int64 StdPlusPlus::StringToInt64(const OldString &refString)
         for(uint32 i = 1; i < refString.GetLength(); i++)
         {
             const char &refC = refString[i];
-            if(!IN_RANGE(refC, '0', '9'))
+            if(!IsValueInInterval(refC, '0', '9'))
                 return -1;
             result -= Power((uint64)10, (uint64)(refString.GetLength() - i - 1)) * (refC - '0');
         }
@@ -138,7 +139,7 @@ uint64 StdPlusPlus::StringToUInt64(const OldString &refString)
 
     for(; i < refString.GetLength(); i++)
     {
-        if(!IN_RANGE(refString[i], '0', '9'))
+        if(!IsValueInInterval(refString[i], (uint32)u8'0', (uint32)u8'9'))
             return -1;
 
         result += Power((uint64)10, (uint64)(refString.GetLength() - i - 1)) * (refString[i] - '0');

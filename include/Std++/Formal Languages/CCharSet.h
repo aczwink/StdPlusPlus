@@ -116,7 +116,7 @@ namespace StdPlusPlus
         {
             for(const CRange &refRange : this->ranges)
             {
-                if(IN_RANGE(codePoint, refRange.low, refRange.high))
+                if(Math::IsValueInInterval(codePoint, refRange.low, refRange.high))
                     return true;
             }
 

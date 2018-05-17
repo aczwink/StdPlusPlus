@@ -102,7 +102,7 @@ uint64 GtkEventSource::GetMaxTimeout() const
 	return Natural<uint64>::Max();
 }
 
-//Public functions
+//Public slots
 bool GtkEventSource::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpointer user_data)
 {
 	g_ignoreEvent = false;
