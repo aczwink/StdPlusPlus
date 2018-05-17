@@ -20,7 +20,6 @@
 //Local
 #include <Std++/Definitions.h>
 #include <Std++/Math/Size.hpp>
-#include <Std++/UI/ERenderMode.h>
 
 namespace StdPlusPlus
 {
@@ -29,12 +28,8 @@ namespace StdPlusPlus
         class IRenderTarget
         {
         public:
-            virtual ERenderMode GetRenderMode() const = 0;
             virtual Size GetSize() const = 0;
             virtual void Present() = 0;
         };
-
-        //Functions
-        IRenderTarget &GetRenderTarget(ERenderMode mode);
     }
 }

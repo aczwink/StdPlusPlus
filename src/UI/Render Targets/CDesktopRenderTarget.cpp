@@ -24,11 +24,6 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
 //Public methods
-ERenderMode CDesktopRenderTarget::GetRenderMode() const
-{
-    return ERenderMode::OS;
-}
-
 Size CDesktopRenderTarget::GetSize() const
 {
     return Size::GetScreenSize();

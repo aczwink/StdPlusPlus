@@ -7,11 +7,14 @@ C++17 is a strict requirement.
 
 Supported operating systems:
 * Linux
-* Windows 10 <span style="color:red">(TODO: are older ones supported?)</font>
+* Windows 7
+* Windows 10
 
 Supported compilers:
 * GCC
 * Visual Studio
+
+Other systems and compilers might be supported as well but this was not tested.
 
 ## Backends
 Several features of Std++ are split into frontends and backends.
