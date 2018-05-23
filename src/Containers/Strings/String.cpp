@@ -654,6 +654,22 @@ String String::CopyRawString(const char *utf8)
 	return str;
 }
 
+String String::CopyRawString(const uint16 *utf16)
+{
+	String str;
+
+	str.sharedResource = new Resource;
+	str.sharedResource->isUTF8 = false;
+
+	str.length = str.CountUTF16Length(utf16, str.size);
+	str.ResizeAdditional(str.size);
+
+	MemCopy(str.sharedResource->data, utf16, str.size);
+	str.sharedResource->nElements = str.size;
+
+	return str;
+}
+
 String String::FormatByteSize(uint64 byteSize)
 {
 	static const char * prefixes[] = {u8"", u8"Ki", u8"Mi", u8"Gi"};

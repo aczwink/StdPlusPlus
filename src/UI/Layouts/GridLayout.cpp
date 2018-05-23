@@ -72,18 +72,16 @@ Size GridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, DynamicA
 
     //check if we have enough space
     this->EnsureGridBigEnough((uint8)refContainer.GetChildren().GetNumberOfElements());
+	refColumnWidths.Resize(this->nColumns);
+	refRowHeights.Resize(this->nRows);
 
     //set all widths and heights to 0
-    refColumnWidths.Resize(refContainer.GetChildren().GetNumberOfElements());
-    refRowHeights.Resize(refColumnWidths.GetNumberOfElements());
-
-    for(i = 0; i < refColumnWidths.GetNumberOfElements(); i++)
-    {
-        refColumnWidths[i] = 0;
-        refRowHeights[i] = 0;
-    }
-
-    //update column widths and heights according to children
+	for (uint16 x = 0; x < this->nColumns; x++)
+		refColumnWidths[x] = 0;
+	for (uint16 y = 0; y < this->nRows; y++)
+		refRowHeights[y] = 0;
+	
+	//update column widths and heights according to children
     row = 0;
     col = 0;
     for(const Widget *const& refpWidget : refContainer.GetChildren())

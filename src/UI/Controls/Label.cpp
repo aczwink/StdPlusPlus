@@ -25,5 +25,10 @@ using namespace StdPlusPlus::UI;
 //Constructor
 Label::Label(WidgetContainer *parent) : Widget(parent)
 {
+	/*
+	sizing policy:
+	horz: preferred
+	vert: preferred
+	*/
 	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::Label, this);
 }

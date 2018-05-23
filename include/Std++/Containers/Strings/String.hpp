@@ -309,6 +309,7 @@ namespace StdPlusPlus
 		 * @return
 		 */
 		static String CopyRawString(const char *utf8);
+		static String CopyRawString(const uint16 *utf16);
 
 		/**
 		 * Formats a byte size using binary prefixes.
@@ -390,6 +391,21 @@ namespace StdPlusPlus
 				length++;
 				nBytes += nBytesCP;
 				src += nBytesCP;
+			}
+
+			return length;
+		}
+
+		inline uint32 CountUTF16Length(const uint16 *src, uint32 &nBytes) const
+		{
+			nBytes = 0;
+			uint32 length = 0;
+			bool isSurrogate;
+			while (this->DecodeUTF16(src, isSurrogate))
+			{
+				length++;
+				nBytes += 2 * (1 + isSurrogate);
+				src += 1 + isSurrogate;
 			}
 
 			return length;

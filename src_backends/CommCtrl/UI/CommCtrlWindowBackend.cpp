@@ -32,18 +32,33 @@ using namespace _stdpp;
 
 /*
 WinAPI Documentation:
+	GroupBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
+	Label: https://msdn.microsoft.com/en-us/library/windows/desktop/bb760769(v=vs.85).aspx
 	PushButon: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
+	SpinBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb759880(v=vs.85).aspx
 */
 
 //Constructor
 CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, HWND hParent) : WindowBackend(uiBackend, type, widget)
 {
+	this->hWndReal = nullptr;
+
 	HINSTANCE hInstance = GetModuleHandle(NULL);
     switch(type)
     {
 	case WindowBackendType::CheckBox:
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+	break;
+	case WindowBackendType::GroupBox:
+	{
+		this->hWnd = CreateWindowExW(WS_EX_TRANSPARENT, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_GROUPBOX, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+	}
+	break;
+	case WindowBackendType::Label:
+	{
+		this->hWnd = CreateWindowExW(0, WC_STATICW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
 	case WindowBackendType::ListView:
@@ -54,6 +69,13 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 		case WindowBackendType::PushButton:
 		{
 			this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+		}
+		break;
+		case WindowBackendType::SpinBox:
+		{
+			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | ES_NUMBER | ES_RIGHT, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+			this->hWndReal = CreateWindowExW(0, UPDOWN_CLASSW, nullptr, WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_HOTTRACK | UDS_SETBUDDYINT, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+			SendMessageW(this->hWndReal, UDM_SETBUDDY, (WPARAM)this->hWnd, 0);
 		}
 		break;
 		case WindowBackendType::TextEdit:
@@ -73,7 +95,7 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 	if(this->type != WindowBackendType::Window)
 		SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	this->SendMessage(WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
+	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);
 }
 
 //Destructor
@@ -97,8 +119,25 @@ Rect CommCtrlWindowBackend::GetChildrenRect() const
 {
 	RECT rc;
 	GetClientRect(this->hWnd, &rc);
+	Rect result = {rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top};
 
-	return {rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top};
+	switch (this->type)
+	{
+		case WindowBackendType::GroupBox:
+		{
+			result.Enlarge(-5, -8);
+			result.y() += 4; //TODO... of course dependant to font
+		}
+		break;
+	}
+
+	return result;
+}
+
+uint32 CommCtrlWindowBackend::GetPosition() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return uint32();
 }
 
 Size CommCtrlWindowBackend::GetSize() const
@@ -125,10 +164,31 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 			return Size((uint16)size.cx, (uint16)size.cy);
 		}
 		break;
+		case WindowBackendType::SpinBox:
+		{
+			//TODO: min width
+			//TODO: this seems to be working... dont known how it is with different fonts
+
+			return Size(0, 21);
+		}
+		break;
+		case WindowBackendType::GroupBox: //at least text
+		case WindowBackendType::Label: //at least text
+		case WindowBackendType::Window: //at least the title should be displayed
+		{
+			return this->GetTextExtents();
+		}
+		break;
 	}
 
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return Size();
+}
+
+bool CommCtrlWindowBackend::IsChecked() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return false;
 }
 
 void CommCtrlWindowBackend::Maximize()
@@ -140,7 +200,7 @@ void CommCtrlWindowBackend::Paint()
 {
 	switch(this->type)
 	{
-		case WindowBackendType::Window:
+	case WindowBackendType::Window:
 		{
 			HBRUSH hBrush;
 			PAINTSTRUCT ps;
@@ -225,6 +285,20 @@ void CommCtrlWindowBackend::SetValue(int32 value) const
 
 void CommCtrlWindowBackend::Show(bool visible)
 {
+	if (this->type == WindowBackendType::Window)
+	{
+		Size size = this->widget->GetSizeHint();
+
+		RECT rc;
+		rc.left = 0;
+		rc.top = 0;
+		rc.right = size.width;
+		rc.bottom = size.height;
+		AdjustWindowRectEx(&rc, WS_OVERLAPPEDWINDOW, FALSE, 0);
+
+		SetWindowPos(this->hWnd, HWND_TOPMOST, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
     ShowWindow(this->hWnd, visible ? SW_SHOW : SW_HIDE);
 }
 
@@ -236,4 +310,36 @@ void CommCtrlWindowBackend::ShowInformationBox(const StdPlusPlus::String &title,
 void CommCtrlWindowBackend::UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+//Private methods
+String CommCtrlWindowBackend::GetText() const
+{
+	const uint16 nCodeUnits = 2048;
+	uint16 buffer[nCodeUnits]; //should be sufficient for most cases
+	uint32 length = SendMessageW(this->hWnd, WM_GETTEXTLENGTH, 0, 0);
+	if (length > nCodeUnits)
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+
+	uint32 nCopied = SendMessageW(this->hWnd, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
+	buffer[nCopied] = 0;
+
+	return String::CopyRawString(buffer);
+}
+
+Size CommCtrlWindowBackend::GetTextExtents() const
+{
+	HDC hDC = GetDC(this->hWnd);
+	HGDIOBJ oldFont = SelectObject(hDC, this->GetFont());
+
+	String str = this->GetText();
+	SIZE size;
+	GetTextExtentPoint32W(hDC, (LPCWSTR)str.GetRawData(), str.GetLength(), &size);
+
+	SelectObject(hDC, oldFont);
+	ReleaseDC(this->hWnd, hDC);
+
+	return Size(size.cx, size.cy);
 }

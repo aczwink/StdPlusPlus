@@ -87,7 +87,9 @@ OldString CheckBox::GetText() const
 	return UTF16String(buffer);
 }
 
+/*
 bool CheckBox::IsChecked() const
 {
 	return SendMessage((HWND)this->backend, BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
+*/

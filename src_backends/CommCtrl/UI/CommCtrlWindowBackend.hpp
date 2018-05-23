@@ -42,8 +42,10 @@ namespace _stdpp
         void ClearView() const override;
         WindowBackend *CreateChildBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget) const override;
 		Rect GetChildrenRect() const override;
+		uint32 GetPosition() const override;
         Size GetSize() const override;
         Size GetSizeHint() const override;
+		bool IsChecked() const override;
 		void Maximize() override;
         void Paint() override;
         void Repaint() override;
@@ -65,8 +67,18 @@ namespace _stdpp
     private:
         //Members
         HWND hWnd;
+		HWND hWndReal; //the Up-Down-Control (i.e. this->hWnd is the buddy) for SpinBoxes
+
+		//Methods
+		String GetText() const;
+		Size GetTextExtents() const;
 
 		//Inline
+		inline HFONT GetFont() const
+		{
+			return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+		}
+
 		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
 		{
 			return SendMessageW(this->hWnd, Msg, wParam, lParam);

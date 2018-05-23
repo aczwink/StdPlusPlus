@@ -56,5 +56,8 @@ void EventQueue::System_WaitForEvents(uint64 timeOut)
 	DWORD waitTime = static_cast<DWORD>(timeOut / 1000000);
 	if(waitTime == 0)
 		waitTime = 1; //'timeOut' can't be 0
-	MsgWaitForMultipleObjectsEx(THIS->GetNumberOfElements(), &(*THIS)[0], waitTime, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
+	HANDLE *handles = nullptr;
+	if (!THIS->IsEmpty())
+		handles = &(*THIS)[0];
+	MsgWaitForMultipleObjectsEx(THIS->GetNumberOfElements(), handles, waitTime, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
 }

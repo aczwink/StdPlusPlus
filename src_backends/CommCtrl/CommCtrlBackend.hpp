@@ -47,7 +47,7 @@ namespace StdPlusPlus
 		    return new _stdpp::CommCtrlWindowBackend(this, type, widget);
 		}
 
-		EventSource *GetEventSource() const override
+		EventSource *GetEventSource() override
 		{
 			return this->eventSource.operator->();
 		}
@@ -58,7 +58,7 @@ namespace StdPlusPlus
             INITCOMMONCONTROLSEX iccex;
 
             iccex.dwSize = sizeof(iccex);
-            iccex.dwICC = ICC_BAR_CLASSES | ICC_LINK_CLASS | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES;
+            iccex.dwICC = ICC_BAR_CLASSES | ICC_LINK_CLASS | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES | ICC_UPDOWN_CLASS;
 
             ASSERT(InitCommonControlsEx(&iccex), u8"Could not initialize common controls library.");
 
