@@ -30,12 +30,22 @@ namespace StdPlusPlus
 			//Constructor
 			SpinBox(WidgetContainer *parent);
 
-			//Methods
-			int32 GetValue() const;
-			void SetMaximum(int32 max);
-			void SetMinimum(int32 min);
-
 			//Inline
+			inline void GetRange(int32 &min, int32 &max) const
+			{
+				this->backend->GetRange(min, max);
+			}
+
+			inline int32 GetValue() const
+			{
+				return this->backend->GetValue();
+			}
+
+			inline void SetRange(int32 min, int32 max) const
+			{
+				this->backend->SetRange(min, max);
+			}
+			
 			inline void SetValue(int32 value)
 			{
 				this->backend->SetValue(value);

@@ -140,6 +140,11 @@ uint32 CommCtrlWindowBackend::GetPosition() const
 	return uint32();
 }
 
+void CommCtrlWindowBackend::GetRange(int32 &min, int32 &max)
+{
+	SendMessageW(this->hWndReal, UDM_GETRANGE32, (WPARAM)&min, (LPARAM)&max);
+}
+
 Size CommCtrlWindowBackend::GetSize() const
 {
     RECT rc;
@@ -169,7 +174,7 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 			//TODO: min width
 			//TODO: this seems to be working... dont known how it is with different fonts
 
-			return Size(0, 21);
+			return Size(40, 26);
 		}
 		break;
 		case WindowBackendType::GroupBox: //at least text
@@ -183,6 +188,15 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return Size();
+}
+
+int32 CommCtrlWindowBackend::GetValue() const
+{
+	BOOL valid;
+	int32 value = SendMessageW(this->hWndReal, UDM_GETPOS32, 0, (LPARAM)&valid);
+	if (valid == FALSE)
+		return 0;
+	return value;
 }
 
 bool CommCtrlWindowBackend::IsChecked() const
@@ -240,7 +254,22 @@ void CommCtrlWindowBackend::SetBounds(const Rect &area)
 	else
 		//we got called just after this->bounds = area happened
 		translated = this->widget->TranslateToOwnerCoords(Point()); //area.origin is relative to the parent!
-    SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
+
+	switch (this->type)
+	{
+	case WindowBackendType::SpinBox:
+	{
+		int w2 = 20;
+		int w1 = area.width() - w2;
+		if (area.width() <= w2)
+			w1 = w2 = area.width() / 2;
+		SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, w1, area.height(), SWP_NOZORDER);
+		SetWindowPos(this->hWndReal, HWND_TOP, translated.x + w1, translated.y, w2, area.height(), SWP_NOZORDER);
+	}
+		break;
+	default:
+		SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
+	}
 }
 
 void CommCtrlWindowBackend::SetEditable(bool enable) const
@@ -258,12 +287,12 @@ void CommCtrlWindowBackend::SetHint(const StdPlusPlus::String &text) const
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetMaximum(uint32 max) const
+void CommCtrlWindowBackend::SetMaximum(uint32 max)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetMinimum(uint32 min) const
+void CommCtrlWindowBackend::SetMinimum(uint32 min)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -273,14 +302,21 @@ void CommCtrlWindowBackend::SetPosition(uint32 pos) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
+void CommCtrlWindowBackend::SetRange(int32 min, int32 max)
+{
+	SendMessageW(this->hWndReal, UDM_SETRANGE32, min, max);
+	//update pos always because of redraw
+	this->SetValue(this->GetValue());
+}
+
 void CommCtrlWindowBackend::SetText(const String &text)
 {
     SendMessageW(this->hWnd, WM_SETTEXT, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
 }
 
-void CommCtrlWindowBackend::SetValue(int32 value) const
+void CommCtrlWindowBackend::SetValue(int32 value)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	SendMessageW(this->hWndReal, UDM_SETPOS32, 0, value);
 }
 
 void CommCtrlWindowBackend::Show(bool visible)
