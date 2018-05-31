@@ -43,8 +43,10 @@ namespace _stdpp
         WindowBackend *CreateChildBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget) const override;
 		Rect GetChildrenRect() const override;
 		uint32 GetPosition() const override;
+		void GetRange(int32 &min, int32 &max) override;
         Size GetSize() const override;
         Size GetSizeHint() const override;
+		int32 GetValue() const override;
 		bool IsChecked() const override;
 		void Maximize() override;
         void Paint() override;
@@ -55,11 +57,12 @@ namespace _stdpp
 		void SetEditable(bool enable) const override;
         void SetEnabled(bool enable) const override;
         void SetHint(const StdPlusPlus::String &text) const override;
-		void SetMaximum(uint32 max) const override;
-		void SetMinimum(uint32 min) const override;
+		void SetMaximum(uint32 max) override;
+		void SetMinimum(uint32 min) override;
 		void SetPosition(uint32 pos) const override;
+		void SetRange(int32 min, int32 max) override;
         void SetText(const StdPlusPlus::String &text) override;
-		void SetValue(int32 value) const override;
+		void SetValue(int32 value) override;
         void Show(bool visible) override;
         void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const override;
         void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const override;

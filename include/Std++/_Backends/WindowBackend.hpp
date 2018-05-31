@@ -70,11 +70,8 @@ namespace _stdpp
 		virtual void SetEditable(bool enable) const = 0;
 		virtual void SetEnabled(bool enable) const = 0;
 		virtual void SetHint(const StdPlusPlus::String &text) const = 0;
-		virtual void SetMaximum(uint32 max) const = 0;
-		virtual void SetMinimum(uint32 min) const = 0;
 		virtual void SetPosition(uint32 pos) const = 0;
 		virtual void SetText(const StdPlusPlus::String &text) = 0;
-		virtual void SetValue(int32 value) const = 0;
 		virtual void Show(bool visible) = 0;
 		virtual void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const = 0;
 		virtual void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const = 0;
@@ -84,6 +81,14 @@ namespace _stdpp
 
 		//Abstract, for Slider
 		virtual uint32 GetPosition() const = 0;
+		virtual void SetMaximum(uint32 max) = 0;
+		virtual void SetMinimum(uint32 min) = 0;
+
+		//Abstract, for SpinBox
+		virtual void GetRange(int32 &min, int32 &max) = 0;
+		virtual int32 GetValue() const = 0;
+		virtual void SetRange(int32 min, int32 max) = 0;
+		virtual void SetValue(int32 value) = 0;
 
 		//Inline
 		inline StdPlusPlus::UIBackend *GetUIBackend() const
