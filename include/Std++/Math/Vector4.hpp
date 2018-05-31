@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Debug.h"
+#include "Std++/Debug.hpp"
 
 namespace StdPlusPlus
 {

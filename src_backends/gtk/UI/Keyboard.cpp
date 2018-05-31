@@ -21,7 +21,7 @@
 //Global
 #include <gdk/gdkx.h>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

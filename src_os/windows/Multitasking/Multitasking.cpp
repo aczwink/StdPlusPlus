@@ -20,7 +20,7 @@
 #include <Std++/Multitasking/Multitasking.hpp>
 //Global
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 
 //Global functions
 uint32 StdPlusPlus::GetHardwareConcurrency()

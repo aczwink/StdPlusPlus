@@ -19,7 +19,7 @@
 //Class header
 #include "PCM_S16LE_Encoder.hpp"
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Multimedia/AudioBuffer.hpp>
 #include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/Packet.hpp>

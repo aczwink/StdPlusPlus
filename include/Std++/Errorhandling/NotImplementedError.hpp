@@ -16,18 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#include <gdk/gdkx.h>
-#include <GL/glx.h>
+#pragma once
 //Local
-#include <Std++/Debug.hpp>
+#include "Error.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 
-void *GTKLoadGLExtension(const char *extensionName)
+namespace StdPlusPlus
 {
-	//We only support X11 currently
-	GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
-	if(GDK_IS_X11_DISPLAY(display))
-		return (void *)glXGetProcAddressARB((const GLubyte *)extensionName);
+	class STDPLUSPLUS_API NotImplementedError : public Error
+	{
+	public:
+		//Constructor
+		inline NotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
+				: fileName(fileName), lineNumber(lineNumber), functionName(functionName)
+		{
+		}
 
-	NOT_IMPLEMENTED_ERROR;
+		//Inline
+		inline String GetDescription() const override
+		{
+			return String(u8"You've reached a point in the program that is not implemented.")
+				   + u8"\nFile: " + this->fileName + u8" (" + String::Number(lineNumber)
+				   + u8")\nFunction: " + this->functionName;
+		}
+
+	private:
+		const char *fileName;
+		uint32 lineNumber;
+		const char *functionName;
+	};
 }

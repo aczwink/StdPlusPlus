@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Filesystem/ContainerFileInputStream.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Filesystem/ContainerFile.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 //Namespaces

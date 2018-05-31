@@ -1,6 +1,7 @@
 add_subdirectory(_Backends)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Containers)
+add_subdirectory(Errorhandling)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
 add_subdirectory(Streams)
@@ -19,10 +20,6 @@ set(SOURCE_FILES
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/Device.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.hpp
-
-	#ErrorHandling
-	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/Exception.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ErrorHandling/FileNotFoundException.hpp
 
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.hpp
@@ -117,7 +114,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Debug.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Debug.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Deleters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp

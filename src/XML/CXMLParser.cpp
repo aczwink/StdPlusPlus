@@ -19,7 +19,7 @@
 //Class Header
 #include "CXMLParser.hpp"
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 #include <Std++/Mathematics.hpp>
 //Namespaces

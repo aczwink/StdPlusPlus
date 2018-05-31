@@ -19,7 +19,7 @@
 //Class header
 #include "../../../../src/UI/Render Targets/CDefaultTerminalRenderTarget.h"
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 //Namespaces
 using namespace StdPlusPlus;

@@ -67,7 +67,7 @@ namespace StdPlusPlus
 				this->backend->Maximize();
 			}
 
-			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = {})
+			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = [](const Path &){return true;}) const
 			{
 				return this->backend->SelectExistingDirectory(title, callback);
 			}

@@ -49,6 +49,13 @@ namespace StdPlusPlus
 			return ABS(a - b) <= epsilon;
 		}
 
+#ifdef _STDPP_COMPILER_GCC
+		static constexpr bool IsNotANumber(float64 f)
+		{
+			return __builtin_isnan(f);
+		}
+#endif
+
 		/**
 		 * The machine epsilon is the difference: 1.0 + 1 ULP - 1.0
 		 * In other words, the machine epsilon is the difference of 1.0 and its next representable float value in the floating point system.
@@ -61,6 +68,16 @@ namespace StdPlusPlus
 		static constexpr float64 MachineEpsilon()
 		{
 			return DBL_EPSILON;
+		}
+
+		/**
+		 * Returns the quiet NaN value.
+		 * Be careful, this can't be used for comparisons.
+		 * @return
+		 */
+		static constexpr float64 NotANumber()
+		{
+			return nan("");
 		}
 	};
 }

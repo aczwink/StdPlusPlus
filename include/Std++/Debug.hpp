@@ -25,6 +25,8 @@
 #define ASSERT(expression, message) {if((expression) == 0){StdPlusPlus::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
 //extended asserts
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdPlusPlus::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
+//Errors
+#define NOT_IMPLEMENTED_ERROR StdPlusPlus::RaiseNotImplementedError(__FILE__, __LINE__, __FUNCTION__)
 
 namespace StdPlusPlus
 {
@@ -34,14 +36,10 @@ namespace StdPlusPlus
 	void STDPLUSPLUS_API AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void STDPLUSPLUS_API AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void STDPLUSPLUS_API AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
+	void STDPLUSPLUS_API RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName);
 }
 #else
-#define ASSERT(expression) {}
-#define ASSERT_MSG(expression, message) {}
+#define ASSERT(expression, message) {}
 //extended asserts
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon)
 #endif
-
-//Errors
-#define ERROR(msg) ASSERT(false, msg)
-#define NOT_IMPLEMENTED_ERROR ERROR("You've reached a point in the program that is not implemented.")

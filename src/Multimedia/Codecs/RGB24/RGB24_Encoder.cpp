@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Multimedia/Images/RGBImage.hpp>
 #include <Std++/Multimedia/Frame.hpp>
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 

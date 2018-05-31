@@ -19,7 +19,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 //Namespaces
 
 //Global functions

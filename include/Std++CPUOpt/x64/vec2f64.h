@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "SSE.h"
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
 #include <Std++/Memory.h>
 #include <Std++/Math/Vector2.hpp>

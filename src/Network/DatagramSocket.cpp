@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Network/DatagramSocket.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Network/IPv4Address.hpp>
 #include "Shared.hpp"
 //Namespaces

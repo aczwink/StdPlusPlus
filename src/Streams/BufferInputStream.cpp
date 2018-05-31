@@ -19,7 +19,7 @@
 //Class Header
 #include <Std++/Streams/BufferInputStream.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 //Namespaces
 using namespace StdPlusPlus;

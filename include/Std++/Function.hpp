@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "Debug.h"
+#include "Debug.hpp"
 #include "Memory.h"
 
 namespace _Intern

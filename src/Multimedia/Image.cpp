@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/Image.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Multimedia/Images/RGB/R8G8B8Image.hpp>
 #include <Std++/Multimedia/Images/RGBAImage.hpp>
 #include <Std++/Multimedia/Images/YCbCrImage.hpp>

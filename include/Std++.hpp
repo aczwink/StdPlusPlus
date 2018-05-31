@@ -97,7 +97,8 @@
 #include <Std++/Debugging/CHook.h>
 
 //ErrorHandling
-#include <Std++/ErrorHandling/Exception.hpp>
+#include <Std++/Errorhandling/Error.hpp>
+#include <Std++/Errorhandling/Exception.hpp>
 
 //Filesystem
 #include <Std++/Filesystem/Path.hpp>
@@ -203,7 +204,7 @@
 #include <Std++/UI/Views/ComboBox.hpp>
 #include <Std++/UI/Controls/Label.hpp>
 #include <Std++/UI/Controls/LineEdit.hpp>
-#include <Std++/UI/Controls/CProgressBar.h>
+#include <Std++/UI/Controls/ProgressBar.hpp>
 #include <Std++/UI/Controls/PushButton.hpp>
 #include <Std++/UI/Controls/RadioButton.hpp>
 #include <Std++/UI/Controls/SearchBox.hpp>

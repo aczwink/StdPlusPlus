@@ -20,7 +20,7 @@
 
 //Local
 #include <Std++/Math/Radian.hpp>
-#include "Debug.h"
+#include "Debug.hpp"
 #include "Definitions.h"
 #include "__Globaldependencies.h"
 

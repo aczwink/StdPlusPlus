@@ -45,16 +45,13 @@ Buffer DeviceContext::CreateBuffer(uint32 size, bool read, bool write)
 {
 	cl_mem_flags memFlag;
 
+	ASSERT(read || write, u8"A buffer must be either readable or writeable (or both).");
 	if(read && write)
 		memFlag = CL_MEM_READ_WRITE;
 	else if(read)
 		memFlag = CL_MEM_READ_ONLY;
 	else if(write)
 		memFlag = CL_MEM_WRITE_ONLY;
-	else
-	{
-		ERROR("A buffer must be either readable or writeable (or both).");
-	}
 
 	cl_mem memObj = clCreateBuffer(THIS, memFlag, size, nullptr, nullptr);
 

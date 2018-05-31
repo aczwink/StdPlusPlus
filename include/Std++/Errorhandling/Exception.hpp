@@ -16,41 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include "main.hpp"
-#include <Std++.hpp>
+#include "../Definitions.h"
 
-//Prototypes
-#ifdef _DEBUG
-STDPLUSPLUS_API void StartUserMemoryLogging();
-#endif
-
-//Global functions
-int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args)
+namespace StdPlusPlus
 {
-    int32 exitCode = -1;
+    //Forward declarations
+    class String;
 
-	InitStdPlusPlus();
-#ifdef _DEBUG
-    StartUserMemoryLogging();
-#endif
-    try
+	/**
+	 * In contrast to Error, Exception represents failures that can't be avoided to happen and should thus be expected
+	 * and handled.
+	 */
+    class STDPLUSPLUS_API Exception
     {
-        exitCode = Main(programName, args);
-    }
-    catch(const ErrorHandling::Exception &e)
-    {
-        ASSERT(false, u8"Uncaught exception: " + e.GetDescription());
-    }
-	catch(const Error &e)
-	{
-		stdErr << u8"ERROR: " << e.GetDescription() << endl;
-	}
-    catch(...)
-    {
-        ASSERT(false, u8"Uncaught exception (not StdPlusPlus)");
-    }
-	ShutdownStdPlusPlus();
-
-    return exitCode;
+    public:
+        //Abstract
+        virtual String GetDescription() const = 0;
+    };
 }

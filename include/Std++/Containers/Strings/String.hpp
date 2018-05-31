@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
-#include "../../Debug.h"
+#include <Std++/Debug.hpp>
 #include "../../Definitions.h"
 #include "../../Natural.hpp"
 #include "../../Type.hpp"
-#include "../ResizeableSequenceContainer.hpp"
+#include <Std++/Containers/ResizeableSequenceContainer.hpp>
 
 namespace StdPlusPlus
 {

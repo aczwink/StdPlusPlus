@@ -21,7 +21,7 @@
 //Global
 #include <dirent.h>
 //Local
-#include <Std++/ErrorHandling/FileNotFoundException.hpp>
+#include <Std++/Errorhandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 //Definitions

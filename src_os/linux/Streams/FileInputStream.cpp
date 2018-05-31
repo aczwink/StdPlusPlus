@@ -24,7 +24,7 @@
 #include <errno.h>
 //Local
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <Std++/ErrorHandling/FileNotFoundException.hpp>
+#include <Std++/Errorhandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 

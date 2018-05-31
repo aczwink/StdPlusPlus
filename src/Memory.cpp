@@ -22,7 +22,7 @@
 //Global
 #include <stdio.h>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/StdOut.hpp>
 //Namespaces

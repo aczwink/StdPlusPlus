@@ -22,7 +22,7 @@
 #include "../Containers/FiniteSet/FiniteSet.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../Filesystem/Path.hpp"
-#include "../Debug.h"
+#include "Std++/Debug.hpp"
 
 namespace StdPlusPlus
 {

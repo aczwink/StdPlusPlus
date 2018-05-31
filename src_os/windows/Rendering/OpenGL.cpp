@@ -20,7 +20,7 @@
 #include <Windows.h>
 //Local
 #include "../../../src_backends/OpenGL/GLFunctions.h"
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include "OpenGL.h"
 
 //WGL Function pointers

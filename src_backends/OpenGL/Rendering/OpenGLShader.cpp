@@ -19,7 +19,7 @@
 //Class header
 #include "OpenGLShader.hpp"
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "../GLFunctions.h"

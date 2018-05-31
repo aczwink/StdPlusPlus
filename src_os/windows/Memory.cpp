@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 
 void *StdPlusPlus::MemoryAllocate(uint32 size)
 {

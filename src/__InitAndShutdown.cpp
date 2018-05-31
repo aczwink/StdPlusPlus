@@ -19,7 +19,7 @@
 //Corresponding header
 #include <Std++/__InitAndShutdown.h>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/ByteString.hpp>

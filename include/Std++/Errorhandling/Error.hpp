@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,31 +18,23 @@
  */
 #pragma once
 //Local
-#include "../Widget.hpp"
+#include <Std++/Definitions.h>
 
 namespace StdPlusPlus
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API CProgressBar : public Widget
-        {
-        private:
-            //Members
-            float64 progress;
+	//Forward declarations
+	class String;
 
-            //Eventhandlers
-            void OnPaint();
-
-            //Methods
-            void PaintText();
-
-        public:
-            //Constructor
-            CProgressBar(WidgetContainer *pParent);
-
-            //Methods
-            Size GetSizeHint() const;
-            void SetProgress(float64 value);
-        };
-    }
+	/**
+	 * An error describes a fatal fault in the program, which is usually irrecoverable.
+	 * An example would be for instance when the process is out of memory or an assertion fails.
+	 * In such cases, instances of (subclasses of) Error are thrown.
+	 * It is not intended that errors are catched.
+	 */
+	class STDPLUSPLUS_API Error
+	{
+	public:
+		//Abstract
+		virtual String GetDescription() const = 0;
+	};
 }

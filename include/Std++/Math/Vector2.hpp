@@ -20,7 +20,7 @@
 //Local
 #include "../__Globaldependencies.h" //needed for sqrt
 #include "../Definitions.h"
-#include "../Debug.h"
+#include "Std++/Debug.hpp"
 
 namespace StdPlusPlus
 {

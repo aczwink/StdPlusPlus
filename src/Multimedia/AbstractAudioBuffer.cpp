@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/AbstractAudioBuffer.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Multimedia;

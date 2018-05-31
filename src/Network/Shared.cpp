@@ -19,7 +19,7 @@
 //Definition header
 #include "Shared.hpp"
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 #include <Std++/Network/IPv4Address.hpp>
 

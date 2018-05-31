@@ -17,14 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Main header
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 //Local
+#include <Std++/Errorhandling/AssertionError.hpp>
+#include <Std++/Errorhandling/NotImplementedError.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 
 #ifdef _DEBUG
 void StdPlusPlus::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-    AssertionFailed(pContext, String(pMessage), pFileName, lineNumber, pFunctionName);
+	throw AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
+}
+
+void StdPlusPlus::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+{
+	throw AssertionError(pContext, refMessage, pFileName, lineNumber, pFunctionName);
 }
 
 void StdPlusPlus::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
@@ -35,6 +42,11 @@ void StdPlusPlus::AssertionFailed(float64 expect, float64 got, float64 epsilon, 
 	message += u8"Got: " + String::Number(got) + u8"\n";
 	message += u8"Epsilon: " + String::Number(epsilon) + u8"\n";
 
-	AssertionFailed("Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
+	throw AssertionError(u8"Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
+}
+
+void StdPlusPlus::RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	throw NotImplementedError(fileName, lineNumber, functionName);
 }
 #endif

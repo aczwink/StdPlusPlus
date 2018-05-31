@@ -15,6 +15,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/CheckBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/Label.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/LineEdit.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controls/ProgressBar.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/PushButton.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/RadioButton.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/SearchBox.hpp

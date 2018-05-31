@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Natural.hpp"
-#include "../ResizeableSequenceContainer.hpp"
+#include <Std++/Containers/ResizeableSequenceContainer.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 

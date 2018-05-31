@@ -18,20 +18,31 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include "../Widget.hpp"
 
 namespace StdPlusPlus
 {
-    //Move declarations
-    class String;
-
-    namespace ErrorHandling
+    namespace UI
     {
-        class STDPLUSPLUS_API Exception
+        class STDPLUSPLUS_API ProgressBar : public Widget
         {
+        private:
+            //Members
+            float64 progress;
+
+            //Eventhandlers
+            void OnPaint();
+
+            //Methods
+            void PaintText();
+
         public:
-            //Abstract
-            virtual String GetDescription() const = 0;
+            //Constructor
+            ProgressBar(WidgetContainer *pParent);
+
+            //Methods
+            Size GetSizeHint() const;
+            void SetProgress(float64 value);
         };
     }
 }

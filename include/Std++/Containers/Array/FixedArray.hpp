@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../Debug.h"
+#include "Std++/Debug.hpp"
 #include <Std++/Type.hpp>
 #include "../Container.hpp"
 #include "ArrayIterator.hpp"

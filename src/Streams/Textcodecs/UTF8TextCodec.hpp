@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Streams/TextCodec.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 //Namespaces

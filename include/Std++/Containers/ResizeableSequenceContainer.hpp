@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "../Debug.h"
+#include <Std++/Debug.hpp>
 #include "../Memory.h"
 #include "../Type.hpp"
 #include "Container.hpp"

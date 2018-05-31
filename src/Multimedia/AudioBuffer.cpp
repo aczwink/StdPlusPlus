@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/AudioBuffer.hpp>
 //Local
-#include <Std++/Debug.h>
+#include <Std++/Debug.hpp>
 #include <Std++/Integer.hpp>
 #include <Std++/Memory.h>
 //Namespaces
