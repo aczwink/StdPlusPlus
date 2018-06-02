@@ -2,7 +2,7 @@ add_subdirectory(OpenCL)
 add_subdirectory(OpenGL)
 
 add_subdirectory(CommCtrl)
-add_subdirectory(gtk)
+add_subdirectory(gtk3)
 
 set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)
 

@@ -42,7 +42,7 @@ static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
 
 	//enable depth buffer
 	gtk_gl_area_set_has_depth_buffer(glArea, true);
-	//glDisable(GL_DEPTH_TEST); //stupid gtk!!! GL_DEPTH_TEST is disabled by default even if the def framebuffer has a depth buffer
+	//glDisable(GL_DEPTH_TEST); //stupid gtk3!!! GL_DEPTH_TEST is disabled by default even if the def framebuffer has a depth buffer
 }
 
 static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
@@ -131,7 +131,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::RenderTarget:
 		{
-			//TODO: own gtk gl area because: GL_DEPTH_TEST is enabled by gtk, when a frame buffer has a depth buffer-.-
+			//TODO: own gtk3 gl area because: GL_DEPTH_TEST is enabled by gtk3, when a frame buffer has a depth buffer-.-
 			//this->backend = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
 			//ac_gtk_opengl_widget_setwidget(AC_GTK_OPENGL_WIDGET(THIS), this);
 

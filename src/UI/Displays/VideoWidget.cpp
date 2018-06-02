@@ -94,7 +94,7 @@ void VideoWidget::OnPaint()
 
 	//render
 	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
-	this->deviceContext->EnableDepthTest(false); //#TODO: gtk bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
+	this->deviceContext->EnableDepthTest(false); //#TODO: gtk3 bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
 
 	this->renderer.BeginPath();
 	this->renderer.Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);

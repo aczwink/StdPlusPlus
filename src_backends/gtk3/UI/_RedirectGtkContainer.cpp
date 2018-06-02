@@ -167,7 +167,7 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 
 		{
 			int tmp;
-			gtk_widget_get_preferred_width(gtkWidget, &tmp, &tmp); //make gtk happy, else it will print out warnings -.-
+			gtk_widget_get_preferred_width(gtkWidget, &tmp, &tmp); //make gtk3 happy, else it will print out warnings -.-
 		}
 
 		Widget *widget = WIDGET_FROM_GTK(gtkWidget);
@@ -175,9 +175,9 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 			continue;
 		Rect bounds = widget->GetLocalBounds();
 
-		//offset bounds because the parent of the gtk widget might not be the parent of the std++ widget
+		//offset bounds because the parent of the gtk3 widget might not be the parent of the std++ widget
 		bounds.origin = widget->TranslateToAncestorCoords(bounds.origin, thisContainer);
-		//the gtk allocation is in coordinates of the widget, not its child i.e. the redirect container
+		//the gtk3 allocation is in coordinates of the widget, not its child i.e. the redirect container
 		bounds.origin = thisContainer->TranslateChildToWidgetCoords(bounds.origin);
 
 		allocation->x = bounds.x();
