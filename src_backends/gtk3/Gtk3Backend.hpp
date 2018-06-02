@@ -23,22 +23,22 @@
 #include <Std++/_Backends/UIBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/GtkWindowBackend.hpp"
-#include "GTKOpenGLBackend.hpp"
+#include "Gtk3OpenGLBackend.hpp"
 #include "UI/GtkEventSource.hpp"
 
 namespace StdPlusPlus
 {
-	class GTKBackend : public UIBackend
+	class Gtk3Backend : public UIBackend
 	{
 	public:
 		//Constructor
-		GTKBackend()
+		Gtk3Backend()
 		{
 			this->eventSource = new GtkEventSource;
 
 			//register render backends
 #ifdef _STDPLUSPLUS_BACKEND_OPENGL
-			GTKOpenGLBackend *gtkOpenGLBackend = new GTKOpenGLBackend;
+			Gtk3OpenGLBackend *gtkOpenGLBackend = new Gtk3OpenGLBackend;
 			this->renderBackends.RegisterBackend(gtkOpenGLBackend, 0);
 #endif
 		}

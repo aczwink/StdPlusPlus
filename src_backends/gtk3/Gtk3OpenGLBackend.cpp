@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "GTKOpenGLBackend.hpp"
+#include "Gtk3OpenGLBackend.hpp"
 //Local
 #include "Rendering/GtkOpenGLDeviceContext.hpp"
 #include "UI/GtkWindowBackend.hpp"
@@ -27,12 +27,12 @@ using namespace _stdpp;
 
 void *GTKLoadGLExtension(const char *extensionName);
 //Constructor
-GTKOpenGLBackend::GTKOpenGLBackend() : OpenGLBackend(GTKLoadGLExtension)
+Gtk3OpenGLBackend::Gtk3OpenGLBackend() : OpenGLBackend(GTKLoadGLExtension)
 {
 }
 
 //Public methods
-Rendering::DeviceContext *GTKOpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
 {
 	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
 	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);

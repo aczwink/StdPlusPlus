@@ -20,7 +20,7 @@
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
 #include "CommCtrl/CommCtrlBackend.hpp"
-#include "gtk/GTKBackend.hpp"
+#include "gtk3/Gtk3Backend.hpp"
 #include "OpenCL/OpenCLBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
@@ -56,8 +56,8 @@ void RegisterUIBackends()
 #define ADD_BACKEND(backend, priority) BackendManager<UIBackend>::GetRootInstance().RegisterBackend(backend, priority);
 	//UI backends
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
-	GTKBackend *gtkBackend = new GTKBackend;
-	ADD_BACKEND(gtkBackend, PRIORITY_HIGH);
+	Gtk3Backend *gtk3Backend = new Gtk3Backend;
+	ADD_BACKEND(gtk3Backend, PRIORITY_HIGH);
 #endif
 #ifdef _STDPLUSPLUS_BACKEND_COMMCTRL
 	CommCtrlBackend *commCtrlBackend = new CommCtrlBackend;

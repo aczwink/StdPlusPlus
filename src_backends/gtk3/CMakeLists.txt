@@ -52,7 +52,7 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowBackend.cpp
 
 		#.
-		${CMAKE_CURRENT_SOURCE_DIR}/GTKBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Gtk3Backend.hpp
 		)
 
 	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_GTK3)
@@ -70,8 +70,8 @@ if(${BACKEND_GTK3})
 
 			#.
 			${CMAKE_CURRENT_SOURCE_DIR}/GLLoader.cpp
-			${CMAKE_CURRENT_SOURCE_DIR}/GTKOpenGLBackend.cpp
-			${CMAKE_CURRENT_SOURCE_DIR}/GTKOpenGLBackend.hpp
+			${CMAKE_CURRENT_SOURCE_DIR}/Gtk3OpenGLBackend.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/Gtk3OpenGLBackend.hpp
 			)
 
 		#GLX is needed for getting opengl extensions

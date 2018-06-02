@@ -23,11 +23,11 @@
 
 namespace StdPlusPlus
 {
-	class GTKOpenGLBackend : public OpenGLBackend
+	class Gtk3OpenGLBackend : public OpenGLBackend
 	{
 	public:
 		//Constructor
-		GTKOpenGLBackend();
+		Gtk3OpenGLBackend();
 
 		//Methods
 		Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const override;
