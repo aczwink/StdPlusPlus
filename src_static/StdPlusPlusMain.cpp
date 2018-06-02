@@ -38,9 +38,9 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     {
         exitCode = Main(programName, args);
     }
-    catch(const ErrorHandling::Exception &e)
+    catch(const Exception &e)
     {
-        ASSERT(false, u8"Uncaught exception: " + e.GetDescription());
+		stdErr << u8"Uncaught exception: " << e.GetDescription() << endl;
     }
 	catch(const Error &e)
 	{
@@ -48,7 +48,7 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
 	}
     catch(...)
     {
-        ASSERT(false, u8"Uncaught exception (not StdPlusPlus)");
+		stdErr << u8"Uncaught exception (not StdPlusPlus)" << endl;
     }
 	ShutdownStdPlusPlus();
 

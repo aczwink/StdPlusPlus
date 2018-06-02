@@ -27,9 +27,12 @@
 using namespace StdPlusPlus;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &refPath) : filePath(refPath)
+FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite) : filePath(refPath)
 {
-    this->fileHandle = open(reinterpret_cast<const char *>(refPath.GetString().ToUTF8().GetRawZeroTerminatedData()), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    int flags = O_WRONLY | O_CREAT | O_TRUNC;
+    if(!overwrite)
+        flags |= O_EXCL;
+    this->fileHandle = open(reinterpret_cast<const char *>(refPath.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 //Destructor

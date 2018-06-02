@@ -29,6 +29,25 @@ namespace StdPlusPlus
 	public:
 		//Abstract
 		virtual UniquePointer<InputStream> OpenForReading() const = 0;
+		/*
+		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
+		 * OpenForAppending:
+		 * -Create file in case it does not exist
+		 * -File pos is at end
+		 * -File is of course not truncated
+		 *
+		 * OpenForUpdating: no mode needed because this would do the following:
+		 * -Create file in case it does not exist
+		 * -File pos is at beginning
+		 * -File is of course not truncated
+		 * -File must support streaming
+		 *
+		 */
+		/**
+		 * File is truncated.
+		 *
+		 * @return
+		 */
 		virtual UniquePointer<OutputStream> OpenForWriting() = 0;
 	};
 }

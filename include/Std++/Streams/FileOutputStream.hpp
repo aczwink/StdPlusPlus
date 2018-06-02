@@ -27,7 +27,15 @@ namespace StdPlusPlus
     {
     public:
         //Constructor
-        FileOutputStream(const Path &refPath);
+		/**
+		 * If file does not exist, it is created.
+		 * If it exists and overwrite is true, it is truncated.
+		 * If it exists and overwrite is false, an error occurs.
+		 *
+		 * @param refPath
+		 * @param overwrite
+		 */
+        FileOutputStream(const Path &refPath, bool overwrite = false);
         //FileOutputStream
         ~FileOutputStream();
         //Methods

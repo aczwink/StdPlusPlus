@@ -161,6 +161,7 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::SpinBox:
 		{
+			//https://developer.gnome.org/gtk3/stable/GtkSpinButton.html
 			this->gtkWidget = gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0);
 		}
 		break;
@@ -341,6 +342,14 @@ uint32 GtkWindowBackend::GetPosition() const
 	return (uint32) gtk_range_get_value(GTK_RANGE(this->gtkWidget));
 }
 
+void GtkWindowBackend::GetRange(int32 &min, int32 &max)
+{
+	gdouble gmin, gmax;
+	gtk_spin_button_get_range(GTK_SPIN_BUTTON(this->gtkWidget), &gmin, &gmax);
+	min = static_cast<int32>(gmin);
+	max = static_cast<int32>(gmax);
+}
+
 Size GtkWindowBackend::GetSize() const
 {
 	GtkAllocation alloc;
@@ -361,6 +370,11 @@ Size GtkWindowBackend::GetSizeHint() const
 	gtk_widget_get_preferred_height(this->gtkWidget, &min2, &nat2);
 
 	return Size(nat1, nat2);
+}
+
+int32 GtkWindowBackend::GetValue() const
+{
+	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(this->gtkWidget));
 }
 
 bool GtkWindowBackend::IsChecked() const
@@ -438,14 +452,14 @@ void GtkWindowBackend::SetHint(const String &text) const
 	gtk_widget_set_tooltip_text(this->gtkWidget, reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
 }
 
-void GtkWindowBackend::SetMaximum(uint32 max) const
+void GtkWindowBackend::SetMaximum(uint32 max)
 {
 	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
 
 	gtk_range_set_range(GTK_RANGE(this->gtkWidget), gtk_adjustment_get_lower(adjustment), max);
 }
 
-void GtkWindowBackend::SetMinimum(uint32 min) const
+void GtkWindowBackend::SetMinimum(uint32 min)
 {
 	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
 
@@ -455,6 +469,11 @@ void GtkWindowBackend::SetMinimum(uint32 min) const
 void GtkWindowBackend::SetPosition(uint32 pos) const
 {
 	gtk_range_set_value(GTK_RANGE(this->gtkWidget), pos);
+}
+
+void GtkWindowBackend::SetRange(int32 min, int32 max)
+{
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON(this->gtkWidget), min, max);
 }
 
 void GtkWindowBackend::SetText(const String &text)
@@ -484,7 +503,7 @@ void GtkWindowBackend::SetText(const String &text)
 	}
 }
 
-void GtkWindowBackend::SetValue(int32 value) const
+void GtkWindowBackend::SetValue(int32 value)
 {
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(this->gtkWidget), value);
 }

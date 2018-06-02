@@ -30,7 +30,6 @@ if(${BACKEND_GTK3})
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/SpinBox.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.h
