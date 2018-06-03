@@ -1,3 +1,4 @@
+add_subdirectory(OpenALSoft)
 add_subdirectory(OpenCL)
 add_subdirectory(OpenGL)
 

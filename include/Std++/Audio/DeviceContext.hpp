@@ -18,23 +18,28 @@
  */
 #pragma once
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/Math/Vector3.hpp>
 
-//Move declarations
 namespace StdPlusPlus
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	namespace Audio
 	{
-	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
+		//Forward declarations
+		class Buffer;
+		class Source;
 
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
-	};
+		class DeviceContext
+		{
+		public:
+			//Destructor
+			virtual ~DeviceContext(){}
+
+			//Abstract
+			virtual Buffer *CreateBuffer() = 0;
+			virtual Source *CreateSource() = 0;
+			virtual void SetListenerOrientation(const Math::Vector3s &at, const Math::Vector3s &up) = 0;
+			virtual void SetListenerPosition(const Math::Vector3s &pos) = 0;
+			virtual void SetListenerVelocity(const Math::Vector3s &vel) = 0;
+		};
+	}
 }

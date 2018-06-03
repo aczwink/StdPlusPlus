@@ -54,6 +54,8 @@ namespace StdPlusPlus
         //Methods
         const DataType &GetFirst() const
         {
+			ASSERT(this->head, u8"Can't access empty queue.");
+
             return this->head->data;
         }
 

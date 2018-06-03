@@ -22,6 +22,7 @@
 #include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk3/Gtk3Backend.hpp"
 #include "OpenCL/OpenCLBackend.hpp"
+#include "OpenALSoft/OpenALSoftBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 
@@ -29,6 +30,18 @@ using namespace StdPlusPlus;
 #define PRIORITY_NORMAL 1
 
 //Global functions
+void RegisterAudioBackends()
+{
+#define ADD_BACKEND(backend, priority) BackendManager<AudioBackend>::GetRootInstance().RegisterBackend(backend, priority);
+#ifdef _STDPLUSPLUS_BACKEND_OPENALSOFT
+	{
+		OpenALSoftBackend *backend = new OpenALSoftBackend;
+		ADD_BACKEND(backend, PRIORITY_NORMAL);
+	}
+#endif
+#undef ADD_BACKEND
+}
+
 void RegisterComputeBackends()
 {
 #define ADD_BACKEND(backend, priority) BackendManager<ComputeBackend>::GetRootInstance().RegisterBackend(backend, priority);

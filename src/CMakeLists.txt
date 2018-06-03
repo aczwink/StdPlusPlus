@@ -1,5 +1,6 @@
 add_subdirectory(CommonFileFormats)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
+add_subdirectory(Devices)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
 add_subdirectory(Streams)

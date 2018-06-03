@@ -17,26 +17,40 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Devices/DeviceEnumerator.hpp>
-//Local
-#include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/ComputeDevice.hpp>
-#include <Std++/_Backends/AudioDevice.hpp>
-//Namespaces
-using namespace StdPlusPlus;
+#include "OpenALSoftBuffer.hpp"
 
 //Constructor
-DeviceEnumerator::DeviceEnumerator(DeviceType filter)
+OpenALSoftBuffer::OpenALSoftBuffer(OpenALSoftDeviceContext &deviceContext) : deviceContext(deviceContext)
 {
-	switch(filter)
+	this->deviceContext.Bind();
+	alGenBuffers(1, &this->id);
+}
+
+//Destructor
+OpenALSoftBuffer::~OpenALSoftBuffer()
+{
+	this->deviceContext.Bind();
+	alDeleteBuffers(1, &this->id);
+}
+
+//Public methods
+void OpenALSoftBuffer::SetData(bool stereo, bool samples16bit, void *data, uint32 size, uint32 sampleRate)
+{
+	ALenum format;
+	if(stereo)
 	{
-		case DeviceType::Audio:
-			this->state = BackendManager<AudioBackend>::GetRootInstance().GetActiveBackend()->GetDeviceEnumeratorState();
-			break;
-		case DeviceType::Compute:
-			this->state = BackendManager<ComputeBackend>::GetRootInstance().GetActiveBackend()->GetDeviceEnumeratorState();
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR;
+		if(samples16bit)
+			format = AL_FORMAT_STEREO16;
+		else
+			format = AL_FORMAT_STEREO8;
 	}
+	else
+	{
+		if(samples16bit)
+			format = AL_FORMAT_MONO16;
+		else
+			format = AL_FORMAT_MONO8;
+	}
+	this->deviceContext.Bind();
+	alBufferData(this->id, format, data, size, sampleRate);
 }

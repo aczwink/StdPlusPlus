@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include "../SmartPointers/UniquePointer.hpp"
+#include "Backend.hpp"
+#include "DeviceEnumeratorState.hpp"
 
-//Move declarations
 namespace StdPlusPlus
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	class AudioBackend : public Backend
 	{
 	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
-
 		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
+		virtual UniquePointer<_stdpp::DeviceEnumeratorState> GetDeviceEnumeratorState() const = 0;
+
+		//Methods
+		BackendType GetType() const
+		{
+			return BackendType::Audio;
+		}
 	};
 }

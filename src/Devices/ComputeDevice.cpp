@@ -16,25 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Devices/ComputeDevice.hpp>
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/ComputeDevice.hpp>
+#include <Std++/_Backends/AudioDevice.hpp>
+//Namespaces
+using namespace StdPlusPlus;
 
-//Move declarations
-namespace StdPlusPlus
+//Public methods
+DeviceType ComputeDevice::GetType() const
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
-	{
-	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
-
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
-	};
+	return DeviceType::Compute;
 }

@@ -16,27 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Devices/DeviceEnumerator.hpp>
+//Global
+#include <AL/al.h>
 //Local
-#include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/ComputeDevice.hpp>
-#include <Std++/_Backends/AudioDevice.hpp>
+#include <Std++/Audio/Source.hpp>
+#include "OpenALSoftDeviceContext.hpp"
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Audio;
 
-//Constructor
-DeviceEnumerator::DeviceEnumerator(DeviceType filter)
+class OpenALSoftSource : public Source
 {
-	switch(filter)
-	{
-		case DeviceType::Audio:
-			this->state = BackendManager<AudioBackend>::GetRootInstance().GetActiveBackend()->GetDeviceEnumeratorState();
-			break;
-		case DeviceType::Compute:
-			this->state = BackendManager<ComputeBackend>::GetRootInstance().GetActiveBackend()->GetDeviceEnumeratorState();
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR;
-	}
-}
+public:
+	//Constructor
+	OpenALSoftSource(OpenALSoftDeviceContext &deviceContext);
+
+	//Destructor
+	~OpenALSoftSource();
+
+	//Methods
+	bool IsPlaying() const override;
+	void Play() override;
+	void SetBuffer(const Buffer *buffer) override;
+	void SetGain(float32 gain) override;
+	void SetLooping(bool loop) override;
+	void SetPitch(float32 pitch) override;
+	void SetPosition(const Math::Vector3s &pos) override;
+	void SetVelocity(const Math::Vector3s &vel) override;
+
+private:
+	//Members
+	OpenALSoftDeviceContext &deviceContext;
+	ALuint id;
+};

@@ -22,6 +22,7 @@ namespace StdPlusPlus
 {
 	enum class BackendType
 	{
+		Audio,
 		Compute,
 		Render,
 		UI,

@@ -16,25 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/Audio/Buffer.hpp>
+#include "OpenALSoftDeviceContext.hpp"
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Audio;
 
-//Move declarations
-namespace StdPlusPlus
+class OpenALSoftBuffer : public Buffer
 {
-	class Device;
-}
+public:
+	//Constructor
+	OpenALSoftBuffer(OpenALSoftDeviceContext &deviceContext);
 
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	//Destructor
+	~OpenALSoftBuffer();
+
+	//Methods
+	void SetData(bool stereo, bool samples16bit, void *data, uint32 size, uint32 sampleRate) override;
+
+	//Inline
+	inline ALuint GetId() const
 	{
-	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
+		return this->id;
+	}
 
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
-	};
-}
+private:
+	//Members
+	OpenALSoftDeviceContext &deviceContext;
+	ALuint id;
+};

@@ -16,25 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+#ifdef _STDPLUSPLUS_BACKEND_OPENALSOFT
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/_Backends/AudioDevice.hpp>
+#include "OpenALSoftDeviceEnumeratorState.hpp"
 
-//Move declarations
 namespace StdPlusPlus
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	class OpenALSoftBackend : public AudioBackend
 	{
 	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
+		//Constructor
+		inline OpenALSoftBackend()
+		{
+		}
 
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
+		//Methods
+		UniquePointer<_stdpp::DeviceEnumeratorState> GetDeviceEnumeratorState() const override
+		{
+			return new OpenALSoftDeviceEnumeratorState;
+		}
 	};
 }
+#endif

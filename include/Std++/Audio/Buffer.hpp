@@ -18,23 +18,20 @@
  */
 #pragma once
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/Definitions.h>
 
-//Move declarations
 namespace StdPlusPlus
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	namespace Audio
 	{
-	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
+		class Buffer
+		{
+		public:
+			//Destructor
+			virtual ~Buffer(){}
 
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
-	};
+			//Abstract
+			virtual void SetData(bool stereo, bool samples16bit, void *data, uint32 size, uint32 sampleRate) = 0;
+		};
+	}
 }

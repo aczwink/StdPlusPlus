@@ -17,24 +17,15 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include "../SmartPointers/AutoPointer.hpp"
 
-//Move declarations
+#include "Device.hpp"
+
 namespace StdPlusPlus
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+	class ComputeDevice : public Device
 	{
 	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
-
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
+		//Methods
+		DeviceType GetType() const;
 	};
 }

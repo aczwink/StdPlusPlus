@@ -16,32 +16,46 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Global
-#include <CL/cl.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 //Local
-#include <Std++/Devices/ComputeDevice.hpp>
+#include <Std++/Audio/DeviceContext.hpp>
 //Namespaces
 using namespace StdPlusPlus;
+using namespace StdPlusPlus::Audio;
 
-class OpenCLDevice : public ComputeDevice
+class OpenALSoftDeviceContext : public DeviceContext
 {
 public:
 	//Constructor
-	inline OpenCLDevice(cl_device_id deviceId) : deviceId(deviceId)
-	{
-	}
+	OpenALSoftDeviceContext(ALCdevice *device);
+
+	//Destructor
+	~OpenALSoftDeviceContext();
 
 	//Methods
-	String GetName() const
-	{
-		char buffer[4096];
-		cl_int result = clGetDeviceInfo(this->deviceId, CL_DEVICE_NAME, sizeof(buffer), buffer, nullptr);
-		ASSERT(result == CL_SUCCESS, "If you see this, report to Std++");
+	Buffer *CreateBuffer() override;
+	Source *CreateSource() override;
+	void SetListenerOrientation(const Math::Vector3s &at, const Math::Vector3s &up) override;
+	void SetListenerPosition(const Math::Vector3s &pos) override;
+	void SetListenerVelocity(const Math::Vector3s &vel) override;
 
-		return String::CopyRawString(buffer);
+	//Inline
+	inline void Bind()
+	{
+		if(currentContext != this->context)
+		{
+			alcMakeContextCurrent(this->context);
+			currentContext = this->context;
+		}
 	}
 
 private:
 	//Members
-	cl_device_id deviceId;
+	ALCcontext *context;
+
+	//Class members
+	static ALCcontext *currentContext;
 };

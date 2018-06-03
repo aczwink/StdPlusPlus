@@ -16,25 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Global
+#include <AL/al.h>
+#include <AL/alc.h>
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/Devices/AudioDevice.hpp>
+#include "Audio/OpenALSoftDeviceContext.hpp"
+//Namespaces
+using namespace StdPlusPlus;
 
-//Move declarations
-namespace StdPlusPlus
+class OpenALSoftDevice : public AudioDevice
 {
-	class Device;
-}
-
-namespace _stdpp
-{
-	class DeviceEnumeratorState
+public:
+	//Constructor
+	inline OpenALSoftDevice(const ALchar *deviceName)
 	{
-	public:
-		//Destructor
-		virtual ~DeviceEnumeratorState(){}
+		this->device = alcOpenDevice(deviceName);
+	}
 
-		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
-	};
-}
+	//Destructor
+	~OpenALSoftDevice()
+	{
+		alcCloseDevice(this->device);
+	}
+
+	//Methods
+	Audio::DeviceContext *CreateDeviceContext() const override
+	{
+		return new OpenALSoftDeviceContext(this->device);
+	}
+
+	String GetName() const
+	{
+		return String::CopyRawString(alcGetString(this->device, ALC_DEVICE_SPECIFIER));
+	}
+
+private:
+	//Members
+	ALCdevice *device;
+};

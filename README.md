@@ -24,6 +24,9 @@ Not only does this approach make Std++ more flexible but this also helps in achi
 With this design decision, it is for example not mandatory to compile Std++ with a GUI-backend.
 Like this, code is more reusable.
 
+The following Audio-backends are currently implemented:
+* OpenAL Soft
+
 The following Compute-backends are currently implemented:
 * OpenCL
 
@@ -42,5 +45,6 @@ None.
 
 ### Optional dependencies
 
+* OpenAL Soft for the OpenAL Soft backend
 * OpenCL ICD loader for the OpenCL backend.
 * GTK 3 and PkgConfig for the GTK 3 backend.

@@ -1,6 +1,8 @@
 add_subdirectory(_Backends)
+add_subdirectory(Audio)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Containers)
+add_subdirectory(Devices)
 add_subdirectory(Errorhandling)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
@@ -16,10 +18,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
-
-	#Devices
-	${CMAKE_CURRENT_SOURCE_DIR}/Devices/Device.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.hpp
 
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.hpp

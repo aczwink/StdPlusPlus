@@ -28,7 +28,7 @@
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/_Backends/UIBackend.hpp>
-#include <Std++/_Backends/ComputeBackend.hpp>
+#include <Std++/_Backends/ComputeDevice.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Multimedia;
@@ -60,6 +60,8 @@ static void FreeAudioVideo()
 //Global functions
 void InitStdPlusPlus()
 {
+	void RegisterAudioBackends();
+	RegisterAudioBackends();
 	void RegisterComputeBackends();
 	RegisterComputeBackends();
 	void RegisterUIBackends();

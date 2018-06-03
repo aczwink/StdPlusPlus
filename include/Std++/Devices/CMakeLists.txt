@@ -1,0 +1,10 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AudioDevice.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ComputeDevice.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Device.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DeviceEnumerator.hpp
+
+	PARENT_SCOPE)

@@ -17,6 +17,10 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//Audio
+#include <Std++/Audio/Buffer.hpp>
+#include <Std++/Audio/Source.hpp>
+
 //CommonFileFormats
 //CommonFileFormats/CSV
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
@@ -41,6 +45,7 @@
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 
 //Devices
+#include <Std++/Devices/AudioDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
 //Eventhandling

@@ -23,13 +23,18 @@ namespace StdPlusPlus
 {
 	enum class DeviceType
 	{
+		Audio,
 		Compute
 	};
 
 	class Device
 	{
 	public:
+		//Destructor
+		virtual ~Device(){}
+
 		//Abstract
 		virtual String GetName() const = 0;
+		virtual DeviceType GetType() const = 0;
 	};
 }
