@@ -23,6 +23,12 @@
 #include <Std++/Function.hpp>
 #include <Std++/UI/UIEventSource.hpp>
 
+//Forward declarations
+namespace _stdpp
+{
+	class CommCtrlWindowBackend;
+}
+
 class WindowsMessageQueueEventSource : public StdPlusPlus::UI::UIEventSource
 {
 public:
@@ -39,7 +45,7 @@ public:
 
 private:
 	//Methods
-	void DispatchControlEvent(StdPlusPlus::UI::Widget &widget, UINT notificationCode);
+	void DispatchControlEvent(_stdpp::CommCtrlWindowBackend &backend, UINT notificationCode);
 	/**
 	 *
 	 * @param widget
@@ -48,6 +54,6 @@ private:
 	 * @param lParam
 	 * @return true if message was processed, false if not.
 	 */
-	bool DispatchMessageEvent(StdPlusPlus::UI::Widget &widget, UINT message, WPARAM wParam, LPARAM lParam);
+	bool DispatchMessageEvent(_stdpp::CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam);
 	void DispatchNotificationEvent(StdPlusPlus::UI::Widget &refWidget, const NMHDR &refNmHdr);
 };

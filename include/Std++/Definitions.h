@@ -20,7 +20,7 @@
 #include "InternalCompilerFlags.h"
 
 //Definitions
-#ifdef _AC_OS_WINDOWS
+#ifdef _STDPP_OS_WINDOWS
     #ifdef _STDPLUSPLUS_EXPORT
         #define STDPLUSPLUS_API __declspec(dllexport)
     #else

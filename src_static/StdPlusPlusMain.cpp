@@ -19,11 +19,26 @@
 //Local
 #include "main.hpp"
 #include <Std++.hpp>
+#ifdef _STDPP_OS_WINDOWS
+#include <Windows.h>
+#endif
 
 //Prototypes
 #ifdef _DEBUG
 STDPLUSPLUS_API void StartUserMemoryLogging();
 #endif
+
+//Local functions
+static void ReportError(const String &message1, const String &message2)
+{
+	stdErr << message1 << message2 << endl;
+#ifdef _STDPP_OS_WINDOWS
+	MessageBoxW(NULL, (LPCWSTR)message2.ToUTF16().GetRawZeroTerminatedData(), (LPCWSTR)message1.ToUTF16().GetRawZeroTerminatedData(), MB_ICONERROR | MB_TASKMODAL);
+#endif
+#ifdef _STDPP_COMPILER_MSVC
+	OutputDebugStringW((LPCWSTR)(message1 + message2).ToUTF16().GetRawZeroTerminatedData());
+#endif
+}
 
 //Global functions
 int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args)
@@ -40,15 +55,15 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     }
     catch(const Exception &e)
     {
-		stdErr << u8"Uncaught exception: " << e.GetDescription() << endl;
+		ReportError(u8"Uncaught exception: ", e.GetDescription());
     }
 	catch(const Error &e)
 	{
-		stdErr << u8"ERROR: " << e.GetDescription() << endl;
+		ReportError(u8"ERROR: ", e.GetDescription());
 	}
     catch(...)
     {
-		stdErr << u8"Uncaught exception (not StdPlusPlus)" << endl;
+		ReportError(u8"Uncaught exception (not StdPlusPlus)", String());
     }
 	ShutdownStdPlusPlus();
 

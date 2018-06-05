@@ -25,9 +25,11 @@
 #include <Std++/UI/Controls/PushButton.hpp>
 #include <Std++/UI/Views/ComboBox.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
+#include "CommCtrlWindowBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
+using namespace _stdpp;
 
 //Global variables
 bool g_ignoreMessage;
@@ -64,23 +66,25 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdpp
 }
 
 //Private methods
-void WindowsMessageQueueEventSource::DispatchControlEvent(Widget &widget, UINT notificationCode)
+void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
 {
+	Widget &widget = backend.GetWidget();
 	switch(notificationCode)
 	{
 		case BN_CLICKED:
 		{
-			if(IS_INSTANCE_OF(&widget, PushButton))
+			switch (backend.GetType())
 			{
-				PushButton &refButton = (PushButton &)widget;
-
-				refButton.onActivatedHandler();
-			}
-			else if(IS_INSTANCE_OF(&widget, CheckBox))
+			case WindowBackendType::CheckBox:
 			{
-				CheckBox &refCheckBox = (CheckBox &)widget;
+				CheckBox & refCheckBox = (CheckBox &)widget;
 
 				this->DispatchToggledEvent(refCheckBox);
+			}
+				break;
+			case WindowBackendType::PushButton:
+				this->DispatchActivatedEvent((PushButton &)widget);
+				break;
 			}
 		}
 			break;
@@ -94,10 +98,11 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(Widget &widget, UINT n
 	}
 }
 
-bool WindowsMessageQueueEventSource::DispatchMessageEvent(Widget &widget, UINT message, WPARAM wParam, LPARAM lParam)
+bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
 
+	Widget &widget = backend.GetWidget();
 	Window &window = (Window &)widget;
 
 	switch(message)
@@ -145,7 +150,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(Widget &widget, UINT m
 
 			if(lParam)
 			{
-				this->DispatchControlEvent(*(Widget *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA), HIWORD(wParam));
+				this->DispatchControlEvent(*(CommCtrlWindowBackend *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA), HIWORD(wParam));
 			}
 			else
 			{
@@ -195,19 +200,19 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(Widget &widget, UINT m
 //Class functions
 LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	Widget *widget;
+	CommCtrlWindowBackend *backend;
 	if(message == WM_NCCREATE)
 	{
-		widget = (Widget *)((LPCREATESTRUCT)lParam)->lpCreateParams;
+		backend = (CommCtrlWindowBackend *)((LPCREATESTRUCT)lParam)->lpCreateParams;
 
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)widget);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)backend);
 	}
 	else
 	{
-		widget = (Widget *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+		backend = (CommCtrlWindowBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	}
 
-	if(widget && l_winMsgEvtQueue->DispatchMessageEvent(*widget, message, wParam, lParam))
+	if(backend && l_winMsgEvtQueue->DispatchMessageEvent(*backend, message, wParam, lParam))
 		return l_messageResult;
 
 	return DefWindowProcW(hWnd, message, wParam, lParam);

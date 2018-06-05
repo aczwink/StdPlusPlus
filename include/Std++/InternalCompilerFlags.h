@@ -33,7 +33,7 @@
 
 //operating system
 #ifdef _WIN32
-#define _AC_OS_WINDOWS
+#define _STDPP_OS_WINDOWS
 #elif __linux__
 #define _STDPP_OS_LINUX
 #else

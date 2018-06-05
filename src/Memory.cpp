@@ -44,7 +44,7 @@ struct SDebugMemBlockHeader
 
 //this is so ugly... but we need a mutex that doesnt take dynamic memory
 //or else the lock() calls will fail
-#ifdef _AC_OS_WINDOWS
+#ifdef _STDPP_OS_WINDOWS
 #include <Windows.h>
 class InternalMutex
 {

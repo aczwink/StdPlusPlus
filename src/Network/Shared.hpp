@@ -18,7 +18,7 @@
  */
 #include <Std++/InternalCompilerFlags.h>
 //Global
-#ifdef _AC_OS_WINDOWS
+#ifdef _STDPP_OS_WINDOWS
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <basetsd.h>

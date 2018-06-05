@@ -26,9 +26,9 @@
 using namespace StdPlusPlus;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &refPath)
+FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite)
 {
-	this->pFileHandle = CreateFileW((LPCWSTR)refPath.GetString().ToUTF16().GetRawZeroTerminatedData(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	this->pFileHandle = CreateFileW((LPCWSTR)refPath.GetString().ToUTF16().GetRawZeroTerminatedData(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, overwrite ? CREATE_ALWAYS : CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 }
 
 //Destructor

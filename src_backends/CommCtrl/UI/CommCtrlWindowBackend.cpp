@@ -32,10 +32,13 @@ using namespace _stdpp;
 
 /*
 WinAPI Documentation:
+	CheckBox: https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
 	GroupBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 	Label: https://msdn.microsoft.com/en-us/library/windows/desktop/bb760769(v=vs.85).aspx
+	ListView: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775146(v=vs.85).aspx
 	PushButon: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 	SpinBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb759880(v=vs.85).aspx
+	TextEdit: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775458(v=vs.85).aspx
 */
 
 //Constructor
@@ -48,7 +51,7 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
     {
 	case WindowBackendType::CheckBox:
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
 	case WindowBackendType::GroupBox:
@@ -63,7 +66,7 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 	break;
 	case WindowBackendType::ListView:
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		this->hWnd = CreateWindowExW(0, WC_LISTBOXW, nullptr, WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
 		case WindowBackendType::PushButton:
@@ -80,12 +83,12 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 		break;
 		case WindowBackendType::TextEdit:
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 		}
 		break;
         case WindowBackendType::Window:
             {
-                this->hWnd = CreateWindowExW(0, STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0, 0, 0, 0, hParent, NULL, hInstance, widget);
+                this->hWnd = CreateWindowExW(0, STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0, 0, 0, 0, hParent, NULL, hInstance, this);
             }
             break;
         default:
@@ -157,6 +160,20 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 {
 	switch (type)
 	{
+	case WindowBackendType::CheckBox:
+	{
+		Size checkSize;
+		checkSize.width = GetSystemMetrics(SM_CXMENUCHECK);
+		checkSize.height = GetSystemMetrics(SM_CYMENUCHECK);
+		return checkSize + this->GetTextExtents();
+	}
+		break;
+	case WindowBackendType::ComboBox:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		break;
+	case WindowBackendType::ListView:
+		return Size(); //no idea...
+		break;
 		case WindowBackendType::PushButton:
 		{			
 			//TODO: calc min width
@@ -169,6 +186,18 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 			return Size((uint16)size.cx, (uint16)size.cy);
 		}
 		break;
+		case WindowBackendType::RadioButton:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			break;
+		case WindowBackendType::RenderTarget:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			break;
+		case WindowBackendType::SearchBox:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			break;
+		case WindowBackendType::Slider:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			break;
 		case WindowBackendType::SpinBox:
 		{
 			//TODO: min width
@@ -177,8 +206,12 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 			return Size(40, 26);
 		}
 		break;
+		case WindowBackendType::TreeView:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			break;
 		case WindowBackendType::GroupBox: //at least text
-		case WindowBackendType::Label: //at least text
+		case WindowBackendType::Label:
+		case WindowBackendType::TextEdit:
 		case WindowBackendType::Window: //at least the title should be displayed
 		{
 			return this->GetTextExtents();
@@ -274,7 +307,7 @@ void CommCtrlWindowBackend::SetBounds(const Rect &area)
 
 void CommCtrlWindowBackend::SetEditable(bool enable) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	SendMessageA(this->hWnd, EM_SETREADONLY, !enable, 0);
 }
 
 void CommCtrlWindowBackend::SetEnabled(bool enable) const

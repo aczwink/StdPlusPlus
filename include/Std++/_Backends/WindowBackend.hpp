@@ -91,9 +91,19 @@ namespace _stdpp
 		virtual void SetValue(int32 value) = 0;
 
 		//Inline
+		inline _stdpp::WindowBackendType GetType() const
+		{
+			return this->type;
+		}
+
 		inline StdPlusPlus::UIBackend *GetUIBackend() const
 		{
 			return this->uiBackend;
+		}
+
+		inline StdPlusPlus::UI::Widget &GetWidget()
+		{
+			return *this->widget;
 		}
 
 	protected:
