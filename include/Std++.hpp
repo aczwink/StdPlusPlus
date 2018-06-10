@@ -61,6 +61,7 @@
 
 //Mathematics
 #include <Std++/Math/Degree.hpp>
+#include <Std++/Math/RandomNumberGenerator.hpp>
 #include <Std++/Math/Radian.hpp>
 #include <Std++/Math/Size.hpp>
 #include <Std++/Math/Matrix3x3.hpp>

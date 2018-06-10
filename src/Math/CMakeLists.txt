@@ -1,0 +1,19 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#Geometry
+	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/AxisAlignedBox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/ObjectIntersection.cpp
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Degree.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Matrix2x2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Matrix3x3.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Matrix4x4.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Radian.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RandomNumberGenerator.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector3.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4.cpp
+
+	PARENT_SCOPE)

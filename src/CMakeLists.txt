@@ -1,8 +1,9 @@
 add_subdirectory(CommonFileFormats)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(Devices)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codecs)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Formats)
+add_subdirectory(Math)
+add_subdirectory(Multimedia/Codecs)
+add_subdirectory(Multimedia/Formats)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -26,19 +27,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
-
-	#Math
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/AxisAlignedBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Geometry/ObjectIntersection.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Degree.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix2x2.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix3x3.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Matrix4x4.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Radian.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector2.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector3.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Math/Vector4.cpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.cpp
