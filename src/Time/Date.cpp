@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,15 +16,24 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class Header
-#include <Std++/Time/Calendar.hpp>
+//Class header
+#include <Std++/Time/Date.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
-//Methods
-uint8 Calendar::GetNumberOfDaysInMonth(uint8 month, uint32 year)
+//Constructors
+Date::Date() : year(0), month(0), day(0)
 {
-	switch(month)
+}
+
+Date::Date(int64 year, uint8 month, uint8 day)
+{
+}
+
+//Private methods
+uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year) const
+{
+	switch (month)
 	{
 	case 2:
 		return 28 + this->IsLeapYear(year);
@@ -38,9 +47,9 @@ uint8 Calendar::GetNumberOfDaysInMonth(uint8 month, uint32 year)
 	return 31;
 }
 
-bool Calendar::IsLeapYear(uint32 year)
+bool Date::IsLeapYear(int64 year) const
 {
-	if((year % 100 == 0) && (year % 400 != 0))
+	if ((year % 100 == 0) && (year % 400 != 0))
 		return false;
 
 	return (year % 4 == 0);

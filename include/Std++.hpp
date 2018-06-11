@@ -182,7 +182,6 @@
 #include <Std++/Rendering/VectorPath/DevicePathRenderer.hpp>
 
 //Time
-#include <Std++/Time/Calendar.hpp>
 #include <Std++/Time/Clock.hpp>
 #include <Std++/Time/Time.hpp>
 #include <Std++/Time/TimeMisc.hpp>

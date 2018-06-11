@@ -89,7 +89,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
 
 	#Time
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp

@@ -93,8 +93,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/UniquePointer.hpp
 
 	#Time
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Calendar.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
