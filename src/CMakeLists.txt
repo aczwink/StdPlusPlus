@@ -90,6 +90,7 @@ set(SOURCE_FILES
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/DateTime.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp

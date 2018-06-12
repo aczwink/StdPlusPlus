@@ -17,12 +17,20 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class Header
-#include <Std++/Time/Time.hpp>
+#include <Std++/Time/DateTime.hpp>
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
+//Class functions
+DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return DateTime();
+}
+
+/*
 //Local functions
 static uint32 GetNumberOfElapsedLeapYears(uint32 year)
 {
@@ -92,3 +100,4 @@ void Time::CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const
 	//ms
 	refDateTimeInfo.milliseconds = (uint16)currentTimeStamp;
 }
+*/

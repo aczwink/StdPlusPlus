@@ -19,19 +19,26 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/Strings/OldString.hpp"
-#include "ELanguage.h"
+#include "../Containers/Strings/String.hpp"
 
 namespace StdPlusPlus
 {
-    class STDPLUSPLUS_API ALocale
+    class STDPLUSPLUS_API Locale
     {
-    public:
-        //Abstract
-        virtual OldString GetEnglishName() const = 0;
+	public:
+		//Constructor
+		inline Locale(const String &localeName) : localeName(localeName)
+		{
+		}
 
-        //Class functions
-        static ELanguage From2LetterCode(const byte(&refISO639_1_Code)[2]);
-        static const ALocale &GetLocale(ELanguage language);
-    };
+		//Functions
+		/**
+		* Retrieve the locale of the user, that started the process.
+		*/
+		static Locale GetUserLocale();
+	
+	private:
+		//Members
+		String localeName;
+	};
 }

@@ -16,20 +16,44 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+//Class Header
+#include <Std++/Time/DateTime.hpp>
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Definitions.h>
+#include <Std++/Debug.hpp>
+#include <Std++/Internationalization/Locale.hpp>
+//Namespaces
+using namespace StdPlusPlus;
 
-inline int64 FileTimeToMilliseconds(const FILETIME &refFT)
+//Local functions
+static int64 FileTimeToUnixTimeStampWithMilliSeconds(const FILETIME &ft)
 {
 	int64 timeStamp;
 
 	const uint64 FILETIME_TO_EPOCH_BIAS = 116444736000000000i64; //Number of 100 nanosecond units from 1/1/1601 to 1/1/1970
 
-	timeStamp = ((uint64)refFT.dwHighDateTime << 32) | ((uint64)refFT.dwLowDateTime);
+	timeStamp = ((uint64)ft.dwHighDateTime << 32) | ((uint64)ft.dwLowDateTime);
 	timeStamp -= FILETIME_TO_EPOCH_BIAS;
 	timeStamp /= (10 * 1000); //scale to ms
 
 	return timeStamp;
 }
+
+//Class functions
+DateTime DateTime::NowLocal()
+{
+	FILETIME ft;
+	GetSystemTimeAsFileTime(&ft); //since win 10, GetSystemTimePreciseAsFileTime(&ft) can be used
+	return DateTime::FromUnixTimeStampWithMilliSeconds(FileTimeToUnixTimeStampWithMilliSeconds(ft)).ToTimeZone(Locale::GetUserLocale().GetTimeZone());
+}
+
+/*
+//Constructor
+Time::Time()
+{
+	TIME_ZONE_INFORMATION timeZoneInfo;
+	GetTimeZoneInformation(&timeZoneInfo);
+	this->timeZoneBias = (int8)timeZoneInfo.Bias;
+}
+*/

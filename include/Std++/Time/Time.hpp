@@ -33,7 +33,13 @@ namespace StdPlusPlus
 		{
 		}
 
-		Time(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
+		inline Time(uint8 hour, uint8 min, uint8 secs, uint16 millisecs)
+		{
+			this->Set(hour, min, secs, millisecs);
+		}
+
+		//Methods
+		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
 
 	private:
 		//Members
@@ -41,7 +47,5 @@ namespace StdPlusPlus
 		Invariant: millisecs < 24 * 60 * 60 * 1000 = 86,400,000 i.e. max allowed value is 23:59:59.999
 		*/
 		uint32 millisecs;
-
-		//Inline
 	};
 }

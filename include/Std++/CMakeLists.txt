@@ -25,6 +25,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.hpp
 
+	#Internationalization
+	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.hpp
+
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.hpp
 

@@ -16,20 +16,12 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/Time/Time.hpp>
 //Local
-#include <Std++/Debug.hpp>
-//Namespaces
-using namespace StdPlusPlus;
+#include <Std++/Definitions.h>
 
-//Public methods
-void Time::Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs)
+namespace StdPlusPlus
 {
-	ASSERT(hour < 24, u8"Invalid hour value");
-	ASSERT(min < 60, u8"Invalid minute value");
-	ASSERT(secs < 60, u8"Invalid seconds value");
-	ASSERT(millisecs < 1000, u8"Invalid milliseconds value");
-
-	this->millisecs = millisecs + 1000 * (secs + 60 * (min + 60 * hour));
+	class STDPLUSPLUS_API TimeZone
+	{
+	};
 }

@@ -115,7 +115,7 @@
 #include <Std++/Formal Languages/CRegExParser.h>
 
 //Internationalization
-#include <Std++/Internationalization/ALocale.h>
+#include <Std++/Internationalization/Locale.hpp>
 
 //Math
 #include <Std++/Math/CComplex.h>
@@ -183,6 +183,7 @@
 
 //Time
 #include <Std++/Time/Clock.hpp>
+#include <Std++/Time/DateTime.hpp>
 #include <Std++/Time/Time.hpp>
 #include <Std++/Time/TimeMisc.hpp>
 #include <Std++/Time/Timer.hpp>

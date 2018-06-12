@@ -9,6 +9,9 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/PathIterator.cpp
 
+		#Internationalization
+		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.cpp
+
 		#Math
 		${CMAKE_CURRENT_SOURCE_DIR}/Math/CSize.cpp
 		
@@ -28,7 +31,7 @@ set(SOURCE_FILES
 
 		#Time
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Time/CTime.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Time/DateTime.cpp
 
         #UI
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp

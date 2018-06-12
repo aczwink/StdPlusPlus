@@ -19,10 +19,13 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include "Date.hpp"
+#include "Time.hpp"
+#include <Std++/Internationalization/TimeZone.hpp>
 
 namespace StdPlusPlus
 {
-    class STDPLUSPLUS_API Time
+    class STDPLUSPLUS_API DateTime
     {
         struct SDateTimeInfo
         {
@@ -46,9 +49,11 @@ namespace StdPlusPlus
         void CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const;
 
     public:
-        //Constructors
-        Time(); //current time in UTC+0
-        Time(int64 timeStamp);
+        //Constructor
+		DateTime(const Date &date, const Time &time, const TimeZone &timeZone);
+
+		//Methods
+		DateTime ToTimeZone(const TimeZone &other) const;
 
         //Inline
         inline uint8 GetDay() const
@@ -127,5 +132,12 @@ namespace StdPlusPlus
 
             return dti.year;
         }
+
+		//Functions
+		/**
+		* timeStamp is assumed to be in UTC+0
+		*/
+		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
+		static DateTime NowLocal();
     };
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,36 +16,18 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class Header
-#include <Std++/Time/Time.hpp>
+//Class header
+#include <Std++/Internationalization/Locale.hpp>
 //Global
 #include <Windows.h>
-//Local
-#include <Std++/Debug.hpp>
-#include "TimeConstants.h"
 //Namespaces
 using namespace StdPlusPlus;
 
-//Constructor
-Time::Time()
+//Class functions
+Locale Locale::GetUserLocale()
 {
-	FILETIME ft;
-	TIME_ZONE_INFORMATION timeZoneInfo;
+	wchar_t name[LOCALE_NAME_MAX_LENGTH];
+	GetUserDefaultLocaleName(name, LOCALE_NAME_MAX_LENGTH);
 
-	NOT_IMPLEMENTED_ERROR; //TODO: next line works only since windows 10	
-	//GetSystemTimePreciseAsFileTime(&ft);
-	this->timeStamp = FileTimeToMilliseconds(ft);
-	GetTimeZoneInformation(&timeZoneInfo);
-
-	this->timeZoneBias = (int8)timeZoneInfo.Bias;
-}
-
-Time::Time(int64 timeStamp)
-{
-	TIME_ZONE_INFORMATION timeZoneInfo;
-
-	GetTimeZoneInformation(&timeZoneInfo);
-
-	this->timeStamp = timeStamp;
-	this->timeZoneBias = (int8)timeZoneInfo.Bias;
+	return Locale(String::CopyRawString((uint16 *)name));
 }
