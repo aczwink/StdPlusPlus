@@ -27,7 +27,7 @@ using namespace StdPlusPlus;
 DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return DateTime();
+	//return DateTime();
 }
 
 /*

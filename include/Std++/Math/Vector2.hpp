@@ -61,6 +61,16 @@ namespace StdPlusPlus
             Vector2(const vec2f64 &refV);
 
             //Operators
+            inline bool operator==(const vec2 &other) const
+			{
+				return (this->x == other.x) && (this->y == other.y);
+			}
+
+			inline bool operator!=(const vec2 &other) const
+			{
+				return !(*this == other);
+			}
+
             inline ScalarType &operator[](uint8 idx)
             {
                 ASSERT(idx < 2, "Column must be < 2");
