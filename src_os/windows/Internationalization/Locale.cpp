@@ -23,6 +23,21 @@
 //Namespaces
 using namespace StdPlusPlus;
 
+#include <Std++/Streams/StdOut.hpp>
+//Public methods
+TimeZone Locale::GetTimeZone() const
+{
+	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
+	for (DWORD index = 0; EnumDynamicTimeZoneInformation(index, &dtzi) == 0; index++) //very poor doc for EnumDynamicTimeZoneInformation, apparent 0 means success
+	{
+		stdOut << (uint32)index << endl;
+		stdOut << String::CopyRawString((uint16 *)dtzi.StandardName) << endl;
+		stdOut << String::CopyRawString((uint16 *)dtzi.TimeZoneKeyName) << endl;
+	}
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return TimeZone();
+}
+
 //Class functions
 Locale Locale::GetUserLocale()
 {

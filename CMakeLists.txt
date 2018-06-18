@@ -5,19 +5,17 @@ find_package(XP-CMake REQUIRED) #we need advanced cmake modules
 #options
 option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
 option(BUILD_DOCUMENTATION "Build API documentation" OFF)
-
 option(OPTFORHOST "Optimize for host machine. Output will quite likely not run on an older processor" ON)
-if(OPTFORHOST)
-	Compiler_OptForHost()
-endif()
-
 
 #general settings
+XPC_AutoBuildType()
+XPC_SetCompileDefinitions()
+if(OPTFORHOST)
+	XPC_OptForHost()
+endif()
 #c++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
-
-Compiler_AutoBuildType()
 
 
 #---TARGET: Std++---

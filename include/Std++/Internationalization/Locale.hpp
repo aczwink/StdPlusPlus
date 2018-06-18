@@ -20,6 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../Containers/Strings/String.hpp"
+#include "TimeZone.hpp"
 
 namespace StdPlusPlus
 {
@@ -30,6 +31,9 @@ namespace StdPlusPlus
 		inline Locale(const String &localeName) : localeName(localeName)
 		{
 		}
+
+		//Methods
+		TimeZone GetTimeZone() const;
 
 		//Functions
 		/**

@@ -27,6 +27,7 @@ namespace StdPlusPlus
 {
     class STDPLUSPLUS_API DateTime
     {
+		/*
         struct SDateTimeInfo
         {
             uint8 day;
@@ -46,17 +47,24 @@ namespace StdPlusPlus
         int32 timeZoneBias; //UTC+x in minutes
 
         //Methods
-        void CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const;
+        void CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const;*/
 
     public:
         //Constructor
-		DateTime(const Date &date, const Time &time, const TimeZone &timeZone);
-
-		//Methods
-		DateTime ToTimeZone(const TimeZone &other) const;
+		inline DateTime(const Date &date, const Time &time, const TimeZone &timeZone)
+			: date(date), time(time), timeZone(timeZone)
+		{
+			this->CheckForValidity();
+		}
 
         //Inline
-        inline uint8 GetDay() const
+		inline DateTime ToTimeZone(const TimeZone &other) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return DateTime(*this);
+		}
+
+        /*inline uint8 GetDay() const
         {
             SDateTimeInfo dti;
 
@@ -131,7 +139,7 @@ namespace StdPlusPlus
             this->CalcDateTimeInfo(dti);
 
             return dti.year;
-        }
+        }*/
 
 		//Functions
 		/**
@@ -139,5 +147,17 @@ namespace StdPlusPlus
 		*/
 		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
 		static DateTime NowLocal();
+
+	private:
+		//Members
+		Date date;
+		Time time;
+		TimeZone timeZone;
+		
+		//Inline
+		inline void CheckForValidity() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
     };
 }
