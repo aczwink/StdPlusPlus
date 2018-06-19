@@ -11,6 +11,7 @@ set(SOURCE_FILES
 
 		#Internationalization
 		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.cpp
 
 		#Math
 		${CMAKE_CURRENT_SOURCE_DIR}/Math/CSize.cpp

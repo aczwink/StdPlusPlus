@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
@@ -40,6 +41,16 @@ namespace StdPlusPlus
 
 		//Methods
 		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
+
+		//Inline
+		/**
+		* Format time according to ISO 8601 i.e. "hh:mm:ss.sss".
+		*/
+		inline String ToISOString() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return "";
+		}
 
 	private:
 		//Members

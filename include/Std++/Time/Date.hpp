@@ -21,6 +21,7 @@
 #include "../Definitions.h"
 #include <Std++/Debug.hpp>
 #include <Std++/Mathematics.hpp>
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
@@ -37,7 +38,11 @@ namespace StdPlusPlus
 		* Constructs the date '0000-00-00'
 		*/
 		Date();
-		Date(int64 year, uint8 month, uint8 day);
+		Date(int64 year, uint8 month = 0, uint8 day = 0);
+
+		//Functions
+		static uint8 GetNumberOfDaysInMonth(uint8 month, int64 year);
+		static bool IsLeapYear(int64 year);
 
 		//Inline
 		inline bool IsValid() const
@@ -46,16 +51,21 @@ namespace StdPlusPlus
 				Math::IsValueInInterval(this->month, uint8(1), uint8(12)) &&
 				Math::IsValueInInterval(this->day, uint8(1), uint8(this->GetNumberOfDaysInMonth(this->month, this->year)));
 		}
+		
+		/**
+		* Format date according to ISO 8601 i.e. "YYYY-MM-DD".
+		*/
+		inline String ToISOString() const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return "";
+		}
 
 	private:
 		//Members
 		int64 year;
 		uint8 month;
 		uint8 day;
-
-		//Methods
-		uint8 GetNumberOfDaysInMonth(uint8 month, int64 year) const;
-		bool IsLeapYear(int64 year) const;
 
 		//Inline
 		/**

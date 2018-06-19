@@ -17,19 +17,32 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <Std++/Internationalization/Locale.hpp>
+#include <Std++/Internationalization/TimeZone.hpp>
 //Global
 #include <Windows.h>
 //Namespaces
 using namespace StdPlusPlus;
 
-//Public methods
-
 //Class functions
-Locale Locale::GetUserLocale()
+TimeZone TimeZone::GetUserLocalTimeZone()
 {
-	wchar_t name[LOCALE_NAME_MAX_LENGTH];
-	GetUserDefaultLocaleName(name, LOCALE_NAME_MAX_LENGTH);
+	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
+	GetDynamicTimeZoneInformation(&dtzi);
 
-	return Locale(String::CopyRawString((uint16 *)name));
+	return TimeZone(String::CopyRawString((uint16 *)dtzi.TimeZoneKeyName));
 }
+
+/*
+TimeZone Locale::GetTimeZone() const
+{
+DYNAMIC_TIME_ZONE_INFORMATION dtzi;
+for (DWORD index = 0; EnumDynamicTimeZoneInformation(index, &dtzi) == 0; index++) //very poor doc for EnumDynamicTimeZoneInformation, apparent 0 means success
+{
+stdOut << (uint32)index << endl;
+stdOut << String::CopyRawString((uint16 *)dtzi.StandardName) << endl;
+stdOut << String::CopyRawString((uint16 *)dtzi.TimeZoneKeyName) << endl;
+}
+NOT_IMPLEMENTED_ERROR; //TODO: implement me
+return TimeZone();
+}
+*/

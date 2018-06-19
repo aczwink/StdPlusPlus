@@ -20,7 +20,6 @@
 //Local
 #include "../Definitions.h"
 #include "../Containers/Strings/String.hpp"
-#include "TimeZone.hpp"
 
 namespace StdPlusPlus
 {
@@ -28,12 +27,14 @@ namespace StdPlusPlus
     {
 	public:
 		//Constructor
+		/**
+		* 'localeName' is currently an os-dependent (unfortunately) name for a locale.
+		* It is strongly discouraged to call this constructor directly, because the same name will likely not work on another platform.
+		* Until that is fixed, try to use only the GetUserLocale function, as it is cross-platform.
+		*/
 		inline Locale(const String &localeName) : localeName(localeName)
 		{
 		}
-
-		//Methods
-		TimeZone GetTimeZone() const;
 
 		//Functions
 		/**

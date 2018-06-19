@@ -30,13 +30,13 @@ Date::Date(int64 year, uint8 month, uint8 day)
 {
 }
 
-//Private methods
-uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year) const
+//Class functions
+uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year)
 {
 	switch (month)
 	{
 	case 2:
-		return 28 + this->IsLeapYear(year);
+		return 28 + Date::IsLeapYear(year);
 	case 4:
 	case 6:
 	case 9:
@@ -47,7 +47,7 @@ uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year) const
 	return 31;
 }
 
-bool Date::IsLeapYear(int64 year) const
+bool Date::IsLeapYear(int64 year)
 {
 	if ((year % 100 == 0) && (year % 400 != 0))
 		return false;

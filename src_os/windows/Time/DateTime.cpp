@@ -41,11 +41,16 @@ static int64 FileTimeToUnixTimeStampWithMilliSeconds(const FILETIME &ft)
 }
 
 //Class functions
-DateTime DateTime::NowLocal()
+DateTime DateTime::Now()
 {
 	FILETIME ft;
-	GetSystemTimeAsFileTime(&ft); //since win 10, GetSystemTimePreciseAsFileTime(&ft) can be used
-	return DateTime::FromUnixTimeStampWithMilliSeconds(FileTimeToUnixTimeStampWithMilliSeconds(ft)).ToTimeZone(Locale::GetUserLocale().GetTimeZone());
+#if WINVER >= _WIN32_WINNT_WIN8 //0x602
+	GetSystemTimePreciseAsFileTime(&ft);
+#else
+	GetSystemTimeAsFileTime(&ft);
+#endif
+	//ft is UTC
+	return DateTime::FromUnixTimeStampWithMilliSeconds(FileTimeToUnixTimeStampWithMilliSeconds(ft));
 }
 
 /*

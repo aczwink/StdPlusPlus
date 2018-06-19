@@ -23,16 +23,8 @@
 //Namespaces
 using namespace StdPlusPlus;
 
-//Class functions
-DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return DateTime(Date(), Time(), TimeZone());
-}
-
-/*
 //Local functions
-static uint32 GetNumberOfElapsedLeapYears(uint32 year)
+static uint32 GetNumberOfElapsedLeapYears(uint32 year) //since year 0
 {
 	int32 nLeapYears;
 
@@ -43,61 +35,58 @@ static uint32 GetNumberOfElapsedLeapYears(uint32 year)
 	return nLeapYears;
 }
 
+//Class functions
+DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
+{
+	int64 currentTimeStamp = timeStamp;
+
+	//constants
+	const uint16 MILLISECONDS_PER_MINUTE = 60 * 1000;
+	const uint32 MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
+	const uint32 MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
+	const uint64 MILLISECONDS_PER_YEAR = 365 * uint64(MILLISECONDS_PER_DAY);
+
+	//year
+	int32 relativeYear = (int32)(currentTimeStamp / MILLISECONDS_PER_YEAR);
+	currentTimeStamp -= relativeYear * MILLISECONDS_PER_YEAR;
+	currentTimeStamp -= GetNumberOfElapsedLeapYears(relativeYear) * MILLISECONDS_PER_DAY; //leap years
+	
+	//days in current year
+	uint16 daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY);
+	currentTimeStamp -= uint64(daysInYear) * MILLISECONDS_PER_DAY;
+
+	//month and day in month
+	uint16 currentDays = 0;
+	uint8 month, day;
+	for (month = 0; currentDays < daysInYear; month++)
+	{
+		day = daysInYear - currentDays;
+		currentDays += Date::GetNumberOfDaysInMonth(month, relativeYear + 1970);
+	}
+
+	//hour
+	uint8 hour = (uint8)(currentTimeStamp / MILLISECONDS_PER_HOUR);
+	currentTimeStamp -= hour * MILLISECONDS_PER_HOUR;
+
+	//min
+	uint8 min = (uint8)(currentTimeStamp / MILLISECONDS_PER_MINUTE);
+	currentTimeStamp -= min * MILLISECONDS_PER_MINUTE;
+
+	//sec
+	uint8 sec = (uint8)(currentTimeStamp / 1000);
+	currentTimeStamp -= sec * 1000;
+	
+	return DateTime(Date(relativeYear + 1970, month, day+1), Time(hour, min, sec, (uint16)currentTimeStamp)); //rest of currentTimeStamp is ms
+}
+
+/*
 //Private methods
 void Time::CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const
 {
-	uint8 month;
-	uint16 daysInYear, currentDays;
-	uint32 relativeYear;
-	int64 currentTimeStamp;
-
-	const uint64 MILLISECONDS_PER_MINUTE = 60 * 1000;
-	const uint64 MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
-	const uint64 MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
-	const uint64 MILLISECONDS_PER_YEAR = 365 * MILLISECONDS_PER_DAY;
-
-	currentTimeStamp = this->timeStamp;
 	currentTimeStamp -= this->timeZoneBias * MILLISECONDS_PER_MINUTE;
-
-	//year
-	relativeYear = (uint32)(currentTimeStamp / MILLISECONDS_PER_YEAR);
-	refDateTimeInfo.year = relativeYear + 1970;
-	currentTimeStamp -= relativeYear * MILLISECONDS_PER_YEAR;
-
-	//check leap years
-	currentTimeStamp -= GetNumberOfElapsedLeapYears(relativeYear) * MILLISECONDS_PER_DAY;
-
-	//days in current year
-	daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY);
-	currentTimeStamp -= daysInYear * MILLISECONDS_PER_DAY;
-
-	//month and day in month
-	currentDays = 0;
-	for(month = 0; currentDays < daysInYear; month++)
-	{
-		refDateTimeInfo.day = daysInYear - currentDays;
-		NOT_IMPLEMENTED_ERROR; //TODO: next line
-		//currentDays += calendar.GetNumberOfDaysInMonth(month, refDateTimeInfo.year);
-	}
-	refDateTimeInfo.month = month - 1;
 
 	//weekday
 	//1970-01-01 was a thursday thus 4
 	refDateTimeInfo.weekDay = ((this->timeStamp / MILLISECONDS_PER_DAY) + 4) % 7;
-
-	//hour
-	refDateTimeInfo.hour = (uint8)(currentTimeStamp / MILLISECONDS_PER_HOUR);
-	currentTimeStamp -= refDateTimeInfo.hour * MILLISECONDS_PER_HOUR;
-
-	//min
-	refDateTimeInfo.min = (uint8)(currentTimeStamp / MILLISECONDS_PER_MINUTE);
-	currentTimeStamp -= refDateTimeInfo.min * MILLISECONDS_PER_MINUTE;
-
-	//sec
-	refDateTimeInfo.sec = (uint8)(currentTimeStamp / 1000);
-	currentTimeStamp -= refDateTimeInfo.sec * 1000;
-
-	//ms
-	refDateTimeInfo.milliseconds = (uint16)currentTimeStamp;
 }
 */

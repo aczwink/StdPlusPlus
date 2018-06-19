@@ -19,10 +19,32 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
 	class STDPLUSPLUS_API TimeZone
 	{
+	public:
+		//Constructor
+		/**
+		* 'timeZoneIdentifier' is currently an os-dependent (unfortunately) name for a time zone.
+		* It is strongly discouraged to call this constructor directly, because the same identifier will likely not work on another platform.
+		* Until that is fixed, try to use only the GetUserLocalTimeZone and GetUTCTimeZone functions, as these are cross-platform.
+		* 
+		* There is no direct relation between a country and a time zone (for instance the U.S. have several ones).
+		* That means that we can't map a locale to exactly one time zone.
+		*/
+		inline TimeZone(const String &timeZoneIdentifier)
+			: timeZoneIdentifier(timeZoneIdentifier)
+		{
+		}
+
+		//Functions
+		static TimeZone GetUserLocalTimeZone();
+
+	private:
+		//Members
+		String timeZoneIdentifier;
 	};
 }

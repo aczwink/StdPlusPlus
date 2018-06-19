@@ -30,15 +30,6 @@ namespace StdPlusPlus
 		/*
         struct SDateTimeInfo
         {
-            uint8 day;
-            uint8 month;
-            uint32 year;
-
-            uint8 hour;
-            uint8 min;
-            uint8 sec;
-            uint16 milliseconds;
-
             uint8 weekDay;
         };
     private:
@@ -51,13 +42,20 @@ namespace StdPlusPlus
 
     public:
         //Constructor
-		inline DateTime(const Date &date, const Time &time, const TimeZone &timeZone)
-			: date(date), time(time), timeZone(timeZone)
+		inline DateTime(const Date &date, const Time &time)
+			: date(date), time(time)
 		{
-			this->CheckForValidity();
 		}
 
         //Inline
+		/**
+		* Format date and time according to ISO 8601 i.e. "YYYY-MM-DD hh:mm:ss.sss".
+		*/
+		inline String ToISOString() const
+		{
+			return this->date.ToISOString() + u8" " + this->time.ToISOString();
+		}
+
 		inline DateTime ToTimeZone(const TimeZone &other) const
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -146,18 +144,15 @@ namespace StdPlusPlus
 		* timeStamp is assumed to be in UTC+0
 		*/
 		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
-		static DateTime NowLocal();
+		/*
+		* Returns the current system time in UTC time-zone.
+		* Note that if the system time is different from the current "real-world" wall-clock time, so is the result.
+		*/
+		static DateTime Now();
 
 	private:
 		//Members
 		Date date;
 		Time time;
-		TimeZone timeZone;
-		
-		//Inline
-		inline void CheckForValidity() const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		}
     };
 }
