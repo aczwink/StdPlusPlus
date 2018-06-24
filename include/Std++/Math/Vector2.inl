@@ -25,7 +25,7 @@ namespace StdPlusPlus
 	namespace Math
 	{
 		template<typename ScalarType>
-		Vector2<ScalarType> Vector2<ScalarType>::Rotate(ScalarType angle) const
+		inline Vector2<ScalarType> Vector2<ScalarType>::Rotate(ScalarType angle) const
 		{
 			return Matrix2x2<ScalarType>::Rotate(angle) * (*this);
 		}

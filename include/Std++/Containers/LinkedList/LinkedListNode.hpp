@@ -31,23 +31,20 @@ namespace StdPlusPlus
         Node *next;
 
         //Constructors
-        LinkedListNode(const T &refData)
+        LinkedListNode(const T &data) : data(data)
         {
-            this->data = refData;
             this->prev = NULL;
             this->next = NULL;
         }
 
-        LinkedListNode(T &&data)
+        LinkedListNode(T &&data) : data(Move(data))
 		{
-			this->data = Move(data);
 			this->prev = nullptr;
 			this->next = nullptr;
 		}
 
-        LinkedListNode(const T &refData, Node *pPrevious, Node *pNext)
+        LinkedListNode(const T &data, Node *pPrevious, Node *pNext) : data(data)
         {
-            this->data = refData;
             this->prev = pPrevious;
             this->next = pNext;
         }

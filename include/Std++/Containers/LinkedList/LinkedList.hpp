@@ -259,17 +259,12 @@ namespace StdPlusPlus
 
         DataType PopTail()
         {
-            DataType data;
             Node *pNode;
 
-            if(!this->nElements)
-            {
-                //throw exception
-                return DataType();
-            }
+			ASSERT(this->nElements, u8"Can't pop from empty list.");
 
             pNode = this->tail;
-            data = pNode->data;
+			DataType data = Move(pNode->data); //the node will be destroyed anyways
             if(this->tail->prev)
             {
                 this->tail = this->tail->prev;
