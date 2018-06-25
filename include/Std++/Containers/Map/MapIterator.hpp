@@ -32,18 +32,7 @@ namespace StdPlusPlus
     {
         friend class Map < KeyType, ValueType > ;
         typedef MapNode<KeyType, ValueType> Node;
-    private:
-        //Members
-        const Map<KeyType, ValueType> &map;
-        const Node *currentNode;
-
-        //Constructor
-        ConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : map(refMap)
-        {
-            this->currentNode = pNode;
-        }
     public:
-
         //Operators
         inline bool operator==(const ConstMapIterator<KeyType, ValueType> &it) const
         {
@@ -76,10 +65,46 @@ namespace StdPlusPlus
             return *this;
         }
 
+		ConstMapIterator<KeyType, ValueType> &operator--() //Prefix --
+		{
+			if (this->currentNode)
+			{
+				if (this->currentNode->pLeft)
+				{
+					this->currentNode = (Node *)this->currentNode->pLeft->GetFirst();
+				}
+				else
+				{
+					Node *pParent;
+					while ((pParent = (Node *)this->currentNode->pParent) && pParent->pLeft == this->currentNode)
+						this->currentNode = pParent;
+					this->currentNode = pParent;
+				}
+			}
+			else
+			{
+				if(this->map.root)
+					this->currentNode = this->map.root->GetLast();
+			}
+
+			return *this;
+		}
+
         const KeyValuePair<KeyType, ValueType> &operator*() const
         {
             return this->currentNode->keyValuePair;
         }
+
+	private:
+		//Members
+		const Map<KeyType, ValueType> &map;
+		const Node *currentNode;
+
+		//Constructor
+		ConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : map(refMap)
+		{
+			this->currentNode = pNode;
+		}
     };
 
 

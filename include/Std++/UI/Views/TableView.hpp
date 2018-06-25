@@ -34,9 +34,6 @@ namespace StdPlusPlus
             ~TableView();
 
 		private:
-			//Event handlers
-			void OnModelChanged();
-
 			//Methods
 			void Backend_Create();
         };

@@ -37,8 +37,14 @@ namespace StdPlusPlus
 		/**
 		* Constructs the date '0000-00-00'
 		*/
-		Date();
-		Date(int64 year, uint8 month = 0, uint8 day = 0);
+		inline Date() : year(0), month(0), day(0)
+		{
+		}
+
+		inline Date(int64 year, uint8 month = 0, uint8 day = 0) : year(year), month(month), day(day)
+		{
+			this->CheckForErrornous();
+		}
 
 		//Functions
 		static uint8 GetNumberOfDaysInMonth(uint8 month, int64 year);
@@ -57,8 +63,7 @@ namespace StdPlusPlus
 		*/
 		inline String ToISOString() const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return "";
+			return String::Number(this->year, 10, 4) + u8"-" + String::Number(this->month, 10, 2) + u8"-" + String::Number(this->day, 10, 2);
 		}
 
 	private:

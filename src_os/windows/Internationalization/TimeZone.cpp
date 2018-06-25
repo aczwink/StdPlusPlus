@@ -23,6 +23,13 @@
 //Namespaces
 using namespace StdPlusPlus;
 
+//Public methods
+DateTime TimeZone::Translate(const DateTime &dt) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return DateTime::FromUnixTimeStampWithMilliSeconds(0);
+}
+
 //Class functions
 TimeZone TimeZone::GetUserLocalTimeZone()
 {

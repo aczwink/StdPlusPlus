@@ -33,9 +33,6 @@ namespace StdPlusPlus
         public:
             //Constructor
             ListView(WidgetContainer *parent);
-
-		private:
-			void OnModelChanged() override;
 		};
     }
 }

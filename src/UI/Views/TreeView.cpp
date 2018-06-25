@@ -35,11 +35,6 @@ TreeView::TreeView(WidgetContainer *pParent) : View(pParent)
 }
 
 //Eventhandlers
-void TreeView::OnModelChanged()
-{
-    this->backend->ClearView();
-}
-
 void TreeView::OnSelectionChanged()
 {
 	this->backend->UpdateSelection(this->selectionController);

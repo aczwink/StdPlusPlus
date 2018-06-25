@@ -21,7 +21,6 @@
 #include "../Definitions.h"
 #include "Date.hpp"
 #include "Time.hpp"
-#include <Std++/Internationalization/TimeZone.hpp>
 
 namespace StdPlusPlus
 {
@@ -54,12 +53,6 @@ namespace StdPlusPlus
 		inline String ToISOString() const
 		{
 			return this->date.ToISOString() + u8" " + this->time.ToISOString();
-		}
-
-		inline DateTime ToTimeZone(const TimeZone &other) const
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return DateTime(*this);
 		}
 
         /*inline uint8 GetDay() const
