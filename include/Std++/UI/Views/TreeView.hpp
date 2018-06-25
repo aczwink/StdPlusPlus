@@ -38,10 +38,6 @@ namespace StdPlusPlus
 		protected:
 			//Event handlers
 			void OnSelectionChanged();
-
-        private:
-			//Event handlers
-			void OnModelChanged();
         };
     }
 }

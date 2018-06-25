@@ -32,12 +32,16 @@ namespace StdPlusPlus
 
             //Methods
             OldString GetText() const;
-            void SetText(const OldString &refText);
 
             //Inline
 			inline void SetEditable(bool editable)
 			{
 				this->backend->SetEditable(editable);
+			}
+
+			inline void SetText(const String &text)
+			{
+				this->backend->SetText(text);
 			}
         };
     }

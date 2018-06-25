@@ -21,15 +21,6 @@
 //Namespaces
 using namespace StdPlusPlus;
 
-//Constructors
-Date::Date() : year(0), month(0), day(0)
-{
-}
-
-Date::Date(int64 year, uint8 month, uint8 day)
-{
-}
-
 //Class functions
 uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year)
 {

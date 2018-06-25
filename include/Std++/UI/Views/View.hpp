@@ -70,8 +70,11 @@ namespace StdPlusPlus
 			virtual void OnSelectionChanged();
 
 		private:
-			//Abstract event handlers
-			virtual void OnModelChanged() = 0;
+			//Inline
+			inline void OnModelChanged()
+			{
+				this->backend->ResetView();
+			}
 		};
 	}
 }

@@ -43,13 +43,32 @@ namespace StdPlusPlus
 		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
 
 		//Inline
+		inline uint8 GetHour() const
+		{
+			return this->millisecs / 1000 / 60 / 60;
+		}
+
+		inline uint16 GetMilliSecond() const
+		{
+			return this->millisecs % 1000;
+		}
+
+		inline uint8 GetMinute() const
+		{
+			return (this->millisecs / 1000 / 60) % 60;
+		}
+
+		inline uint8 GetSecond() const
+		{
+			return (this->millisecs / 1000) % 60;
+		}
 		/**
 		* Format time according to ISO 8601 i.e. "hh:mm:ss.sss".
 		*/
 		inline String ToISOString() const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return "";
+			return String::Number(this->GetHour(), 10, 2) + u8":" + String::Number(this->GetMinute(), 10, 2) + u8":" +
+				String::Number(this->GetSecond(), 10, 2) + u8"." + String::Number(this->GetMilliSecond(), 10, 3);
 		}
 
 	private:

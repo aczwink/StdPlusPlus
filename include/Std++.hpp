@@ -43,6 +43,8 @@
 #include <Std++/Containers/Strings/ByteString.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
+//Tables
+#include <Std++/Containers/Table/FixedTable.hpp>
 
 //Devices
 #include <Std++/Devices/AudioDevice.hpp>
@@ -58,6 +60,9 @@
 #include <Std++/Filesystem/FileSystem.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/Filesystem/Path.hpp>
+
+//Internationalization
+#include <Std++/Internationalization/TimeZone.hpp>
 
 //Mathematics
 #include <Std++/Math/Degree.hpp>

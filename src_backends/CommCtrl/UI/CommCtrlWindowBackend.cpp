@@ -24,6 +24,8 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
+#include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
 #include "Definitions.h"
@@ -108,11 +110,6 @@ CommCtrlWindowBackend::~CommCtrlWindowBackend()
 }
 
 //Public methods
-void CommCtrlWindowBackend::ClearView() const
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 WindowBackend *CommCtrlWindowBackend::CreateChildBackend(WindowBackendType type, Widget *widget) const
 {
 	return new CommCtrlWindowBackend(this->GetUIBackend(), type, widget, this->hWnd);
@@ -268,6 +265,36 @@ void CommCtrlWindowBackend::Repaint()
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
+void CommCtrlWindowBackend::ResetView() const
+{
+	TreeController *controller = ((View *)this->widget)->GetController();
+
+	switch (this->type)
+	{
+	case WindowBackendType::ListView:
+	{
+		this->SendMessage(LB_RESETCONTENT, 0, 0);
+
+		if (controller)
+		{
+			String text;
+
+			uint32 nItems = controller->GetNumberOfChildren();
+			this->SendMessage(LB_INITSTORAGE, nItems, 50);
+			for (uint32 i = 0; i < nItems; i++)
+			{
+				text = controller->GetText(controller->GetChildIndex(i, 0));
+				SendMessageW(this->hWnd, LB_ADDSTRING, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
+				SendMessageW(this->hWnd, LB_SETITEMDATA, i, i);
+			}
+		}
+	}
+		break;
+	default:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+}
+
 void CommCtrlWindowBackend::Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -312,7 +339,7 @@ void CommCtrlWindowBackend::SetEditable(bool enable) const
 
 void CommCtrlWindowBackend::SetEnabled(bool enable) const
 {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	EnableWindow(this->hWnd, enable);
 }
 
 void CommCtrlWindowBackend::SetHint(const StdPlusPlus::String &text) const

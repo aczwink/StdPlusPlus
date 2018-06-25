@@ -33,9 +33,3 @@ void TableView::Backend_Create()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
-
-//Event handlers
-void TableView::OnModelChanged()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}

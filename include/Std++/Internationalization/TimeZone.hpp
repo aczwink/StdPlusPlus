@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Definitions.h>
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Time/DateTime.hpp>
 
 namespace StdPlusPlus
 {
@@ -39,6 +40,12 @@ namespace StdPlusPlus
 			: timeZoneIdentifier(timeZoneIdentifier)
 		{
 		}
+
+		//Methods
+		/**
+		* If 'dt' is in UTC-time, then the result will be the exact same time but in this time zone (i.e. the time will be offset by the time zones difference to UTC).
+		*/
+		DateTime Translate(const DateTime &dt) const;
 
 		//Functions
 		static TimeZone GetUserLocalTimeZone();

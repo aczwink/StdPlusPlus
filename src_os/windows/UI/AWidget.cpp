@@ -47,9 +47,3 @@ void Widget::Repaint()
 	}
 }
 */
-/*
- * void Widget::SetEnabled(bool enable)
--{
--	EnableWindow((HWND)this->systemHandle, enable);
--}
- */

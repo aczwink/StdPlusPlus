@@ -31,11 +31,6 @@ ComboBox::ComboBox(WidgetContainer *parent) : View(parent)
 }
 
 //Event handlers
-void ComboBox::OnModelChanged()
-{
-	this->backend->ClearView();
-}
-
 void ComboBox::OnSelectionChanged()
 {
 	this->backend->UpdateSelection(this->selectionController);

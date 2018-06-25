@@ -56,7 +56,6 @@ namespace _stdpp
 		}
 
 		//Abstract
-		virtual void ClearView() const = 0;
 		virtual WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const = 0;
 		virtual StdPlusPlus::Rect GetChildrenRect() const = 0;
 		virtual StdPlusPlus::Size GetSize() const = 0;
@@ -89,6 +88,9 @@ namespace _stdpp
 		virtual int32 GetValue() const = 0;
 		virtual void SetRange(int32 min, int32 max) = 0;
 		virtual void SetValue(int32 value) = 0;
+
+		//Abstract, for View
+		virtual void ResetView() const = 0;
 
 		//Inline
 		inline _stdpp::WindowBackendType GetType() const

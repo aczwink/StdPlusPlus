@@ -30,8 +30,3 @@ ListView::ListView(WidgetContainer *parent) : View(parent)
 
 	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::ListView, this);
 }
-
-void ListView::OnModelChanged()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}

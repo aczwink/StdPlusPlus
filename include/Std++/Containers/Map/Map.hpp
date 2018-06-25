@@ -35,6 +35,8 @@ namespace StdPlusPlus
 		typedef MapIterator<KeyType, ValueType> Iterator;
         typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
 
+		friend class ConstIterator;
+
     public:
         //Constructors
         Map()

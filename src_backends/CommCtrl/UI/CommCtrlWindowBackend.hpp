@@ -39,7 +39,6 @@ namespace _stdpp
         ~CommCtrlWindowBackend();
 
         //Public methods
-        void ClearView() const override;
         WindowBackend *CreateChildBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget) const override;
 		Rect GetChildrenRect() const override;
 		uint32 GetPosition() const override;
@@ -51,6 +50,7 @@ namespace _stdpp
 		void Maximize() override;
         void Paint() override;
         void Repaint() override;
+		void ResetView() const override;
         void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const override;
         Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const override;
         void SetBounds(const StdPlusPlus::Rect &area) override;

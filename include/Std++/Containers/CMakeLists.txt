@@ -38,6 +38,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/UTF-16/UTF16String.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/UTF-16/CConstUTF16StringIterator.h
 
+	#Table
+	${CMAKE_CURRENT_SOURCE_DIR}/Table/FixedTable.hpp
+
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/FIFOBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Container.hpp
