@@ -18,7 +18,11 @@
  */
 #ifdef _STDPLUSPLUS_BACKEND_OPENCL
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Local
 #include <Std++/_Backends/ComputeDevice.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
@@ -26,11 +30,11 @@
 
 namespace StdPlusPlus
 {
-	class OpenCLBackend : public ComputeBackend
+	class OpenCL1Backend : public ComputeBackend
 	{
 	public:
 		//Constructor
-		inline OpenCLBackend(cl_platform_id platformId) : platformId(platformId)
+		inline OpenCL1Backend(cl_platform_id platformId) : platformId(platformId)
 		{
 		}
 

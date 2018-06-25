@@ -19,7 +19,11 @@
 //Class header
 #include <Std++/Compute/DeviceContext.hpp>
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Compute;

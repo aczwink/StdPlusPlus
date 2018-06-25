@@ -17,7 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenAL/al.h>
+#else
 #include <AL/al.h>
+#endif
 //Local
 #include <Std++/Audio/Source.hpp>
 #include "OpenALSoftDeviceContext.hpp"

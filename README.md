@@ -28,10 +28,10 @@ The following Audio-backends are currently implemented:
 * OpenAL Soft
 
 The following Compute-backends are currently implemented:
-* OpenCL
+* OpenCL 1
 
 The following Render-backends are currently implemented:
-* OpenGL
+* OpenGL 3 Core Profile
 
 The following UI-backends are currently implemented:
 * GTK 3
@@ -46,5 +46,5 @@ None.
 ### Optional dependencies
 
 * OpenAL Soft for the OpenAL Soft backend
-* OpenCL ICD loader for the OpenCL backend.
+* OpenCL 1.x ICD loader for the OpenCL 1 backend.
 * GTK 3 and PkgConfig for the GTK 3 backend.

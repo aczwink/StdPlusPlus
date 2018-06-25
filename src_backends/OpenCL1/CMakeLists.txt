@@ -26,7 +26,7 @@ if(${BACKEND_OPENCL})
 		${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.cpp
 
 		#.
-		${CMAKE_CURRENT_SOURCE_DIR}/OpenCLBackend.hpp
+			${CMAKE_CURRENT_SOURCE_DIR}/OpenCL1Backend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenCLDevice.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenCLDeviceEnumeratorState.hpp
 

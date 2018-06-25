@@ -75,7 +75,7 @@ namespace StdPlusPlus
 		 * Be careful, this can't be used for comparisons.
 		 * @return
 		 */
-		static constexpr float64 NotANumber()
+		static float64 NotANumber()
 		{
 			return nan("");
 		}

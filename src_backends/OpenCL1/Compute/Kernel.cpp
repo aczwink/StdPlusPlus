@@ -17,23 +17,33 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compute/Buffer.hpp>
+#include <Std++/Compute/Kernel.hpp>
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Compute;
 //Definitions
-#define THIS ((cl_mem)this->internal)
+#define THIS ((cl_kernel)this->internal)
 
 //Constructor
-Buffer::Buffer(void *internal)
+Kernel::Kernel(void *internal)
 {
 	this->internal = internal;
 }
 
 //Destructor
-Buffer::~Buffer()
+Kernel::~Kernel()
 {
-	clReleaseMemObject(THIS);
+	clReleaseKernel(THIS);
+}
+
+//Public methods
+void Kernel::SetArg(uint8 argIndex, const Buffer &buffer)
+{
+	clSetKernelArg(THIS, argIndex, sizeof(cl_mem), &buffer.internal);
 }

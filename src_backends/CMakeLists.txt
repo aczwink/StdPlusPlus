@@ -1,6 +1,6 @@
 add_subdirectory(OpenALSoft)
-add_subdirectory(OpenCL)
-add_subdirectory(OpenGL)
+add_subdirectory(OpenCL1)
+add_subdirectory(OpenGL3Core)
 
 add_subdirectory(CommCtrl)
 add_subdirectory(gtk3)

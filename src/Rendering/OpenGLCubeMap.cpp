@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL/Rendering/OpenGLCubeMap.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLCubeMap.hpp"
 
 //Constructor
 OpenGLCubeMap::OpenGLCubeMap()

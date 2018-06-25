@@ -24,11 +24,11 @@ namespace StdPlusPlus
 {
 	typedef void *(*GL_EXT_LOADER)(const char *extensionName);
 
-	class OpenGLBackend : public RenderBackend
+	class OpenGL3CoreBackend : public RenderBackend
 	{
 	public:
 		//Constructor
-		OpenGLBackend(GL_EXT_LOADER extensionLoaderFunction);
+		OpenGL3CoreBackend(GL_EXT_LOADER extensionLoaderFunction);
 
 		//Methods
 		void Load() override;

@@ -32,5 +32,12 @@ Radian<ScalarType>::Radian(const Degree<ScalarType> &refDegree)
 	this->value = refDegree.value * PI / 180.0;
 }
 
-//Explicit instantiations
-template class Radian<float32>;
+namespace StdPlusPlus
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template
+		class Radian<float32>;
+	}
+}

@@ -16,34 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-//determine cpu architecture
-#if defined(_M_X64) || defined(__x86_64__)
-#define _STDPP_ARCH_X64
+//Class header
+#include <Std++/Compute/Buffer.hpp>
+//Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
 #else
-#error "undefined architecture"
+#include <CL/cl.h>
 #endif
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::Compute;
+//Definitions
+#define THIS ((cl_mem)this->internal)
 
-//endianness
-#ifdef _STDPP_ARCH_X64
-#define _STDPP_ENDIAN_LITTLE
-#else
-#error "undefined endianness"
-#endif
+//Constructor
+Buffer::Buffer(void *internal)
+{
+	this->internal = internal;
+}
 
-//operating system
-#ifdef _WIN32
-#define _STDPP_OS_WINDOWS
-#elif __linux__
-#define _STDPP_OS_LINUX
-#else
-#error "undefined operating system"
-#endif
-
-//compiler
-#ifdef __GNUC__
-#define _STDPP_COMPILER_GCC
-#endif
-#ifdef _MSC_VER
-#define _STDPP_COMPILER_MSVC
-#endif
+//Destructor
+Buffer::~Buffer()
+{
+	clReleaseMemObject(THIS);
+}

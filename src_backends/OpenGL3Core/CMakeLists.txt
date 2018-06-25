@@ -30,17 +30,18 @@ if(${BACKEND_OPENGL})
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/GLFunctions.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/GLFunctions.h
-		${CMAKE_CURRENT_SOURCE_DIR}/OpenGLBackend.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/OpenGLBackend.hpp
+			${CMAKE_CURRENT_SOURCE_DIR}/OpenGL3CoreBackend.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/OpenGL3CoreBackend.hpp
 
 		PARENT_SCOPE)
 
 	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_OPENGL)
-	if(UNIX)
+	if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 		#here we need GLX
 		set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GLX_LIBRARY} PARENT_SCOPE)
-	endif(UNIX)
-    if(MSVC)
-        target_include_directories(Std++ PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/_extheaders") #MSVC does not deliver GL headers
-    endif()
+	elseif(MSVC OR APPLE)
+		#MSVC does not deliver GL headers
+		#Apple does but incompatible ones...
+		target_include_directories(Std++ PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/_extheaders")
+	endif()
 endif ()

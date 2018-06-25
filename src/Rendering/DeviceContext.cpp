@@ -19,12 +19,12 @@
 //Class header
 #include <Std++/Rendering/DeviceContext.hpp>
 //Local
-#include "../../src_backends/OpenGL/Rendering/OpenGLCubeMap.hpp"
-#include "../../src_backends/OpenGL/Rendering/OpenGLFrameBuffer.hpp"
-#include "../../src_backends/OpenGL/Rendering/OpenGLIndexBuffer.h"
-#include "../../src_backends/OpenGL/Rendering/OpenGLShaderProgram.hpp"
-#include "../../src_backends/OpenGL/Rendering/OpenGLTexture2D.hpp"
-#include "../../src_backends/OpenGL/Rendering/OpenGLVertexBuffer.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLCubeMap.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLFrameBuffer.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLIndexBuffer.h"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLShaderProgram.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLTexture2D.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLVertexBuffer.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;

@@ -19,7 +19,11 @@
 //Class header
 #include <Std++/Compute/CommandQueue.hpp>
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Compute;
@@ -33,7 +37,7 @@ CommandQueue::CommandQueue(const DeviceContext &dc)
 	cl_device_id deviceId;
 	clGetContextInfo(ctx, CL_CONTEXT_DEVICES, sizeof(deviceId), &deviceId, nullptr);
 
-	this->internal = clCreateCommandQueueWithProperties(ctx, deviceId, nullptr, nullptr);
+	this->internal = clCreateCommandQueue(ctx, deviceId, 0, nullptr);
 }
 
 //Destructor

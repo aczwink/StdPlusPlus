@@ -70,7 +70,7 @@ namespace StdPlusPlus
 		OutputStream &outputStream;
 
 		//Inline
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 		inline void WriteInt16BE(int16 value)
 		{
 			byte b[2];

@@ -83,7 +83,7 @@ namespace StdPlusPlus
 
 			if(this->readBigEndian)
 			{
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 				union
 				{
 					uint32 i;
@@ -96,7 +96,7 @@ namespace StdPlusPlus
 #endif
 			}
 
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 			this->inputStream.ReadBytes(&v, sizeof(v));
 #endif
 			return v;
@@ -108,7 +108,7 @@ namespace StdPlusPlus
 
 			if(this->readBigEndian)
 			{
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 				union
 				{
 					uint64 i;
@@ -120,7 +120,7 @@ namespace StdPlusPlus
 				return f;
 #endif
 			}
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 			this->inputStream.ReadBytes(&v, sizeof(v));
 #endif
 
@@ -144,13 +144,13 @@ namespace StdPlusPlus
 			this->inputStream.ReadBytes(&v, sizeof(v));
 
 			if(this->readBigEndian)
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 				return this->Swap16(v);
 #else
 			return v;
 #endif
 
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 			return v;
 #else
 			return this->Swap16(v);
@@ -176,7 +176,7 @@ namespace StdPlusPlus
 			return (((uint16)(v & 0xFF) << 8) | ((uint16)(v & 0xFF00) >> 8));
 		}
 
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
 		inline int64 ReadInt64LE()
 		{
 			int64 v;
