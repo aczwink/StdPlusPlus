@@ -18,30 +18,43 @@
 */
 //Class header
 #include <Std++/Time/Date.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 
-//Class functions
-uint8 Date::GetNumberOfDaysInMonth(uint8 month, int64 year)
+//Constructor
+Date::Date(int64 year, uint8 month, uint8 day)
 {
-	switch (month)
-	{
-	case 2:
-		return 28 + Date::IsLeapYear(year);
-	case 4:
-	case 6:
-	case 9:
-	case 11:
-		return 30;
-	}
+	ASSERT(WeakDate(year, month, day).IsValid(), u8"INVALID DATE");
 
-	return 31;
+	uint16 monthDays = 0;
+	for (uint8 i = 1; i < month; i++)
+		monthDays += WeakDate::GetNumberOfDaysInMonth(i, year);
+	this->deltaDays = (year - 1970) * 365 + Date::GetNumberOfElapsedLeapYears(year - 1970) + monthDays + day;
 }
 
-bool Date::IsLeapYear(int64 year)
+//Class functions
+uint64 Date::GetNumberOfElapsedLeapYears(uint64 year)
 {
-	if ((year % 100 == 0) && (year % 400 != 0))
-		return false;
+	uint64 nLeapYears = year / 4;
+	nLeapYears -= year / 100;
+	nLeapYears += (year + 300) / 400;
 
-	return (year % 4 == 0);
+	return nLeapYears;
+}
+
+//Private methods
+WeakDate Date::ToWeakDate() const
+{
+	int64 curDays = this->deltaDays;
+	int64 relativeYear = curDays / 365;
+	curDays -= relativeYear * 365;
+	curDays -= Date::GetNumberOfElapsedLeapYears(relativeYear);
+
+	uint8 month;
+	for (month = 1; curDays > WeakDate::GetNumberOfDaysInMonth(month, relativeYear); month++)
+		curDays -= WeakDate::GetNumberOfDaysInMonth(month, relativeYear);
+
+	return WeakDate(relativeYear + 1970, month, curDays + 1);
 }

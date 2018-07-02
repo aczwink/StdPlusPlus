@@ -32,6 +32,12 @@ namespace StdPlusPlus
 	namespace Math
 	{
 		template<typename T>
+		constexpr T Abs(const T &x)
+		{
+			return ( (x) < 0 ) ? -(x) : (x);
+		}
+
+		template<typename T>
 		constexpr bool IsValueInInterval(const T &x, const T &min, const T &max)
 		{
 			return ((x) >= (min) && (x) <= (max));

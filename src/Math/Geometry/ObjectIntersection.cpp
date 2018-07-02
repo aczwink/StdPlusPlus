@@ -20,6 +20,7 @@
 #include <Std++/Math/Geometry/ObjectIntersection.hpp>
 //Local
 #include <Std++CPUOpt.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
@@ -42,7 +43,7 @@ bool Math::IntersectRayTriangle(const vec4f32 &refOrigin, const vec4f32 &refDir,
 
 	det = Dot(e1, p);
 
-	if(ABS(det) < EPSILON)
+	if(Abs(det) < EPSILON)
 		return false;
 	inv_det = 1.0f / det;
 

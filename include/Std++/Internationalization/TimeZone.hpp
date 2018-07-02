@@ -36,10 +36,7 @@ namespace StdPlusPlus
 		* There is no direct relation between a country and a time zone (for instance the U.S. have several ones).
 		* That means that we can't map a locale to exactly one time zone.
 		*/
-		inline TimeZone(const String &timeZoneIdentifier)
-			: timeZoneIdentifier(timeZoneIdentifier)
-		{
-		}
+		TimeZone(const String &timeZoneIdentifier);
 
 		//Methods
 		/**
@@ -52,6 +49,6 @@ namespace StdPlusPlus
 
 	private:
 		//Members
-		String timeZoneIdentifier;
+		void *osHandle;
 	};
 }

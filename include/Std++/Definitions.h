@@ -55,10 +55,6 @@
 #define UNICODE_MAX ((uint32)0x10FFFF)
 
 //Math
-#ifndef ABS //maybe defined by the user
-#define ABS(x) (((x) < 0) ? -(x) : (x))
-#endif
-
 #ifndef MIN //maybe defined by the user
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #endif

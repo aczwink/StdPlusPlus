@@ -23,9 +23,68 @@
 //Namespaces
 using namespace StdPlusPlus;
 
+//Local functions
+static DateTime TimeZoneDescriptionRelativeSystemTimeToDateTime(const SYSTEMTIME &systemTime, int64 year)
+{
+	uint8 day;
+	//find the first week-day
+	for (day = 1; day <= 7; day++)
+	{
+		Date current(year, systemTime.wMonth, day);
+
+		if ((current.GetWeekDay() % 7) == systemTime.wDayOfWeek)
+			break;
+	}
+	day = day + 7 * (systemTime.wDay - 1);
+	if ((systemTime.wDay == 5) && (day > WeakDate::GetNumberOfDaysInMonth(systemTime.wMonth, year))) //means the last time the day occured in the month. A weekday occurs either 4 or 5 times a month
+		day -= 7;
+
+	return DateTime(Date(year, systemTime.wMonth, day), Time(systemTime.wHour, systemTime.wMinute)); //only hour and minute are valid according to MSDN
+}
+
+//Constructor
+TimeZone::TimeZone(const String &timeZoneIdentifier)
+{
+	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
+	ASSERT(timeZoneIdentifier.GetLength() < sizeof(dtzi.TimeZoneKeyName) / sizeof(dtzi.TimeZoneKeyName[0]), u8"Illegal time zone identifier");
+	for (DWORD index = 0; EnumDynamicTimeZoneInformation(index, &dtzi) == 0; index++) //very poor doc for EnumDynamicTimeZoneInformation, apparently 0 means success
+	{
+		if (MemCmp(timeZoneIdentifier.ToUTF16().GetRawData(), dtzi.TimeZoneKeyName, timeZoneIdentifier.GetSize()) == 0)
+		{
+			this->osHandle = (void *)index;
+			return;
+		}
+	}
+
+	NOT_IMPLEMENTED_ERROR; //TOOD: Illegal time zone identifier
+}
+
 //Public methods
 DateTime TimeZone::Translate(const DateTime &dt) const
 {
+	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
+	EnumDynamicTimeZoneInformation((DWORD)this->osHandle, &dtzi);
+	TIME_ZONE_INFORMATION tzi;
+	GetTimeZoneInformationForYear(dt.GetYear(), &dtzi, &tzi);
+
+	if (tzi.DaylightDate.wMonth != 0)
+	{
+		//DST is used in that time zone
+		ASSERT(tzi.DaylightDate.wYear == 0, u8"As GetTimeZoneInformationForYear gives an information on one year, this should always be a relative date?!");
+		//relative-date
+		DateTime dst = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.DaylightDate, dt.GetYear());
+		DateTime std = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.StandardDate, dt.GetYear());
+		bool isDST = dt >= dst && dt < std; //std should be > then dst
+
+		if (isDST)
+			return dt.AddMinutes( -(tzi.Bias + tzi.DaylightBias) );
+		return dt.AddMinutes(-(tzi.Bias + tzi.StandardBias));
+	}
+	else
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return DateTime::FromUnixTimeStampWithMilliSeconds(0);
 }
@@ -38,18 +97,3 @@ TimeZone TimeZone::GetUserLocalTimeZone()
 
 	return TimeZone(String::CopyRawString((uint16 *)dtzi.TimeZoneKeyName));
 }
-
-/*
-TimeZone Locale::GetTimeZone() const
-{
-DYNAMIC_TIME_ZONE_INFORMATION dtzi;
-for (DWORD index = 0; EnumDynamicTimeZoneInformation(index, &dtzi) == 0; index++) //very poor doc for EnumDynamicTimeZoneInformation, apparent 0 means success
-{
-stdOut << (uint32)index << endl;
-stdOut << String::CopyRawString((uint16 *)dtzi.StandardName) << endl;
-stdOut << String::CopyRawString((uint16 *)dtzi.TimeZoneKeyName) << endl;
-}
-NOT_IMPLEMENTED_ERROR; //TODO: implement me
-return TimeZone();
-}
-*/

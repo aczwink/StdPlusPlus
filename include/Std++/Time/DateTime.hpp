@@ -26,33 +26,63 @@ namespace StdPlusPlus
 {
     class STDPLUSPLUS_API DateTime
     {
-		/*
-        struct SDateTimeInfo
-        {
-            uint8 weekDay;
-        };
-    private:
-        //Members
-        int64 timeStamp; //number of milli seconds since the Epoch (1970-01-01 00:00 UTC+local)
-        int32 timeZoneBias; //UTC+x in minutes
-
-        //Methods
-        void CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const;*/
-
-    public:
+	public:
         //Constructor
 		inline DateTime(const Date &date, const Time &time)
 			: date(date), time(time)
 		{
 		}
 
+		//Operators
+		inline bool operator<(const DateTime &other) const
+		{
+			if (this->date < other.date)
+				return true;
+			if(this->date == other.date)
+				return this->time < other.time;
+			return false;
+		}
+
+		inline bool operator>=(const DateTime &other) const
+		{
+			if (this->date > other.date)
+				return true;
+			if (this->date == other.date)
+				return this->time >= other.time;
+			return false;
+		}
+
         //Inline
+		inline DateTime AddMilliSeconds(int64 milliSeconds) const
+		{
+			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
+			Time time;
+			time.millisecs = (this->time.millisecs + milliSeconds) % msecsPerDay;
+			int64 deltaDays = (milliSeconds - time.millisecs) / msecsPerDay;
+
+			return DateTime(this->date.AddDays(deltaDays), time);
+		}
+
+		inline DateTime AddMinutes(int64 minutes) const
+		{
+			return this->AddSeconds(minutes * 60);
+		}
+
+		inline DateTime AddSeconds(int64 seconds) const
+		{
+			return this->AddMilliSeconds(seconds * 1000);
+		}
 		/**
 		* Format date and time according to ISO 8601 i.e. "YYYY-MM-DD hh:mm:ss.sss".
 		*/
 		inline String ToISOString() const
 		{
 			return this->date.ToISOString() + u8" " + this->time.ToISOString();
+		}
+
+		inline uint32 GetYear() const
+		{
+			return this->date.GetYear();
 		}
 
         /*inline uint8 GetDay() const
@@ -121,15 +151,6 @@ namespace StdPlusPlus
             this->CalcDateTimeInfo(dti);
 
             return dti.weekDay;
-        }
-
-        inline uint32 GetYear() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.year;
         }*/
 
 		//Functions

@@ -23,18 +23,6 @@
 //Namespaces
 using namespace StdPlusPlus;
 
-//Local functions
-static uint32 GetNumberOfElapsedLeapYears(uint32 year) //since year 0
-{
-	int32 nLeapYears;
-
-	nLeapYears = year / 4;
-	nLeapYears -= year / 100;
-	nLeapYears += (year + 300) / 400;
-
-	return nLeapYears;
-}
-
 //Class functions
 DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 {
@@ -49,19 +37,19 @@ DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 	//year
 	int32 relativeYear = (int32)(currentTimeStamp / MILLISECONDS_PER_YEAR);
 	currentTimeStamp -= relativeYear * MILLISECONDS_PER_YEAR;
-	currentTimeStamp -= GetNumberOfElapsedLeapYears(relativeYear) * MILLISECONDS_PER_DAY; //leap years
+	currentTimeStamp -= Date::GetNumberOfElapsedLeapYears(relativeYear) * MILLISECONDS_PER_DAY; //leap years
 	
 	//days in current year
-	uint16 daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY);
+	uint16 daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY); //zero-based
 	currentTimeStamp -= uint64(daysInYear) * MILLISECONDS_PER_DAY;
 
 	//month and day in month
 	uint16 currentDays = 0;
-	uint8 month, day;
-	for (month = 0; currentDays < daysInYear; month++)
+	uint8 month, day; //zero-based
+	for (month = 0; currentDays < daysInYear; month++) //month is always 1 too high after this loop, i.e. it is one-based afterwards
 	{
 		day = daysInYear - currentDays;
-		currentDays += Date::GetNumberOfDaysInMonth(month, relativeYear + 1970);
+		currentDays += WeakDate::GetNumberOfDaysInMonth(month+1, relativeYear + 1970);
 	}
 
 	//hour
@@ -78,15 +66,3 @@ DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 	
 	return DateTime(Date(relativeYear + 1970, month, day+1), Time(hour, min, sec, (uint16)currentTimeStamp)); //rest of currentTimeStamp is ms
 }
-
-/*
-//Private methods
-void Time::CalcDateTimeInfo(SDateTimeInfo &refDateTimeInfo) const
-{
-	currentTimeStamp -= this->timeZoneBias * MILLISECONDS_PER_MINUTE;
-
-	//weekday
-	//1970-01-01 was a thursday thus 4
-	refDateTimeInfo.weekDay = ((this->timeStamp / MILLISECONDS_PER_DAY) + 4) % 7;
-}
-*/

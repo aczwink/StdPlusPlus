@@ -18,44 +18,70 @@
 */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include "WeakDate.hpp"
 #include <Std++/Debug.hpp>
-#include <Std++/Mathematics.hpp>
-#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdPlusPlus
 {
 	/**
 	* Represents dates within the Gregorian calendar.
 	*
-	* This class can represent invalid dates but refuses errornous ones (see method descriptions).
+	* This class represents only valid dates!
 	*/
 	class STDPLUSPLUS_API Date
 	{
 	public:
-		//Constructors
-		/**
-		* Constructs the date '0000-00-00'
-		*/
-		inline Date() : year(0), month(0), day(0)
+		//Constructor
+		Date(int64 year, uint8 month, uint8 day);
+
+		//Operators
+		inline bool operator<(const Date &other) const
 		{
+			return this->deltaDays < other.deltaDays;
 		}
 
-		inline Date(int64 year, uint8 month = 0, uint8 day = 0) : year(year), month(month), day(day)
+		inline bool operator>(const Date &other) const
 		{
-			this->CheckForErrornous();
+			return other < *this;
+		}
+
+		inline bool operator==(const Date &other) const
+		{
+			return this->deltaDays == other.deltaDays;
 		}
 
 		//Functions
-		static uint8 GetNumberOfDaysInMonth(uint8 month, int64 year);
-		static bool IsLeapYear(int64 year);
+		/*
+		since the 0-based year 0
+		*/
+		static uint64 GetNumberOfElapsedLeapYears(uint64 year);
 
 		//Inline
-		inline bool IsValid() const
+		inline Date AddDays(int64 days) const
 		{
-			return (this->year != 0) &&
-				Math::IsValueInInterval(this->month, uint8(1), uint8(12)) &&
-				Math::IsValueInInterval(this->day, uint8(1), uint8(this->GetNumberOfDaysInMonth(this->month, this->year)));
+			return Date(this->deltaDays + days);
+		}
+		/*
+		Returns the number of days 'd', such that *this + 'd' = other.
+		That means that the result is negative, if *this > other
+		*/
+		inline int64 GetDaysTo(const Date &other) const
+		{
+			return other.deltaDays - this->deltaDays;
+		}
+		/*
+		Returns the day of the week (1 = Monday to 7 = Sunday as of ISO 8601)
+		In case the date is invalid, 0 is returned
+		*/
+		inline uint8 GetWeekDay() const
+		{
+			//1970-01-01 was a thursday, i.e. 4. As weekday is 1-based, we need to offset by 3
+			return 1 + ( this->deltaDays + 3) % 7;
+		}
+
+		inline int64 GetYear() const
+		{
+			return this->ToWeakDate().year;
 		}
 		
 		/**
@@ -63,29 +89,22 @@ namespace StdPlusPlus
 		*/
 		inline String ToISOString() const
 		{
-			return String::Number(this->year, 10, 4) + u8"-" + String::Number(this->month, 10, 2) + u8"-" + String::Number(this->day, 10, 2);
+			return this->ToWeakDate().ToISOString();
 		}
 
 	private:
 		//Members
-		int64 year;
-		uint8 month;
-		uint8 day;
-
-		//Inline
-		/**
-		* An errornous date is in general one where at least one of the following conditions fail:
-		* - The month is <= 12
-		* - The day is <= the allowed number of days for the month.
-		*
-		* There is a special case, where year = 0 and month = 2. In this case the value of 29 is allowed.
+		/*
+		Days since epoch 1970-01-01
 		*/
-		inline void CheckForErrornous() const
+		int64 deltaDays;
+
+		//Constructor
+		inline Date(int64 deltaDays) : deltaDays(deltaDays)
 		{
-			if (this->year == 0 && this->month == 2)
-				ASSERT(this->day <= 29, u8"Errornous date")
-			else
-				ASSERT((this->month <= 12) && (this->day <= this->GetNumberOfDaysInMonth(this->month, this->year)), u8"Errornous date")
 		}
+
+		//Methods
+		WeakDate ToWeakDate() const;
 	};
 }

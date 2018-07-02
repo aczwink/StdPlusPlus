@@ -94,6 +94,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/WeakDate.cpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp

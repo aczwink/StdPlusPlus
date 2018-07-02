@@ -103,6 +103,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/WeakDate.hpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp

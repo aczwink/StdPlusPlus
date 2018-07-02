@@ -20,6 +20,7 @@
 //Local
 #include "__Globaldependencies.h"
 #include "Definitions.h"
+#include "Mathematics.hpp"
 
 namespace StdPlusPlus
 {
@@ -46,7 +47,7 @@ namespace StdPlusPlus
 		//Expressions
 		static constexpr bool AlmostEqual(float64 a, float64 b, float64 epsilon)
 		{
-			return ABS(a - b) <= epsilon;
+			return Math::Abs(a - b) <= epsilon;
 		}
 
 #ifdef _STDPP_COMPILER_GCC

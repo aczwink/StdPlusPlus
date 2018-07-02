@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Rendering/VectorPath/VectorPath.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
@@ -46,8 +48,8 @@ static void TessellateBezier(const vec2f64 &refP0, const vec2f64 &refCP0, const 
 	dirToCP0 = refCP0 - refP1;
 	dirToCP1 = refCP1 - refP1;
 
-	length[0] = ABS(Dot(dirToCP0, normal));
-	length[1] = ABS(Dot(dirToCP1, normal));
+	length[0] = Math::Abs(Dot(dirToCP0, normal));
+	length[1] = Math::Abs(Dot(dirToCP1, normal));
 
 	if((length[0] + length[1]) * (length[0] + length[1]) < 0.25 * dir.LengthSquared())
 	{

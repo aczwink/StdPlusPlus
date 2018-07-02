@@ -28,15 +28,27 @@ namespace StdPlusPlus
 	*/
 	class STDPLUSPLUS_API Time
 	{
+		friend class DateTime;
 	public:
 		//Constructors
 		inline Time() : millisecs(0)
 		{
 		}
 
-		inline Time(uint8 hour, uint8 min, uint8 secs, uint16 millisecs)
+		inline Time(uint8 hour, uint8 min = 0, uint8 secs = 0, uint16 millisecs = 0)
 		{
 			this->Set(hour, min, secs, millisecs);
+		}
+
+		//Operators
+		inline bool operator<(const Time &other) const
+		{
+			return this->millisecs < other.millisecs;
+		}
+
+		inline bool operator>=(const Time &other) const
+		{
+			return this->millisecs >= other.millisecs;
 		}
 
 		//Methods
