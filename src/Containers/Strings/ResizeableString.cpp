@@ -21,6 +21,11 @@
 //Namespaces
 using namespace StdPlusPlus;
 
-//Explicit instatiation
-template class ResizeableString<char>;
-template class ResizeableString<uint16>;
+namespace StdPlusPlus
+{
+	//Explicit instatiation
+	template
+	class ResizeableString<char>;
+	template
+	class ResizeableString<uint16>;
+}

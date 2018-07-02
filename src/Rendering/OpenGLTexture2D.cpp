@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL/Rendering/OpenGLTexture2D.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLTexture2D.hpp"
 
 //Constructor
 OpenGLTexture2D::OpenGLTexture2D()

@@ -19,7 +19,11 @@
 //Class header
 #include <Std++/Compute/Program.hpp>
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 //Namespaces

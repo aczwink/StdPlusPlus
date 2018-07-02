@@ -18,8 +18,13 @@
  */
 #pragma once
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else
 #include <AL/al.h>
 #include <AL/alc.h>
+#endif
 //Local
 #include <Std++/Audio/DeviceContext.hpp>
 //Namespaces

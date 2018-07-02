@@ -60,7 +60,7 @@ if(${BACKEND_GTK3})
 	target_include_directories(Std++ PRIVATE ${GTK3_INCLUDE_DIRS})
 	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GTK3_LIBRARIES})
 
-	#OpenGL extension
+	#OpenGL3Core extension
 	if(${BACKEND_OPENGL})
 		set(SOURCE_FILES
 			${SOURCE_FILES}

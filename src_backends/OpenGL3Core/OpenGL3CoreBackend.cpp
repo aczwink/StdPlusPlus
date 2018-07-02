@@ -17,20 +17,20 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "OpenGLBackend.hpp"
+#include "OpenGL3CoreBackend.hpp"
 //Local
 #include "GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 
 //Constructor
-OpenGLBackend::OpenGLBackend(GL_EXT_LOADER extensionLoaderFunction) : extensionsLoaded(false),
+OpenGL3CoreBackend::OpenGL3CoreBackend(GL_EXT_LOADER extensionLoaderFunction) : extensionsLoaded(false),
 																	  extensionLoaderFunction(extensionLoaderFunction)
 {
 }
 
 //Public methods
-void OpenGLBackend::Load()
+void OpenGL3CoreBackend::Load()
 {
 	if(this->extensionsLoaded)
 		return;
@@ -41,7 +41,7 @@ void OpenGLBackend::Load()
 }
 
 //Private methods
-void OpenGLBackend::LoadOpenGLExtensions()
+void OpenGL3CoreBackend::LoadOpenGLExtensions()
 {
 	//Data-exchange
 	glPixelStorei = (PFNGLPIXELSTOREIPROC)this->extensionLoaderFunction("glPixelStorei");

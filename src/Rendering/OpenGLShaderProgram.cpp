@@ -17,9 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL/Rendering/OpenGLShaderProgram.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLShaderProgram.hpp"
 //Local
-#include "../../src_backends/OpenGL/Rendering/OpenGLShader.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLShader.hpp"
 
 //Static members
 const OpenGLShaderProgram *OpenGLShaderProgram::pCurrentProgram = nullptr;

@@ -33,4 +33,4 @@ Vector2<ScalarType>::Vector2(const vec2f64 &refV)
 }
 
 //Explicit instantiations
-template class Vector2<float32>;
+template class StdPlusPlus::Math::Vector2<float32>;

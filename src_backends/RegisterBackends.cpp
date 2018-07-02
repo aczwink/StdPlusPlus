@@ -21,7 +21,7 @@
 //Backends
 #include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk3/Gtk3Backend.hpp"
-#include "OpenCL/OpenCLBackend.hpp"
+#include "OpenCL1/OpenCL1Backend.hpp"
 #include "OpenALSoft/OpenALSoftBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
@@ -47,7 +47,7 @@ void RegisterComputeBackends()
 #define ADD_BACKEND(backend, priority) BackendManager<ComputeBackend>::GetRootInstance().RegisterBackend(backend, priority);
 #ifdef _STDPLUSPLUS_BACKEND_OPENCL
 	{
-		for(auto platformId : OpenCLBackend::GetPlatformIds())
+		for(auto platformId : OpenCL1Backend::GetPlatformIds())
 		{
 			char buffer[4096];
 			clGetPlatformInfo(platformId, CL_PLATFORM_NAME, sizeof(buffer), buffer, nullptr);
@@ -56,7 +56,7 @@ void RegisterComputeBackends()
 			if(MemCmp(buffer, u8"NVIDIA CUDA", 11) == 0)
 				priority = PRIORITY_HIGH;
 
-			OpenCLBackend *openclBackend = new OpenCLBackend(platformId);
+			OpenCL1Backend *openclBackend = new OpenCL1Backend(platformId);
 			ADD_BACKEND(openclBackend, priority);
 		}
 	}

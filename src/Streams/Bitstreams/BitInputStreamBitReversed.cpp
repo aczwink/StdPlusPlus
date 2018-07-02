@@ -44,8 +44,7 @@ uint64 BitInputStreamBitReversed::Get(uint8 nBits)
 
 void BitInputStreamBitReversed::Skip(uint32 nBits)
 {
-	register uint8 left;
-
+	uint8 left;
 	while(nBits)
 	{
 		left = MIN(nBits, 8);
@@ -64,8 +63,6 @@ void BitInputStreamBitReversed::Skip(uint32 nBits)
 //Private methods
 void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 {
-	register byte nextByte;
-
 #ifdef _DEBUG
 	if(nBits > 64)
 	{
@@ -83,6 +80,7 @@ void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 			break;
 		}
 
+		byte nextByte;
 		this->refInput.ReadBytes(&nextByte, 1);
 		this->buffer |= (((uint16)nextByte) << this->validBitsInBuffer);
 		this->validBitsInBuffer += 8;

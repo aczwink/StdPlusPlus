@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include "InternalCompilerFlags.h"
 
 //Definitions
 #ifdef _STDPP_OS_WINDOWS

@@ -17,7 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
+#ifdef XPC_OS_DARWIN
+#include <OpenCL/cl.h>
+#else
 #include <CL/cl.h>
+#endif
 //Local
 #include <Std++/_Backends/DeviceEnumeratorState.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>

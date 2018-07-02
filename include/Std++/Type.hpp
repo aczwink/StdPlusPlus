@@ -39,7 +39,7 @@ namespace StdPlusPlus
 	struct EnableIf<true, T> { typedef T type; };
 
 	//IsTrivial
-#ifdef _STDPP_COMPILER_GCC
+#if defined(XPC_COMPILER_GCC) || defined(XPC_COMPILER_CLANG)
 	template <typename T>
 	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
 #endif

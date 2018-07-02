@@ -71,8 +71,7 @@ public:
 		LeaveCriticalSection(&cs);
 	}
 };
-#endif
-#ifdef _STDPP_OS_LINUX
+#elif defined(XPC_OS_LINUX) || defined(XPC_OS_DARWIN)
 #include <pthread.h>
 class InternalMutex
 {

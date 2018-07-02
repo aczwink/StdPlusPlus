@@ -320,5 +320,11 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const vec3 &t)
 	return translate;
 }
 
-//Explicit instantiations
-template class Matrix4x4<float32>;
+namespace StdPlusPlus
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template class Matrix4x4<float32>;
+	}
+}

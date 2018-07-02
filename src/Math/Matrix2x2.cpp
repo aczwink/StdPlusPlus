@@ -80,6 +80,12 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scale
 	return Matrix2x2();
 }
 
-//Explicit instantiations
-template class Matrix2x2<float32>;
-template class Matrix2x2<float64>;
+namespace StdPlusPlus
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template class Matrix2x2<float32>;
+		template class Matrix2x2<float64>;
+	}
+}

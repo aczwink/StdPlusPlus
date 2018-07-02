@@ -82,5 +82,11 @@ Matrix3x3<ScalarType> Matrix3x3<ScalarType>::Rotation(const Radian<ScalarType> &
 	return result;
 }
 
-//Explicit instantiations
-template class Matrix3x3<float64>;
+namespace StdPlusPlus
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template class Matrix3x3<float64>;
+	}
+}

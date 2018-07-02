@@ -23,7 +23,6 @@
 #include "../Containers/Strings/StringUtil.h"
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Filesystem/Path.hpp"
-#include "../InternalCompilerFlags.h"
 
 namespace StdPlusPlus
 {
@@ -129,7 +128,7 @@ namespace StdPlusPlus
         virtual uint32 WriteBytes(const void *source, uint32 size) = 0;
 
         //Inline
-#ifdef _STDPP_ENDIAN_LITTLE
+#ifdef XPC_ENDIANNESS_LITTLE
         inline void WriteFloat32LE(float32 value)
 		{
 			this->WriteBytes(&value, sizeof(value));

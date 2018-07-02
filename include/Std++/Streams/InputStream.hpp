@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../InternalCompilerFlags.h"
 #include "../Natural.hpp"
 
 namespace StdPlusPlus

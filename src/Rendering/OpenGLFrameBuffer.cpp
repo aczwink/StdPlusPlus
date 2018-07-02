@@ -17,9 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL/Rendering/OpenGLFrameBuffer.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLFrameBuffer.hpp"
 //Local
-#include "../../src_backends/OpenGL/Rendering/OpenGLTexture2D.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLTexture2D.hpp"
 
 //Static fields
 uint32 OpenGLFrameBuffer::currentFBO;

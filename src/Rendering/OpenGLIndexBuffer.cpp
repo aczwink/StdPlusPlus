@@ -17,9 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL/Rendering/OpenGLIndexBuffer.h"
+#include "../../src_backends/OpenGL3Core/Rendering/OpenGLIndexBuffer.h"
 //Local
-#include "../../src_backends/OpenGL/Rendering/Shared.hpp"
+#include "../../src_backends/OpenGL3Core/Rendering/Shared.hpp"
 
 //Constructor
 OpenGLIndexBuffer::OpenGLIndexBuffer(AllocationPolicy policy)
