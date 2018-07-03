@@ -87,14 +87,14 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend 
 				break;
 			}
 		}
-			break;
-		case CBN_SELCHANGE:
+		break;
+		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
 		{
-			ComboBox &refDropDown = (ComboBox &)widget;
+			View &view = (View &)widget;
 
-			this->DispatchSelectionChangedEvent(refDropDown);
+			this->DispatchSelectionChangedEvent(view);
 		}
-			break;
+		break;
 	}
 }
 
@@ -197,6 +197,20 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 	return !g_ignoreMessage;
 }
 
+void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget, const NMHDR &refNmHdr)
+{
+	switch (refNmHdr.code)
+	{
+	case TVN_SELCHANGEDW:
+	{
+		TreeView &refTreeView = (TreeView &)refWidget;
+
+		this->DispatchSelectionChangedEvent(refTreeView);
+	}
+	break;
+	}
+}
+
 //Class functions
 LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -216,20 +230,6 @@ LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message
 		return l_messageResult;
 
 	return DefWindowProcW(hWnd, message, wParam, lParam);
-}
-
-void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget, const NMHDR &refNmHdr)
-{
-	switch(refNmHdr.code)
-	{
-		case TVN_SELCHANGEDW:
-		{
-			TreeView &refTreeView = (TreeView &)refWidget;
-
-			this->DispatchSelectionChangedEvent(refTreeView);
-		}
-			break;
-	}
 }
 
 /*

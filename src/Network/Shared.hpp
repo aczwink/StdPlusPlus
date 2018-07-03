@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
-#ifdef _STDPP_OS_WINDOWS
+#ifdef XPC_OS_WINDOWS
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <basetsd.h>

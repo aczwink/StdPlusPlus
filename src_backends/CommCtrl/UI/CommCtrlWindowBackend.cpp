@@ -68,7 +68,7 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 	break;
 	case WindowBackendType::ListView:
 	{
-		this->hWnd = CreateWindowExW(0, WC_LISTBOXW, nullptr, WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
+		this->hWnd = CreateWindowExW(0, WC_LISTBOXW, nullptr, WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
 		case WindowBackendType::PushButton:
@@ -231,8 +231,7 @@ int32 CommCtrlWindowBackend::GetValue() const
 
 bool CommCtrlWindowBackend::IsChecked() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
+	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
 void CommCtrlWindowBackend::Maximize()

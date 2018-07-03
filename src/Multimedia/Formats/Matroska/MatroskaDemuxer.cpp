@@ -116,7 +116,7 @@ void MatroskaDemuxer::BeginParseChilds(uint64 id)
 			break;
 		case MATROSKA_ID_TRACKENTRY:
 		{
-			this->parserState.currentTrack.type = UINT8_MAX;
+			this->parserState.currentTrack.type = Natural<uint8>::Max();
 			this->parserState.currentTrack.codecId = CodecId::Unknown;
 			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = false;
 			this->parserState.currentTrack.codecPrivate.isFloatPCM = false;

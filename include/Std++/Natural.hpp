@@ -28,6 +28,17 @@ namespace StdPlusPlus
 	};
 
 	template<>
+	class Natural<uint8>
+	{
+	public:
+		//Expressions
+		static constexpr uint8 Max()
+		{
+			return ((uint8)0xFF);
+		}
+	};
+
+	template<>
 	class Natural<uint32>
 	{
 	public:

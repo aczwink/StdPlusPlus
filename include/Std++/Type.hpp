@@ -43,7 +43,7 @@ namespace StdPlusPlus
 	template <typename T>
 	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
 #endif
-#ifdef _STDPP_COMPILER_MSVC
+#ifdef XPC_COMPILER_MSVC
 	template <typename T>
 	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
 #endif

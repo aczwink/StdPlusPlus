@@ -181,7 +181,7 @@ ByteString StdPlusPlus::To8BitString(const OldString &refString)
     tmp.Resize(refString.GetLength());
     for(uint32 i = 0; i < refString.GetLength(); i++)
     {
-        if(refString[i] > UINT8_MAX)
+        if(refString[i] > Natural<uint8>::Max())
             tmp[i] = '?'; //do what windows does
         else
             tmp[i] = (byte)refString[i];

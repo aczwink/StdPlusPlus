@@ -18,7 +18,7 @@
  */
 
 //Definitions
-#ifdef _STDPP_OS_WINDOWS
+#ifdef XPC_OS_WINDOWS
     #ifdef _STDPLUSPLUS_EXPORT
         #define STDPLUSPLUS_API __declspec(dllexport)
     #else
@@ -48,7 +48,6 @@
 #define MiB (1024 * KiB)
 
 //Limits
-#define UINT8_MAX ((uint32)0xFF)
 #define UINT16_MAX ((uint32)0xFFFF)
 #define UNICODE_MAX ((uint32)0x10FFFF)
 

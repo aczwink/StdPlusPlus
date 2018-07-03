@@ -33,6 +33,7 @@ set(SOURCE_FILES
 		#Time
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/DateTime.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
 
         #UI
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp

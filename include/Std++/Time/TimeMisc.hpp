@@ -31,5 +31,5 @@ namespace StdPlusPlus
 	 *
 	 * @param duration In nanoseconds
 	 */
-	void Sleep(uint64 duration);
+	STDPLUSPLUS_API void Sleep(uint64 duration);
 }
