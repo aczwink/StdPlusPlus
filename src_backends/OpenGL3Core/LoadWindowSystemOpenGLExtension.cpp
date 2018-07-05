@@ -17,17 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+#include "OpenGL3CoreBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
-using namespace _stdpp;
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+#ifdef _STDPP_WINDOWSYSTEM_X11
+#include <GL/glx.h>
+#endif
+
+//Class functions
+void *OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension(const char *extensionName)
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+#ifdef _STDPP_WINDOWSYSTEM_X11
+	return (void *)glXGetProcAddressARB((const GLubyte *)extensionName);
+#endif
+
+	NOT_IMPLEMENTED_ERROR; //TODO: trouble!
+	return nullptr;
 }

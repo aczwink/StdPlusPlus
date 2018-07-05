@@ -16,18 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+//Class Header
+#include <Std++/Streams/FileInputStream.hpp>
+//Global
+#include <unistd.h>
 //Namespaces
 using namespace StdPlusPlus;
-using namespace _stdpp;
+
+static_assert(sizeof(off_t) >= 8); //make sure we can read large files
 
 //Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+uint64 FileInputStream::GetCurrentOffset() const
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+	return (uint64)lseek(this->fileHandle, 0, SEEK_CUR);
+}
+
+uint64 FileInputStream::GetSize() const
+{
+	uint64 offset, size;
+
+	offset = this->GetCurrentOffset();
+	size = (uint64)lseek(this->fileHandle, 0, SEEK_END);
+	lseek(this->fileHandle, offset, SEEK_SET);
+
+	return size;
+}
+
+void FileInputStream::SetCurrentOffset(uint64 offset)
+{
+	lseek(this->fileHandle, offset, SEEK_SET);
+}
+
+uint32 FileInputStream::Skip(uint32 nBytes)
+{
+	uint64 currentOffset;
+
+	currentOffset = this->GetCurrentOffset();
+	return (uint32)(lseek(this->fileHandle, nBytes, SEEK_CUR) - currentOffset);
 }

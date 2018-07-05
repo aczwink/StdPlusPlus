@@ -28,10 +28,13 @@ namespace StdPlusPlus
 	{
 	public:
 		//Constructor
-		OpenGL3CoreBackend(GL_EXT_LOADER extensionLoaderFunction);
+		OpenGL3CoreBackend(GL_EXT_LOADER extensionLoaderFunction = OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension);
 
 		//Methods
 		void Load() override;
+
+		//Functions
+		static void *LoadWindowSystemOpenGLExtension(const char *extensionName);
 
 	private:
 		//Members

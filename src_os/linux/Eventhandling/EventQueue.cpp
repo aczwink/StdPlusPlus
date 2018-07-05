@@ -26,36 +26,6 @@ using namespace StdPlusPlus;
 #define THIS ((DynamicArray<pollfd> *)this->internal)
 
 //Private methods
-void EventQueue::System_CollectWaitObjects()
-{
-	THIS->Resize(0);
-
-	auto collector = [this](_stdpp::WaitObjHandle waitObjHandle, bool input)
-	{
-		pollfd pfd;
-		pfd.fd = waitObjHandle.fd;
-		pfd.events = static_cast<short>(input ? POLLIN : POLLOUT);
-		pfd.revents = 0;
-
-		THIS->Push(pfd);
-	};
-
-	for(const EventSource *const& source : this->sources)
-	{
-		source->VisitWaitObjects(collector);
-	}
-}
-
-void EventQueue::System_Init()
-{
-	this->internal = new DynamicArray<pollfd>;
-}
-
-void EventQueue::System_Shutdown()
-{
-	delete THIS;
-}
-
 void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
 	timespec waitTime;

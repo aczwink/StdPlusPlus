@@ -17,17 +17,41 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+#include <Std++/Eventhandling/EventQueue.hpp>
+//Global
+#include <poll.h>
 //Namespaces
 using namespace StdPlusPlus;
-using namespace _stdpp;
+//Definitions
+#define THIS ((DynamicArray<pollfd> *)this->internal)
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+//Private methods
+void EventQueue::System_CollectWaitObjects()
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+	THIS->Resize(0);
+
+	auto collector = [this](_stdpp::WaitObjHandle waitObjHandle, bool input)
+	{
+		pollfd pfd;
+		pfd.fd = waitObjHandle.fd;
+		pfd.events = static_cast<short>(input ? POLLIN : POLLOUT);
+		pfd.revents = 0;
+
+		THIS->Push(pfd);
+	};
+
+	for(const EventSource *const& source : this->sources)
+	{
+		source->VisitWaitObjects(collector);
+	}
+}
+
+void EventQueue::System_Init()
+{
+	this->internal = new DynamicArray<pollfd>;
+}
+
+void EventQueue::System_Shutdown()
+{
+	delete THIS;
 }

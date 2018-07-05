@@ -46,7 +46,8 @@ ConfigurationFile::ConfigurationFile(const Path &refPath, bool readOnly)
 		if(input.IsAtEnd())
 			break;
 
-		if(input.ReadByte() == '[')
+		NOT_IMPLEMENTED_ERROR; //TODO: reimplement next line
+		//if(input.ReadByte() == u8'[')
 		{
 			String name;
 

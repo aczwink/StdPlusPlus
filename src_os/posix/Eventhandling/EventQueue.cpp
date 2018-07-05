@@ -17,17 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+#include <Std++/Eventhandling/EventQueue.hpp>
+//Global
+#include <poll.h>
 //Namespaces
 using namespace StdPlusPlus;
-using namespace _stdpp;
+//Definitions
+#define THIS ((DynamicArray<pollfd> *)this->internal)
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+//Private methods
+void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+	poll(&(*THIS)[0], THIS->GetNumberOfElements(), timeOut / 1000 / 1000);
 }

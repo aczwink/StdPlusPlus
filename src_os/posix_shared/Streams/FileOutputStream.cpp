@@ -16,18 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Class Header
+#include <Std++/Streams/FileOutputStream.hpp>
 //Global
-#include <gdk/gdkx.h>
-#include <GL/glx.h>
-//Local
-#include <Std++/Debug.hpp>
+#include <fcntl.h>
+#include <unistd.h>
+//Namespaces
+using namespace StdPlusPlus;
 
-void *GTKLoadGLExtension(const char *extensionName)
+//Constructor
+FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite) : filePath(refPath)
 {
-	//We only support X11 currently
-	GdkDisplay *display = gdk_display_manager_get_default_display(gdk_display_manager_get());
-	if(GDK_IS_X11_DISPLAY(display))
-		return (void *)glXGetProcAddressARB((const GLubyte *)extensionName);
+	int flags = O_WRONLY | O_CREAT | O_TRUNC;
+	if(!overwrite)
+		flags |= O_EXCL;
+	this->fileHandle = open(reinterpret_cast<const char *>(refPath.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+}
 
-	NOT_IMPLEMENTED_ERROR;
+//Destructor
+FileOutputStream::~FileOutputStream()
+{
+	close(this->fileHandle);
+}
+
+//Public methods
+uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
+{
+	return write(this->fileHandle, pSource, size);
 }

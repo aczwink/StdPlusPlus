@@ -26,7 +26,7 @@
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 //#include "../UI/Gtk.h"
 //#include "../UI/Displays/_GtkOpenGLWidget.h"
-#include "../../../src_backends/OpenGL/GLFunctions.h"
+#include "../../../src_backends/OpenGL3Core/GLFunctions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;

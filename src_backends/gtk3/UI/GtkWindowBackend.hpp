@@ -38,7 +38,6 @@ namespace _stdpp
 		~GtkWindowBackend();
 
 		//Methods
-		void ClearView() const;
 		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const;
 		Rect GetChildrenRect() const override;
 		uint32 GetPosition() const override;
@@ -49,6 +48,7 @@ namespace _stdpp
 		bool IsChecked() const override;
 		void Maximize() override;
 		void Paint() override;
+		void ResetView() const override;
 		void Repaint() override;
 		void Select(ControllerIndex &controllerIndex) const;
 		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;
@@ -71,6 +71,7 @@ namespace _stdpp
 		{
 			return this->gtkWidget;
 		}
+
 
 	private:
 		//Members

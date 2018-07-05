@@ -16,18 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+//Class Header
+#include <Std++/Streams/FileOutputStream.hpp>
+//Global
+#include <unistd.h>
 //Namespaces
 using namespace StdPlusPlus;
-using namespace _stdpp;
+
+static_assert(sizeof(off_t) >= 8); //make sure we can read large files
 
 //Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+uint64 FileOutputStream::GetCurrentOffset() const
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+	return lseek(this->fileHandle, 0, SEEK_CUR);
+}
+
+void FileOutputStream::SetCurrentOffset(uint64 offset)
+{
+	lseek(this->fileHandle, offset, SEEK_SET);
 }

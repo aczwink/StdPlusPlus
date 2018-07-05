@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "../../OpenGL/Rendering/OpenGLDeviceContext.hpp"
+#include "../../OpenGL3Core/Rendering/OpenGLDeviceContext.hpp"
 #include "../UI/GtkWindowBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus::Rendering;
