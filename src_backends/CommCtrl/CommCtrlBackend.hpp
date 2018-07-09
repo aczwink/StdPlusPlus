@@ -23,6 +23,8 @@
 //Local
 #include <Std++/_Backends/UIBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include "UI/CommCtrlMenuBackend.hpp"
+#include "UI/CommCtrlMenuBarBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/Definitions.h"
 #include "UI/WindowsMessageQueueEventSource.hpp"
@@ -42,6 +44,16 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu)
+		{
+			return new _stdpp::CommCtrlMenuBackend(menu);
+		}
+
+		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar)
+		{
+			return new _stdpp::CommCtrlMenuBarBackend(menuBar);
+		}
+
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget)
 		{
 		    return new _stdpp::CommCtrlWindowBackend(this, type, widget);

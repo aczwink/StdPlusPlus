@@ -16,21 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/UI/Menu/MenuBar.hpp>
 //Local
-#include "../Function.hpp"
-#include "../Containers/Strings/OldString.hpp"
+#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/UI/Menu/Menu.hpp>
+//Namespaces
+using namespace StdPlusPlus;
+using namespace StdPlusPlus::UI;
 
-namespace StdPlusPlus
+//Constructor
+MenuBar::MenuBar()
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API CAction
-        {
-        public:
-            //Members
-            OldString text;
-            Function<void()> triggeredEvent;
-        };
-    }
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateMenuBarBackend(this);
+}
+
+//Destructor
+MenuBar::~MenuBar()
+{
+	for (Menu *const& refpMenu : this->attachedMenus)
+		delete refpMenu;
+	delete this->backend;
 }

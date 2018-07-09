@@ -20,14 +20,12 @@
  */
 //Class header
 #include "CommCtrlWindowBackend.hpp"
-//Global
-#include <Windows.h>
-#include <CommCtrl.h>
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
+#include "CommCtrlMenuBarBackend.hpp"
 #include "Definitions.h"
 //Namespaces
 using namespace _stdpp;
@@ -229,6 +227,12 @@ int32 CommCtrlWindowBackend::GetValue() const
 	return value;
 }
 
+void CommCtrlWindowBackend::IgnoreEvent()
+{
+	extern bool g_ignoreMessage;
+	g_ignoreMessage = true;
+}
+
 bool CommCtrlWindowBackend::IsChecked() const
 {
 	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
@@ -349,6 +353,20 @@ void CommCtrlWindowBackend::SetHint(const StdPlusPlus::String &text) const
 void CommCtrlWindowBackend::SetMaximum(uint32 max)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CommCtrlWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+{
+	CommCtrlMenuBarBackend *commCtrlMenuBarBackend = (CommCtrlMenuBarBackend *)menuBarBackend;
+	::SetMenu(this->hWnd, commCtrlMenuBarBackend->GetHandle());
+
+	//bind hWnd to hMenu
+	MENUINFO mi;
+	mi.cbSize = sizeof(mi);
+	mi.fMask = MIM_MENUDATA;
+	mi.dwMenuData = (ULONG_PTR)this;
+	
+	SetMenuInfo(commCtrlMenuBarBackend->GetHandle(), &mi);
 }
 
 void CommCtrlWindowBackend::SetMinimum(uint32 min)

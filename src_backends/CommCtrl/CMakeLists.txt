@@ -15,6 +15,10 @@ if(${BACKEND_COMMCTRL})
 		${SOURCE_FILES}
 
 		#UI
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Definitions.h

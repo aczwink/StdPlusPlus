@@ -145,8 +145,10 @@ namespace StdPlusPlus
 				return ((Widget *)this->parent)->GetParentBackend();
 			}
 
-			//Functions
-			static void IgnoreEvent();
+			inline void IgnoreEvent()
+			{
+				this->backend->IgnoreEvent();
+			}
 
 		private:
 			//Members

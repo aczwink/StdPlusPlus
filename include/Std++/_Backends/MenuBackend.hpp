@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,27 +16,33 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/UI/Controls/LineEdit.hpp>
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+#pragma once
+//Local
+#include <Std++/Containers/Strings/String.hpp>
 
-//Destructor
-LineEdit::~LineEdit()
+//Forward declarations
+namespace StdPlusPlus
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	namespace UI
+	{
+		class ActionEntry;
+		class Menu;
+	}
 }
 
-//Public methods
-Size LineEdit::GetSizeHint() const
+namespace _stdpp
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Size();
-}
+	class MenuBackend
+	{
+	public:
+		//Destructor
+		virtual ~MenuBackend() {}
 
-//Private methods
-void LineEdit::Backend_Create()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		//Abstract
+		virtual void AppendEntry(const StdPlusPlus::UI::ActionEntry &actionEntry) = 0;
+		virtual void AppendSeperator() = 0;
+		virtual void AppendSubMenu(StdPlusPlus::UI::Menu *subMenu) = 0;
+		virtual StdPlusPlus::String GetText() const = 0;
+		virtual void SetText(const StdPlusPlus::String &text) = 0;
+	};
 }

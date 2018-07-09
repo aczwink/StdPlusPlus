@@ -23,7 +23,6 @@
 //Local
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 #include "../../../src_backends/OpenGL3Core/GLFunctions.h"
-#include "../UI/CFullAccessWidget.h"
 #include "OpenGL.h"
 //Namespaces
 using namespace StdPlusPlus;

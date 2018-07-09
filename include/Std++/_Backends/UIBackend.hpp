@@ -26,6 +26,8 @@
 //Forward declarations
 namespace _stdpp
 {
+	class MenuBackend;
+	class MenuBarBackend;
 	class WindowBackend;
 }
 
@@ -35,6 +37,8 @@ namespace StdPlusPlus
 	class EventQueue;
 	namespace UI
 	{
+		class Menu;
+		class MenuBar;
 		class Widget;
 	}
 
@@ -45,6 +49,8 @@ namespace StdPlusPlus
 		BackendManager<RenderBackend> renderBackends;
 
 		//Abstract
+		virtual _stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
+		virtual _stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
 		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) = 0;
 		virtual EventSource *GetEventSource() = 0;
 

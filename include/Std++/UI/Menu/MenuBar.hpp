@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/MenuBarBackend.hpp>
 #include "../../Definitions.h"
 #include "../../Containers/Array/DynamicArray.hpp"
 
@@ -26,30 +27,30 @@ namespace StdPlusPlus
     namespace UI
     {
         //Move declarations
-        class CMenu;
+        class Menu;
         class Window;
 
-        class STDPLUSPLUS_API CMenuBar
+        class STDPLUSPLUS_API MenuBar
         {
             friend class Window;
-        private:
-            //Members
-            void *pOSHandle;
-            DynamicArray<CMenu *> attachedMenus;
-
-            //Methods
-            void AppendMenuOS(CMenu *pMenu);
-			void DestroyMenuOS();
-
         public:
             //Constructor
-            CMenuBar();
+			MenuBar();
 
             //Destructor
-            ~CMenuBar();
+			~MenuBar();
 
-            //Methods
-            void AppendMenu(CMenu *pMenu);
+            //Inline
+			inline void AppendMenu(Menu *menu)
+			{
+				this->attachedMenus.Push(menu);
+				this->backend->AppendMenu(menu);
+			}
+
+		private:
+			//Members
+			_stdpp::MenuBarBackend *backend;
+			DynamicArray<Menu *> attachedMenus;
         };
     }
 }

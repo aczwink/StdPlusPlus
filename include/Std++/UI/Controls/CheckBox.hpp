@@ -33,9 +33,6 @@ namespace StdPlusPlus
             //Constructor
             CheckBox(WidgetContainer *parent);
 
-            //Methods
-			OldString GetText() const;
-
 			//Inline
 			inline bool IsChecked() const
 			{

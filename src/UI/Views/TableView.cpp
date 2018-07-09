@@ -28,5 +28,6 @@ TableView::TableView(WidgetContainer *parent) : View(parent)
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-	this->Backend_Create();
+	NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TableView, this);
 }

@@ -22,27 +22,12 @@
 #include <Windows.h>
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/MenuBar.hpp>
 #include "../../../src/UI/Render Targets/IRenderTarget.h"
 #include "CDropTarget.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
-
-//Private methods
-void Window::MenuBarChangeOS()
-{
-	MENUINFO mi;
-
-	::SetMenu((HWND)this->backend, (HMENU)this->pMenuBar->pOSHandle);
-
-	//bind hWnd to hMenu
-	mi.cbSize = sizeof(mi);
-	mi.fMask = MIM_MENUDATA;
-	mi.dwMenuData = (ULONG_PTR)this->backend;
-
-	SetMenuInfo((HMENU)this->pMenuBar->pOSHandle, &mi);
-}
 
 //Public methods
 void Window::EnableDrop()

@@ -14,7 +14,4 @@ set(SOURCE_FILES
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
 
-	#UI
-	${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
-
 	PARENT_SCOPE)

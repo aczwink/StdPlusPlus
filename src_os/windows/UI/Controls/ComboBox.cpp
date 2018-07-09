@@ -24,7 +24,6 @@
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
-#include "../CFullAccessWidget.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

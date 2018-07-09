@@ -246,7 +246,8 @@ bool StdPlusPlus::DebugDumpMemoryLeaks()
     //fp = fopen("StdPlusPlus MemLeaks.txt", "w"); //we use the standard library here in order to not generate any memory allocations
     fp = stderr;
 
-    fprintf(fp, "Memory leaks:\r\n");
+	fprintf(fp, "!!!YOU HAVE MEMORY LEAKS!!!\r\n");
+    fprintf(fp, "Memory blocks that leak:\r\n");
     while(pBlock)
     {
         heapCorrupt = false;

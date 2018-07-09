@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,23 +16,18 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Local
-#include <Std++/UI/Widget.hpp>
-//Global
-#include <Windows.h>
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
 
-class CFullAccessWidget : public Widget
+namespace StdPlusPlus
 {
-public:
-	//Inline
-	inline HWND GetHWND()
+	namespace UI
 	{
-		return (HWND)this->backend;
+		class MenuEntry
+		{
+		public:
+			//Destructor
+			virtual ~MenuEntry()
+			{
+			}
+		};
 	}
-};
-
-#define GET_HWND(pWidget) (((CFullAccessWidget *)pWidget)->GetHWND())
-#define WANT_OS_HANDLED(pParent) (GET_HWND(pParent) != nullptr)
+}

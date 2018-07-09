@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,20 +16,27 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/UI/Views/TableView.hpp>
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+#pragma once
+//Local
 
-//Destructor
-TableView::~TableView()
+//Forward declarations
+namespace StdPlusPlus
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	namespace UI
+	{
+		class Menu;
+	}
 }
 
-//Private methods
-void TableView::Backend_Create()
+namespace _stdpp
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	class MenuBarBackend
+	{
+	public:
+		//Destructor
+		virtual ~MenuBarBackend() {}
+
+		//Abstract
+		virtual void AppendMenu(StdPlusPlus::UI::Menu *menu) = 0;
+	};
 }

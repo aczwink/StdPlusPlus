@@ -82,7 +82,7 @@ namespace StdPlusPlus
 			{
 				//always include null char in capacity so that GetRawData()
 				// does not cause a resize just because of the null byte
-				requiredNumberOfElements++;
+				requiredNumberOfElements += 2; //2 because in case of UTF-16 the zero-termination is two bytes long
 				ResizeableSequenceContainer<byte>::EnsureCapacity(requiredNumberOfElements);
 			}
 

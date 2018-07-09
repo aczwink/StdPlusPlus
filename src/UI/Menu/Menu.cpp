@@ -17,25 +17,24 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/Menu.hpp>
 //Local
-#include <Std++/UI/Menu/CMenu.h>
+#include <Std++/_Backends/UIBackend.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
-//Destructor
-CMenuBar::~CMenuBar()
+//Constructor
+Menu::Menu(const String &text)
 {
-    for(CMenu *const& refpMenu : this->attachedMenus)
-        delete refpMenu;
-
-	this->DestroyMenuOS();
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateMenuBackend(this);
+	this->backend->SetText(text);
 }
 
-//Public methods
-void CMenuBar::AppendMenu(CMenu *pMenu)
+//Destructor
+Menu::~Menu()
 {
-    this->attachedMenus.Push(pMenu);
-    this->AppendMenuOS(pMenu);
+    for(MenuEntry *const& refpMenuEntry : this->menuEntries)
+        delete refpMenuEntry;
+	delete this->backend;
 }

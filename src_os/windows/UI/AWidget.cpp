@@ -24,15 +24,6 @@
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 
-//Global Variables
-extern bool g_ignoreMessage;
-
-//Proctected functions
-void Widget::IgnoreEvent()
-{
-	g_ignoreMessage = true;
-}
-
 //Public methods
 /*
 void Widget::Repaint()

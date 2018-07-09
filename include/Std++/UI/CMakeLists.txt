@@ -32,8 +32,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Layouts/GridLayout.hpp
 
 	#Menu
-	${CMAKE_CURRENT_SOURCE_DIR}/Menu/CMenu.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Menu/CMenuBar.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.hpp
 
 	#Views
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ComboBox.hpp
@@ -43,6 +43,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.hpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Action.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CommonDialogs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.hpp

@@ -29,13 +29,6 @@ namespace StdPlusPlus
         public:
             //Constructor
             TableView(WidgetContainer *parent);
-
-            //Destructor
-            ~TableView();
-
-		private:
-			//Methods
-			void Backend_Create();
         };
     }
 }

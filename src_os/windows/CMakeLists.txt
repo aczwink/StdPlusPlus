@@ -36,21 +36,16 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
 
         #UI
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
-
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CCheckBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CPushButton.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
 
 		#.
         ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
