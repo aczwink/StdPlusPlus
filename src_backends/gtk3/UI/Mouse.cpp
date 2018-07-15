@@ -25,7 +25,7 @@
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
-
+/*
 //Global functions
 void UI::GetMousePointerPos(uint16 &x, uint16 &y)
 {
@@ -58,3 +58,4 @@ bool UI::GetMouseButtonState(MouseButton button)
 	
 	return false;
 }
+ */

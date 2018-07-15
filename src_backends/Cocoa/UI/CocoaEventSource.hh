@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,31 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Menu/MenuBar.hpp>
-//Global
-#include <gtk/gtk.h>
 //Local
-#include <Std++/UI/Menu/Menu.hpp>
-#include "../Gtk.h"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
-/*
-//Constructor
-MenuBar::MenuBar()
-{
-    this->pOSHandle = gtk_menu_bar_new();
-    gtk_widget_show((GtkWidget *)this->pOSHandle); //default is show
-}
+#include <Std++/UI/UIEventSource.hpp>
 
-//Private methods
-void CMenuBar::AppendMenuOS(CMenu *pMenu)
-{
-    gtk_menu_shell_append(GTK_MENU_SHELL(this->pOSHandle), ((_AC_Gtk_Menu *)pMenu->pOSHandle)->pItem);
-}
+//Global
+#undef new
+#include <Cocoa/Cocoa.h>
 
-void CMenuBar::DestroyMenuOS()
+namespace _stdpp
 {
+	class CocoaEventSource : public StdPlusPlus::UI::UIEventSource
+	{
+	public:
+		//Constructor
+		CocoaEventSource();
+
+		//Methods
+		void DispatchPendingEvents() override;
+		uint64 GetMaxTimeout() const override;
+		void VisitWaitObjects(const StdPlusPlus::Function<void(WaitObjHandle, bool)> &visitFunc) const override;
+
+		//Class function
+		static void EmitCloseEvent(StdPlusPlus::UI::Window &window);
+	};
 }
-*/

@@ -14,7 +14,6 @@ endif ()
 
 
 
-
 if(${BACKEND_GTK3})
 	find_package(PkgConfig REQUIRED)
 	pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -23,7 +22,6 @@ if(${BACKEND_GTK3})
 		${SOURCE_FILES}
 
 		#Math
-		${CMAKE_CURRENT_SOURCE_DIR}/Math/Size.cpp
 
 		#UI
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
@@ -48,7 +46,6 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Widget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowBackend.cpp
 
 		#.

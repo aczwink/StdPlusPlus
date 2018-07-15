@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,21 +17,27 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Widget.hpp>
-//Global
-#include <gtk/gtk.h>
+#include "WindowDelegate.hh"
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
-#include "Gtk.h"
+#include "CocoaEventSource.hh"
+#include "CocoaWindowBackend.hh"
+#import <Std++/UI/Window.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace _stdpp;
 using namespace StdPlusPlus::UI;
 
-//Global variables
-extern bool g_ignoreEvent;
-
-//Proctected methods
-void Widget::IgnoreEvent()
+@implementation WindowDelegate
 {
-	g_ignoreEvent = true;
+	_stdpp::CocoaWindowBackend *backend;
 }
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	CocoaEventSource::EmitCloseEvent( (StdPlusPlus::UI::Window &)self->backend->GetWidget() );
+}
+
+- (void)SetBackend:(CocoaWindowBackend *)cocoaWindowBackend
+{
+	self->backend = cocoaWindowBackend;
+}
+@end

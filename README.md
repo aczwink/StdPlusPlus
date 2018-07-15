@@ -11,7 +11,7 @@ C++17 is a strict requirement.
 * Windows 7
 * Windows 10
 
-###Supported compilers
+### Supported compilers
 * Clang
 * GCC
 * Visual Studio
@@ -36,6 +36,7 @@ The following Render-backends are currently implemented:
 * OpenGL 3 Core Profile
 
 The following UI-backends are currently implemented:
+* Cocoa (macOS)
 * GTK 3
 * Common Controls Library (Windows)
 

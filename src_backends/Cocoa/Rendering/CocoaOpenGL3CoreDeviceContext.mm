@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,20 +17,26 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Math/Size.hpp>
-//Global
-#include <gdk/gdk.h>
+#include "CocoaOpenGL3CoreDeviceContext.hh"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace _stdpp;
 
-//Public methods
-Size Size::GetScreenSize()
+//Constructor
+CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples)
 {
-    GdkMonitor *pMonitor;
-    GdkRectangle rect;
+	NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
+	{
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+		NSOpenGLPFAColorSize, 24,
+		NSOpenGLPFAAlphaSize, 8,
+		NSOpenGLPFADoubleBuffer,
+		NSOpenGLPFAAccelerated,
+		0
+	};
 
-    pMonitor = gdk_display_get_primary_monitor(gdk_display_get_default());
-    gdk_monitor_get_geometry(pMonitor, &rect);
+	this->pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
+	[openGLView setPixelFormat:this->pixelFormat];
+	this->openGLContext = [openGLView openGLContext];
 
-    return Size(rect.width, rect.height);
+	this->Init();
 }

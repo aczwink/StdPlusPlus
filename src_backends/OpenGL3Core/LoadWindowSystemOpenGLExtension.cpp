@@ -18,9 +18,14 @@
  */
 //Class header
 #include "OpenGL3CoreBackend.hpp"
+//Local
+#include <Std++/Containers/Strings/StringUtil.h>
 //Namespaces
 using namespace StdPlusPlus;
 
+#ifdef _STDPP_WINDOWSYSTEM_COCOA
+#include <mach-o/dyld.h>
+#endif
 #ifdef _STDPP_WINDOWSYSTEM_X11
 #include <GL/glx.h>
 #endif
@@ -28,6 +33,18 @@ using namespace StdPlusPlus;
 //Class functions
 void *OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension(const char *extensionName)
 {
+#ifdef _STDPP_WINDOWSYSTEM_COCOA
+	uint32 len = GetStringLength(extensionName);
+	char *symbolName = static_cast<char *>(malloc(len + 2));
+	MemCopy(symbolName+1, extensionName, len+1);
+	symbolName[0] = u8'_';
+	NSSymbol symbol = nullptr;
+	if(NSIsSymbolNameDefined(symbolName))
+		symbol = NSLookupAndBindSymbol(symbolName);
+	free(symbolName);
+	if(symbol)
+		return NSAddressOfSymbol(symbol);
+#endif
 #ifdef _STDPP_WINDOWSYSTEM_X11
 	return (void *)glXGetProcAddressARB((const GLubyte *)extensionName);
 #endif

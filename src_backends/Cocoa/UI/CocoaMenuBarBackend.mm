@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,30 +17,12 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Menu/MenuBar.hpp>
-//Global
-#include <gtk/gtk.h>
+#include "CocoaMenuBarBackend.hh"
 //Local
-#include <Std++/UI/Menu/Menu.hpp>
-#include "../Gtk.h"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
-/*
-//Constructor
-MenuBar::MenuBar()
-{
-    this->pOSHandle = gtk_menu_bar_new();
-    gtk_widget_show((GtkWidget *)this->pOSHandle); //default is show
-}
+#import <Std++/Debug.hpp>
 
-//Private methods
-void CMenuBar::AppendMenuOS(CMenu *pMenu)
+//Public methods
+void _stdpp::CocoaMenuBarBackend::AppendMenu(StdPlusPlus::UI::Menu *menu)
 {
-    gtk_menu_shell_append(GTK_MENU_SHELL(this->pOSHandle), ((_AC_Gtk_Menu *)pMenu->pOSHandle)->pItem);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
-
-void CMenuBar::DestroyMenuOS()
-{
-}
-*/

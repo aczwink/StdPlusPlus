@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
+#include "Cocoa/CocoaBackend.hh"
 #include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk3/Gtk3Backend.hpp"
 #include "OpenCL1/OpenCL1Backend.hpp"
@@ -28,6 +29,7 @@ using namespace StdPlusPlus;
 
 #define PRIORITY_HIGH 0
 #define PRIORITY_NORMAL 1
+#define PRIORITY_LOW 2
 
 //Global functions
 void RegisterAudioBackends()
@@ -68,13 +70,17 @@ void RegisterUIBackends()
 {
 #define ADD_BACKEND(backend, priority) BackendManager<UIBackend>::GetRootInstance().RegisterBackend(backend, priority);
 	//UI backends
-#ifdef _STDPLUSPLUS_BACKEND_GTK3
-	Gtk3Backend *gtk3Backend = new Gtk3Backend;
-	ADD_BACKEND(gtk3Backend, PRIORITY_HIGH);
+#ifdef _STDPLUSPLUS_BACKEND_COCOA
+	CocoaBackend *cocoaBackend = new CocoaBackend;
+	ADD_BACKEND(cocoaBackend, PRIORITY_HIGH);
 #endif
 #ifdef _STDPLUSPLUS_BACKEND_COMMCTRL
 	CommCtrlBackend *commCtrlBackend = new CommCtrlBackend;
 	ADD_BACKEND(commCtrlBackend, PRIORITY_NORMAL);
+#endif
+#ifdef _STDPLUSPLUS_BACKEND_GTK3
+	Gtk3Backend *gtk3Backend = new Gtk3Backend;
+	ADD_BACKEND(gtk3Backend, PRIORITY_LOW);
 #endif
 #undef ADD_BACKEND
 }

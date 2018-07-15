@@ -17,28 +17,28 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Menu/CMenu.h>
+#include <Std++/UI/Menu/Menu.hpp>
 //Global
 #include <gtk/gtk.h>
 //Local
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <Std++/UI/CAction.hpp>
+#include <Std++/UI/Action.hpp>
 #include "../Gtk.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS ((_AC_Gtk_Menu *)this->pOSHandle)
-
+/*
 //Local functions
-static void OnMenuItemActivatedHandler(GtkMenuItem *pItem, CActionEntry *pEntry)
+static void OnMenuItemActivatedHandler(GtkMenuItem *pItem, ActionEntry *pEntry)
 {
-    if(pEntry->refAction.triggeredEvent)
-        pEntry->refAction.triggeredEvent();
+    if(pEntry->action->triggeredEvent)
+        pEntry->action->triggeredEvent();
 }
 
 //Constructor
-CMenu::CMenu(const OldString &refText)
+Menu::Menu(const OldString &refText)
 {
     UTF8String name(refText.GetUTF16());
 
@@ -70,4 +70,4 @@ void CMenu::AppendItemOS(CActionEntry *pEntry)
 void CMenu::DestructOS()
 {
     MemFree(this->pOSHandle);
-}
+}*/

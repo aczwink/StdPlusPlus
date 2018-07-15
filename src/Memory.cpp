@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _DEBUG
 //corresponding header
 #include <Std++/Memory.h>
+#ifdef _DEBUG
 //Global
 #include <stdio.h>
 //Local
@@ -486,6 +486,22 @@ STDPLUSPLUS_API void StartUserMemoryLogging()
     g_seqNumberUser = g_seqNumber;
 }
 
+#undef new
+void *operator new(size_t size)
+{
+	return StdPlusPlus::MemAllocDebug((uint32)size, __file__, __line__);
+}
+
 const char *__file__;
 int __line__;
+#else
+void *operator new(size_t size)
+{
+	return StdPlusPlus::MemoryAllocate(size);
+}
 #endif
+
+void operator delete(void *p)
+{
+	StdPlusPlus::MemFree(p);
+}

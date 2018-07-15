@@ -44,6 +44,16 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu) override
+		{
+			return nullptr;
+		}
+
+		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override
+		{
+			return nullptr;
+		}
+
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget)
 		{
 			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);

@@ -137,16 +137,9 @@ namespace StdPlusPlus
 extern STDPLUSPLUS_API const char *__file__;
 extern STDPLUSPLUS_API int __line__;
 
-inline void *operator new(size_t size)
-{
-	return StdPlusPlus::MemAllocDebug((uint32)size, __file__, __line__);
-}
 #endif
-
-inline void operator delete(void *p)
-{
-    StdPlusPlus::MemFree(p);
-}
+void *operator new(size_t size);
+void operator delete(void *p) noexcept;
 
 //Placement-new
 #define pnew(ptr) new(ptr)

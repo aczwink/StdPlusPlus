@@ -32,9 +32,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
 
-	#Render Targets
-	${CMAKE_CURRENT_SOURCE_DIR}/Render\ Targets/CDesktopRenderTarget.cpp
-
 	#Views
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ComboBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.cpp

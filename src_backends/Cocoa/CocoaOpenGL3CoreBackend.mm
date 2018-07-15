@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "CDesktopRenderTarget.h"
+ //Class header
+#include "CocoaOpenGL3CoreBackend.hh"
 //Local
-#include <Std++/Math/Size.hpp>
+#import "Rendering/CocoaOpenGL3CoreDeviceContext.hh"
+#import "UI/CocoaWindowBackend.hh"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdPlusPlus::Rendering;
 
 //Public methods
-Size CDesktopRenderTarget::GetSize() const
+DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(const WindowBackend &backend, uint8 nSamples) const
 {
-    return Size::GetScreenSize();
-}
+	CocoaWindowBackend &cocoaWindowBackend = (CocoaWindowBackend &) backend;
+	NSOpenGLView *openGLView = (NSOpenGLView *)cocoaWindowBackend.GetView();
 
-void CDesktopRenderTarget::Present()
-{
+	return new CocoaOpenGL3CoreDeviceContext(openGLView, nSamples);
 }

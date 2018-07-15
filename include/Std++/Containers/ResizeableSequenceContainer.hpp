@@ -20,7 +20,7 @@
 #pragma once
 //Local
 #include <Std++/Debug.hpp>
-#include "../Memory.h"
+#include <Std++/Memory.h>
 #include "../Type.hpp"
 #include "Container.hpp"
 

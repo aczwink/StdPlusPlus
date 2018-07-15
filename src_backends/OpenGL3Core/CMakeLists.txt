@@ -44,6 +44,11 @@ if(${BACKEND_OPENGL})
 		target_include_directories(Std++ PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/_extheaders")
 	endif()
 
+	#Cocoa is needed on macOS for getting opengl extensions
+	if(APPLE)
+		target_compile_definitions(Std++ PRIVATE _STDPP_WINDOWSYSTEM_COCOA)
+	endif()
+
 	#GLX is needed for getting opengl extensions on X11
 	find_package(X11)
 	if(X11_FOUND)

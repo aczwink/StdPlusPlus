@@ -45,6 +45,7 @@ namespace _stdpp
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
 		int32 GetValue() const override;
+		void IgnoreEvent() override;
 		bool IsChecked() const override;
 		void Maximize() override;
 		void Paint() override;
@@ -71,6 +72,8 @@ namespace _stdpp
 		{
 			return this->gtkWidget;
 		}
+
+		void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 
 
 	private:

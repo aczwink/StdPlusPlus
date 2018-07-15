@@ -45,7 +45,7 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
 {
     int32 exitCode = -1;
 
-	InitStdPlusPlus();
+    InitStdPlusPlus();
 #ifdef _DEBUG
     StartUserMemoryLogging();
 #endif

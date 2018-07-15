@@ -301,6 +301,12 @@ int32 GtkWindowBackend::GetValue() const
 	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(this->gtkWidget));
 }
 
+extern bool g_ignoreEvent;
+void GtkWindowBackend::IgnoreEvent()
+{
+	g_ignoreEvent = true;
+}
+
 bool GtkWindowBackend::IsChecked() const
 {
 	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(this->gtkWidget)) != 0;
@@ -595,4 +601,9 @@ void GtkWindowBackend::AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, cons
 		ControllerIndex childIndex = controller.GetChildIndex(i, Natural<uint32>::Max(), parent);
 		this->AddNodes(store, &childIter, childIndex, controller);
 	}
+}
+
+void GtkWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO:
 }
