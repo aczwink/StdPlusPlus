@@ -32,16 +32,6 @@ using namespace StdPlusPlus;
 #define HEAP_CORRUPTION_DETECTIONSECTION_VALUE 0xFD
 #define HEAP_INIT_VALUE 0xCD
 
-struct SDebugMemBlockHeader
-{
-    SDebugMemBlockHeader *pPrev;
-    SDebugMemBlockHeader *pNext;
-    const char *pFileName;
-    uint32 lineNumber;
-    uint32 userSize;
-    uint32 seqNumber;
-};
-
 //this is so ugly... but we need a mutex that doesnt take dynamic memory
 //or else the lock() calls will fail
 #ifdef XPC_OS_WINDOWS
@@ -76,54 +66,108 @@ public:
 class InternalMutex
 {
 public:
-    pthread_mutex_t mutex;
+	pthread_mutex_t mutex;
 
 	inline InternalMutex()
 	{
-        pthread_mutex_init(&mutex, nullptr);
+		pthread_mutex_init(&mutex, nullptr);
 	}
 
 	inline ~InternalMutex()
 	{
-        pthread_mutex_destroy(&mutex);
+		pthread_mutex_destroy(&mutex);
 	}
 
 	inline void Lock()
 	{
-        pthread_mutex_lock(&mutex);
+		pthread_mutex_lock(&mutex);
 	}
 
 	inline void Unlock()
 	{
-        pthread_mutex_unlock(&mutex);
+		pthread_mutex_unlock(&mutex);
 	}
 };
 #endif
+//The shared global mutex
+static InternalMutex g_memMutex;
+
+
+
+struct DebugMemBlockHeader
+{
+    DebugMemBlockHeader *pPrev;
+    DebugMemBlockHeader *pNext;
+    const char *pFileName;
+    uint32 lineNumber;
+    uint32 userSize;
+    uint32 seqNumber;
+    byte preHeapCorriptionDetectionSection[HEAP_CORRUPTION_DETECTIONSECTION_SIZE];
+
+    //Inline
+	inline byte *GetPostHeapCorruptionDetectionAddress() const
+	{
+		//the region is right after the user data
+		return this->GetUserData() + this->userSize;
+	}
+
+	inline byte *GetUserData() const
+	{
+		//after the header is the user data
+		return (byte *) (this + 1);
+	}
+
+	inline bool IsCorrupt() const
+	{
+		//check heap corruption detection section before user memory
+		if(!this->CheckBytes(this->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, sizeof(this->preHeapCorriptionDetectionSection)))
+			return true;
+		//check heap corruption detection section after user memory
+		if(!this->CheckBytes(this->GetPostHeapCorruptionDetectionAddress(), HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
+			return true;
+
+		return false;
+	}
+
+	inline void VerifyIntegrity() const
+	{
+		if(this->IsCorrupt())
+		{
+			g_memMutex.Unlock(); //we need to free the lock so that ASSERT can allocate
+			ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
+			g_memMutex.Lock();
+		}
+	}
+
+private:
+	//Inline
+	inline bool CheckBytes(const void *bytes, byte mustBeValue, uint32 size) const
+	{
+		byte *ptr = (byte *)bytes;
+		while(size--)
+			if(*ptr++ != mustBeValue)
+				return false;
+
+		return true;
+	}
+};
 
 
 /*
 We manage memory like this:
-SDebugMemBlockHeader, heap corruption detection section; user memory; heap corruption detection section
+DebugMemBlockHeader that includes heap corruption detection section; user memory; heap corruption detection section
 */
 
 //Global Variables
 static uint32 g_seqNumber = 1;
 static uint32 g_seqNumberUser = 1;
-static SDebugMemBlockHeader *g_pFirstMemBlock = NULL;
-static SDebugMemBlockHeader *g_pLastMemBlock = NULL;
-static InternalMutex g_memMutex;
+static DebugMemBlockHeader *g_pFirstMemBlock = nullptr;
+static DebugMemBlockHeader *g_pLastMemBlock = nullptr;
 
 //Local Functions
-static bool CheckBytes(const void *pBytes, byte mustBeValue, uint32 size)
+static DebugMemBlockHeader *GetHeaderFromUserData(const void *userData)
 {
-    byte *ptr;
-
-    ptr = (byte *)pBytes;
-    while(size--)
-        if(*ptr++ != mustBeValue)
-            return false;
-
-    return true;
+	return reinterpret_cast<DebugMemBlockHeader *>(((byte *)userData) - sizeof(DebugMemBlockHeader));
 }
 
 inline void DumpByte(byte b, FILE *fp)
@@ -197,30 +241,17 @@ static void DumpBytes(const void *pMem, uint32 size, FILE *fp)
         fprintf(fp, "...");
 }
 
-inline byte *GetUserData(SDebugMemBlockHeader *pBlockHdr)
-{
-    //after the header is the corruption detection and then the user data
-    return ((byte *)(pBlockHdr + 1)) + HEAP_CORRUPTION_DETECTIONSECTION_SIZE;
-}
-
-inline byte *GetFirstHeapCorruptionDetectionAddress(SDebugMemBlockHeader *pBlockHdr)
+inline byte *GetFirstHeapCorruptionDetectionAddress(DebugMemBlockHeader *pBlockHdr)
 {
     //the region is right after the header
     return (byte *)(pBlockHdr + 1);
 }
 
-inline byte *GetSecondHeapCorruptionDetectionAddress(SDebugMemBlockHeader *pBlockHdr)
-{
-    //the region is right after the user data
-    return GetUserData(pBlockHdr) + pBlockHdr->userSize;
-}
-
 //Namespace Functions
 bool StdPlusPlus::DebugDumpMemoryLeaks()
 {
-    bool hasLeaks, heapCorrupt;
-    byte *pCorrupt1, *pCorrupt2;
-    SDebugMemBlockHeader *pBlock;
+    bool hasLeaks;
+    DebugMemBlockHeader *pBlock;
     FILE *fp;
 
     g_memMutex.Lock(); //VERY IMPORTANT! From now on, no allocation whatsoever is allowed to be made using Std++::MemAllocDebug or the other Std++ Memory Debug functions
@@ -250,27 +281,11 @@ bool StdPlusPlus::DebugDumpMemoryLeaks()
     fprintf(fp, "Memory blocks that leak:\r\n");
     while(pBlock)
     {
-        heapCorrupt = false;
-
         if(pBlock->seqNumber >= g_seqNumberUser)
         {
-            //check heap corruption detection section before user memory
-            pCorrupt1 = GetFirstHeapCorruptionDetectionAddress(pBlock);
-            if(!CheckBytes(pCorrupt1, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
-            {
-                heapCorrupt = true;
-            }
-
-            //check heap corruption detection section after user memory
-            pCorrupt2 = GetSecondHeapCorruptionDetectionAddress(pBlock);
-            if(!heapCorrupt && !CheckBytes(pCorrupt2, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
-            {
-                heapCorrupt = true;
-            }
-
             fprintf(fp, "Block %d, Size: %d bytes, Allocated in: %s:%d\r\n", pBlock->seqNumber, pBlock->userSize, pBlock->pFileName, pBlock->lineNumber);
 
-            if(heapCorrupt)
+            if(pBlock->IsCorrupt())
             {
                 fprintf(fp, "HEAP CORRUPTED. Memory before or/and after block was modified. Value should be: ");
                 DumpByte(HEAP_CORRUPTION_DETECTIONSECTION_VALUE, fp);
@@ -280,25 +295,25 @@ bool StdPlusPlus::DebugDumpMemoryLeaks()
             fprintf(fp, "Dump: \r\n");
 
             //heap corruption before data
-            if(heapCorrupt)
+            if(pBlock->IsCorrupt())
             {
                 fprintf(fp, "\tBefore block:\t");
-                DumpBytes(pCorrupt1, HEAP_CORRUPTION_DETECTIONSECTION_SIZE, fp);
+                DumpBytes(pBlock->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_SIZE, fp);
                 fprintf(fp, "\r\n");
             }
 
             //data
             fprintf(fp, "\tUser data:\t");
-            DumpBytes(GetUserData(pBlock), pBlock->userSize, fp);
+            DumpBytes(pBlock->GetUserData(), pBlock->userSize, fp);
             fprintf(fp, "\r\n\tASCII:\t\t");
-            DumpASCII(GetUserData(pBlock), pBlock->userSize, fp);
+            DumpASCII(pBlock->GetUserData(), pBlock->userSize, fp);
             fprintf(fp, "\r\n");
 
             //heap corruption after data
-            if(heapCorrupt)
+            if(pBlock->IsCorrupt())
             {
                 fprintf(fp, "\tAfter block:\t");
-                DumpBytes(pCorrupt2, HEAP_CORRUPTION_DETECTIONSECTION_SIZE, fp);
+                DumpBytes(pBlock->GetPostHeapCorruptionDetectionAddress(), HEAP_CORRUPTION_DETECTIONSECTION_SIZE, fp);
                 fprintf(fp, "\r\n");
             }
         }
@@ -313,172 +328,148 @@ bool StdPlusPlus::DebugDumpMemoryLeaks()
     return true;
 }
 
-void *StdPlusPlus::MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNumber)
+void *StdPlusPlus::MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber)
 {
-    byte *pUserData;
-    SDebugMemBlockHeader *pMemBlock;
+	g_memMutex.Lock();
 
-    g_memMutex.Lock();
-
-    pMemBlock = (SDebugMemBlockHeader *)MemoryAllocate(size + sizeof(SDebugMemBlockHeader) + 2 * HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
-    pUserData = ((byte *)(pMemBlock + 1)) + HEAP_CORRUPTION_DETECTIONSECTION_SIZE;
-
+    DebugMemBlockHeader *memBlockHeader = (DebugMemBlockHeader *)MemoryAllocate(sizeof(DebugMemBlockHeader) + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
     //fill out block header
-    pMemBlock->lineNumber = lineNumber;
-    pMemBlock->pFileName = pFileName;
-    pMemBlock->pNext = NULL;
-    pMemBlock->pPrev = g_pLastMemBlock;
-    pMemBlock->seqNumber = g_seqNumber++;
-    pMemBlock->userSize = size;
+    memBlockHeader->lineNumber = lineNumber;
+    memBlockHeader->pFileName = fileName;
+    memBlockHeader->pNext = nullptr;
+    memBlockHeader->pPrev = g_pLastMemBlock;
+    memBlockHeader->seqNumber = g_seqNumber++;
+    memBlockHeader->userSize = size;
 
-    //link block StdPlusPlus
+    //link block
     if(g_pLastMemBlock)
-        g_pLastMemBlock->pNext = pMemBlock;
+        g_pLastMemBlock->pNext = memBlockHeader;
     else
-        g_pFirstMemBlock = pMemBlock;
-    g_pLastMemBlock = pMemBlock;
+        g_pFirstMemBlock = memBlockHeader;
+    g_pLastMemBlock = memBlockHeader;
 
     //fill out the memory corruption detection sections
-    MemSet(pMemBlock + 1, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
-    MemSet(pUserData + size, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+	MemSet(memBlockHeader->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, sizeof(memBlockHeader->preHeapCorriptionDetectionSection));
+    MemSet(memBlockHeader->GetPostHeapCorruptionDetectionAddress(), HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
 
     //init memory with something else than 0
-    MemSet(pUserData, HEAP_INIT_VALUE, size);
+    MemSet(memBlockHeader->GetUserData(), HEAP_INIT_VALUE, size);
 
     g_memMutex.Unlock();
 
-    return pUserData;
+    return memBlockHeader->GetUserData();
 }
 
-void StdPlusPlus::MemFreeDebug(void *pMem)
+void StdPlusPlus::MemFreeDebug(void *userData)
 {
-    SDebugMemBlockHeader *pMemBlock;
+	g_memMutex.Lock();
 
-    g_memMutex.Lock();
-
-    pMemBlock = (SDebugMemBlockHeader *)((byte *)pMem - HEAP_CORRUPTION_DETECTIONSECTION_SIZE - sizeof(SDebugMemBlockHeader));
-
-    //check heap corruption detection section before user memory
-    if(!CheckBytes(pMemBlock + 1, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
-    {
-		g_memMutex.Unlock(); //we need to free the lock so that ASSERT can allocate
-        ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
-		g_memMutex.Lock();
-    }
-
-    //check heap corruption detection section after user memory
-    if(!CheckBytes((byte *)pMem + pMemBlock->userSize, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
-    {
-		g_memMutex.Unlock();
-        ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
-		g_memMutex.Lock();
-    }
+	DebugMemBlockHeader *memBlockHeader = GetHeaderFromUserData(userData);
+	memBlockHeader->VerifyIntegrity();
 
     //remove from list
-    if(pMemBlock->pNext)
+    if(memBlockHeader->pNext)
     {
-        pMemBlock->pNext->pPrev = pMemBlock->pPrev;
+        memBlockHeader->pNext->pPrev = memBlockHeader->pPrev;
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pMemBlock, "If you see this, report to StdPlusPlus");
-        g_pLastMemBlock = pMemBlock->pPrev;
+        ASSERT(g_pLastMemBlock == memBlockHeader, u8"If you see this, report to StdPlusPlus");
+        g_pLastMemBlock = memBlockHeader->pPrev;
     }
 
-    if(pMemBlock->pPrev)
+    if(memBlockHeader->pPrev)
     {
-        pMemBlock->pPrev->pNext = pMemBlock->pNext;
+        memBlockHeader->pPrev->pNext = memBlockHeader->pNext;
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pMemBlock, "If you see this, report to StdPlusPlus");
-        g_pFirstMemBlock = pMemBlock->pNext;
+        ASSERT(g_pFirstMemBlock == memBlockHeader, u8"If you see this, report to StdPlusPlus");
+        g_pFirstMemBlock = memBlockHeader->pNext;
     }
 
     //clear whole memory with a random value (but not 0)
-    //this option invalidates pMemBlock!!!
-    MemSet(pMemBlock, 0xDD, pMemBlock->userSize + sizeof(SDebugMemBlockHeader) + 2 * HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+    //this option invalidates memBlockHeader!!!
+    MemSet(memBlockHeader, 0xDD, sizeof(DebugMemBlockHeader) + memBlockHeader->userSize + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
 
-    MemoryFree(pMemBlock);
+    MemoryFree(memBlockHeader);
 
     g_memMutex.Unlock();
 }
 
 void *StdPlusPlus::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, uint32 lineNumber)
 {
-    SDebugMemBlockHeader *pNewBlock, *pOldBlock;
-
     if(!pMem)
         return MemAllocDebug(size, pFileName, lineNumber);
 
     g_memMutex.Lock();
 
     //fetch block memory header
-    pOldBlock = (SDebugMemBlockHeader *)((byte *)pMem - HEAP_CORRUPTION_DETECTIONSECTION_SIZE - sizeof(SDebugMemBlockHeader));
+	DebugMemBlockHeader *oldBlock = GetHeaderFromUserData(pMem);
+    oldBlock->VerifyIntegrity();
 
     //do reallocate
-    pNewBlock = (SDebugMemBlockHeader *)MemoryReallocate(pOldBlock, size + sizeof(SDebugMemBlockHeader) + 2 * HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
-    ASSERT(pNewBlock, "If you see this, report to StdPlusPlus");
-    pMem = ((byte *)(pNewBlock + 1)) + HEAP_CORRUPTION_DETECTIONSECTION_SIZE;
+	DebugMemBlockHeader *newBlock = (DebugMemBlockHeader *)MemoryReallocate(oldBlock, sizeof(DebugMemBlockHeader) + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+    ASSERT(newBlock, u8"If you see this, report to StdPlusPlus");
 
-    if(size > pNewBlock->userSize)
+    if(size > newBlock->userSize)
     {
         //fill new allocated memory with random value
-        MemSet((byte *)pMem + pNewBlock->userSize, HEAP_INIT_VALUE, size - pNewBlock->userSize);
+        MemSet((byte *)pMem + newBlock->userSize, HEAP_INIT_VALUE, size - newBlock->userSize);
     }
 
+	//update header
+	newBlock->pFileName = pFileName;
+	newBlock->lineNumber = lineNumber;
+	newBlock->seqNumber = g_seqNumber++;
+	newBlock->userSize = size;
+
     //fill out the memory corruption detection section after user memory
-    MemSet((byte *)pMem + size, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+    MemSet(newBlock->GetPostHeapCorruptionDetectionAddress(), HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
 
-    //update header
-    pNewBlock->pFileName = pFileName;
-    pNewBlock->lineNumber = lineNumber;
-    pNewBlock->seqNumber = g_seqNumber++;
-    pNewBlock->userSize = size;
-
-    if(pOldBlock == pNewBlock)
+    if(oldBlock == newBlock)
     {
         //nothing to be done
         g_memMutex.Unlock();
-        return pMem;
+        return newBlock->GetUserData();
     }
 
     //memory has been moved...
     //new block header pointers are still correct...
     //but old block is still referenced
-    if(pNewBlock->pNext)
+    if(newBlock->pNext)
     {
-        pNewBlock->pNext->pPrev = pNewBlock->pPrev;
+        newBlock->pNext->pPrev = newBlock->pPrev;
     }
     else
     {
-        ASSERT(g_pLastMemBlock == pOldBlock, "If you see this, report to StdPlusPlus");
-        g_pLastMemBlock = pNewBlock->pPrev;
+        ASSERT(g_pLastMemBlock == oldBlock, u8"If you see this, report to StdPlusPlus");
+        g_pLastMemBlock = newBlock->pPrev;
     }
 
-    if(pNewBlock->pPrev)
+    if(newBlock->pPrev)
     {
-        pNewBlock->pPrev->pNext = pNewBlock->pNext;
+        newBlock->pPrev->pNext = newBlock->pNext;
     }
     else
     {
-        ASSERT(g_pFirstMemBlock == pOldBlock, "If you see this, report to StdPlusPlus");
-        g_pFirstMemBlock = pNewBlock->pNext;
+        ASSERT(g_pFirstMemBlock == oldBlock, u8"If you see this, report to StdPlusPlus");
+        g_pFirstMemBlock = newBlock->pNext;
     }
 
     //put new block to the end of the list
     if(g_pLastMemBlock)
-        g_pLastMemBlock->pNext = pNewBlock;
+        g_pLastMemBlock->pNext = newBlock;
     else
-        g_pFirstMemBlock = pNewBlock;
+        g_pFirstMemBlock = newBlock;
 
-    pNewBlock->pPrev = g_pLastMemBlock;
-    pNewBlock->pNext = NULL;
+    newBlock->pPrev = g_pLastMemBlock;
+    newBlock->pNext = NULL;
 
-    g_pLastMemBlock = pNewBlock;
+    g_pLastMemBlock = newBlock;
 
     g_memMutex.Unlock();
-    return pMem;
+    return newBlock->GetUserData();
 }
 
 STDPLUSPLUS_API void StartUserMemoryLogging()
@@ -489,7 +480,13 @@ STDPLUSPLUS_API void StartUserMemoryLogging()
 #undef new
 void *operator new(size_t size)
 {
-	return StdPlusPlus::MemAllocDebug((uint32)size, __file__, __line__);
+	const char *fileName = __file__;
+	int lineNumber = __line__;
+
+	__file__ = u8"???";
+	__line__ = -1;
+
+	return StdPlusPlus::MemAllocDebug((uint32)size, fileName, lineNumber);
 }
 
 const char *__file__;
@@ -501,7 +498,7 @@ void *operator new(size_t size)
 }
 #endif
 
-void operator delete(void *p)
+void operator delete(void *p) noexcept
 {
 	StdPlusPlus::MemFree(p);
 }

@@ -45,13 +45,14 @@ void CocoaEventSource::DispatchPendingEvents()
 
 uint64 CocoaEventSource::GetMaxTimeout() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	//cocoa does not give us an fd for poll or select.
+	//we query cocoa events once per millisecond
+	return 1000 * 1000;
 }
 
 void CocoaEventSource::VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	//none...
 }
 
 //Class functions

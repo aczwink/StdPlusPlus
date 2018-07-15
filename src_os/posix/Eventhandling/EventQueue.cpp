@@ -28,5 +28,8 @@ using namespace StdPlusPlus;
 //Private methods
 void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
-	poll(&(*THIS)[0], THIS->GetNumberOfElements(), timeOut / 1000 / 1000);
+	pollfd *pfds = nullptr;
+	if (!THIS->IsEmpty())
+		pfds = &(*THIS)[0];
+	poll(pfds, THIS->GetNumberOfElements(), timeOut / 1000 / 1000);
 }
