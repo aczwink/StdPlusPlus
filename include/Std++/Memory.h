@@ -43,6 +43,7 @@ namespace StdPlusPlus
 
     //Functions
 #ifdef _DEBUG
+	STDPLUSPLUS_API void DebugCheckHeapIntegrity();
     STDPLUSPLUS_API bool DebugDumpMemoryLeaks();
 	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
 	STDPLUSPLUS_API void MemFreeDebug(void *memBlock);

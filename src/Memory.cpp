@@ -28,6 +28,8 @@
 //Namespaces
 using namespace StdPlusPlus;
 //Definitions
+#define HEAP_BLOCK_IDENTIFIER u8"Std++MBH" //MemoryBlockHeader
+#define HEAP_BLOCK_IDENTIFIER_SIZE 8
 #define HEAP_CORRUPTION_DETECTIONSECTION_SIZE 12
 #define HEAP_CORRUPTION_DETECTIONSECTION_VALUE 0xFD
 #define HEAP_INIT_VALUE 0xCD
@@ -96,6 +98,7 @@ static InternalMutex g_memMutex;
 
 struct DebugMemBlockHeader
 {
+	byte identifier[HEAP_BLOCK_IDENTIFIER_SIZE];
     DebugMemBlockHeader *pPrev;
     DebugMemBlockHeader *pNext;
     const char *pFileName;
@@ -119,6 +122,9 @@ struct DebugMemBlockHeader
 
 	inline bool IsCorrupt() const
 	{
+		//check identifier
+		if (MemCmp(this->identifier, HEAP_BLOCK_IDENTIFIER, sizeof(this->identifier)))
+			return true;
 		//check heap corruption detection section before user memory
 		if(!this->CheckBytes(this->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, sizeof(this->preHeapCorriptionDetectionSection)))
 			return true;
@@ -134,7 +140,7 @@ struct DebugMemBlockHeader
 		if(this->IsCorrupt())
 		{
 			g_memMutex.Unlock(); //we need to free the lock so that ASSERT can allocate
-			ASSERT(false, "HEAP CORRUPTED. Check memory dump!");
+			ASSERT(false, u8"HEAP CORRUPTED. Check memory dump!");
 			g_memMutex.Lock();
 		}
 	}
@@ -241,13 +247,19 @@ static void DumpBytes(const void *pMem, uint32 size, FILE *fp)
         fprintf(fp, "...");
 }
 
-inline byte *GetFirstHeapCorruptionDetectionAddress(DebugMemBlockHeader *pBlockHdr)
+//Namespace Functions
+void StdPlusPlus::DebugCheckHeapIntegrity()
 {
-    //the region is right after the header
-    return (byte *)(pBlockHdr + 1);
+	g_memMutex.Lock();
+
+	for (DebugMemBlockHeader *block = g_pFirstMemBlock; block; block = block->pNext)
+	{
+		block->VerifyIntegrity();
+	}
+
+	g_memMutex.Unlock();
 }
 
-//Namespace Functions
 bool StdPlusPlus::DebugDumpMemoryLeaks()
 {
     bool hasLeaks;
@@ -334,6 +346,7 @@ void *StdPlusPlus::MemAllocDebug(uint32 size, const char *fileName, uint32 lineN
 
     DebugMemBlockHeader *memBlockHeader = (DebugMemBlockHeader *)MemoryAllocate(sizeof(DebugMemBlockHeader) + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
     //fill out block header
+	MemCopy(memBlockHeader->identifier, HEAP_BLOCK_IDENTIFIER, sizeof(memBlockHeader->identifier));
     memBlockHeader->lineNumber = lineNumber;
     memBlockHeader->pFileName = fileName;
     memBlockHeader->pNext = nullptr;

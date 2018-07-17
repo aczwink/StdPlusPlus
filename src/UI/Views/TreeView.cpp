@@ -33,11 +33,3 @@ TreeView::TreeView(WidgetContainer *pParent) : View(pParent)
 
     this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TreeView, this);
 }
-
-//Eventhandlers
-void TreeView::OnSelectionChanged()
-{
-	this->backend->UpdateSelection(this->selectionController);
-
-	View::OnSelectionChanged();
-}
