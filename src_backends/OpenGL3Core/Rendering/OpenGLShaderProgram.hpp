@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Rendering/ShaderProgram.hpp>
-#include "../GLFunctions.h"
+#include "../GL3Functions.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;

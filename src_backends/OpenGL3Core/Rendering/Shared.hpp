@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../GLFunctions.h"
+#include "../GL3Functions.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;

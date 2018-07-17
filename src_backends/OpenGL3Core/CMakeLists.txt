@@ -28,19 +28,17 @@ if(${BACKEND_OPENGL})
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
 		#.
-		${CMAKE_CURRENT_SOURCE_DIR}/GLFunctions.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/GLFunctions.h
+		${CMAKE_CURRENT_SOURCE_DIR}/GL2Functions.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/GL3Functions.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Import.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/LoadWindowSystemOpenGLExtension.cpp
-			${CMAKE_CURRENT_SOURCE_DIR}/OpenGL3CoreBackend.cpp
-			${CMAKE_CURRENT_SOURCE_DIR}/OpenGL3CoreBackend.hpp
-
-		PARENT_SCOPE)
+		${CMAKE_CURRENT_SOURCE_DIR}/OpenGL3CoreBackend.hpp
+		)
 
 	target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_OPENGL)
 
-	if(MSVC OR APPLE)
+	if(MSVC)
 		#MSVC does not deliver GL headers
-		#Apple does but incompatible ones...
 		target_include_directories(Std++ PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/_extheaders")
 	endif()
 
@@ -57,7 +55,11 @@ if(${BACKEND_OPENGL})
 			GL
 			HINTS ${PC_GLX_LIBDIR} ${PC_GLX_LIBRARY_DIRS}
 			)
-		set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GLX_LIBRARY} PARENT_SCOPE)
+		set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} ${GLX_LIBRARY})
 		target_compile_definitions(Std++ PRIVATE _STDPP_WINDOWSYSTEM_X11)
 	endif()
+
+	#set in parent scope
+	set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
+	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)
 endif ()

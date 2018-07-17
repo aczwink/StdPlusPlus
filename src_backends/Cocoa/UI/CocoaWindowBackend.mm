@@ -30,7 +30,7 @@ CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, WindowBackendType t
 	{
 		case WindowBackendType::RenderTarget:
 		{
-			this->openGLView = [[NSOpenGLView alloc] init];
+			this->openGLView = [[NSOpenGLView alloc] initWithFrame:NSMakeRect(0, 0, 1024, 768)];
 		}
 		break;
 		case WindowBackendType::Window:

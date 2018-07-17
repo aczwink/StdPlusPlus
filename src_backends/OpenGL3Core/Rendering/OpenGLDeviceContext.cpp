@@ -22,6 +22,7 @@
 #include "OpenGLCubeMap.hpp"
 #include "OpenGLFrameBuffer.hpp"
 #include "OpenGLIndexBuffer.h"
+#include "OpenGLInputState.hpp"
 #include "OpenGLShader.hpp"
 #include "OpenGLShaderProgram.hpp"
 #include "OpenGLTexture2D.hpp"
@@ -77,14 +78,14 @@ OpenGLDeviceContext::OpenGLDeviceContext() : currentInputState(nullptr)
 void OpenGLDeviceContext::ClearColorBuffer(const Color &refColor)
 {
 	this->Bind();
-	glClearColor(refColor.r, refColor.g, refColor.b, refColor.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	this->glFuncs.glClearColor(refColor.r, refColor.g, refColor.b, refColor.a);
+	this->glFuncs.glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void OpenGLDeviceContext::ClearDepthBuffer()
 {
 	this->Bind();
-	glClear(GL_DEPTH_BUFFER_BIT);
+	this->glFuncs.glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 ICubeMap *OpenGLDeviceContext::CreateCubeMap()
@@ -113,7 +114,7 @@ InputState *OpenGLDeviceContext::CreateInputState()
 {
 	this->Bind();
 
-	return new OpenGLInputState;
+	return new OpenGLInputState(*this);
 }
 
 Shader *OpenGLDeviceContext::CreateShader(Shader::ShaderType type)
@@ -149,7 +150,7 @@ void OpenGLDeviceContext::DrawLines(uint32 startVertexIndex, uint32 nLines)
 	this->Bind();
 	this->currentInputState->Bind();
 
-	glDrawArrays(GL_LINES, startVertexIndex, nLines * 2);
+	this->glFuncs.glDrawArrays(GL_LINES, startVertexIndex, nLines * 2);
 }
 
 void OpenGLDeviceContext::DrawPoints(uint32 startVertexIndex, uint32 count)
@@ -157,7 +158,7 @@ void OpenGLDeviceContext::DrawPoints(uint32 startVertexIndex, uint32 count)
 	this->Bind();
 	this->currentInputState->Bind();
 
-	glDrawArrays(GL_POINTS, startVertexIndex, count);
+	this->glFuncs.glDrawArrays(GL_POINTS, startVertexIndex, count);
 }
 
 void OpenGLDeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices)
@@ -165,7 +166,7 @@ void OpenGLDeviceContext::DrawTriangleFan(uint32 startVertexIndex, uint32 nVerti
 	this->Bind();
 	this->currentInputState->Bind();
 
-	glDrawArrays(GL_TRIANGLE_FAN, startVertexIndex, nVertices);
+	this->glFuncs.glDrawArrays(GL_TRIANGLE_FAN, startVertexIndex, nVertices);
 }
 
 void OpenGLDeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangles)
@@ -173,7 +174,7 @@ void OpenGLDeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangl
 	this->Bind();
 	this->currentInputState->Bind();
 
-	glDrawArrays(GL_TRIANGLES, startVertexIndex, nTriangles * 3);
+	this->glFuncs.glDrawArrays(GL_TRIANGLES, startVertexIndex, nTriangles * 3);
 }
 
 void OpenGLDeviceContext::DrawTrianglesIndexed()
@@ -184,9 +185,9 @@ void OpenGLDeviceContext::DrawTrianglesIndexed()
 	pIndexBuffer->Bind();
 
 	if(pIndexBuffer->IndicesShort())
-		glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
+		this->glFuncs.glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
 	else
-		glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_INT, nullptr);
+		this->glFuncs.glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_INT, nullptr);
 }
 
 void OpenGLDeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices)
@@ -194,7 +195,7 @@ void OpenGLDeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVer
 	this->Bind();
 	this->currentInputState->Bind();
 
-	glDrawArrays(GL_TRIANGLE_STRIP, startVertexIndex, nVertices);
+	this->glFuncs.glDrawArrays(GL_TRIANGLE_STRIP, startVertexIndex, nVertices);
 }
 
 void OpenGLDeviceContext::EnableBlending(bool enabled)
@@ -203,25 +204,25 @@ void OpenGLDeviceContext::EnableBlending(bool enabled)
 
 	if(enabled)
 	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //TODO: this should be configureable, but mostly this is used, so its fine for now
+		this->glFuncs.glEnable(GL_BLEND);
+		this->glFuncs.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //TODO: this should be configureable, but mostly this is used, so its fine for now
 	}
 	else
-		glDisable(GL_BLEND);
+		this->glFuncs.glDisable(GL_BLEND);
 }
 
 void OpenGLDeviceContext::EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha)
 {
 	this->Bind();
 
-	glColorMask(writeRed, writeGreen, writeBlue, writeBlue);
+	this->glFuncs.glColorMask(writeRed, writeGreen, writeBlue, writeBlue);
 }
 
 void OpenGLDeviceContext::EnableDepthBufferWriting(bool writeEnable)
 {
 	this->Bind();
 
-	glDepthMask(writeEnable);
+	this->glFuncs.glDepthMask(writeEnable);
 }
 
 void OpenGLDeviceContext::EnableDepthTest(bool enabled)
@@ -229,9 +230,9 @@ void OpenGLDeviceContext::EnableDepthTest(bool enabled)
 	this->Bind();
 
 	if(enabled)
-		glEnable(GL_DEPTH_TEST);
+		this->glFuncs.glEnable(GL_DEPTH_TEST);
 	else
-		glDisable(GL_DEPTH_TEST);
+		this->glFuncs.glDisable(GL_DEPTH_TEST);
 }
 
 void OpenGLDeviceContext::EnableFaceCulling(bool enabled)
@@ -239,9 +240,9 @@ void OpenGLDeviceContext::EnableFaceCulling(bool enabled)
 	this->Bind();
 
 	if(enabled)
-		glEnable(GL_CULL_FACE);
+		this->glFuncs.glEnable(GL_CULL_FACE);
 	else
-		glDisable(GL_CULL_FACE);
+		this->glFuncs.glDisable(GL_CULL_FACE);
 }
 
 void OpenGLDeviceContext::EnablePolygonFilling(bool enabled)
@@ -249,9 +250,9 @@ void OpenGLDeviceContext::EnablePolygonFilling(bool enabled)
 	this->Bind();
 
 	if(enabled)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		this->glFuncs.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		this->glFuncs.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void OpenGLDeviceContext::EnableStencilTest(bool enabled)
@@ -259,9 +260,9 @@ void OpenGLDeviceContext::EnableStencilTest(bool enabled)
 	this->Bind();
 
 	if(enabled)
-		glEnable(GL_STENCIL_TEST);
+		this->glFuncs.glEnable(GL_STENCIL_TEST);
 	else
-		glDisable(GL_STENCIL_TEST);
+		this->glFuncs.glDisable(GL_STENCIL_TEST);
 }
 
 uint32 OpenGLDeviceContext::GetNumberOfTextureUnits() const
@@ -269,7 +270,7 @@ uint32 OpenGLDeviceContext::GetNumberOfTextureUnits() const
 	this->Bind();
 
 	GLint maxTextures;
-	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextures);
+	this->glFuncs.glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTextures);
 
 	return static_cast<uint32>(maxTextures);
 }
@@ -280,7 +281,7 @@ FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const Rect &rect)
 
 	this->SetDownloadAlignment(1);
 	FixedArray<byte> colorData(3u * rect.width() * rect.height());
-	glReadPixels(rect.x(), rect.y(), rect.width(), rect.height(), GL_RGB, GL_UNSIGNED_BYTE, &colorData[0]);
+	this->glFuncs.glReadPixels(rect.x(), rect.y(), rect.width(), rect.height(), GL_RGB, GL_UNSIGNED_BYTE, &colorData[0]);
 
 	return colorData;
 }
@@ -288,21 +289,21 @@ FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const Rect &rect)
 void OpenGLDeviceContext::ReadDepthBuffer(const Rect &block, float32 *output)
 {
 	this->Bind();
-	glReadPixels(block.x(), block.y(), block.width(), block.height(), GL_DEPTH_COMPONENT, GL_FLOAT, output);
+	this->glFuncs.glReadPixels(block.x(), block.y(), block.width(), block.height(), GL_DEPTH_COMPONENT, GL_FLOAT, output);
 }
 
 void OpenGLDeviceContext::SetDepthTest(TestFunction function)
 {
 	this->Bind();
 
-	glDepthFunc(MapTestFunction(function));
+	this->glFuncs.glDepthFunc(MapTestFunction(function));
 }
 
 void OpenGLDeviceContext::SetDownloadAlignment(uint8 value)
 {
 	this->Bind();
 
-	glPixelStorei(GL_PACK_ALIGNMENT, value);
+	this->glFuncs.glPixelStorei(GL_PACK_ALIGNMENT, value);
 }
 
 void OpenGLDeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
@@ -328,7 +329,7 @@ void OpenGLDeviceContext::SetPointSize(uint32 size)
 {
 	this->Bind();
 
-	glPointSize(size);
+	this->glFuncs.glPointSize(size);
 }
 
 void OpenGLDeviceContext::SetProgram(ShaderProgram *pProgram)
@@ -342,7 +343,7 @@ void OpenGLDeviceContext::SetStencilTest(TestFunction function, uint32 reference
 {
 	this->Bind();
 
-	glStencilFunc(MapTestFunction(function), referenceValue, mask);
+	this->glFuncs.glStencilFunc(MapTestFunction(function), referenceValue, mask);
 }
 
 void OpenGLDeviceContext::SetStencilTestEffects(ETestEffect stencilTestFailedEffect,
@@ -351,7 +352,7 @@ void OpenGLDeviceContext::SetStencilTestEffects(ETestEffect stencilTestFailedEff
 {
 	this->Bind();
 
-	glStencilOp(MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
+	this->glFuncs.glStencilOp(MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
 }
 
 void OpenGLDeviceContext::SetStencilTestEffects(bool frontFaces, ETestEffect stencilTestFailedEffect,
@@ -360,33 +361,33 @@ void OpenGLDeviceContext::SetStencilTestEffects(bool frontFaces, ETestEffect ste
 {
 	this->Bind();
 
-	glStencilOpSeparate(frontFaces ? GL_FRONT : GL_BACK, MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
+	this->glFuncs.glStencilOpSeparate(frontFaces ? GL_FRONT : GL_BACK, MapTestEffect(stencilTestFailedEffect), MapTestEffect(stencilTestPassedDepthTestFailedEffect), MapTestEffect(stencilAndDepthTestsPassedEffect));
 }
 
 void OpenGLDeviceContext::SetStencilWriteMask(uint32 mask)
 {
 	this->Bind();
 
-	glStencilMask(mask);
+	this->glFuncs.glStencilMask(mask);
 }
 
 void OpenGLDeviceContext::SetTexture(uint8 unit, ITexture *pTexture)
 {
 	this->Bind();
 
-	glActiveTexture(GL_TEXTURE0 + unit);
+	this->glFuncs.glActiveTexture(GL_TEXTURE0 + unit);
 
 	switch(pTexture->GetType())
 	{
 		case ETextureType::CubeMap:
-			glBindTexture(GL_TEXTURE_CUBE_MAP, ((OpenGLCubeMap *)pTexture)->GetId());
+			this->glFuncs.glBindTexture(GL_TEXTURE_CUBE_MAP, ((OpenGLCubeMap *)pTexture)->GetId());
 			break;
 		case ETextureType::Texture_2D:
-			glBindTexture(GL_TEXTURE_2D, ((OpenGLTexture2D *)pTexture)->GetId());
+			this->glFuncs.glBindTexture(GL_TEXTURE_2D, ((OpenGLTexture2D *)pTexture)->GetId());
 			break;
 	}
 
-	glActiveTexture(GL_TEXTURE31); //we use this as "dummy" texture, else textures get overwritten by others as soon as one "binds". Stupid open gl-.-
+	this->glFuncs.glActiveTexture(GL_TEXTURE31); //we use this as "dummy" texture, else textures get overwritten by others as soon as one "binds". Stupid open gl-.-
 	//Only when DeviceContext::SetTexture is called glActiveTexture will call something different then GL_TEXTURE31 in order to set the texture
 	//but then immediatly restores the dummy
 }
@@ -395,19 +396,128 @@ void OpenGLDeviceContext::SetUploadAlignment(uint8 value)
 {
 	this->Bind();
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, value);
+	this->glFuncs.glPixelStorei(GL_UNPACK_ALIGNMENT, value);
 }
 
 void OpenGLDeviceContext::SetViewPort(uint16 width, uint16 height)
 {
 	this->Bind();
 
-	glViewport(0, 0, width, height);
+	this->glFuncs.glViewport(0, 0, width, height);
 }
 
 //Protected methods
-void OpenGLDeviceContext::Init()
+void OpenGLDeviceContext::Init(GL_EXT_LOADER extensionLoaderFunction)
 {
 	this->Bind();
+	this->LoadOpenGLExtensions_3_0(this->glFuncs, extensionLoaderFunction);
 	this->ActivateLastTextureUnit();
+}
+
+//Private methods
+void OpenGLDeviceContext::LoadOpenGLExtensions_2_0(GLFunctions_2_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction)
+{
+	glFuncs.glActiveTexture = (PFNGLACTIVETEXTUREPROC)extensionLoaderFunction(u8"glActiveTexture");
+	glFuncs.glAttachShader = (PFNGLATTACHSHADERPROC)extensionLoaderFunction(u8"glAttachShader");
+
+	glFuncs.glBindBuffer = (PFNGLBINDBUFFERPROC)extensionLoaderFunction(u8"glBindBuffer");
+	glFuncs.glBindTexture = (PFNGLBINDTEXTUREPROC)extensionLoaderFunction(u8"glBindTexture");
+	glFuncs.glBlendFunc = (PFNGLBLENDFUNCPROC)extensionLoaderFunction(u8"glBlendFunc");
+	glFuncs.glBufferData = (PFNGLBUFFERDATAPROC)extensionLoaderFunction(u8"glBufferData");
+	glFuncs.glBufferSubData = (PFNGLBUFFERSUBDATAPROC)extensionLoaderFunction(u8"glBufferSubData");
+
+	glFuncs.glClear = (PFNGLCLEARPROC)extensionLoaderFunction(u8"glClear");
+	glFuncs.glClearColor = (PFNGLCLEARCOLORPROC)extensionLoaderFunction(u8"glClearColor");
+	glFuncs.glColorMask = (PFNGLCOLORMASKPROC)extensionLoaderFunction(u8"glColorMask");
+	glFuncs.glCompileShader = (PFNGLCOMPILESHADERPROC)extensionLoaderFunction(u8"glCompileShader");
+	glFuncs.glCompressedTexImage2D = (PFNGLCOMPRESSEDTEXIMAGE2DPROC)extensionLoaderFunction(u8"glCompressedTexImage2D");
+	glFuncs.glCreateProgram = (PFNGLCREATEPROGRAMPROC)extensionLoaderFunction(u8"glCreateProgram");
+	glFuncs.glCreateShader = (PFNGLCREATESHADERPROC)extensionLoaderFunction(u8"glCreateShader");
+
+	glFuncs.glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)extensionLoaderFunction(u8"glDeleteBuffers");
+	glFuncs.glDeleteProgram = (PFNGLDELETEPROGRAMPROC)extensionLoaderFunction(u8"glDeleteProgram");
+	glFuncs.glDeleteShader = (PFNGLDELETESHADERPROC)extensionLoaderFunction(u8"glDeleteShader");
+	glFuncs.glDeleteTextures = (PFNGLDELETETEXTURESPROC)extensionLoaderFunction(u8"glDeleteTextures");
+	glFuncs.glDepthFunc = (PFNGLDEPTHFUNCPROC)extensionLoaderFunction(u8"glDepthFunc");
+	glFuncs.glDepthMask = (PFNGLDEPTHMASKPROC)extensionLoaderFunction(u8"glDepthMask");
+	glFuncs.glDetachShader = (PFNGLDETACHSHADERPROC)extensionLoaderFunction(u8"glDetachShader");
+	glFuncs.glDisable = (PFNGLDISABLEPROC)extensionLoaderFunction(u8"glDisable");
+	glFuncs.glDisableVertexAttribArray = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)extensionLoaderFunction(u8"glDisableVertexAttribArray");
+	glFuncs.glDrawArrays = (PFNGLDRAWARRAYSPROC)extensionLoaderFunction(u8"glDrawArrays");
+	glFuncs.glDrawBuffer = (PFNGLDISABLEVERTEXATTRIBARRAYPROC)extensionLoaderFunction(u8"glDrawBuffer");
+	glFuncs.glDrawElements = (PFNGLDRAWELEMENTSPROC)extensionLoaderFunction(u8"glDrawElements");
+
+	glFuncs.glEnable = (PFNGLENABLEVERTEXATTRIBARRAYPROC)extensionLoaderFunction(u8"glEnable");
+	glFuncs.glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)extensionLoaderFunction(u8"glEnableVertexAttribArray");
+
+	glFuncs.glGenBuffers = (PFNGLGENBUFFERSPROC)extensionLoaderFunction(u8"glGenBuffers");
+	glFuncs.glGenTextures = (PFNGLGENVERTEXARRAYSPROC)extensionLoaderFunction(u8"glGenTextures");
+	glFuncs.glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC)extensionLoaderFunction(u8"glGetAttribLocation");
+	glFuncs.glGetError = (PFNGLGETERRORPROC)extensionLoaderFunction(u8"glGetError");
+	glFuncs.glGetIntegerv = (PFNGLGETINTEGERVPROC)extensionLoaderFunction(u8"glGetIntegerv");
+	glFuncs.glGetProgramiv = (PFNGLGETSHADERIVPROC)extensionLoaderFunction(u8"glGetProgramiv");
+	glFuncs.glGetProgramInfoLog = (PFNGLGETSHADERINFOLOGPROC)extensionLoaderFunction(u8"glGetProgramInfoLog");
+	glFuncs.glGetShaderiv = (PFNGLGETSHADERIVPROC)extensionLoaderFunction(u8"glGetShaderiv");
+	glFuncs.glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)extensionLoaderFunction(u8"glGetShaderInfoLog");
+	glFuncs.glGetTexParameteriv = (PFNGLGETTEXPARAMETERIVPROC)extensionLoaderFunction(u8"glGetTexParameteriv");
+	glFuncs.glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)extensionLoaderFunction(u8"glGetUniformLocation");
+
+	glFuncs.glLinkProgram = (PFNGLLINKPROGRAMPROC)extensionLoaderFunction(u8"glLinkProgram");
+
+	glFuncs.glPixelStorei = (PFNGLPIXELSTOREIPROC)extensionLoaderFunction(u8"glPixelStorei");
+	glFuncs.glPolygonMode = (PFNGLPOLYGONMODEPROC)extensionLoaderFunction(u8"glPolygonMode");
+	glFuncs.glPointSize = (PFNGLPOINTSIZEPROC)extensionLoaderFunction(u8"glPointSize");
+
+	glFuncs.glReadBuffer = (PFNGLREADBUFFERPROC)extensionLoaderFunction(u8"glReadBuffer");
+	glFuncs.glReadPixels = (PFNGLREADPIXELSPROC)extensionLoaderFunction(u8"glReadPixels");
+
+	glFuncs.glShaderSource = (PFNGLSHADERSOURCEPROC)extensionLoaderFunction(u8"glShaderSource");
+	glFuncs.glStencilFunc = (PFNGLSTENCILFUNCPROC)extensionLoaderFunction(u8"glStencilFunc");
+	glFuncs.glStencilMask = (PFNGLSTENCILMASKPROC)extensionLoaderFunction(u8"glStencilMask");
+	glFuncs.glStencilOp = (PFNGLSTENCILOPPROC)extensionLoaderFunction(u8"glStencilOp");
+	glFuncs.glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)extensionLoaderFunction(u8"glStencilOpSeparate");
+
+	glFuncs.glTexImage2D = (PFNGLTEXIMAGE2DPROC)extensionLoaderFunction(u8"glTexImage2D");
+	glFuncs.glTexParameteri = (PFNGLTEXPARAMETERIPROC)extensionLoaderFunction(u8"glTexParameteri");
+	glFuncs.glTexSubImage2D = (PFNGLTEXIMAGE2DPROC)extensionLoaderFunction(u8"glTexSubImage2D");
+
+	glFuncs.glUseProgram = (PFNGLUSEPROGRAMPROC)extensionLoaderFunction(u8"glUseProgram");
+	glFuncs.glUniform1f = (PFNGLUNIFORM1FPROC)extensionLoaderFunction(u8"glUniform1f");
+	glFuncs.glUniform1i = (PFNGLUNIFORM1IPROC)extensionLoaderFunction(u8"glUniform1i");
+	glFuncs.glUniform2fv = (PFNGLUNIFORM2FVPROC)extensionLoaderFunction(u8"glUniform2fv");
+	glFuncs.glUniform3fv = (PFNGLUNIFORM3FVPROC)extensionLoaderFunction(u8"glUniform3fv");
+	glFuncs.glUniform4fv = (PFNGLUNIFORM4FVPROC)extensionLoaderFunction(u8"glUniform4fv");
+	glFuncs.glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)extensionLoaderFunction(u8"glUniformMatrix2fv");
+	glFuncs.glUniformMatrix3fv = (PFNGLUNIFORMMATRIX4FVPROC)extensionLoaderFunction(u8"glUniformMatrix3fv");
+	glFuncs.glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)extensionLoaderFunction(u8"glUniformMatrix4fv");
+
+	glFuncs.glVertexAttribPointer = (PFNGLVERTEXATTRIBPOINTERPROC)extensionLoaderFunction(u8"glVertexAttribPointer");
+	glFuncs.glViewport = (PFNGLVIEWPORTPROC)extensionLoaderFunction(u8"glViewport");
+}
+
+void OpenGLDeviceContext::LoadOpenGLExtensions_3_0(GLFunctions_3_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction)
+{
+	this->LoadOpenGLExtensions_2_0(glFuncs, extensionLoaderFunction);
+
+	glFuncs.glBindFramebuffer = (PFNGLBINDBUFFERPROC)extensionLoaderFunction(u8"glBindFramebuffer");
+	glFuncs.glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)extensionLoaderFunction(u8"glBindRenderbuffer");
+	glFuncs.glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)extensionLoaderFunction(u8"glBindVertexArray");
+
+	glFuncs.glCheckFramebufferStatus = (PFNGLCHECKFRAMEBUFFERSTATUSPROC)extensionLoaderFunction(u8"glCheckFramebufferStatus");
+
+	glFuncs.glDeleteFramebuffers = (PFNGLDELETEBUFFERSPROC)extensionLoaderFunction(u8"glDeleteFramebuffers");
+	glFuncs.glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC)extensionLoaderFunction(u8"glDeleteRenderbuffers");
+	glFuncs.glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSPROC)extensionLoaderFunction(u8"glDeleteVertexArrays");
+
+	glFuncs.glFramebufferRenderbuffer = (PFNGLFRAMEBUFFERRENDERBUFFERPROC)extensionLoaderFunction(u8"glFramebufferRenderbuffer");
+	glFuncs.glFramebufferTexture2D = (PFNGLFRAMEBUFFERTEXTURE2DPROC)extensionLoaderFunction(u8"glFramebufferTexture2D");
+
+	glFuncs.glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC)extensionLoaderFunction(u8"glGenerateMipmap");
+	glFuncs.glGenFramebuffers = (PFNGLGENFRAMEBUFFERSPROC)extensionLoaderFunction(u8"glGenFramebuffers");
+	glFuncs.glGenRenderbuffers = (PFNGLGENRENDERBUFFERSPROC)extensionLoaderFunction(u8"glGenRenderbuffers");
+	glFuncs.glGenVertexArrays = (PFNGLGENVERTEXARRAYSPROC)extensionLoaderFunction(u8"glGenVertexArrays");
+
+	glFuncs.glRenderbufferStorage = (PFNGLRENDERBUFFERSTORAGEPROC)extensionLoaderFunction(u8"glRenderbufferStorage");
+
+	glFuncs.glUniform1ui = (PFNGLUNIFORM1UIPROC)extensionLoaderFunction(u8"glUniform1ui");
 }

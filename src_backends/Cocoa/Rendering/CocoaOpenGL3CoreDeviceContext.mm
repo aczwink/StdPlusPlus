@@ -22,21 +22,42 @@
 using namespace _stdpp;
 
 //Constructor
-CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples)
+CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples, GL_EXT_LOADER loader)
 {
 	NSOpenGLPixelFormatAttribute pixelFormatAttributes[] =
 	{
+		//profile and version
 		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
-		NSOpenGLPFAColorSize, 24,
-		NSOpenGLPFAAlphaSize, 8,
-		NSOpenGLPFADoubleBuffer,
+
+		//hardware acceleration
 		NSOpenGLPFAAccelerated,
+
+		//color buffer
+		NSOpenGLPFAColorSize, 24,
+
+		//depth buffer
+		NSOpenGLPFADepthSize, 24,
+
+		//double buffering
+		NSOpenGLPFADoubleBuffer,
+
+		//stencil buffer
+		NSOpenGLPFAStencilSize, 8,
+
+		//multi sampling
+		NSOpenGLPFASampleBuffers, uint8((nSamples > 1) ? 1 : 0),
+		NSOpenGLPFASamples, uint8((nSamples > 1) ? nSamples : 0),
+
+		NSOpenGLPFAClosestPolicy,
 		0
 	};
 
 	this->pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:pixelFormatAttributes];
-	[openGLView setPixelFormat:this->pixelFormat];
-	this->openGLContext = [openGLView openGLContext];
+	this->openGLContext = [[NSOpenGLContext alloc] initWithFormat:this->pixelFormat shareContext:nil];
+	[this->openGLContext setView:openGLView];
 
-	this->Init();
+	[openGLView setPixelFormat:this->pixelFormat];
+	[openGLView setOpenGLContext:this->openGLContext];
+
+	this->Init(loader);
 }

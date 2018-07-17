@@ -37,16 +37,12 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		EventSource *CreateEventSource() override;
 		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu);
 		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar);
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget);
-		EventSource *GetEventSource() override;
 		void Load() override;
 		void Unload() const override;
-
-	private:
-		//Members
-		EventSource *eventSource;
 	};
 }
 #endif

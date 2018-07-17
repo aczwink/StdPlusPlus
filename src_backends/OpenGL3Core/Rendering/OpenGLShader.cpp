@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 #include <Std++/Containers/Array/FixedArray.hpp>
-#include "../GLFunctions.h"
+#include "../GL3Functions.hpp"
 
 //Constructor
 OpenGLShader::OpenGLShader(Shader::ShaderType type)

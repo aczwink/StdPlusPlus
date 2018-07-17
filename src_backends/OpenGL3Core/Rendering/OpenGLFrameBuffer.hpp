@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Rendering/IFrameBuffer.h>
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../GLFunctions.h"
+#include "../GL3Functions.hpp"
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
 using namespace StdPlusPlus;

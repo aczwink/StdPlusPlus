@@ -16,18 +16,5 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _STDPLUSPLUS_BACKEND_OPENGL
-//Local
-#include <Std++/_Backends/RenderBackend.hpp>
-#include "Definitions.hpp"
 
-namespace StdPlusPlus
-{
-	class OpenGL3CoreBackend : public RenderBackend
-	{
-	public:
-		//Functions
-		static void *LoadWindowSystemOpenGLExtension(const char *extensionName);
-	};
-}
-#endif
+typedef void *(*GL_EXT_LOADER)(const char *extensionName);

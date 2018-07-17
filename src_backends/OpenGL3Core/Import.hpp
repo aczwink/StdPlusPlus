@@ -16,18 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _STDPLUSPLUS_BACKEND_OPENGL
-//Local
-#include <Std++/_Backends/RenderBackend.hpp>
-#include "Definitions.hpp"
-
-namespace StdPlusPlus
-{
-	class OpenGL3CoreBackend : public RenderBackend
-	{
-	public:
-		//Functions
-		static void *LoadWindowSystemOpenGLExtension(const char *extensionName);
-	};
-}
+#ifdef __APPLE__
+//on Apple we need the OS distributed headers.
+//They differ from "glcorearb". Including the "glcorearb" ones will result in seg-faults
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h> //for S3TC
+#else
+#include <GL/glcorearb.h>
+#include <GL/glext.h> //for S3TC
 #endif

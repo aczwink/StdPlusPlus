@@ -30,6 +30,11 @@ using namespace StdPlusPlus::UI;
 #include <Cocoa/Cocoa.h>
 
 //Public methods
+StdPlusPlus::EventSource *StdPlusPlus::CocoaBackend::CreateEventSource()
+{
+	return new CocoaEventSource;
+}
+
 MenuBackend *StdPlusPlus::CocoaBackend::CreateMenuBackend(StdPlusPlus::UI::Menu *menu)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -46,19 +51,12 @@ WindowBackend *StdPlusPlus::CocoaBackend::CreateWindowBackend(WindowBackendType 
 	return new CocoaWindowBackend(this, type, widget);
 }
 
-StdPlusPlus::EventSource *StdPlusPlus::CocoaBackend::GetEventSource()
-{
-	return this->eventSource;
-}
-
 void StdPlusPlus::CocoaBackend::Load()
 {
-	this->eventSource = new CocoaEventSource;
 	[NSApplication sharedApplication];
 }
 
 void StdPlusPlus::CocoaBackend::Unload() const
 {
 	[NSApp release];
-	delete this->eventSource;
 }
