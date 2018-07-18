@@ -20,8 +20,8 @@
 
 #include <cmath>
 #include <cfloat>
+#include <new>
 
 #ifdef __GNUC__
-#include <new>
 typedef __SIZE_TYPE__ size_t;
 #endif

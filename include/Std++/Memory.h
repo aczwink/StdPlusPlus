@@ -143,16 +143,6 @@ void operator delete(void *p) noexcept;
 
 //Placement-new
 #define pnew(ptr) new(ptr)
-#ifdef _MSC_VER //in Visual Studio we can define placement-new instead of including <new>
-inline void *operator new(size_t, void *pMem)
-{
-    return pMem;
-}
-
-inline void operator delete(void *, void *)
-{
-}
-#endif
 
 #ifdef _DEBUG
 #define new (__file__ = __FILE__, __line__ = __LINE__) && 0 ? NULL : new

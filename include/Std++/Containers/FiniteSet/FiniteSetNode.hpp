@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Definitions.h>
 
 namespace StdPlusPlus
 {
