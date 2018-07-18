@@ -36,5 +36,7 @@ void View::SetController(TreeController &controller)
 //Eventhandlers
 void View::OnSelectionChanged()
 {
+	this->backend->UpdateSelection(this->selectionController);
+
 	this->controller->OnSelectionChanged();
 }
