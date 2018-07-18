@@ -28,7 +28,7 @@ namespace _stdpp
 	{
 	public:
 		//Constructor
-		CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples);
+		CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples, GL_EXT_LOADER loader);
 
 		//Destructor
 		~CocoaOpenGL3CoreDeviceContext()

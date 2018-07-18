@@ -103,9 +103,11 @@ namespace StdPlusPlus
 				this->backend->Repaint();
 			}
 
-			inline void SetBounds(const Rect &area)
+			inline void SetBounds(const Rect &newBounds)
 			{
-				this->OnResizing(area);
+				this->bounds = newBounds;
+				if(this->backend)
+					this->backend->SetBounds(newBounds);
 			}
 
 			inline void SetEnabled(bool enable = true)

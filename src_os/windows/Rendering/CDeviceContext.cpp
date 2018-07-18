@@ -22,7 +22,7 @@
 #include <Windows.h>
 //Local
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
-#include "../../../src_backends/OpenGL3Core/GLFunctions.h"
+#include "../../../src_backends/OpenGL3Core/GL3Functions.hpp"
 #include "OpenGL.h"
 //Namespaces
 using namespace StdPlusPlus;

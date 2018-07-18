@@ -66,10 +66,10 @@ namespace StdPlusPlus
 			TreeController *controller;
 			SelectionController selectionController;
 
-			//Overrideable event handlers
-			virtual void OnSelectionChanged();
-
 		private:
+			//Event handlers
+			void OnSelectionChanged();
+
 			//Inline
 			inline void OnModelChanged()
 			{

@@ -19,30 +19,15 @@
 #ifdef _STDPLUSPLUS_BACKEND_OPENGL
 //Local
 #include <Std++/_Backends/RenderBackend.hpp>
+#include "Definitions.hpp"
 
 namespace StdPlusPlus
 {
-	typedef void *(*GL_EXT_LOADER)(const char *extensionName);
-
 	class OpenGL3CoreBackend : public RenderBackend
 	{
 	public:
-		//Constructor
-		OpenGL3CoreBackend(GL_EXT_LOADER extensionLoaderFunction = OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension);
-
-		//Methods
-		void Load() override;
-
 		//Functions
 		static void *LoadWindowSystemOpenGLExtension(const char *extensionName);
-
-	private:
-		//Members
-		bool extensionsLoaded;
-		GL_EXT_LOADER extensionLoaderFunction;
-
-		//Methods
-		void LoadOpenGLExtensions();
 	};
 }
 #endif

@@ -28,5 +28,5 @@ namespace _stdpp
 @interface WindowDelegate : NSObject <NSWindowDelegate>
 {
 };
--(void)SetBackend:(_stdpp::CocoaWindowBackend *)backend;
+-(id)initWithBackend:(_stdpp::CocoaWindowBackend *)backend;
 @end

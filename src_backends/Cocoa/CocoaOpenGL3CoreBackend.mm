@@ -32,5 +32,5 @@ DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(const WindowBackend 
 	CocoaWindowBackend &cocoaWindowBackend = (CocoaWindowBackend &) backend;
 	NSOpenGLView *openGLView = (NSOpenGLView *)cocoaWindowBackend.GetView();
 
-	return new CocoaOpenGL3CoreDeviceContext(openGLView, nSamples);
+	return new CocoaOpenGL3CoreDeviceContext(openGLView, nSamples, this->LoadWindowSystemOpenGLExtension);
 }

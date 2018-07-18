@@ -19,8 +19,9 @@
 #pragma once
 //Local
 #include <Std++/Rendering/ICubeMap.h>
-#include "../GLFunctions.h"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
@@ -30,23 +31,9 @@ extern uint32 g_currentTextureId;
 class OpenGLCubeMap : public ICubeMap
 {
     friend class DeviceContext;
-private:
-    //Members
-    uint32 id;
-
-    //Inline
-    inline void Bind()
-    {
-        if(g_currentTextureId != this->id)
-        {
-            glBindTexture(GL_TEXTURE_CUBE_MAP, this->id);
-            g_currentTextureId = this->id;
-        }
-    }
-
 public:
     //Constructor
-    OpenGLCubeMap();
+    OpenGLCubeMap(OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLCubeMap();
@@ -64,5 +51,21 @@ public:
     inline uint32 GetId() const
     {
         return this->id;
+    }
+
+private:
+    //Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_2_0 &glFuncs;
+    uint32 id;
+
+    //Inline
+    inline void Bind()
+    {
+        if(g_currentTextureId != this->id)
+        {
+            this->glFuncs.glBindTexture(GL_TEXTURE_CUBE_MAP, this->id);
+            g_currentTextureId = this->id;
+        }
     }
 };

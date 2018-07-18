@@ -19,8 +19,9 @@
 #pragma once
 //Local
 #include <Std++/Rendering/Texture2D.hpp>
-#include "../GLFunctions.h"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 using namespace StdPlusPlus::Rendering;
@@ -31,23 +32,9 @@ extern uint32 g_currentTextureId;
 class OpenGLTexture2D : public Texture2D
 {
     friend class DeviceContext;
-private:
-    //Members
-    uint32 id;
-
-    //Inline
-    inline void Bind()
-    {
-        if(g_currentTextureId != this->id)
-        {
-            glBindTexture(GL_TEXTURE_2D, this->id);
-            g_currentTextureId = this->id;
-        }
-    }
-
 public:
     //Constructor
-    OpenGLTexture2D();
+    OpenGLTexture2D(OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLTexture2D();
@@ -68,4 +55,20 @@ public:
     {
         return this->id;
     }
+
+private:
+	//Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_3_0 &glFuncs;
+	uint32 id;
+
+	//Inline
+	inline void Bind()
+	{
+		if(g_currentTextureId != this->id)
+		{
+			this->glFuncs.glBindTexture(GL_TEXTURE_2D, this->id);
+			g_currentTextureId = this->id;
+		}
+	}
 };

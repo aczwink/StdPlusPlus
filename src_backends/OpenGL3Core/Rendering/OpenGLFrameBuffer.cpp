@@ -17,9 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLFrameBuffer.hpp"
+#include "OpenGLFrameBuffer.hpp"
 //Local
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLTexture2D.hpp"
+#include "OpenGLTexture2D.hpp"
 
 //Static fields
 uint32 OpenGLFrameBuffer::currentFBO;
@@ -27,7 +27,7 @@ uint32 OpenGLFrameBuffer::currentFBO;
 //Destructor
 OpenGLFrameBuffer::~OpenGLFrameBuffer()
 {
-    glDeleteFramebuffers(1, &this->id);
+    this->glFuncs.glDeleteFramebuffers(1, &this->id);
 }
 
 //Public methods
@@ -35,7 +35,7 @@ uint32 OpenGLFrameBuffer::GetStatus() const
 {
     this->Bind();
 
-    return glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    return this->glFuncs.glCheckFramebufferStatus(GL_FRAMEBUFFER);
 }
 
 void OpenGLFrameBuffer::SetColorBuffer(Texture2D *pTexture)
@@ -48,13 +48,13 @@ void OpenGLFrameBuffer::SetColorBuffer(Texture2D *pTexture)
 
         pGL_Texture = (OpenGLTexture2D *)pTexture;
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pGL_Texture->GetId(), 0);
+        this->glFuncs.glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pGL_Texture->GetId(), 0);
     }
     else
     {
         //dont use any color buffer
-        glDrawBuffer(GL_NONE);
-        glReadBuffer(GL_NONE);
+        this->glFuncs.glDrawBuffer(GL_NONE);
+        this->glFuncs.glReadBuffer(GL_NONE);
     }
 }
 
@@ -68,10 +68,10 @@ void OpenGLFrameBuffer::SetDepthBuffer(Texture2D *pTexture)
 
         this->Bind();
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, pGL_Texture->GetId(), 0);
+        this->glFuncs.glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, pGL_Texture->GetId(), 0);
     }
     else
     {
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+        this->glFuncs.glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
     }
 }

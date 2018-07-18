@@ -19,7 +19,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include "../../../src_backends/OpenGL3Core/GLFunctions.h"
+#include "../../../src_backends/OpenGL3Core/GL3Functions.hpp"
 #include <Std++/Debug.hpp>
 #include "OpenGL.h"
 

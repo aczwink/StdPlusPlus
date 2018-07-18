@@ -17,16 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLInputState.hpp"
+#include "OpenGLInputState.hpp"
 //Local
 #include <Std++/Rendering/InputLayout.hpp>
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLIndexBuffer.h"
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLVertexBuffer.hpp"
+#include "OpenGLIndexBuffer.hpp"
+#include "OpenGLVertexBuffer.hpp"
 
 //Constructor
-OpenGLInputState::OpenGLInputState()
+OpenGLInputState::OpenGLInputState(OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)
 {
-    glGenVertexArrays(1, &this->id);
+    this->glFuncs.glGenVertexArrays(1, &this->id);
 
     this->currentAttributeIndex = 0;
 }
@@ -34,7 +34,7 @@ OpenGLInputState::OpenGLInputState()
 //Destructor
 OpenGLInputState::~OpenGLInputState()
 {
-    glDeleteVertexArrays(1, &this->id);
+    this->glFuncs.glDeleteVertexArrays(1, &this->id);
 }
 
 //Public methods
@@ -54,8 +54,8 @@ void OpenGLInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &ref
 
         location = this->currentAttributeIndex + i;
 
-        glEnableVertexAttribArray(location);
-        glVertexAttribPointer(location, refVA.nComponents, GL_FLOAT, false, refInputLayout.GetSize(), (void *)refVA.offset);
+        this->glFuncs.glEnableVertexAttribArray(location);
+        this->glFuncs.glVertexAttribPointer(location, refVA.nComponents, GL_FLOAT, false, refInputLayout.GetSize(), (void *)refVA.offset);
     }
 
     this->currentAttributeIndex += refInputLayout.GetNumberOfAttributes();

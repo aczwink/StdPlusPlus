@@ -29,11 +29,3 @@ ComboBox::ComboBox(WidgetContainer *parent) : View(parent)
 
 	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::ComboBox, this);
 }
-
-//Event handlers
-void ComboBox::OnSelectionChanged()
-{
-	this->backend->UpdateSelection(this->selectionController);
-
-	View::OnSelectionChanged();
-}

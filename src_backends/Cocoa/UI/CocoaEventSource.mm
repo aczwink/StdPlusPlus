@@ -45,17 +45,33 @@ void CocoaEventSource::DispatchPendingEvents()
 
 uint64 CocoaEventSource::GetMaxTimeout() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	//cocoa does not give us an fd for poll or select.
+	//we query cocoa events once per millisecond
+	return 1000 * 1000;
 }
 
 void CocoaEventSource::VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	//none...
 }
 
 //Class functions
 void CocoaEventSource::EmitCloseEvent(StdPlusPlus::UI::Window &window)
 {
 	l_eventSource->DispatchCloseEvent(window);
+}
+
+void CocoaEventSource::EmitPaintEvent(StdPlusPlus::UI::Widget &widget)
+{
+	l_eventSource->DispatchPaintEvent(widget);
+}
+
+void CocoaEventSource::EmitResizedEvent(StdPlusPlus::UI::Widget &widget)
+{
+	l_eventSource->DispatchResizedEvent(widget);
+}
+
+void CocoaEventSource::EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds)
+{
+	l_eventSource->DispatchResizingEvent(widget, newBounds);
 }

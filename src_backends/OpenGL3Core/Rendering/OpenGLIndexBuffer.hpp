@@ -20,23 +20,17 @@
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
 #include <Std++/Rendering/IndexBuffer.hpp>
-#include "../GLFunctions.h"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
 class OpenGLIndexBuffer : public IndexBuffer
 {
-private:
-    //Members
-    uint32 id;
-    uint32 nIndices;
-    bool isShort;
-	AllocationPolicy policy;
-
 public:
     //Constructor
-    OpenGLIndexBuffer(AllocationPolicy policy);
+    OpenGLIndexBuffer(AllocationPolicy policy, OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLIndexBuffer();
@@ -48,7 +42,7 @@ public:
     //Inline
     inline void Bind() const
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
+        this->glFuncs.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
     }
 
     inline uint32 GetNumberOfIndices() const
@@ -60,4 +54,13 @@ public:
     {
         return this->isShort;
     }
+
+private:
+    //Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_2_0 &glFuncs;
+    uint32 id;
+    uint32 nIndices;
+    bool isShort;
+    AllocationPolicy policy;
 };

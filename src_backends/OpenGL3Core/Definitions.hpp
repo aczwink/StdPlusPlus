@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,5 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Controllers/TreeController.hpp"
-#include "View.hpp"
 
-namespace StdPlusPlus
-{
-    namespace UI
-    {
-        class STDPLUSPLUS_API ComboBox : public View
-        {
-            friend class EventQueue;
-        public:
-            //Constructor
-            ComboBox(WidgetContainer *pParent);
-
-			//Inline
-			inline void Select(uint32 index)
-			{
-				ControllerIndex controllerIndex = this->GetController()->GetChildIndex(index, 0, ControllerIndex());
-				this->backend->Select(controllerIndex);
-			}
-        };
-    }
-}
+typedef void *(*GL_EXT_LOADER)(const char *extensionName);

@@ -50,10 +50,10 @@ namespace StdPlusPlus
 		BackendManager<RenderBackend> renderBackends;
 
 		//Abstract
+		virtual EventSource *CreateEventSource() = 0;
 		virtual _stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
 		virtual _stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
 		virtual _stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget) = 0;
-		virtual EventSource *GetEventSource() = 0;
 
 		//Methods
 		BackendType GetType() const
