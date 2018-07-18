@@ -25,18 +25,18 @@
 #include "../GL3Functions.hpp"
 
 //Constructor
-OpenGLShader::OpenGLShader(Shader::ShaderType type)
+OpenGLShader::OpenGLShader(Shader::ShaderType type, OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)
 {
     switch(type)
     {
         case ShaderType::FragmentShader:
-            this->id = glCreateShader(GL_FRAGMENT_SHADER);
+            this->id = this->glFuncs.glCreateShader(GL_FRAGMENT_SHADER);
             break;
         case ShaderType::GeometryShader:
-            this->id = glCreateShader(GL_GEOMETRY_SHADER);
+            this->id = this->glFuncs.glCreateShader(GL_GEOMETRY_SHADER);
             break;
         case ShaderType::VertexShader:
-            this->id = glCreateShader(GL_VERTEX_SHADER);
+            this->id = this->glFuncs.glCreateShader(GL_VERTEX_SHADER);
             break;
         default:
             NOT_IMPLEMENTED_ERROR;
@@ -46,7 +46,7 @@ OpenGLShader::OpenGLShader(Shader::ShaderType type)
 //Destructor
 OpenGLShader::~OpenGLShader()
 {
-    glDeleteShader(this->id);
+    this->glFuncs.glDeleteShader(this->id);
 }
 
 //Public methods
@@ -61,9 +61,9 @@ bool OpenGLShader::Compile(SeekableInputStream &refSource)
     refSource.ReadBytes(pShaderText, (uint32)refSource.GetRemainingBytes());
 
     //compile shader
-    glShaderSource(this->id, 1, (const char * const *)&pShaderText, nullptr);
-    glCompileShader(this->id);
-    glGetShaderiv(this->id, GL_COMPILE_STATUS, &result);
+    this->glFuncs.glShaderSource(this->id, 1, (const char * const *)&pShaderText, nullptr);
+    this->glFuncs.glCompileShader(this->id);
+    this->glFuncs.glGetShaderiv(this->id, GL_COMPILE_STATUS, &result);
 
     //clean up
     MemFree(pShaderText);
@@ -74,9 +74,9 @@ bool OpenGLShader::Compile(SeekableInputStream &refSource)
 String OpenGLShader::GetCompilationLog()
 {
     GLint len;
-    glGetShaderiv(this->id, GL_INFO_LOG_LENGTH, &len);
+    this->glFuncs.glGetShaderiv(this->id, GL_INFO_LOG_LENGTH, &len);
     FixedArray<char> msg(static_cast<uint32>(len - 1));
-    glGetShaderInfoLog(this->id, len, nullptr, &msg[0]);
+    this->glFuncs.glGetShaderInfoLog(this->id, len, nullptr, &msg[0]);
 
 	return String::CopyRawString(&msg[0]);
 }

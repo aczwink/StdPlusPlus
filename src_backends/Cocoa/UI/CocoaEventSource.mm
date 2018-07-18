@@ -60,3 +60,18 @@ void CocoaEventSource::EmitCloseEvent(StdPlusPlus::UI::Window &window)
 {
 	l_eventSource->DispatchCloseEvent(window);
 }
+
+void CocoaEventSource::EmitPaintEvent(StdPlusPlus::UI::Widget &widget)
+{
+	l_eventSource->DispatchPaintEvent(widget);
+}
+
+void CocoaEventSource::EmitResizedEvent(StdPlusPlus::UI::Widget &widget)
+{
+	l_eventSource->DispatchResizedEvent(widget);
+}
+
+void CocoaEventSource::EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds)
+{
+	l_eventSource->DispatchResizingEvent(widget, newBounds);
+}

@@ -38,5 +38,8 @@ namespace _stdpp
 
 		//Class function
 		static void EmitCloseEvent(StdPlusPlus::UI::Window &window);
+		static void EmitPaintEvent(StdPlusPlus::UI::Widget &widget);
+		static void EmitResizedEvent(StdPlusPlus::UI::Widget &widget);
+		static void EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds);
 	};
 }

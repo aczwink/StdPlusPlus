@@ -69,10 +69,18 @@ namespace _stdpp
 		//Members
 		union
 		{
+			NSButton *button;
+			NSBox *groupBox;
 			NSOpenGLView *openGLView;
+			NSSlider *slider;
+			NSTextField *textField;
 			NSWindow *window;
 		};
 		WindowDelegate *windowDelegate;
 		NSWindowController *windowController;
+
+		//Methods
+		StdPlusPlus::Size ComputeTextSize(NSString *string, NSFont *font) const;
+		NSView *GetChildrenAreaView() const;
 	};
 }

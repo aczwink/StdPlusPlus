@@ -19,20 +19,18 @@
 #pragma once
 //Local
 #include <Std++/Rendering/Shader.hpp>
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
 class OpenGLShader : public Shader
 {
     friend class OpenGLShaderProgram;
-private:
-    //Members
-    uint32 id;
-
 public:
     //Constructor
-    OpenGLShader(Shader::ShaderType type);
+    OpenGLShader(Shader::ShaderType type, OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLShader();
@@ -40,4 +38,10 @@ public:
     //Methods
     bool Compile(SeekableInputStream &refSource);
     String GetCompilationLog();
+
+private:
+	//Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_2_0 &glFuncs;
+	uint32 id;
 };

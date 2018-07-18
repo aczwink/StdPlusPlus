@@ -31,13 +31,30 @@ using namespace StdPlusPlus::UI;
 	_stdpp::CocoaWindowBackend *backend;
 }
 
+- (id)initWithBackend:(_stdpp::CocoaWindowBackend *)cocoaWindowBackend
+{
+	self = [super init];
+	if(!self)
+		return nil;
+	self->backend = cocoaWindowBackend;
+	return self;
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+	CocoaEventSource::EmitResizedEvent( (StdPlusPlus::UI::Window &)self->backend->GetWidget() );
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
 	CocoaEventSource::EmitCloseEvent( (StdPlusPlus::UI::Window &)self->backend->GetWidget() );
 }
 
-- (void)SetBackend:(CocoaWindowBackend *)cocoaWindowBackend
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
-	self->backend = cocoaWindowBackend;
+	NSRect r = [sender frame];
+	CocoaEventSource::EmitResizingEvent( (StdPlusPlus::UI::Window &)self->backend->GetWidget(), StdPlusPlus::Rect(r.origin.x, r.origin.y, frameSize.width, frameSize.height));
+
+	return frameSize;
 }
 @end

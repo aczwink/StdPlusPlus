@@ -19,24 +19,18 @@
 #pragma once
 //Local
 #include <Std++/Rendering/ShaderProgram.hpp>
-#include "../GL3Functions.hpp"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Math;
 using namespace StdPlusPlus::Rendering;
 
 class OpenGLShaderProgram : public ShaderProgram
 {
-private:
-    //Members
-    uint32 id;
-
-    //Static members
-    static const OpenGLShaderProgram *pCurrentProgram;
-
 public:
     //Constructor
-    OpenGLShaderProgram();
+    OpenGLShaderProgram(OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLShaderProgram();
@@ -61,8 +55,16 @@ public:
     {
         if(this != OpenGLShaderProgram::pCurrentProgram)
         {
-            glUseProgram(this->id);
+        	this->glFuncs.glUseProgram(this->id);
             OpenGLShaderProgram::pCurrentProgram = this;
         }
     }
+private:
+	//Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_3_0 &glFuncs;
+	uint32 id;
+
+	//Static members
+	static const OpenGLShaderProgram *pCurrentProgram;
 };

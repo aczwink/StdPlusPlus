@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLInputState.hpp"
+#include "OpenGLInputState.hpp"
 //Local
 #include <Std++/Rendering/InputLayout.hpp>
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLIndexBuffer.h"
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLVertexBuffer.hpp"
+#include "OpenGLIndexBuffer.hpp"
+#include "OpenGLVertexBuffer.hpp"
 
 //Constructor
 OpenGLInputState::OpenGLInputState(OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)

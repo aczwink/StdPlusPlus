@@ -17,21 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLVertexBuffer.hpp"
+#include "OpenGLVertexBuffer.hpp"
 //Local
-#include "../../src_backends/OpenGL3Core/Rendering/Shared.hpp"
+#include "Shared.hpp"
 
 //Constructor
-OpenGLVertexBuffer::OpenGLVertexBuffer(AllocationPolicy policy)
+OpenGLVertexBuffer::OpenGLVertexBuffer(AllocationPolicy policy, OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)
 {
-    glGenBuffers(1, &this->id);
+	this->glFuncs.glGenBuffers(1, &this->id);
 	this->policy = policy;
 }
 
 //Destructor
 OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
-    glDeleteBuffers(1, &this->id);
+	this->glFuncs.glDeleteBuffers(1, &this->id);
 }
 
 //Public methods
@@ -39,12 +39,12 @@ void OpenGLVertexBuffer::Allocate(uint32 nVertices, uint32 vertexSize, const voi
 {
     this->Bind();
 
-    glBufferData(GL_ARRAY_BUFFER, nVertices * vertexSize, pData, AllocationPolicyToGL(this->policy));
+	this->glFuncs.glBufferData(GL_ARRAY_BUFFER, nVertices * vertexSize, pData, AllocationPolicyToGL(this->policy));
 }
 
 void OpenGLVertexBuffer::Write(uint32 offset, uint32 size, const void *data)
 {
 	this->Bind();
 
-	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+	this->glFuncs.glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 }

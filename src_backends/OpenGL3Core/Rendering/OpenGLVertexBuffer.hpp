@@ -20,21 +20,17 @@
 //Local
 #include <Std++/Rendering/VertexBuffer.hpp>
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../GL3Functions.hpp"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
 class OpenGLVertexBuffer : public VertexBuffer
 {
-private:
-    //Members
-    uint32 id;
-    AllocationPolicy policy;
-
 public:
     //Constructor
-    OpenGLVertexBuffer(AllocationPolicy policy);
+    OpenGLVertexBuffer(AllocationPolicy policy, OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLVertexBuffer();
@@ -46,6 +42,13 @@ public:
     //Inline
     inline void Bind() const
     {
-        glBindBuffer(GL_ARRAY_BUFFER, this->id);
+        this->glFuncs.glBindBuffer(GL_ARRAY_BUFFER, this->id);
     }
+
+private:
+    //Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_2_0 &glFuncs;
+    uint32 id;
+    AllocationPolicy policy;
 };

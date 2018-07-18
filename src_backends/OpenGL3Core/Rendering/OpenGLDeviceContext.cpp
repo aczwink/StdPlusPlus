@@ -21,7 +21,7 @@
 //Local
 #include "OpenGLCubeMap.hpp"
 #include "OpenGLFrameBuffer.hpp"
-#include "OpenGLIndexBuffer.h"
+#include "OpenGLIndexBuffer.hpp"
 #include "OpenGLInputState.hpp"
 #include "OpenGLShader.hpp"
 #include "OpenGLShaderProgram.hpp"
@@ -31,6 +31,9 @@
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 using namespace _stdpp;
+
+//Global variables
+uint32 g_currentTextureId = Natural<uint32>::Max();
 
 //Local functions
 static inline uint32 MapTestEffect(ETestEffect effect)
@@ -93,21 +96,21 @@ ICubeMap *OpenGLDeviceContext::CreateCubeMap()
 	this->Bind();
 	this->ActivateLastTextureUnit();
 
-	return new OpenGLCubeMap;
+	return new OpenGLCubeMap(*this);
 }
 
 IFrameBuffer *OpenGLDeviceContext::CreateFrameBuffer()
 {
 	this->Bind();
 
-	return new OpenGLFrameBuffer;
+	return new OpenGLFrameBuffer(*this);
 }
 
 IndexBuffer *OpenGLDeviceContext::CreateIndexBuffer(AllocationPolicy policy)
 {
 	this->Bind();
 
-	return new OpenGLIndexBuffer(policy);
+	return new OpenGLIndexBuffer(policy, *this);
 }
 
 InputState *OpenGLDeviceContext::CreateInputState()
@@ -121,14 +124,14 @@ Shader *OpenGLDeviceContext::CreateShader(Shader::ShaderType type)
 {
 	this->Bind();
 
-	return new OpenGLShader(type);
+	return new OpenGLShader(type, *this);
 }
 
 ShaderProgram *OpenGLDeviceContext::CreateShaderProgram()
 {
 	this->Bind();
 
-	return new OpenGLShaderProgram;
+	return new OpenGLShaderProgram(*this);
 }
 
 Texture2D *OpenGLDeviceContext::CreateTexture2D()
@@ -136,13 +139,13 @@ Texture2D *OpenGLDeviceContext::CreateTexture2D()
 	this->Bind();
 	this->ActivateLastTextureUnit();
 
-	return new OpenGLTexture2D;
+	return new OpenGLTexture2D(*this);
 }
 
 VertexBuffer *OpenGLDeviceContext::CreateVertexBuffer(AllocationPolicy policy)
 {
 	this->Bind();
-	return new OpenGLVertexBuffer(policy);
+	return new OpenGLVertexBuffer(policy, *this);
 }
 
 void OpenGLDeviceContext::DrawLines(uint32 startVertexIndex, uint32 nLines)

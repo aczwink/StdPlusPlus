@@ -397,10 +397,10 @@ void StdPlusPlus::MemFreeDebug(void *userData)
     g_memMutex.Unlock();
 }
 
-void *StdPlusPlus::MemReallocDebug(void *pMem, uint32 size, const char *pFileName, uint32 lineNumber)
+void *StdPlusPlus::MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint32 lineNumber)
 {
     if(!pMem)
-        return MemAllocDebug(size, pFileName, lineNumber);
+        return MemAllocDebug(size, fileName, lineNumber);
 
     g_memMutex.Lock();
 
@@ -415,11 +415,11 @@ void *StdPlusPlus::MemReallocDebug(void *pMem, uint32 size, const char *pFileNam
     if(size > newBlock->userSize)
     {
         //fill new allocated memory with random value
-        MemSet((byte *)pMem + newBlock->userSize, HEAP_INIT_VALUE, size - newBlock->userSize);
+        MemSet(newBlock->GetUserData() + size - newBlock->userSize, HEAP_INIT_VALUE, size - newBlock->userSize);
     }
 
 	//update header
-	newBlock->pFileName = pFileName;
+	newBlock->pFileName = fileName;
 	newBlock->lineNumber = lineNumber;
 	newBlock->seqNumber = g_seqNumber++;
 	newBlock->userSize = size;

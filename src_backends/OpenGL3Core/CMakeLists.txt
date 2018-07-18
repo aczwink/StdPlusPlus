@@ -14,16 +14,23 @@ if(${BACKEND_OPENGL})
 		${SOURCE_FILES}
 
 		#Rendering
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLCubeMap.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLCubeMap.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLFrameBuffer.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShader.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShader.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShaderProgram.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLDeviceContext.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLDeviceContext.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.h
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLFrameBuffer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLFrameBuffer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLIndexBuffer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLInputState.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLInputState.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShader.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShader.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShaderProgram.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLShaderProgram.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 

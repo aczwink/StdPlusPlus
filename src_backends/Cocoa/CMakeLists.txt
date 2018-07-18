@@ -23,6 +23,8 @@ if(${BACKEND_COCOA})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaMenuBarBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/OpenGLView.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/OpenGLView.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowDelegate.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowDelegate.mm
 

@@ -17,21 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "../../src_backends/OpenGL3Core/Rendering/OpenGLIndexBuffer.h"
+#include "OpenGLIndexBuffer.hpp"
 //Local
-#include "../../src_backends/OpenGL3Core/Rendering/Shared.hpp"
+#include "Shared.hpp"
 
 //Constructor
-OpenGLIndexBuffer::OpenGLIndexBuffer(AllocationPolicy policy)
+OpenGLIndexBuffer::OpenGLIndexBuffer(AllocationPolicy policy, OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)
 {
-    glGenBuffers(1, &this->id);
+    this->glFuncs.glGenBuffers(1, &this->id);
     this->policy = policy;
 }
 
 //Destructor
 OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
-    glDeleteBuffers(1, &this->id);
+    this->glFuncs.glDeleteBuffers(1, &this->id);
 }
 
 //Public methods
@@ -39,7 +39,7 @@ void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint16 *pIndices)
 {
     this->Bind();
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
+    this->glFuncs.glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
 
     this->nIndices = nIndices;
     this->isShort = true;
@@ -49,7 +49,7 @@ void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint32 *pIndices)
 {
     this->Bind();
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
+    this->glFuncs.glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(*pIndices), pIndices, AllocationPolicyToGL(this->policy));
 
     this->nIndices = nIndices;
     this->isShort = false;
