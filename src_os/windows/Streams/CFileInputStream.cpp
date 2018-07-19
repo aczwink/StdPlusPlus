@@ -82,17 +82,6 @@ uint64 FileInputStream::GetSize() const
 	return size.QuadPart;
 }
 
-byte FileInputStream::ReadByte()
-{
-	byte b;
-	DWORD nReadBytes;
-
-	ReadFile(this->pFileHandle, &b, 1, &nReadBytes, nullptr);
-	this->hitEnd = nReadBytes == 0;
-
-	return b;
-}
-
 uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
 {
 	DWORD nReadBytes;

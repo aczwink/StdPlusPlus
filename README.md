@@ -5,12 +5,14 @@ Std++ is an attempt to create a strong cross-platform standard library for C++.
 
 C++17 is a strict requirement.
 
-Supported operating systems:
-* Linux
+### Supported operating systems
+* Basically any POSIX-compliant OS (i.e. Linux, Darwin (macOS), any kind of Unix) is supported.
+* Linux (i.e. additional features that aren't covered by POSIX)
 * Windows 7
 * Windows 10
 
-Supported compilers:
+### Supported compilers
+* Clang
 * GCC
 * Visual Studio
 
@@ -34,6 +36,7 @@ The following Render-backends are currently implemented:
 * OpenGL 3 Core Profile
 
 The following UI-backends are currently implemented:
+* Cocoa (macOS)
 * GTK 3
 * Common Controls Library (Windows)
 

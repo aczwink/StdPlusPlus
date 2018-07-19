@@ -58,13 +58,6 @@ void FileOutputStream::SetCurrentOffset(uint64 offset)
 	SetFilePointerEx(this->pFileHandle, liOffset, nullptr, FILE_BEGIN);
 }
 
-void FileOutputStream::WriteByte(byte b)
-{
-	DWORD nBytesWritten;
-
-	WriteFile(this->pFileHandle, &b, 1, &nBytesWritten, NULL);
-}
-
 uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
 {
 	DWORD nBytesWritten;

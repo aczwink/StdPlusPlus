@@ -17,6 +17,13 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
+#define ISOLATION_AWARE_ENABLED 1
+//Global
+#include <Windows.h>
+#include <CommCtrl.h>
+//Definitions
+#undef AppendMenu
+#undef SendMessage
 
 #define STDPLUSPLUS_WIN_WNDCLASS L"Std++"
 #define STDPLUSPLUS_WIN_WNDCLASS_LENGTH 6 //including null byte

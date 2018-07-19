@@ -19,48 +19,14 @@
 //Class Header
 #include <Std++/Streams/FileInputStream.hpp>
 //Global
-#include <fcntl.h>
 #include <unistd.h>
-#include <errno.h>
-//Local
-#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
-#include <Std++/Errorhandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdPlusPlus;
-
-#include <cstdio>
-
-//Constructor
-FileInputStream::FileInputStream(const Path &path)
-{
-    this->hitEnd = false;
-    this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
-
-    if(this->fileHandle == -1)
-    {
-        switch(errno)
-        {
-            case ENOENT:
-                throw ErrorHandling::FileNotFoundException(path);
-        }
-    }
-}
-
-//Destructor
-FileInputStream::~FileInputStream()
-{
-    close(this->fileHandle);
-}
 
 //Public methods
 uint64 FileInputStream::GetCurrentOffset() const
 {
     return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
-}
-
-uint64 FileInputStream::GetRemainingBytes() const
-{
-    return this->GetSize() - this->GetCurrentOffset();
 }
 
 uint64 FileInputStream::GetSize() const
@@ -72,25 +38,6 @@ uint64 FileInputStream::GetSize() const
     lseek64(this->fileHandle, offset, SEEK_SET);
 
     return size;
-}
-
-byte FileInputStream::ReadByte()
-{
-    byte b;
-
-    this->hitEnd = read(this->fileHandle, &b, 1) != 1;
-
-    return b;
-}
-
-uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
-{
-    uint32 nReadBytes;
-
-    nReadBytes = read(this->fileHandle, pDestination, count);
-    this->hitEnd = nReadBytes < count;
-
-    return nReadBytes;
 }
 
 void FileInputStream::SetCurrentOffset(uint64 offset)

@@ -26,20 +26,7 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
-
-//Destructor
-LineEdit::~LineEdit()
-{
-	MemFree(this->backend);
-}
-
-//Public methods
-Size LineEdit::GetSizeHint() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-	//return GetPreferedSizeGtk(THIS);
-}
-
+/*
 //Private methods
 void LineEdit::Backend_Create()
 {
@@ -48,4 +35,4 @@ void LineEdit::Backend_Create()
 	gtk_widget_show(THIS); //default to show
 
 	//ADD_SELF_TO_PARENT(THIS);
-}
+}*/

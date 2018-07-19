@@ -195,7 +195,7 @@
 
 //UI
 #include <Std++/UI/WidgetContainer.hpp>
-#include <Std++/UI/CAction.hpp>
+#include <Std++/UI/Action.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>
 #include <Std++/Eventhandling/EventQueue.hpp>
@@ -229,8 +229,8 @@
 //Layouts
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Menu
-#include <Std++/UI/Menu/CMenu.h>
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/Menu.hpp>
+#include <Std++/UI/Menu/MenuBar.hpp>
 //Transfer
 #include <Std++/UI/Transfer/CFileTransfer.h>
 //Typing

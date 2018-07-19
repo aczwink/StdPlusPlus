@@ -29,11 +29,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Layouts/GridLayout.cpp
 
 	#Menu
-	${CMAKE_CURRENT_SOURCE_DIR}/Menu/CMenu.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Menu/CMenuBar.cpp
-
-	#Render Targets
-	${CMAKE_CURRENT_SOURCE_DIR}/Render\ Targets/CDesktopRenderTarget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
 
 	#Views
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ComboBox.cpp

@@ -38,10 +38,6 @@ namespace StdPlusPlus
 				ControllerIndex controllerIndex = this->GetController()->GetChildIndex(index, 0, ControllerIndex());
 				this->backend->Select(controllerIndex);
 			}
-
-		protected:
-			//Event handlers
-			void OnSelectionChanged();
         };
     }
 }

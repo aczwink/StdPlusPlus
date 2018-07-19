@@ -19,8 +19,8 @@
 
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../Memory.h"
+#include <Std++/Definitions.h>
+#include <Std++/Memory.h>
 
 namespace StdPlusPlus
 {

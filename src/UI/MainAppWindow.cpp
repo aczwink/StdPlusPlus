@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Streams/StdOut.hpp>
 #include <Std++/Eventhandling/EventQueue.hpp>
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/MenuBar.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -29,7 +29,7 @@ using namespace StdPlusPlus::UI;
 //Constructor
 MainAppWindow::MainAppWindow(EventQueue &eventQueue) : eventQueue(eventQueue)
 {
-    this->SetMenuBar(new CMenuBar);
+    this->SetMenuBar(new MenuBar);
 }
 
 //Destructor

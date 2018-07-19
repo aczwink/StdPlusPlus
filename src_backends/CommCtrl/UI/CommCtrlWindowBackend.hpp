@@ -16,16 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#define ISOLATION_AWARE_ENABLED 1
-#include <Windows.h>
 //Local
 #include <Std++/_Backends/WindowBackend.hpp>
+#include "Definitions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
-//Definitions
-#undef SendMessage
 
 namespace _stdpp
 {
@@ -46,6 +42,7 @@ namespace _stdpp
         Size GetSize() const override;
         Size GetSizeHint() const override;
 		int32 GetValue() const override;
+		void IgnoreEvent() override;
 		bool IsChecked() const override;
 		void Maximize() override;
         void Paint() override;
@@ -58,6 +55,7 @@ namespace _stdpp
         void SetEnabled(bool enable) const override;
         void SetHint(const StdPlusPlus::String &text) const override;
 		void SetMaximum(uint32 max) override;
+		void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetMinimum(uint32 min) override;
 		void SetPosition(uint32 pos) const override;
 		void SetRange(int32 min, int32 max) override;
@@ -66,6 +64,12 @@ namespace _stdpp
         void Show(bool visible) override;
         void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const override;
         void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const override;
+
+		//Inline
+		inline HWND GetHandle()
+		{
+			return this->hWnd;
+		}
 
     private:
         //Members

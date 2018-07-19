@@ -24,7 +24,7 @@
 /*
 namespace StdPlusPlus
 {
-    class _MM_ALIGN16 vec4i32
+    class alignas(16) vec4i32
     {
     public:
         //Members

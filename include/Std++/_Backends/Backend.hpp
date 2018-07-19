@@ -31,6 +31,11 @@ namespace StdPlusPlus
 	class Backend
 	{
 	public:
+		//Destructor
+		virtual ~Backend()
+		{
+		}
+
 		//Abstract
 		virtual BackendType GetType() const = 0;
 

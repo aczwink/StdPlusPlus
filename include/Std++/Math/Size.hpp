@@ -85,8 +85,5 @@ namespace StdPlusPlus
 		{
 			return Size(Math::Max(this->width, rhs.width), Math::Max(this->height, rhs.height));
 		}
-
-        //Functions
-        static Size GetScreenSize();
     };
 }

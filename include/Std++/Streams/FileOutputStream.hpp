@@ -41,7 +41,6 @@ namespace StdPlusPlus
         //Methods
         uint64 GetCurrentOffset() const;
         void SetCurrentOffset(uint64 offset);
-        void WriteByte(byte b);
         uint32 WriteBytes(const void *pSource, uint32 size);
 
 		//Inline

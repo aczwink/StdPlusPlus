@@ -17,18 +17,18 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/MenuBar.hpp>
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <Std++/UI/Menu/CMenu.h>
+#include <Std++/UI/Menu/Menu.hpp>
 #include "../Gtk.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
-
+/*
 //Constructor
-CMenuBar::CMenuBar()
+MenuBar::MenuBar()
 {
     this->pOSHandle = gtk_menu_bar_new();
     gtk_widget_show((GtkWidget *)this->pOSHandle); //default is show
@@ -43,3 +43,4 @@ void CMenuBar::AppendMenuOS(CMenu *pMenu)
 void CMenuBar::DestroyMenuOS()
 {
 }
+*/

@@ -19,25 +19,21 @@
 #pragma once
 //Local
 #include <Std++/Rendering/InputState.hpp>
-#include "../GLFunctions.h"
+#include "../GL3Functions.hpp"
+#include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
-//Move declarations
+//Forward declarations
 class OpenGLIndexBuffer;
 
 class OpenGLInputState : public InputState
 {
-private:
-    //Members
-    uint32 id;
-    uint8 currentAttributeIndex;
-    OpenGLIndexBuffer *pIndexBuffer;
-
 public:
     //Constructor
-    OpenGLInputState();
+    OpenGLInputState(OpenGLDeviceContext &deviceContext);
 
     //Destructor
     ~OpenGLInputState();
@@ -49,11 +45,18 @@ public:
     //Inline
     inline void Bind() const
     {
-        glBindVertexArray(this->id);
+        this->glFuncs.glBindVertexArray(this->id);
     }
 
     inline OpenGLIndexBuffer *GetIndexBuffer()
     {
         return this->pIndexBuffer;
     }
+private:
+	//Members
+	OpenGLDeviceContext &deviceContext;
+    GLFunctions_3_0 &glFuncs;
+	uint32 id;
+	uint8 currentAttributeIndex;
+	OpenGLIndexBuffer *pIndexBuffer;
 };

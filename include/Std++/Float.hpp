@@ -50,12 +50,14 @@ namespace StdPlusPlus
 			return Math::Abs(a - b) <= epsilon;
 		}
 
-#ifdef _STDPP_COMPILER_GCC
-		static constexpr bool IsNotANumber(float64 f)
+		static bool IsNotANumber(float64 f)
 		{
+#ifdef XPC_COMPILER_CLANG
+			return __inline_isnand(f);
+#elif XPC_COMPILER_GCC
 			return __builtin_isnan(f);
-		}
 #endif
+		}
 
 		/**
 		 * The machine epsilon is the difference: 1.0 + 1 ULP - 1.0

@@ -27,8 +27,9 @@ using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 
+/*
 //Public methods
 OldString CheckBox::GetText() const
 {
 	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
-}
+}*/

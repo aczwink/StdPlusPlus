@@ -43,7 +43,6 @@ namespace StdPlusPlus
         uint64 GetRemainingBytes() const;
         uint64 GetSize() const;
         bool IsAtEnd() const;
-        byte ReadByte();
         uint32 ReadBytes(void *pDestination, uint32 count);
         void SetCurrentOffset(uint64 offset);
         uint32 Skip(uint32 nBytes);

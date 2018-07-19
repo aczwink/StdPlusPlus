@@ -24,7 +24,6 @@
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
-#include "../CFullAccessWidget.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -37,7 +36,7 @@ using namespace StdPlusPlus::UI;
 	SetWindowTextW((HWND)this->backend, (LPCWSTR)text.GetC_Str());
 	}
 }*/
-
+/*
 OldString CheckBox::GetText() const
 {
 	uint16 buffer[1000]; //should be sufficient
@@ -46,4 +45,4 @@ OldString CheckBox::GetText() const
 	SendMessageW((HWND)this->backend, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
 
 	return UTF16String(buffer);
-}
+}*/

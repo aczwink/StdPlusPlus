@@ -31,13 +31,7 @@ using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
-
-//Destructor
-TableView::~TableView()
-{
-	MemFree(this->backend);
-}
-
+/*
 //Private methods
 void TableView::Backend_Create()
 {
@@ -52,7 +46,7 @@ void TableView::Backend_Create()
 
 	//signals
 	g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(THIS)), "changed", G_CALLBACK(GtkEventSource::ChangedSlot), this);
-}
+}*/
 
 //Event handlers
 /*

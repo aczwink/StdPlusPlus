@@ -232,82 +232,6 @@ GtkWindowBackend::~GtkWindowBackend()
 }
 
 //Public methods
-void GtkWindowBackend::ClearView() const
-{
-	View *view = (View *)this->widget;
-	const TreeController *controller = view->GetController();
-
-	switch(this->type)
-	{
-		case WindowBackendType::ComboBox:
-		{
-			gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), nullptr);
-
-			if(controller)
-			{
-				GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
-
-				uint32 nEntries = controller->GetNumberOfChildren();
-
-				for(uint32 i = 0; i < nEntries; i++)
-				{
-					ControllerIndex childIndex = controller->GetChildIndex(i, 0, ControllerIndex());
-
-					GtkTreeIter iter;
-					gtk_list_store_append(store, &iter);
-					gtk_list_store_set(store, &iter, 0, controller->GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
-				}
-
-				gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), GTK_TREE_MODEL(store));
-			}
-		}
-		break;
-		case WindowBackendType::TreeView:
-		{
-			gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), nullptr);
-
-			//clear all columns
-			while(true)
-			{
-				GtkTreeViewColumn *column = gtk_tree_view_get_column(GTK_TREE_VIEW(this->gtkWidget), 0);
-				if(!column)
-					break;
-
-				gtk_tree_view_remove_column(GTK_TREE_VIEW(this->gtkWidget), column);
-			}
-
-			if(controller)
-			{
-				//add columns
-				uint32 nCols = controller->GetNumberOfColumns();
-				ASSERT(nCols, u8"A TreeView must have at least one column.");
-				GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-				for (uint32 i = 0; i < nCols; i++)
-				{
-					GtkTreeViewColumn *column = gtk_tree_view_column_new();
-					gtk_tree_view_column_set_title(column, (gchar *)controller->GetColumnText(i).ToUTF8().GetRawZeroTerminatedData());
-					gtk_tree_view_column_pack_start(column, renderer, TRUE);
-					gtk_tree_view_column_add_attribute(column, renderer, u8"text", i);
-
-					gtk_tree_view_append_column(GTK_TREE_VIEW(this->gtkWidget), column);
-				}
-
-				//fill model
-				FixedArray<GType> types(nCols);
-				for(uint32 i = 0; i < nCols; i++)
-					types[i] = G_TYPE_STRING;
-
-				GtkTreeStore *store = gtk_tree_store_newv(nCols, &types[0]);
-
-				this->AddNodes(store, nullptr, ControllerIndex(), *controller);
-
-				gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), GTK_TREE_MODEL(store));
-			}
-		}
-		break;
-	}
-}
-
 WindowBackend *GtkWindowBackend::CreateChildBackend(_stdpp::WindowBackendType type, Widget *widget) const
 {
 	GtkWindowBackend *child = new GtkWindowBackend(this->GetUIBackend(), type, widget, this);
@@ -377,6 +301,12 @@ int32 GtkWindowBackend::GetValue() const
 	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(this->gtkWidget));
 }
 
+extern bool g_ignoreEvent;
+void GtkWindowBackend::IgnoreEvent()
+{
+	g_ignoreEvent = true;
+}
+
 bool GtkWindowBackend::IsChecked() const
 {
 	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(this->gtkWidget)) != 0;
@@ -390,6 +320,82 @@ void GtkWindowBackend::Maximize()
 
 void GtkWindowBackend::Paint()
 {
+}
+
+void GtkWindowBackend::ResetView() const
+{
+	View *view = (View *)this->widget;
+	const TreeController *controller = view->GetController();
+
+	switch(this->type)
+	{
+		case WindowBackendType::ComboBox:
+		{
+			gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), nullptr);
+
+			if(controller)
+			{
+				GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
+
+				uint32 nEntries = controller->GetNumberOfChildren();
+
+				for(uint32 i = 0; i < nEntries; i++)
+				{
+					ControllerIndex childIndex = controller->GetChildIndex(i, 0, ControllerIndex());
+
+					GtkTreeIter iter;
+					gtk_list_store_append(store, &iter);
+					gtk_list_store_set(store, &iter, 0, controller->GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
+				}
+
+				gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), GTK_TREE_MODEL(store));
+			}
+		}
+			break;
+		case WindowBackendType::TreeView:
+		{
+			gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), nullptr);
+
+			//clear all columns
+			while(true)
+			{
+				GtkTreeViewColumn *column = gtk_tree_view_get_column(GTK_TREE_VIEW(this->gtkWidget), 0);
+				if(!column)
+					break;
+
+				gtk_tree_view_remove_column(GTK_TREE_VIEW(this->gtkWidget), column);
+			}
+
+			if(controller)
+			{
+				//add columns
+				uint32 nCols = controller->GetNumberOfColumns();
+				ASSERT(nCols, u8"A TreeView must have at least one column.");
+				GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
+				for (uint32 i = 0; i < nCols; i++)
+				{
+					GtkTreeViewColumn *column = gtk_tree_view_column_new();
+					gtk_tree_view_column_set_title(column, (gchar *)controller->GetColumnText(i).ToUTF8().GetRawZeroTerminatedData());
+					gtk_tree_view_column_pack_start(column, renderer, TRUE);
+					gtk_tree_view_column_add_attribute(column, renderer, u8"text", i);
+
+					gtk_tree_view_append_column(GTK_TREE_VIEW(this->gtkWidget), column);
+				}
+
+				//fill model
+				FixedArray<GType> types(nCols);
+				for(uint32 i = 0; i < nCols; i++)
+					types[i] = G_TYPE_STRING;
+
+				GtkTreeStore *store = gtk_tree_store_newv(nCols, &types[0]);
+
+				this->AddNodes(store, nullptr, ControllerIndex(), *controller);
+
+				gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), GTK_TREE_MODEL(store));
+			}
+		}
+			break;
+	}
 }
 
 void GtkWindowBackend::Repaint()
@@ -595,4 +601,9 @@ void GtkWindowBackend::AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, cons
 		ControllerIndex childIndex = controller.GetChildIndex(i, Natural<uint32>::Max(), parent);
 		this->AddNodes(store, &childIter, childIndex, controller);
 	}
+}
+
+void GtkWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO:
 }

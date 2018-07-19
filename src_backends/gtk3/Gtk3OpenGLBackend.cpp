@@ -25,12 +25,6 @@
 using namespace StdPlusPlus;
 using namespace _stdpp;
 
-void *GTKLoadGLExtension(const char *extensionName);
-//Constructor
-Gtk3OpenGLBackend::Gtk3OpenGLBackend() : OpenGLBackend(GTKLoadGLExtension)
-{
-}
-
 //Public methods
 Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
 {

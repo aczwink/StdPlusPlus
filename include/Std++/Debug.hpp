@@ -42,4 +42,5 @@ namespace StdPlusPlus
 #define ASSERT(expression, message) {}
 //extended asserts
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon)
+#define NOT_IMPLEMENTED_ERROR
 #endif

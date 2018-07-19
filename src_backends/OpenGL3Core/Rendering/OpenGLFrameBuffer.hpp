@@ -20,17 +20,34 @@
 //Local
 #include <Std++/Rendering/IFrameBuffer.h>
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../GLFunctions.h"
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
+using namespace _stdpp;
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::Rendering;
 
 class OpenGLFrameBuffer : public IFrameBuffer
 {
     friend class _stdpp::OpenGLDeviceContext;
+public:
+    //Constructor
+    inline OpenGLFrameBuffer(OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)
+    {
+		this->glFuncs.glGenFramebuffers(1, &this->id);
+    }
+
+    //Destructor
+    ~OpenGLFrameBuffer();
+
+    //Methods
+    uint32 GetStatus() const;
+    void SetColorBuffer(Texture2D *pTexture);
+    void SetDepthBuffer(Texture2D *pTexture);
+
 private:
     //Members
+	OpenGLDeviceContext &deviceContext;
+	GLFunctions_3_0 &glFuncs;
     uint32 id;
 
     //Static fields
@@ -41,23 +58,8 @@ private:
     {
         if(currentFBO != this->id)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+            this->glFuncs.glBindFramebuffer(GL_FRAMEBUFFER, this->id);
             currentFBO = this->id;
         }
     }
-
-public:
-    //Constructor
-    inline OpenGLFrameBuffer()
-    {
-        glGenFramebuffers(1, &this->id);
-    }
-
-    //Destructor
-    ~OpenGLFrameBuffer();
-
-    //Methods
-    uint32 GetStatus() const;
-    void SetColorBuffer(Texture2D *pTexture);
-    void SetDepthBuffer(Texture2D *pTexture);
 };

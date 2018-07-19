@@ -20,15 +20,15 @@
 //Local
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Function.hpp"
+#include "Menu/MenuBar.hpp"
 #include "WidgetContainer.hpp"
 
 namespace StdPlusPlus
 {
     namespace UI
     {
-        //Move declarations
+        //Forward declarations
         class CDropTarget;
-        class CMenuBar;
         class ITransfer;
 
         enum class EDropType
@@ -52,12 +52,11 @@ namespace StdPlusPlus
 
             //Methods
             void EnableDrop();
-            void SetMenuBar(CMenuBar *pMenuBar);
             void ShowErrorBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
 
             //Inline
-            inline CMenuBar *GetMenuBar()
+            inline MenuBar *GetMenuBar()
             {
                 return this->pMenuBar;
             }
@@ -72,6 +71,13 @@ namespace StdPlusPlus
 				return this->backend->SelectExistingDirectory(title, callback);
 			}
 
+			inline void SetMenuBar(MenuBar *menuBar)
+			{
+				delete this->pMenuBar;
+				this->pMenuBar = menuBar;
+				this->backend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
+			}
+
 			inline void SetTitle(const String &title)
 			{
 				this->backend->SetText(title);
@@ -84,7 +90,7 @@ namespace StdPlusPlus
 
         private:
             //Members
-            CMenuBar *pMenuBar;
+            MenuBar *pMenuBar;
             CDropTarget *pOSDropTarget;
 
             //Eventhandlers
@@ -93,9 +99,6 @@ namespace StdPlusPlus
             virtual void OnDragLeave();
             virtual EDropType OnDragMove();
             virtual void OnDrop(const ITransfer &refTransfer);
-
-            //Methods
-            void MenuBarChangeOS();
         };
     }
 }

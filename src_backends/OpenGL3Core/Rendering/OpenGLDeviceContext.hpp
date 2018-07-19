@@ -19,14 +19,20 @@
 #pragma once
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../GLFunctions.h"
-#include "OpenGLInputState.hpp"
+#include "../Definitions.hpp"
+#include "../GL3Functions.hpp"
+
+//Forward declarations
+class OpenGLInputState;
 
 namespace _stdpp
 {
 	class OpenGLDeviceContext : public StdPlusPlus::Rendering::DeviceContext
 	{
 	public:
+		//Members
+		GLFunctions_3_0 glFuncs;
+
 		//Constructor
 		OpenGLDeviceContext();
 
@@ -55,7 +61,7 @@ namespace _stdpp
 		void EnablePolygonFilling(bool enabled) override;
 		void EnableStencilTest(bool enabled) override;
 		uint32 GetNumberOfTextureUnits() const override;
-		FixedArray<byte> ReadColorBuffer(const Rect &rect) override;
+		StdPlusPlus::FixedArray<byte> ReadColorBuffer(const StdPlusPlus::Rect &rect) override;
 		void ReadDepthBuffer(const StdPlusPlus::Rect &block, float32 *output) override;
 		void SetDepthTest(StdPlusPlus::Rendering::TestFunction function) override;
 		void SetDownloadAlignment(uint8 value) override;
@@ -76,16 +82,20 @@ namespace _stdpp
 		virtual void Bind() const = 0;
 
 		//Methods
-		void Init();
+		void Init(GL_EXT_LOADER extensionLoaderFunction);
 
 	private:
 		//Members
 		OpenGLInputState *currentInputState;
 
+		//Methods
+		void LoadOpenGLExtensions_2_0(GLFunctions_2_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction);
+		void LoadOpenGLExtensions_3_0(GLFunctions_3_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction);
+
 		//Inline
 		inline void ActivateLastTextureUnit()
 		{
-			glActiveTexture(GL_TEXTURE31); //see OpenGLDeviceContext::SetTexture
+			this->glFuncs.glActiveTexture(GL_TEXTURE31); //see OpenGLDeviceContext::SetTexture
 		}
 	};
 }

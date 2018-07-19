@@ -21,7 +21,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/MenuBar.hpp>
 #include "GtkEventSource.hpp"
 #include "Gtk.h"
 //Namespaces
@@ -30,12 +30,13 @@ using namespace StdPlusPlus::UI;
 //Definitions
 #define THIS PRIVATE_DATA(this)
 
+/*
 //Private methods
 void Window::MenuBarChangeOS()
 {
     //gtk_container_add(GTK_CONTAINER(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->iteratorState);
     //gtk_box_pack_start(GTK_BOX(THIS->childAreaWidget), (GtkWidget *)this->pMenuBar->backend, FALSE, FALSE, 0);
-}
+}*/
 
 //Public methods
 void Window::ShowErrorBox(const OldString &title, const OldString &message)

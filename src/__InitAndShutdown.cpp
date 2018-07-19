@@ -94,6 +94,8 @@ void ShutdownStdPlusPlus()
 	BackendManager<RenderBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<UIBackend>::GetRootInstance().ReleaseAll();
 
+#ifdef _DEBUG
     //look for memory leaks
-    ASSERT(!DebugDumpMemoryLeaks(), u8"You have memory leaks. Check StdPlusPlus MemLeaks.txt");
+	DebugDumpMemoryLeaks();
+#endif
 }

@@ -19,16 +19,13 @@
 #ifdef _STDPLUSPLUS_BACKEND_OPENGL
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 //Local
-#include "../OpenGL/OpenGLBackend.hpp"
+#include "../OpenGL3Core/OpenGL3CoreBackend.hpp"
 
 namespace StdPlusPlus
 {
-	class Gtk3OpenGLBackend : public OpenGLBackend
+	class Gtk3OpenGLBackend : public OpenGL3CoreBackend
 	{
 	public:
-		//Constructor
-		Gtk3OpenGLBackend();
-
 		//Methods
 		Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const override;
 	};

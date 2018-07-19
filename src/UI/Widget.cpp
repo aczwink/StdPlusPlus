@@ -109,8 +109,5 @@ void Widget::OnResized()
 
 void Widget::OnResizing(const Rect &newBounds)
 {
-	this->bounds = newBounds;
-	if(this->backend)
-		this->backend->SetBounds(newBounds);
-	this->OnResized();
+	this->IgnoreEvent();
 }

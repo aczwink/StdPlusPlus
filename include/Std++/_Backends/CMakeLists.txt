@@ -7,6 +7,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputeDevice.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DeviceEnumeratorState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIteratorState.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MenuBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MenuBarBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RenderBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WindowBackend.hpp

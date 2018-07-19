@@ -17,9 +17,8 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-//Global
-#include <Windows.h>
 //Local
+#include "Definitions.h"
 #include <Std++/Function.hpp>
 #include <Std++/UI/UIEventSource.hpp>
 

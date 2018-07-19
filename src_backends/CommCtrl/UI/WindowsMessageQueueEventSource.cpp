@@ -18,14 +18,15 @@
 */
 //Class header
 #include "WindowsMessageQueueEventSource.hpp"
-//Global
-#include <CommCtrl.h>
 //Local
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 #include <Std++/UI/Controls/PushButton.hpp>
+#include <Std++/UI/Action.hpp>
+#include <Std++/UI/Menu/Menu.hpp>
 #include <Std++/UI/Views/ComboBox.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
 #include "CommCtrlWindowBackend.hpp"
+#include "Definitions.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;
@@ -171,25 +172,20 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 		}
 		break;
 	case WM_MENUCOMMAND:
-		{
-			/*
-			CMenuItem *pItem;
-			MENUITEMINFO menuItemInfo;
+	{
+		MENUITEMINFOW menuItemInfo;
+		menuItemInfo.cbSize = sizeof(menuItemInfo);
+		menuItemInfo.fMask = MIIM_DATA;
+		GetMenuItemInfoW((HMENU)lParam, wParam, TRUE, &menuItemInfo);
 
-			menuItemInfo.cbSize = sizeof(menuItemInfo);
-			menuItemInfo.fMask = MIIM_DATA;
+		ActionEntry *actionEntry = (ActionEntry *)menuItemInfo.dwItemData;
 
-			GetMenuItemInfoA((HMENU)lParam, wParam, TRUE, &menuItemInfo);
-			pItem = (CMenuItem *)menuItemInfo.dwItemData;
+		if (actionEntry->action->triggeredEvent)
+			actionEntry->action->triggeredEvent();
 
-			if(pItem->triggeredEvent)
-			pItem->triggeredEvent();
-
-			g_messageResult = 0; //THE DOCUMENTATION SAYS NOTHIGN ABOUT THE RETURN VALUE
-			 */
-			NOT_IMPLEMENTED_ERROR;
-		}
-		break;
+		l_messageResult = 0; //THE DOCUMENTATION SAYS NOTHIGN ABOUT THE RETURN VALUE
+	}
+	break;
 	default:
 		return false;
 	}

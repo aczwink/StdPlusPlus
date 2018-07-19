@@ -22,7 +22,6 @@
 #include <Windows.h>
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
-#include "../CFullAccessWidget.h"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

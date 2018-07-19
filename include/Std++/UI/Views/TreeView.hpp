@@ -34,10 +34,6 @@ namespace StdPlusPlus
         public:
             //Constructor
             TreeView(WidgetContainer *parent);
-
-		protected:
-			//Event handlers
-			void OnSelectionChanged();
         };
     }
 }

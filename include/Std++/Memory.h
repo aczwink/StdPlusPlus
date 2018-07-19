@@ -43,10 +43,11 @@ namespace StdPlusPlus
 
     //Functions
 #ifdef _DEBUG
+	STDPLUSPLUS_API void DebugCheckHeapIntegrity();
     STDPLUSPLUS_API bool DebugDumpMemoryLeaks();
-	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *pFileName, uint32 lineNumber);
-	STDPLUSPLUS_API void MemFreeDebug(void *pMem);
-	STDPLUSPLUS_API void *MemReallocDebug(void *pMem, uint32 size, const char *pFileName, uint32 lineNumber);
+	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
+	STDPLUSPLUS_API void MemFreeDebug(void *memBlock);
+	STDPLUSPLUS_API void *MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint32 lineNumber);
 
 	//Inline
 	inline void *MemAllocAlignedDebug(uint32 size, uint8 alignment, const char *pFileName, uint32 lineNumber)
@@ -137,29 +138,12 @@ namespace StdPlusPlus
 extern STDPLUSPLUS_API const char *__file__;
 extern STDPLUSPLUS_API int __line__;
 
-inline void *operator new(size_t size)
-{
-	return StdPlusPlus::MemAllocDebug((uint32)size, __file__, __line__);
-}
 #endif
-
-inline void operator delete(void *p)
-{
-    StdPlusPlus::MemFree(p);
-}
+void *operator new(size_t size);
+void operator delete(void *p) noexcept;
 
 //Placement-new
 #define pnew(ptr) new(ptr)
-#ifdef _MSC_VER //in Visual Studio we can define placement-new instead of including <new>
-inline void *operator new(size_t, void *pMem)
-{
-    return pMem;
-}
-
-inline void operator delete(void *, void *)
-{
-}
-#endif
 
 #ifdef _DEBUG
 #define new (__file__ = __FILE__, __line__ = __LINE__) && 0 ? NULL : new

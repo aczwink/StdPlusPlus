@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/UI/Window.hpp>
 //Local
-#include <Std++/UI/Menu/CMenuBar.h>
+#include <Std++/UI/Menu/MenuBar.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UIBackend.hpp>
 #include "Render Targets/IRenderTarget.h"
@@ -70,16 +70,6 @@ void Window::OnDrop(const ITransfer &refTransfer)
 }
 
 //Public methods
-void Window::SetMenuBar(CMenuBar *pMenuBar)
-{
-    if(this->pMenuBar)
-        delete this->pMenuBar;
-
-    this->pMenuBar = pMenuBar;
-
-    this->MenuBarChangeOS();
-}
-
 void Window::SwitchFullscreen(bool state)
 {
     if(this->backend)

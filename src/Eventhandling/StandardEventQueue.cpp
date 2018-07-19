@@ -34,6 +34,6 @@ StandardEventQueue::StandardEventQueue()
 	TimerEventSource::globalSource = timerEventSource;
 
 	//ui events
-	EventSource *uiSource = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->GetEventSource();
+	EventSource *uiSource = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateEventSource();
 	this->AddSource(uiSource);
 }

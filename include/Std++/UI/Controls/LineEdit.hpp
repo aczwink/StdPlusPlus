@@ -29,16 +29,6 @@ namespace StdPlusPlus
         public:
             //Constructor
             LineEdit(WidgetContainer *pParent);
-
-            //Destructor
-            ~LineEdit();
-
-            //Methods
-            Size GetSizeHint() const;
-
-		private:
-			//Methods
-			void Backend_Create();
         };
     }
 }

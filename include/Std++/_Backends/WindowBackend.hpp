@@ -33,12 +33,16 @@ namespace StdPlusPlus
 
 	namespace UI
 	{
+		class MenuBar;
 		class Widget;
 	}
 }
 
 namespace _stdpp
 {
+	//Forward declarations
+	class MenuBarBackend;
+
 	class WindowBackend
 	{
 	public:
@@ -78,6 +82,9 @@ namespace _stdpp
 		//Abstract, for CheckBox
 		virtual bool IsChecked() const = 0;
 
+		//Abstract, for Widget
+		virtual void IgnoreEvent() = 0;
+
 		//Abstract, for Slider
 		virtual uint32 GetPosition() const = 0;
 		virtual void SetMaximum(uint32 max) = 0;
@@ -91,6 +98,9 @@ namespace _stdpp
 
 		//Abstract, for View
 		virtual void ResetView() const = 0;
+
+		//Abstract, for Window
+		virtual void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) = 0;
 
 		//Inline
 		inline _stdpp::WindowBackendType GetType() const
