@@ -105,7 +105,6 @@ namespace StdPlusPlus
 
 			inline void SetBounds(const Rect &newBounds)
 			{
-				this->bounds = newBounds;
 				if(this->backend)
 					this->backend->SetBounds(newBounds);
 			}

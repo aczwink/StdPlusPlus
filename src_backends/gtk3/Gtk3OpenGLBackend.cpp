@@ -29,5 +29,5 @@ using namespace _stdpp;
 Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
 {
 	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples);
+	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples, this->LoadWindowSystemOpenGLExtension);
 }

@@ -436,6 +436,7 @@ Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Functi
 
 void GtkWindowBackend::SetBounds(const Rect &area)
 {
+	GtkEventSource::EmitResizingEvent(*this->widget, area);
 	gtk_widget_queue_resize(this->gtkWidget);
 	if(this->childAreaWidget)
 		gtk_container_check_resize(GTK_CONTAINER(this->childAreaWidget));
@@ -605,5 +606,4 @@ void GtkWindowBackend::AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, cons
 
 void GtkWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO:
 }
