@@ -55,6 +55,7 @@ void TableView::Backend_Create()
 }
 
 //Event handlers
+/*
 void TableView::OnModelChanged()
 {
 	gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), nullptr);
@@ -104,4 +105,4 @@ void TableView::OnModelChanged()
 
 		gtk_tree_view_set_model(GTK_TREE_VIEW(THIS), GTK_TREE_MODEL(store));
 	}
-}
+}*/

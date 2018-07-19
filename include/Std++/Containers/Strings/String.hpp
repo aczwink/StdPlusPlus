@@ -22,8 +22,8 @@
 #include <Std++/Debug.hpp>
 #include "../../Definitions.h"
 #include "../../Natural.hpp"
-#include "../../Type.hpp"
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
+#include <Std++/Utility.hpp>
 
 namespace StdPlusPlus
 {

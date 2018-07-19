@@ -26,7 +26,7 @@
 
 namespace StdPlusPlus
 {
-    class _MM_ALIGN16 vec2f64
+    class alignas(16) vec2f64
     {
     public:
         //Members
@@ -63,8 +63,8 @@ namespace StdPlusPlus
             this->mmValue = mmValue;
         }
 
+	/*
         //Allocation
-        /*
         static void* operator new(size_t size)
         {
             return MemAllocAligned(size, 16);

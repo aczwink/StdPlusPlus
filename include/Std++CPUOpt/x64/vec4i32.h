@@ -21,7 +21,7 @@
 #include "SSE.h"
 #include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
-
+/*
 namespace StdPlusPlus
 {
     class _MM_ALIGN16 vec4i32
@@ -99,4 +99,4 @@ namespace StdPlusPlus
     {
         return _mm_mullo_epi32(refV.mmValue, _mm_set1_epi32(v));
     }
-}
+}*/

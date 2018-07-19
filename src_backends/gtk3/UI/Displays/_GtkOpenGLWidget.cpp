@@ -19,7 +19,7 @@
 //Corresponding header
 #include "_GtkOpenGLWidget.h"
 //Local
-#include "../../../OpenGL/GLFunctions.h"
+#include "../../../OpenGL3Core/GLFunctions.h"
 #include "../GtkEventSource.hpp"
 
 typedef struct {

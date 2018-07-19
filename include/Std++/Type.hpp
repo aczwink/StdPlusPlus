@@ -47,11 +47,4 @@ namespace StdPlusPlus
 	template <typename T>
 	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
 #endif
-
-	//Functions
-	template <typename T>
-	constexpr T &&Move(T &reference)
-	{
-		return (T &&)reference;
-	}
 }
