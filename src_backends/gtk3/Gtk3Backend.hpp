@@ -34,8 +34,6 @@ namespace StdPlusPlus
 		//Constructor
 		Gtk3Backend()
 		{
-			this->eventSource = new GtkEventSource;
-
 			//register render backends
 #ifdef _STDPLUSPLUS_BACKEND_OPENGL
 			Gtk3OpenGLBackend *gtkOpenGLBackend = new Gtk3OpenGLBackend;
@@ -44,6 +42,11 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		EventSource *CreateEventSource() override
+		{
+			return new GtkEventSource;
+		}
+
 		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu) override
 		{
 			return nullptr;
@@ -59,19 +62,10 @@ namespace StdPlusPlus
 			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);
 		}
 
-		EventSource *GetEventSource() override
-		{
-			return this->eventSource.operator->();
-		}
-
 		void Load()
 		{
 			gtk_init(nullptr, nullptr);
 		}
-
-	private:
-		//Members
-		UniquePointer<GtkEventSource> eventSource;
 	};
 }
 #endif

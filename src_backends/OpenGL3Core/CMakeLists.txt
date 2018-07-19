@@ -57,6 +57,7 @@ if(${BACKEND_OPENGL})
 	#GLX is needed for getting opengl extensions on X11
 	find_package(X11)
 	if(X11_FOUND)
+		find_package(PkgConfig REQUIRED)
 		pkg_check_modules(PC_GLX QUIET glx)
 		find_library(GLX_LIBRARY
 			GL

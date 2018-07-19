@@ -63,8 +63,8 @@ namespace StdPlusPlus
             this->mmValue = mmValue;
         }
 
+	/*
         //Allocation
-        /*
         static void* operator new(size_t size)
         {
             return MemAllocAligned(size, 16);

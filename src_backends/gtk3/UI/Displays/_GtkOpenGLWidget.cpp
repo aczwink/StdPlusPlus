@@ -22,6 +22,8 @@
 #include "../../../OpenGL3Core/GL3Functions.hpp"
 #include "../GtkEventSource.hpp"
 
+/*
+
 typedef struct {
 	StdPlusPlus::UI::Widget *widget;
 
@@ -221,7 +223,7 @@ static void ac_gtk_opengl_widget_unrealize (GtkWidget *widget)
 			ac_gtk_opengl_widget_delete_buffers(area);
 		}
 
-		/* Make sure to unset the context if current */
+		// Make sure to unset the context if current
 		if (priv->context == gdk_gl_context_get_current ())
 			gdk_gl_context_clear_current ();
 	}
@@ -314,3 +316,4 @@ void ac_gtk_opengl_widget_setwidget(AC_Gtk_OpenGLWidget *openGLWidget, void *wid
 
 	priv->widget = (StdPlusPlus::UI::Widget *) widget;
 }
+*/

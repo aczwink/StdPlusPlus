@@ -39,6 +39,7 @@ public:
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
 	static void ClickedSlot(GtkButton *button, gpointer user_data);
 	static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);
+	static void EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds);
 	static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data);
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
 	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);

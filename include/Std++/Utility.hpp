@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
-//Namespaces
-using namespace StdPlusPlus;
-using namespace _stdpp;
+#pragma once
+#include "Type.hpp"
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const
+namespace StdPlusPlus
 {
-	GtkWindowBackend *gtkWindowBackend = (GtkWindowBackend *) &backend;
-	return new GtkOpenGLDeviceContext(*gtkWindowBackend, nSamples, this->LoadWindowSystemOpenGLExtension);
+	//Functions
+	template <typename T>
+	constexpr T &&Move(T &reference)
+	{
+		return (T &&)reference;
+	}
+
+	template<typename T>
+	void Swap(T &v1, T&v2)
+	{
+		T tmp(Move(v1));
+		v1 = Move(v2);
+		v2 = Move(tmp);
+	}
 }

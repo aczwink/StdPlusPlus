@@ -164,6 +164,11 @@ bool GtkEventSource::CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent)
 	return !g_ignoreEvent;
 }
 
+void GtkEventSource::EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds)
+{
+	l_gtkEvtSrc->DispatchResizingEvent(widget, newBounds);
+}
+
 bool GtkEventSource::MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data)
 {
 	g_ignoreEvent = false;
@@ -205,6 +210,7 @@ bool GtkEventSource::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpo
 
 void GtkEventSource::SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data)
 {
+	/*
 	Rect rc;
 	if(gtk_widget_get_parent_window(widget) == nullptr)
 	{
@@ -220,7 +226,8 @@ void GtkEventSource::SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocatio
 	}
 	rc.width() = static_cast<uint16>(allocation->width);
 	rc.height() = static_cast<uint16>(allocation->height);
-	l_gtkEvtSrc->DispatchResizingEvent(*(Widget *)user_data, rc);
+	l_gtkEvtSrc->DispatchResizingEvent(*(Widget *)user_data, rc);*/
+	l_gtkEvtSrc->DispatchResizedEvent(*(Widget *)user_data);
 }
 
 void GtkEventSource::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data)

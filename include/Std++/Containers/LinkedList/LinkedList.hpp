@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "Std++/Debug.hpp"
-#include "../../Type.hpp"
+#include <Std++/Debug.hpp>
+#include <Std++/Utility.hpp>
 #include "../ResizeableSequenceContainer.hpp"
 #include "LinkedListConstIterator.hpp"
 #include "LinkedListIterator.hpp"

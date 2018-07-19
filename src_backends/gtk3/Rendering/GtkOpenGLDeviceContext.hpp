@@ -29,7 +29,7 @@ namespace _stdpp
 	{
 	public:
 		//Constructor
-		GtkOpenGLDeviceContext(const GtkWindowBackend &view, uint8 nSamples)
+		GtkOpenGLDeviceContext(const GtkWindowBackend &view, uint8 nSamples, GL_EXT_LOADER loader)
 		{
 			GtkWidget *gtkWidget = view.GetGtkWidget();
 			GtkGLArea *gtkGLArea = GTK_GL_AREA(gtkWidget);
@@ -40,10 +40,10 @@ namespace _stdpp
 			this->gdkGLContext = gtk_gl_area_get_context(gtkGLArea);
 			//this->deviceState = ac_gtk_opengl_widget_get_context(AC_GTK_OPENGL_WIDGET(PRIVATE_DATA(&renderTargetWidget)->widget));
 
-			this->Bind();
-			glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&this->screenFrameBufferId));
+			this->Init(loader);
 
-			this->Init();
+			this->Bind();
+			this->glFuncs.glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&this->screenFrameBufferId));
 		}
 
 	protected:
