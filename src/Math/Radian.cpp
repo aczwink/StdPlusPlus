@@ -38,6 +38,11 @@ namespace StdPlusPlus
 	{
 		//Explicit instantiations
 		template
+		STDPLUSPLUS_API
 		class Radian<float32>;
+
+		template
+		STDPLUSPLUS_API
+		class Radian<float64>;
 	}
 }

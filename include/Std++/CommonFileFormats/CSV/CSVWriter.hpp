@@ -25,7 +25,7 @@ namespace StdPlusPlus
 {
     namespace CommonFileFormats
     {
-        class CSVWriter
+        class STDPLUSPLUS_API CSVWriter
         {
         public:
             //Constructor

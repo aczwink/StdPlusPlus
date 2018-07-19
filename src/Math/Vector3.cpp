@@ -34,4 +34,5 @@ Vector3<ScalarType>::Vector3(const Vector4<ScalarType> &refV)
 }
 
 //Explicit instantiations
-template class StdPlusPlus::Math::Vector3<float64>;
+template class STDPLUSPLUS_API StdPlusPlus::Math::Vector3<float32>;
+template class STDPLUSPLUS_API StdPlusPlus::Math::Vector3<float64>;

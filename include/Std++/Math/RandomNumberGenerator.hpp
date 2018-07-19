@@ -24,7 +24,7 @@ namespace StdPlusPlus
 {
 	namespace Math
 	{
-		class RandomNumberGenerator
+		class STDPLUSPLUS_API RandomNumberGenerator
 		{
 		public:
 			//Constructors

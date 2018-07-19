@@ -87,6 +87,6 @@ namespace StdPlusPlus
 	namespace Math
 	{
 		//Explicit instantiations
-		template class Matrix3x3<float64>;
+		template class STDPLUSPLUS_API Matrix3x3<float64>;
 	}
 }

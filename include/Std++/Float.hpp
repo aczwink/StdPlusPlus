@@ -56,6 +56,8 @@ namespace StdPlusPlus
 			return __inline_isnand(f);
 #elif XPC_COMPILER_GCC
 			return __builtin_isnan(f);
+#elif XPC_COMPILER_MSVC
+			return _isnan(f);
 #endif
 		}
 

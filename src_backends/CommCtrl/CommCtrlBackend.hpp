@@ -44,6 +44,11 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		EventSource *CreateEventSource() override
+		{
+			return this->eventSource.operator->();
+		}
+
 		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu)
 		{
 			return new _stdpp::CommCtrlMenuBackend(menu);
@@ -57,11 +62,6 @@ namespace StdPlusPlus
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget)
 		{
 		    return new _stdpp::CommCtrlWindowBackend(this, type, widget);
-		}
-
-		EventSource *GetEventSource() override
-		{
-			return this->eventSource.operator->();
 		}
 
 		void Load() override
