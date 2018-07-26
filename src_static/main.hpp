@@ -20,7 +20,7 @@
 //Local
 #include <Std++.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Prototypes
 int32 Main(const String &programName, const FixedArray<String> &args);

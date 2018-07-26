@@ -23,7 +23,7 @@
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 ConfigurationFile::ConfigurationFile(const Path &refPath, bool readOnly)

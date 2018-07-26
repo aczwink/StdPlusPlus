@@ -20,7 +20,7 @@
 //Local
 #include "EventQueue.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class STDPLUSPLUS_API StandardEventQueue : public EventQueue
 	{

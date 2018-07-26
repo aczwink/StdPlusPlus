@@ -22,7 +22,7 @@
 #include "../../Containers/LinkedList/LinkedList.hpp"
 #include "ControllerIndex.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{

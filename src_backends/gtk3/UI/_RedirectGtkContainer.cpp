@@ -22,7 +22,7 @@
 #include <gtk/gtk.h>
 #include <math.h>
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "Gtk.h"
 
 #define REDIRECT_CONTAINER_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), REDIRECT_CONTAINER_TYPE, RedirectContainerPrivate))

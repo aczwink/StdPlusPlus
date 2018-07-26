@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Time/WeakDate.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Class functions
 uint8 WeakDate::GetNumberOfDaysInMonth(uint8 month, int64 year)

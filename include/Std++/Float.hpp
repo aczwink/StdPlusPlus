@@ -22,7 +22,7 @@
 #include "Definitions.h"
 #include "Mathematics.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename T>
     class Float

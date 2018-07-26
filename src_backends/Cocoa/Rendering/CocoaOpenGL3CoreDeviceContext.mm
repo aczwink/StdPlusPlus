@@ -19,7 +19,7 @@
 //Class header
 #include "CocoaOpenGL3CoreDeviceContext.hh"
 //Namespaces
-using namespace _stdpp;
+using namespace _stdxx_;
 
 //Constructor
 CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openGLView, uint8 nSamples, GL_EXT_LOADER loader)

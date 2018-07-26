@@ -20,7 +20,7 @@
 //Local
 #include "SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API BufferInputStream : public SeekableInputStream
     {

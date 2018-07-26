@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/CheckBoxBackend.hpp>
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -31,18 +32,21 @@ namespace StdPlusPlus
             Function<void()> onToggledHandler;
 
             //Constructor
-            CheckBox(WidgetContainer *parent);
+            CheckBox();
 
 			//Inline
 			inline bool IsChecked() const
 			{
-				return this->backend->IsChecked();
+				return this->checkBoxBackend->IsChecked();
 			}
 
 			inline void SetText(const String &text)
 			{
-				this->backend->SetText(text);
+				this->checkBoxBackend->SetText(text);
 			}
+
+		private:
+			_stdxx_::CheckBoxBackend *checkBoxBackend;
         };
     }
 }

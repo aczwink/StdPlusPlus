@@ -23,7 +23,7 @@
 #include "../Matrix4x4.hpp"
 #include "../Vector3.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Math
     {

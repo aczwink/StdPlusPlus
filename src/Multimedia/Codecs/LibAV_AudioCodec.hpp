@@ -19,8 +19,8 @@
 #pragma once
 #include <Std++/Multimedia/Codec.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class LibAV_AudioCodec : public Codec
 {

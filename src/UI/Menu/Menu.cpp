@@ -19,10 +19,10 @@
 //Class header
 #include <Std++/UI/Menu/Menu.hpp>
 //Local
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
 Menu::Menu(const String &text)

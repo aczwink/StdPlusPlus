@@ -19,15 +19,15 @@
 //Class header
 #include <Std++/UI/Views/TableView.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-TableView::TableView(WidgetContainer *parent) : View(parent)
+TableView::TableView()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
 	NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TableView, this);
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::TableView, this);
 }

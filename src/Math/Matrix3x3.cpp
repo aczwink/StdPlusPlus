@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Math/Matrix4x4.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructor
 template <typename ScalarType>
@@ -82,7 +82,7 @@ Matrix3x3<ScalarType> Matrix3x3<ScalarType>::Rotation(const Radian<ScalarType> &
 	return result;
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

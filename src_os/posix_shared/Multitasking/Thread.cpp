@@ -23,7 +23,7 @@
 //Local
 #include <Std++/Function.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Local functions
 static void *RunThreadByCFunction(void *arg)
@@ -64,7 +64,7 @@ void Thread::Start()
 	pthread_t threadId;
 	if(this->function)
 		pthread_create(&threadId, nullptr, RunThreadByFuncPointer, (void *)this->function);
-	else if(this->functor)
+	else if(this->functor.IsBound())
 		pthread_create(&threadId, nullptr, RunThreadByFunctor, (void *)&this->functor);
 	else
 		pthread_create(&threadId, nullptr, RunThreadByCFunction, new Function<int32()>(&Thread::ThreadMain, this));

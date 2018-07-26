@@ -21,7 +21,7 @@
 //Global
 #include <poll.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((DynamicArray<pollfd> *)this->internal)
 
@@ -30,7 +30,7 @@ void EventQueue::System_CollectWaitObjects()
 {
 	THIS->Resize(0);
 
-	auto collector = [this](_stdpp::WaitObjHandle waitObjHandle, bool input)
+	auto collector = [this](_stdxx_::WaitObjHandle waitObjHandle, bool input)
 	{
 		pollfd pfd;
 		pfd.fd = waitObjHandle.fd;

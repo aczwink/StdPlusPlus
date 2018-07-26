@@ -18,11 +18,11 @@
  */
 #ifdef _STDPLUSPLUS_BACKEND_COCOA
 //Local
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #import "CocoaOpenGL3CoreBackend.hh"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class CocoaBackend : public UIBackend
 	{
@@ -37,10 +37,17 @@ namespace StdPlusPlus
 		}
 
 		//Methods
+		_stdxx_::CheckBoxBackend *CreateCheckBoxBackend(UI::CheckBox *checkBox) override;
 		EventSource *CreateEventSource() override;
-		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu);
-		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar);
-		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget);
+		_stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox *groupBox) override;
+		_stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) override;
+		_stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) override;
+		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override;
+		_stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton *pushButton) override;
+		_stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget *renderTargetWidget) override;
+		_stdxx_::SliderBackend *CreateSliderBackend(UI::Slider *slider) override;
+		_stdxx_::SpinBoxBackend *CreateSpinBoxBackend(UI::SpinBox *spinBox) override;
+		_stdxx_::WindowBackend *CreateWindowBackend(UI::Window *window) override;
 		void Load() override;
 		void Unload() const override;
 	};

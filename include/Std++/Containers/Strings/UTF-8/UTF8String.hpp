@@ -21,7 +21,7 @@
 #include "../VariableCharLengthString.hpp"
 #include "ConstUTF8StringIterator.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class ByteString;

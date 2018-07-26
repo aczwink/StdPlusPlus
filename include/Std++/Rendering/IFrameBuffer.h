@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "Texture2D.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {

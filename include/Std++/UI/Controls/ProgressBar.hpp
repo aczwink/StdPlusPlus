@@ -20,7 +20,7 @@
 //Local
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -38,10 +38,10 @@ namespace StdPlusPlus
 
         public:
             //Constructor
-            ProgressBar(WidgetContainer *pParent);
+            ProgressBar(CompositeWidget *pParent);
 
             //Methods
-            Size GetSizeHint() const;
+            Math::SizeD GetSizeHint() const;
             void SetProgress(float64 value);
         };
     }

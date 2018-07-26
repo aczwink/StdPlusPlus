@@ -23,8 +23,8 @@
 #include <Std++/XML/Document.hpp>
 #include <Std++/XML/TextNode.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::XML;
+using namespace StdXX;
+using namespace StdXX::XML;
 
 /*
 XML Specification:
@@ -72,7 +72,7 @@ private:
 
 	inline void ExpectChar(uint32 c)
 	{
-		ASSERT(this->lookAhead[0] == c, "If you see this, report to StdPlusPlus");
+		ASSERT(this->lookAhead[0] == c, "If you see this, report to StdXX");
 		this->UpdateLookAhead();
 	}
 

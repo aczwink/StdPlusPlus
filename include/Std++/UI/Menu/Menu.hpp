@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include "ActionEntry.hpp"
-#include <Std++/_Backends/MenuBackend.hpp>
+#include <Std++/_Backends/UI/MenuBackend.hpp>
 #include "../../Containers/Array/DynamicArray.hpp"
 #include "../../Containers/Strings/OldString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -58,7 +58,7 @@ namespace StdPlusPlus
 				this->backend->AppendSubMenu(subMenu);
 			}
 
-			inline const _stdpp::MenuBackend *_GetBackend() const
+			inline const _stdxx_::MenuBackend *_GetBackend() const
 			{
 				return this->backend;
 			}
@@ -75,7 +75,7 @@ namespace StdPlusPlus
 
         private:
             //Members
-			_stdpp::MenuBackend *backend;
+			_stdxx_::MenuBackend *backend;
             DynamicArray<MenuEntry *> menuEntries;
         };
     }

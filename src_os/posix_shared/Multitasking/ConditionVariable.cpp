@@ -24,7 +24,7 @@
 #include <Std++/Memory.h>
 #include <Std++/Multitasking/Mutex.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((pthread_cond_t *)this->systemHandle)
 

@@ -21,7 +21,7 @@
 #include "AIndirectObject.h"
 #include "CStreamObject.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace PDF
     {

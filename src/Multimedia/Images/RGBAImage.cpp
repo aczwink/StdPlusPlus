@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/Images/RGBAImage.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Public methods
 ColorSpace RGBAImage::GetColorSpace() const

@@ -22,7 +22,7 @@
 #include "../Math/Size.hpp"
 #include "ITexture.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {
@@ -33,7 +33,7 @@ namespace StdPlusPlus
             virtual void AllocateDepth(uint16 width, uint16 height) = 0;
             virtual void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData) = 0;
             virtual void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData) = 0;
-            virtual void AllocateRGB(const Size &size, const void *pColorData) = 0;
+            virtual void AllocateRGB(const Math::Size<uint16> &size, const void *pColorData) = 0;
             virtual void AllocateRGBA(uint16 width, uint16 height, const void *pColorData) = 0;
             virtual void GenerateMipMaps() = 0;
             virtual void SetMaximumMipMapLevel(uint16 level) = 0;

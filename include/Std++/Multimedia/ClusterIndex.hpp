@@ -21,7 +21,7 @@
 #include "../Containers/Array/DynamicArray.hpp"
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

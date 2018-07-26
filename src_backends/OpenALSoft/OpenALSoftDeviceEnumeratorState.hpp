@@ -29,9 +29,9 @@
 #include <Std++/Containers/Strings/StringUtil.h>
 #include "OpenALSoftDevice.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
-class OpenALSoftDeviceEnumeratorState : public _stdpp::DeviceEnumeratorState
+class OpenALSoftDeviceEnumeratorState : public _stdxx_::DeviceEnumeratorState
 {
 public:
 	//Constructor

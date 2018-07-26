@@ -20,7 +20,7 @@
 //Local
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -28,7 +28,7 @@ namespace StdPlusPlus
         {
         public:
             //Constructor
-            TextEdit(WidgetContainer *parent);
+            TextEdit();
 
             //Methods
             OldString GetText() const;
@@ -41,7 +41,8 @@ namespace StdPlusPlus
 
 			inline void SetText(const String &text)
 			{
-				this->backend->SetText(text);
+				NOT_IMPLEMENTED_ERROR; //TODO: next line
+				//this->backend->SetText(text);
 			}
         };
     }

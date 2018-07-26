@@ -20,7 +20,7 @@
 //Local
 #include "ITexture.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {

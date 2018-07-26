@@ -27,8 +27,8 @@
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Compute;
+using namespace StdXX;
+using namespace StdXX::Compute;
 //Definitions
 #define THIS ((cl_program)this->internal)
 

@@ -20,7 +20,7 @@
 //Local
 #include "AIndirectObject.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace PDF
     {

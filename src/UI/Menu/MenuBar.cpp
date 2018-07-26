@@ -19,11 +19,11 @@
 //Class header
 #include <Std++/UI/Menu/MenuBar.hpp>
 //Local
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Menu/Menu.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
 MenuBar::MenuBar()

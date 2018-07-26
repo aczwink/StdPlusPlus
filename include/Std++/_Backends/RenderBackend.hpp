@@ -22,18 +22,18 @@
 #include "Backend.hpp"
 
 //Forward declarations
-namespace _stdpp
+namespace _stdxx_
 {
-	class WindowBackend;
+	class WidgetBackend;
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class RenderBackend : public Backend
 	{
 	public:
 		//Abstract
-		virtual Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const = 0;
+		virtual Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const = 0;
 
 		//Methods
 		BackendType GetType() const

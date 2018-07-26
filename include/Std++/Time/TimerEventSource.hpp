@@ -22,7 +22,7 @@
 #include <Std++/Containers/PriorityQueue.hpp>
 #include "Clock.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Forward declarations
 	class Timer;
@@ -53,7 +53,7 @@ namespace StdPlusPlus
 			this->oneShotTimerQueue.Remove(timer);
 		}
 
-		void VisitWaitObjects(const Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const override;
+		void VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const override;
 
 	private:
 		//Members

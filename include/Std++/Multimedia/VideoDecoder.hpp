@@ -23,7 +23,7 @@
 #include "Decoder.hpp"
 #include "PixelFormat.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

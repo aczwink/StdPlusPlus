@@ -22,7 +22,7 @@
 #include "Radian.hpp"
 #include "Vector4.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class vec4f32;

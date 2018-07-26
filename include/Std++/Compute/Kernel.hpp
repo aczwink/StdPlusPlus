@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "Buffer.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Compute
 	{

@@ -22,7 +22,7 @@
 #include "Textcodecs/ASCIITextCodec.hpp"
 #include "Textcodecs/UTF8TextCodec.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Class functions
 TextCodec *TextCodec::GetCodec(TextCodecType codecType)

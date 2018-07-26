@@ -17,16 +17,29 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include <Cocoa/Cocoa.h>
+//Class header
+#include "ContentAreaWidgetBackend.hpp"
 
 //Forward declarations
-namespace _stdpp
+namespace StdXX
 {
-	class CocoaWindowBackend;
+	namespace UI
+	{
+		class GroupBox;
+	}
 }
 
-@interface WindowDelegate : NSObject <NSWindowDelegate>
+namespace _stdxx_
 {
-};
--(id)initWithBackend:(_stdpp::CocoaWindowBackend *)backend;
-@end
+	class GroupBoxBackend : public ContentAreaWidgetBackend
+	{
+	public:
+		//Constructor
+		inline GroupBoxBackend(StdXX::UIBackend *uiBackend) : ContentAreaWidgetBackend(uiBackend)
+		{
+		}
+
+		//Abstract
+		virtual void SetTitle(const StdXX::String &title) = 0;
+	};
+}

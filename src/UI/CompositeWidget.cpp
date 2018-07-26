@@ -17,22 +17,22 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 //Local
 #include <Std++/UI/Window.hpp>
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-WidgetContainer::WidgetContainer(WidgetContainer *pContainer) : Widget(pContainer)
+CompositeWidget::CompositeWidget()
 {
     this->layout = new GridLayout;
 }
 
 //Destructor
-WidgetContainer::~WidgetContainer()
+CompositeWidget::~CompositeWidget()
 {
     while(!this->children.IsEmpty())
         //don't use PopFront, because child will delete itself from the children list
@@ -45,7 +45,7 @@ WidgetContainer::~WidgetContainer()
 }
 
 //Eventhandlers
-void WidgetContainer::OnPaint()
+void CompositeWidget::OnPaint()
 {
     this->backend->Paint();
     if(!this->backend)
@@ -55,12 +55,12 @@ void WidgetContainer::OnPaint()
 	}
 }
 
-void WidgetContainer::OnResized()
+void CompositeWidget::OnResized()
 {
     this->layout->Layout(*this);
 }
 
-void WidgetContainer::SetLayout(ILayout *pLayout)
+void CompositeWidget::SetLayout(ILayout *pLayout)
 {
     if(this->layout)
         delete this->layout;
@@ -69,16 +69,9 @@ void WidgetContainer::SetLayout(ILayout *pLayout)
 }
 
 //Public methods
-Rect WidgetContainer::GetChildrenRect() const
+Math::SizeD CompositeWidget::GetSizeHint() const
 {
-	if(this->backend)
-		return this->backend->GetChildrenRect();
-	return {Point(), this->GetSize()};
-}
-
-Size WidgetContainer::GetSizeHint() const
-{
-	Size size;
+	Math::SizeD size;
 	if(this->backend)
 		size = size.Max(this->backend->GetSizeHint());
     if(this->layout)

@@ -19,12 +19,12 @@
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructor
-DecoderThread::DecoderThread(StdPlusPlus::Multimedia::MediaPlayer *player, CodecId encodingCodec)
+DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId encodingCodec)
 {
 	this->player = player;
 	this->shutdown = false;

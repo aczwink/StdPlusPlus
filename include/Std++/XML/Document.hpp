@@ -21,7 +21,7 @@
 #include "../Streams/InputStream.hpp"
 #include "Element.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace XML
     {

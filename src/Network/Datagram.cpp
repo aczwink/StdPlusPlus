@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Network/Datagram.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 Datagram::Datagram()

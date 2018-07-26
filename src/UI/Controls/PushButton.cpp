@@ -18,15 +18,20 @@
 */
 //Class header
 #include <Std++/UI/Controls/PushButton.hpp>
+//Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/_Backends/UI/PushButtonBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-PushButton::PushButton(WidgetContainer *pParent) : Widget(pParent)
+PushButton::PushButton()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::PushButton, this);
+	this->pushButtonBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreatePushButtonBackend(this);
+	this->backend = this->pushButtonBackend;
 }

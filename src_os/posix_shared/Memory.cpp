@@ -23,17 +23,17 @@
 //Local
 #include <Std++/Debug.hpp>
 
-void *StdPlusPlus::MemoryAllocate(uint32 size)
+void *StdXX::MemoryAllocate(uint32 size)
 {
     return malloc(size);
 }
 
-void StdPlusPlus::MemoryFree(void *pMem)
+void StdXX::MemoryFree(void *pMem)
 {
     free(pMem);
 }
 
-void *StdPlusPlus::MemoryReallocate(void *pMem, uint32 size)
+void *StdXX::MemoryReallocate(void *pMem, uint32 size)
 {
     if(!pMem)
         return MemoryAllocate(size);

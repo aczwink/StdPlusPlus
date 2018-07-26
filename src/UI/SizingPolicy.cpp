@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/UI/SizingPolicy.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Methods
 void SizingPolicy::SetPolicy(SSizingAttributes &refAttributes, Policy policy)

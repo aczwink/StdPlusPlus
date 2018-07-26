@@ -20,7 +20,7 @@
 //Local
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -40,7 +40,7 @@ namespace StdPlusPlus
 
         public:
             //Constructor
-            CCheckListView(WidgetContainer *pParent);
+            CCheckListView(CompositeWidget *pParent);
 
             //Methods
             void SetController(ACheckListController &refController);

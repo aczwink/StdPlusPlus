@@ -22,7 +22,7 @@
 #include "../Containers/Map/Map.hpp"
 #include "../__InitAndShutdown.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	template<typename BackendClassType>
 	class BackendManager

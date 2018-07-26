@@ -21,7 +21,7 @@
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class FileSystemFormat
 	{

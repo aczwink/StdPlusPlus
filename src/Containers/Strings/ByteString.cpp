@@ -25,7 +25,7 @@
 #include <Std++/Definitions.h>
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Operators
 ByteString &ByteString::operator=(const char *pStr)
@@ -158,7 +158,7 @@ ByteString ByteString::ToUppercase() const
 }
 
 //Outside class operators
-ByteString StdPlusPlus::operator+(const ByteString &left, const ByteString &right)
+ByteString StdXX::operator+(const ByteString &left, const ByteString &right)
 {
     ByteString buffer(left);
 
@@ -167,21 +167,21 @@ ByteString StdPlusPlus::operator+(const ByteString &left, const ByteString &righ
     return buffer;
 }
 
-bool StdPlusPlus::operator==(const ByteString &left, const ByteString &right)
+bool StdXX::operator==(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return false;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) == 0;
 }
 
-bool StdPlusPlus::operator!=(const ByteString &left, const ByteString &right)
+bool StdXX::operator!=(const ByteString &left, const ByteString &right)
 {
     if(left.GetLength() != right.GetLength())
         return true;
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) != 0;
 }
 
-bool StdPlusPlus::operator<(const ByteString &left, const ByteString &right)
+bool StdXX::operator<(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 
@@ -201,7 +201,7 @@ bool StdPlusPlus::operator<(const ByteString &left, const ByteString &right)
     return MemCmp(left.GetC_Str(), right.GetC_Str(), left.GetLength()) < 0;
 }
 
-bool StdPlusPlus::operator>(const ByteString &left, const ByteString &right)
+bool StdXX::operator>(const ByteString &left, const ByteString &right)
 {
     int32 cmp;
 

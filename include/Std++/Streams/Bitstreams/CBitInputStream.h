@@ -20,7 +20,7 @@
 //Local
 #include "../InputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     /**
      * This class reads bits from high to low significance i.e. the first bit read is the MSB of the first byte.

@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Containers/FIFOBuffer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 FIFOBuffer::FIFOBuffer()

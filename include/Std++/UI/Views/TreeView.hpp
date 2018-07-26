@@ -20,7 +20,7 @@
 //Local
 #include "View.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -33,7 +33,7 @@ namespace StdPlusPlus
             friend class EventQueue;
         public:
             //Constructor
-            TreeView(WidgetContainer *parent);
+            TreeView();
         };
     }
 }

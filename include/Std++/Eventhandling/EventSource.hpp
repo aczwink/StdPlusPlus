@@ -21,7 +21,7 @@
 #include <Std++/Definitions.h>
 #include <Std++/Function.hpp>
 
-namespace _stdpp
+namespace _stdxx_
 {
 	union WaitObjHandle
 	{
@@ -30,7 +30,7 @@ namespace _stdpp
 	};
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class EventSource
 	{
@@ -49,6 +49,6 @@ namespace StdPlusPlus
 		 */
 		virtual uint64 GetMaxTimeout() const = 0;
 
-		virtual void VisitWaitObjects(const Function<void (_stdpp::WaitObjHandle, bool)> &visitFunc) const = 0;
+		virtual void VisitWaitObjects(const Function<void (_stdxx_::WaitObjHandle, bool)> &visitFunc) const = 0;
 	};
 }

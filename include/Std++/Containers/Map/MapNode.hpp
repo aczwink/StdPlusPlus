@@ -22,7 +22,7 @@
 #include "../../Memory.h"
 #include "../KeyValuePair.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     template<typename KeyType, typename ValueType>
@@ -37,7 +37,7 @@ namespace StdPlusPlus
         Node *pLeft;
         Node *pRight;
         Node *pParent;
-        StdPlusPlus::KeyValuePair<KeyType, ValueType> keyValuePair;
+        StdXX::KeyValuePair<KeyType, ValueType> keyValuePair;
         bool isBlack;
 
         //Constructor

@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/VideoFrame.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructor
 VideoFrame::VideoFrame(Image *pImage)

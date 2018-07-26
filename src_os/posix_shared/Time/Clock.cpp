@@ -21,7 +21,7 @@
 //Global
 #include <time.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define NANO(x) ((x) * 1000000000)
 

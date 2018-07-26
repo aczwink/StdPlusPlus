@@ -19,8 +19,8 @@
 #pragma once
 #include <Std++/Multimedia/Muxer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class WAVE_Muxer : public Muxer
 {

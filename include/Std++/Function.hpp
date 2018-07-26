@@ -110,7 +110,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdPlusPlus bug please");
+            ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = new (pMem)CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
@@ -121,7 +121,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdPlusPlus bug please");
+            ASSERT(sizeof(CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = new (pMem)CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>(pMethod, pObject);
@@ -132,7 +132,7 @@ namespace _Intern
         {
             void *pMem;
 
-            ASSERT(sizeof(CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage), "Storage too small. Report this as a StdPlusPlus bug please");
+            ASSERT(sizeof(CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
 
             pMem = (void *)this->storage; //we dont want to create mem on heap...
             this->pCallObj = pnew(pMem) CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>((LambdaType &&)refLambda);
@@ -141,7 +141,7 @@ namespace _Intern
         //Inline
         inline void CopyCallObj(const AFunctionClass<ReturnType, ArgumentTypes...> &refOther)
         {
-            StdPlusPlus::MemCopy(this->storage, refOther.storage, sizeof(this->storage));
+            StdXX::MemCopy(this->storage, refOther.storage, sizeof(this->storage));
             this->pCallObj = (ICallable<ReturnType, ArgumentTypes...> *)this->storage;
         }
 
@@ -158,7 +158,8 @@ namespace _Intern
             return this->pCallObj->Call((ArgumentTypes&&)args...);
         }
 
-        inline explicit operator bool() const
+        //Inline
+        inline bool IsBound() const
         {
             return this->pCallObj != nullptr;
         }
@@ -175,7 +176,7 @@ namespace _Intern
     };
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename FunctionType>
     class Function : public _Intern::ExtractedFunctionBaseClass<FunctionType>::type

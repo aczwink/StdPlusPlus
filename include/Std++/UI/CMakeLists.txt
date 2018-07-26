@@ -2,6 +2,8 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Containers
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/CompositeWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ContentAreaWidget.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/GroupBox.hpp
 
 	#Controllers

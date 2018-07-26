@@ -23,7 +23,7 @@
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename DataType>
     class DynamicArray : public ResizeableSequenceContainer<DataType>

@@ -22,7 +22,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite) : filePath(refPath)

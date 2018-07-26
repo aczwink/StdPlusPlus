@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Char.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Operators
 TextReader &TextReader::operator>>(uint32 &i)
@@ -121,7 +121,7 @@ uint32 TextReader::ReadUTF8()
 	if(b[0] & 0x80)
     {
         //more than one byte
-        ASSERT(b[0] & 0x40, "If you see this, report to StdPlusPlus"); //this is always set for more than one byte
+        ASSERT(b[0] & 0x40, "If you see this, report to StdXX"); //this is always set for more than one byte
 
         if(b[0] & 0x20)
         {

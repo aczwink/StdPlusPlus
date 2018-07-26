@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/UI/Controllers/ListController.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Public methods
 ControllerIndex ListController::GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const

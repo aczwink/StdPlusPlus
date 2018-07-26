@@ -21,7 +21,7 @@
 #include "DeviceContext.hpp"
 #include "Kernel.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Compute
 	{

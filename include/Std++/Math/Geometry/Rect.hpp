@@ -23,115 +23,129 @@
 #include "../Size.hpp"
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
-    class STDPLUSPLUS_API Rect
+    namespace Math
     {
-    public:
-        //Members
-        Point origin;
-        Size size;
-
-        //Constructors
-        inline Rect()
+		template <typename ScalarType>
+        class STDPLUSPLUS_API Rect
         {
-        }
+        public:
+            //Members
+			Point<ScalarType> origin;
+			Size<ScalarType> size;
 
-        inline Rect(int32 x, int32 y, int32 width, int32 height)
-        {
-            this->origin.x = x;
-            this->origin.y = y;
-            this->size.width = width;
-            this->size.height = height;
-        }
+            //Constructors
+            inline Rect()
+            {
+            }
 
-        inline Rect(const Point &refPoint, const Size &refSize)
-        {
-            this->origin = refPoint;
-            this->size = refSize;
-        }
+            inline Rect(ScalarType x, ScalarType y, ScalarType width, ScalarType height)
+            {
+                this->origin.x = x;
+                this->origin.y = y;
+                this->size.width = width;
+                this->size.height = height;
+            }
 
-        //Methods
-        Rect Intersect(const Rect &refRect) const;
+            inline Rect(const Point<ScalarType> &refPoint, const Size<ScalarType> &refSize)
+            {
+                this->origin = refPoint;
+                this->size = refSize;
+            }
 
-        //Inline methods
-        inline bool Contains(int32 x, int32 y) const
-        {
-            return (x >= this->origin.x && x < this->GetRight()) && (y >= this->origin.y && y < this->GetBottom());
-        }
+            //Methods
+            Rect Intersect(const Rect<ScalarType> &refRect) const;
 
-        inline void Enlarge(int32 dx, int32 dy)
-        {
-            this->origin.x -= dx;
-            this->origin.y -= dy;
-			this->size.Add(2 * dx, 2 * dy);
-        }
+            //Inline methods
+			template <typename CastType>
+			inline Rect<CastType> Cast() const
+			{
+				return Rect<CastType>(this->origin.template Cast<CastType>(), this->size.template Cast<CastType>());
+			}
 
-        inline int32 GetBottom() const
-        {
-            return this->origin.y + this->size.height;
-        }
+            inline bool Contains(ScalarType x, ScalarType y) const
+            {
+                return (x >= this->origin.x && x < this->GetHorizontalEnd()) && (y >= this->origin.y && y <
+																										this->GetVerticalEnd());
+            }
 
-        inline int32 GetRight() const
-        {
-            return this->origin.x + this->size.width;
-        }
+            inline void Enlarge(ScalarType dx, ScalarType dy)
+            {
+                this->origin.x -= dx;
+                this->origin.y -= dy;
+                this->size.Add(2 * dx, 2 * dy);
+            }
 
-        inline uint16 &height()
-        {
-            return this->size.height;
-        }
+            inline ScalarType GetVerticalEnd() const
+            {
+                return this->origin.y + this->size.height;
+            }
 
-        inline uint16 height() const
-        {
-            return this->size.height;
-        }
+            inline ScalarType GetHorizontalEnd() const
+            {
+                return this->origin.x + this->size.width;
+            }
 
-        inline bool Intersects(const Rect &refRect) const
-        {
-            return (this->origin.x <= refRect.GetRight() && refRect.origin.x <= this->GetRight() && this->origin.y <= refRect.GetBottom() && refRect.origin.y <= this->GetBottom());
-        }
+            inline ScalarType &height()
+            {
+                return this->size.height;
+            }
 
-        inline void Offset(int32 dx, int32 dy)
-        {
-            this->origin.x += dx;
-            this->origin.y += dy;
-        }
+            inline ScalarType height() const
+            {
+                return this->size.height;
+            }
 
-        inline String ToString() const
-		{
-			return u8"Rect(" + String::Number(this->origin.x) + u8", " + String::Number(this->origin.y) + u8", "
-				   + String::Number(this->size.width) + u8", " + String::Number(this->size.height) + u8")";
-		}
+            inline bool Intersects(const Rect<ScalarType> &refRect) const
+            {
+                return (this->origin.x <= refRect.GetHorizontalEnd() && refRect.origin.x <= this->GetHorizontalEnd() &&
+                        this->origin.y <= refRect.GetVerticalEnd() && refRect.origin.y <= this->GetVerticalEnd());
+            }
 
-        inline uint16 &width()
-        {
-            return this->size.width;
-        }
+            inline void Offset(ScalarType dx, ScalarType dy)
+            {
+                this->origin.x += dx;
+                this->origin.y += dy;
+            }
 
-        inline uint16 width() const
-        {
-            return this->size.width;
-        }
+            inline String ToString() const
+            {
+                return u8"Rect(" + String::Number(this->origin.x) + u8", " + String::Number(this->origin.y) + u8", "
+                       + String::Number(this->size.width) + u8", " + String::Number(this->size.height) + u8")";
+            }
 
-        inline int32 &x()
-        {
-            return this->origin.x;
-        }
+            inline ScalarType &width()
+            {
+                return this->size.width;
+            }
 
-        inline int32 x() const
-        {
-            return this->origin.x;
-        }
+            inline ScalarType width() const
+            {
+                return this->size.width;
+            }
 
-        inline int32 &y()
-        {
-            return this->origin.y;
-        }
+            inline ScalarType &x()
+            {
+                return this->origin.x;
+            }
 
-        inline int32 y() const
-        {
-            return this->origin.y;
-        }
-    };
+            inline ScalarType x() const
+            {
+                return this->origin.x;
+            }
+
+            inline ScalarType &y()
+            {
+                return this->origin.y;
+            }
+
+            inline ScalarType y() const
+            {
+                return this->origin.y;
+            }
+        };
+
+		typedef Rect<float64> RectD;
+    }
 }

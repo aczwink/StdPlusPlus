@@ -27,11 +27,11 @@
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/_Backends/ComputeDevice.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Prototypes
 void InitStdPlusPlus_Platform();
@@ -52,7 +52,7 @@ static void FreeAudioVideo()
 	g_ms_video_fourCC_map.Release();
 
 #ifdef _AC_LIB_USEAVCODEC
-	extern StdPlusPlus::Map<StdPlusPlus::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+	extern StdXX::Map<StdXX::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 	g_libavcodec_codec_map.Release();
 #endif
 }

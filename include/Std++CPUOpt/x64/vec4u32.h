@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
 /*
-namespace StdPlusPlus
+namespace StdXX
 {
     class alignas(16) vec4u32
     {

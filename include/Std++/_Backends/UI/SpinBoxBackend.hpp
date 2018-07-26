@@ -17,32 +17,31 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-//Local
-#include <Std++/Containers/Strings/String.hpp>
+//Class header
+#include "WidgetBackend.hpp"
 
 //Forward declarations
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
-		class ActionEntry;
-		class Menu;
+		class SpinBox;
 	}
 }
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class MenuBackend
+	class SpinBoxBackend : virtual public WidgetBackend
 	{
 	public:
-		//Destructor
-		virtual ~MenuBackend() {}
+		//Constructor
+		inline SpinBoxBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		{
+		}
 
 		//Abstract
-		virtual void AppendEntry(const StdPlusPlus::UI::ActionEntry &actionEntry) = 0;
-		virtual void AppendSeperator() = 0;
-		virtual void AppendSubMenu(StdPlusPlus::UI::Menu *subMenu) = 0;
-		virtual StdPlusPlus::String GetText() const = 0;
-		virtual void SetText(const StdPlusPlus::String &text) = 0;
+		virtual int32 GetValue() const = 0;
+		virtual void SetRange(int32 min, int32 max) = 0;
+		virtual void SetValue(int32 value) = 0;
 	};
 }

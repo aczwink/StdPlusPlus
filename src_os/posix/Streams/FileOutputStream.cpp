@@ -21,7 +21,7 @@
 //Global
 #include <unistd.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 static_assert(sizeof(off_t) >= 8); //make sure we can read large files
 

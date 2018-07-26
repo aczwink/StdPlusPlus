@@ -20,11 +20,11 @@
 #include <Std++/Eventhandling/EventQueue.hpp>
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Global variables
 EventQueue *g_globalEventQueue = nullptr;

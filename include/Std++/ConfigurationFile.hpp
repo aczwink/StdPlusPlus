@@ -26,7 +26,7 @@
 #include "Filesystem/Path.hpp"
 #include "Streams/SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     /**
      * A configuration file with sections and key-value pairs like INI or many other cfg files.

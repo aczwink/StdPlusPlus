@@ -20,7 +20,7 @@
 //Local
 #include "ASeekableOutputStream.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API CBufferOutputStream : public ASeekableOutputStream
     {

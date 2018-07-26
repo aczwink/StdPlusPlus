@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/PushButtonBackend.hpp>
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -31,13 +32,17 @@ namespace StdPlusPlus
 			Function<void()> onActivatedHandler;
 
             //Constructor
-            PushButton(WidgetContainer *pParent);
+            PushButton();
 
             //Inline
             inline void SetText(const String &text)
 			{
-				this->backend->SetText(text);
+				this->pushButtonBackend->SetText(text);
 			}
+
+		private:
+        	//Members
+        	_stdxx_::PushButtonBackend *pushButtonBackend;
         };
     }
 }

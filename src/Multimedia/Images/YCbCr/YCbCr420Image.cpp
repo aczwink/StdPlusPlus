@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructors
 YCbCr420Image::YCbCr420Image(uint16 width, uint16 height, bool useFullRange) : YCbCrImage(width, height, useFullRange)

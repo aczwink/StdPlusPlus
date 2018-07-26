@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 BufferedInputStream::BufferedInputStream(InputStream &refInputStream, uint32 bufferSize) : refInput(refInputStream)

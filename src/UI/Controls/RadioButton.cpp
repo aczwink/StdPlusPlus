@@ -19,14 +19,15 @@
 //Class header
 #include <Std++/UI/Controls/RadioButton.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-RadioButton::RadioButton(WidgetContainer *parent) : Widget(parent)
+RadioButton::RadioButton()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::RadioButton, this);
+	NOT_IMPLEMENTED_ERROR;
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::RadioButton, this);
 }

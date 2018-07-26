@@ -22,8 +22,8 @@
 #include <Std++/Rendering/InputLayout.hpp>
 #include <Std++/Streams/BufferInputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 //Definitions
 #define LOCATION_UNIFORM_VIEWSIZE 0
 #define LOCATION_UNIFORM_FRAGMENT_TYPE 1

@@ -26,7 +26,7 @@
 #include "Decoder.hpp"
 #include "Encoder.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

@@ -21,9 +21,9 @@
 //Local
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Math;
+using namespace StdXX::Multimedia;
 
 //Constructor
 MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this, CodecId::PCM_S16LE), demuxerThread(this), videoDecodeThread(this, CodecId::RGB24)

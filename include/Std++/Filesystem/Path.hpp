@@ -21,7 +21,7 @@
 #include "../Containers/Strings/String.hpp"
 #include "../Time/Time.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class DirectoryIterator;

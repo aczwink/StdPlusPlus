@@ -24,7 +24,7 @@
 #include "../VertexBuffer.hpp"
 #include "HostComputedPathRenderer.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {
@@ -87,7 +87,8 @@ namespace StdPlusPlus
                 this->state.strokeWidth = strokeWidth;
             }
 
-            inline void SetViewPort(const Size &size)
+			template <typename ScalarType>
+            inline void SetViewPort(const Math::Size<ScalarType> &size)
             {
                 this->viewSize = Math::Vector2s(size.width, size.height);
             }

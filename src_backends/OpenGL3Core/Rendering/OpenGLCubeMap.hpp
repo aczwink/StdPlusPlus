@@ -21,9 +21,9 @@
 #include <Std++/Rendering/ICubeMap.h>
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 //Global variables
 extern uint32 g_currentTextureId;

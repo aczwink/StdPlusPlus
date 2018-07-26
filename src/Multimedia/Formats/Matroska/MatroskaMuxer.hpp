@@ -21,8 +21,8 @@
 #include <Std++/Multimedia/AudioStream.hpp>
 #include "Matroska.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 using namespace Matroska;
 
 class MatroskaMuxer : public Muxer

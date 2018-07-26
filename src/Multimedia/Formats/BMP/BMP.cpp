@@ -117,7 +117,7 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 	if(refStream.GetCodec() == nullptr && g_ms_video_fourCC_map.Contains(codecTag))
 		refStream.SetCodec(g_ms_video_fourCC_map[codecTag]);
 
-	ASSERT(size >= 40, "If you see this, report to StdPlusPlus");
+	ASSERT(size >= 40, "If you see this, report to StdXX");
 	if(size > 40)
 	{
 		inputStream.Skip(size - 40);

@@ -18,23 +18,27 @@
  */
 #pragma once
 //Local
-#include "../WidgetContainer.hpp"
+#include <Std++/_Backends/UI/GroupBoxBackend.hpp>
+#include <Std++/UI/Containers/ContentAreaWidget.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
-        class STDPLUSPLUS_API GroupBox : public WidgetContainer
+        class STDPLUSPLUS_API GroupBox : public ContentAreaWidget
         {
         public:
             //Constructor
-            GroupBox(WidgetContainer *pParent);
+            GroupBox();
 
-			//Inline
-            inline void SetText(const String &text)
+            //Inline
+            inline void SetTitle(const String &title)
             {
-                this->backend->SetText(text);
+                this->groupBoxBackend->SetTitle(title);
             }
+
+		private:
+			_stdxx_::GroupBoxBackend *groupBoxBackend;
         };
     }
 }

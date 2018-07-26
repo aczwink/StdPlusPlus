@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Streams/FileInputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 bool FileInputStream::IsAtEnd() const

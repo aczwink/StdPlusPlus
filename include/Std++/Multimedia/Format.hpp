@@ -26,7 +26,7 @@
 #include "EnumTypes.hpp"
 #include "CodecId.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

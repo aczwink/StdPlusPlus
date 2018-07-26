@@ -22,7 +22,7 @@
 #include "../../Filesystem/Path.hpp"
 #include "ITransfer.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

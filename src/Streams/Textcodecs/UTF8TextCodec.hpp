@@ -23,7 +23,7 @@
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 class UTF8TextCodec : public TextCodec
 {

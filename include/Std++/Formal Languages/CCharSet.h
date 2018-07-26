@@ -20,7 +20,7 @@
 //Local
 #include "../Containers/LinkedList/LinkedList.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class CRange
     {

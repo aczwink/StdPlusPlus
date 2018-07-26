@@ -22,7 +22,7 @@
 #include "../Natural.hpp"
 #include "EnumTypes.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

@@ -24,7 +24,7 @@
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Filesystem/Path.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class LineBreak{};
     static const LineBreak endl;

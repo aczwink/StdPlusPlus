@@ -20,8 +20,8 @@
 #include <Std++/Rendering/DeviceContext.hpp>
 #include "../GL3Functions.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 //Global functions
 GLenum AllocationPolicyToGL(AllocationPolicy policy);

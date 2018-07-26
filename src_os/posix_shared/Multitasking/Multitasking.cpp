@@ -22,7 +22,7 @@
 #include <unistd.h>
 
 //Global functions
-uint32 StdPlusPlus::GetHardwareConcurrency()
+uint32 StdXX::GetHardwareConcurrency()
 {
 	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
 }

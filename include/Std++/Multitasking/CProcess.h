@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "../Containers/Strings/OldString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API CProcess
     {

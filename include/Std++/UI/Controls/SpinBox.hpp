@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/SpinBoxBackend.hpp>
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
@@ -28,7 +29,7 @@ namespace StdPlusPlus
 		{
 		public:
 			//Constructor
-			SpinBox(WidgetContainer *parent);
+			SpinBox();
 
 			//Inline
 			inline void GetRange(int32 &min, int32 &max) const
@@ -38,18 +39,22 @@ namespace StdPlusPlus
 
 			inline int32 GetValue() const
 			{
-				return this->backend->GetValue();
+				return this->spinBoxBackend->GetValue();
 			}
 
 			inline void SetRange(int32 min, int32 max) const
 			{
-				this->backend->SetRange(min, max);
+				this->spinBoxBackend->SetRange(min, max);
 			}
 			
 			inline void SetValue(int32 value)
 			{
-				this->backend->SetValue(value);
+				this->spinBoxBackend->SetValue(value);
 			}
+
+		private:
+			//Members
+			_stdxx_::SpinBoxBackend *spinBoxBackend;
 		};
 	}
 }

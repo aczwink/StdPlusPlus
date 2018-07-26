@@ -20,7 +20,7 @@
 #include "Matrix2x2.hpp"
 #include "Vector2.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

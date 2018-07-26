@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Traits
 	template <typename T, T v>

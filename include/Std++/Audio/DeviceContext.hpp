@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Math/Vector3.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Audio
 	{

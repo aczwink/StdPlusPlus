@@ -20,7 +20,7 @@
 //Local
 #include "../ResizeableSequenceContainer.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	template<typename CharType>
 	class STDPLUSPLUS_API ResizeableString : public ResizeableSequenceContainer<CharType>

@@ -22,7 +22,7 @@
 #include "InputStream.hpp"
 #include "OutputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	enum class TextCodecType
 	{

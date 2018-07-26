@@ -21,7 +21,7 @@
 #include "../../Definitions.h"
 #include "../../Streams/SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {
@@ -43,7 +43,7 @@ namespace StdPlusPlus
             virtual void RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const = 0;
 
             //Functions
-            static STDPLUSPLUS_API ITypeface *GetInstance(StdPlusPlus::SeekableInputStream &refInput);
+            static STDPLUSPLUS_API ITypeface *GetInstance(StdXX::SeekableInputStream &refInput);
         };
     }
 }

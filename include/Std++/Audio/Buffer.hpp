@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Definitions.h>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Audio
 	{

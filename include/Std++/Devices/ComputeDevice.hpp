@@ -20,7 +20,7 @@
 
 #include "Device.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class ComputeDevice : public Device
 	{

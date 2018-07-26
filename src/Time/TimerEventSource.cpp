@@ -24,7 +24,7 @@
 #include <Std++/Natural.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Class members
 TimerEventSource *TimerEventSource::globalSource = nullptr;
@@ -59,6 +59,6 @@ uint64 TimerEventSource::GetMaxTimeout() const
 	return Natural<uint64>::Max();
 }
 
-void TimerEventSource::VisitWaitObjects(const Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const
+void TimerEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const
 {
 }

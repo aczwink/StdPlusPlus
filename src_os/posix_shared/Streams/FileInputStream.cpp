@@ -25,7 +25,7 @@
 //Local
 #include <Std++/Errorhandling/FileNotFoundException.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 FileInputStream::FileInputStream(const Path &path)

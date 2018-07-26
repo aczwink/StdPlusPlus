@@ -21,8 +21,8 @@
 //Local
 #include <Std++CPUOpt.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructor
 template <typename ScalarType>
@@ -33,4 +33,4 @@ Vector2<ScalarType>::Vector2(const vec2f64 &refV)
 }
 
 //Explicit instantiations
-template class StdPlusPlus::Math::Vector2<float32>;
+template class StdXX::Math::Vector2<float32>;

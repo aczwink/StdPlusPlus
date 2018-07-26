@@ -17,16 +17,30 @@ if(${BACKEND_COCOA})
 		${SOURCE_FILES}
 
 		#UI
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCheckBoxBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCheckBoxBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaEventSource.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaEventSource.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaGroupBoxBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaGroupBoxBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaLabelBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaLabelBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaMenuBarBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaMenuBarBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaPushButtonBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaPushButtonBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaRenderTargetWidgetBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaRenderTargetWidgetBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSliderBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSliderBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSpinBoxBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSpinBoxBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaView.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaView.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCompositeView.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCompositeView.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.mm
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/OpenGLView.hh
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/OpenGLView.mm
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowDelegate.hh
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowDelegate.mm
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/CocoaBackend.mm

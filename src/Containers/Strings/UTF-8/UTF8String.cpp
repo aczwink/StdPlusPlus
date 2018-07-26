@@ -24,7 +24,7 @@
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 #include <Std++/Containers/Strings/UTF32String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Operators
 UTF8String &UTF8String::operator=(const UTF8String &refString)

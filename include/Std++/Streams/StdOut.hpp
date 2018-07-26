@@ -20,7 +20,7 @@
 //Local
 #include "OutputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class CAutoLineBreaker
     {

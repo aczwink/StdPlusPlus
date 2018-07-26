@@ -23,7 +23,7 @@
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <Std++/Char.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Operators
 UTF32String &UTF32String::operator=(const UTF32String &refString)
@@ -162,7 +162,7 @@ UTF32String UTF32String::ToLowercase() const
 	buffer.EnsureCapacity(this->GetLength());
 	for(uint32 i = 0; i < this->GetLength(); i++)
 	{
-		buffer.data[i] = StdPlusPlus::ToLowercase(this->data[i]);
+		buffer.data[i] = StdXX::ToLowercase(this->data[i]);
 	}
 	buffer.nElements = this->nElements;
 
@@ -170,7 +170,7 @@ UTF32String UTF32String::ToLowercase() const
 }
 
 //Non-Class Operators
-UTF32String StdPlusPlus::operator+(const UTF32String &refLeft, const UTF32String &refRight)
+UTF32String StdXX::operator+(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	UTF32String tmp;
 
@@ -181,7 +181,7 @@ UTF32String StdPlusPlus::operator+(const UTF32String &refLeft, const UTF32String
 	return tmp;
 }
 
-bool StdPlusPlus::operator<(const UTF32String &refLeft, const UTF32String &refRight)
+bool StdXX::operator<(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 
@@ -201,7 +201,7 @@ bool StdPlusPlus::operator<(const UTF32String &refLeft, const UTF32String &refRi
 	return MemCmp(refLeft.GetC_Str(), refRight.GetC_Str(), refLeft.GetSize()) < 0;
 }
 
-bool StdPlusPlus::operator>(const UTF32String &refLeft, const UTF32String &refRight)
+bool StdXX::operator>(const UTF32String &refLeft, const UTF32String &refRight)
 {
 	int32 cmp;
 

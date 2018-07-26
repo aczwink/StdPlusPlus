@@ -18,12 +18,12 @@
  */
 #ifdef _AC_LIB_USEAVCODEC
 #pragma once
-#include <StdPlusPlus/Multimedia/AudioDecoder.hpp>
+#include <StdXX/Multimedia/AudioDecoder.hpp>
 //Local
 #include "LibAVCodec.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class LibAV_AudioDecoder : public AudioDecoder
 {

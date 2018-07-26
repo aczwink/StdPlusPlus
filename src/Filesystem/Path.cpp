@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 String Path::GetFileExtension() const

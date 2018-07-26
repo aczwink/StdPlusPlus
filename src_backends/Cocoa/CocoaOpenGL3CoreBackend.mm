@@ -20,17 +20,15 @@
 #include "CocoaOpenGL3CoreBackend.hh"
 //Local
 #import "Rendering/CocoaOpenGL3CoreDeviceContext.hh"
-#import "UI/CocoaWindowBackend.hh"
+#import "UI/CocoaRenderTargetWidgetBackend.hh"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 //Public methods
-DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(const WindowBackend &backend, uint8 nSamples) const
+DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(WidgetBackend &backend, uint8 nSamples) const
 {
-	CocoaWindowBackend &cocoaWindowBackend = (CocoaWindowBackend &) backend;
-	NSOpenGLView *openGLView = (NSOpenGLView *)cocoaWindowBackend.GetView();
-
-	return new CocoaOpenGL3CoreDeviceContext(openGLView, nSamples, this->LoadWindowSystemOpenGLExtension);
+	CocoaRenderTargetWidgetBackend &renderTargetWidgetBackend = dynamic_cast<CocoaRenderTargetWidgetBackend &>(backend);
+	return new CocoaOpenGL3CoreDeviceContext(renderTargetWidgetBackend.GetOpenGLView(), nSamples, this->LoadWindowSystemOpenGLExtension);
 }

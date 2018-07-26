@@ -20,7 +20,7 @@
 //Local
 #include "InputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class StdIn : public InputStream
 	{

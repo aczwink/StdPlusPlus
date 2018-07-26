@@ -19,7 +19,7 @@
 #include <Std++Test.hpp>
 
 //Functions
-int32 Main(const StdPlusPlus::String &programName, const StdPlusPlus::FixedArray<StdPlusPlus::String> &args)
+int32 Main(const StdXX::String &programName, const StdXX::FixedArray<StdXX::String> &args)
 {
 	if(StdPlusPlusTest::TestManager::GetInstance().RunAllTests())
 		return EXIT_SUCCESS;

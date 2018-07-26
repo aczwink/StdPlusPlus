@@ -21,7 +21,7 @@
 #include <Std++/Streams/OutputStream.hpp>
 #include "CSVDialect.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace CommonFileFormats
     {

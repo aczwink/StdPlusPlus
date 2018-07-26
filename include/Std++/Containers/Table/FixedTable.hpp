@@ -21,7 +21,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Containers/Container.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	* This container allocates, on construction, storage for a fixed number of elements.

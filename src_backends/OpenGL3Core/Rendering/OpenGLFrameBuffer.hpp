@@ -22,13 +22,13 @@
 #include <Std++/Rendering/DeviceContext.hpp>
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 class OpenGLFrameBuffer : public IFrameBuffer
 {
-    friend class _stdpp::OpenGLDeviceContext;
+    friend class _stdxx_::OpenGLDeviceContext;
 public:
     //Constructor
     inline OpenGLFrameBuffer(OpenGLDeviceContext &deviceContext) : deviceContext(deviceContext), glFuncs(deviceContext.glFuncs)

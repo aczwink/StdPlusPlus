@@ -17,26 +17,30 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-//Local
+//Class header
+#include "WidgetBackend.hpp"
 
 //Forward declarations
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
-		class Menu;
+		class Slider;
 	}
 }
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class MenuBarBackend
+	class SliderBackend : virtual public WidgetBackend
 	{
 	public:
-		//Destructor
-		virtual ~MenuBarBackend() {}
+		//Constructor
+		inline SliderBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		{
+		}
 
 		//Abstract
-		virtual void AppendMenu(StdPlusPlus::UI::Menu *menu) = 0;
+		virtual void SetPosition(uint32 pos) = 0;
+		virtual void SetRange(uint32 min, uint32 max) = 0;
 	};
 }

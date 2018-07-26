@@ -21,7 +21,7 @@
 #include "../../Rendering/VectorPath/DevicePathRenderer.hpp"
 #include "../Displays/RenderTargetWidget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -30,7 +30,7 @@ namespace StdPlusPlus
 
         public:
             //Constructor
-            inline PathRenderTargetWidget(WidgetContainer *parent) : RenderTargetWidget(parent), renderer(*this->deviceContext)
+            inline PathRenderTargetWidget() : renderer(*this->deviceContext)
             {
             }
 

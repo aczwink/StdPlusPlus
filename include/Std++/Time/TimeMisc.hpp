@@ -23,7 +23,7 @@
 //Local
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Functions
 	/**

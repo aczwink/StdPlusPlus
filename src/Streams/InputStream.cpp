@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Streams/OutputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 uint32 InputStream::FlushTo(OutputStream &refOutput, uint32 size)

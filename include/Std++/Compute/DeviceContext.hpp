@@ -22,7 +22,7 @@
 #include "Buffer.hpp"
 #include "Program.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Compute
 	{

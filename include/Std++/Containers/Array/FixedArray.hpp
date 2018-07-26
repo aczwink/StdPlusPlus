@@ -24,7 +24,7 @@
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * This container allocates, on construction, storage for a fixed number of elements.

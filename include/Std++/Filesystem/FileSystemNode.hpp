@@ -22,7 +22,7 @@
 #include "../SmartPointers/AutoPointer.hpp"
 #include "Path.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class Directory;

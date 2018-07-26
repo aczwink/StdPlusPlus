@@ -22,7 +22,7 @@
 #include <Std++/Filesystem/DirectoryWalker.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 void Directory::CreateDirectoryTree(const Path &directoryPath)

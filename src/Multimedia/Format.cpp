@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 //Definitions
 #define DETECTIONBUFFER_MINSIZE 17
 #define DETECTIONBUFFER_MAXSIZE 17

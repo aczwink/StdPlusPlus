@@ -19,68 +19,81 @@
 //Global
 #include <Cocoa/Cocoa.h>
 //Local
-#include <Std++/_Backends/WindowBackend.hpp>
-#include "WindowDelegate.hh"
+#include <Std++/_Backends/UI/WindowBackend.hpp>
+#import <Std++/UI/Window.hpp>
 
-namespace _stdpp
+//Forward declarations
+namespace _stdxx_
+{
+	class CocoaWindowBackend;
+}
+
+//Objective-C class
+@interface WindowDelegate : NSObject <NSWindowDelegate>
+{
+};
+-(id)initWithBackend:(_stdxx_::CocoaWindowBackend *)backend;
+@end
+
+
+namespace _stdxx_
 {
 	class CocoaWindowBackend : public WindowBackend
 	{
 	public:
 		//Constructor
-		CocoaWindowBackend(StdPlusPlus::UIBackend *uiBackend, WindowBackendType type, StdPlusPlus::UI::Widget *widget);
+		CocoaWindowBackend(StdXX::UIBackend *uiBackend, StdXX::UI::Window *window);
 
 		//Destructor
 		~CocoaWindowBackend();
 
 		//Methods
-		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const override;
-		StdPlusPlus::Rect GetChildrenRect() const override;
-		uint32 GetPosition() const override;
-		void GetRange(int32 &min, int32 &max) override;
-		StdPlusPlus::Size GetSize() const override;
-		StdPlusPlus::Size GetSizeHint() const override;
-		int32 GetValue() const override;
-		NSView *GetView() const;
-		bool IsChecked() const override;
+		void AddChild(StdXX::UI::Widget *widget) override;
+		StdXX::UI::CompositeWidget *CreateContentArea() override;
+		StdXX::Math::RectD GetContentAreaBounds() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
+		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
+		void SetTitle(const StdXX::String &title) override;
+		void Show(bool visible) override;
+
+		//Inline
+		inline StdXX::UI::Window &GetWindow()
+		{
+			return *this->window;
+		}
+
+
+
+		//OLD STUFF
+		WidgetBackend *CreateChildBackend(StdXX::UI::Widget *widget) const override;
+		uint32 GetPosition() const override;
+		void GetRange(int32 &min, int32 &max) override;
+		StdXX::Math::SizeD GetSize() const override;
+		StdXX::Math::SizeD GetSizeHint() const override;
+		NSView *GetView() const;
 		void Paint() override;
 		void Repaint() override;
 		void ResetView() const override;
-		void Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const override;
-		StdPlusPlus::Path SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const override;
-		void SetBounds(const StdPlusPlus::Rect &area) override;
+		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
+		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
+		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) const override;
-		void SetHint(const StdPlusPlus::String &text) const override;
-		void SetMaximum(uint32 max) override;
-		void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
-		void SetMinimum(uint32 min) override;
-		void SetPosition(uint32 pos) const override;
-		void SetRange(int32 min, int32 max) override;
-		void SetText(const StdPlusPlus::String &text) override;
-		void SetValue(int32 value) override;
-		void Show(bool visible) override;
-		void ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const override;
-		void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const override;
+		void SetHint(const StdXX::String &text) const override;
+		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
+		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
+		//END OLD STUFF
 
 	private:
 		//Members
-		union
-		{
-			NSButton *button;
-			NSBox *groupBox;
-			NSOpenGLView *openGLView;
-			NSSlider *slider;
-			NSTextField *textField;
-			NSWindow *window;
-		};
+		StdXX::UI::Window *window;
+		NSWindow *cocoaWindow;
 		WindowDelegate *windowDelegate;
 		NSWindowController *windowController;
 
 		//Methods
-		StdPlusPlus::Size ComputeTextSize(NSString *string, NSFont *font) const;
+		StdXX::Math::SizeD ComputeTextSize(NSString *string, NSFont *font) const;
 		NSView *GetChildrenAreaView() const;
 	};
 }

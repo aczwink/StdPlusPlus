@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/MediaObject.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Destructor
 MediaObject::~MediaObject()
@@ -49,7 +49,7 @@ void MediaObject::UpdateTimingInfo()
 				continue; //no time scale for this stream
 
 			timeScale = timeScale.Reduce();
-			ASSERT(timeScale.numerator == 1, "If you see this, report to StdPlusPlus"); //TODO: figure out what happens if numerator is not 1
+			ASSERT(timeScale.numerator == 1, "If you see this, report to StdXX"); //TODO: figure out what happens if numerator is not 1
 			this->timeScale.denominator = ComputeLeastCommonMultiple(this->timeScale.denominator, timeScale.denominator);
 		}
 		this->timeScale.numerator = 1; //TODO: figure out what happens if numerator of stream is not 1

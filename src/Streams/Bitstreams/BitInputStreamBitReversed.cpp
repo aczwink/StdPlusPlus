@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : refInput(refInput)
@@ -35,7 +35,7 @@ BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : re
 //Public methods
 uint64 BitInputStreamBitReversed::Get(uint8 nBits)
 {
-	ASSERT(nBits <= 64, "If you see this, report to StdPlusPlus");
+	ASSERT(nBits <= 64, "If you see this, report to StdXX");
 
 	this->EnsureBufferFilled(nBits);
 
@@ -72,7 +72,7 @@ void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 
 	while(this->validBitsInBuffer < nBits)
 	{
-		ASSERT(this->validBitsInBuffer + 8 <= 64, "If you see this, report to StdPlusPlus");
+		ASSERT(this->validBitsInBuffer + 8 <= 64, "If you see this, report to StdXX");
 
 		if(this->refInput.IsAtEnd())
 		{

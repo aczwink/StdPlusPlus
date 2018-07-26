@@ -21,14 +21,14 @@
 #include <Std++/Definitions.h>
 #include <Std++/Math/Size.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
         class IRenderTarget
         {
         public:
-            virtual Size GetSize() const = 0;
+            virtual Math::SizeD GetSize() const = 0;
             virtual void Present() = 0;
         };
     }

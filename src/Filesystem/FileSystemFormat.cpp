@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Global variables
 DynamicArray<const FileSystemFormat *> g_fsFormats;

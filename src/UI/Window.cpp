@@ -19,21 +19,27 @@
 //Class header
 #include <Std++/UI/Window.hpp>
 //Local
+#include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include "Render Targets/IRenderTarget.h"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructors
-Window::Window() : WidgetContainer(nullptr)
+Window::Window()
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
 
-	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(_stdpp::WindowBackendType::Window, this);
+	this->windowBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(this);
+	this->contentAreaWidgetBackend = this->windowBackend;
+	this->widgetContainerBackend = this->windowBackend;
+	this->backend = this->windowBackend;
+
+    this->SetContentContainer(this->windowBackend->CreateContentArea());
 }
 
 //Destructor

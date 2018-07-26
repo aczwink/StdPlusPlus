@@ -22,8 +22,8 @@
 #include <Std++/Math/Vector3.hpp>
 
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructors
 template <typename ScalarType>
@@ -36,4 +36,4 @@ Vector4<ScalarType>::Vector4(const Vector3<ScalarType> &refXYZ, float32 w)
 }
 
 //Explicit instantiations
-template class StdPlusPlus::Math::Vector4<float32>;
+template class StdXX::Math::Vector4<float32>;

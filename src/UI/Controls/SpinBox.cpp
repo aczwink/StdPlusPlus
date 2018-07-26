@@ -18,15 +18,19 @@
 */
 //Class header
 #include <Std++/UI/Controls/SpinBox.hpp>
+//Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-SpinBox::SpinBox(WidgetContainer *parent) : Widget(parent)
+SpinBox::SpinBox()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::SpinBox, this);
+	this->spinBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSpinBoxBackend(this);
+	this->backend = this->spinBoxBackend;
 }

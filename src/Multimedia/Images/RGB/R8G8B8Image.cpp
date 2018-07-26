@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructor
 R8G8B8Image::R8G8B8Image(uint16 width, uint16 height) : RGBImage(width, height)

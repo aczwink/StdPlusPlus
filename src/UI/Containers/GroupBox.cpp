@@ -19,15 +19,22 @@
 //Class header
 #include <Std++/UI/Containers/GroupBox.hpp>
 //Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Layouts/GridLayout.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-GroupBox::GroupBox(WidgetContainer *pParent) : WidgetContainer(pParent)
+GroupBox::GroupBox() : ContentAreaWidget()
 {
-	this->SetLayout(new VerticalLayout);
+	this->groupBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateGroupBoxBackend(this);
+	this->contentAreaWidgetBackend = this->groupBoxBackend;
+	this->widgetContainerBackend = this->groupBoxBackend;
+	this->backend = this->groupBoxBackend;
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::GroupBox, this);
+	this->SetContentContainer(this->groupBoxBackend->CreateContentArea());
+	this->GetContentContainer()->SetLayout(new VerticalLayout);
 }

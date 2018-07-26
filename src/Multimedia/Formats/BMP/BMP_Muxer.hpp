@@ -18,8 +18,8 @@
  */
 #include <Std++/Multimedia/Muxer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class BMP_Muxer : public Muxer
 {

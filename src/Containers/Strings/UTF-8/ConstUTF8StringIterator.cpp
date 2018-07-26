@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 ConstUTF8StringIterator::ConstUTF8StringIterator(const UTF8String &refString, uint32 index) : refString(refString)

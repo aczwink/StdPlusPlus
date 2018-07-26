@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Math/Matrix2x2.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Operators
 template <typename ScalarType>
@@ -80,7 +80,7 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scale
 	return Matrix2x2();
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

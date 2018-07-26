@@ -23,7 +23,7 @@
 #include <CommCtrl.h>
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
 using namespace StdPlusPlus;
 using namespace StdPlusPlus::UI;

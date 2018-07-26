@@ -20,7 +20,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include <Std++/_Backends/WindowBackend.hpp>
+#include <Std++/_Backends/UI/WidgetBackend.hpp>
 #include <Std++/UI/Widget.hpp>
 //Namespaces
 using namespace StdPlusPlus;

@@ -22,7 +22,7 @@
 #include "A2DPathRenderer.h"
 #include "VectorPath.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {

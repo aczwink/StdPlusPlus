@@ -17,14 +17,14 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
  //Local
-#include <Std++/_Backends/MenuBarBackend.hpp>
+#include <Std++/_Backends/UI/MenuBarBackend.hpp>
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class CocoaMenuBarBackend : public MenuBarBackend
 	{
 	public:
 		//Methods
-		void AppendMenu(StdPlusPlus::UI::Menu *menu) override;
+		void AppendMenu(StdXX::UI::Menu *menu) override;
 	};
 }

@@ -21,7 +21,7 @@
 #include "Directory.hpp"
 #include "ContainerFile.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class ContainerFileSystem;

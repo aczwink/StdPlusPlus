@@ -25,9 +25,9 @@
 //Forward declarations
 class OpenGLInputState;
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class OpenGLDeviceContext : public StdPlusPlus::Rendering::DeviceContext
+	class OpenGLDeviceContext : public StdXX::Rendering::DeviceContext
 	{
 	public:
 		//Members
@@ -37,16 +37,16 @@ namespace _stdpp
 		OpenGLDeviceContext();
 
 		//Methods
-		void ClearColorBuffer(const StdPlusPlus::Color &refColor) override;
+		void ClearColorBuffer(const StdXX::Color &refColor) override;
 		void ClearDepthBuffer() override;
-		StdPlusPlus::Rendering::ICubeMap *CreateCubeMap() override;
-		StdPlusPlus::Rendering::IFrameBuffer *CreateFrameBuffer() override;
-		StdPlusPlus::Rendering::IndexBuffer *CreateIndexBuffer(StdPlusPlus::Rendering::AllocationPolicy policy) override;
-		StdPlusPlus::Rendering::InputState *CreateInputState() override;
-		StdPlusPlus::Rendering::Shader *CreateShader(StdPlusPlus::Rendering::Shader::ShaderType type) override;
-		StdPlusPlus::Rendering::ShaderProgram *CreateShaderProgram() override;
-		StdPlusPlus::Rendering::Texture2D *CreateTexture2D() override;
-		StdPlusPlus::Rendering::VertexBuffer *CreateVertexBuffer(StdPlusPlus::Rendering::AllocationPolicy policy) override;
+		StdXX::Rendering::ICubeMap *CreateCubeMap() override;
+		StdXX::Rendering::IFrameBuffer *CreateFrameBuffer() override;
+		StdXX::Rendering::IndexBuffer *CreateIndexBuffer(StdXX::Rendering::AllocationPolicy policy) override;
+		StdXX::Rendering::InputState *CreateInputState() override;
+		StdXX::Rendering::Shader *CreateShader(StdXX::Rendering::Shader::ShaderType type) override;
+		StdXX::Rendering::ShaderProgram *CreateShaderProgram() override;
+		StdXX::Rendering::Texture2D *CreateTexture2D() override;
+		StdXX::Rendering::VertexBuffer *CreateVertexBuffer(StdXX::Rendering::AllocationPolicy policy) override;
 		void DrawLines(uint32 startVertexIndex, uint32 nLines) override;
 		void DrawPoints(uint32 startVertexIndex, uint32 count) override;
 		void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices) override;
@@ -61,19 +61,19 @@ namespace _stdpp
 		void EnablePolygonFilling(bool enabled) override;
 		void EnableStencilTest(bool enabled) override;
 		uint32 GetNumberOfTextureUnits() const override;
-		StdPlusPlus::FixedArray<byte> ReadColorBuffer(const StdPlusPlus::Rect &rect) override;
-		void ReadDepthBuffer(const StdPlusPlus::Rect &block, float32 *output) override;
-		void SetDepthTest(StdPlusPlus::Rendering::TestFunction function) override;
+		StdXX::FixedArray<byte> ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect) override;
+		void ReadDepthBuffer(const StdXX::Math::Rect<uint16> &block, float32 *output) override;
+		void SetDepthTest(StdXX::Rendering::TestFunction function) override;
 		void SetDownloadAlignment(uint8 value) override;
-		void SetFrameBuffer(StdPlusPlus::Rendering::IFrameBuffer *pFrameBuffer) override;
-		void SetInputState(StdPlusPlus::Rendering::InputState *pInputState) override;
+		void SetFrameBuffer(StdXX::Rendering::IFrameBuffer *pFrameBuffer) override;
+		void SetInputState(StdXX::Rendering::InputState *pInputState) override;
 		void SetPointSize(uint32 size) override;
-		void SetProgram(StdPlusPlus::Rendering::ShaderProgram *pProgram) override;
-		void SetStencilTest(StdPlusPlus::Rendering::TestFunction function, uint32 referenceValue, uint32 mask) override;
-		void SetStencilTestEffects(StdPlusPlus::Rendering::ETestEffect stencilTestFailedEffect, StdPlusPlus::Rendering::ETestEffect stencilTestPassedDepthTestFailedEffect, StdPlusPlus::Rendering::ETestEffect stencilAndDepthTestsPassedEffect) override;
-		void SetStencilTestEffects(bool frontFaces, StdPlusPlus::Rendering::ETestEffect stencilTestFailedEffect, StdPlusPlus::Rendering::ETestEffect stencilTestPassedDepthTestFailedEffect, StdPlusPlus::Rendering::ETestEffect stencilAndDepthTestsPassedEffect) override;
+		void SetProgram(StdXX::Rendering::ShaderProgram *pProgram) override;
+		void SetStencilTest(StdXX::Rendering::TestFunction function, uint32 referenceValue, uint32 mask) override;
+		void SetStencilTestEffects(StdXX::Rendering::ETestEffect stencilTestFailedEffect, StdXX::Rendering::ETestEffect stencilTestPassedDepthTestFailedEffect, StdXX::Rendering::ETestEffect stencilAndDepthTestsPassedEffect) override;
+		void SetStencilTestEffects(bool frontFaces, StdXX::Rendering::ETestEffect stencilTestFailedEffect, StdXX::Rendering::ETestEffect stencilTestPassedDepthTestFailedEffect, StdXX::Rendering::ETestEffect stencilAndDepthTestsPassedEffect) override;
 		void SetStencilWriteMask(uint32 mask) override;
-		void SetTexture(uint8 unit, StdPlusPlus::Rendering::ITexture *pTexture) override;
+		void SetTexture(uint8 unit, StdXX::Rendering::ITexture *pTexture) override;
 		void SetUploadAlignment(uint8 value) override;
 		void SetViewPort(uint16 width, uint16 height) override;
 

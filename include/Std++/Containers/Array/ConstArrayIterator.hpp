@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//This class is unfortunately needed because of the need of "array" to be const.
 	//template <template <typename DataType> typename ArrayType, typename DataType>

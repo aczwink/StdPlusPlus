@@ -21,7 +21,7 @@
 #include "../Function.hpp"
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

@@ -22,7 +22,7 @@
 #include "../Streams/InputStream.hpp"
 #include "FileSystemNode.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class File : public FileSystemNode
 	{

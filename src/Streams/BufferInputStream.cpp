@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 BufferInputStream::BufferInputStream(const void *pBuffer, uint32 size)
@@ -69,7 +69,7 @@ uint32 BufferInputStream::ReadBytes(void *pDestination, uint32 count)
 
 void BufferInputStream::SetCurrentOffset(uint64 offset)
 {
-    ASSERT(this->pStart + offset <= this->endPos, "If you see this, report to StdPlusPlus");
+    ASSERT(this->pStart + offset <= this->endPos, "If you see this, report to StdXX");
 
     this->current = this->pStart + offset;
 }

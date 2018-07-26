@@ -19,14 +19,15 @@
 //Class header
 #include <Std++/UI/Views/ListView.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-ListView::ListView(WidgetContainer *parent) : View(parent)
+ListView::ListView()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::ListView, this);
+	NOT_IMPLEMENTED_ERROR;
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::ListView, this);
 }

@@ -21,7 +21,7 @@
 #include "Node.hpp"
 #include "../Containers/Strings/OldString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace XML
     {

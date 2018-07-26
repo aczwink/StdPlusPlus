@@ -21,7 +21,7 @@
 //Local
 #include <Std++CPUOpt.hpp>
 //Namespaces
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX::Rendering;
 
 //Public methods
 void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)

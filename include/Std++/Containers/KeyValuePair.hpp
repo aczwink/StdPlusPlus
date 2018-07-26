@@ -19,7 +19,7 @@
 
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename KeyType, typename ValueType>
     class KeyValuePair

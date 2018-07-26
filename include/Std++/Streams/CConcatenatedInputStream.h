@@ -21,7 +21,7 @@
 #include "InputStream.hpp"
 #include "../Containers/Array/DynamicArray.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API CConcatenatedInputStream : public InputStream
     {

@@ -19,44 +19,90 @@
  //Class header
 #include "CocoaBackend.hh"
 //Local
+#include <Std++/UI/Displays/RenderTargetWidget.hpp>
+#include <Std++/UI/Window.hpp>
+#import "UI/CocoaCheckBoxBackend.hh"
 #include "UI/CocoaEventSource.hh"
 #include "UI/CocoaWindowBackend.hh"
 #include "UI/CocoaMenuBarBackend.hh"
+#import "UI/CocoaRenderTargetWidgetBackend.hh"
+#import "UI/CocoaGroupBoxBackend.hh"
+#import "UI/CocoaPushButtonBackend.hh"
+#import "UI/CocoaLabelBackend.hh"
+#import "UI/CocoaSliderBackend.hh"
+#import "UI/CocoaSpinBoxBackend.hh"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus::UI;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::UI;
 //Cocoa
 #undef new
 #include <Cocoa/Cocoa.h>
 
 //Public methods
-StdPlusPlus::EventSource *StdPlusPlus::CocoaBackend::CreateEventSource()
+CheckBoxBackend *StdXX::CocoaBackend::CreateCheckBoxBackend(CheckBox *checkBox)
+{
+	return new CocoaCheckBoxBackend(this, checkBox);
+}
+
+StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
 {
 	return new CocoaEventSource;
 }
 
-MenuBackend *StdPlusPlus::CocoaBackend::CreateMenuBackend(StdPlusPlus::UI::Menu *menu)
+GroupBoxBackend *CocoaBackend::CreateGroupBoxBackend(GroupBox * groupBox)
+{
+	return new CocoaGroupBoxBackend(this, groupBox);
+}
+
+LabelBackend *CocoaBackend::CreateLabelBackend(UI::Label *label)
+{
+	return new CocoaLabelBackend(this, label);
+}
+
+MenuBackend *StdXX::CocoaBackend::CreateMenuBackend(StdXX::UI::Menu *menu)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
 
-MenuBarBackend *StdPlusPlus::CocoaBackend::CreateMenuBarBackend(StdPlusPlus::UI::MenuBar *menuBar)
+MenuBarBackend *StdXX::CocoaBackend::CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar)
 {
 	return new CocoaMenuBarBackend();
 }
 
-WindowBackend *StdPlusPlus::CocoaBackend::CreateWindowBackend(WindowBackendType type, StdPlusPlus::UI::Widget *widget)
+PushButtonBackend *CocoaBackend::CreatePushButtonBackend(UI::PushButton *pushButton)
 {
-	return new CocoaWindowBackend(this, type, widget);
+	return new CocoaPushButtonBackend(this, pushButton);
 }
 
-void StdPlusPlus::CocoaBackend::Load()
+WidgetBackend *CocoaBackend::CreateRenderTargetWidgetBackend(RenderTargetWidget *renderTargetWidget)
+{
+	return new CocoaRenderTargetWidgetBackend(this, renderTargetWidget);
+}
+
+SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider *slider)
+{
+	return new CocoaSliderBackend(this, slider);
+}
+
+SpinBoxBackend *CocoaBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
+{
+	return new CocoaSpinBoxBackend(this, spinBox);
+}
+
+WindowBackend *StdXX::CocoaBackend::CreateWindowBackend(Window *window)
+{
+	return new CocoaWindowBackend(this, window);
+}
+
+void StdXX::CocoaBackend::Load()
 {
 	[NSApplication sharedApplication];
+	[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 }
 
-void StdPlusPlus::CocoaBackend::Unload() const
+void StdXX::CocoaBackend::Unload() const
 {
 	[NSApp release];
 }

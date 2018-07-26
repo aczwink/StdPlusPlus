@@ -22,7 +22,7 @@
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 bool ContainerDirectory::ContainsFile(const String &name) const
@@ -117,7 +117,7 @@ AutoPointer<const Directory> ContainerDirectory::GetSubDirectory(const String &n
 //For range-based loop
 DirectoryIterator ContainerDirectory::begin() const
 {
-	class ContainerDirectoryIteratorState : public _stdpp::DirectoryIteratorState
+	class ContainerDirectoryIteratorState : public _stdxx_::DirectoryIteratorState
 	{
 	public:
 		//Constructor

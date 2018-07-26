@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multitasking/Thread.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Private methods
 int32 Thread::ThreadMain()

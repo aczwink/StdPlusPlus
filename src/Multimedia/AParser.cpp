@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/AParser.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Destructor
 AParser::~AParser()

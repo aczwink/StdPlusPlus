@@ -22,13 +22,13 @@
 #include "../SmartPointers/AutoPointer.hpp"
 #include "FileSystemNode.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API DirectoryIterator
     {
     public:
         //Constructors
-        inline DirectoryIterator(_stdpp::DirectoryIteratorState *iteratorState) : iteratorState(iteratorState)
+        inline DirectoryIterator(_stdxx_::DirectoryIteratorState *iteratorState) : iteratorState(iteratorState)
 		{
 		}
 
@@ -74,6 +74,6 @@ namespace StdPlusPlus
 
     private:
         //Members
-		_stdpp::DirectoryIteratorState *iteratorState;
+		_stdxx_::DirectoryIteratorState *iteratorState;
     };
 }

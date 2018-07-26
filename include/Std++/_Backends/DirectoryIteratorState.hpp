@@ -22,7 +22,7 @@
 #include "../SmartPointers/AutoPointer.hpp"
 
 //Move declarations
-namespace _stdpp
+namespace _stdxx_
 {
 	class DirectoryIteratorState
 	{
@@ -30,7 +30,7 @@ namespace _stdpp
 		virtual ~DirectoryIteratorState(){}
 		//Abstract
 		virtual bool Equals(DirectoryIteratorState *other) const = 0;
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::FileSystemNode> GetCurrent() const = 0;
+		virtual StdXX::AutoPointer<StdXX::FileSystemNode> GetCurrent() const = 0;
 		virtual void Next() = 0;
 	};
 }

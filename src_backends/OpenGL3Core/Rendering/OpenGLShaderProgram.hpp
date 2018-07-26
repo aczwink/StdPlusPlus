@@ -21,10 +21,10 @@
 #include <Std++/Rendering/ShaderProgram.hpp>
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Math;
+using namespace StdXX::Rendering;
 
 class OpenGLShaderProgram : public ShaderProgram
 {
@@ -38,7 +38,7 @@ public:
     //Methods
     void AttachShader(const Shader *pShader);
     void DetachShader(const Shader *pShader);
-    uint32 GetUniformId(const StdPlusPlus::ByteString &refVarName) const;
+    uint32 GetUniformId(const StdXX::ByteString &refVarName) const;
     void Link();
     void SetUniformValue(uint32 varId, int32 value);
     void SetUniformValue(uint32 varId, uint32 value);

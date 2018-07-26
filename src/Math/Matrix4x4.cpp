@@ -22,8 +22,8 @@
 #include <Std++/Math/Matrix3x3.hpp>
 #include <Std++CPUOpt.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructor
 template <typename ScalarType>
@@ -320,7 +320,7 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::Translation(const vec3 &t)
 	return translate;
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

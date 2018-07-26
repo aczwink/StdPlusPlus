@@ -26,8 +26,8 @@
 #include <Std++/Char.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Operators
 String &String::operator+=(uint32 codePoint)
@@ -379,7 +379,7 @@ String String::ToLowercase() const
 	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes
 	for(uint32 codePoint : *this)
 	{
-		tmp.sharedResource->nElements += this->EncodeUTF8(StdPlusPlus::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+		tmp.sharedResource->nElements += this->EncodeUTF8(StdXX::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
 	}
 	tmp.data = tmp.sharedResource->data;
 	tmp.length = this->length;

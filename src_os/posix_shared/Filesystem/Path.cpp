@@ -27,7 +27,7 @@
 //Local
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 Path Path::GetAbsolutePath() const

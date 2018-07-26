@@ -23,7 +23,7 @@
 #include <Std++/Memory.h>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus::Math;
+using namespace StdXX::Math;
 
 //Constructor
 CXMLParser::CXMLParser(InputStream &refInput) : input(refInput)
@@ -79,7 +79,7 @@ Element *CXMLParser::ParseElement()
 
 					elementName = this->ParseName();
 
-					ASSERT(elementName == pElement->GetName(), "If you see this, report to StdPlusPlus");
+					ASSERT(elementName == pElement->GetName(), "If you see this, report to StdXX");
 					this->ExpectChar('>');
 					break;
 				}
@@ -125,7 +125,7 @@ String CXMLParser::ParseName()
 			;
 	};
 
-	ASSERT(refNameStartCharFunc(this->lookAhead[0]), "If you see this, report to StdPlusPlus");
+	ASSERT(refNameStartCharFunc(this->lookAhead[0]), "If you see this, report to StdXX");
 
 	while (refNameCharFunc(this->lookAhead[0]) || refNameStartCharFunc(this->lookAhead[0]))
 		name += this->ReadNextCodepoint();
@@ -205,17 +205,17 @@ void CXMLParser::ReadProlog()
 	this->ExpectChar('<');
 	this->ExpectChar('?');
 	xmlName = this->ParseName();
-	ASSERT(xmlName == "xml", "If you see this, report to StdPlusPlus");
+	ASSERT(xmlName == "xml", "If you see this, report to StdXX");
 
 	this->ReadAttributes(attributes);
 
 	//version
-	ASSERT(attributes.Contains("version"), "If you see this, report to StdPlusPlus");
-	ASSERT(attributes["version"] == "1.0", "If you see this, report to StdPlusPlus");
+	ASSERT(attributes.Contains("version"), "If you see this, report to StdXX");
+	ASSERT(attributes["version"] == "1.0", "If you see this, report to StdXX");
 
 	//encoding
-	ASSERT(attributes.Contains("encoding"), "If you see this, report to StdPlusPlus");
-	ASSERT(attributes["encoding"].ToLowercase() == "utf-8", "If you see this, report to StdPlusPlus");
+	ASSERT(attributes.Contains("encoding"), "If you see this, report to StdXX");
+	ASSERT(attributes["encoding"].ToLowercase() == "utf-8", "If you see this, report to StdXX");
 
 	//end
 	this->ExpectChar('?');

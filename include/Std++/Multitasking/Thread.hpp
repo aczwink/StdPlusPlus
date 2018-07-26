@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "../Function.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     typedef int32(*ThreadFunction)();
 

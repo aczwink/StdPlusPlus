@@ -21,7 +21,7 @@
 #include "WeakDate.hpp"
 #include <Std++/Debug.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	* Represents dates within the Gregorian calendar.

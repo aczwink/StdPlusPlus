@@ -20,7 +20,7 @@
 //Local
 #include "../RGBImage.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

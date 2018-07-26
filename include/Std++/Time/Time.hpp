@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	* Represents times within a 24 hour format.

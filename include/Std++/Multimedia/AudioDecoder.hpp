@@ -20,7 +20,7 @@
 //Local
 #include "Decoder.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

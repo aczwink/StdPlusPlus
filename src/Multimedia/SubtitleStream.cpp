@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/SubtitleStream.hpp>
 //Namespaces
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX::Multimedia;
 
 //Private methods
 bool SubtitleStream::AllDecoderInfoIsAvailable()

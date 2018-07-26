@@ -23,7 +23,7 @@
 #include "SMetaInfo.h"
 #include "Packet.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Multitasking/Multitasking.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Worker Thread
 class StaticThreadPool::CWorkerThread : public Thread

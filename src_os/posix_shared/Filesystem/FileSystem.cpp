@@ -24,7 +24,7 @@
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 class LinuxDirectory : public Directory
 {

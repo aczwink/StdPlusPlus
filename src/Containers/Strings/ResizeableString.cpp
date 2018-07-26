@@ -19,9 +19,9 @@
 //Class header
 #include <Std++/Containers/Strings/ResizeableString.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Explicit instatiation
 	template

@@ -21,7 +21,7 @@
 #include <Std++/Math/Radian.hpp>
 #include "Vector3.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

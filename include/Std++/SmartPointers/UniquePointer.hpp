@@ -21,7 +21,7 @@
 #include "Std++/Debug.hpp"
 #include "../Deleters.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * A single-owned non-shared pointer.

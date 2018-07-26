@@ -19,9 +19,9 @@
 //Class header
 #include <Std++/Rendering/VectorPath/HostComputedPathRenderer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX;
+using namespace StdXX::Math;
+using namespace StdXX::Rendering;
 
 //Constructor
 HostComputedPathRenderer::HostComputedPathRenderer()

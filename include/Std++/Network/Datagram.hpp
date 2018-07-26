@@ -21,7 +21,7 @@
 #include "../Memory.h"
 #include "NetAddress.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class Datagram
 	{

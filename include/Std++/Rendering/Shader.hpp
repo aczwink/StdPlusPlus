@@ -22,7 +22,7 @@
 #include "../Definitions.h"
 #include "../Streams/SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {
@@ -42,7 +42,7 @@ namespace StdPlusPlus
 
             //Abstract
             virtual bool Compile(SeekableInputStream &refSource) = 0;
-            virtual StdPlusPlus::String GetCompilationLog() = 0;
+            virtual StdXX::String GetCompilationLog() = 0;
         };
     }
 }

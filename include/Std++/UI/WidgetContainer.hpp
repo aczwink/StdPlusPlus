@@ -18,71 +18,36 @@
  */
 #pragma once
 //Local
-#include "../Containers/LinkedList/LinkedList.hpp"
+#include <Std++/_Backends/UI/WidgetContainerBackend.hpp>
 #include "Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
-    namespace UI
-    {
-        //Move declarations
-        class ILayout;
+	namespace UI
+	{
+		class STDPLUSPLUS_API WidgetContainer : public Widget
+		{
+		public:
+			//Abstract
+			virtual void RemoveChild(Widget *child) = 0;
 
-        class STDPLUSPLUS_API WidgetContainer : public Widget
-        {
-            friend class Widget;
-            friend class EventQueue;
-            friend class Window;
-        public:
-            //Constructor
-            WidgetContainer(WidgetContainer *pContainer);
+		protected:
+			//Members
+			_stdxx_::WidgetContainerBackend *widgetContainerBackend;
 
-            //Destructor
-            virtual ~WidgetContainer();
-
-            //Methods
-            void SetLayout(ILayout *pLayout);
-
-            //Overrideable
-            /**
-             * The rectangle in which the children widgets are placed.
-             * It is relative to this widgets area (i.e. Rect(Point(0, 0), this->GetSize()).
-             * It must lay inside this widgets area or can be exactly this widgets area.
-             * @return
-             */
-			virtual Rect GetChildrenRect() const;
-            virtual Size GetSizeHint() const;
-
-            //Inline
-            inline const LinkedList<Widget *> &GetChildren() const
-            {
-                return this->children;
-            }
-
-			inline Point TranslateChildToWidgetCoords(const Point &point) const
+			//Inline
+			inline void FreeWidgetOwnership(Widget *widget)
 			{
-				return this->GetChildrenRect().origin + point;
+				widget->parent = nullptr;
 			}
 
-        protected:
-            //Members
-            ILayout *layout;
-
-            //Eventhandlers
-            virtual void OnPaint();
-			virtual void OnResized();
-
-        private:
-            //Members
-            LinkedList<Widget *> children;
-
-            //Inline
-            inline void RemoveChild(Widget *child)
-            {
-                int32 index = this->children.Find(child);
-                if(index != -1)
-                    this->children.Remove(index);
-            }
-        };
-    }
+			inline void TakeWidgetOwnership(Widget *widget)
+			{
+				if(widget->parent)
+					widget->parent->RemoveChild(widget);
+				widget->parent = this;
+				this->widgetContainerBackend->AddChild(widget);
+			}
+		};
+	}
 }

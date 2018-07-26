@@ -21,7 +21,7 @@
 #include <Std++/Mathematics.hpp>
 #include "Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	inline bool IsWhiteSpaceChar(uint32 codePoint)
 	{

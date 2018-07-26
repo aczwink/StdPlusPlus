@@ -23,7 +23,7 @@
 #include "../../Rendering/Texture2D.hpp"
 #include "PathRenderTargetWidget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
@@ -31,19 +31,19 @@ namespace StdPlusPlus
 		{
 		public:
 			//Constructor
-			VideoWidget(WidgetContainer *parent);
+			VideoWidget();
 
 			//Destructor
 			~VideoWidget();
 
 			//Methods
-			void UpdatePicture(Multimedia::Packet *videoPacket, Size frameSize);
+			void UpdatePicture(Multimedia::Packet *videoPacket, Math::Size<uint16> frameSize);
 
 		private:
 			//Members
 			Rendering::Texture2D *texture;
 			Multimedia::Packet *nextFrame;
-			Size frameSize;
+			Math::Size<uint16> frameSize;
 			Mutex frameLock;
 
 			//Eventhandlers

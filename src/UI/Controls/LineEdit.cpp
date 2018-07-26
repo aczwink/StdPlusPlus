@@ -19,15 +19,15 @@
 //Class header
 #include <Std++/UI/Controls/LineEdit.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-LineEdit::LineEdit(WidgetContainer *parent) : Widget(parent)
+LineEdit::LineEdit()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
 	NOT_IMPLEMENTED_ERROR;//TODO: next line
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::LineEdit, this);
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::LineEdit, this);
 }

@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/UI/Displays/PathRenderTargetWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Eventhandlers
 void PathRenderTargetWidget::OnResized()

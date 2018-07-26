@@ -21,8 +21,8 @@
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/InputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 //Definitions
 #define BMP_HEADER_TYPE "BM"
 #define BMP_HEADER_TYPE_SIZE 2

@@ -22,9 +22,9 @@
 #include "../GL3Functions.hpp"
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 //Forward declarations
 class OpenGLIndexBuffer;

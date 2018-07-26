@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::XML;
+using namespace StdXX;
+using namespace StdXX::XML;
 
 //Public methods
 NodeType TextNode::GetType() const

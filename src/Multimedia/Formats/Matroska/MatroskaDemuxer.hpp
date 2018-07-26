@@ -21,8 +21,8 @@
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Format.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 /*
 Sources:

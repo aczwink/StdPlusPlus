@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 void Time::Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs)

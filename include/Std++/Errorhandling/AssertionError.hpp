@@ -21,7 +21,7 @@
 #include "Error.hpp"
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class STDPLUSPLUS_API AssertionError : public Error
 	{

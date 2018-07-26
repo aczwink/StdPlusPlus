@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "Std++/Debug.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Math
     {

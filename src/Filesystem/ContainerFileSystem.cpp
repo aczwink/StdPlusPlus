@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath) : FileSystem(format),
@@ -93,7 +93,7 @@ void ContainerFileSystem::AddSourceFile(const Path &filePath, uint64 offset, uin
 UniquePointer<FileOutputStream> ContainerFileSystem::OpenTempContainer()
 {
 	Path p = this->fileSystemPath + Path(u8".stdpptmp");
-	ASSERT(!FileSystem::GetOSFileSystem().Exists(p), u8"If you see this, report to StdPlusPlus please");
+	ASSERT(!FileSystem::GetOSFileSystem().Exists(p), u8"If you see this, report to StdXX please");
 
 	return new FileOutputStream(p);
 }

@@ -21,7 +21,7 @@
 #include <Std++/_Backends/AudioDevice.hpp>
 #include "OpenALSoftDeviceEnumeratorState.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class OpenALSoftBackend : public AudioBackend
 	{
@@ -32,7 +32,7 @@ namespace StdPlusPlus
 		}
 
 		//Methods
-		UniquePointer<_stdpp::DeviceEnumeratorState> GetDeviceEnumeratorState() const override
+		UniquePointer<_stdxx_::DeviceEnumeratorState> GetDeviceEnumeratorState() const override
 		{
 			return new OpenALSoftDeviceEnumeratorState;
 		}

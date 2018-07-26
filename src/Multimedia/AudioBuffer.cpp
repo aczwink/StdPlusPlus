@@ -23,8 +23,8 @@
 #include <Std++/Integer.hpp>
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructors
 template<typename SampleType>
@@ -121,5 +121,5 @@ EAudioSampleType AudioBuffer<int16>::GetSampleType() const
 }
 
 //Explicit instantiation
-template STDPLUSPLUS_API class StdPlusPlus::Multimedia::AudioBuffer<float32>;
-template STDPLUSPLUS_API class StdPlusPlus::Multimedia::AudioBuffer<int16>;
+template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<float32>;
+template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<int16>;

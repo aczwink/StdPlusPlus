@@ -20,7 +20,7 @@
 //Local
 #include "NetAddress.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class IPv4Address : public NetAddress
 	{

@@ -21,8 +21,8 @@
 //Local
 #include "CXMLParser.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::XML;
+using namespace StdXX;
+using namespace StdXX::XML;
 
 //Constructor
 Document::Document()

@@ -24,7 +24,7 @@
 //Definitions
 #define BALANCE(pNode) ((Node *)pNode)->balance
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Implementation as AVL tree
     template<typename DataType>

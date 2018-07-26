@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 CConstUTF16StringIterator::CConstUTF16StringIterator(const UTF16String &refString, uint32 index) : refString(refString)

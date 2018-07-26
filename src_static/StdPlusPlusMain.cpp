@@ -63,7 +63,7 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
 	}
     catch(...)
     {
-		ReportError(u8"Uncaught exception (not StdPlusPlus)", String());
+		ReportError(u8"Uncaught exception (not StdXX)", String());
     }
 	ShutdownStdPlusPlus();
 

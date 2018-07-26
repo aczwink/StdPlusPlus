@@ -19,14 +19,15 @@
 //Class header
 #include <Std++/UI/Controls/TextEdit.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-TextEdit::TextEdit(WidgetContainer *parent) : Widget(parent)
+TextEdit::TextEdit()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TextEdit, this);
+	NOT_IMPLEMENTED_ERROR;
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::TextEdit, this);
 }

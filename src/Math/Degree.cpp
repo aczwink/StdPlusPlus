@@ -22,8 +22,8 @@
 #include <Std++/Math/Radian.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructor
 template <typename ScalarType>

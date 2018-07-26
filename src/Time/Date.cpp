@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 Date::Date(int64 year, uint8 month, uint8 day)

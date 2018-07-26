@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/UI/Controllers/TableController.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Public methods
 ControllerIndex TableController::GetChildIndex(uint32 row, uint32 column, const ControllerIndex &parent) const

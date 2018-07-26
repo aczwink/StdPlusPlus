@@ -22,7 +22,7 @@
 #import <Std++/Debug.hpp>
 
 //Public methods
-void _stdpp::CocoaMenuBarBackend::AppendMenu(StdPlusPlus::UI::Menu *menu)
+void _stdxx_::CocoaMenuBarBackend::AppendMenu(StdXX::UI::Menu *menu)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

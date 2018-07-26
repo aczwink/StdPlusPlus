@@ -19,7 +19,7 @@
 #pragma once
 #include "Type.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Functions
 	template <typename T>

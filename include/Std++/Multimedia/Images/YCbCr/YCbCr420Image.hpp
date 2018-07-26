@@ -20,7 +20,7 @@
 //Local
 #include "../YCbCrImage.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

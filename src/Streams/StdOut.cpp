@@ -21,11 +21,11 @@
 //Global
 #include <stdio.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Global Variables
-CStdErr STDPLUSPLUS_API StdPlusPlus::stdErr;
-StdOut STDPLUSPLUS_API StdPlusPlus::stdOut;
+CStdErr STDPLUSPLUS_API StdXX::stdErr;
+StdOut STDPLUSPLUS_API StdXX::stdOut;
 
 //CStdErr Public methods
 void CStdErr::WriteByte(byte b)

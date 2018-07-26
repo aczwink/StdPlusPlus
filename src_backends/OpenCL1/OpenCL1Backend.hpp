@@ -28,7 +28,7 @@
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "OpenCLDeviceEnumeratorState.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class OpenCL1Backend : public ComputeBackend
 	{
@@ -39,7 +39,7 @@ namespace StdPlusPlus
 		}
 
 		//Methods
-		UniquePointer<_stdpp::DeviceEnumeratorState> GetDeviceEnumeratorState() const override
+		UniquePointer<_stdxx_::DeviceEnumeratorState> GetDeviceEnumeratorState() const override
 		{
 			return new OpenCLDeviceEnumeratorState(this->platformId);
 		}

@@ -23,7 +23,7 @@
 #include "UTF-16/UTF16String.hpp"
 #include "StringUtil.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * UTF-16 string that, if needed, transforms itself to UTF-32 so that the string is always fixed length

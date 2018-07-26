@@ -24,7 +24,7 @@
 #include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <Std++/Char.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructors
 UTF16String::UTF16String(const uint16 *pString, uint32 length)
@@ -293,7 +293,7 @@ UTF16String UTF16String::ToLowercase() const
     buffer.EnsureCapacity(this->GetLength());
     for(uint32 i = 0; i < this->GetLength(); i++)
     {
-        buffer.data[i] = StdPlusPlus::ToLowercase(this->data[i]);
+        buffer.data[i] = StdXX::ToLowercase(this->data[i]);
     }
     buffer.nElements = this->nElements;
     buffer.length = this->length;

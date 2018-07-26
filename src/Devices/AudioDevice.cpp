@@ -23,7 +23,7 @@
 #include <Std++/_Backends/ComputeDevice.hpp>
 #include <Std++/_Backends/AudioDevice.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 DeviceType AudioDevice::GetType() const

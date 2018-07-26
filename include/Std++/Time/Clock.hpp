@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * A monotonic clock that can be used to measure time difference.

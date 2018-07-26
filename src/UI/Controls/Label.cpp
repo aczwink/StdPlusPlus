@@ -18,17 +18,23 @@
  */
 //Class header
 #include <Std++/UI/Controls/Label.hpp>
+//Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/_Backends/UI/LabelBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-Label::Label(WidgetContainer *parent) : Widget(parent)
+Label::Label()
 {
 	/*
 	sizing policy:
 	horz: preferred
 	vert: preferred
 	*/
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::Label, this);
+
+	this->labelBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateLabelBackend(this);
+	this->backend = this->labelBackend;
 }

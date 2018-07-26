@@ -26,8 +26,8 @@
 #include <Std++/Audio/Source.hpp>
 #include "OpenALSoftDeviceContext.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Audio;
+using namespace StdXX;
+using namespace StdXX::Audio;
 
 class OpenALSoftSource : public Source
 {

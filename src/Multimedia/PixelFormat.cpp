@@ -19,8 +19,8 @@
 //Corresponding header
 #include <Std++/Multimedia/PixelFormat.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Functions
 OldString Multimedia::ToString(PixelFormat pixelFormat)

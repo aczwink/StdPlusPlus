@@ -21,7 +21,7 @@
 //Global
 #include <poll.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((DynamicArray<pollfd> *)this->internal)
 

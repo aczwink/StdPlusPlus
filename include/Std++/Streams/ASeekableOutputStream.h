@@ -20,7 +20,7 @@
 //Local
 #include "OutputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API ASeekableOutputStream : public OutputStream
     {

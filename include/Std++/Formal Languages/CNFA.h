@@ -29,7 +29,7 @@
 //Definitions
 #define EMPTYWORD_EPSILON UINT32_MAX
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class CNFAState
     {

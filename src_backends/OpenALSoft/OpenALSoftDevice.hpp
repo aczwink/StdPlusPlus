@@ -28,7 +28,7 @@
 #include <Std++/Devices/AudioDevice.hpp>
 #include "Audio/OpenALSoftDeviceContext.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 class OpenALSoftDevice : public AudioDevice
 {
@@ -51,7 +51,7 @@ public:
 		return new OpenALSoftDeviceContext(this->device);
 	}
 
-	String GetName() const
+	String GetName() const override
 	{
 		return String::CopyRawString(alcGetString(this->device, ALC_DEVICE_SPECIFIER));
 	}

@@ -23,7 +23,7 @@
 #include <Std++/Network/IPv4Address.hpp>
 #include "Shared.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 DatagramSocket::DatagramSocket(const NetAddress &netAddress, uint16 port)

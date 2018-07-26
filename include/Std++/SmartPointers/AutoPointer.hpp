@@ -21,7 +21,7 @@
 #include "Std++/Debug.hpp"
 #include "../Definitions.h"
 
-namespace _stdpp
+namespace _stdxx_
 {
 	struct AutoPointerControlBlock
 	{
@@ -30,7 +30,7 @@ namespace _stdpp
 	};
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * IMPORTANT: The concept of this class is different from std::auto_ptr!
@@ -56,7 +56,7 @@ namespace StdPlusPlus
 
 		inline AutoPointer(ValueType *pointer, bool owned = true) : pointer(pointer), isOwner(owned)
 		{
-			this->controlBlock = new _stdpp::AutoPointerControlBlock;
+			this->controlBlock = new _stdxx_::AutoPointerControlBlock;
 			this->controlBlock->referenceCount = 1;
 			this->controlBlock->expired = false;
 		}
@@ -165,7 +165,7 @@ namespace StdPlusPlus
 	private:
 		//Members
 		ValueType *pointer;
-		_stdpp::AutoPointerControlBlock *controlBlock;
+		_stdxx_::AutoPointerControlBlock *controlBlock;
 		bool isOwner;
 
 		//Inline

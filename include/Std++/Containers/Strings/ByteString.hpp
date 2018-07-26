@@ -23,7 +23,7 @@
 #include "../LinkedList/LinkedList.hpp"
 //#include "CWString.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //May contain ASCII, Latin1 or anything that fits within 8 bits
     class STDPLUSPLUS_API ByteString : public FixedCharLengthString<char>

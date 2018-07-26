@@ -20,7 +20,7 @@
 //Local
 #include "View.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -32,7 +32,7 @@ namespace StdPlusPlus
             friend class AListController;
         public:
             //Constructor
-            ListView(WidgetContainer *parent);
+            ListView();
 		};
     }
 }

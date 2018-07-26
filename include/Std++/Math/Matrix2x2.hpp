@@ -20,7 +20,7 @@
 //Local
 #include "Vector2.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Math
     {

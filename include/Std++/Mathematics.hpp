@@ -27,7 +27,7 @@
 //Constants
 #define PI 3.1415926535897932384626433832795
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

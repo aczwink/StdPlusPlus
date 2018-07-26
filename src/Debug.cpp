@@ -24,17 +24,17 @@
 #include <Std++/Containers/Strings/String.hpp>
 
 #ifdef _DEBUG
-void StdPlusPlus::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void StdXX::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
 	throw AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
 }
 
-void StdPlusPlus::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void StdXX::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
 	throw AssertionError(pContext, refMessage, pFileName, lineNumber, pFunctionName);
 }
 
-void StdPlusPlus::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
+void StdXX::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
 {
 	String message;
 
@@ -45,7 +45,7 @@ void StdPlusPlus::AssertionFailed(float64 expect, float64 got, float64 epsilon, 
 	throw AssertionError(u8"Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
 }
 
-void StdPlusPlus::RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
+void StdXX::RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
 {
 	throw NotImplementedError(fileName, lineNumber, functionName);
 }

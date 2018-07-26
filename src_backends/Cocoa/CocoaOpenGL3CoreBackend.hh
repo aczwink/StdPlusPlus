@@ -21,13 +21,13 @@
 //Local
 #include "../OpenGL3Core/OpenGL3CoreBackend.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class CocoaOpenGL3CoreBackend : public OpenGL3CoreBackend
 	{
 	public:
 		//Methods
-		Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const override;
+		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const override;
 	};
 }
 #endif

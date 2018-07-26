@@ -21,7 +21,7 @@
 #include <Std++/Audio/DeviceContext.hpp>
 #include "Device.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class AudioDevice : public Device
 	{

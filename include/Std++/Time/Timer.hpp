@@ -22,7 +22,7 @@
 #include "../Function.hpp"
 #include "TimerEventSource.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API Timer
     {

@@ -21,7 +21,7 @@
 #include "AIndirectObject.h"
 #include "CPageTree.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace PDF
     {

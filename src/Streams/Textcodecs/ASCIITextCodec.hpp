@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 class ASCIITextCodec : public TextCodec
 {

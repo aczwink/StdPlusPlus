@@ -24,7 +24,7 @@
 #include "Mutex.hpp"
 #include "Thread.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API StaticThreadPool
     {

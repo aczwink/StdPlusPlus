@@ -17,24 +17,20 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Class header
+#include "WidgetBackend.hpp"
 
-namespace _stdpp
+namespace _stdxx_
 {
-	enum class WindowBackendType
+	class WidgetContainerBackend : virtual public WidgetBackend
 	{
-		CheckBox,
-		ComboBox,
-		GroupBox,
-		Label,
-		ListView,
-		PushButton,
-		RadioButton,
-		RenderTarget,
-		SearchBox,
-		Slider,
-		SpinBox,
-		TextEdit,
-		TreeView,
-		Window
+	public:
+		//Constructor
+		inline WidgetContainerBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		{
+		}
+
+		//Abstract
+		virtual void AddChild(StdXX::UI::Widget *widget) = 0;
 	};
 }

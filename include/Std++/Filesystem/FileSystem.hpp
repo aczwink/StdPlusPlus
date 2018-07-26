@@ -22,7 +22,7 @@
 #include "../SmartPointers/UniquePointer.hpp"
 #include "Directory.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class FileSystemFormat;

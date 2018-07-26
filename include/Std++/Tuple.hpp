@@ -20,7 +20,7 @@
 //Local
 #include "Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     template<typename... ElementTypes>
@@ -34,19 +34,19 @@ namespace _ACIntern
     struct TupleElementType;
 
     template<typename FirstType, typename... RestTypes>
-    struct TupleElementType<0, StdPlusPlus::Tuple<FirstType, RestTypes...>>
+    struct TupleElementType<0, StdXX::Tuple<FirstType, RestTypes...>>
     {
         typedef FirstType ValueType;
-        typedef StdPlusPlus::Tuple<FirstType, RestTypes...> TupleType;
+        typedef StdXX::Tuple<FirstType, RestTypes...> TupleType;
     };
 
     template<uint32 index, typename FirstType, typename... RestTypes>
-    struct TupleElementType<index, StdPlusPlus::Tuple<FirstType, RestTypes...>> : public TupleElementType<index - 1, StdPlusPlus::Tuple<RestTypes...>>
+    struct TupleElementType<index, StdXX::Tuple<FirstType, RestTypes...>> : public TupleElementType<index - 1, StdXX::Tuple<RestTypes...>>
     {
     };
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<>
     class Tuple<> //empty tuple

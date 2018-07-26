@@ -26,7 +26,7 @@
 #include "../Math/Vector2.hpp"
 #include "../Math/Vector3.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {
@@ -42,7 +42,7 @@ namespace StdPlusPlus
             //Abstract
             virtual void AttachShader(const Shader *pShader) = 0;
             virtual void DetachShader(const Shader *pShader) = 0;
-            virtual uint32 GetUniformId(const StdPlusPlus::ByteString &refVarName) const = 0;
+            virtual uint32 GetUniformId(const StdXX::ByteString &refVarName) const = 0;
             virtual void Link() = 0;
             virtual void SetUniformValue(uint32 varId, int32 value) = 0;
             virtual void SetUniformValue(uint32 varId, uint32 value) = 0;

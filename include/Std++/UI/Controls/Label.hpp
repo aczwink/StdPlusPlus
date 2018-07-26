@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/LabelBackend.hpp>
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -28,13 +29,17 @@ namespace StdPlusPlus
         {
         public:
             //Constructor
-            Label(WidgetContainer *parent);
+            Label();
 
 			//Inline
 			inline void SetText(const String &text)
 			{
-				this->backend->SetText(text);
+				this->labelBackend->SetText(text);
 			}
+
+		private:
+        	//Members
+        	_stdxx_::LabelBackend *labelBackend;
         };
     }
 }

@@ -19,14 +19,15 @@
 //Class header
 #include <Std++/UI/Controls/SearchBox.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-SearchBox::SearchBox(WidgetContainer *parent) : Widget(parent)
+SearchBox::SearchBox()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::SearchBox, this);
+	NOT_IMPLEMENTED_ERROR;
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::SearchBox, this);
 }

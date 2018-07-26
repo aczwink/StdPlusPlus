@@ -26,7 +26,7 @@
 #include "CCharSet.h"
 #include "CNFA.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API CRegExParser
     {

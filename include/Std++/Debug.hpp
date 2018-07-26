@@ -22,13 +22,13 @@
 #include "Definitions.h"
 
 #ifdef _DEBUG
-#define ASSERT(expression, message) {if((expression) == 0){StdPlusPlus::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
+#define ASSERT(expression, message) {if((expression) == 0){StdXX::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
 //extended asserts
-#define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdPlusPlus::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
+#define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdXX::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
 //Errors
-#define NOT_IMPLEMENTED_ERROR StdPlusPlus::RaiseNotImplementedError(__FILE__, __LINE__, __FUNCTION__)
+#define NOT_IMPLEMENTED_ERROR StdXX::RaiseNotImplementedError(__FILE__, __LINE__, __FUNCTION__)
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class String;

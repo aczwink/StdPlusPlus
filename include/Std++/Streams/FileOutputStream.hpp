@@ -21,7 +21,7 @@
 #include "../Filesystem/Path.hpp"
 #include "ASeekableOutputStream.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API FileOutputStream : public ASeekableOutputStream
     {

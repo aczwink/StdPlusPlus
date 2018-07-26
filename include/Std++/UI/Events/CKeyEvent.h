@@ -21,7 +21,7 @@
 #include "../../Definitions.h"
 #include "../Keyboard.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

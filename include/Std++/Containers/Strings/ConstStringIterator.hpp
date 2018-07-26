@@ -19,7 +19,7 @@
 //Local
 #include "String.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class ConstStringIterator
 	{

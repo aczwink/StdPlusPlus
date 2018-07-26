@@ -20,7 +20,7 @@
 //Local
 #include "TreeController.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

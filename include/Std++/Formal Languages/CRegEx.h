@@ -22,7 +22,7 @@
 #include "Std++/Containers/Strings/UTF-8/UTF8String.hpp"
 #include "CNFA.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API CRegEx
     {

@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Public methods
 uint8 AbstractAudioBuffer::GetNumberOfChannels() const

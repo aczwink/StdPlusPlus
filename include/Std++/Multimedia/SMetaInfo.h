@@ -22,7 +22,7 @@
 #include "../Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

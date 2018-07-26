@@ -18,9 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/SliderBackend.hpp>
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -31,7 +32,7 @@ namespace StdPlusPlus
 			Function<void()> onValueChangedHandler;
 
             //Constructor
-            Slider(WidgetContainer *pParent);
+            Slider();
 
 			//Inline
 			inline uint32 GetPosition() const
@@ -39,20 +40,19 @@ namespace StdPlusPlus
 				return this->backend->GetPosition();
 			}
 
-			inline void SetMaximum(uint32 max)
-			{
-				this->backend->SetMaximum(max);
-			}
-
-			inline void SetMinimum(uint32 min)
-			{
-				this->backend->SetMinimum(min);
-			}
-
 			inline void SetPosition(uint32 pos)
 			{
-				this->backend->SetPosition(pos);
+				this->sliderBackend->SetPosition(pos);
 			}
+
+			inline void SetRange(uint32 min, uint32 max) const
+			{
+				this->sliderBackend->SetRange(min, max);
+			}
+
+		private:
+        	//Members
+        	_stdxx_::SliderBackend *sliderBackend;
         };
     }
 }

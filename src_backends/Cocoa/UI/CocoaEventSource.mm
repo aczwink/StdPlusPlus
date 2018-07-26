@@ -19,7 +19,9 @@
 //Class header
 #include "CocoaEventSource.hh"
 //Namespaces
-using namespace _stdpp;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::UI;
 //Local variables
 static CocoaEventSource *l_eventSource = nullptr;
 
@@ -50,28 +52,48 @@ uint64 CocoaEventSource::GetMaxTimeout() const
 	return 1000 * 1000;
 }
 
-void CocoaEventSource::VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const
+void CocoaEventSource::VisitWaitObjects(const StdXX::Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const
 {
 	//none...
 }
 
 //Class functions
-void CocoaEventSource::EmitCloseEvent(StdPlusPlus::UI::Window &window)
+void CocoaEventSource::EmitCloseEvent(StdXX::UI::Window &window)
 {
 	l_eventSource->DispatchCloseEvent(window);
 }
 
-void CocoaEventSource::EmitPaintEvent(StdPlusPlus::UI::Widget &widget)
+void CocoaEventSource::EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint point)
+{
+	l_eventSource->DispatchMouseMovedEvent(widget, Math::PointD(point.x, point.y));
+}
+
+void CocoaEventSource::EmitMousePressedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point)
+{
+	l_eventSource->DispatchMouseButtonPressed(widget, button, Math::PointD(point.x, point.y));
+}
+
+void CocoaEventSource::EmitMouseReleasedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point)
+{
+	l_eventSource->DispatchMouseButtonReleased(widget, button, Math::PointD(point.x, point.y));
+}
+
+void CocoaEventSource::EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta)
+{
+	l_eventSource->DispatchMouseWheelEvent(widget, delta);
+}
+
+void CocoaEventSource::EmitPaintEvent(StdXX::UI::Widget &widget)
 {
 	l_eventSource->DispatchPaintEvent(widget);
 }
 
-void CocoaEventSource::EmitResizedEvent(StdPlusPlus::UI::Widget &widget)
+void CocoaEventSource::EmitResizedEvent(StdXX::UI::Widget &widget)
 {
 	l_eventSource->DispatchResizedEvent(widget);
 }
 
-void CocoaEventSource::EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds)
+void CocoaEventSource::EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds)
 {
 	l_eventSource->DispatchResizingEvent(widget, newBounds);
 }

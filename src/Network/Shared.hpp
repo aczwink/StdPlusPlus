@@ -29,7 +29,7 @@ typedef SSIZE_T ssize_t;
 //Local
 #include <Std++/Network/NetAddress.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Global functions
 NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port);

@@ -23,7 +23,7 @@
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 void FileSystem::CreateDirectoryTree(const Path &directoryPath)

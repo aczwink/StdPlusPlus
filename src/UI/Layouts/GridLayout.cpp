@@ -21,10 +21,10 @@
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Streams/StdOut.hpp>
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
 GridLayout::GridLayout()
@@ -49,7 +49,7 @@ void GridLayout::CanExpand(const Widget *widget, bool &expandHorz, bool &expandV
 	if(expandHorz && expandVert)
 		return; //no need to search further
 
-	if(const WidgetContainer *container = dynamic_cast<const WidgetContainer *>(widget))
+	if(const CompositeWidget *container = dynamic_cast<const CompositeWidget *>(widget))
 	{
 		for(const Widget *const& child : container->GetChildren())
 		{
@@ -61,14 +61,14 @@ void GridLayout::CanExpand(const Widget *widget, bool &expandHorz, bool &expandV
 	}
 }
 
-Size GridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
+Math::SizeD GridLayout::ComputeSizingInfo(const CompositeWidget &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
 {
     uint8 col, row;
     uint16 i;
-    Size tmp, totalSize;
+    Math::SizeD tmp, totalSize;
 
     if(refContainer.GetChildren().IsEmpty())
-        return Size();
+        return Math::SizeD();
 
     //check if we have enough space
     this->EnsureGridBigEnough((uint8)refContainer.GetChildren().GetNumberOfElements());
@@ -106,14 +106,14 @@ Size GridLayout::ComputeSizingInfo(const WidgetContainer &refContainer, DynamicA
     for(i = 0; i < this->nRows; i++)
         totalSize.height += refRowHeights[i];
 
-    return totalSize + Size((this->nColumns - 1) * this->horzGap, (this->nRows - 1) * this->vertGap);
+    return totalSize + Math::SizeD((this->nColumns - 1) * this->horzGap, (this->nRows - 1) * this->vertGap);
 }
 
-void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
+void GridLayout::DistributeLeftOverSize(const CompositeWidget &refContainer, const Math::SizeD &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights)
 {
     uint16 col, row, partSize, nExpandColParts, nExpandRowParts, nGrowColParts, nGrowRowParts, max, maxIdx;
-    Size leftOver;
-    Rect rc;
+    Math::SizeD leftOver;
+    Math::RectD rc;
     Map<uint16, uint8> expandCols, expandRows, growCols, growRows;
 
     rc = this->GetPlacementRect(refContainer);
@@ -142,11 +142,12 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
 		if(expandVert)
 			expandRows.Insert(row, widget->sizingPolicy.vertScale);
 
+		/*
         if(widget->sizingPolicy.GetHorizontalAttributes().grow)
             growCols.Insert(col, widget->sizingPolicy.horzScale);
 
         if(widget->sizingPolicy.GetVerticalAttributes().grow)
-            growRows.Insert(row, widget->sizingPolicy.vertScale);
+            growRows.Insert(row, widget->sizingPolicy.vertScale);*/
 
         col++;
         if(col == this->nColumns)
@@ -189,7 +190,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
             }
         }
 
-        refColumnWidths[maxIdx] += leftOver.width % nExpandColParts;
+        refColumnWidths[maxIdx] += fmod(leftOver.width, nExpandColParts);
     }
     else if(!growCols.IsEmpty())
     {
@@ -208,7 +209,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
             }
         }
 
-        refColumnWidths[maxIdx] += leftOver.width % nGrowColParts;
+        refColumnWidths[maxIdx] += fmod(leftOver.width, nGrowColParts);
     }
 
     //distribute left-over height
@@ -229,7 +230,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
             }
         }
 
-        refRowHeights[maxIdx] += leftOver.height % nExpandRowParts;
+        refRowHeights[maxIdx] += fmod(leftOver.height, nExpandRowParts);
     }
     else if(!growRows.IsEmpty())
     {
@@ -246,7 +247,7 @@ void GridLayout::DistributeLeftOverSize(const WidgetContainer &refContainer, con
             }
         }
 
-        refRowHeights[maxIdx] += leftOver.height % nGrowRowParts;
+        refRowHeights[maxIdx] += fmod(leftOver.height, nGrowRowParts);
     }
 }
 
@@ -268,62 +269,65 @@ void GridLayout::EnsureGridBigEnough(uint8 nCells)
         }
     }
 
-    ASSERT(this->nColumns * this->nRows >= nCells, "If you see this, report to StdPlusPlus");
+    ASSERT(this->nColumns * this->nRows >= nCells, "If you see this, report to StdXX");
 }
 
-Rect GridLayout::GetPlacementRect(const WidgetContainer &container) const
+Math::RectD GridLayout::GetPlacementRect(const CompositeWidget &container) const
 {
-    Rect rc;
-	rc.size = container.GetChildrenRect().size;
+    Math::RectD rc;
+	rc.size = container.GetSize();
 	rc.Enlarge(-(int32)this->margin, -(int32)this->margin);
 
     return rc;
 }
 
-void GridLayout::PositionChild(Widget &widget, const Rect &bounds)
+void GridLayout::PositionChild(Widget &widget, const Math::RectD &cellBounds)
 {
-    Size sizeHint;
-    Rect widgetBounds;
+	/*
+	 * We can flexibly position and size the widget within the cell.
+	 *
+	 * As the whole cell is allocated to the widget anyway, there is no advantage in minimizing the widgets size within the cell.
+	*/
+    Math::RectD widgetBounds = cellBounds; //we give the widget the whole cell
 
-    widgetBounds = bounds;
-    sizeHint = widget.GetSizeHint();
-
-    /*
-    if(!widget.sizingPolicy.GetHorizontalAttributes().grow && sizeHint.width < widgetBounds.width)
+    //in case we are not allowed to grow, we probably need to allocate less
+    Math::SizeD sizeHint = widget.GetSizeHint();
+    if(!widget.sizingPolicy.GetHorizontalAttributes().grow && sizeHint.width < widgetBounds.width())
     {
-        widgetBounds.width = sizeHint.width;
-        widgetBounds.x = (bounds.width - sizeHint.width) / 2;
+        widgetBounds.width() = sizeHint.width;
+        widgetBounds.x() = cellBounds.x();
     }
-    */
-
     if(!widget.sizingPolicy.GetVerticalAttributes().grow && sizeHint.height < widgetBounds.height())
     {
+    	//widget is not allowed to grow vertically
+		widgetBounds.height() = sizeHint.height;
+		widgetBounds.y() = cellBounds.GetVerticalEnd() - widgetBounds.height();
+
         //fixed height widgets like sliders
 		//put them in vertical center
-        widgetBounds.height() = sizeHint.height;
-		widgetBounds.y() += (bounds.height() - sizeHint.height) / 2;
+		//widgetBounds.y() += (cellBounds.height() - sizeHint.height) / 2;
     }
 
 	widget.SetBounds(widgetBounds);
 }
 
 //Public methods
-Size GridLayout::GetPreferredSize(const WidgetContainer &refContainer)
+Math::SizeD GridLayout::GetPreferredSize(const CompositeWidget &refContainer)
 {
-    Size tmp;
+    Math::SizeD tmp;
     DynamicArray<uint16> columnWidths, rowHeights;
 
     tmp = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
-    tmp += Size(this->margin, this->margin) * 2;
+    tmp += Math::SizeD(this->margin, this->margin) * 2;
 
     return tmp;
 }
 
-void GridLayout::Layout(WidgetContainer &refContainer)
+void GridLayout::Layout(CompositeWidget &refContainer)
 {
     uint16 x, y, col, row;
-    Size minSize, tmp;
-    Rect rc;
+    Math::SizeD minSize, tmp;
+    Math::RectD rc;
     DynamicArray<uint16> columnWidths, rowHeights;
 
     //collect info
@@ -336,52 +340,26 @@ void GridLayout::Layout(WidgetContainer &refContainer)
     this->DistributeLeftOverSize(refContainer, minSize, columnWidths, rowHeights);
 
     //layout children
-    col = 0;
-    row = 0;
-    x = rc.x();
-    y = rc.y();
-    for(Widget *const& refpWidget : refContainer.GetChildren())
+    if(!refContainer.GetChildren().IsEmpty())
     {
-        this->PositionChild(*refpWidget, Rect(x, y, columnWidths[col], rowHeights[row]));
-
-        x += columnWidths[col] + this->horzGap;
-        col++;
-        if(col == this->nColumns)
+        col = 0;
+        row = 0;
+        x = rc.x();
+        y = rc.GetVerticalEnd() - rowHeights[0];
+        for (Widget *const &refpWidget : refContainer.GetChildren())
         {
-            x = rc.x();
-            y += rowHeights[row] + this->vertGap;
+            if (col == this->nColumns)
+            {
+                col = 0;
+                row++;
 
-            col = 0;
-            row++;
+                x = rc.x();
+                y -= rowHeights[row] + this->vertGap;
+            }
+            this->PositionChild(*refpWidget, Math::RectD(x, y, columnWidths[col], rowHeights[row]));
+
+            x += columnWidths[col] + this->horzGap;
+            col++;
         }
     }
-
-    /*
-
-    row = 0;
-    col = 0;
-    preferredSize = this->GetPreferredSize(refContainer);
-    scaleHorz = rc.width / (float64)preferredSize.width;
-    scaleVert = rc.height / (float64)preferredSize.height;
-
-    //update column widths and heights according to children
-    for(const Widget *const& refpWidget : refContainer.GetChildren())
-    {
-        tmp = refpWidget->GetSizeHint();
-        tmp.width = (uint16)(scaleHorz * tmp.width);
-        tmp.height = (uint16)(scaleVert * tmp.height);
-
-        if(columnWidths[col] < tmp.width)
-            columnWidths[col] = tmp.width;
-        if(rowHeights[row] < tmp.height)
-            rowHeights[row] = tmp.height;
-
-        col++;
-        if(col == this->nColumns)
-        {
-            col = 0;
-            row++;
-        }
-    }
-    */
 }

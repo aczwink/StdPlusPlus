@@ -21,12 +21,12 @@
 #include "../SmartPointers/AutoPointer.hpp"
 
 //Move declarations
-namespace StdPlusPlus
+namespace StdXX
 {
 	class Device;
 }
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class DeviceEnumeratorState
 	{
@@ -35,6 +35,6 @@ namespace _stdpp
 		virtual ~DeviceEnumeratorState(){}
 
 		//Abstract
-		virtual StdPlusPlus::AutoPointer<StdPlusPlus::Device> GetNextDevice() = 0;
+		virtual StdXX::AutoPointer<StdXX::Device> GetNextDevice() = 0;
 	};
 }

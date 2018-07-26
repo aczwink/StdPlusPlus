@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 
 //Local functions
 static void TessellateBezier(const vec2f64 &refP0, const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refP1, uint8 level, FlatVectorPath &refCurrentPath, bool isCorner)

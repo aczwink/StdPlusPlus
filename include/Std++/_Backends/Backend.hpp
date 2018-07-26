@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	enum class BackendType
 	{

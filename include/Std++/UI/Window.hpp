@@ -18,12 +18,14 @@
  */
 #pragma once
 //Local
+#include <Std++/UI/Containers/ContentAreaWidget.hpp>
+#include <Std++/_Backends/UI/WindowBackend.hpp>
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Function.hpp"
 #include "Menu/MenuBar.hpp"
-#include "WidgetContainer.hpp"
 
-namespace StdPlusPlus
+
+namespace StdXX
 {
     namespace UI
     {
@@ -39,7 +41,7 @@ namespace StdPlusPlus
             Link
         };
 
-        class STDPLUSPLUS_API Window : public WidgetContainer
+        class STDPLUSPLUS_API Window : public ContentAreaWidget
         {
             friend class CDropTarget;
             friend class UIEventSource;
@@ -63,7 +65,7 @@ namespace StdPlusPlus
 
 			inline void Maximize()
 			{
-				this->backend->Maximize();
+				this->windowBackend->Maximize();
 			}
 
 			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = [](const Path &){return true;}) const
@@ -80,7 +82,7 @@ namespace StdPlusPlus
 
 			inline void SetTitle(const String &title)
 			{
-				this->backend->SetText(title);
+				this->windowBackend->SetTitle(title);
 			}
 
 			inline void ShowInformationBox(const String &title, const String &message)
@@ -90,6 +92,7 @@ namespace StdPlusPlus
 
         private:
             //Members
+        	_stdxx_::WindowBackend *windowBackend;
             MenuBar *pMenuBar;
             CDropTarget *pOSDropTarget;
 

@@ -19,397 +19,232 @@
 //Class header
 #include "CocoaWindowBackend.hh"
 //Local
-#include "OpenGLView.hh"
 #import "CocoaEventSource.hh"
+#import "CocoaCompositeView.hh"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::UI;
+
+//Objective-C class
+@implementation WindowDelegate
+{
+	_stdxx_::CocoaWindowBackend *backend;
+}
+
+- (id)initWithBackend:(_stdxx_::CocoaWindowBackend *)cocoaWindowBackend
+{
+	self = [super init];
+	if(!self)
+		return nil;
+	self->backend = cocoaWindowBackend;
+	return self;
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+	CocoaEventSource::EmitResizedEvent( self->backend->GetWindow() );
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	CocoaEventSource::EmitCloseEvent( self->backend->GetWindow() );
+}
+
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+	NSRect r = [sender frame];
+	CocoaEventSource::EmitResizingEvent( self->backend->GetWindow(), StdXX::Math::RectD(r.origin.x, r.origin.y, frameSize.width, frameSize.height));
+
+	return frameSize;
+}
+@end
 
 //Constructor
-CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, WindowBackendType type, Widget *widget) : WindowBackend(uiBackend, type, widget)
+CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend), WidgetBackend(uiBackend), window(window)
 {
-	switch(type)
-	{
-		case WindowBackendType::CheckBox:
-		{
-			this->button = [[NSButton alloc] init];
-			[this->button setButtonType:NSSwitchButton];
-		}
-		break;
-		case WindowBackendType::GroupBox:
-		{
-			this->groupBox = [[NSBox alloc] init];
-		}
-		break;
-		case WindowBackendType::Label:
-		{
-			this->textField = [[NSTextField alloc] init];
-			[this->textField setBezeled:NO];
-			[this->textField setDrawsBackground:NO];
-			[this->textField setEditable:NO];
-		}
-		break;
-		case WindowBackendType::PushButton:
-		{
-			this->button = [[NSButton alloc] init];
-			[this->button setBezelStyle:NSRoundedBezelStyle];
-		}
-		break;
-		case WindowBackendType::RenderTarget:
-		{
-			this->openGLView = [[OpenGLView alloc] initWithBackend:this];
-		}
-		break;
-		case WindowBackendType::Slider:
-		{
-			this->slider = [[NSSlider alloc] init];
-		}
-		break;
-		case WindowBackendType::Window:
-		{
-			NSWindowStyleMask windowStyleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSWindowStyleMaskUnifiedTitleAndToolbar;
-			this->window = [[NSWindow alloc]
-					initWithContentRect:NSMakeRect(0, 0, 1, 1)
-							  styleMask:windowStyleMask
-								backing:NSBackingStoreBuffered
-								  defer:NO];
-			this->windowDelegate = [[WindowDelegate alloc] initWithBackend:this];
-			[this->window setDelegate:this->windowDelegate];
-			this->windowController = [[NSWindowController alloc] initWithWindow:this->window];
-		}
-		break;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
+	NSWindowStyleMask windowStyleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSWindowStyleMaskUnifiedTitleAndToolbar;
+	this->cocoaWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 1, 1) styleMask:windowStyleMask
+			backing:NSBackingStoreBuffered defer:NO];
+	this->windowDelegate = [[WindowDelegate alloc] initWithBackend:this];
+	[this->cocoaWindow setDelegate:this->windowDelegate];
+	this->windowController = [[NSWindowController alloc] initWithWindow:this->cocoaWindow];
+	[this->cocoaWindow setAcceptsMouseMovedEvents:YES];
 }
 
 //Destructor
 CocoaWindowBackend::~CocoaWindowBackend()
 {
-	switch(this->type)
-	{
-		case WindowBackendType::CheckBox:
-		case WindowBackendType::PushButton:
-		{
-			[this->button release];
-		}
-		break;
-		case WindowBackendType::GroupBox:
-		{
-			[this->groupBox release];
-		}
-		break;
-		case WindowBackendType::Label:
-		{
-			[this->textField release];
-		}
-		break;
-		case WindowBackendType::RenderTarget:
-		{
-			[this->openGLView release];
-		}
-		break;
-		case WindowBackendType::Slider:
-		{
-			[this->slider release];
-		}
-		break;
-		case WindowBackendType::Window:
-		{
-			[this->windowDelegate release];
-			[this->windowController release];
-			[this->window release];
-		}
-		break;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
+	[this->windowDelegate release];
+	[this->windowController release];
+	[this->cocoaWindow release];
 }
 
 //Public methods
-WindowBackend *CocoaWindowBackend::CreateChildBackend(WindowBackendType type, Widget *widget) const
+void CocoaWindowBackend::AddChild(StdXX::UI::Widget *widget)
 {
-	CocoaWindowBackend *child = new CocoaWindowBackend(this->GetUIBackend(), type, widget);
-
-	[this->GetChildrenAreaView() addSubview:child->GetView()];
-
-	return child;
+	CocoaView *cocoaView = dynamic_cast<CocoaView *>(widget->_GetBackend());
+	[this->cocoaWindow setContentView:cocoaView->GetView()];
 }
 
-StdPlusPlus::Rect _stdpp::CocoaWindowBackend::GetChildrenRect() const
+CompositeWidget *CocoaWindowBackend::CreateContentArea()
 {
-	switch(this->type)
-	{
-		case WindowBackendType::GroupBox:
-		{
-			NSRect frame = [this->GetChildrenAreaView() frame];
-			return StdPlusPlus::Rect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-		}
-		case WindowBackendType::Window:
-		{
-			NSRect frame = [[this->window contentView] frame];
-			return StdPlusPlus::Rect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-		}
-	}
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdPlusPlus::Rect();
+	return new CocoaCompositeView(this->GetUIBackend(), [this->cocoaWindow contentView]);
 }
 
-StdPlusPlus::Size _stdpp::CocoaWindowBackend::GetSize() const
+Math::RectD CocoaWindowBackend::GetContentAreaBounds() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdPlusPlus::Size();
+	const NSRect f = [[this->cocoaWindow contentView] frame];
+	return StdXX::Math::RectD(f.origin.x, f.origin.y, f.size.width, f.size.height);
 }
 
-StdPlusPlus::Size _stdpp::CocoaWindowBackend::GetSizeHint() const
+void CocoaWindowBackend::IgnoreEvent()
 {
-	switch(this->type)
-	{
-		//at least the title must be viewable
-		case WindowBackendType::CheckBox:
-		{
-			NSButtonCell *buttonCell = [[NSButtonCell alloc] init];
-			auto s = this->ComputeTextSize([this->button title], [buttonCell font]);
-			[buttonCell release];
-
-			return s;
-		}
-		case WindowBackendType::GroupBox:
-			return this->ComputeTextSize([this->groupBox title], [this->groupBox titleFont]);
-		case WindowBackendType::Label:
-			return this->ComputeTextSize([this->textField stringValue], [this->textField font]);
-		case WindowBackendType::PushButton:
-		{
-			NSButtonCell *buttonCell = [[NSButtonCell alloc] init];
-			auto s = this->ComputeTextSize([this->button title], [buttonCell font]);
-			[buttonCell release];
-
-			return s;
-		}
-		case WindowBackendType::RenderTarget:
-			return StdPlusPlus::Size(); //no idea...
-		case WindowBackendType::Slider:
-		{
-			NSSize s = [this->button intrinsicContentSize];
-			return StdPlusPlus::Size(Math::Abs(s.width), s.height);
-		}
-		case WindowBackendType::Window:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdPlusPlus::Size();
 }
 
-void _stdpp::CocoaWindowBackend::Maximize()
+void CocoaWindowBackend::Maximize()
 {
 	//[this->window setFrame:[[NSScreen mainScreen] visibleFrame] display:true animate:true];
-	[this->window zoom:this->window];
+	[this->cocoaWindow zoom:this->cocoaWindow];
 }
 
-void _stdpp::CocoaWindowBackend::Paint()
+void CocoaWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+{
+	//TODO: implement me
+}
+
+void CocoaWindowBackend::SetTitle(const StdXX::String &title)
+{
+	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(title.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	[this->cocoaWindow setTitle:tmp];
+}
+
+void CocoaWindowBackend::Show(bool visible)
+{
+	[this->windowController showWindow:this->windowController];
+	[this->cocoaWindow orderFrontRegardless];
+}
+
+
+
+
+
+
+
+
+//OLD STUFF:
+
+WidgetBackend *CocoaWindowBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
+uint32 CocoaWindowBackend::GetPosition() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
+}
+
+void CocoaWindowBackend::GetRange(int32 &min, int32 &max)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdpp::CocoaWindowBackend::Repaint()
+StdXX::Math::SizeD CocoaWindowBackend::GetSize() const
 {
-	[this->GetView() setNeedsDisplay:YES];
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::Math::SizeD();
 }
 
-void _stdpp::CocoaWindowBackend::Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const
+StdXX::Math::SizeD CocoaWindowBackend::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::Math::SizeD();
+}
+
+NSView *CocoaWindowBackend::GetView() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nil;
+}
+
+void CocoaWindowBackend::Paint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-StdPlusPlus::Path _stdpp::CocoaWindowBackend::SelectExistingDirectory(const StdPlusPlus::String &title,
-																	  const StdPlusPlus::Function<bool(
-																			  StdPlusPlus::Path &)> callback) const
+void CocoaWindowBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdPlusPlus::Path();
 }
 
-void _stdpp::CocoaWindowBackend::SetBounds(const StdPlusPlus::Rect &area)
+void CocoaWindowBackend::ResetView() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+StdXX::Path CocoaWindowBackend::SelectExistingDirectory(const StdXX::String &title,
+														const StdXX::Function<bool(StdXX::Path &)> callback) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Path();
+}
+
+void CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::SetEditable(bool enable) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::SetEnabled(bool enable) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::SetHint(const StdXX::String &text) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CocoaWindowBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+StdXX::Math::SizeD CocoaWindowBackend::ComputeTextSize(NSString *string, NSFont *font) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::Math::SizeD();
+}
+
+NSView *CocoaWindowBackend::GetChildrenAreaView() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nil;
+}
+
+
+/*
+void _stdxx_::CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
 {
 	if(this->type == WindowBackendType::Window)
 	{
 		[this->window setFrame:NSMakeRect(area.origin.x, area.origin.y, area.width(), area.height()) display:YES];
 	}
-	else
-	{
-		CocoaEventSource::EmitResizingEvent(*this->widget, area);
-		[this->GetView() setFrame:NSMakeRect(area.origin.x, area.origin.y, area.width(), area.height())];
-		CocoaEventSource::EmitResizedEvent(*this->widget);
-	}
 }
-
-void _stdpp::CocoaWindowBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::SetHint(const StdPlusPlus::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::SetMaximum(uint32 max)
-{
-	[this->slider setMaxValue:max];
-}
-
-void _stdpp::CocoaWindowBackend::SetPosition(uint32 pos) const
-{
-	[this->slider setDoubleValue:pos];
-}
-
-void _stdpp::CocoaWindowBackend::SetText(const StdPlusPlus::String &text)
-{
-	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
-	switch(this->type)
-	{
-		case WindowBackendType::GroupBox:
-			[this->groupBox setTitle:tmp];
-			break;
-		case WindowBackendType::Label:
-			[this->textField setStringValue:tmp];
-			break;
-		case WindowBackendType::CheckBox:
-		case WindowBackendType::PushButton:
-			[this->button setTitle:tmp];
-			break;
-		case WindowBackendType::Window:
-			[this->window setTitle:tmp];
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-	[tmp release];
-}
-
-void _stdpp::CocoaWindowBackend::Show(bool visible)
-{
-	switch(this->type)
-	{
-		case WindowBackendType::Window:
-			[this->windowController showWindow:this->windowController];
-			[this->window orderFrontRegardless];
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-}
-
-void _stdpp::CocoaWindowBackend::ShowInformationBox(const StdPlusPlus::String &title,
-													const StdPlusPlus::String &message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-bool _stdpp::CocoaWindowBackend::IsChecked() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
-}
-
-void _stdpp::CocoaWindowBackend::IgnoreEvent()
-{
-}
-
-uint32 _stdpp::CocoaWindowBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
-void _stdpp::CocoaWindowBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-int32 _stdpp::CocoaWindowBackend::GetValue() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
-NSView *CocoaWindowBackend::GetView() const
-{
-	switch(this->type)
-	{
-		case WindowBackendType::GroupBox:
-			return this->groupBox;
-		case WindowBackendType::Label:
-			return this->textField;
-		case WindowBackendType::CheckBox:
-		case WindowBackendType::PushButton:
-			return this->button;
-		case WindowBackendType::RenderTarget:
-			return this->openGLView;
-		case WindowBackendType::Slider:
-			return this->slider;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-
-	return nil;
-}
-
-void _stdpp::CocoaWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, _stdpp::MenuBarBackend *menuBarBackend)
-{
-}
-
-void CocoaWindowBackend::SetMinimum(uint32 min)
-{
-	[this->slider setMinValue:min];
-}
-
-void _stdpp::CocoaWindowBackend::SetRange(int32 min, int32 max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::SetValue(int32 value)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdpp::CocoaWindowBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-//Private methods
-NSView *CocoaWindowBackend::GetChildrenAreaView() const
-{
-	switch(this->type)
-	{
-		case WindowBackendType::GroupBox:
-			return [this->groupBox contentView];
-		case WindowBackendType::Window:
-			return [this->window contentView];
-	}
-
-	return nil;
-}
-
-StdPlusPlus::Size CocoaWindowBackend::ComputeTextSize(NSString *string, NSFont *font) const
-{
-	NSDictionary *attributes = @{NSFontAttributeName: font};
-	NSSize s = [string sizeWithAttributes:attributes];
-
-	[attributes release];
-
-	return StdPlusPlus::Size(s.width, s.height);
-}
+*/

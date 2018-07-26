@@ -21,7 +21,7 @@
 #include <Std++CPUOpt.hpp>
 #include "FlatVectorPath.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {

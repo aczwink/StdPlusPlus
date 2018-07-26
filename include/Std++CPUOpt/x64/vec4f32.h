@@ -24,7 +24,7 @@
 #include <Std++/Math/Vector3.hpp>
 #include <Std++/Math/Vector4.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class alignas(16) vec4f32
     {

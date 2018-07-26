@@ -22,7 +22,7 @@
 #include "MediaObject.hpp"
 #include "Packet.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

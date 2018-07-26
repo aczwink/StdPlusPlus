@@ -24,7 +24,7 @@
 #include "../Containers/Strings/OldString.hpp"
 #include "../Containers/Strings/String.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace XML
     {

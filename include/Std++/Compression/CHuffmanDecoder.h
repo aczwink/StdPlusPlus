@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "../Memory.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Forward declarations
     class CBitInputStreamBitReversed;

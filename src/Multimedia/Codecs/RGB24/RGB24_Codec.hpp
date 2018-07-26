@@ -20,8 +20,8 @@
 //Local
 #include "RGB24_Encoder.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class RGB24_Codec : public Codec
 {

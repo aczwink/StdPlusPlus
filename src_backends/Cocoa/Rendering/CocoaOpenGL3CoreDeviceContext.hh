@@ -22,7 +22,7 @@
 //Local
 #include "../../OpenGL3Core/Rendering/OpenGLDeviceContext.hpp"
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class CocoaOpenGL3CoreDeviceContext : public OpenGLDeviceContext
 	{

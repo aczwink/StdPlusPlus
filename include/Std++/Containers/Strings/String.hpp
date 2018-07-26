@@ -25,7 +25,7 @@
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
 #include <Std++/Utility.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class ConstStringIterator;

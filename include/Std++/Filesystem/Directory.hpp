@@ -24,7 +24,7 @@
 #include "FileSystemNode.hpp"
 #include "Path.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class DirectoryWalkerWrapper;

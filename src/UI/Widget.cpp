@@ -19,27 +19,11 @@
 //Class header
 #include <Std++/UI/Widget.hpp>
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Window.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
-
-//Constructor
-Widget::Widget(WidgetContainer *parent)
-{
-    this->parent = parent;
-    if(parent && parent->owner)
-        this->owner = parent->owner;
-    else
-    {
-        ASSERT(!parent || IS_INSTANCE_OF(parent, Window), "A widget must have a parent or it must be a window itself");
-        this->owner = (Window *)parent;
-    }
-    this->backend = nullptr;
-    if(parent)
-        parent->children.InsertTail(this);
-}
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Destructor
 Widget::~Widget()
@@ -52,24 +36,20 @@ Widget::~Widget()
 }
 
 //Public methods
-Size Widget::GetSizeHint() const
+Math::SizeD Widget::GetSizeHint() const
 {
 	if(this->backend)
 		return this->backend->GetSizeHint();
 
-	return Size();
+	return Math::SizeD();
 }
 
-Point Widget::TranslateToAncestorCoords(const Point &point, const WidgetContainer *ancestor) const
+Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const
 {
-	if(this == ancestor)
-		return point;
-
-	Point translated = this->TranslateToParentCoords(point);
-	const WidgetContainer *current = this->GetParent();
+	Math::PointD translated = point;
+	const Widget *current = this;
 	while(current != ancestor)
 	{
-		translated = current->TranslateChildToWidgetCoords(translated);
 		translated = current->TranslateToParentCoords(translated);
 		current = current->parent;
 	}
@@ -77,17 +57,17 @@ Point Widget::TranslateToAncestorCoords(const Point &point, const WidgetContaine
 }
 
 //Eventhandlers
-void Widget::OnMouseButtonPressed(MouseButton button, const Point &pos)
+void Widget::OnMouseButtonPressed(MouseButton button, const Math::PointD &pos)
 {
 	this->IgnoreEvent();
 }
 
-void Widget::OnMouseButtonReleased(MouseButton button, const Point &pos)
+void Widget::OnMouseButtonReleased(MouseButton button, const Math::PointD &pos)
 {
 	this->IgnoreEvent();
 }
 
-void Widget::OnMouseMoved(const Point &pos)
+void Widget::OnMouseMoved(const Math::PointD &pos)
 {
 	this->IgnoreEvent();
 }
@@ -107,7 +87,7 @@ void Widget::OnResized()
     this->IgnoreEvent();
 }
 
-void Widget::OnResizing(const Rect &newBounds)
+void Widget::OnResizing(const Math::RectD &newBounds)
 {
 	this->bounds = newBounds;
 }

@@ -19,17 +19,18 @@
 //Class header
 #include <Std++/UI/Views/TreeView.hpp>
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-TreeView::TreeView(WidgetContainer *pParent) : View(pParent)
+TreeView::TreeView()
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-    this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::TreeView, this);
+    NOT_IMPLEMENTED_ERROR;
+    //this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::TreeView, this);
 }

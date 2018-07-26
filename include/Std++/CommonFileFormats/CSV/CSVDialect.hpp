@@ -19,7 +19,7 @@
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace CommonFileFormats
 	{

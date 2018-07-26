@@ -30,17 +30,17 @@
 #include <Std++/Mathematics.hpp>
 #include <Std++/Math/Fraction.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
-OldString StdPlusPlus::ToString(uint64 i, uint8 bla)
+OldString StdXX::ToString(uint64 i, uint8 bla)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
 	return OldString();
 }
 
 //Namespace Functions
-OldString StdPlusPlus::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
+OldString StdXX::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
 {
     OldString result;
 
@@ -78,7 +78,7 @@ OldString StdPlusPlus::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
     return ToString((uint64)bitSize) + " bit";
 }
 
-bool StdPlusPlus::IsStringConvertibleToFloat(const ByteString &refString)
+bool StdXX::IsStringConvertibleToFloat(const ByteString &refString)
 {
     char *pStr;
 
@@ -87,7 +87,7 @@ bool StdPlusPlus::IsStringConvertibleToFloat(const ByteString &refString)
     return (refString.GetC_Str() + refString.GetLength()) == pStr;
 }
 
-bool StdPlusPlus::IsStringConvertibleToInteger(const ByteString &refString)
+bool StdXX::IsStringConvertibleToInteger(const ByteString &refString)
 {
     uint32 i;
 
@@ -104,7 +104,7 @@ bool StdPlusPlus::IsStringConvertibleToInteger(const ByteString &refString)
     return true;
 }
 
-int64 StdPlusPlus::StringToInt64(const OldString &refString)
+int64 StdXX::StringToInt64(const OldString &refString)
 {
     int64 result;
 
@@ -126,7 +126,7 @@ int64 StdPlusPlus::StringToInt64(const OldString &refString)
     return StringToUInt64(refString);
 }
 
-uint64 StdPlusPlus::StringToUInt64(const OldString &refString)
+uint64 StdXX::StringToUInt64(const OldString &refString)
 {
     uint32 i;
     uint64 result;
@@ -148,7 +148,7 @@ uint64 StdPlusPlus::StringToUInt64(const OldString &refString)
     return result;
 }
 
-OldString StdPlusPlus::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
+OldString StdXX::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 {
     NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
     /*
@@ -159,7 +159,7 @@ OldString StdPlusPlus::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 	return OldString();
 }
 
-OldString StdPlusPlus::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
+OldString StdXX::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
 {
     uint64 usecs, hours, mins, secs;
 
@@ -174,7 +174,7 @@ OldString StdPlusPlus::TimeToString(uint64 timeStamp, const Fraction &refTimeSca
 }
 
 //8-bit functions
-ByteString StdPlusPlus::To8BitString(const OldString &refString)
+ByteString StdXX::To8BitString(const OldString &refString)
 {
     ByteString tmp;
 
@@ -190,7 +190,7 @@ ByteString StdPlusPlus::To8BitString(const OldString &refString)
     return tmp;
 }
 
-ByteString StdPlusPlus::ToString_8Bit(uint64 value, uint8 nMinChars)
+ByteString StdXX::ToString_8Bit(uint64 value, uint8 nMinChars)
 {
     uint32 rest;
     ByteString buffer, result;

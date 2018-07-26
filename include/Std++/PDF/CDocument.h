@@ -21,7 +21,7 @@
 #include "../Streams/ASeekableOutputStream.h"
 #include "CCatalog.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace PDF
     {

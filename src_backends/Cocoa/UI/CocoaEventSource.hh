@@ -23,9 +23,9 @@
 #undef new
 #include <Cocoa/Cocoa.h>
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class CocoaEventSource : public StdPlusPlus::UI::UIEventSource
+	class CocoaEventSource : public StdXX::UI::UIEventSource
 	{
 	public:
 		//Constructor
@@ -34,12 +34,16 @@ namespace _stdpp
 		//Methods
 		void DispatchPendingEvents() override;
 		uint64 GetMaxTimeout() const override;
-		void VisitWaitObjects(const StdPlusPlus::Function<void(WaitObjHandle, bool)> &visitFunc) const override;
+		void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) const override;
 
 		//Class function
-		static void EmitCloseEvent(StdPlusPlus::UI::Window &window);
-		static void EmitPaintEvent(StdPlusPlus::UI::Widget &widget);
-		static void EmitResizedEvent(StdPlusPlus::UI::Widget &widget);
-		static void EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds);
+		static void EmitCloseEvent(StdXX::UI::Window &window);
+		static void EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint point);
+		static void EmitMousePressedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point);
+		static void EmitMouseReleasedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point);
+		static void EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta);
+		static void EmitPaintEvent(StdXX::UI::Widget &widget);
+		static void EmitResizedEvent(StdXX::UI::Widget &widget);
+		static void EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds);
 	};
 }

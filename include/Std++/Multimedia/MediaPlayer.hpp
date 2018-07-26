@@ -31,7 +31,7 @@
 #include "SubtitleStream.hpp"
 #include "VideoStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Multimedia
 	{
@@ -40,13 +40,13 @@ namespace StdPlusPlus
 	}
 }
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class DecoderThread : public StdPlusPlus::Thread
+	class DecoderThread : public StdXX::Thread
 	{
 	public:
 		//Constructor
-		DecoderThread(StdPlusPlus::Multimedia::MediaPlayer *player, StdPlusPlus::Multimedia::CodecId encodingCodec);
+		DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodecId encodingCodec);
 
 		//Destructor
 		~DecoderThread();
@@ -54,10 +54,10 @@ namespace _stdpp
 		//Methods
 		void FlushInputQueue();
 		void FlushOutputQueue();
-		StdPlusPlus::Multimedia::Packet *TryGetNextOutputPacket();
+		StdXX::Multimedia::Packet *TryGetNextOutputPacket();
 
 		//Inline
-		inline void AddInputPacket(StdPlusPlus::Multimedia::Packet *packet)
+		inline void AddInputPacket(StdXX::Multimedia::Packet *packet)
 		{
 			this->inputPacketQueueLock.Lock();
 			this->inputPacketQueue.InsertTail(packet);
@@ -99,28 +99,28 @@ namespace _stdpp
 
 	private:
 		//Members
-		StdPlusPlus::Multimedia::MediaPlayer *player;
+		StdXX::Multimedia::MediaPlayer *player;
 		bool shutdown;
 		bool work;
-		StdPlusPlus::Mutex workLock;
-		StdPlusPlus::ConditionVariable workSignal;
+		StdXX::Mutex workLock;
+		StdXX::ConditionVariable workSignal;
 		volatile bool working;
 		uint32 streamIndex;
-		StdPlusPlus::Multimedia::Decoder *decoder;
-		StdPlusPlus::Multimedia::Encoder *encoder;
-		StdPlusPlus::LinkedList<StdPlusPlus::Multimedia::Packet *> inputPacketQueue;
-		StdPlusPlus::Mutex inputPacketQueueLock;
-		StdPlusPlus::ConditionVariable inputPacketQueueSignal;
-		StdPlusPlus::LinkedList<StdPlusPlus::Multimedia::Packet *> outputPacketQueue;
-		StdPlusPlus::Mutex outputPacketQueueLock;
+		StdXX::Multimedia::Decoder *decoder;
+		StdXX::Multimedia::Encoder *encoder;
+		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;
+		StdXX::Mutex inputPacketQueueLock;
+		StdXX::ConditionVariable inputPacketQueueSignal;
+		StdXX::LinkedList<StdXX::Multimedia::Packet *> outputPacketQueue;
+		StdXX::Mutex outputPacketQueueLock;
 
 		//Methods
-		StdPlusPlus::Multimedia::Packet *GetNextInputPacket();
+		StdXX::Multimedia::Packet *GetNextInputPacket();
 		int32 ThreadMain();
 		bool WaitForWork();
 
 		//Inline
-		inline void AddOutputPacket(StdPlusPlus::Multimedia::Packet *packet)
+		inline void AddOutputPacket(StdXX::Multimedia::Packet *packet)
 		{
 			this->outputPacketQueueLock.Lock();
 			this->outputPacketQueue.InsertTail(packet);
@@ -128,11 +128,11 @@ namespace _stdpp
 		}
 	};
 
-	class DemuxerThread : public StdPlusPlus::Thread
+	class DemuxerThread : public StdXX::Thread
 	{
 	public:
 		//Constructor
-		DemuxerThread(StdPlusPlus::Multimedia::MediaPlayer *player);
+		DemuxerThread(StdXX::Multimedia::MediaPlayer *player);
 
 		//Inline
 		inline void Connect(DecoderThread *audioDecodeThread, DecoderThread *videoDecodeThread)
@@ -168,12 +168,12 @@ namespace _stdpp
 
 	private:
 		//Members
-		StdPlusPlus::Multimedia::MediaPlayer *player;
-		StdPlusPlus::Multimedia::Demuxer *demuxer;
+		StdXX::Multimedia::MediaPlayer *player;
+		StdXX::Multimedia::Demuxer *demuxer;
 		bool shutdown;
 		bool work;
-		StdPlusPlus::Mutex workLock;
-		StdPlusPlus::ConditionVariable workSignal;
+		StdXX::Mutex workLock;
+		StdXX::ConditionVariable workSignal;
 		volatile bool working;
 		uint32 audioStreamIndex;
 		DecoderThread *audioDecodeThread;
@@ -185,7 +185,7 @@ namespace _stdpp
 	};
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
@@ -235,7 +235,7 @@ namespace StdPlusPlus
 			Map<uint32, VideoStream *> videoStreams;
 			uint32 videoStreamIndex;
 			bool isPlaying;
-			StdPlusPlus::Clock clock;
+			StdXX::Clock clock;
 			/**
 			 * In microseconds.
 			 */
@@ -249,9 +249,9 @@ namespace StdPlusPlus
 			int64 videoFrameDelay;
 			UI::VideoWidget *videoWidget;
 
-			_stdpp::DemuxerThread demuxerThread;
-			_stdpp::DecoderThread audioDecodeThread;
-			_stdpp::DecoderThread videoDecodeThread;
+			_stdxx_::DemuxerThread demuxerThread;
+			_stdxx_::DecoderThread audioDecodeThread;
+			_stdxx_::DecoderThread videoDecodeThread;
 
 			//Eventhandlers
 			void OnMasterClockTriggered();

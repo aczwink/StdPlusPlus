@@ -20,7 +20,7 @@
 //Local
 #include "View.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -28,7 +28,7 @@ namespace StdPlusPlus
         {
         public:
             //Constructor
-            TableView(WidgetContainer *parent);
+            TableView();
         };
     }
 }

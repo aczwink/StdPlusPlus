@@ -21,10 +21,10 @@
 #include <Std++/Rendering/Texture2D.hpp>
 #include "OpenGLDeviceContext.hpp"
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
-using namespace StdPlusPlus::Rendering;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Math;
+using namespace StdXX::Rendering;
 
 //Global variables
 extern uint32 g_currentTextureId;
@@ -43,7 +43,7 @@ public:
     void AllocateDepth(uint16 width, uint16 height);
     void AllocateDXT1(uint16 width, uint16 height, const void *pCompressedData);
     void AllocateDXT5(uint16 width, uint16 height, const void *pCompressedData);
-    void AllocateRGB(const Size &size, const void *pColorData);
+    void AllocateRGB(const Math::Size<uint16> &size, const void *pColorData);
     void AllocateRGBA(uint16 width, uint16 height, const void *pColorData);
     void GenerateMipMaps();
     ETextureType GetType() const;

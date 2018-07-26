@@ -21,8 +21,8 @@
 //Local
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Public methods
 template <typename ScalarType>

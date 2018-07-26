@@ -22,7 +22,7 @@
 #include <cstdlib>
 #include <ctime>
 //Namespaces
-using namespace StdPlusPlus::Math;
+using namespace StdXX::Math;
 
 //Constructor
 RandomNumberGenerator::RandomNumberGenerator()

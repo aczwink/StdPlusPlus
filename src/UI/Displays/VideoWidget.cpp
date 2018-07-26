@@ -22,12 +22,12 @@
 #include <Std++/Rendering/DeviceContext.hpp>
 #include <Std++/Math/Fraction.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
+using namespace StdXX::UI;
 
 //Constructor
-VideoWidget::VideoWidget(WidgetContainer *parent) : PathRenderTargetWidget(parent)
+VideoWidget::VideoWidget()
 {
 	this->texture = this->deviceContext->CreateTexture2D();
 	this->nextFrame = nullptr;
@@ -40,7 +40,7 @@ VideoWidget::~VideoWidget()
 }
 
 //Public methods
-void VideoWidget::UpdatePicture(Packet *videoPacket, Size frameSize)
+void VideoWidget::UpdatePicture(Packet *videoPacket, Math::Size<uint16> frameSize)
 {
 	AutoLock autoLock(this->frameLock);
 	if(this->nextFrame)
@@ -78,7 +78,7 @@ void VideoWidget::OnPaint()
 	aspectRatio.denominator = this->frameSize.height;
 	aspectRatio = aspectRatio.Reduce();
 
-	Rect frameRect;
+	Math::RectD frameRect;
 	frameRect.size.width = this->GetSize().width;
 	if(aspectRatio.numerator == 0)
 		aspectRatio.numerator = 1; //avoid 0 division

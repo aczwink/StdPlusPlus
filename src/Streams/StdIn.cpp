@@ -21,10 +21,10 @@
 //Global
 #include <stdio.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Global Variables
-StdIn STDPLUSPLUS_API StdPlusPlus::stdIn;
+StdIn STDPLUSPLUS_API StdXX::stdIn;
 
 //Public methods
 bool StdIn::IsAtEnd() const

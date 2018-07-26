@@ -22,8 +22,8 @@
 #include <Std++CPUOpt.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Definitions
 #define EPSILON 0.000001f

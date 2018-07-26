@@ -28,9 +28,9 @@
 #include "OpenGLTexture2D.hpp"
 #include "OpenGLVertexBuffer.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
-using namespace _stdpp;
+using namespace StdXX;
+using namespace StdXX::Rendering;
+using namespace _stdxx_;
 
 //Global variables
 uint32 g_currentTextureId = Natural<uint32>::Max();
@@ -278,7 +278,7 @@ uint32 OpenGLDeviceContext::GetNumberOfTextureUnits() const
 	return static_cast<uint32>(maxTextures);
 }
 
-FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const Rect &rect)
+FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect)
 {
 	this->Bind();
 
@@ -289,7 +289,7 @@ FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const Rect &rect)
 	return colorData;
 }
 
-void OpenGLDeviceContext::ReadDepthBuffer(const Rect &block, float32 *output)
+void OpenGLDeviceContext::ReadDepthBuffer(const StdXX::Math::Rect<uint16> &block, float32 *output)
 {
 	this->Bind();
 	this->glFuncs.glReadPixels(block.x(), block.y(), block.width(), block.height(), GL_DEPTH_COMPONENT, GL_FLOAT, output);

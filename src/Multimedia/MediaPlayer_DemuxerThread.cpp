@@ -21,9 +21,9 @@
 //Local
 #include <Std++/Natural.hpp>
 //Namespaces
-using namespace _stdpp;
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructor
 DemuxerThread::DemuxerThread(MediaPlayer *player)

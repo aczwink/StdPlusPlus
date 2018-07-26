@@ -23,7 +23,7 @@
 #include "../SmartPointers/UniquePointer.hpp"
 #include "Device.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class DeviceEnumerator
 	{
@@ -39,6 +39,6 @@ namespace StdPlusPlus
 
 	private:
 		//Members
-		UniquePointer<_stdpp::DeviceEnumeratorState> state;
+		UniquePointer<_stdxx_::DeviceEnumeratorState> state;
 	};
 }

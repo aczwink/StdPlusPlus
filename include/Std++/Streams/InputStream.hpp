@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "../Natural.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class OutputStream;

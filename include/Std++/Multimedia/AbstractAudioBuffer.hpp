@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "EnumTypes.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

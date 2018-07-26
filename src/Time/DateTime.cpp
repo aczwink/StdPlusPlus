@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Class functions
 DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)

@@ -23,7 +23,7 @@
 #include <Std++/Filesystem/ContainerFile.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : file(file)

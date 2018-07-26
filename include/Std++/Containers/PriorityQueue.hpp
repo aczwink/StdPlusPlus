@@ -21,7 +21,7 @@
 #include "Std++/Debug.hpp"
 #include "Container.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	 * A min-priority queue implementation e.g. the highest priority has the smallest priority value according to <.

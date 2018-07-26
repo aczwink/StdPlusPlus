@@ -22,7 +22,7 @@
 #include "../Definitions.h"
 #include "ECompressionAlgorithm.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Forward declarations
     class InputStream;

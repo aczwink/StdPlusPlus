@@ -28,8 +28,8 @@
 //Local
 #include <Std++/Audio/DeviceContext.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Audio;
+using namespace StdXX;
+using namespace StdXX::Audio;
 
 class OpenALSoftDeviceContext : public DeviceContext
 {

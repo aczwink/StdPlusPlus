@@ -19,7 +19,7 @@
 
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     template<typename KeyType, typename ValueType>

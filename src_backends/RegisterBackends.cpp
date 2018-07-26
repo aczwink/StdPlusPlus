@@ -25,7 +25,7 @@
 #include "OpenCL1/OpenCL1Backend.hpp"
 #include "OpenALSoft/OpenALSoftBackend.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 #define PRIORITY_HIGH 0
 #define PRIORITY_NORMAL 1

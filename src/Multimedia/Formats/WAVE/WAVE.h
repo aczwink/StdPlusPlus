@@ -22,8 +22,8 @@
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Multimedia/CodecId.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 //Local
 #include "../../FourCC.h"
 

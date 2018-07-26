@@ -24,7 +24,7 @@
 #include "../Type.hpp"
 #include "Container.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename DataType>
     class ResizeableSequenceContainer : public Container
@@ -104,7 +104,7 @@ namespace StdPlusPlus
 		{
 			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
 			DataType *pNewBuffer = (DataType *)MemRealloc(this->data, newElementsCount * sizeof(DataType));
-			ASSERT(pNewBuffer, u8"If you see this, report it to StdPlusPlus");
+			ASSERT(pNewBuffer, u8"If you see this, report it to StdXX");
 
 			this->data = pNewBuffer;
 			this->capacity = newElementsCount;
@@ -116,7 +116,7 @@ namespace StdPlusPlus
 		{
 			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
 			DataType *newBuffer = new DataType[newElementsCount];
-			ASSERT(newBuffer, u8"If you see this, report it to StdPlusPlus");
+			ASSERT(newBuffer, u8"If you see this, report it to StdXX");
 
 			for(uint32 i = 0; i < this->nElements; i++)
 				newBuffer[i] = this->data[i];

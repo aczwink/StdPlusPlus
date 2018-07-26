@@ -22,7 +22,7 @@
 #include <Std++/Definitions.h>
 #include <Std++/Memory.h>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API Container
     {

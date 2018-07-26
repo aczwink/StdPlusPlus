@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/AudioFrame.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Constructor
 AudioFrame::AudioFrame(AbstractAudioBuffer *audioBuffer)

@@ -20,7 +20,7 @@
 #include <Std++/UI/Action.hpp>
 #include "MenuEntry.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{

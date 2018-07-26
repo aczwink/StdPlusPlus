@@ -194,7 +194,7 @@
 #include <Std++/Time/Timer.hpp>
 
 //UI
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Action.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>

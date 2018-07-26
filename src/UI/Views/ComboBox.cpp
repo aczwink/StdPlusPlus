@@ -19,13 +19,14 @@
 //Class header
 #include <Std++/UI/Views/ComboBox.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-ComboBox::ComboBox(WidgetContainer *parent) : View(parent)
+ComboBox::ComboBox()
 {
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::ComboBox, this);
+	NOT_IMPLEMENTED_ERROR;
+	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::ComboBox, this);
 }

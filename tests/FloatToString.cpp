@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <Std++Test.hpp>
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 TEST_SUITE(FloatToStringTest)
 {

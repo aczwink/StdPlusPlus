@@ -21,7 +21,7 @@
 #include "../Widget.hpp"
 #include "../Controllers/SelectionController.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Forward declarations
 	class EventQueue;
@@ -37,9 +37,8 @@ namespace StdPlusPlus
 			friend class UIEventSource;
 		public:
 			//Constructor
-			inline View(WidgetContainer *parent) : Widget(parent)
+			inline View() : controller(nullptr)
 			{
-				this->controller = nullptr;
 			}
 
 			//Methods

@@ -18,41 +18,16 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Size.hpp>
 #include "../../Containers/Array/DynamicArray.hpp"
 #include "ILayout.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
         class STDPLUSPLUS_API GridLayout : public ILayout
         {
-        private:
-            //Members
-            uint8 horzGap;
-            uint8 vertGap;
-
-            //Methods
-            void CanExpand(const Widget *widget, bool &expandHorz, bool &expandVert);
-			/**
-			 * Computes the minimum sizes of the rows and columns in the grid.
-			 *
-			 * @param refContainer
-			 * @param refColumnWidths
-			 * @param refRowHeights
-			 * @return
-			 */
-			Size ComputeSizingInfo(const WidgetContainer &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
-            void DistributeLeftOverSize(const WidgetContainer &refContainer, const Size &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
-            void EnsureGridBigEnough(uint8 nCells);
-            Rect GetPlacementRect(const WidgetContainer &container) const;
-            void PositionChild(Widget &widget, const Rect &bounds);
-
-        protected:
-            //Members
-            uint8 nColumns;
-            uint8 nRows;
-
         public:
             //Members
             bool fillVertical; //add rows or columns when grid too small
@@ -62,8 +37,39 @@ namespace StdPlusPlus
             GridLayout();
 
             //Methods
-            Size GetPreferredSize(const WidgetContainer &refContainer);
-            void Layout(WidgetContainer &refContainer);
+			Math::SizeD GetPreferredSize(const CompositeWidget &refContainer);
+            void Layout(CompositeWidget &refContainer);
+
+		protected:
+			//Members
+			uint8 nColumns;
+			uint8 nRows;
+
+		private:
+			//Members
+			uint8 horzGap;
+			uint8 vertGap;
+
+			//Methods
+			void CanExpand(const Widget *widget, bool &expandHorz, bool &expandVert);
+			/**
+			 * Computes the minimum sizes of the rows and columns in the grid.
+			 *
+			 * @param refContainer
+			 * @param refColumnWidths
+			 * @param refRowHeights
+			 * @return
+			 */
+			Math::SizeD ComputeSizingInfo(const CompositeWidget &refContainer, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
+			void DistributeLeftOverSize(const CompositeWidget &refContainer, const Math::SizeD &refMinSize, DynamicArray<uint16> &refColumnWidths, DynamicArray<uint16> &refRowHeights);
+			void EnsureGridBigEnough(uint8 nCells);
+			Math::RectD GetPlacementRect(const CompositeWidget &container) const;
+			/**
+			 * Position the child inside the cell. The child can use the whole cell or a subarea of that.
+			 * @param widget
+			 * @param cellBounds
+			 */
+			void PositionChild(Widget &widget, const Math::RectD &cellBounds);
         };
 
         class STDPLUSPLUS_API HorizontalLayout : public GridLayout

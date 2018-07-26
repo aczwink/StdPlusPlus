@@ -25,9 +25,9 @@
 #include <Std++/Multimedia/Images/YCbCrImage.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Math;
+using namespace StdXX::Multimedia;
 
 //Local functions
 static Image *CreateImage(uint16 width, uint16 height, ColorSpace colorSpace)

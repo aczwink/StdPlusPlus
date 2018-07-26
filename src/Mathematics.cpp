@@ -19,7 +19,7 @@
 //corresponding header
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 uint64 Math::Power(uint64 base, uint64 exponent)
 {

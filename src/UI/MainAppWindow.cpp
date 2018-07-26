@@ -23,8 +23,8 @@
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
 MainAppWindow::MainAppWindow(EventQueue &eventQueue) : eventQueue(eventQueue)

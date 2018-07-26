@@ -21,7 +21,7 @@
 #include <Std++/_Backends/RenderBackend.hpp>
 #include "Definitions.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class OpenGL3CoreBackend : public RenderBackend
 	{

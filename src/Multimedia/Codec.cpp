@@ -19,8 +19,8 @@
 //Class header
 #include <Std++/Multimedia/Codec.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 //Global variables
 DynamicArray<const Codec *> g_codecs;

@@ -21,7 +21,7 @@
 #include "../Streams/ASeekableOutputStream.h"
 #include "MediaObject.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

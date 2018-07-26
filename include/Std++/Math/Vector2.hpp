@@ -22,7 +22,7 @@
 #include "../Definitions.h"
 #include "Std++/Debug.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class vec2f64;

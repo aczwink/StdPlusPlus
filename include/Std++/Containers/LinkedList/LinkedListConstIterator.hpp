@@ -20,7 +20,7 @@
 //Local
 #include "LinkedListNode.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move Declarations
     template<typename T>

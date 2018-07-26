@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

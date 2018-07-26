@@ -24,7 +24,6 @@
 //Definitions
 #ifdef _DEBUG
 #define MemAlloc(size) MemAllocDebug(size, __FILE__, __LINE__)
-#define MemAllocAligned(size, alignment) MemAllocAlignedDebug(size, alignment, __FILE__, __LINE__)
 #define MemFree(ptr) MemFreeDebug(ptr)
 #define MemRealloc(ptr, size) MemReallocDebug(ptr, size, __FILE__, __LINE__)
 #else
@@ -33,7 +32,7 @@
 #define MemRealloc(ptr, size) MemoryReallocate(ptr, size)
 #endif
 
-namespace StdPlusPlus
+namespace StdXX
 {
     enum class EVirtualMemoryProtection
     {
@@ -48,16 +47,6 @@ namespace StdPlusPlus
 	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
 	STDPLUSPLUS_API void MemFreeDebug(void *memBlock);
 	STDPLUSPLUS_API void *MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint32 lineNumber);
-
-	//Inline
-	inline void *MemAllocAlignedDebug(uint32 size, uint8 alignment, const char *pFileName, uint32 lineNumber)
-	{
-		void *p = MemAllocDebug(size + alignment, pFileName, lineNumber); //max error = alignment-1 + one offset byte
-		uint8 offset = alignment - ((alignment - 1) & (uint64)p);
-		*((byte *)p + offset - 1) = offset; //write the offset to the unaligned memory location
-
-		return (byte *)p + offset;
-	}
 #endif
     STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
     STDPLUSPLUS_API void MemoryFree(void *pMem);
@@ -110,13 +99,6 @@ namespace StdPlusPlus
             *pDest8++ = *pSrc8++;
             size -= 8;
         }
-    }
-
-    inline void MemFreeAligned(void *pMem)
-    {
-        uint8 offset = *((byte *)pMem - 1);
-
-        MemFree(((byte *)pMem) - offset);
     }
 
     inline void MemSet(void *pDest, byte value, uint32 size)

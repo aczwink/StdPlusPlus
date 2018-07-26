@@ -18,19 +18,19 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Geometry/Rect.hpp>
 #include "../../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Forward declarations
-    class Rect;
 	class Size;
 
     namespace UI
     {
         //Forward declarations
         class Widget;
-        class WidgetContainer;
+        class CompositeWidget;
 
         class STDPLUSPLUS_API ILayout
         {
@@ -39,8 +39,8 @@ namespace StdPlusPlus
             virtual ~ILayout() {}
 
             //Abstract
-            virtual Size GetPreferredSize(const WidgetContainer &refContainer) = 0;
-            virtual void Layout(WidgetContainer &refContainer) = 0;
+            virtual Math::SizeD GetPreferredSize(const CompositeWidget &refContainer) = 0;
+            virtual void Layout(CompositeWidget &refContainer) = 0;
         };
     }
 }

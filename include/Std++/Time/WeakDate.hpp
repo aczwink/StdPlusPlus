@@ -21,7 +21,7 @@
 #include <Std++/Mathematics.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	/**
 	* Represents dates within the Gregorian calendar.

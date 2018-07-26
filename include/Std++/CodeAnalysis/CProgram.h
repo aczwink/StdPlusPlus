@@ -23,7 +23,7 @@
 #include "EArchitecture.h"
 #include "IInstruction.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace CodeAnalysis
     {

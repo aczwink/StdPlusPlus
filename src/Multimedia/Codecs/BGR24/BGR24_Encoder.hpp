@@ -18,8 +18,8 @@
  */
 #include <Std++/Multimedia/Encoder.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 class BGR24_Encoder : public Encoder
 {

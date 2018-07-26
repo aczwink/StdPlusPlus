@@ -25,7 +25,7 @@
 //Local
 #include <Std++/Devices/ComputeDevice.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 class OpenCLDevice : public ComputeDevice
 {

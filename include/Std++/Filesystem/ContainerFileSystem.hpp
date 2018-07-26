@@ -23,7 +23,7 @@
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class ContainerFileSystem : public FileSystem
 	{

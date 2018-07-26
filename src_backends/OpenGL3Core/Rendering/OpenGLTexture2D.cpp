@@ -71,7 +71,7 @@ void OpenGLTexture2D::AllocateDXT5(uint16 width, uint16 height, const void *pCom
     this->glFuncs.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 }
 
-void OpenGLTexture2D::AllocateRGB(const Size &size, const void *pColorData)
+void OpenGLTexture2D::AllocateRGB(const Math::Size<uint16> &size, const void *pColorData)
 {
     this->Bind();
 

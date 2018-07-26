@@ -18,20 +18,20 @@
  */
 #pragma once
 //Local
-#include "../WidgetContainer.hpp"
+#include "CompositeWidget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
-        class STDPLUSPLUS_API CTabBox : public WidgetContainer
+        class STDPLUSPLUS_API CTabBox : public CompositeWidget
         {
         public:
             //Constructor
-            CTabBox(WidgetContainer *pParent);
+            CTabBox(CompositeWidget *pParent);
 
             //Methods
-            Rect GetChildrenRect() const;
+            Math::RectD GetChildrenRect() const;
         };
     }
 }

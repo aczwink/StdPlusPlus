@@ -22,7 +22,7 @@
 #include "../Definitions.h"
 #include "File.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class ContainerDirectory;

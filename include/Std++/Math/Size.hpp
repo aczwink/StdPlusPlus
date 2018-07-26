@@ -21,69 +21,73 @@
 #include "../Definitions.h"
 #include <Std++/Mathematics.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
-    class STDPLUSPLUS_API Size
-    {
-    public:
-        //Members
-        uint16 width;
-        uint16 height;
-
-        //Constructors
-        inline Size()
-        {
-            this->width = 0;
-            this->height = 0;
-        }
-
-        inline Size(uint16 width, uint16 height)
-        {
-            this->width = width;
-            this->height = height;
-        }
-
-        //Inline operators
-        inline Size operator+(const Size &refRight) const
-        {
-            return Size(this->width + refRight.width, this->height + refRight.height);
-        }
-
-        inline Size &operator+=(const Size &refRight)
-        {
-            this->width += refRight.width;
-            this->height += refRight.height;
-
-            return *this;
-        }
-
-        inline Size operator*(uint16 i) const
-        {
-            return Size(this->width * i, this->height * i);
-        }
-
-        inline Size operator/(uint16 i) const
-        {
-            return Size(this->width / i, this->height / i);
-        }
-
-        //Inline
-		inline void Add(int32 dx, int32 dy)
+	namespace Math
+	{
+		template <typename ScalarType>
+		class Size
 		{
-			if(this->width + dx < 0)
-				this->width = 0;
-			else
-				this->width += dx;
+		public:
+			//Members
+			ScalarType width;
+			ScalarType height;
 
-			if(this->height + dy < 0)
-				this->height = 0;
-			else
-				this->height += dy;
-		}
+			//Constructors
+			inline Size() : width(0), height(0)
+			{
+			}
 
-		inline Size Max(const Size &rhs) const
-		{
-			return Size(Math::Max(this->width, rhs.width), Math::Max(this->height, rhs.height));
-		}
-    };
+			inline Size(ScalarType width, ScalarType height)
+			{
+				this->width = width;
+				this->height = height;
+			}
+
+			//Inline operators
+			inline Size operator+(const Size &rhs) const
+			{
+				return Size(this->width + rhs.width, this->height + rhs.height);
+			}
+
+			inline Size &operator+=(const Size &rhs)
+			{
+				this->width += rhs.width;
+				this->height += rhs.height;
+
+				return *this;
+			}
+
+			inline Size operator*(ScalarType i) const
+			{
+				return Size(this->width * i, this->height * i);
+			}
+
+			inline Size operator/(ScalarType i) const
+			{
+				return Size(this->width / i, this->height / i);
+			}
+
+			//Inline
+			inline void Add(ScalarType dx, ScalarType dy)
+			{
+				this->width = Math::Max(this->width + dx, ScalarType(0));
+				this->height = Math::Max(this->height + dy, ScalarType(0));
+			}
+
+			template <typename CastType>
+			inline Size<CastType> Cast() const
+			{
+				return Size<CastType>(CastType(this->width), CastType(this->height));
+			}
+
+			inline Size Max(const Size &rhs) const
+			{
+				return Size(Math::Max(this->width, rhs.width), Math::Max(this->height, rhs.height));
+			}
+		};
+
+		typedef Size<float32> SizeF;
+		typedef Size<float64> SizeD;
+	}
 }

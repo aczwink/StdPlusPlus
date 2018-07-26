@@ -22,7 +22,7 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
 //Namespaces
 using namespace StdPlusPlus;

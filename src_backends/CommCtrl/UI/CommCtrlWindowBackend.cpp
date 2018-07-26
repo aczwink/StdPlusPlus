@@ -1,4 +1,4 @@
-#include <Std++/_Backends/WindowBackendType.hpp>
+#include <Std++/_Backends/UI/WindowBackendType.hpp>
 
 /*
  * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
@@ -24,7 +24,7 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
-#include <Std++/UI/WidgetContainer.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"
 #include "Definitions.h"
 //Namespaces

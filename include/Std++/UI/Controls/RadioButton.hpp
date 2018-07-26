@@ -20,7 +20,7 @@
 //Local
 #include "../Widget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
@@ -37,12 +37,13 @@ namespace StdPlusPlus
 			Function<void()> onActivatedHandler;
 
 			//Constructor
-			RadioButton(WidgetContainer *parent);
+			RadioButton();
 
 			//Inline
 			inline void SetText(const String &text)
 			{
-				this->backend->SetText(text);
+				NOT_IMPLEMENTED_ERROR; //TODO: next line
+				//this->backend->SetText(text);
 			}
 		};
 	}

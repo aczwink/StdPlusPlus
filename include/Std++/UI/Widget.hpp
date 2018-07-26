@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../_Backends/WindowBackend.hpp"
+#include "Std++/_Backends/UI/WidgetBackend.hpp"
 #include "../Function.hpp"
 #include "../Containers/Strings/OldString.hpp"
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
@@ -28,7 +28,7 @@
 #include "Mouse.hpp"
 #include "SizingPolicy.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Rendering
 	{
@@ -46,25 +46,32 @@ namespace StdPlusPlus
         {
             friend class UIEventSource;
 			friend class Rendering::DeviceContext;
-            friend class WidgetContainer;
+			friend class WidgetContainer;
         public:
             //Members
             SizingPolicy sizingPolicy;
 
             //Constructor
-            Widget(WidgetContainer *parent);
+            inline Widget() : parent(nullptr), backend(nullptr)
+			{
+			}
 
             //Destructor
             virtual ~Widget();
 
             //Methods
-			Point TranslateToAncestorCoords(const Point &point, const WidgetContainer *ancestor) const;
+			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
-            virtual Size GetSizeHint() const;
+            virtual Math::SizeD GetSizeHint() const;
 
             //Inline
-			inline const Rect &GetBounds() const
+			inline _stdxx_::WidgetBackend *_GetBackend()
+			{
+				return this->backend;
+			}
+
+			inline const Math::RectD &GetBounds() const
 			{
 				return this->bounds;
 			}
@@ -74,9 +81,9 @@ namespace StdPlusPlus
 			 * In its own coordinate system, this widget always has the origin (0, 0).
 			 * @return
 			 */
-			inline Rect GetLocalBounds() const
+			inline Math::RectD GetLocalBounds() const
 			{
-				return Rect(Point(), this->GetSize());
+				return Math::RectD(Math::PointD(), this->GetSize());
 			}
 
             inline const WidgetContainer *GetParent() const
@@ -84,26 +91,17 @@ namespace StdPlusPlus
                 return this->parent;
             }
 
-			inline Size GetSize() const
+			inline Math::SizeD GetSize() const
 			{
 				return this->bounds.size;
 			}
-
-            inline const Window *GetWindow() const
-            {
-                if(this->owner)
-                    return this->owner;
-
-                //this is a window itself
-                return (Window *)this;
-            }
 
 			inline void Repaint()
 			{
 				this->backend->Repaint();
 			}
 
-			inline void SetBounds(const Rect &newBounds)
+			inline void SetBounds(const Math::RectD &newBounds)
 			{
 				if(this->backend)
 					this->backend->SetBounds(newBounds);
@@ -124,28 +122,16 @@ namespace StdPlusPlus
 				this->backend->Show(visible);
 			}
 
-			inline Point TranslateToOwnerCoords(const Point &point) const
-			{
-				return this->TranslateToAncestorCoords(point, reinterpret_cast<const WidgetContainer *>(this->owner));
-			}
-
-			inline Point TranslateToParentCoords(const Point &point) const
+			inline Math::PointD TranslateToParentCoords(const Math::PointD &point) const
 			{
 				return this->bounds.origin + point;
 			}
 
 		protected:
 			//Members
-			_stdpp::WindowBackend *backend;
+			_stdxx_::WidgetBackend *backend;
 
 			//Inline
-			inline _stdpp::WindowBackend *GetParentBackend() const
-			{
-				if(this->backend)
-					return this->backend;
-				return ((Widget *)this->parent)->GetParentBackend();
-			}
-
 			inline void IgnoreEvent()
 			{
 				this->backend->IgnoreEvent();
@@ -154,21 +140,20 @@ namespace StdPlusPlus
 		private:
 			//Members
 			WidgetContainer *parent;
-			Window *owner;
 			/**
-			 * Defines a rectangular area of this widget within the children rectangle of its parent.
-			 * The bounds are always relative to the parents child area coordinates.
+			 * Defines a rectangular area of this widget within the rectangle of its parent.
+			 * The bounds are always relative to the parents coordinate system.
 			 */
-			Rect bounds;
+			Math::RectD bounds;
 
 			//Eventhandlers
-			virtual void OnMouseButtonPressed(MouseButton button, const Point &pos);
-			virtual void OnMouseButtonReleased(MouseButton button, const Point &pos);
-			virtual void OnMouseMoved(const Point &pos);
+			virtual void OnMouseButtonPressed(MouseButton button, const Math::PointD &pos);
+			virtual void OnMouseButtonReleased(MouseButton button, const Math::PointD &pos);
+			virtual void OnMouseMoved(const Math::PointD &pos);
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnPaint();
 			virtual void OnResized();
-			virtual void OnResizing(const Rect &newBounds);
+			virtual void OnResizing(const Math::RectD &newBounds);
         };
     }
 }

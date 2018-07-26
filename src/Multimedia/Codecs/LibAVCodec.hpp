@@ -22,14 +22,14 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 //Local
-#include <StdPlusPlus/Containers/DynamicArray/DynamicArray.hpp>
-#include <StdPlusPlus/Multimedia/CodecId.hpp>
-#include <StdPlusPlus/Multimedia/Decoder.hpp>
-#include <StdPlusPlus/Multimedia/Packet.hpp>
-#include <StdPlusPlus/Multimedia/Stream.hpp>
+#include <StdXX/Containers/DynamicArray/DynamicArray.hpp>
+#include <StdXX/Multimedia/CodecId.hpp>
+#include <StdXX/Multimedia/Decoder.hpp>
+#include <StdXX/Multimedia/Packet.hpp>
+#include <StdXX/Multimedia/Stream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Multimedia;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
 struct CodecState
 {
@@ -41,8 +41,8 @@ struct CodecState
 };
 
 //Functions
-void DecodePacket(CodecState &state, const StdPlusPlus::Multimedia::Packet &packet, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames);
+void DecodePacket(CodecState &state, const StdXX::Multimedia::Packet &packet, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames);
 void FreeCodecState(CodecState &state);
-void InitCodecState(CodecState &state, StdPlusPlus::Multimedia::CodecId codecId, Stream &stream);
-AVCodecID MapCodecId(StdPlusPlus::Multimedia::CodecId codecId);
+void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Stream &stream);
+AVCodecID MapCodecId(StdXX::Multimedia::CodecId codecId);
 #endif

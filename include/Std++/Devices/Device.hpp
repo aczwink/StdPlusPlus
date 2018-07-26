@@ -19,7 +19,7 @@
 #pragma once
 #include "../Containers/Strings/String.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	enum class DeviceType
 	{

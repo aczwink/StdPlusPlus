@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//template <typename DataType, template <typename> typename ArrayType>
 	//template <template <typename DataType> typename ArrayType, typename DataType>

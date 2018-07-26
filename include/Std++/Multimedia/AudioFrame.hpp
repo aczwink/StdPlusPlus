@@ -21,7 +21,7 @@
 #include "Frame.hpp"
 #include "AbstractAudioBuffer.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

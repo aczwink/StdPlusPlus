@@ -32,7 +32,7 @@ void RGB24_Encoder::Encode(const Frame &frame, Packet &packet) const
 	byte *rgb;
 	RGBImage *rgbImage;
 
-	ASSERT(frame.GetType() == DataType::Video, "If you see this, report to StdPlusPlus");
+	ASSERT(frame.GetType() == DataType::Video, "If you see this, report to StdXX");
 
 	VideoFrame &videoFrame = (VideoFrame &)frame;
 	//get image

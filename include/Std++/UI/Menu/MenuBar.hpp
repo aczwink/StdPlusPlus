@@ -18,11 +18,11 @@
  */
 #pragma once
 //Local
-#include <Std++/_Backends/MenuBarBackend.hpp>
+#include <Std++/_Backends/UI/MenuBarBackend.hpp>
 #include "../../Definitions.h"
 #include "../../Containers/Array/DynamicArray.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -49,7 +49,7 @@ namespace StdPlusPlus
 
 		private:
 			//Members
-			_stdpp::MenuBarBackend *backend;
+			_stdxx_::MenuBarBackend *backend;
 			DynamicArray<Menu *> attachedMenus;
         };
     }

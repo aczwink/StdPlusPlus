@@ -20,7 +20,7 @@
 //Local
 #include "ByteString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class Fraction;

@@ -22,7 +22,7 @@
 #include "AIndirectObject.h"
 #include "CPage.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace PDF
     {

@@ -20,7 +20,7 @@
 //Local
 #include "FixedCharLengthString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     class ByteString;

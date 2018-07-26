@@ -24,7 +24,7 @@
 #include <Std++/Memory.h>
 #include <Std++/Math/Vector2.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class alignas(16) vec2f64
     {

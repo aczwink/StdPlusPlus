@@ -21,13 +21,13 @@
 #include "Backend.hpp"
 #include "DeviceEnumeratorState.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class AudioBackend : public Backend
 	{
 	public:
 		//Abstract
-		virtual UniquePointer<_stdpp::DeviceEnumeratorState> GetDeviceEnumeratorState() const = 0;
+		virtual UniquePointer<_stdxx_::DeviceEnumeratorState> GetDeviceEnumeratorState() const = 0;
 
 		//Methods
 		BackendType GetType() const

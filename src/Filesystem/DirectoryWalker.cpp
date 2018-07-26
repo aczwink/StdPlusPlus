@@ -19,7 +19,7 @@
  //Class header
 #include <Std++/Filesystem/DirectoryWalker.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Private methods
 void DirectoryWalker::CorrectIteratorPos()

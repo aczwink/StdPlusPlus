@@ -22,7 +22,7 @@
 #include "../Streams/OutputStream.hpp"
 #include "ResizeableSequenceContainer.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API FIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public OutputStream
     {

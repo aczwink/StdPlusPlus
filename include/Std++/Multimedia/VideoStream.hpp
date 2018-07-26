@@ -20,7 +20,7 @@
 //Local
 #include "Stream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

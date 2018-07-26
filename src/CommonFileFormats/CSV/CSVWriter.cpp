@@ -24,8 +24,8 @@
 #include <Std++/Streams/Writers/TextWriter.hpp>
 #include <Std++/Streams/StdOut.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::CommonFileFormats;
+using namespace StdXX;
+using namespace StdXX::CommonFileFormats;
 
 //Public methods
 void CSVWriter::TerminateRow()

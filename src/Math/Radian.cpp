@@ -22,8 +22,8 @@
 #include <Std++/Math/Degree.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Math;
+using namespace StdXX;
+using namespace StdXX::Math;
 
 //Constructors
 template <typename ScalarType>
@@ -32,7 +32,7 @@ Radian<ScalarType>::Radian(const Degree<ScalarType> &refDegree)
 	this->value = refDegree.value * PI / 180.0;
 }
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace Math
 	{

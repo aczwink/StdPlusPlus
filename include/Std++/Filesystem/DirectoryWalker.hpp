@@ -22,7 +22,7 @@
 #include "DirectoryIterator.hpp"
 #include "File.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class DirectoryWalker
 	{

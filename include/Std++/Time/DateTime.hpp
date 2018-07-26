@@ -22,7 +22,7 @@
 #include "Date.hpp"
 #include "Time.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API DateTime
     {

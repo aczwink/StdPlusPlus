@@ -21,7 +21,7 @@
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include "Window.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

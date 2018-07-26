@@ -18,15 +18,19 @@
  */
 //Class header
 #include <Std++/UI/Controls/CheckBox.hpp>
+//Local
+#include <Std++/_Backends/UI/CheckBoxBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-CheckBox::CheckBox(WidgetContainer *parent) : Widget(parent)
+CheckBox::CheckBox()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::CheckBox, this);
+	this->checkBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateCheckBoxBackend(this);
+	this->backend = this->checkBoxBackend;
 }

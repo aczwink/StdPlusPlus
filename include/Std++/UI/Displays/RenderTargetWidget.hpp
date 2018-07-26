@@ -18,9 +18,9 @@
  */
 #pragma once
 //Local
-#include "../WidgetContainer.hpp"
+#include "Std++/UI/Containers/CompositeWidget.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Move declarations
     namespace Rendering
@@ -30,11 +30,11 @@ namespace StdPlusPlus
 
     namespace UI
     {
-        class STDPLUSPLUS_API RenderTargetWidget : public WidgetContainer
+        class STDPLUSPLUS_API RenderTargetWidget : public CompositeWidget
         {
         public:
             //Constructor
-            RenderTargetWidget(WidgetContainer *parent);
+            RenderTargetWidget();
 
             //Destructor
             ~RenderTargetWidget();

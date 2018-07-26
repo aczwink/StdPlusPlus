@@ -19,15 +19,15 @@
 #ifdef _AC_LIB_USEAVCODEC
 #include "LibAVCodec.hpp"
 //Local
-#include <StdPlusPlus/Containers/Map/Map.hpp>
-#include <StdPlusPlus/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
-#include <StdPlusPlus/Multimedia/AudioBuffer.hpp>
-#include <StdPlusPlus/Multimedia/AudioFrame.hpp>
-#include <StdPlusPlus/Multimedia/VideoFrame.hpp>
-#include <StdPlusPlus/Multimedia/VideoStream.hpp>
+#include <StdXX/Containers/Map/Map.hpp>
+#include <StdXX/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
+#include <StdXX/Multimedia/AudioBuffer.hpp>
+#include <StdXX/Multimedia/AudioFrame.hpp>
+#include <StdXX/Multimedia/VideoFrame.hpp>
+#include <StdXX/Multimedia/VideoStream.hpp>
 
 //Global variables
-StdPlusPlus::Map<StdPlusPlus::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+StdXX::Map<StdXX::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
 
 //Local functions
 static void LoadMap()
@@ -66,7 +66,7 @@ static void CopyImportantInfo(const AVFrame &src, Frame &dest)
 	dest.pts = src.pts;
 }
 
-static void Decode(CodecState &state, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames)
+static void Decode(CodecState &state, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames)
 {
 	int ret = avcodec_send_packet(state.codecContext, state.pkt);
 	if(ret < 0)
@@ -133,7 +133,7 @@ static void Decode(CodecState &state, StdPlusPlus::DynamicArray<StdPlusPlus::Mul
 }
 
 //Functions
-void DecodePacket(CodecState &state, const StdPlusPlus::Multimedia::Packet &packet, StdPlusPlus::DynamicArray<StdPlusPlus::Multimedia::Frame *> &frames)
+void DecodePacket(CodecState &state, const StdXX::Multimedia::Packet &packet, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames)
 {
 	const byte *data = packet.GetData();
 	uint32 leftSize = packet.GetSize();
@@ -171,7 +171,7 @@ void FreeCodecState(CodecState &state)
 	av_packet_free(&state.pkt);
 }
 
-void InitCodecState(CodecState &state, StdPlusPlus::Multimedia::CodecId codecId, Stream &stream)
+void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Stream &stream)
 {
 	state.pkt = av_packet_alloc();
 	state.codec = avcodec_find_decoder(MapCodecId(codecId));
@@ -197,7 +197,7 @@ void InitCodecState(CodecState &state, StdPlusPlus::Multimedia::CodecId codecId,
 	int ret = avcodec_open2(state.codecContext, state.codec, nullptr);
 }
 
-AVCodecID MapCodecId(StdPlusPlus::Multimedia::CodecId codecId)
+AVCodecID MapCodecId(StdXX::Multimedia::CodecId codecId)
 {
 	LoadMap();
 

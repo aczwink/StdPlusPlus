@@ -22,7 +22,7 @@
 #include "../../Containers/Strings/OldString.hpp"
 #include "../Views/CCheckListView.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

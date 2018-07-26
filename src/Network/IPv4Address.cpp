@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Network/IPv4Address.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 NetworkProtocolFamily IPv4Address::GetProtocolFamily() const

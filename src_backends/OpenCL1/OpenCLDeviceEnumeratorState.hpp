@@ -27,7 +27,7 @@
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "OpenCLDevice.hpp"
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 static cl_uint GetNumberOfDevices(cl_platform_id platformId)
 {
@@ -38,7 +38,7 @@ static cl_uint GetNumberOfDevices(cl_platform_id platformId)
 	return nDevices;
 }
 
-class OpenCLDeviceEnumeratorState : public _stdpp::DeviceEnumeratorState
+class OpenCLDeviceEnumeratorState : public _stdxx_::DeviceEnumeratorState
 {
 public:
 	//Constructor

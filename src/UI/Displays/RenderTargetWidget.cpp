@@ -20,19 +20,19 @@
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-RenderTargetWidget::RenderTargetWidget(WidgetContainer *parent) : WidgetContainer(parent), deviceContext(nullptr)
+RenderTargetWidget::RenderTargetWidget() : deviceContext(nullptr)
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
-    this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::RenderTarget, this);
-	this->deviceContext = this->backend->GetUIBackend()->renderBackends.GetActiveBackend()->CreateDeviceContext(*this->backend, 4);
+    this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateRenderTargetWidgetBackend(this);
+    this->deviceContext = this->backend->GetUIBackend()->renderBackends.GetActiveBackend()->CreateDeviceContext(*this->backend, 4);
 }
 
 //Destructor
@@ -53,7 +53,7 @@ void RenderTargetWidget::OnResized()
 {
 	if(this->deviceContext)
 	{
-		Size size = this->GetSize();
+		Math::SizeD size = this->GetSize();
 		this->deviceContext->SetViewPort(size.width, size.height);
 	}
 }

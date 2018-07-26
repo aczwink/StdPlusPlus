@@ -18,15 +18,19 @@
 */
 //Class header
 #include <Std++/UI/Controls/Slider.hpp>
+//Local
+#include <Std++/_Backends/BackendManager.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Constructor
-Slider::Slider(WidgetContainer *pParent) : Widget(pParent)
+Slider::Slider()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->backend = this->GetParentBackend()->CreateChildBackend(_stdpp::WindowBackendType::Slider, this);
+	this->sliderBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSliderBackend(this);
+	this->backend = this->sliderBackend;
 }

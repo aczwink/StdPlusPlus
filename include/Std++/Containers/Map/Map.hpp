@@ -24,7 +24,7 @@
 #include "MapIterator.hpp"
 #include "Std++/Debug.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Implemented as Red-Black Tree
     template<typename KeyType, typename ValueType>

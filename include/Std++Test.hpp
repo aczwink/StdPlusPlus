@@ -39,7 +39,7 @@ namespace StdPlusPlusTest
         };
     private:
         //Members
-        StdPlusPlus::LinkedList<Test> tests;
+        StdXX::LinkedList<Test> tests;
 
         //Constructor
         inline TestManager()
@@ -60,13 +60,13 @@ namespace StdPlusPlusTest
 
         inline bool RunAllTests()
         {
-            StdPlusPlus::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << StdPlusPlus::endl;
+            StdXX::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << StdXX::endl;
             for(Test &refTest : this->tests)
             {
-                StdPlusPlus::stdOut << "Running test: " << refTest.pName << "..." << StdPlusPlus::endl;
+                StdXX::stdOut << "Running test: " << refTest.pName << "..." << StdXX::endl;
                 refTest.pTest();
 
-                StdPlusPlus::stdOut << "\tPassed!" << StdPlusPlus::endl;
+                StdXX::stdOut << "\tPassed!" << StdXX::endl;
             }
 
             return true;

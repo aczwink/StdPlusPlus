@@ -22,7 +22,7 @@
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 #include <Std++/Filesystem/ContainerFileInputStream.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 FileSystem *ContainerFile::GetFileSystem()

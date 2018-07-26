@@ -22,7 +22,7 @@
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Time/DateTime.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class STDPLUSPLUS_API TimeZone
 	{

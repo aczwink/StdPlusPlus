@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Containers/Strings/StringUtil.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 #ifdef _STDPP_WINDOWSYSTEM_COCOA
 #include <mach-o/dyld.h>

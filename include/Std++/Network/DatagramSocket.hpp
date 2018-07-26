@@ -22,7 +22,7 @@
 #include "Datagram.hpp"
 #include "NetAddress.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class DatagramSocket
 	{

@@ -25,7 +25,7 @@
 #include "Widget.hpp"
 #include "Window.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{
@@ -35,13 +35,13 @@ namespace StdPlusPlus
 			//Inline
 			inline void DispatchActivatedEvent(PushButton &refButton)
 			{
-				if (refButton.onActivatedHandler)
+				if (refButton.onActivatedHandler.IsBound())
 					refButton.onActivatedHandler();
 			}
 
 			inline void DispatchActivatedEvent(RadioButton &button)
 			{
-				if (button.onActivatedHandler)
+				if (button.onActivatedHandler.IsBound())
 					button.onActivatedHandler();
 			}
 
@@ -50,17 +50,17 @@ namespace StdPlusPlus
 				window.OnClose();
 			}
 
-			inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Point &pos)
+			inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Math::PointD &pos)
 			{
 				widget.OnMouseButtonPressed(button, pos);
 			}
 
-			inline void DispatchMouseButtonReleased(Widget &widget, MouseButton button, const Point &pos)
+			inline void DispatchMouseButtonReleased(Widget &widget, MouseButton button, const Math::PointD &pos)
 			{
 				widget.OnMouseButtonReleased(button, pos);
 			}
 
-			inline void DispatchMouseMovedEvent(Widget &widget, const Point &pos)
+			inline void DispatchMouseMovedEvent(Widget &widget, const Math::PointD &pos)
 			{
 				widget.OnMouseMoved(pos);
 			}
@@ -75,7 +75,7 @@ namespace StdPlusPlus
 				widget.OnPaint();
 			}
 
-			inline void DispatchResizingEvent(Widget &widget, const Rect &newBounds)
+			inline void DispatchResizingEvent(Widget &widget, const Math::RectD &newBounds)
 			{
 				widget.OnResizing(newBounds);
 			}
@@ -92,7 +92,7 @@ namespace StdPlusPlus
 
 			inline void DispatchToggledEvent(CheckBox &checkBox)
 			{
-				if (checkBox.onToggledHandler)
+				if (checkBox.onToggledHandler.IsBound())
 					checkBox.onToggledHandler();
 			}
 		};

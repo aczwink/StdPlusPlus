@@ -20,44 +20,57 @@
 //Local
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
-    class STDPLUSPLUS_API Point
-    {
-    public:
-        //Members
-        int32 x;
-        int32 y;
-
-        //Constructors
-        inline Point()
-        {
-            this->x = 0;
-            this->y = 0;
-        }
-
-        inline Point(int32 x, int32 y)
-        {
-            this->x = x;
-            this->y = y;
-        }
-
-        //Inline operators
-        inline Point operator+(const Point &refRight) const
-        {
-            return Point(this->x + refRight.x, this->y + refRight.y);
-        }
-
-		inline Point &operator+=(const Point &rhs)
+	namespace Math
+	{
+		template <typename ScalarType>
+		class Point
 		{
-			this->x += rhs.x;
-			this->y += rhs.y;
-			return *this;
-		}
+		public:
+			//Members
+			ScalarType x;
+			ScalarType y;
 
-        inline Point operator-(const Point &right) const
-        {
-            return Point(this->x - right.x, this->y - right.y);
-        }
-    };
+			//Constructors
+			inline Point()
+			{
+				this->x = 0;
+				this->y = 0;
+			}
+
+			inline Point(ScalarType x, ScalarType y)
+			{
+				this->x = x;
+				this->y = y;
+			}
+
+			//Inline operators
+			inline Point<ScalarType> operator+(const Point<ScalarType> &refRight) const
+			{
+				return Point(this->x + refRight.x, this->y + refRight.y);
+			}
+
+			inline Point<ScalarType> &operator+=(const Point<ScalarType> &rhs)
+			{
+				this->x += rhs.x;
+				this->y += rhs.y;
+				return *this;
+			}
+
+			inline Point<ScalarType> operator-(const Point<ScalarType> &right) const
+			{
+				return Point(this->x - right.x, this->y - right.y);
+			}
+
+			//Inline methods
+			template <typename CastType>
+			inline Point<CastType> Cast() const
+			{
+				return Point<CastType>(CastType(this->x), CastType(this->y));
+			}
+		};
+
+		typedef Point<float64> PointD;
+	}
 }

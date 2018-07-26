@@ -21,7 +21,7 @@
 #include "Frame.hpp"
 #include "Image.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

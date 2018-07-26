@@ -22,7 +22,7 @@
 #include "../../Containers/LinkedList/LinkedList.hpp"
 #include "../../Math/Vector2.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Rendering
     {

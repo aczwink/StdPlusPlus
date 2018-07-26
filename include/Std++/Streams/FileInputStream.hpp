@@ -21,7 +21,7 @@
 #include "../Filesystem/Path.hpp"
 #include "SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API FileInputStream : public SeekableInputStream
     {

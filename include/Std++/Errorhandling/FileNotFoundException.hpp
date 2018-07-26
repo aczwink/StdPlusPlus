@@ -21,7 +21,7 @@
 #include "Exception.hpp"
 #include "../Filesystem/Path.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace ErrorHandling
     {

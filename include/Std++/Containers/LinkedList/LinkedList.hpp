@@ -24,7 +24,7 @@
 #include "LinkedListConstIterator.hpp"
 #include "LinkedListIterator.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename DataType>
     class LinkedList : public Container

@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Time/Timer.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 Timer::Timer(const Function<void()> &timedOutCallback, TimerEventSource &eventSource) : eventSource(eventSource)

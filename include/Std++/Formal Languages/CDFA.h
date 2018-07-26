@@ -24,7 +24,7 @@
 #include "../Filesystem/Path.hpp"
 #include "Std++/Debug.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class CDFAState
     {

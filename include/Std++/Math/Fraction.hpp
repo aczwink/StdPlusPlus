@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     //Inline functions
     inline uint64 ComputeGreatestCommonDivisor(uint64 a, uint64 b)

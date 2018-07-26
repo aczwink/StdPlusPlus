@@ -24,7 +24,7 @@
 #include "../../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "DataReader.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     class STDPLUSPLUS_API TextReader
     {

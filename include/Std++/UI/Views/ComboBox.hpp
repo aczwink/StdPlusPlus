@@ -21,7 +21,7 @@
 #include "../Controllers/TreeController.hpp"
 #include "View.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -30,7 +30,7 @@ namespace StdPlusPlus
             friend class EventQueue;
         public:
             //Constructor
-            ComboBox(WidgetContainer *pParent);
+            ComboBox();
 
 			//Inline
 			inline void Select(uint32 index)

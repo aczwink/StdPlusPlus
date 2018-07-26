@@ -22,7 +22,7 @@
 #include "../Definitions.h"
 #include "../Containers/Strings/StringUtil.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Math
     {

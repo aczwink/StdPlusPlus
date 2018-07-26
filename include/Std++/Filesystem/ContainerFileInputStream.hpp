@@ -19,7 +19,7 @@
 //Local
 #include "../Streams/SeekableInputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	//Move declarations
 	class ContainerFile;

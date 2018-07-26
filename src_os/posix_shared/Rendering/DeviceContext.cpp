@@ -28,8 +28,8 @@
 //#include "../UI/Displays/_GtkOpenGLWidget.h"
 #include "../../../src_backends/OpenGL3Core/GL3Functions.hpp"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::Rendering;
+using namespace StdXX;
+using namespace StdXX::Rendering;
 //Definitions
 #define THIS ((X11_DisplayAndWindow *)this->systemHandle)
 

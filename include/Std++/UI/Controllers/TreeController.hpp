@@ -23,7 +23,7 @@
 #include "../Views/View.hpp"
 #include "ControllerIndex.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {

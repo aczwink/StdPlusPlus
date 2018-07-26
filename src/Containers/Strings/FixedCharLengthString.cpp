@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Mathematics.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define SJCLIB_CHAR_ZERO 48
 #define SJCLIB_CHAR_NINE 57
@@ -98,5 +98,5 @@ int32 FixedCharLengthString<CharType>::FindReverse(CharType c, uint32 startPos) 
 }
 
 //Instantiate the Baseclass
-template class StdPlusPlus::FixedCharLengthString<char>;
-template class StdPlusPlus::FixedCharLengthString<uint32>;
+template class StdXX::FixedCharLengthString<char>;
+template class StdXX::FixedCharLengthString<uint32>;

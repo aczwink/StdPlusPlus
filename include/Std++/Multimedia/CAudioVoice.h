@@ -22,7 +22,7 @@
 #include "AbstractAudioBuffer.hpp"
 #include "../Function.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {

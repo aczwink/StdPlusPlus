@@ -19,7 +19,7 @@
 #pragma once
 #include "../OutputStream.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class DataWriter
 	{

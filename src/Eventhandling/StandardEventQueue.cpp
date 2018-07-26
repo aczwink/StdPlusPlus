@@ -21,9 +21,9 @@
 //Local
 #include <Std++/Time/TimerEventSource.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 StandardEventQueue::StandardEventQueue()

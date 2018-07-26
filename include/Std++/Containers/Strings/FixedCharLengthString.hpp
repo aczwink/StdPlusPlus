@@ -21,7 +21,7 @@
 #include "../../Natural.hpp"
 #include "ResizeableString.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     template<typename CharType>
     class STDPLUSPLUS_API FixedCharLengthString : public ResizeableString<CharType>

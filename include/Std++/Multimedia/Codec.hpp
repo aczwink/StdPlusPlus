@@ -26,7 +26,7 @@
 #include "EnumTypes.hpp"
 #include "Encoder.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace Multimedia
     {
