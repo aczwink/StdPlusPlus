@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include "SSE.h"
 #include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
 /*

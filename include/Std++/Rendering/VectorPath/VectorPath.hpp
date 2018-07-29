@@ -40,17 +40,17 @@ namespace StdXX
             DynamicArray<FlatVectorPath *> Flatten();
 
             //Inline
-            inline void BezierTo(const Math::Vector2s &refCP, const Math::Vector2s &refTo)
+            inline void BezierTo(const Math::Vector2D &refCP, const Math::Vector2D &refTo)
             {
                 const auto &refLastPoint = this->points[this->points.GetNumberOfElements() - 1];
 
                 this->commands.Push(ECommand::BezierTo);
-                this->points.Push(refLastPoint + 2.0f/3.0f * (refCP - refLastPoint));
-                this->points.Push(refTo + 2.0f / 3.0f * (refCP - refTo));
+                this->points.Push(refLastPoint + 2.0/3.0 * (refCP - refLastPoint));
+                this->points.Push(refTo + 2.0/3.0 * (refCP - refTo));
                 this->points.Push(refTo);
             }
 
-            inline void BezierTo(const Math::Vector2s &refCP1, const Math::Vector2s &refCP2, const Math::Vector2s &refTo)
+            inline void BezierTo(const Math::Vector2D &refCP1, const Math::Vector2D &refCP2, const Math::Vector2D &refTo)
             {
                 this->commands.Push(ECommand::BezierTo);
                 this->points.Push(refCP1);
@@ -63,13 +63,13 @@ namespace StdXX
                 this->commands.Push(ECommand::Close);
             }
 
-            inline void MoveTo(const Math::Vector2s &refV)
+            inline void MoveTo(const Math::Vector2D &refV)
             {
                 this->commands.Push(ECommand::MoveTo);
                 this->points.Push(refV);
             }
 
-            inline void LineTo(const Math::Vector2s &refV)
+            inline void LineTo(const Math::Vector2D &refV)
             {
                 this->commands.Push(ECommand::LineTo);
                 this->points.Push(refV);
@@ -78,7 +78,7 @@ namespace StdXX
         private:
             //Members
             DynamicArray<ECommand> commands;
-            DynamicArray<Math::Vector2s> points;
+            DynamicArray<Math::Vector2D> points;
         };
     }
 }

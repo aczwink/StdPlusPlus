@@ -136,18 +136,24 @@ void GridLayout::DistributeLeftOverSize(const CompositeWidget &refContainer, con
     {
 		bool expandHorz = false, expandVert = false;
 
+		/* The allocation of this container is already done. Thus, we can distribute all the space, because it won't be
+		 * redistributed anyways (it is wasted otherwise).
+		 * We try to give all the space to expanding widgets, as they can make use of extra space.
+		 * In case no expanding widgets exist, we allocate the space to widgets that are allowed to grow.
+		 * This does not make the widgets more useable, but as mentioned earlier, the space is otherwise wasted anyways.
+		 */
+
 		this->CanExpand(widget, expandHorz, expandVert);
 		if(expandHorz)
 			expandCols.Insert(col, widget->sizingPolicy.horzScale);
 		if(expandVert)
 			expandRows.Insert(row, widget->sizingPolicy.vertScale);
 
-		/*
         if(widget->sizingPolicy.GetHorizontalAttributes().grow)
             growCols.Insert(col, widget->sizingPolicy.horzScale);
 
         if(widget->sizingPolicy.GetVerticalAttributes().grow)
-            growRows.Insert(row, widget->sizingPolicy.vertScale);*/
+            growRows.Insert(row, widget->sizingPolicy.vertScale);
 
         col++;
         if(col == this->nColumns)

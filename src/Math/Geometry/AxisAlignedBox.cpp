@@ -26,15 +26,15 @@ using namespace StdXX::Math;
 
 //Public methods
 template <typename ScalarType>
-bool AxisAlignedBox<ScalarType>::Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const
+bool AxisAlignedBox<ScalarType>::Intersects(const Vector4S &refOrigin, const Vector4S &refDir) const
 {
 	float32 tmin, tmax;
-	vec4f32 t0, t1;
+	Vector4S t0, t1;
 
 	//implementation using the slab method
 
-	t0 = (vec4f32(this->min, 0) - refOrigin) / refDir;
-	t1 = (vec4f32(this->max, 0) - refOrigin) / refDir;
+	t0 = (Vector4S(this->min, 0) - refOrigin) / refDir;
+	t1 = (Vector4S(this->max, 0) - refOrigin) / refDir;
 
 	//check x
 	tmin = MIN(t0.x, t1.x);
@@ -72,7 +72,7 @@ void AxisAlignedBox<ScalarType>::Merge(const Vector3<ScalarType> &refV)
 }
 
 template <typename ScalarType>
-float32 AxisAlignedBox<ScalarType>::SquaredDistanceTo(const vec4f32 &refPoint) const
+float32 AxisAlignedBox<ScalarType>::SquaredDistanceTo(const Vector4S &refPoint) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,14 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//All x64 processors support SSE and SSE2
-#include <xmmintrin.h> //SSE
-#include <emmintrin.h> //SSE2
-//Steam hardware survey: http://store.steampowered.com/hwsurvey
-#include <pmmintrin.h> //SSE3 according to steam supported by 99.99%
-#include <smmintrin.h> //SSE4.1 according to steam supported by 87.68%
-//TODO: could be that SSE4.1 needs to be thrown out if compiled for older processor
-
-#ifdef _STDPP_COMPILER_GCC
-#define _MM_ALIGN16 __attribute__((aligned (16)))
-#endif
+//Class header
+#include "Vector4.hpp"
+//Implementations
+#include "Vector4_scalar.inl"
+#include "Vector4_SSE.inl"

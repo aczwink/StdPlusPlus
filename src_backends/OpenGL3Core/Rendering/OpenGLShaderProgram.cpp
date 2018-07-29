@@ -78,7 +78,7 @@ void OpenGLShaderProgram::SetUniformValue(uint32 varId, float32 value)
     this->glFuncs.glUniform1f(varId, value);
 }
 
-void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Math::Vector2s &refVector)
+void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Math::Vector2S &refVector)
 {
     this->Use();
 

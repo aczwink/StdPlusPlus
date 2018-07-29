@@ -25,9 +25,9 @@ using namespace StdXX;
 using namespace StdXX::Rendering;
 
 //Local functions
-static void TessellateBezier(const vec2f64 &refP0, const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refP1, uint8 level, FlatVectorPath &refCurrentPath, bool isCorner)
+static void TessellateBezier(const Math::Vector2D &refP0, const Math::Vector2D &refCP0, const Math::Vector2D &refCP1, const Math::Vector2D &refP1, uint8 level, FlatVectorPath &refCurrentPath, bool isCorner)
 {
-	vec2f64 p0cp0, cp0cp1, cp1p1, dir, normal, dirToCP0, dirToCP1, newCP0, newCP1, middle;
+	Math::Vector2D p0cp0, cp0cp1, cp1p1, dir, normal, dirToCP0, dirToCP1, newCP0, newCP1, middle;
 	float64 length[2];
 
 	//use de casteljau to generate extra points
@@ -43,13 +43,13 @@ static void TessellateBezier(const vec2f64 &refP0, const vec2f64 &refCP0, const 
 	//TODO: I DONT FULLY UNDERSTAND THE FOLLOWING
 	//WHAT IS IT WITH THE LENGTHS? and the 0.25 is the tessellation tolerance... what is that exactly?
 	dir = refP1 - refP0;
-	normal = GetPerpendicularDirection(dir);
+	normal = dir.PerpendicularDirection();
 	//directions from end point to control points
 	dirToCP0 = refCP0 - refP1;
 	dirToCP1 = refCP1 - refP1;
 
-	length[0] = Math::Abs(Dot(dirToCP0, normal));
-	length[1] = Math::Abs(Dot(dirToCP1, normal));
+	length[0] = Math::Abs(dirToCP0.Dot(normal));
+	length[1] = Math::Abs(dirToCP1.Dot(normal));
 
 	if((length[0] + length[1]) * (length[0] + length[1]) < 0.25 * dir.LengthSquared())
 	{

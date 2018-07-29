@@ -24,10 +24,12 @@
 //Definitions
 #ifdef _DEBUG
 #define MemAlloc(size) MemAllocDebug(size, __FILE__, __LINE__)
+#define MemAllocAligned(size, alignment) MemAllocAlignedDebug(size, alignment, __FILE__, __LINE__)
 #define MemFree(ptr) MemFreeDebug(ptr)
 #define MemRealloc(ptr, size) MemReallocDebug(ptr, size, __FILE__, __LINE__)
 #else
 #define MemAlloc(size) MemoryAllocate(size)
+#define MemAllocAligned(size, alignment) MemAllocAlignedDebug(size, alignment)
 #define MemFree(ptr) MemoryFree(ptr)
 #define MemRealloc(ptr, size) MemoryReallocate(ptr, size)
 #endif
@@ -40,13 +42,39 @@ namespace StdXX
         Execute_Read_Write
     };
 
+    const uint16 c_guaranteedMemoryAlignment = __STDCPP_DEFAULT_NEW_ALIGNMENT__;
+
     //Functions
+	inline void *AlignMemoryAddress(void *p, uint8 alignment)
+	{
+		uint8 offset = static_cast<uint8>(alignment - ((alignment - 1u) & (uint64)p));
+		return (uint8 *)p + offset;
+	}
+
 #ifdef _DEBUG
 	STDPLUSPLUS_API void DebugCheckHeapIntegrity();
     STDPLUSPLUS_API bool DebugDumpMemoryLeaks();
 	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
 	STDPLUSPLUS_API void MemFreeDebug(void *memBlock);
 	STDPLUSPLUS_API void *MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint32 lineNumber);
+
+	inline void *MemAllocAlignedDebug(uint32 size, uint8 alignment, const char *fileName, uint32 lineNumber)
+	{
+		void *p = MemAllocDebug(size + alignment-1 + 1, fileName, lineNumber); //max error = alignment-1 + one offset byte
+		uint8 *p_aligned = static_cast<uint8 *>(AlignMemoryAddress(p, alignment));
+		*(p_aligned - 1) = static_cast<uint8>(p_aligned - (uint8 *)p); //write the offset to the unaligned memory location
+
+		return p_aligned;
+	}
+#else
+	inline void *MemAllocAligned(uint32 size, uint8 alignment)
+	{
+		void *p = MemoryAllocate(size + alignment-1 + 1); //max error = alignment-1 + one offset byte
+		uint8 *p_aligned = static_cast<uint8 *>(AlignMemoryAddress(p, alignment));
+		*(p_aligned - 1) = static_cast<uint8>(p_aligned - (uint8 *)p); //write the offset to the unaligned memory location
+
+		return p_aligned;
+	}
 #endif
     STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
     STDPLUSPLUS_API void MemoryFree(void *pMem);
@@ -101,6 +129,13 @@ namespace StdXX
         }
     }
 
+	inline void MemFreeAligned(void *pMem)
+	{
+		uint8 offset = *((byte *)pMem - 1);
+
+		MemFree(((byte *)pMem) - offset);
+	}
+
     inline void MemSet(void *pDest, byte value, uint32 size)
     {
         byte *pCurrent = (byte *)pDest;
@@ -122,7 +157,13 @@ extern STDPLUSPLUS_API int __line__;
 
 #endif
 void *operator new(size_t size);
+void *operator new[](size_t size);
+void *operator new(size_t size, std::align_val_t al);
+void *operator new[](size_t size, std::align_val_t al);
 void operator delete(void *p) noexcept;
+void operator delete[](void *p) noexcept;
+void operator delete(void *p, std::align_val_t al) noexcept;
+void operator delete[](void *p, std::align_val_t al) noexcept;
 
 //Placement-new
 #define pnew(ptr) new(ptr)

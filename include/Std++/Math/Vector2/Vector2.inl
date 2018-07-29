@@ -17,8 +17,13 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "Matrix2x2.hpp"
+//Class header
 #include "Vector2.hpp"
+//Local
+#include "Std++/Math/Matrix2x2.hpp"
+//Implementations
+#include "Vector2_scalar.inl"
+#include "Vector2_SSE.inl"
 
 namespace StdXX
 {

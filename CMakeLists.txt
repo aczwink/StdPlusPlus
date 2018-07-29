@@ -9,10 +9,10 @@ option(OPTFORHOST "Optimize for host machine. Output will quite likely not run o
 
 #general settings
 XPC_AutoBuildType()
-XPC_SetCompileDefinitions()
 if(OPTFORHOST)
 	XPC_OptForHost()
 endif()
+XPC_SetCompileDefinitions()
 #c++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient

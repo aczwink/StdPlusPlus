@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "Vector2.hpp"
+#include <Std++/Math/Vector2/Vector2.hpp>
 
 namespace StdXX
 {

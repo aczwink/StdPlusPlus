@@ -23,7 +23,7 @@
 #include "../Math/Matrix2x2.hpp"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Matrix4x4.hpp"
-#include "../Math/Vector2.hpp"
+#include "Std++/Math/Vector2/Vector2.hpp"
 #include "../Math/Vector3.hpp"
 
 namespace StdXX
@@ -47,7 +47,7 @@ namespace StdXX
             virtual void SetUniformValue(uint32 varId, int32 value) = 0;
             virtual void SetUniformValue(uint32 varId, uint32 value) = 0;
             virtual void SetUniformValue(uint32 varId, float32 value) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector2s &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector2S &refVector) = 0;
             virtual void SetUniformValue(uint32 varId, const Math::Vector3s &refVector) = 0;
             virtual void SetUniformValue(uint32 varId, const Color &refColor) = 0;
             virtual void SetUniformValue(uint32 varId, const Math::Matrix2s &refMatrix) = 0;

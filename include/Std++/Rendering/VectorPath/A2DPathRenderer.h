@@ -20,6 +20,7 @@
 //Local
 #include <Std++CPUOpt.hpp>
 #include "../../Color.hpp"
+#include <Std++/Math/Vector2/Vector2.inl>
 
 namespace StdXX
 {
@@ -38,11 +39,11 @@ namespace StdXX
 
             //Abstract
             virtual void BeginPath() = 0;
-            virtual void BezierTo(const vec2f64 &refCP0, const vec2f64 &refCP1, const vec2f64 &refTo) = 0;
+            virtual void BezierTo(const Math::Vector2D &refCP0, const Math::Vector2D &refCP1, const Math::Vector2D &refTo) = 0;
             virtual void ClosePath() = 0;
             virtual void Fill() = 0;
-            virtual void LineTo(const vec2f64 &refV) = 0;
-            virtual void MoveTo(const vec2f64 &refV) = 0;
+            virtual void LineTo(const Math::Vector2D &refV) = 0;
+            virtual void MoveTo(const Math::Vector2D &refV) = 0;
             virtual void SetStrokeColor(const Color &refStrokeColor) = 0;
             virtual void SetStrokeWidth(float64 strokeWidth) = 0;
             virtual void Stroke() = 0;
@@ -50,17 +51,17 @@ namespace StdXX
             //Inline
             inline void BezierTo(float64 cp0x, float64 cp0y, float64 cp1x, float64 cp1y, float64 toX, float64 toY)
             {
-                this->BezierTo(vec2f64(cp0x, cp0y), vec2f64(cp1x, cp1y), vec2f64(toX, toY));
+                this->BezierTo(Math::Vector2D(cp0x, cp0y), Math::Vector2D(cp1x, cp1y), Math::Vector2D(toX, toY));
             }
 
             inline void LineTo(float64 x, float64 y)
             {
-                this->LineTo(vec2f64(x, y));
+                this->LineTo(Math::Vector2D(x, y));
             }
 
             inline void MoveTo(float64 x, float64 y)
             {
-                this->MoveTo(vec2f64(x, y));
+                this->MoveTo(Math::Vector2D(x, y));
             }
 
             inline void Rectangle(float64 x, float64 y, float64 width, float64 height)

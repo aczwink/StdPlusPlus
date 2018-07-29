@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Math/Matrix2x2.hpp>
+//Local
+#include <Std++/Math/Vector2/Vector2.inl>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;

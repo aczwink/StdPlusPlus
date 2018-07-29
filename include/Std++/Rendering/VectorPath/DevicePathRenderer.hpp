@@ -90,7 +90,7 @@ namespace StdXX
 			template <typename ScalarType>
             inline void SetViewPort(const Math::Size<ScalarType> &size)
             {
-                this->viewSize = Math::Vector2s(size.width, size.height);
+                this->viewSize = Math::Vector2S(size.width, size.height);
             }
 
         private:
@@ -100,13 +100,13 @@ namespace StdXX
             InputState *pInputState;
             VertexBuffer *pVertexBuffer;
             ITexture *pTexture;
-            Math::Vector2s viewSize;
+            Math::Vector2S viewSize;
 
             DeviceContext &refDC;
 
             //Methods
             void InitRendering();
-            void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax);
+            void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax);
             void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes);
         };
     }

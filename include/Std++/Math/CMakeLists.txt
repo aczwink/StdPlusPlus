@@ -1,6 +1,22 @@
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
+	#Vector2
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2_scalar.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2_SSE.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2Base_scalar.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2Base_SSE.inl
+
+	#Vector4
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4_scalar.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4_SSE.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4Base_scalar.inl
+	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4Base_SSE.inl
+
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/AxisAlignedBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/ObjectIntersection.hpp
@@ -15,9 +31,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Radian.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RandomNumberGenerator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Size.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Vector2.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Vector2.inl
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector3.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Vector4.hpp
 
 	PARENT_SCOPE)

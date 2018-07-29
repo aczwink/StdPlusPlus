@@ -50,19 +50,19 @@ namespace StdXX
             }
 
             //Methods
-            bool Intersects(const vec4f32 &refOrigin, const vec4f32 &refDir) const;
+            bool Intersects(const Vector4S &refOrigin, const Vector4S &refDir) const;
             void Merge(const vec3 &refV);
-            float32 SquaredDistanceTo(const vec4f32 &refPoint) const;
+            float32 SquaredDistanceTo(const Vector4S &refPoint) const;
 
             //Inline
-            inline bool Contains(const vec4f32 &refPoint) const
+            inline bool Contains(const Vector4S &refPoint) const
             {
                 return (this->min.x <= refPoint.x && refPoint.x <= this->max.x) &&
                        (this->min.y <= refPoint.y && refPoint.y <= this->max.y) &&
                        (this->min.z <= refPoint.z && refPoint.z <= this->max.z);
             }
 
-            inline float32 DistanceTo(const vec4f32 &refPoint) const
+            inline float32 DistanceTo(const Vector4S &refPoint) const
             {
                 return sqrtf(this->SquaredDistanceTo(refPoint));
             }

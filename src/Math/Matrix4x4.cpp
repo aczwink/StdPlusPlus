@@ -51,26 +51,6 @@ Matrix4x4<ScalarType> Matrix4x4<ScalarType>::operator*(float32 right) const
 }
 
 template <typename ScalarType>
-vec4f32 Matrix4x4<ScalarType>::operator*(const vec4f32 &refRight) const
-{
-	float64 current;
-	vec4f32 result;
-
-	for(uint8 row = 0; row < 4; row++)
-	{
-		current = 0;
-		for(uint8 j = 0; j < 4; j++)
-		{
-			current += this->columns[j][row] * refRight[j];
-		}
-
-		result[row] = (float32)current;
-	}
-
-	return result;
-}
-
-template <typename ScalarType>
 Vector4<ScalarType> Matrix4x4<ScalarType>::operator*(const Vector4<ScalarType> &rhs) const
 {
 	float64 current;

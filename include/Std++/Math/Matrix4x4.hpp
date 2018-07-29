@@ -20,13 +20,10 @@
 //Local
 #include "../Definitions.h"
 #include "Radian.hpp"
-#include "Vector4.hpp"
+#include "Std++/Math/Vector4/Vector4.hpp"
 
 namespace StdXX
 {
-    //Move declarations
-    class vec4f32;
-
     namespace Math
     {
         //Move declarations
@@ -61,7 +58,6 @@ namespace StdXX
 
             //Operators
             Matrix4x4 operator*(float32 right) const;
-            vec4f32 operator*(const vec4f32 &refRight) const;
 			vec4 operator*(const vec4 &rhs) const;
             Matrix4x4 operator*(const Matrix4x4 &refRight) const;
 

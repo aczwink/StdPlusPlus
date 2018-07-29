@@ -43,7 +43,7 @@ public:
     void SetUniformValue(uint32 varId, int32 value);
     void SetUniformValue(uint32 varId, uint32 value);
     void SetUniformValue(uint32 varId, float32 value);
-    void SetUniformValue(uint32 varId, const Vector2s &refVector);
+    void SetUniformValue(uint32 varId, const Vector2S &refVector);
     void SetUniformValue(uint32 varId, const Vector3s &refVector);
     void SetUniformValue(uint32 varId, const Color &refColor);
     void SetUniformValue(uint32 varId, const Matrix2s &refMatrix);

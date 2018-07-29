@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*
 #pragma once
 //Local
-#include "SSE.h"
 #include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
 #include <Std++/Math/Vector3.hpp>
@@ -29,20 +29,6 @@ namespace StdXX
     class alignas(16) vec4f32
     {
     public:
-        //Members
-        union
-        {
-            __m128 mmValue;
-            float32 e[4];
-            struct
-            {
-                float32 x;
-                float32 y;
-                float32 z;
-                float32 w;
-            };
-        };
-
         //Constructors
         inline vec4f32()
         {
@@ -154,24 +140,4 @@ namespace StdXX
     {
         return refRight * left;
     }
-
-    //Functions
-    inline vec4f32 Cross(const vec4f32 &refA, const vec4f32 &refB)
-    {
-        return _mm_sub_ps(
-                _mm_mul_ps(
-                        _mm_shuffle_ps(refA.mmValue, refA.mmValue, _MM_SHUFFLE(3, 0, 2, 1)),
-                        _mm_shuffle_ps(refB.mmValue, refB.mmValue, _MM_SHUFFLE(3, 1, 0, 2))
-                ),
-                _mm_mul_ps(
-                        _mm_shuffle_ps(refA.mmValue, refA.mmValue, _MM_SHUFFLE(3, 1, 0, 2)),
-                        _mm_shuffle_ps(refB.mmValue, refB.mmValue, _MM_SHUFFLE(3, 0, 2, 1))
-                )
-        );
-    }
-
-    inline float32 Dot(const vec4f32 &refA, const vec4f32 &refB)
-    {
-        return _mm_cvtss_f32(_mm_dp_ps(refA.mmValue, refB.mmValue, 0xF1));
-    }
-}
+}*/

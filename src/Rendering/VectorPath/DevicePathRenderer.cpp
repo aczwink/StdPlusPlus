@@ -224,7 +224,7 @@ void DevicePathRenderer::InitRendering()
 	this->pInputState->AddVertexBuffer(this->pVertexBuffer, inputLayout);
 }
 
-void DevicePathRenderer::RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax)
+void DevicePathRenderer::RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax)
 {
 	SRenderEntry entry;
 

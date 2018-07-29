@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Math/Vector2.hpp"
+#include "Std++/Math/Vector2/Vector2.hpp"
 #include "../Math/Vector3.hpp"
 
 namespace StdXX
@@ -64,7 +64,7 @@ namespace StdXX
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::Vector2s);
+                this->offset += sizeof(Math::Vector2S);
             }
 
             inline void AddAttribute3()

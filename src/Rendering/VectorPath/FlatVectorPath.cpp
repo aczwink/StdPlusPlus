@@ -28,7 +28,7 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 {
 	uint32 index, prevIndex, i, nLeftTurns;
 	float64 w_inverse, extrusionLengthSquared, limit;
-	vec2f64 dl0, dl1;
+	Math::Vector2D dl0, dl1;
 
 	nLeftTurns = 0;
 	w_inverse = 0;
@@ -44,8 +44,8 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 		FlatVectorPath::SPoint &refCurrent = this->points[index];
 
 		//get perpendicular directions
-		dl0 = GetPerpendicularDirection(refPrev.dir);
-		dl1 = GetPerpendicularDirection(refCurrent.dir);
+		dl0 = refPrev.dir.PerpendicularDirection();
+		dl1 = refCurrent.dir.PerpendicularDirection();
 
 		//calc extrusion
 		refCurrent.extrusion = (dl0 + dl1) / 2;
@@ -56,7 +56,7 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 		*/
 
 		//keep track of left turns
-		if(Cross2D(refCurrent.dir, refPrev.dir) < 0)
+		if(refCurrent.dir.Cross2D(refPrev.dir) < 0)
 		{
 			//this->points[i].isLeft = true;
 			nLeftTurns++;

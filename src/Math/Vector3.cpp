@@ -19,7 +19,7 @@
 //Class Header
 #include <Std++/Math/Vector3.hpp>
 //Local
-#include <Std++/Math/Vector4.hpp>
+#include <Std++/Math/Vector4/Vector4.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;

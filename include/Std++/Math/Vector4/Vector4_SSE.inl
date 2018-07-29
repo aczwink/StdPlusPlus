@@ -16,14 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+#ifdef XPC_FEATURE_SSE2
 //Local
-#include <Std++/Math/Vector4/Vector4.hpp>
+#include "Vector4.hpp"
 
 namespace StdXX
 {
-    namespace Math
-    {
-        STDPLUSPLUS_API bool IntersectRayTriangle(const Vector4S &refOrigin, const Vector4S &refDir, const Vector4S &refV0, const Vector4S &refV1, const Vector4S &refV2, Vector4S &refIntersectionPointBaryCentric);
-    }
+	namespace Math
+	{
+		//Inline
+		template<>
+		inline Vector4<float32> Vector4<float32>::Cross(const Vector4<float32> &rhs) const
+		{
+			return _mm_sub_ps(
+					_mm_mul_ps(
+							_mm_shuffle_ps(this->mmValue, this->mmValue, _MM_SHUFFLE(3, 0, 2, 1)),
+							_mm_shuffle_ps(rhs.mmValue, rhs.mmValue, _MM_SHUFFLE(3, 1, 0, 2))
+					),
+					_mm_mul_ps(
+							_mm_shuffle_ps(this->mmValue, this->mmValue, _MM_SHUFFLE(3, 1, 0, 2)),
+							_mm_shuffle_ps(rhs.mmValue, rhs.mmValue, _MM_SHUFFLE(3, 0, 2, 1))
+					)
+			);
+		}
+
+		template<>
+		inline float32 Vector4<float32>::Dot(const Vector4<float32> &rhs) const
+		{
+			return _mm_cvtss_f32(this->_Dot_SSE(rhs.mmValue));
+		}
+	}
 }
+#endif

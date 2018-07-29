@@ -38,6 +38,10 @@ namespace StdXX
 	template <typename T>
 	struct EnableIf<true, T> { typedef T type; };
 
+	//IsSameType
+	template<typename T1, typename T2> struct IsSameType : public BoolConstant<false>{};
+	template<typename T> struct IsSameType<T, T> : public BoolConstant <true>{};
+
 	//IsTrivial
 #if defined(XPC_COMPILER_GCC) || defined(XPC_COMPILER_CLANG)
 	template <typename T>

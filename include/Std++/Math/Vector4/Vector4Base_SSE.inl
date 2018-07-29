@@ -16,14 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include <Std++/Math/Vector4/Vector4.hpp>
+#ifdef XPC_FEATURE_SSE2
+//Global
+#include <emmintrin.h> //SSE2
+#ifdef XPC_FEATURE_SSE4_1
+#include <smmintrin.h>
+#endif
 
-namespace StdXX
+namespace _stdxx_
 {
-    namespace Math
-    {
-        STDPLUSPLUS_API bool IntersectRayTriangle(const Vector4S &refOrigin, const Vector4S &refDir, const Vector4S &refV0, const Vector4S &refV1, const Vector4S &refV2, Vector4S &refIntersectionPointBaryCentric);
-    }
+	template<>
+	class Vector4Base<float32>
+	{
+	public:
+		//Members
+		union
+		{
+			__m128 mmValue;
+			float32 e[4];
+			struct
+			{
+				float32 x;
+				float32 y;
+				float32 z;
+				float32 w;
+			};
+		};
+
+	protected:
+		//Inline
+		inline __m128 _Dot_SSE(__m128 right) const
+		{
+#ifdef XPC_FEATURE_SSE4_1
+			return _mm_dp_ps(this->mmValue, right, 0xFF);
+#else
+#error "TODO: implement non-sse4.1 version"
+#endif
+		}
+	};
 }
+#endif

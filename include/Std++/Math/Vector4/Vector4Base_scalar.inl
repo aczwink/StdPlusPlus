@@ -16,21 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Math/Vector2.hpp>
-//Local
-#include <Std++CPUOpt.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::Math;
+#pragma once
 
-//Constructor
-template <typename ScalarType>
-Vector2<ScalarType>::Vector2(const vec2f64 &refV)
+namespace _stdxx_
 {
-	this->x = (float32)refV.x;
-	this->y = (float32)refV.y;
+	template<typename ScalarType>
+	class Vector4Base
+	{
+	public:
+		//Members
+		union
+		{
+			struct
+			{
+				ScalarType x;
+				ScalarType y;
+				ScalarType z;
+				ScalarType w;
+			};
+			ScalarType e[4];
+		};
+	};
 }
-
-//Explicit instantiations
-template class StdXX::Math::Vector2<float32>;

@@ -71,10 +71,10 @@
 #include <Std++/Math/Size.hpp>
 #include <Std++/Math/Matrix3x3.hpp>
 #include <Std++/Math/Matrix4x4.hpp>
-#include <Std++/Math/Vector2.hpp>
-#include <Std++/Math/Vector2.inl>
+#include <Std++/Math/Vector2/Vector2.hpp>
+#include <Std++/Math/Vector2/Vector2.inl>
 #include <Std++/Math/Vector3.hpp>
-#include <Std++/Math/Vector4.hpp>
+#include <Std++/Math/Vector4/Vector4.hpp>
 
 //Streams
 #include <Std++/Streams/OutputStream.hpp>

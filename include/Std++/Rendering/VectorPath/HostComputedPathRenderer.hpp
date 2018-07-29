@@ -54,7 +54,7 @@ namespace StdXX
 
             struct SVertex
             {
-                Math::Vector2s position;
+                Math::Vector2D position;
             };
 
         public:
@@ -76,7 +76,7 @@ namespace StdXX
                 this->freeCurrentPath = true;
             }
 
-            inline void BezierTo(const vec2f64 &refCP1, const vec2f64 &refCP2, const vec2f64 &refTo)
+            inline void BezierTo(const Math::Vector2D &refCP1, const Math::Vector2D &refCP2, const Math::Vector2D &refTo)
             {
                 this->pCurrentPath->BezierTo(refCP1, refCP2, refTo);
             }
@@ -86,12 +86,12 @@ namespace StdXX
                 this->pCurrentPath->Close();
             }
 
-            inline void MoveTo(const vec2f64 &refV)
+            inline void MoveTo(const Math::Vector2D &refV)
             {
                 this->pCurrentPath->MoveTo(refV);
             }
 
-            inline void LineTo(const vec2f64 &refV)
+            inline void LineTo(const Math::Vector2D &refV)
             {
                 this->pCurrentPath->LineTo(refV);
             }
@@ -111,10 +111,10 @@ namespace StdXX
 			//Inline
 			inline void AddVertex(float64 x, float64 y)
 			{
-				this->AddVertex(vec2f64(x, y));
+				this->AddVertex(Math::Vector2D(x, y));
 			}
 
-			inline void AddVertex(const vec2f64 &refPos)
+			inline void AddVertex(const Math::Vector2D &refPos)
 			{
 				this->vertices.Push({refPos});
 			}
@@ -125,11 +125,11 @@ namespace StdXX
 			bool freeCurrentPath;
 			DynamicArray<FlatVectorPath *> pathCache;
 			DynamicArray<SPathAttributes> pathAttributes;
-			Math::Vector2s boundingRectMin;
-			Math::Vector2s boundingRectMax;
+			Math::Vector2D boundingRectMin;
+			Math::Vector2D boundingRectMax;
 
 			//Abstract
-			virtual void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, vec2f64 boundingRectMin, vec2f64 boundingRectMax) = 0;
+			virtual void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax) = 0;
 			virtual void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes) = 0;
 
 			//Methods

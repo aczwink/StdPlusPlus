@@ -106,10 +106,10 @@ void HostComputedPathRenderer::Stroke()
 //Private methods
 void HostComputedPathRenderer::ButtCapEnd(const FlatVectorPath::SPoint &refPoint, float64 w)
 {
-	vec2f64 perpendicularDirection;
+	Math::Vector2D perpendicularDirection;
 
 	//we calculate a direction perpendicular to the original one
-	perpendicularDirection = vec2f64(refPoint.dir.y, -refPoint.dir.x);
+	perpendicularDirection = Math::Vector2D(refPoint.dir.y, -refPoint.dir.x);
 
 	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w, refPoint.pos.y + perpendicularDirection.y * w);
 	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w, refPoint.pos.y - perpendicularDirection.y * w);
@@ -119,7 +119,7 @@ void HostComputedPathRenderer::ButtCapEnd(const FlatVectorPath::SPoint &refPoint
 
 void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::SPoint &refPoint, float64 w)
 {
-	vec2f64 perpendicularDirection;
+	Math::Vector2D perpendicularDirection;
 
 	/*
 	Butt means that we have a square at the end point.
@@ -127,7 +127,7 @@ void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::SPoint &refPoi
 	*/
 
 	//we calculate a direction perpendicular to the original one (always rightwards of arrow)
-	perpendicularDirection = vec2f64(refPoint.dir.y, -refPoint.dir.x);
+	perpendicularDirection = Math::Vector2D(refPoint.dir.y, -refPoint.dir.x);
 
 	//top, left
 	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w - refPoint.dir.x, refPoint.pos.y + perpendicularDirection.y * w - refPoint.dir.y);

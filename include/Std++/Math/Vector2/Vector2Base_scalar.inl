@@ -17,13 +17,22 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include <Std++/Math/Vector4/Vector4.hpp>
 
-namespace StdXX
+namespace _stdxx_
 {
-    namespace Math
-    {
-        STDPLUSPLUS_API bool IntersectRayTriangle(const Vector4S &refOrigin, const Vector4S &refDir, const Vector4S &refV0, const Vector4S &refV1, const Vector4S &refV2, Vector4S &refIntersectionPointBaryCentric);
-    }
+	template<typename ScalarType>
+	class Vector2Base
+	{
+	public:
+		//Members
+		union
+		{
+			struct
+			{
+				ScalarType x;
+				ScalarType y;
+			};
+			ScalarType e[2];
+		};
+	};
 }

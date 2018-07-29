@@ -16,11 +16,3 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//now include the correct architecture header
-#ifdef XPC_ARCH_X86_64
-//vector types
-#include <Std++CPUOpt/x64/vec2f64.h>
-#include <Std++CPUOpt/x64/vec4f32.h>
-#include <Std++CPUOpt/x64/vec4i32.h>
-#include <Std++CPUOpt/x64/vec4u32.h>
-#endif

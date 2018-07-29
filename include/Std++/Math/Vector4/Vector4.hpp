@@ -18,35 +18,23 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include "Std++/Definitions.h"
 #include "Std++/Debug.hpp"
+#include <Std++/Math/Vector3.hpp>
+#include <Std++/Type.hpp>
+
+
+#include "Vector4Base_scalar.inl"
+#include "Vector4Base_SSE.inl"
 
 namespace StdXX
 {
     namespace Math
     {
-        //Forward declarations
-        template<typename ScalarType>
-        class Vector3;
-
-
 		template<typename ScalarType>
-        class STDPLUSPLUS_API Vector4
+        class alignas(4*sizeof(ScalarType)) Vector4 : public _stdxx_::Vector4Base<ScalarType>
         {
         public:
-            //Members
-            union
-            {
-                struct
-                {
-                    float32 x;
-                    float32 y;
-                    float32 z;
-                    float32 w;
-                };
-                float32 e[4];
-            };
-
             //Constructors
             inline Vector4()
             {
@@ -65,6 +53,14 @@ namespace StdXX
             }
 
             Vector4(const Vector3<ScalarType> &refXYZ, float32 w);
+
+#ifdef XPC_FEATURE_SSE2
+			template <class T = ScalarType>
+			inline Vector4(typename EnableIf<IsSameType<T, float32>::value, __m128>::type mmValue)
+			{
+				this->mmValue = mmValue;
+			}
+#endif
 
             //Operators
             inline float32 &operator[](uint8 idx)
@@ -96,6 +92,11 @@ namespace StdXX
                 return Vector4(this->x * refRight.x, this->y * refRight.y, this->z * refRight.z, this->w * refRight.w);
             }
 
+			inline Vector4 operator/(const Vector4 &refRight) const
+			{
+				return Vector4(this->x / refRight.x, this->y / refRight.y, this->z / refRight.z, this->w / refRight.w);
+			}
+
             inline Vector4 &operator*=(float32 right)
             {
                 this->x *= right;
@@ -105,6 +106,13 @@ namespace StdXX
 
                 return *this;
             }
+
+            //Inline
+            inline Vector4<ScalarType> Cross(const Vector4<ScalarType> &rhs) const;
+			inline ScalarType Dot(const Vector4<ScalarType> &rhs) const;
         };
+
+        typedef Vector4<float32> Vector4S;
+        typedef Vector4<float64> Vector4D;
     }
 }

@@ -21,6 +21,7 @@
 //Local
 #include <Std++CPUOpt.hpp>
 #include <Std++/Mathematics.hpp>
+#include <Std++/Math/Vector4/Vector4.inl>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;
@@ -29,19 +30,19 @@ using namespace StdXX::Math;
 #define EPSILON 0.000001f
 
 //Namespace functions
-bool Math::IntersectRayTriangle(const vec4f32 &refOrigin, const vec4f32 &refDir, const vec4f32 &refV0, const vec4f32 &refV1, const vec4f32 &refV2, vec4f32 &refIntersectionPointBaryCentric)
+bool Math::IntersectRayTriangle(const Vector4S &refOrigin, const Vector4S &refDir, const Vector4S &refV0, const Vector4S &refV1, const Vector4S &refV2, Vector4S &refIntersectionPointBaryCentric)
 {
 	float32 det, inv_det;
-	vec4f32 e1, e2, p, distance, q;
+	Vector4S e1, e2, p, distance, q;
 
 	//M鰈ler-Trumbore
 
 	e1 = refV1 - refV0;
 	e2 = refV2 - refV0;
 
-	p = Cross(refDir, e2);
+	p = refDir.Cross(e2);
 
-	det = Dot(e1, p);
+	det = e1.Dot(p);
 
 	if(Abs(det) < EPSILON)
 		return false;
@@ -50,16 +51,16 @@ bool Math::IntersectRayTriangle(const vec4f32 &refOrigin, const vec4f32 &refDir,
 	distance = refOrigin - refV0;
 
 	//first barycentric coordinate
-	refIntersectionPointBaryCentric.x = inv_det * Dot(distance, p);
+	refIntersectionPointBaryCentric.x = inv_det * distance.Dot(p);
 	if(refIntersectionPointBaryCentric.x < 0 || refIntersectionPointBaryCentric.x > 1)
 		return false;
 
-	q = Cross(distance, e1);
-	refIntersectionPointBaryCentric.y = inv_det * Dot(refDir, q);
+	q = distance.Cross(e1);
+	refIntersectionPointBaryCentric.y = inv_det * refDir.Dot(q);
 	if(refIntersectionPointBaryCentric.y < 0 || (refIntersectionPointBaryCentric.x + refIntersectionPointBaryCentric.y) > 1)
 		return false;
 
-	refIntersectionPointBaryCentric.z = inv_det * Dot(e2, q);
+	refIntersectionPointBaryCentric.z = inv_det * e2.Dot(q);
 
 	return refIntersectionPointBaryCentric.z >= 0;
 }

@@ -20,7 +20,7 @@
 //Local
 #include "../../Containers/Array/DynamicArray.hpp"
 #include "../../Containers/LinkedList/LinkedList.hpp"
-#include "../../Math/Vector2.hpp"
+#include <Std++/Math/Vector2/Vector2.inl>
 
 namespace StdXX
 {
@@ -32,10 +32,10 @@ namespace StdXX
         public:
             struct SPoint
             {
-                Math::Vector2s pos;
-                Math::Vector2s dir;
+                Math::Vector2D pos;
+                Math::Vector2D dir;
                 float64 length;
-                Math::Vector2s extrusion;
+                Math::Vector2D extrusion;
                 bool isCorner;
                 bool bevelInner;
                 bool bevelOuter;
@@ -60,14 +60,14 @@ namespace StdXX
             void ComputePointAttributes();
 
             //Inline
-            inline void AddCorner(const Math::Vector2s &refV)
+            inline void AddCorner(const Math::Vector2D &refV)
             {
                 this->AddPoint(refV, true);
             }
 
-            inline void AddPoint(const Math::Vector2s &refV, bool isCorner)
+            inline void AddPoint(const Math::Vector2D &refV, bool isCorner)
             {
-                this->points.InsertTail({refV, Math::Vector2s(), 0, Math::Vector2s(), isCorner, false, false});
+                this->points.InsertTail({refV, Math::Vector2D(), 0, Math::Vector2D(), isCorner, false, false});
             }
 
             inline const SPoint &GetPoint(uint32 index) const

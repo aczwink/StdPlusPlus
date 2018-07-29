@@ -21,6 +21,7 @@
 #ifdef _DEBUG
 //Global
 #include <stdio.h>
+#include <new>
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
@@ -28,12 +29,9 @@
 //Namespaces
 using namespace StdXX;
 //Definitions
-#define HEAP_BLOCK_IDENTIFIER u8"Std++MBH" //MemoryBlockHeader
-#define HEAP_BLOCK_IDENTIFIER_SIZE 8
 #define HEAP_CORRUPTION_DETECTIONSECTION_SIZE 12
 #define HEAP_CORRUPTION_DETECTIONSECTION_VALUE 0xFD
 #define HEAP_INIT_VALUE 0xCD
-#define HEAP_ALIGNMENT 16
 
 //this is so ugly... but we need a mutex that doesnt take dynamic memory
 //or else the lock() calls will fail
@@ -107,7 +105,6 @@ static InternalMutex g_memMutex;
  */
 struct DebugMemBlockHeader
 {
-	byte identifier[HEAP_BLOCK_IDENTIFIER_SIZE];
     DebugMemBlockHeader *previous;
     DebugMemBlockHeader *next;
     const char *pFileName;
@@ -137,9 +134,6 @@ struct DebugMemBlockHeader
 
 	inline bool IsCorrupt() const
 	{
-		//check identifier
-		if (MemCmp(this->identifier, HEAP_BLOCK_IDENTIFIER, sizeof(this->identifier)))
-			return true;
 		//check heap corruption detection section before user memory
 		if(!this->CheckBytes(this->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, sizeof(this->preHeapCorriptionDetectionSection)))
 			return true;
@@ -178,13 +172,6 @@ static uint32 g_seqNumber = 1;
 static uint32 g_seqNumberUser = 1;
 static DebugMemBlockHeader *g_pFirstMemBlock = nullptr;
 static DebugMemBlockHeader *g_pLastMemBlock = nullptr;
-
-//Local Functions
-inline byte *AlignMemoryAddress(byte *p, uint8 alignment)
-{
-	uint8 offset = static_cast<uint8>(alignment - ((alignment - 1) & (uint64)p));
-	return p + offset;
-}
 
 static DebugMemBlockHeader *GetHeaderFromUserData(const void *userData)
 {
@@ -359,12 +346,11 @@ void *StdXX::MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber)
 {
 	g_memMutex.Lock();
 
-	byte *memoryBlock = (byte *)MemoryAllocate(sizeof(DebugMemBlockHeader) + HEAP_ALIGNMENT + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+	byte *memoryBlock = (byte *)MemoryAllocate(sizeof(DebugMemBlockHeader) + c_guaranteedMemoryAlignment + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
 	//memoryBlock is aligned, make sure that user memory is also aligned, then put header directly before that
-	DebugMemBlockHeader *memBlockHeader = (DebugMemBlockHeader *)(AlignMemoryAddress(memoryBlock + sizeof(DebugMemBlockHeader), HEAP_ALIGNMENT) - sizeof(DebugMemBlockHeader));
+	DebugMemBlockHeader *memBlockHeader = (DebugMemBlockHeader *)((uint8 *)AlignMemoryAddress(memoryBlock + sizeof(DebugMemBlockHeader), c_guaranteedMemoryAlignment) - sizeof(DebugMemBlockHeader));
 
     //fill out block header
-	MemCopy(memBlockHeader->identifier, HEAP_BLOCK_IDENTIFIER, sizeof(memBlockHeader->identifier));
     memBlockHeader->lineNumber = lineNumber;
     memBlockHeader->pFileName = fileName;
     memBlockHeader->next = nullptr;
@@ -445,9 +431,9 @@ void *StdXX::MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint
     oldMemHeader->VerifyIntegrity();
 
     //do reallocate
-	byte *memoryBlock = (byte *)MemoryReallocate(oldMemHeader->GetAllocatedMemoryAddress(), sizeof(DebugMemBlockHeader) + HEAP_ALIGNMENT + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
+	byte *memoryBlock = (byte *)MemoryReallocate(oldMemHeader->GetAllocatedMemoryAddress(), sizeof(DebugMemBlockHeader) + c_guaranteedMemoryAlignment + size + HEAP_CORRUPTION_DETECTIONSECTION_SIZE);
 	//memoryBlock is aligned, make sure that user memory is also aligned, then put header directly before that
-	DebugMemBlockHeader *newBlock = (DebugMemBlockHeader *)(AlignMemoryAddress(memoryBlock + sizeof(DebugMemBlockHeader), HEAP_ALIGNMENT) - sizeof(DebugMemBlockHeader));
+	DebugMemBlockHeader *newBlock = (DebugMemBlockHeader *)((uint8 *)AlignMemoryAddress(memoryBlock + sizeof(DebugMemBlockHeader), c_guaranteedMemoryAlignment) - sizeof(DebugMemBlockHeader));
     ASSERT(newBlock, u8"If you see this, report to StdXX");
 
     if(size > newBlock->userSize)
@@ -522,12 +508,45 @@ STDPLUSPLUS_API void StartUserMemoryLogging()
 void *operator new(size_t size)
 {
 	const char *fileName = __file__;
-	int lineNumber = __line__;
-
 	__file__ = u8"???";
+
+	int lineNumber = __line__;
 	__line__ = -1;
 
 	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
+}
+
+void *operator new[](size_t size)
+{
+	const char *fileName = __file__;
+	__file__ = u8"???";
+
+	int lineNumber = __line__;
+	__line__ = -1;
+
+	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
+}
+
+void *operator new(size_t size, std::align_val_t al)
+{
+	const char *fileName = __file__;
+	__file__ = u8"???";
+
+	int lineNumber = __line__;
+	__line__ = -1;
+
+	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
+}
+
+void *operator new[](size_t size, std::align_val_t al)
+{
+	const char *fileName = __file__;
+	__file__ = u8"???";
+
+	int lineNumber = __line__;
+	__line__ = -1;
+
+	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
 }
 
 const char *__file__;
@@ -542,4 +561,19 @@ void *operator new(size_t size)
 void operator delete(void *p) noexcept
 {
 	StdXX::MemFree(p);
+}
+
+void operator delete[](void *p) noexcept
+{
+	StdXX::MemFree(p);
+}
+
+void operator delete(void *p, std::align_val_t al) noexcept
+{
+	StdXX::MemFreeAligned(p);
+}
+
+void operator delete[](void *p, std::align_val_t al) noexcept
+{
+	StdXX::MemFreeAligned(p);
 }
