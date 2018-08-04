@@ -66,7 +66,13 @@ namespace StdXX
 
 		return p_aligned;
 	}
-#else
+#endif
+    STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
+    STDPLUSPLUS_API void MemoryFree(void *pMem);
+    STDPLUSPLUS_API void *MemoryReallocate(void *pMem, uint32 size);
+    STDPLUSPLUS_API void VirtualMemoryProtect(void *pMemoryRegion, uint32 size, EVirtualMemoryProtection protection);
+
+#ifndef _DEBUG
 	inline void *MemAllocAligned(uint32 size, uint8 alignment)
 	{
 		void *p = MemoryAllocate(size + alignment-1 + 1); //max error = alignment-1 + one offset byte
@@ -76,10 +82,6 @@ namespace StdXX
 		return p_aligned;
 	}
 #endif
-    STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
-    STDPLUSPLUS_API void MemoryFree(void *pMem);
-    STDPLUSPLUS_API void *MemoryReallocate(void *pMem, uint32 size);
-    STDPLUSPLUS_API void VirtualMemoryProtect(void *pMemoryRegion, uint32 size, EVirtualMemoryProtection protection);
 
     //Inline
     inline int32 MemCmp(const void *pSrc1, const void *pSrc2, uint32 size)

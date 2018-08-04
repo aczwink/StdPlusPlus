@@ -35,7 +35,7 @@ public:
 		return nullptr;
 	}
 
-	Encoder *CreateEncoder() const
+	Encoder *CreateEncoder(Stream &stream) const
 	{
 		return new RGB24_Encoder;
 	}
@@ -50,8 +50,8 @@ public:
 		return CodecId::RGB24;
 	}
 
-	OldString GetName() const
+	String GetName() const
 	{
-		return "24-bit R8G8B8 Interleaved (RGB24)";
+		return u8"24-bit R8G8B8 Interleaved (RGB24)";
 	}
 };

@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include <Std++CPUOpt.hpp>
 #include "../Matrix4x4.hpp"
 #include "../Vector3.hpp"
 

@@ -18,17 +18,17 @@
  */
 #pragma once
 //Local
-#include "../Image.hpp"
+#include "Std++/Multimedia/Pixmap.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API RGBAImage : public Image
+        class STDPLUSPLUS_API RGBAImage : public Pixmap
         {
         public:
             //Constructor
-            inline RGBAImage(uint16 width, uint16 height) : Image(width, height)
+            inline RGBAImage(uint16 width, uint16 height) : Pixmap(width, height)
             {
             }
 

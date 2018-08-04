@@ -25,7 +25,7 @@
 #include <Std++/Multimedia/Packet.hpp>
 
 //Public methods
-void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
+void PCM_S16LE_Encoder::Encode(const Frame &frame)
 {
 	bool deleteSourceBuffer;
 	uint8 ch;
@@ -52,11 +52,12 @@ void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
 	}
 
 	//init packet info
-	packet.Allocate(sourceBuffer->GetSize());
-	packet.pts = frame.pts;
+	Packet *packet = new Packet;
+	packet->Allocate(sourceBuffer->GetSize());
+	packet->pts = frame.pts;
 
 	//write pcm data
-	pData = (int16 *)packet.GetData();
+	pData = (int16 *)packet->GetData();
 	for(i = 0; i < sourceBuffer->GetNumberOfSamplesPerChannel(); i++)
 	{
 		for(ch = 0; ch < sourceBuffer->GetNumberOfChannels(); ch++)
@@ -64,8 +65,14 @@ void PCM_S16LE_Encoder::Encode(const Frame &frame, Packet &packet) const
 			*pData++ = sourceBuffer->GetChannel((Channel)ch)[i];
 		}
 	}
+	this->AddPacket(packet);
 
 	//clean up
 	if(deleteSourceBuffer)
 		delete sourceBuffer;
+}
+
+void PCM_S16LE_Encoder::Flush()
+{
+	//this encoder always writes through
 }

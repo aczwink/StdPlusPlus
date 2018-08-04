@@ -1,0 +1,7 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#Pixmaps/RGB
+	${CMAKE_CURRENT_SOURCE_DIR}/Pixmaps/RGB/R8G8B8InterleavedPixmap.hpp
+
+	PARENT_SCOPE)

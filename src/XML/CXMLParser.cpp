@@ -20,7 +20,7 @@
 #include "CXMLParser.hpp"
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX::Math;

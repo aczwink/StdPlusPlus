@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Memory.h"
+#include "Std++/Memory.hpp"
 
 namespace StdXX
 {

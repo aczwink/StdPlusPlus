@@ -19,6 +19,15 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaVideo.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaVideo.hpp
 
+	#Raw
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawContainerImages.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageDemuxer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageDemuxer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageFormat.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageMuxer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageMuxer.hpp
+
 	#WAVE
 	${CMAKE_CURRENT_SOURCE_DIR}/WAVE/WAVE.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WAVE/WAVE.h

@@ -53,6 +53,7 @@ namespace _stdxx_
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
+		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;
 		void Show(bool visible) override;
@@ -76,7 +77,6 @@ namespace _stdxx_
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
-		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) const override;

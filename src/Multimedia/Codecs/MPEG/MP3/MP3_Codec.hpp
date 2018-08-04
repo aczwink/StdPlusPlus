@@ -27,8 +27,8 @@ public:
 		return CodecId::MP3;
 	}
 
-	OldString GetName() const
+	String GetName() const
 	{
-		return "MPEG-1/2/2.5 Audio Layer III (MP3)";
+		return u8"MPEG-1/2/2.5 Audio Layer III (MP3)";
 	}
 };

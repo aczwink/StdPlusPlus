@@ -20,7 +20,7 @@
 #include <Std++/Streams/BufferInputStream.hpp>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 

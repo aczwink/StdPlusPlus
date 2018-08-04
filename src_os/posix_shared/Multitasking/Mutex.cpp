@@ -21,7 +21,7 @@
 //Global
 #include <pthread.h>
 //Local
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 //Definitions

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/OldString.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 #include "../Definitions.h"
 #include "Decoder.hpp"
 #include "AParser.h"
@@ -41,10 +41,10 @@ namespace StdXX
 
             //Methods
             virtual Decoder *CreateDecoder(Stream &refStream) const = 0;
-            virtual Encoder *CreateEncoder() const = 0;
+            virtual Encoder *CreateEncoder(Stream &stream) const = 0;
             virtual AParser *CreateParser() const = 0;
             virtual CodecId GetId() const = 0;
-            virtual OldString GetName() const = 0;
+            virtual String GetName() const = 0;
 
             //Functions
             static STDPLUSPLUS_API const Codec *GetCodec(CodecId codecId);

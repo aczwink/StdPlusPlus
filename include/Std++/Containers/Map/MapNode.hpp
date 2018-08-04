@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "../../Memory.h"
+#include "Std++/Memory.hpp"
 #include "../KeyValuePair.hpp"
 
 namespace StdXX

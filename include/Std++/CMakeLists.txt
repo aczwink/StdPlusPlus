@@ -6,6 +6,7 @@ add_subdirectory(Devices)
 add_subdirectory(Errorhandling)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
+add_subdirectory(Multimedia)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -30,13 +31,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.hpp
 
 	#Multimedia
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCr/YCbCr420Image.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBAImage.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBImage.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCrImage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBAImage.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBPixmap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCrImage.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
@@ -52,7 +53,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Frame.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Image.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
@@ -124,7 +125,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Memory.h
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Natural.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Tuple.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Type.hpp

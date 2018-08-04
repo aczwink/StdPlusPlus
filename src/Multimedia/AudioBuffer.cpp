@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Integer.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;

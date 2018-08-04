@@ -20,7 +20,6 @@
 #include <Std++/Math/Matrix4x4.hpp>
 //Local
 #include <Std++/Math/Matrix3x3.hpp>
-#include <Std++CPUOpt.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;

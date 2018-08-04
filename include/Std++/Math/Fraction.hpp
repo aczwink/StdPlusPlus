@@ -96,6 +96,11 @@ namespace StdXX
             return this->numerator / (float64)this->denominator;
         }
 
+        inline Fraction Inverse() const
+        {
+            return Fraction(this->denominator, this->numerator);
+        }
+
         inline Fraction Reduce() const
         {
             uint64 gcd;

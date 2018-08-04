@@ -108,6 +108,34 @@ void CocoaWindowBackend::Maximize()
 	[this->cocoaWindow zoom:this->cocoaWindow];
 }
 
+Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(Path &)> callback) const
+{
+	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
+	[panel setCanChooseFiles:false];
+	[panel setCanChooseDirectories:true];
+	[panel setAllowsMultipleSelection:false];
+
+	String resultStr;
+	if([panel runModal] == NSModalResponseOK)
+	{
+		NSURL *choice = [panel URLs][0];
+
+		NSString *tmp = [NSString stringWithCString:u8"file" encoding:NSUTF8StringEncoding];
+		ASSERT([[choice scheme] isEqualToString:tmp], u8"URLs are currently not supported...");
+		[tmp release];
+
+		NSString *str = [choice absoluteString];
+		NSString *tmp2 = [str substringFromIndex:7];
+
+		const char *result = [tmp2 cStringUsingEncoding:NSUTF8StringEncoding];
+		resultStr = String::CopyRawString(result);
+		[tmp2 release];
+	}
+	[panel release];
+
+	return resultStr;
+}
+
 void CocoaWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	//TODO: implement me
@@ -187,13 +215,6 @@ void CocoaWindowBackend::ResetView() const
 void CocoaWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-StdXX::Path CocoaWindowBackend::SelectExistingDirectory(const StdXX::String &title,
-														const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Path();
 }
 
 void CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)

@@ -37,6 +37,9 @@ namespace _stdxx_
 			[this->pixelFormat release];
 		}
 
+		//Methods
+		void SwapBuffers() override;
+
 	protected:
 		//Methods
 		void Bind() const override

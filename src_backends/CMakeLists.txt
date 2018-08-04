@@ -1,3 +1,4 @@
+add_subdirectory(libavcodec)
 add_subdirectory(OpenALSoft)
 add_subdirectory(OpenCL1)
 add_subdirectory(OpenGL3Core)

@@ -18,13 +18,13 @@
  */
 #pragma once
 //Local
-#include "../RGBImage.hpp"
+#include "Std++/Multimedia/Pixmaps/RGBPixmap.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API R8G8B8Image : public RGBImage
+        class STDPLUSPLUS_API R8G8B8Image : public RGBPixmap
         {
         private:
             //Members
@@ -38,11 +38,10 @@ namespace StdXX
             //Destructor
             ~R8G8B8Image();
 
-            //Derived methods
-            using RGBImage::SetPixel;
-
             //Methods
-            void GetPixel(uint32 index, byte &refR, byte &refG, byte &refB) const;
+            void GetInterpolatedPixel(float32 x, float32 y, byte &refR, byte &refG, byte &refB) const;
+			Math::Vector3<uint8> GetPixel(const Math::Point<uint16> &p) const override;
+			Pixmap *Resample(uint16 desiredWidth, uint16 desiredHeight, ColorSpace desiredColorSpace) const;
             void SetPixel(uint32 index, byte r, byte g, byte b);
 
             //Inline
@@ -59,7 +58,15 @@ namespace StdXX
             inline byte *GetRedChannel()
             {
                 return this->pRedChannel;
-            };
-        };
+            }
+
+			inline void GetPixel(int32 x, int32 y, byte &r, byte &g, byte &b) const
+			{
+				uint32 index = y * this->GetWidth() + x;
+				r = this->pRedChannel[index];
+				g = this->pGreenChannel[index];
+				b = this->pBlueChannel[index];
+			}
+		};
     }
 }

@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include <Std++CPUOpt.hpp>
 #include "FlatVectorPath.hpp"
 
 namespace StdXX

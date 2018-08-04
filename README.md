@@ -29,6 +29,9 @@ Like this, code is more reusable.
 The following Audio-backends are currently implemented:
 * OpenAL Soft
 
+The following Codec-backends are currently implemented:
+* libavcodec (ffmpeg)
+
 The following Compute-backends are currently implemented:
 * OpenCL 1
 

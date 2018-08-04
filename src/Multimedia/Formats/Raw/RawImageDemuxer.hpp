@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,14 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Multimedia/Images/RGBImage.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::Multimedia;
+//Local
+#include <Std++/Multimedia/Demuxer.hpp>
 
-//Public methods
-ColorSpace RGBImage::GetColorSpace() const
+namespace _stdxx_
 {
-	return ColorSpace::RGB;
+	class RawImageDemuxer : public StdXX::Multimedia::Demuxer
+	{
+	public:
+		//Constructor
+		RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodecId id);
+
+		//Methods
+		void ReadHeader() override;
+		bool ReadPacket(StdXX::Multimedia::Packet &packet) override;
+
+	private:
+		//Members
+		StdXX::Multimedia::CodecId codecId;
+	};
 }

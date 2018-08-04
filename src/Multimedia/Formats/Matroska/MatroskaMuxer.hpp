@@ -27,9 +27,10 @@ using namespace Matroska;
 
 class MatroskaMuxer : public Muxer
 {
-	struct SCueEntry
+	struct CueEntry
 	{
 		uint64 clusterOffset;
+		uint32 relativeOffset;
 		DynamicArray<uint32> streamIndices;
 	};
 private:
@@ -44,7 +45,7 @@ private:
 		uint64 pts;
 		uint64 basePTS;
 	} currentCluster;
-	Map<uint64, SCueEntry> cues;
+	Map<uint64, CueEntry> cues;
 
 	//meta seeking
 	uint64 segmentOutputStreamOffset;
@@ -92,14 +93,14 @@ private:
 	inline void WriteASCIIElement(EMatroskaId id, const ByteString &refString)
 	{
 		this->BeginElement(id);
-		this->refOutput.WriteBytes(refString.GetC_Str(), refString.GetLength());
+		this->outputStream.WriteBytes(refString.GetC_Str(), refString.GetLength());
 		this->EndElement();
 	}
 
 	inline void WriteFloatElement(EMatroskaId id, float64 value)
 	{
 		this->BeginElement(id);
-		this->refOutput.WriteFloat64BE(value);
+		this->outputStream.WriteFloat64BE(value);
 		this->EndElement();
 	}
 
@@ -113,7 +114,7 @@ private:
 	inline void WriteUTF8Element(EMatroskaId id, const UTF8String &refString)
 	{
 		this->BeginElement(id);
-		this->refOutput.WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
+		this->outputStream.WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
 		this->EndElement();
 	}
 

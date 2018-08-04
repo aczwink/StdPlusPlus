@@ -19,18 +19,31 @@
 //Class Header
 #include <Std++/Streams/FileOutputStream.hpp>
 //Global
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+//Local
+#include <Std++/Errorhandling/FileAlreadyExistsException.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite) : filePath(refPath)
+FileOutputStream::FileOutputStream(const Path &path, bool overwrite) : filePath(path)
 {
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if(!overwrite)
 		flags |= O_EXCL;
-	this->fileHandle = open(reinterpret_cast<const char *>(refPath.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if(this->fileHandle == -1)
+	{
+		switch(errno)
+		{
+			case EEXIST:
+				throw ErrorHandling::FileAlreadyExistsException(path);
+			default:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	}
 }
 
 //Destructor

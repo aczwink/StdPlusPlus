@@ -70,7 +70,7 @@ namespace StdXX
 
 			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = [](const Path &){return true;}) const
 			{
-				return this->backend->SelectExistingDirectory(title, callback);
+				return this->windowBackend->SelectExistingDirectory(title, callback);
 			}
 
 			inline void SetMenuBar(MenuBar *menuBar)

@@ -20,7 +20,7 @@
 #include "OpenGLShader.hpp"
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "../GL3Functions.hpp"
 

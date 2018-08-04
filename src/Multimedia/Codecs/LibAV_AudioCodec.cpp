@@ -31,7 +31,7 @@ Decoder *LibAV_AudioCodec::CreateDecoder(Stream &stream) const
 #endif
 }
 
-Encoder *LibAV_AudioCodec::CreateEncoder() const
+Encoder *LibAV_AudioCodec::CreateEncoder(Stream &stream) const
 {
 	return nullptr;
 }

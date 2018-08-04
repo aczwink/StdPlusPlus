@@ -17,7 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //corresponding header
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Global
 #include <Windows.h>
 //Local

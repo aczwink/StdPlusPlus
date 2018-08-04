@@ -19,45 +19,54 @@
 //Class header
 #include "BGR24_Encoder.hpp"
 //Local
-#include <Std++/Multimedia/Images/RGBImage.hpp>
+#include <Std++/Multimedia/Pixmaps/RGBPixmap.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 
 //Public methods
-void BGR24_Encoder::Encode(const Frame &refFrame, Packet &packet) const
+void BGR24_Encoder::Encode(const Frame &refFrame)
 {
-	byte r, g, b;
 	byte *pBGR;
-	RGBImage *pRGBImage;
+	RGBPixmap *pRGBImage;
 
 	VideoFrame &refVideoFrame = (VideoFrame &)refFrame;
 
 	//get image
 	if(refVideoFrame.GetImage()->GetColorSpace() == ColorSpace::RGB)
 	{
-		pRGBImage = (RGBImage *)refVideoFrame.GetImage();
+		pRGBImage = (RGBPixmap *)refVideoFrame.GetImage();
 	}
 	else
 	{
-		pRGBImage = (RGBImage *)refVideoFrame.GetImage()->Resample(ColorSpace::RGB);
+		pRGBImage = (RGBPixmap *)refVideoFrame.GetImage()->Resample(ColorSpace::RGB);
 	}
 
 	//encode
-	packet.Allocate(3 * pRGBImage->GetNumberOfPixels());
+	Packet *packet = new Packet;
+	packet->Allocate(3 * pRGBImage->GetNumberOfPixels());
 
-	pBGR = packet.GetData();
-	for(uint32 i = 0; i < pRGBImage->GetNumberOfPixels(); i++)
+	pBGR = packet->GetData();
+	for(uint16 y = 0; y < pRGBImage->GetHeight(); y++)
 	{
-		pRGBImage->GetPixel(i, r, g, b);
+		for(uint16 x = 0; x < pRGBImage->GetWidth(); x++)
+		{
+			auto color = pRGBImage->GetPixel(Math::Point<uint16>(y, x));
 
-		*pBGR++ = b;
-		*pBGR++ = g;
-		*pBGR++ = r;
+			*pBGR++ = color[2];
+			*pBGR++ = color[1];
+			*pBGR++ = color[0];
+		}
 	}
+	this->AddPacket(packet);
 
 	//clean up
 	if(refVideoFrame.GetImage() != pRGBImage)
 	{
 		delete pRGBImage; //the frame that we converted
 	}
+}
+
+void BGR24_Encoder::Flush()
+{
+	//this encoder always writes through
 }

@@ -29,7 +29,7 @@ namespace StdXX
         {
         public:
             //Constructor
-            inline Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : MediaObject(refFormat), refOutput(refOutput)
+            inline Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : MediaObject(refFormat), outputStream(refOutput)
             {
             }
 
@@ -40,7 +40,7 @@ namespace StdXX
 
         protected:
             //Members
-            ASeekableOutputStream &refOutput;
+            ASeekableOutputStream &outputStream;
         };
     }
 }

@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 //Namespaces
 using namespace StdPlusPlus;

@@ -109,7 +109,7 @@ namespace StdXX
             virtual void SetTexture(uint8 unit, ITexture *pTexture) = 0;
 			virtual void SetUploadAlignment(uint8 value) = 0;
             virtual void SetViewPort(uint16 width, uint16 height) = 0;
-            void SwapBuffers();
+            virtual void SwapBuffers() = 0;
 
         private:
             //Members

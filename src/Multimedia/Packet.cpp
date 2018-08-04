@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/Packet.hpp>
 //Local
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Natural.hpp>
 //Namespaces
 using namespace StdXX;

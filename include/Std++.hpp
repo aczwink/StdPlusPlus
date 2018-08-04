@@ -149,13 +149,13 @@
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Multimedia/CAudioVoice.h>
 #include <Std++/Multimedia/SMetaInfo.h>
-//Images
-//Images/RGB
-#include <Std++/Multimedia/Images/RGB/R8G8B8Image.hpp>
-//Images/RGBA
-#include <Std++/Multimedia/Images/RGBA/CR8G8B8A8Image.h>
-//Images/YCbCr
-#include <Std++/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
+//Pixmaps
+//Pixmaps/RGB
+#include <Std++/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp>
+//Pixmaps/RGBA
+#include <Std++/Multimedia/Pixmaps/RGBA/CR8G8B8A8Image.h>
+//Pixmaps/YCbCr
+#include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
 
 //Multitasking
 #include <Std++/Multitasking/ConditionVariable.hpp>

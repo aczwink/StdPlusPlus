@@ -20,7 +20,7 @@
 #include <Std++/__InitAndShutdown.h>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/ByteString.hpp>
 #include <Std++/Multimedia/CodecId.hpp>
@@ -50,11 +50,6 @@ static void FreeAudioVideo()
 
 	extern Map<uint32, CodecId> g_ms_video_fourCC_map;
 	g_ms_video_fourCC_map.Release();
-
-#ifdef _AC_LIB_USEAVCODEC
-	extern StdXX::Map<StdXX::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
-	g_libavcodec_codec_map.Release();
-#endif
 }
 
 //Global functions
@@ -64,6 +59,8 @@ void InitStdPlusPlus()
 	RegisterAudioBackends();
 	void RegisterComputeBackends();
 	RegisterComputeBackends();
+	void RegisterMultimediaBackends();
+	RegisterMultimediaBackends();
 	void RegisterUIBackends();
 	RegisterUIBackends();
 

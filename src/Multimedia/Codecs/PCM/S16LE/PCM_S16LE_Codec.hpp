@@ -26,8 +26,8 @@ class PCM_S16LE_Codec : public Codec
 public:
 	//Methods
 	Decoder *CreateDecoder(Stream &refStream) const;
-	Encoder *CreateEncoder() const;
+	Encoder *CreateEncoder(Stream &stream) const;
 	AParser *CreateParser() const;
 	CodecId GetId() const;
-	OldString GetName() const;
+	String GetName() const;
 };

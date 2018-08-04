@@ -104,13 +104,6 @@ void CocoaLabelBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) cons
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path CocoaLabelBackend::SelectExistingDirectory(const StdXX::String &title,
-										 const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void CocoaLabelBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

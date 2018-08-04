@@ -120,7 +120,7 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 	return pBestFormat;
 }
 
-const Format *Format::FindByExtension(const OldString &refExtension)
+const Format *Format::FindByExtension(const String &refExtension)
 {
 	for(const Format *const& refpFormat : g_formats)
 	{

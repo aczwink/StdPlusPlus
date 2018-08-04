@@ -25,5 +25,6 @@ class PCM_S16LE_Encoder : public Encoder
 {
 public:
 	//Methods
-	void Encode(const Frame &frame, Packet &packet) const;
+	void Encode(const Frame &frame);
+	void Flush() override;
 };

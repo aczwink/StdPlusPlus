@@ -132,6 +132,8 @@ void DeviceContext::DestroyOSContext()
 {
 	HWND hWnd;
 
+	NOT_IMPLEMENTED_ERROR; //TODO: does not belong here
+
 	hWnd = WindowFromDC((HDC)this->systemHandle);
 	
 	wglDeleteContext((HGLRC)this->deviceState);
@@ -140,6 +142,7 @@ void DeviceContext::DestroyOSContext()
 
 void DeviceContext::UnbindOSContext()
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: does not belong here
 	wglMakeCurrent(nullptr, nullptr);
 	g_hCurrentGLCtx = nullptr;
 }

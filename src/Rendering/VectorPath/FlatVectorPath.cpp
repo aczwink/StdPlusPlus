@@ -18,8 +18,6 @@
  */
 //Class header
 #include <Std++/Rendering/VectorPath/FlatVectorPath.hpp>
-//Local
-#include <Std++CPUOpt.hpp>
 //Namespaces
 using namespace StdXX::Rendering;
 

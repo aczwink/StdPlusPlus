@@ -165,6 +165,13 @@ namespace StdXX
 			return this->ReadUInt32LE();
 		}
 
+		inline uint64 ReadUInt64()
+		{
+			if(this->readBigEndian)
+				return this->ReadUInt64BE();
+			return this->ReadUInt64LE();
+		}
+
     private:
         //Members
         bool readBigEndian;

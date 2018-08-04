@@ -51,8 +51,6 @@ using namespace StdXX::UI;
 	[super drawRect:dirtyRect];
 
 	CocoaEventSource::EmitPaintEvent(self->backend->GetWidget());
-
-	[[self openGLContext] flushBuffer];
 }
 
 - (void)mouseDragged:(NSEvent *)event
@@ -152,13 +150,6 @@ void CocoaRenderTargetWidgetBackend::Paint()
 void CocoaRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-Path CocoaRenderTargetWidgetBackend::SelectExistingDirectory(const StdXX::String &title,
-															 const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
 }
 
 void CocoaRenderTargetWidgetBackend::SetEditable(bool enable) const

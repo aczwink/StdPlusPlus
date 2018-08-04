@@ -27,7 +27,7 @@ Decoder *PCM_S16LE_Codec::CreateDecoder(Stream &refStream) const
 	return nullptr;
 }
 
-Encoder *PCM_S16LE_Codec::CreateEncoder() const
+Encoder *PCM_S16LE_Codec::CreateEncoder(Stream &stream) const
 {
 	return new PCM_S16LE_Encoder;
 }
@@ -42,7 +42,7 @@ CodecId PCM_S16LE_Codec::GetId() const
 	return CodecId::PCM_S16LE;
 }
 
-OldString PCM_S16LE_Codec::GetName() const
+String PCM_S16LE_Codec::GetName() const
 {
-	return "PCM signed 16-bit little-endian interleaved channels";
+	return u8"PCM signed 16-bit little-endian interleaved channels";
 }

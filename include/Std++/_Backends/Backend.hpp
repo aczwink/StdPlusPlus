@@ -24,6 +24,7 @@ namespace StdXX
 	{
 		Audio,
 		Compute,
+		Multimedia,
 		Render,
 		UI,
 	};

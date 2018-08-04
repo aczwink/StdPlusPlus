@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Frame.hpp"
-#include "Image.hpp"
+#include "Pixmap.hpp"
 
 namespace StdXX
 {
@@ -29,11 +29,11 @@ namespace StdXX
         {
         private:
             //Members
-            Image *pImage;
+            Pixmap *pImage;
 
         public:
             //Constructor
-            VideoFrame(Image *pImage);
+            VideoFrame(Pixmap *pImage);
 
             //Destructor
             ~VideoFrame();
@@ -42,12 +42,17 @@ namespace StdXX
             DataType GetType() const;
 
             //Inline
-            inline Image *GetImage()
+            inline Pixmap *GetImage()
             {
                 return this->pImage;
             }
 
-            inline void SetImage(Image *pImage)
+            inline const Pixmap *GetPixmap() const
+            {
+                return this->pImage;
+            }
+
+            inline void SetImage(Pixmap *pImage)
             {
                 this->pImage = pImage;
             }

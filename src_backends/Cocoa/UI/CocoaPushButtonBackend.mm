@@ -127,13 +127,6 @@ void CocoaPushButtonBackend::Select(StdXX::UI::ControllerIndex &controllerIndex)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path CocoaPushButtonBackend::SelectExistingDirectory(const StdXX::String &title,
-													 const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void CocoaPushButtonBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

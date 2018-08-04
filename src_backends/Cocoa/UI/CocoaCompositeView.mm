@@ -101,13 +101,6 @@ void _stdxx_::CocoaCompositeView::Select(StdXX::UI::ControllerIndex &controllerI
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-StdXX::Path _stdxx_::CocoaCompositeView::SelectExistingDirectory(const StdXX::String &title,
-														const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void _stdxx_::CocoaCompositeView::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

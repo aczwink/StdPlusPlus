@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Memory.h"
+#include "Std++/Memory.hpp"
 #include "NetAddress.hpp"
 
 namespace StdXX
