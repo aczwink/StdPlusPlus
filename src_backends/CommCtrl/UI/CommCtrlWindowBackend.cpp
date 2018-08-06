@@ -1,5 +1,3 @@
-#include <Std++/_Backends/UI/WindowBackendType.hpp>
-
 /*
  * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
@@ -28,7 +26,7 @@
 #include "CommCtrlMenuBarBackend.hpp"
 #include "Definitions.h"
 //Namespaces
-using namespace _stdpp;
+using namespace _stdxx_;
 
 /*
 WinAPI Documentation:
@@ -42,8 +40,10 @@ WinAPI Documentation:
 */
 
 //Constructor
-CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, HWND hParent) : WindowBackend(uiBackend, type, widget)
+CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Widget *widget, HWND hParent) : WindowBackend(uiBackend)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
+	/*
 	this->hWndReal = nullptr;
 
 	HINSTANCE hInstance = GetModuleHandle(NULL);
@@ -98,7 +98,7 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, _stdpp::Windo
 	if(this->type != WindowBackendType::Window)
 		SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);
+	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);*/
 }
 
 //Destructor
@@ -108,11 +108,7 @@ CommCtrlWindowBackend::~CommCtrlWindowBackend()
 }
 
 //Public methods
-WindowBackend *CommCtrlWindowBackend::CreateChildBackend(WindowBackendType type, Widget *widget) const
-{
-	return new CommCtrlWindowBackend(this->GetUIBackend(), type, widget, this->hWnd);
-}
-
+/*
 Rect CommCtrlWindowBackend::GetChildrenRect() const
 {
 	RECT rc;
@@ -130,7 +126,7 @@ Rect CommCtrlWindowBackend::GetChildrenRect() const
 	}
 
 	return result;
-}
+}*/
 
 uint32 CommCtrlWindowBackend::GetPosition() const
 {
@@ -143,7 +139,19 @@ void CommCtrlWindowBackend::GetRange(int32 &min, int32 &max)
 	SendMessageW(this->hWndReal, UDM_GETRANGE32, (WPARAM)&min, (LPARAM)&max);
 }
 
-Size CommCtrlWindowBackend::GetSize() const
+Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSize() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Math::SizeD();
+}
+
+Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSizeHint() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return Math::SizeD();
+}
+
+/*Size CommCtrlWindowBackend::GetSize() const
 {
     RECT rc;
     GetWindowRect(this->hWnd, &rc);
@@ -225,7 +233,7 @@ int32 CommCtrlWindowBackend::GetValue() const
 	if (valid == FALSE)
 		return 0;
 	return value;
-}
+}*/
 
 void CommCtrlWindowBackend::IgnoreEvent()
 {
@@ -233,17 +241,22 @@ void CommCtrlWindowBackend::IgnoreEvent()
 	g_ignoreMessage = true;
 }
 
-bool CommCtrlWindowBackend::IsChecked() const
+/*bool CommCtrlWindowBackend::IsChecked() const
 {
 	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
-}
+}*/
 
 void CommCtrlWindowBackend::Maximize()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::Paint()
+void _stdxx_::CommCtrlWindowBackend::Paint()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+/*void CommCtrlWindowBackend::Paint()
 {
 	switch(this->type)
 	{
@@ -261,14 +274,19 @@ void CommCtrlWindowBackend::Paint()
 		}
 		break;
 	}
-}
+}*/
 
 void CommCtrlWindowBackend::Repaint()
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::ResetView() const
+void _stdxx_::CommCtrlWindowBackend::ResetView() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+/*void CommCtrlWindowBackend::ResetView() const
 {
 	TreeController *controller = ((View *)this->widget)->GetController();
 
@@ -296,20 +314,25 @@ void CommCtrlWindowBackend::ResetView() const
 	default:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
-}
+}*/
 
-void CommCtrlWindowBackend::Select(StdPlusPlus::UI::ControllerIndex &controllerIndex) const
+void CommCtrlWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path CommCtrlWindowBackend::SelectExistingDirectory(const StdPlusPlus::String &title, const StdPlusPlus::Function<bool(StdPlusPlus::Path &)> callback) const
+Path CommCtrlWindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return Path();
 }
 
-void CommCtrlWindowBackend::SetBounds(const Rect &area)
+void _stdxx_::CommCtrlWindowBackend::SetBounds(const StdXX::Math::RectD & area)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+/*void CommCtrlWindowBackend::SetBounds(const Rect &area)
 {
 	Point translated;
 	if(this->type == WindowBackendType::Window)
@@ -333,7 +356,7 @@ void CommCtrlWindowBackend::SetBounds(const Rect &area)
 	default:
 		SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
 	}
-}
+}*/
 
 void CommCtrlWindowBackend::SetEditable(bool enable) const
 {
@@ -345,17 +368,12 @@ void CommCtrlWindowBackend::SetEnabled(bool enable) const
 	EnableWindow(this->hWnd, enable);
 }
 
-void CommCtrlWindowBackend::SetHint(const StdPlusPlus::String &text) const
+void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetMaximum(uint32 max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CommCtrlWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+void CommCtrlWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	CommCtrlMenuBarBackend *commCtrlMenuBarBackend = (CommCtrlMenuBarBackend *)menuBarBackend;
 	::SetMenu(this->hWnd, commCtrlMenuBarBackend->GetHandle());
@@ -369,17 +387,22 @@ void CommCtrlWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBa
 	SetMenuInfo(commCtrlMenuBarBackend->GetHandle(), &mi);
 }
 
-void CommCtrlWindowBackend::SetMinimum(uint32 min)
+void _stdxx_::CommCtrlWindowBackend::Show(bool visible)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetPosition(uint32 pos) const
+void _stdxx_::CommCtrlWindowBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetRange(int32 min, int32 max)
+void _stdxx_::CommCtrlWindowBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+/*void CommCtrlWindowBackend::SetRange(int32 min, int32 max)
 {
 	SendMessageW(this->hWndReal, UDM_SETRANGE32, min, max);
 	//update pos always because of redraw
@@ -413,17 +436,7 @@ void CommCtrlWindowBackend::Show(bool visible)
 	}
 
     ShowWindow(this->hWnd, visible ? SW_SHOW : SW_HIDE);
-}
-
-void CommCtrlWindowBackend::ShowInformationBox(const StdPlusPlus::String &title, const StdPlusPlus::String &message) const
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CommCtrlWindowBackend::UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
+}*/
 
 //Private methods
 String CommCtrlWindowBackend::GetText() const
@@ -441,7 +454,7 @@ String CommCtrlWindowBackend::GetText() const
 
 	return String::CopyRawString(buffer);
 }
-
+/*
 Size CommCtrlWindowBackend::GetTextExtents() const
 {
 	HDC hDC = GetDC(this->hWnd);
@@ -455,4 +468,4 @@ Size CommCtrlWindowBackend::GetTextExtents() const
 	ReleaseDC(this->hWnd, hDC);
 
 	return Size(size.cx, size.cy);
-}
+}*/

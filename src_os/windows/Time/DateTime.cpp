@@ -24,7 +24,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Internationalization/Locale.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Local functions
 static int64 FileTimeToUnixTimeStampWithMilliSeconds(const FILETIME &ft)

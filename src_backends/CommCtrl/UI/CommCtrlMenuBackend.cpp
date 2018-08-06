@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/Action.hpp>
 //Namespaces
-using namespace _stdpp;
+using namespace _stdxx_;
 
 //Constructor
 CommCtrlMenuBackend::CommCtrlMenuBackend(Menu *menu) : menu(menu)
@@ -36,7 +36,7 @@ CommCtrlMenuBackend::~CommCtrlMenuBackend()
 }
 
 //Public methods
-void CommCtrlMenuBackend::AppendEntry(const StdPlusPlus::UI::ActionEntry &actionEntry)
+void CommCtrlMenuBackend::AppendEntry(const StdXX::UI::ActionEntry &actionEntry)
 {
 	MENUITEMINFOW itemInfo;
 
@@ -56,7 +56,7 @@ void CommCtrlMenuBackend::AppendSeperator()
 	AppendMenuW(this->hMenu, MF_SEPARATOR, 0, nullptr);
 }
 
-void CommCtrlMenuBackend::AppendSubMenu(StdPlusPlus::UI::Menu *subMenu)
+void CommCtrlMenuBackend::AppendSubMenu(StdXX::UI::Menu *subMenu)
 {
 	const CommCtrlMenuBackend *menuBackend = (CommCtrlMenuBackend *)subMenu->_GetBackend();
 	AppendMenuW(this->hMenu, MF_POPUP | MF_STRING, (UINT_PTR)menuBackend->GetHandle(), (LPCWSTR)subMenu->GetText().ToUTF16().GetRawZeroTerminatedData());

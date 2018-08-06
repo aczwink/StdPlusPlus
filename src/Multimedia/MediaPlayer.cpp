@@ -152,7 +152,7 @@ void MediaPlayer::OnMasterClockTriggered()
 			this->videoFrameDelay -= elapsed;
 			if(this->videoFrameDelay <= 0 && this->videoWidget)
 			{
-				this->videoWidget->UpdatePicture(this->nextVideoPacket, Size(videoStream->width, videoStream->height));
+				this->videoWidget->UpdatePicture(this->nextVideoPacket, Size<uint16>(videoStream->width, videoStream->height));
 				this->nextVideoPacket = nullptr;
 			}
 		}

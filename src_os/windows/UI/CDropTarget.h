@@ -23,12 +23,12 @@
 #include <Std++/UI/Window.hpp>
 #include <Std++/UI/Transfer/CFileTransfer.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 #include <Std++/Streams/StdOut.hpp>
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	namespace UI
 	{

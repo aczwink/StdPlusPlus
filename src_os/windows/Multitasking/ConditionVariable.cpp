@@ -24,7 +24,7 @@
 #include <Std++/Memory.h>
 #include <Std++/Multitasking/Mutex.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((CONDITION_VARIABLE *)this->systemHandle)
 

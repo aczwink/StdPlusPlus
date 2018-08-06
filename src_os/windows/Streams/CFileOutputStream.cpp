@@ -23,7 +23,7 @@
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Constructor
 FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite)

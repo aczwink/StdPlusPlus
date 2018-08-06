@@ -21,7 +21,7 @@
 #include <Std++/Math/Point.hpp>
 #include "IRenderTarget.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -29,7 +29,7 @@ namespace StdPlusPlus
         {
         public:
             //Abstract
-            virtual void OutputCodepointAt(const Point &refPoint, uint32 codePoint) = 0;
+            virtual void OutputCodepointAt(const Math::Point<uint16> &refPoint, uint32 codePoint) = 0;
         };
     }
 }

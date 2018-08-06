@@ -23,7 +23,7 @@
 //Local
 #include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Local variables
 static LARGE_INTEGER frequency;

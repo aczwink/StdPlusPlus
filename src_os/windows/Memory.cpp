@@ -23,17 +23,17 @@
 //Local
 #include <Std++/Debug.hpp>
 
-void *StdPlusPlus::MemoryAllocate(uint32 size)
+void *StdXX::MemoryAllocate(uint32 size)
 {
 	return HeapAlloc(GetProcessHeap(), 0, size);
 }
 
-void StdPlusPlus::MemoryFree(void *pMem)
+void StdXX::MemoryFree(void *pMem)
 {
 	HeapFree(GetProcessHeap(), 0, pMem);
 }
 
-void *StdPlusPlus::MemoryReallocate(void *pMem, uint32 size)
+void *StdXX::MemoryReallocate(void *pMem, uint32 size)
 {
 	if(!pMem)
 		return MemoryAllocate(size);
@@ -41,7 +41,7 @@ void *StdPlusPlus::MemoryReallocate(void *pMem, uint32 size)
 	return HeapReAlloc(GetProcessHeap(), 0, pMem, size);
 }
 
-void StdPlusPlus::VirtualMemoryProtect(void *pMemoryRegion, uint32 size, EVirtualMemoryProtection protection)
+void StdXX::VirtualMemoryProtect(void *pMemoryRegion, uint32 size, EVirtualMemoryProtection protection)
 {
 	DWORD newProtect, oldProtect;
 

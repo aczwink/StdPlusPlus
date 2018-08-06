@@ -19,7 +19,6 @@
 //Main header
 #include <Std++/Math/Geometry/ObjectIntersection.hpp>
 //Local
-#include <Std++CPUOpt.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/Math/Vector4/Vector4.inl>
 //Namespaces

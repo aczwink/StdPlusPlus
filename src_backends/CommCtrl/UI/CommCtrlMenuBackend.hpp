@@ -22,26 +22,26 @@
 #include <Std++/_Backends/UI/MenuBackend.hpp>
 #include <Std++/UI/Menu/Menu.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class CommCtrlMenuBackend : public MenuBackend
 	{
 	public:
 		//Constructor
-		CommCtrlMenuBackend(StdPlusPlus::UI::Menu *menu);
+		CommCtrlMenuBackend(StdXX::UI::Menu *menu);
 
 		//Destructor
 		~CommCtrlMenuBackend();
 
 		//Methods
-		void AppendEntry(const StdPlusPlus::UI::ActionEntry &actionEntry) override;
+		void AppendEntry(const StdXX::UI::ActionEntry &actionEntry) override;
 		void AppendSeperator() override;
-		void AppendSubMenu(StdPlusPlus::UI::Menu *subMenu) override;
-		StdPlusPlus::String GetText() const override;
-		void SetText(const StdPlusPlus::String & text) override;
+		void AppendSubMenu(StdXX::UI::Menu *subMenu) override;
+		StdXX::String GetText() const override;
+		void SetText(const StdXX::String & text) override;
 
 		//Inline
 		inline const HMENU GetHandle() const

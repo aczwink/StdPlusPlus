@@ -26,6 +26,7 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.hpp
 
 		#.
+		${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlBackend.hpp
 		)
 

@@ -21,7 +21,7 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 //Local
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/CommCtrlMenuBackend.hpp"
 #include "UI/CommCtrlMenuBarBackend.hpp"
@@ -32,7 +32,7 @@
 //Manifest definition. Without it, InitCommonControls will fail and Visual Styles won't work
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class CommCtrlBackend : public UIBackend
 	{
@@ -46,23 +46,32 @@ namespace StdPlusPlus
 		//Methods
 		EventSource *CreateEventSource() override
 		{
-			return this->eventSource.operator->();
+			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+			//return this->eventSource.operator->();
+			return nullptr;
 		}
 
-		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu)
+		_stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) override
 		{
-			return new _stdpp::CommCtrlMenuBackend(menu);
+			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+			//return new _stdxx_::CommCtrlMenuBackend(menu);
+			return nullptr;
 		}
 
-		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar)
+		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override
 		{
-			return new _stdpp::CommCtrlMenuBarBackend(menuBar);
+			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+			//return new _stdxx_::CommCtrlMenuBarBackend(menuBar);
+			return nullptr;
 		}
-
-		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, UI::Widget *widget)
-		{
-		    return new _stdpp::CommCtrlWindowBackend(this, type, widget);
-		}
+		_stdxx_::CheckBoxBackend * CreateCheckBoxBackend(UI::CheckBox * checkBox) override;
+		_stdxx_::GroupBoxBackend * CreateGroupBoxBackend(UI::GroupBox * groupBox) override;
+		_stdxx_::LabelBackend * CreateLabelBackend(UI::Label * label) override;
+		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton * pushButton) override;
+		_stdxx_::WidgetBackend * CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget) override;
+		_stdxx_::SliderBackend * CreateSliderBackend(UI::Slider * slider) override;
+		_stdxx_::SpinBoxBackend * CreateSpinBoxBackend(UI::SpinBox * spinBox) override;
+		_stdxx_::WindowBackend * CreateWindowBackend(UI::Window * window) override;
 
 		void Load() override
 		{

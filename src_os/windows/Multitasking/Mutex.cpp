@@ -23,7 +23,7 @@
 //Local
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((CRITICAL_SECTION *)this->systemHandle)
 

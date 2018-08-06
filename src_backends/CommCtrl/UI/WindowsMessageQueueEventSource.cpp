@@ -28,9 +28,9 @@
 #include "CommCtrlWindowBackend.hpp"
 #include "Definitions.h"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
-using namespace _stdpp;
+using namespace StdXX;
+using namespace StdXX::UI;
+using namespace _stdxx_;
 
 //Global variables
 bool g_ignoreMessage;
@@ -62,12 +62,12 @@ uint64 WindowsMessageQueueEventSource::GetMaxTimeout() const
 	return Natural<uint64>::Max();
 }
 
-void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdpp::WaitObjHandle, bool)>& visitFunc) const
+void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)>& visitFunc) const
 {
 }
 
 //Private methods
-void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
+/*void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
 {
 	Widget &widget = backend.GetWidget();
 	switch(notificationCode)
@@ -97,7 +97,7 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend 
 		}
 		break;
 	}
-}
+}*/
 
 bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -180,7 +180,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 
 		ActionEntry *actionEntry = (ActionEntry *)menuItemInfo.dwItemData;
 
-		if (actionEntry->action->triggeredEvent)
+		if (actionEntry->action->triggeredEvent.IsBound())
 			actionEntry->action->triggeredEvent();
 
 		l_messageResult = 0; //THE DOCUMENTATION SAYS NOTHIGN ABOUT THE RETURN VALUE

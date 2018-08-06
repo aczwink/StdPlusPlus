@@ -57,7 +57,6 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual WidgetBackend *CreateChildBackend(StdXX::UI::Widget *widget) const = 0;
 		virtual StdXX::Math::SizeD GetSize() const = 0;
 		virtual StdXX::Math::SizeD GetSizeHint() const = 0;
 		virtual void Paint() = 0;

@@ -23,8 +23,8 @@
 //Local
 #include <Std++/Memory.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 //Definitions
 #undef THIS //com
 #define THIS ((SConsoleInfo *)(this->pOSHandle))
@@ -86,16 +86,16 @@ CDefaultTerminalRenderTarget::~CDefaultTerminalRenderTarget()
 }
 
 //Public methods
-Size CDefaultTerminalRenderTarget::GetSize() const
+Math::SizeD CDefaultTerminalRenderTarget::GetSize() const
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 	GetConsoleScreenBufferInfo(THIS->hFrontBuffer, &csbi);
 
-	return Size(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
+	return Math::SizeD(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
 }
 
-void CDefaultTerminalRenderTarget::OutputCodepointAt(const Point &refPoint, uint32 codePoint)
+void CDefaultTerminalRenderTarget::OutputCodepointAt(const Math::Point<uint16> &refPoint, uint32 codePoint)
 {
 	DWORD numberOfCharsWritten;
 	COORD coord;

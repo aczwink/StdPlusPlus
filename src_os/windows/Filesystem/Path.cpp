@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Filesystem/Path.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 Path Path::GetAbsolutePath() const

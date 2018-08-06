@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Public methods
 

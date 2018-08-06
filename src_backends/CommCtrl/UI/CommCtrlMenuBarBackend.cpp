@@ -22,7 +22,7 @@
 #include "CommCtrlMenuBackend.hpp"
 #include "CommCtrlWindowBackend.hpp"
 //Namespaces
-using namespace _stdpp;
+using namespace _stdxx_;
 
 //Constructor
 CommCtrlMenuBarBackend::CommCtrlMenuBarBackend(MenuBar *menuBar)

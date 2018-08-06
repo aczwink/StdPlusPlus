@@ -21,4 +21,4 @@
 //Local
 #include <Std++/ErrorHandling/FileNotFoundException.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;

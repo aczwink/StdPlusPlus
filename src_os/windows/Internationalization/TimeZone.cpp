@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Local functions
 static DateTime TimeZoneDescriptionRelativeSystemTimeToDateTime(const SYSTEMTIME &systemTime, int64 year)

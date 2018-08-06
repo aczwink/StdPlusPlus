@@ -23,7 +23,7 @@
 #include <Std++/Debug.hpp>
 
 //Global functions
-uint32 StdPlusPlus::GetHardwareConcurrency()
+uint32 StdXX::GetHardwareConcurrency()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;

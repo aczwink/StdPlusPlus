@@ -20,7 +20,7 @@
 //Local
 #include "ATextRenderTarget.h"
 
-namespace StdPlusPlus
+namespace StdXX
 {
     namespace UI
     {
@@ -38,8 +38,8 @@ namespace StdPlusPlus
             ~CDefaultTerminalRenderTarget();
 
             //Methods
-            Size GetSize() const;
-            void OutputCodepointAt(const Point &refPoint, uint32 codePoint);
+            Math::SizeD GetSize() const;
+            void OutputCodepointAt(const Math::Point<uint16> &refPoint, uint32 codePoint);
             void Present();
         };
     }

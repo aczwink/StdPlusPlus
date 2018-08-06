@@ -21,8 +21,8 @@
 //Global
 #include <Windows.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Public methods
 /*

@@ -25,8 +25,8 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 /*
 WinAPI Documentation:

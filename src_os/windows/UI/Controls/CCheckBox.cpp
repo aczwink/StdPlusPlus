@@ -25,8 +25,8 @@
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 /* OLD STUFF:
 //Public methods
 	void CheckBox::SetText(const OldString &refText)

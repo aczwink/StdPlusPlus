@@ -21,10 +21,10 @@
 #include <Std++/_Backends/UI/MenuBarBackend.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class CommCtrlMenuBarBackend : public MenuBarBackend
 	{

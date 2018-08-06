@@ -22,7 +22,7 @@
 //Local
 #include <Std++/Function.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Destructor
 Thread::~Thread()

@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include <Std++CPUOpt.hpp>
 #include "../../Color.hpp"
 #include <Std++/Math/Vector2/Vector2.inl>
 

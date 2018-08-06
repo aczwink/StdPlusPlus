@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Filesystem/FileSystem.hpp>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 
 //Class functions
 FileSystem &FileSystem::GetOSFileSystem()

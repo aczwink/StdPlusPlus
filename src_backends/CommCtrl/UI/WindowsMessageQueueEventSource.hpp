@@ -23,12 +23,12 @@
 #include <Std++/UI/UIEventSource.hpp>
 
 //Forward declarations
-namespace _stdpp
+namespace _stdxx_
 {
 	class CommCtrlWindowBackend;
 }
 
-class WindowsMessageQueueEventSource : public StdPlusPlus::UI::UIEventSource
+class WindowsMessageQueueEventSource : public StdXX::UI::UIEventSource
 {
 public:
 	//Constructor
@@ -37,14 +37,14 @@ public:
 	//Methods
 	void DispatchPendingEvents() override;
 	uint64 GetMaxTimeout() const override;
-	void VisitWaitObjects(const StdPlusPlus::Function<void (_stdpp::WaitObjHandle, bool)>& visitFunc) const override;
+	void VisitWaitObjects(const StdXX::Function<void (_stdxx_::WaitObjHandle, bool)>& visitFunc) const override;
 
 	//Functions
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
 	//Methods
-	void DispatchControlEvent(_stdpp::CommCtrlWindowBackend &backend, UINT notificationCode);
+	void DispatchControlEvent(_stdxx_::CommCtrlWindowBackend &backend, UINT notificationCode);
 	/**
 	 *
 	 * @param widget
@@ -53,6 +53,6 @@ private:
 	 * @param lParam
 	 * @return true if message was processed, false if not.
 	 */
-	bool DispatchMessageEvent(_stdpp::CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam);
-	void DispatchNotificationEvent(StdPlusPlus::UI::Widget &refWidget, const NMHDR &refNmHdr);
+	bool DispatchMessageEvent(_stdxx_::CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam);
+	void DispatchNotificationEvent(StdXX::UI::Widget &refWidget, const NMHDR &refNmHdr);
 };

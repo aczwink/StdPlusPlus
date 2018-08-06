@@ -23,8 +23,8 @@
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 /*
 //Private methods
