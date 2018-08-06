@@ -58,10 +58,6 @@ namespace _stdxx_
 		void Repaint() override;
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
-
-		StdXX::Path SelectExistingDirectory(const StdXX::String &title,
-											const StdXX::Function<bool(StdXX::Path &)> callback) const override;
-
 		void SetEditable(bool enable) const override;
 
 		void SetEnabled(bool enable) const override;

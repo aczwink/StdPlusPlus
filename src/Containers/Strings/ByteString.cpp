@@ -23,7 +23,7 @@
 #include <string.h>
 //Local
 #include <Std++/Definitions.h>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 

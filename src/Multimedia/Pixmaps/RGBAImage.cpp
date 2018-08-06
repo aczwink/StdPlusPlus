@@ -17,7 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <Std++/Multimedia/Images/RGBAImage.hpp>
+#include <Std++/Multimedia/Pixmaps/RGBAImage.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;

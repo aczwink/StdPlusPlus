@@ -34,6 +34,7 @@ CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openG
 
 		//color buffer
 		NSOpenGLPFAColorSize, 24,
+		NSOpenGLPFAClosestPolicy,
 
 		//depth buffer
 		NSOpenGLPFADepthSize, 24,
@@ -48,7 +49,6 @@ CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openG
 		NSOpenGLPFASampleBuffers, uint8((nSamples > 1) ? 1 : 0),
 		NSOpenGLPFASamples, uint8((nSamples > 1) ? nSamples : 0),
 
-		NSOpenGLPFAClosestPolicy,
 		0
 	};
 
@@ -60,4 +60,10 @@ CocoaOpenGL3CoreDeviceContext::CocoaOpenGL3CoreDeviceContext(NSOpenGLView *openG
 	[openGLView setOpenGLContext:this->openGLContext];
 
 	this->Init(loader);
+}
+
+//Public methods
+void CocoaOpenGL3CoreDeviceContext::SwapBuffers()
+{
+	[this->openGLContext flushBuffer];
 }

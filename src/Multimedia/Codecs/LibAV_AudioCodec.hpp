@@ -27,6 +27,6 @@ class LibAV_AudioCodec : public Codec
 public:
 	//Methods
 	Decoder *CreateDecoder(Stream &stream) const;
-	Encoder *CreateEncoder() const;
+	Encoder *CreateEncoder(Stream &stream) const;
 	AParser *CreateParser() const;
 };

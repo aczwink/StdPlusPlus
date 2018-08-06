@@ -32,10 +32,10 @@ namespace StdXX
 		 * If it exists and overwrite is true, it is truncated.
 		 * If it exists and overwrite is false, an error occurs.
 		 *
-		 * @param refPath
+		 * @param path
 		 * @param overwrite
 		 */
-        FileOutputStream(const Path &refPath, bool overwrite = false);
+        FileOutputStream(const Path &path, bool overwrite = false);
         //FileOutputStream
         ~FileOutputStream();
         //Methods

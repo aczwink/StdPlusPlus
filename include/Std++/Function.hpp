@@ -20,7 +20,7 @@
 #pragma once
 //Local
 #include "Debug.hpp"
-#include "Memory.h"
+#include "Memory.hpp"
 
 namespace _Intern
 {

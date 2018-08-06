@@ -101,6 +101,7 @@ GLXFBConfig ChooseFrameBufferConfig(Display *display, uint8 nSamples)
 //Private methods
 void DeviceContext::DestroyOSContext()
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: does not belong here
 	//glXDestroyContext(display, this->deviceState);
 }
 
@@ -111,8 +112,4 @@ void DeviceContext::UnbindOSContext()
 	//glXMakeCurrent(display, 0, 0);
 }
 
-//Public methods
-void DeviceContext::SwapBuffers()
-{
-	//glXSwapBuffers(display, win);
-}
+//glXSwapBuffers(display, win);

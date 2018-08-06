@@ -16,14 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Multimedia/Images/YCbCrImage.hpp>
+#pragma once
+#include <Std++/Multimedia/Codec.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Public methods
-ColorSpace YCbCrImage::GetColorSpace() const
+class ExternalVideoCodec : public Codec
 {
-	return ColorSpace::YCbCr;
-}
+public:
+	//Methods
+	Decoder *CreateDecoder(Stream &stream) const;
+	Encoder *CreateEncoder(Stream &stream) const;
+	AParser *CreateParser() const;
+};

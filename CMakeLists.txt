@@ -3,7 +3,7 @@ project(Std++)
 find_package(XP-CMake REQUIRED) #we need advanced cmake modules
 
 #options
-option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the compiling machine are enabled. If disabled, no backend but the specified ones are selected" ON)
+option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the host machine are enabled. If disabled, no backends but the specified ones are selected" ON)
 option(BUILD_DOCUMENTATION "Build API documentation" OFF)
 option(OPTFORHOST "Optimize for host machine. Output will quite likely not run on an older processor" ON)
 
@@ -15,7 +15,7 @@ endif()
 XPC_SetCompileDefinitions()
 #c++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON) #we need C++17 because of template class type deduction, else C++11 would be sufficient
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 #---TARGET: Std++---
@@ -34,6 +34,9 @@ elseif(UNIX)
 	add_subdirectory(src_os/posix)
 elseif(WIN32)
 	add_subdirectory(src_os/windows)
+	target_link_libraries(Std++ PRIVATE opengl32.lib)
+	target_link_libraries(Std++ PRIVATE ws2_32.lib)
+	#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 endif()
 target_sources(Std++ PRIVATE ${SOURCE_FILES})
 
@@ -71,41 +74,13 @@ target_include_directories(Std++Test PRIVATE "include")
 
 #---TARGET: Tests---
 add_subdirectory(tests)
-
-
-
-
-
-
-
-
-
-
-
-
-#options
-option(USE_LIBAVCODEC "Use libavcodec so that additional codecs can be used. YOU SHOULD INFORM YOURSELF ABOUT LICENSE ISSUES BEFORE ENABLING THIS!" OFF)
-if(USE_LIBAVCODEC)
-	add_definitions(-D_AC_LIB_USEAVCODEC)
-	include(cmake/FindFFmpeg.cmake)
-endif(USE_LIBAVCODEC)
-
-
-#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 add_executable(tests_Std++ ${TEST_FILES})
-
-#link
-if(WIN32)
-	target_link_libraries(Std++ PRIVATE opengl32.lib)
-	target_link_libraries(Std++ PRIVATE ws2_32.lib)
-endif(WIN32)
-
-if(USE_LIBAVCODEC)
-	target_link_libraries(Std++ PRIVATE ${FFMPEG_LIBRARIES})
-endif(USE_LIBAVCODEC)
 
 target_include_directories(tests_Std++ PUBLIC "include")
 target_link_libraries(tests_Std++ LINK_PUBLIC Std++ Std++Static Std++Test)
+
+
+
 
 
 

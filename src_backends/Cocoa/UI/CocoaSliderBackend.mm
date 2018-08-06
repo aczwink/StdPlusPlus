@@ -131,13 +131,6 @@ void CocoaSliderBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) con
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path CocoaSliderBackend::SelectExistingDirectory(const StdXX::String &title,
-												 const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void CocoaSliderBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

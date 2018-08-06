@@ -29,13 +29,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
 
 	#Multimedia
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGB/R8G8B8Image.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCr/YCbCr420Image.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBImage.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/RGBAImage.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Images/YCbCrImage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBPixmap.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBAImage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCrImage.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
@@ -49,7 +49,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/FourCC.h
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Image.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer_DecoderThread.cpp

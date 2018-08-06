@@ -54,7 +54,7 @@ namespace StdXX
             Stream();
 
             //Destructor
-            ~Stream();
+            virtual ~Stream();
 
             //Abstract
             virtual DataType GetType() const = 0;

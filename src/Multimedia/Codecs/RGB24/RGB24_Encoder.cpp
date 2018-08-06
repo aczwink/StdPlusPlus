@@ -19,50 +19,59 @@
 //Class header
 #include "RGB24_Encoder.hpp"
 //Local
-#include <Std++/Multimedia/Images/RGBImage.hpp>
+#include <Std++/Multimedia/Pixmaps/RGBPixmap.hpp>
 #include <Std++/Multimedia/Frame.hpp>
 #include <Std++/Debug.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 
 //Public methods
-void RGB24_Encoder::Encode(const Frame &frame, Packet &packet) const
+void RGB24_Encoder::Encode(const Frame &frame)
 {
-	byte r, g, b;
 	byte *rgb;
-	RGBImage *rgbImage;
+	RGBPixmap *rgbImage;
 
-	ASSERT(frame.GetType() == DataType::Video, "If you see this, report to StdXX");
+	ASSERT(frame.GetType() == DataType::Video, u8"If you see this, report to StdXX");
 
 	VideoFrame &videoFrame = (VideoFrame &)frame;
 	//get image
 	if(videoFrame.GetImage()->GetColorSpace() == ColorSpace::RGB)
 	{
-		rgbImage = (RGBImage *)videoFrame.GetImage();
+		rgbImage = (RGBPixmap *)videoFrame.GetImage();
 	}
 	else
 	{
-		rgbImage = (RGBImage *)videoFrame.GetImage()->Resample(ColorSpace::RGB);
+		rgbImage = (RGBPixmap *)videoFrame.GetImage()->Resample(ColorSpace::RGB);
 	}
 
 	//fill out packet
-	packet.Allocate(3 * rgbImage->GetNumberOfPixels());
-	packet.pts = frame.pts;
+	Packet *packet = new Packet;
+	packet->Allocate(3 * rgbImage->GetNumberOfPixels());
+	packet->pts = frame.pts;
 
 	//fill data
-	rgb = packet.GetData();
-	for(uint32 i = 0; i < rgbImage->GetNumberOfPixels(); i++)
+	rgb = packet->GetData();
+	for(uint16 y = 0; y < rgbImage->GetHeight(); y++)
 	{
-		rgbImage->GetPixel(i, r, g, b);
+		for(uint16 x = 0; x < rgbImage->GetWidth(); x++)
+		{
+			auto color = rgbImage->GetPixel(Math::Point<uint16>(y, x));
 
-		*rgb++ = r;
-		*rgb++ = g;
-		*rgb++ = b;
+			*rgb++ = color[0];
+			*rgb++ = color[1];
+			*rgb++ = color[2];
+		}
 	}
+	this->AddPacket(packet);
 
 	//clean up
 	if(videoFrame.GetImage() != rgbImage)
 	{
 		delete rgbImage; //the frame that we converted
 	}
+}
+
+void RGB24_Encoder::Flush()
+{
+	//this encoder always writes through
 }

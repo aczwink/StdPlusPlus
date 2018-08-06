@@ -44,6 +44,15 @@ Math::SizeD Widget::GetSizeHint() const
 	return Math::SizeD();
 }
 
+Window *Widget::GetWindow()
+{
+	if(IS_INSTANCE_OF(this, Window))
+		return dynamic_cast<Window *>(this);
+	if(this->parent)
+		return this->parent->GetWindow();
+	return nullptr;
+}
+
 Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const
 {
 	Math::PointD translated = point;

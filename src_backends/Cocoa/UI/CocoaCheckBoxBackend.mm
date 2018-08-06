@@ -136,13 +136,6 @@ void CocoaCheckBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) c
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path CocoaCheckBoxBackend::SelectExistingDirectory(const StdXX::String &title,
-												   const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void CocoaCheckBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

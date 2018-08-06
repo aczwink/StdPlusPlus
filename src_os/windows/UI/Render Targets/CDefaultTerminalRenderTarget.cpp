@@ -21,7 +21,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;

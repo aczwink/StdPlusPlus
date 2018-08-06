@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,27 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "LibAV_VideoCodec.hpp"
-//Local
-#include "LibAV_VideoDecoder.hpp"
+#include "../ExternalVideoCodec.hpp"
 
-//Public methods
-Decoder *LibAV_VideoCodec::CreateDecoder(Stream &stream) const
+class H264_Codec : public ExternalVideoCodec
 {
-#ifdef _AC_LIB_USEAVCODEC
-	return new LibAV_VideoDecoder(stream, this->GetId());
-#else
-	return nullptr;
-#endif
-}
+public:
+	//Methods
+	CodecId GetId() const
+	{
+		return CodecId::H264;
+	}
 
-Encoder *LibAV_VideoCodec::CreateEncoder() const
-{
-	return nullptr;
-}
-
-AParser *LibAV_VideoCodec::CreateParser() const
-{
-	return nullptr;
-}
+	String GetName() const
+	{
+		return u8"H.264 / MPEG-4 Part 10, Advanced Video Coding (MPEG-4 AVC)";
+	}
+};

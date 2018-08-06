@@ -20,7 +20,7 @@
 #include "Shared.hpp"
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 #include <Std++/Network/IPv4Address.hpp>
 
 //Global functions

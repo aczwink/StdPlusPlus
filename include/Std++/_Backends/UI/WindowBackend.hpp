@@ -41,6 +41,7 @@ namespace _stdxx_
 
 		//Abstract
 		virtual void Maximize() = 0;
+		virtual StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const = 0;
 		virtual void SetTitle(const StdXX::String &title) = 0;
 	};
 }

@@ -25,5 +25,6 @@ class BGR24_Encoder : public Encoder
 {
 public:
 	//Methods
-	void Encode(const Frame &refFrame, Packet &packet) const;
+	void Encode(const Frame &refFrame);
+	void Flush() override;
 };

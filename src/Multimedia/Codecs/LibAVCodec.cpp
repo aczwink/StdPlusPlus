@@ -19,35 +19,14 @@
 #ifdef _AC_LIB_USEAVCODEC
 #include "LibAVCodec.hpp"
 //Local
-#include <StdXX/Containers/Map/Map.hpp>
-#include <StdXX/Multimedia/Images/YCbCr/YCbCr420Image.hpp>
-#include <StdXX/Multimedia/AudioBuffer.hpp>
-#include <StdXX/Multimedia/AudioFrame.hpp>
-#include <StdXX/Multimedia/VideoFrame.hpp>
-#include <StdXX/Multimedia/VideoStream.hpp>
-
-//Global variables
-StdXX::Map<StdXX::Multimedia::CodecId, uint32> g_libavcodec_codec_map;
+#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
+#include <Std++/Multimedia/AudioBuffer.hpp>
+#include <Std++/Multimedia/AudioFrame.hpp>
+#include <Std++/Multimedia/VideoFrame.hpp>
+#include <Std++/Multimedia/VideoStream.hpp>
 
 //Local functions
-static void LoadMap()
-{
-	static bool loaded = false;
-
-	if(!loaded)
-	{
-		loaded = true;
-
-		avcodec_register_all();
-
-		//audio
-		g_libavcodec_codec_map.Insert(CodecId::MP3, AV_CODEC_ID_MP3);
-
-		//video
-		g_libavcodec_codec_map.Insert(CodecId::MS_MPEG4Part2V2, AV_CODEC_ID_MSMPEG4V2);
-	}
-}
-
 static ChannelLayout MapChannels(int nChannels)
 {
 	switch(nChannels)
@@ -195,16 +174,5 @@ void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Strea
 	}
 
 	int ret = avcodec_open2(state.codecContext, state.codec, nullptr);
-}
-
-AVCodecID MapCodecId(StdXX::Multimedia::CodecId codecId)
-{
-	LoadMap();
-
-	auto it = g_libavcodec_codec_map.Find(codecId);
-	if(it == g_libavcodec_codec_map.end())
-		return AV_CODEC_ID_NONE;
-
-	return (AVCodecID)(*it).value;
 }
 #endif

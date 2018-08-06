@@ -16,17 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-#include <Std++/Multimedia/Codec.hpp>
+//Class header
+#include <Std++/Multimedia/Pixmaps/RGBPixmap.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class LibAV_VideoCodec : public Codec
+//Public methods
+ColorSpace RGBPixmap::GetColorSpace() const
 {
-public:
-	//Methods
-	Decoder *CreateDecoder(Stream &stream) const;
-	Encoder *CreateEncoder() const;
-	AParser *CreateParser() const;
-};
+	return ColorSpace::RGB;
+}

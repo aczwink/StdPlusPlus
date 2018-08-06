@@ -35,7 +35,7 @@ public:
 		return nullptr;
 	}
 
-	Encoder *CreateEncoder() const
+	Encoder *CreateEncoder(Stream &stream) const
 	{
 		return new BGR24_Encoder;
 	}
@@ -50,8 +50,8 @@ public:
 		return CodecId::BGR24;
 	}
 
-	OldString GetName() const
+	String GetName() const
 	{
-		return "24-bit B8G8R8 Interleaved (BGR24)";
+		return u8"24-bit B8G8R8 Interleaved (BGR24)";
 	}
 };

@@ -60,6 +60,7 @@ namespace StdXX
             virtual ~Widget();
 
             //Methods
+			Window *GetWindow();
 			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable

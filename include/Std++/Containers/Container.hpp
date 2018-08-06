@@ -20,7 +20,7 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
-#include <Std++/Memory.h>
+#include <Std++/Memory.hpp>
 
 namespace StdXX
 {

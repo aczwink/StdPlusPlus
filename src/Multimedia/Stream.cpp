@@ -85,7 +85,7 @@ Encoder *Stream::GetEncoder()
 		if(this->pCodec)
 		{
 			//we have a codec... create instance
-			this->pEncoder = this->pCodec->CreateEncoder();
+			this->pEncoder = this->pCodec->CreateEncoder(*this);
 			return this->pEncoder;
 		}
 

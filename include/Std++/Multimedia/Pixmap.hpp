@@ -18,36 +18,51 @@
  */
 #pragma once
 //Local
-#include "../Image.hpp"
+#include "../Definitions.h"
+#include "EnumTypes.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API RGBImage : public Image
+        class STDPLUSPLUS_API Pixmap
         {
+        private:
+            //Members
+            uint16 width;
+            uint16 height;
+
         public:
             //Constructor
-            inline RGBImage(uint16 width, uint16 height) : Image(width, height)
+            inline Pixmap(uint16 width, uint16 height)
             {
+                this->width = width;
+                this->height = height;
             }
+
+            //Destructor
+            virtual ~Pixmap(){}
 
             //Abstract
-            virtual void GetPixel(uint32 index, byte &refR, byte &refG, byte &refB) const = 0;
-            virtual void SetPixel(uint32 index, byte r, byte g, byte b) = 0;
+            virtual ColorSpace GetColorSpace() const = 0;
 
             //Methods
-            ColorSpace GetColorSpace() const;
+            Pixmap *Resample(ColorSpace desiredColorSpace) const;
 
             //Inline
-            inline void GetPixel(uint16 x, uint16 y, byte &refR, byte &refG, byte &refB) const
+            inline uint16 GetHeight() const
             {
-                this->GetPixel(y * this->GetWidth() + x, refR, refG, refB);
+                return this->height;
             }
 
-            inline void SetPixel(uint16 x, uint16 y, byte r, byte g, byte b)
+            inline uint16 GetWidth() const
             {
-                this->SetPixel(y * this->GetWidth() + x, r, g, b);
+                return this->width;
+            }
+
+            inline uint32 GetNumberOfPixels() const
+            {
+                return (uint32)this->width * (uint32)this->height;
             }
         };
     }

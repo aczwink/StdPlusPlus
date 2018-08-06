@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../LibAV_VideoCodec.hpp"
+#include "../ExternalVideoCodec.hpp"
 
-class MS_MPEG4_Part2_V2_Codec : public LibAV_VideoCodec
+class MS_MPEG4_Part2_V2_Codec : public ExternalVideoCodec
 {
 public:
 	//Methods
@@ -27,8 +27,8 @@ public:
 		return CodecId::MS_MPEG4Part2V2;
 	}
 
-	OldString GetName() const
+	String GetName() const
 	{
-		return "Microsoft MPEG-4 Part2 V2";
+		return u8"Microsoft MPEG-4 Part2 V2";
 	}
 };

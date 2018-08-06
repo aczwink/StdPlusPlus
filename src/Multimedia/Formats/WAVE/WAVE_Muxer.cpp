@@ -46,12 +46,12 @@ uint16 WAVE_Muxer::GetBitsPerSample(CodecId codecId) const
 //Public methods
 void WAVE_Muxer::Finalize()
 {
-	uint32 currentOffset = (uint32)this->refOutput.GetCurrentOffset();
-	DataWriter writer(false, this->refOutput);
-	this->refOutput.SetCurrentOffset(this->riffTagSizeOffset);
+	uint32 currentOffset = (uint32)this->outputStream.GetCurrentOffset();
+	DataWriter writer(false, this->outputStream);
+	this->outputStream.SetCurrentOffset(this->riffTagSizeOffset);
 	writer.WriteUInt32(currentOffset - 8); //sizeof("RIFF") + sizeof(chunkSize)
 
-	this->refOutput.SetCurrentOffset(this->dataChunkSizeOffset);
+	this->outputStream.SetCurrentOffset(this->dataChunkSizeOffset);
 	writer.WriteUInt32(currentOffset - this->dataChunkSizeOffset - 4);
 }
 
@@ -64,30 +64,30 @@ void WAVE_Muxer::WriteHeader()
 	bitsPerSample = this->GetBitsPerSample(stream->GetCodec()->GetId());
 	blockAlign = stream->nChannels * bitsPerSample / 8;
 
-	DataWriter writer(false, this->refOutput);
+	DataWriter writer(false, this->outputStream);
 	//riff chunk
 	writer.WriteUInt32(WAVE_RIFFCHUNK_CHUNKID);
-	this->riffTagSizeOffset = (uint32)this->refOutput.GetCurrentOffset();
+	this->riffTagSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
 	writer.WriteUInt32(0); //file size
 	writer.WriteUInt32(WAVE_RIFFCHUNK_RIFFTYPE);
 
 	//format chunk
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
-	this->refOutput.WriteUInt16LE(MapToTwoCC(stream->GetCodec()->GetId()));
-	this->refOutput.WriteUInt16LE(stream->nChannels);
+	this->outputStream.WriteUInt16LE(MapToTwoCC(stream->GetCodec()->GetId()));
+	this->outputStream.WriteUInt16LE(stream->nChannels);
 	writer.WriteUInt32(stream->sampleRate);
 	writer.WriteUInt32(stream->sampleRate * blockAlign);
-	this->refOutput.WriteUInt16LE(blockAlign);
-	this->refOutput.WriteUInt16LE(bitsPerSample);
+	this->outputStream.WriteUInt16LE(blockAlign);
+	this->outputStream.WriteUInt16LE(bitsPerSample);
 
 	//data chunk
 	writer.WriteUInt32(WAVE_DATACHUNK_CHUNKID);
-	this->dataChunkSizeOffset = (uint32)this->refOutput.GetCurrentOffset();
+	this->dataChunkSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
 	writer.WriteUInt32(0); //chunk size
 }
 
 void WAVE_Muxer::WritePacket(const Packet &packet)
 {
-	this->refOutput.WriteBytes(packet.GetData(), packet.GetSize());
+	this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
 }

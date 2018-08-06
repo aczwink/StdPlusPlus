@@ -62,7 +62,6 @@ namespace _stdxx_
 		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdXX::UI::ControllerIndex &controllerIndex) const = 0;
-		virtual StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const = 0;
 		virtual void SetBounds(const StdXX::Math::RectD &area) = 0;
 		virtual void SetEditable(bool enable) const = 0;
 		virtual void SetEnabled(bool enable) const = 0;

@@ -18,52 +18,45 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "EnumTypes.hpp"
+#include "Std++/Multimedia/Pixmap.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API Image
+        /*
+        Y = Luminance from black to white
+        Cb = Chrominance blue from grey to blue
+        Cr = Chrominance red from grey to red
+        */
+        class STDPLUSPLUS_API YCbCrImage : public Pixmap
         {
         private:
             //Members
-            uint16 width;
-            uint16 height;
-
+            /*
+            values usually don't use full 8-bit range, see this: http://www.equasys.de/colorconversion.html
+            the limited ranges are the following:
+            Luminance in range [16, 235]
+            Chrominance in range [16, 240]
+            */
+            bool useFullRange;
         public:
             //Constructor
-            inline Image(uint16 width, uint16 height)
+            inline YCbCrImage(uint16 width, uint16 height, bool useFullRange) : Pixmap(width, height)
             {
-                this->width = width;
-                this->height = height;
+                this->useFullRange = useFullRange;
             }
-
-            //Destructor
-            virtual ~Image(){}
 
             //Abstract
-            virtual ColorSpace GetColorSpace() const = 0;
+            virtual void GetPixel(uint32 index, byte &refY, byte &refCb, byte &refCr) const = 0;
 
             //Methods
-            Image *Resample(ColorSpace desiredColorSpace) const;
-            Image *Resample(uint16 desiredWidth, uint16 desiredHeight, ColorSpace desiredColorSpace) const;
+            ColorSpace GetColorSpace() const;
 
             //Inline
-            inline uint16 GetHeight() const
+            inline bool UsesFullRange() const
             {
-                return this->height;
-            }
-
-            inline uint16 GetWidth() const
-            {
-                return this->width;
-            }
-
-            inline uint32 GetNumberOfPixels() const
-            {
-                return (uint32)this->width * (uint32)this->height;
+                return this->useFullRange;
             }
         };
     }

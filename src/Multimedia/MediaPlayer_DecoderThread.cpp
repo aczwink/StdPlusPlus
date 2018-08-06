@@ -32,7 +32,8 @@ DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId enc
 	this->working = false;
 	this->decoder = nullptr;
 	this->streamIndex = Natural<uint32>::Max();
-	this->encoder = Codec::GetCodec(encodingCodec)->CreateEncoder();
+	NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//this->encoder = Codec::GetCodec(encodingCodec)->CreateEncoder();
 }
 
 //Destructor
@@ -98,11 +99,12 @@ int32 DecoderThread::ThreadMain()
 			Frame *frame = this->decoder->GetNextFrame();
 
 			//encode as the desired playback format
-			Packet *reEncodedPacket = new Packet;
-			this->encoder->Encode(*frame, *reEncodedPacket);
-
-			//this packet is ready to be played
-			this->AddOutputPacket(reEncodedPacket);
+			this->encoder->Encode(*frame);
+			while(this->encoder->IsPacketReady())
+			{
+				//this packet is ready to be played
+				this->AddOutputPacket(this->encoder->GetNextPacket());
+			}
 
 			delete frame;
 

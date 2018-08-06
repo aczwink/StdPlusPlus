@@ -27,16 +27,16 @@
 //Public methods
 void BMP_Muxer::Finalize()
 {
-	uint64 currentOffset = this->refOutput.GetCurrentOffset();
+	uint64 currentOffset = this->outputStream.GetCurrentOffset();
 
-	DataWriter dataWriter(false, this->refOutput);
+	DataWriter dataWriter(false, this->outputStream);
 
 	//Update file size
-	this->refOutput.SetCurrentOffset(this->startOffset + BMP_HEADER_TYPE_SIZE);
+	this->outputStream.SetCurrentOffset(this->startOffset + BMP_HEADER_TYPE_SIZE);
 	dataWriter.WriteUInt32((uint32)(currentOffset - this->startOffset));
 
 	//Update image size
-	this->refOutput.SetCurrentOffset(this->startOffset + BMP_FILEHEADER_SIZE + 20);
+	this->outputStream.SetCurrentOffset(this->startOffset + BMP_FILEHEADER_SIZE + 20);
 	dataWriter.WriteUInt32(this->imageSize);
 }
 
@@ -46,23 +46,23 @@ void BMP_Muxer::WriteHeader()
 
 	pStream = (VideoStream *)this->GetStream(0);
 
-	this->startOffset = this->refOutput.GetCurrentOffset();
+	this->startOffset = this->outputStream.GetCurrentOffset();
 
-	DataWriter dataWriter(false, this->refOutput);
+	DataWriter dataWriter(false, this->outputStream);
 
 	//bitmap file header
-	this->refOutput.WriteBytes(BMP_HEADER_TYPE, BMP_HEADER_TYPE_SIZE);
+	this->outputStream.WriteBytes(BMP_HEADER_TYPE, BMP_HEADER_TYPE_SIZE);
 	dataWriter.WriteUInt32(0); //file size... updated in finalize
-	this->refOutput.WriteUInt16LE(0); //reserved1
-	this->refOutput.WriteUInt16LE(0); //reserved2
+	this->outputStream.WriteUInt16LE(0); //reserved1
+	this->outputStream.WriteUInt16LE(0); //reserved2
 	dataWriter.WriteUInt32(BMP_FILEHEADER_SIZE + BMP_INFOHEADER_SIZE); //data offset
 
 	//bitmap info header
 	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
 	dataWriter.WriteUInt32(pStream->width);
 	dataWriter.WriteUInt32(-(int32)pStream->height);
-	this->refOutput.WriteUInt16LE(1); //number of planes
-	this->refOutput.WriteUInt16LE(24); //bits per pixel
+	this->outputStream.WriteUInt16LE(1); //number of planes
+	this->outputStream.WriteUInt16LE(24); //bits per pixel
 	dataWriter.WriteUInt32(0); //compression
 	dataWriter.WriteUInt32(0); //image size... updated in finalize
 	dataWriter.WriteUInt32(0); //pixels per meter horizontal
@@ -88,12 +88,12 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 			rowSize = 3 * pStream->width;
 			for(uint16 y = 0; y < nRows; y++)
 			{
-				this->refOutput.WriteBytes(pCurrent, rowSize);
+				this->outputStream.WriteBytes(pCurrent, rowSize);
 
 				//write padding
 				static byte null = 0;
 				for(uint8 p = 0; p < rowSize % 4; p++)
-					this->refOutput.WriteBytes(&null, 1);
+					this->outputStream.WriteBytes(&null, 1);
 
 				pCurrent += rowSize;
 			}
@@ -101,7 +101,7 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 			break;
 
 		default:
-			this->refOutput.WriteBytes(refPacket.GetData(), refPacket.GetSize());
+			this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
 			this->imageSize += refPacket.GetSize();
 	}
 }

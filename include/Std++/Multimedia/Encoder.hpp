@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include <Std++/Containers/LinkedList/LinkedList.hpp>
 
 namespace StdXX
 {
@@ -35,7 +36,30 @@ namespace StdXX
             virtual ~Encoder(){}
 
             //Methods
-            virtual void Encode(const Frame &frame, Packet &packet) const = 0;
+            virtual void Encode(const Frame &frame) = 0;
+            virtual void Flush() = 0;
+
+            //Inline
+			inline Packet *GetNextPacket()
+			{
+				return this->orderedPackets.PopFront();
+			}
+
+			inline bool IsPacketReady() const
+			{
+				return !this->orderedPackets.IsEmpty();
+			}
+
+		protected:
+        	//Inline
+        	inline void AddPacket(Packet *packet)
+			{
+				this->orderedPackets.InsertTail(packet);
+			}
+
+		private:
+        	//Members
+			LinkedList<Packet *> orderedPackets;
         };
     }
 }

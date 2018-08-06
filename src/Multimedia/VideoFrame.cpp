@@ -23,7 +23,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-VideoFrame::VideoFrame(Image *pImage)
+VideoFrame::VideoFrame(Pixmap *pImage)
 {
 	this->pImage = pImage;
 }

@@ -44,5 +44,4 @@ struct CodecState
 void DecodePacket(CodecState &state, const StdXX::Multimedia::Packet &packet, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames);
 void FreeCodecState(CodecState &state);
 void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Stream &stream);
-AVCodecID MapCodecId(StdXX::Multimedia::CodecId codecId);
 #endif

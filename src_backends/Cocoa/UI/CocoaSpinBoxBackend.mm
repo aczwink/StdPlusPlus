@@ -175,13 +175,6 @@ void CocoaSpinBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) co
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-StdXX::Path CocoaSpinBoxBackend::SelectExistingDirectory(const StdXX::String &title,
-														 const StdXX::Function<bool(StdXX::Path &)> callback) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
-}
-
 void CocoaSpinBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

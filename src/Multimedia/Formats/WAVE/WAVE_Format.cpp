@@ -41,9 +41,9 @@ CodecId WAVE_Format::GetDefaultCodec(DataType dataType) const
 	return CodecId::Unknown;
 }
 
-OldString WAVE_Format::GetExtension() const
+String WAVE_Format::GetExtension() const
 {
-	return "wav";
+	return u8"wav";
 }
 
 void WAVE_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
@@ -51,9 +51,9 @@ void WAVE_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
 	NOT_IMPLEMENTED_ERROR;
 }
 
-OldString WAVE_Format::GetName() const
+String WAVE_Format::GetName() const
 {
-	return "Waveform Audio (WAVE)";
+	return u8"Waveform Audio (WAVE)";
 }
 
 FiniteSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
