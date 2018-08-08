@@ -20,6 +20,7 @@
 #include <Std++/Multimedia/Demuxer.hpp>
 //Local
 #include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/Parser.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -87,13 +88,9 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 
 void Demuxer::ExtractInfo(Packet &refPacket)
 {
-	Decoder *pDecoder;
-	AParser *pParser;
 	Stream *pStream;
 
 	pStream = this->GetStream(refPacket.streamIndex);
-	pDecoder = pStream->GetDecoder();
-	pParser = pStream->GetParser();
 
 	//in case we have a pts and stream has no start time, we use it as start time
 	if(refPacket.pts != Natural<uint64>::Max() && pStream->startTime == Natural<uint64>::Max())
@@ -101,30 +98,48 @@ void Demuxer::ExtractInfo(Packet &refPacket)
 		pStream->startTime = refPacket.pts;
 	}
 
-	if(pDecoder)
-	{
-		//we have a decoder.... let's try if decoding some packets updates info
-
-		pDecoder->Decode(refPacket);
-	}
-	else
-	{
-		//shit.. we don't have a decoder...
-
-		//if we have a parser... it may suggest a codec id
-		if(pParser)
+	//check for coding format
+	if (pStream->GetCodingFormat())
+	{		
+		DecoderContext *decoderContext = pStream->GetDecoderContext();
+		if (decoderContext == nullptr)
 		{
-			CodecId codecId;
-
-			codecId = pParser->GetCodecId();
-			pStream->SetCodec(Codec::GetCodec(codecId));
-			pDecoder = pStream->GetDecoder();
-
-			if(pDecoder)
+			//try to allocate one
+			const Decoder *decoder = pStream->GetCodingFormat()->GetBestMatchingDecoder();
+			if (decoder)
 			{
-				//juhu we got a decoder now
-				pDecoder->Decode(refPacket);
+				decoderContext = decoder->CreateContext(*pStream);
+				pStream->SetDecoderContext(decoderContext);
 			}
+			else
+			{
+				//shit.. we don't have a decoder...
+
+				//if we have a parser... it may suggest a codec id
+				if (ParserContext *parserContext = pStream->GetParserContext())
+				{
+					NOT_IMPLEMENTED_ERROR; //TODO:; next lines
+					/*
+					CodecId codecId;
+					
+					codecId = pParser->GetCodecId();
+					pStream->SetCodec(Codec::GetCodec(codecId));
+					pDecoder = pStream->GetDecoder();
+					
+					if(pDecoder)
+					{
+					//juhu we got a decoder now
+					pDecoder->Decode(refPacket);
+					}
+					*/
+				}
+			}
+		}
+
+		if (decoderContext != nullptr)
+		{
+			//we have a decoder.... let's try if decoding some packets updates info
+			decoderContext->Decode(refPacket);
 		}
 	}
 }
@@ -144,6 +159,25 @@ bool Demuxer::FindStreamInfo()
 
 	this->refFormat.GetFormatInfo(formatInfo);
 	currentOffset = this->inputStream.GetCurrentOffset();
+
+	//initialize parsers
+	for (Stream *& stream : this->streams)
+	{
+		if (stream->GetCodingFormat() != nullptr)
+		{
+			ParserContext *parserContext = stream->GetParserContext();
+			if (parserContext == nullptr)
+			{
+				//try to allocate one
+				const Parser *parser = stream->GetCodingFormat()->GetBestMatchingParser();
+				if (parser)
+				{
+					parserContext = parser->CreateContext();
+					stream->SetParserContext(parserContext);
+				}
+			}
+		}
+	}
 
 	//read some frames to get stream info
 	nReadFrames = 0;
@@ -174,10 +208,10 @@ bool Demuxer::FindStreamInfo()
 	this->inputStream.SetCurrentOffset(currentOffset);
 	for(uint32 i = 0; i < this->streams.GetNumberOfElements(); i++)
 	{
-		if(this->streams[i]->GetParser())
-			this->streams[i]->GetParser()->Reset();
-		if(this->streams[i]->GetDecoder())
-			this->streams[i]->GetDecoder()->Reset();
+		if(this->streams[i]->GetParserContext())
+			this->streams[i]->GetParserContext()->Reset();
+		if(this->streams[i]->GetDecoderContext())
+			this->streams[i]->GetDecoderContext()->Reset();
 	}
 
 	return this->AllInfoIsAvailable();
@@ -186,16 +220,15 @@ bool Demuxer::FindStreamInfo()
 bool Demuxer::ReadFrame(Packet &packet)
 {
 	uint32 i;
-	AParser *pParser;
 
 	//Check if we have a queued package ready
 	for(i = 0; i < this->GetNumberOfStreams(); i++)
 	{
-		if(pParser = this->GetStream(i)->GetParser())
+		if(ParserContext *parserContext = this->GetStream(i)->GetParserContext())
 		{
-			if(pParser->IsFrameReady())
+			if(parserContext->IsFrameReady())
 			{
-				pParser->GetParsedFrame(packet);
+				parserContext->GetParsedFrame(packet);
 
 				return true;
 			}
@@ -208,13 +241,13 @@ bool Demuxer::ReadFrame(Packet &packet)
 		if(!this->ReadPacket(packet))
 			return false;
 
-		if(pParser = this->GetStream(packet.streamIndex)->GetParser())
+		if(ParserContext *parserContext = this->GetStream(packet.streamIndex)->GetParserContext())
 		{
-			pParser->Parse(packet);
+			parserContext->Parse(packet);
 
-			if(pParser->IsFrameReady())
+			if(parserContext->IsFrameReady())
 			{
-				pParser->GetParsedFrame(packet);
+				parserContext->GetParsedFrame(packet);
 				break;
 			}
 		}

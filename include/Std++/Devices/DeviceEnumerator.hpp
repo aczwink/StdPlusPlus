@@ -25,7 +25,7 @@
 
 namespace StdXX
 {
-	class DeviceEnumerator
+	class STDPLUSPLUS_API DeviceEnumerator
 	{
 	public:
 		//Constructor

@@ -19,11 +19,10 @@
 #pragma once
 //Local
 #include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Containers/Strings/ByteString.hpp>
-#include <Std++/Multimedia/CodecId.hpp>
+#include <Std++/Containers/Strings/String.hpp>
+#include "../../CodingFormatIdMap.hpp"
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::Multimedia;
 
 /*
 Sources:
@@ -101,9 +100,8 @@ namespace Matroska
 	//Specific codecs
 #define CODEC_PCM_FLOAT_LE "A_PCM/FLOAT/IEEE"
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
-#define CODEC_MS_FOURCC "V_MS/VFW/FOURCC"
+#define CODEC_MS_FOURCC u8"V_MS/VFW/FOURCC"
 
 	//Functions
-	CodecId MapCodecString(const ByteString &refCodecString);
-	ByteString MapToCodecString(CodecId codecId);
+	_stdxx_::CodingFormatIdMap<String> GetCodingFormatMap();
 }

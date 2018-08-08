@@ -20,7 +20,7 @@
 #include <Std++/Devices/AudioDevice.hpp>
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/ComputeDevice.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/AudioDevice.hpp>
 //Namespaces
 using namespace StdXX;

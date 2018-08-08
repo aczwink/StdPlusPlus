@@ -22,10 +22,10 @@
 #include "Cocoa/CocoaBackend.hh"
 #include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk3/Gtk3Backend.hpp"
-#include "libavcodec/libavcodec_Backend.hpp"
 #include "OpenCL1/OpenCL1Backend.hpp"
 #include "OpenALSoft/OpenALSoftBackend.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 
 #define PRIORITY_HIGH 0
@@ -64,15 +64,6 @@ void RegisterComputeBackends()
 		}
 	}
 #endif
-#undef ADD_BACKEND
-}
-
-
-void RegisterMultimediaBackends()
-{
-#define ADD_BACKEND(backend, priority) BackendManager<MultimediaBackend>::GetRootInstance().RegisterBackend(backend, priority);
-	libavcodec_Backend *libavcodec_backend = new libavcodec_Backend;
-	ADD_BACKEND(libavcodec_backend, PRIORITY_NORMAL);
 #undef ADD_BACKEND
 }
 

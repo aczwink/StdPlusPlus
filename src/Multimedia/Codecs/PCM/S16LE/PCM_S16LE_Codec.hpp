@@ -27,7 +27,7 @@ public:
 	//Methods
 	Decoder *CreateDecoder(Stream &refStream) const;
 	Encoder *CreateEncoder(Stream &stream) const;
-	AParser *CreateParser() const;
-	CodecId GetId() const;
+	ParserContext *CreateParser() const;
+	//CodecId GetId() const;
 	String GetName() const;
 };

@@ -36,7 +36,7 @@ Encoder *LibAV_AudioCodec::CreateEncoder(Stream &stream) const
 	return nullptr;
 }
 
-AParser *LibAV_AudioCodec::CreateParser() const
+ParserContext *LibAV_AudioCodec::CreateParser() const
 {
 	return nullptr;
 }

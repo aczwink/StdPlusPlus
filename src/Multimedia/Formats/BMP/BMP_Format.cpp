@@ -36,7 +36,7 @@ Muxer *BMP_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
 	return new BMP_Muxer(*this, refOutput);
 }
 
-CodecId BMP_Format::GetDefaultCodec(DataType dataType) const
+/*CodecId BMP_Format::GetDefaultCodec(DataType dataType) const
 {
 	if(dataType == DataType::Video)
 		return CodecId::BGR24;
@@ -66,7 +66,7 @@ FiniteSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
 	NOT_IMPLEMENTED_ERROR;
 
 	return result;
-}
+}*/
 
 float32 BMP_Format::Matches(BufferInputStream &refBuffer) const
 {

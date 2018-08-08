@@ -20,12 +20,8 @@
 //Local
 #include <Std++/Containers/FiniteSet/FiniteSet.hpp>
 #include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Multimedia/CodecId.hpp>
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::Multimedia;
-//Local
-#include "../../FourCC.h"
 
 //Definitions
 #define WAVE_RIFFCHUNK_CHUNKID FOURCC("RIFF")
@@ -34,5 +30,5 @@ using namespace StdXX::Multimedia;
 #define WAVE_DATACHUNK_CHUNKID FOURCC("data")
 
 //Functions
-void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet);
-uint16 MapToTwoCC(CodecId codecId);
+//void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet);
+//uint16 MapToTwoCC(CodecId codecId);

@@ -17,6 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "Extension.hpp"
 
 namespace StdXX
 {
@@ -29,19 +31,10 @@ namespace StdXX
 		UI,
 	};
 
-	class Backend
+	class Backend : public _stdxx_::Extension
 	{
 	public:
-		//Destructor
-		virtual ~Backend()
-		{
-		}
-
 		//Abstract
 		virtual BackendType GetType() const = 0;
-
-		//Overrideable
-		virtual void Load() {};
-		virtual void Unload() const {};
 	};
 }

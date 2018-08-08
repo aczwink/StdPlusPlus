@@ -24,6 +24,7 @@
 #endif
 //Local
 #include <Std++/Devices/ComputeDevice.hpp>
+#include "Compute/OpenCL1DeviceContext.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -36,11 +37,16 @@ public:
 	}
 
 	//Methods
+	Compute::DeviceContext *CreateDeviceContext() const override
+	{
+		return new _stdxx_::OpenCL1DeviceContext(this->deviceId);
+	}
+
 	String GetName() const
 	{
 		char buffer[4096];
 		cl_int result = clGetDeviceInfo(this->deviceId, CL_DEVICE_NAME, sizeof(buffer), buffer, nullptr);
-		ASSERT(result == CL_SUCCESS, "If you see this, report to Std++");
+		ASSERT(result == CL_SUCCESS, u8"If you see this, report to Std++");
 
 		return String::CopyRawString(buffer);
 	}

@@ -19,6 +19,7 @@
 //Local
 #include <Std++/Multimedia/Muxer.hpp>
 #include <Std++/Multimedia/AudioStream.hpp>
+#include <Std++/Streams/Writers/TextWriter.hpp>
 #include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;
@@ -90,10 +91,11 @@ private:
 		return pts / this->timeScale * this->GetStream(streamIndex)->timeScale;
 	}
 
-	inline void WriteASCIIElement(EMatroskaId id, const ByteString &refString)
+	inline void WriteASCIIElement(EMatroskaId id, const String &string)
 	{
 		this->BeginElement(id);
-		this->outputStream.WriteBytes(refString.GetC_Str(), refString.GetLength());
+		TextWriter writer(this->outputStream, TextCodecType::ASCII);
+		writer.WriteString(string);
 		this->EndElement();
 	}
 

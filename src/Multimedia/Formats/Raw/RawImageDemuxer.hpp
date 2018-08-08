@@ -25,7 +25,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodecId id);
+		//RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodecId id);
 
 		//Methods
 		void ReadHeader() override;
@@ -33,6 +33,6 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::Multimedia::CodecId codecId;
+		//StdXX::Multimedia::CodecId codecId;
 	};
 }

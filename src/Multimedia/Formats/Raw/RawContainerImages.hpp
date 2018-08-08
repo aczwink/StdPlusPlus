@@ -26,6 +26,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
+		/*
 		PNG_Format()
 		{
 			this->codecId = CodecId::PNG;
@@ -42,7 +43,7 @@ namespace _stdxx_
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 
 			return FiniteSet<CodecId>();
-		}
+		}*/
 
 		float32 Matches(BufferInputStream &buffer) const override
 		{

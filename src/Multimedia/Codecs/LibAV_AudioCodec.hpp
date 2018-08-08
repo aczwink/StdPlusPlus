@@ -28,5 +28,5 @@ public:
 	//Methods
 	Decoder *CreateDecoder(Stream &stream) const;
 	Encoder *CreateEncoder(Stream &stream) const;
-	AParser *CreateParser() const;
+	ParserContext *CreateParser() const;
 };

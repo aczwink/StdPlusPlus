@@ -20,10 +20,11 @@
 //Local
 #include "../Definitions.h"
 #include "../Math/Fraction.hpp"
-#include "AParser.h"
+#include "ParserContext.hpp"
 #include "EnumTypes.hpp"
 #include "Codec.hpp"
-#include "Decoder.hpp"
+#include "CodingFormat.hpp"
+#include "DecoderContext.hpp"
 #include "Encoder.hpp"
 
 namespace StdXX
@@ -32,16 +33,6 @@ namespace StdXX
     {
         class STDPLUSPLUS_API Stream
         {
-        private:
-            //Members
-            const Codec *pCodec;
-            Decoder *pDecoder;
-            Encoder *pEncoder;
-            AParser *pParser;
-
-            //Abstract
-            virtual bool AllDecoderInfoIsAvailable() = 0;
-
         public:
             //Members
             Fraction timeScale;
@@ -61,30 +52,50 @@ namespace StdXX
 
             //Methods
             bool AllInfoIsAvailable();
-            Decoder *GetDecoder();
             Encoder *GetEncoder();
-            AParser *GetParser();
 
             //Inline
-            inline const Codec *GetCodec() const
+            inline const CodingFormat *GetCodingFormat() const
             {
-                return this->pCodec;
+                return this->codingFormat;
             }
 
-            inline void SetCodec(CodecId codecId)
+			inline DecoderContext *GetDecoderContext()
+			{
+				return this->decoderContext;
+			}
+
+			inline ParserContext *GetParserContext()
+			{
+				return this->parserContext;
+			}
+
+            inline void SetCodingFormat(CodingFormatId codingFormatId)
             {
-                this->pCodec = Codec::GetCodec(codecId);
+				this->codingFormat = CodingFormat::GetCodingFormatById(codingFormatId);
             }
 
-            inline void SetCodec(const Codec *pCodec)
+			inline void SetDecoderContext(DecoderContext *decoderContext)
+			{
+				delete this->decoderContext;
+				this->decoderContext = decoderContext;
+			}
+
+            inline void SetParserContext(ParserContext *parserContext)
             {
-                this->pCodec = pCodec;
+                this->parserContext = parserContext;
             }
 
-            inline void SetParser(AParser *pParser)
-            {
-                this->pParser = pParser;
-            }
+		private:
+			//Members
+			const CodingFormat *codingFormat;
+			const Codec *pCodec;
+			DecoderContext *decoderContext;
+			Encoder *pEncoder;
+			ParserContext *parserContext;
+
+			//Abstract
+			virtual bool AllDecoderInfoIsAvailable() = 0;
         };
     }
 }

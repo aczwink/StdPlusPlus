@@ -47,68 +47,7 @@ static void CopyImportantInfo(const AVFrame &src, Frame &dest)
 
 static void Decode(CodecState &state, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames)
 {
-	int ret = avcodec_send_packet(state.codecContext, state.pkt);
-	if(ret < 0)
-		return; //an error occured... skip packet
-
-	while(ret >= 0)
-	{
-		ret = avcodec_receive_frame(state.codecContext, state.frame);
-		if(ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-			return;
-		else if(ret < 0)
-			return; //an error occured. skip packet
-
-		//ready frame
-		switch(state.codec->type)
-		{
-			case AVMEDIA_TYPE_AUDIO:
-			{
-				switch(state.frame->format)
-				{
-					case AV_SAMPLE_FMT_S16P:
-					{
-						AudioBuffer<int16> *buffer = new AudioBuffer<int16>(MapChannels(state.frame->channels), (uint32) state.frame->nb_samples);
-						for(uint32 i = 0; i < state.frame->channels; i++)
-						{
-							MemCopy(buffer->GetChannel((Channel)i), state.frame->data[i], state.frame->nb_samples * sizeof(int16));
-						}
-						Frame *frame = new AudioFrame(buffer);
-						CopyImportantInfo(*state.frame, *frame);
-						frames.Push(frame);
-					}
-						break;
-					default:
-						NOT_IMPLEMENTED_ERROR;
-				}
-			}
-			break;
-			case AVMEDIA_TYPE_VIDEO:
-			{
-				switch(state.frame->format)
-				{
-					case AV_PIX_FMT_YUV420P:
-					{
-						YCbCr420Image *image = new YCbCr420Image(state.frame->width, state.frame->height, false);
-						for(uint32 i = 0; i < state.frame->height; i++)
-							MemCopy(&image->GetLumaChannel()[i * state.frame->width], &state.frame->data[0][i * state.frame->linesize[0]], state.frame->width);
-						for(uint32 i = 0; i < state.frame->height / 2; i++)
-						{
-							MemCopy(&image->GetChromaRedChannel()[i * state.frame->width / 2], &state.frame->data[1][i * state.frame->linesize[1]], state.frame->width / 2);
-							MemCopy(&image->GetChromaBlueChannel()[i * state.frame->width / 2], &state.frame->data[2][i * state.frame->linesize[2]], state.frame->width / 2);
-						}
-						Frame *frame = new VideoFrame(image);
-						CopyImportantInfo(*state.frame, *frame);
-						frames.Push(frame);
-					}
-					break;
-					default:
-						NOT_IMPLEMENTED_ERROR;
-				}
-			}
-			break;
-		}
-	}
+	
 }
 
 //Functions
@@ -134,45 +73,15 @@ void DecodePacket(CodecState &state, const StdXX::Multimedia::Packet &packet, St
 				Decode(state, frames);
 		}
 	}
-	else
-	{
-		state.pkt->data = (uint8_t *)data;
-		state.pkt->size = leftSize;
-		Decode(state, frames);
-	}
 }
 
 void FreeCodecState(CodecState &state)
 {
 	av_parser_close(state.parser);
-	avcodec_free_context(&state.codecContext);
-	av_frame_free(&state.frame);
-	av_packet_free(&state.pkt);
 }
 
 void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Stream &stream)
 {
-	state.pkt = av_packet_alloc();
-	state.codec = avcodec_find_decoder(MapCodecId(codecId));
 	state.parser = av_parser_init(state.codec->id);
-	state.codecContext = avcodec_alloc_context3(state.codec);
-	state.frame = av_frame_alloc();
-
-	switch(stream.GetType())
-	{
-		case DataType::Video:
-		{
-			VideoStream &videoStream = (VideoStream &) stream;
-
-			//some codecs don't have this info in its encoded data
-			if(videoStream.width)
-				state.codecContext->width = videoStream.width;
-			if(videoStream.height)
-				state.codecContext->height = videoStream.height;
-		}
-		break;
-	}
-
-	int ret = avcodec_open2(state.codecContext, state.codec, nullptr);
 }
 #endif

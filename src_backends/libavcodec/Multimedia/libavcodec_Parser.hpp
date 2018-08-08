@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,36 +16,31 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/Multimedia/AParser.h>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::Multimedia;
-
-//Destructor
-AParser::~AParser()
+//Global
+extern "C"
 {
-	NOT_IMPLEMENTED_ERROR;
+#include <libavcodec/avcodec.h>
 }
+//Local
+#include <Std++/Multimedia/Parser.hpp>
 
-//Public methods
-void AParser::Reset()
+namespace _stdxx_
 {
-	NOT_IMPLEMENTED_ERROR;
-}
+	class libavcodec_Parser : public StdXX::Multimedia::Parser
+	{
+	public:
+		//Constructor
+		inline libavcodec_Parser(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId) :
+			codingFormatId(codingFormatId)
+		{
+		}
 
-//Protected methods
-void AParser::AddToFrameBuffer(const Packet &refPacket)
-{
-	NOT_IMPLEMENTED_ERROR;
-}
+		//Methods
+		StdXX::Multimedia::ParserContext * CreateContext() const override;
+		StdXX::FixedArray<StdXX::Multimedia::CodingFormatId> GetCodingFormatIds() const override;
 
-void AParser::AddToFrameBuffer(const void *pData, uint32 size)
-{
-	NOT_IMPLEMENTED_ERROR;
-}
-
-void AParser::ReadyFrameBuffer(uint32 nOverreadBytes)
-{
-	NOT_IMPLEMENTED_ERROR;
+	private:
+		//Members
+		StdXX::Multimedia::CodingFormatId codingFormatId;
+	};
 }

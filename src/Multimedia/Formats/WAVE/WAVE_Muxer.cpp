@@ -27,7 +27,7 @@
 WAVE_Muxer::WAVE_Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 {
 }
-
+/*
 //Private methods
 uint16 WAVE_Muxer::GetBitsPerSample(CodecId codecId) const
 {
@@ -41,7 +41,7 @@ uint16 WAVE_Muxer::GetBitsPerSample(CodecId codecId) const
 
 	NOT_IMPLEMENTED_ERROR;
 	return 0;
-}
+}*/
 
 //Public methods
 void WAVE_Muxer::Finalize()
@@ -57,6 +57,8 @@ void WAVE_Muxer::Finalize()
 
 void WAVE_Muxer::WriteHeader()
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: next
+	/*
 	uint16 bitsPerSample, blockAlign;
 
 	AudioStream *stream = (AudioStream *)this->GetStream(0);
@@ -85,6 +87,7 @@ void WAVE_Muxer::WriteHeader()
 	writer.WriteUInt32(WAVE_DATACHUNK_CHUNKID);
 	this->dataChunkSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
 	writer.WriteUInt32(0); //chunk size
+	*/
 }
 
 void WAVE_Muxer::WritePacket(const Packet &packet)

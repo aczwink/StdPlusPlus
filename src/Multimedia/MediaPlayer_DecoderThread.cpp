@@ -24,7 +24,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId encodingCodec)
+/*DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId encodingCodec)
 {
 	this->player = player;
 	this->shutdown = false;
@@ -34,7 +34,7 @@ DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId enc
 	this->streamIndex = Natural<uint32>::Max();
 	NOT_IMPLEMENTED_ERROR; //TODO: next line
 	//this->encoder = Codec::GetCodec(encodingCodec)->CreateEncoder();
-}
+}*/
 
 //Destructor
 DecoderThread::~DecoderThread()
@@ -85,7 +85,7 @@ int32 DecoderThread::ThreadMain()
 			continue;
 
 		//check if we can work
-		if(!this->decoder)
+		if(!this->decoderContext)
 		{
 			this->Stop();
 			continue;
@@ -94,9 +94,9 @@ int32 DecoderThread::ThreadMain()
 		//lets work
 		this->working = true;
 
-		if(this->decoder->IsFrameReady())
+		if(this->decoderContext->IsFrameReady())
 		{
-			Frame *frame = this->decoder->GetNextFrame();
+			Frame *frame = this->decoderContext->GetNextFrame();
 
 			//encode as the desired playback format
 			this->encoder->Encode(*frame);
@@ -115,7 +115,7 @@ int32 DecoderThread::ThreadMain()
 		Packet *packet = this->GetNextInputPacket();
 		if(packet)
 		{
-			this->decoder->Decode(*packet);
+			this->decoderContext->Decode(*packet);
 			delete packet;
 		}
 	}
@@ -137,7 +137,7 @@ bool DecoderThread::WaitForWork()
 		if(this->work)
 		{
 			if(this->streamIndex != Natural<uint32>::Max())
-				this->decoder = this->player->GetDemuxer()->GetStream(this->streamIndex)->GetDecoder();
+				this->decoderContext = this->player->GetDemuxer()->GetStream(this->streamIndex)->GetDecoderContext();
 		}
 
 		return true;

@@ -20,6 +20,7 @@
 #include <Std++/Multimedia/ClusterIndex.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Format.hpp>
+#include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -49,7 +50,7 @@ struct STrackInfo
 {
 	uint64 number;
 	uint8 type;
-	CodecId codecId;
+	CodingFormatId codingFormatId;
 
 	struct
 	{
@@ -70,8 +71,17 @@ struct STrackInfo
 
 class MatroskaDemuxer : public Demuxer
 {
+public:
+	//Constructor
+	MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput);
+
+	//Methods
+	void ReadHeader();
+	bool ReadPacket(Packet &packet);
+
 private:
 	//Members
+	_stdxx_::CodingFormatIdMap<String> codecIdMap;
 	ClusterIndex clusters;
 	Map<uint64, uint32> trackToStreamMap;
 	struct
@@ -92,8 +102,7 @@ private:
 	uint64 DecodeVariableLengthInteger(uint8 &refLength);
 	void EndParseChilds(uint64 id);
 	bool GetElementInfo(uint64 id, SElemInfo &refElemInfo);
-	CodecId MapCodecId(const ByteString &refString);
-	void ParseASCIIString(uint64 id, const ByteString &refString);
+	void ParseASCIIString(uint64 id, const String &string);
 	void ParseBinary(uint64 id, uint64 size);
 	uint64 ParseElement();
 	void ParseFloat(uint64 id, float64 value);
@@ -102,14 +111,6 @@ private:
 	//Inline
 	inline uint64 PutLength(uint64 uncoded, uint8 length)
 	{
-		return uncoded | (1ULL << uint64((length-1) * 8 + (8 - length)));
+		return uncoded | (1ULL << uint64((length - 1) * 8 + (8 - length)));
 	}
-
-public:
-	//Constructor
-	MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput);
-
-	//Methods
-	void ReadHeader();
-	bool ReadPacket(Packet &packet);
 };

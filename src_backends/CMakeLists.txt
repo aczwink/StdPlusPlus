@@ -14,5 +14,6 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/RegisterBackends.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RegisterExtensions.cpp
 
 	PARENT_SCOPE)

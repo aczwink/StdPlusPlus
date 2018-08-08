@@ -4,4 +4,11 @@ set(SOURCE_FILES
 	#Pixmaps/RGB
 	${CMAKE_CURRENT_SOURCE_DIR}/Pixmaps/RGB/R8G8B8InterleavedPixmap.hpp
 
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatId.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DecoderContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Parser.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ParserContext.hpp
+
 	PARENT_SCOPE)

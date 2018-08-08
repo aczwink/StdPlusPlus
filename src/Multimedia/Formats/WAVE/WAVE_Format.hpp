@@ -27,10 +27,10 @@ public:
 	//Methods
 	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
 	Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const;
-	CodecId GetDefaultCodec(DataType dataType) const;
+	//CodecId GetDefaultCodec(DataType dataType) const;
 	String GetExtension() const;
 	void GetFormatInfo(FormatInfo &refFormatInfo) const;
 	String GetName() const;
-	FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const;
+	//FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const;
 	float32 Matches(BufferInputStream &inputStream) const;
 };

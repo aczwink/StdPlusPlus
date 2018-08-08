@@ -17,33 +17,23 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compute/Kernel.hpp>
-//Global
-#ifdef XPC_OS_DARWIN
-#include <OpenCL/cl.h>
-#else
-#include <CL/cl.h>
-#endif
+#include "OpenCL1Kernel.hpp"
+//Local
+#include "OpenCL1Buffer.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Compute;
-//Definitions
-#define THIS ((cl_kernel)this->internal)
-
-//Constructor
-Kernel::Kernel(void *internal)
-{
-	this->internal = internal;
-}
 
 //Destructor
-Kernel::~Kernel()
+OpenCL1Kernel::~OpenCL1Kernel()
 {
-	clReleaseKernel(THIS);
+	clReleaseKernel(this->kernel);
 }
 
 //Public methods
-void Kernel::SetArg(uint8 argIndex, const Buffer &buffer)
+void OpenCL1Kernel::SetArg(uint8 argIndex, Buffer &buffer)
 {
-	clSetKernelArg(THIS, argIndex, sizeof(cl_mem), &buffer.internal);
+	OpenCL1Buffer &cl1Buffer = dynamic_cast<OpenCL1Buffer &>(buffer);
+	clSetKernelArg(this->kernel, argIndex, sizeof(cl_mem), &cl1Buffer.GetCLObject());
 }

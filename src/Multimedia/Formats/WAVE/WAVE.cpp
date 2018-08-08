@@ -19,7 +19,7 @@
 //Main header
 #include "WAVE.h"
 //Namespaces
-
+/*
 //Global variables
 Map<uint16, CodecId> g_ms_audio_twoCC_map;
 
@@ -58,3 +58,4 @@ uint16 MapToTwoCC(CodecId codecId)
 	NOT_IMPLEMENTED_ERROR;
 	return -1;
 }
+*/

@@ -23,7 +23,7 @@ extern "C"
 }
 //Local
 #include <Std++/Multimedia/Encoder.hpp>
-#include <Std++/Multimedia/CodecId.hpp>
+#include <Std++/Multimedia/CodingFormatId.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 
 namespace _stdxx_
@@ -32,7 +32,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_Encoder(StdXX::Multimedia::Stream &stream, StdXX::Multimedia::CodecId codecId);
+		libavcodec_Encoder(StdXX::Multimedia::Stream &stream, StdXX::Multimedia::CodingFormatId codecId);
 
 		//Destructor
 		~libavcodec_Encoder();

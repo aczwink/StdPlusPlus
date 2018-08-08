@@ -24,7 +24,7 @@
 #include <CL/cl.h>
 #endif
 //Local
-#include <Std++/_Backends/ComputeDevice.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include "OpenCLDeviceEnumeratorState.hpp"
 

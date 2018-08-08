@@ -16,39 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Local
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX
+class MS_MPEG4_Part2_V2_CodingFormat : public CodingFormat
 {
-    namespace Multimedia
-    {
-        enum class CodecId
-        {
-            Unknown,
+public:
+	//Methods
+	CodingFormatId GetId() const override
+	{
+		return CodingFormatId::MS_MPEG4Part2V2;
+	}
 
-            //Audio
-            AAC,
-            AC3,
-            MP2,
-            MP3,
-            PCM_S16LE,
-            PCM_Float32LE,
-
-            //Video
-            BGR24,
-            BGRA32,
-            H264,
-            JPEG,
-            MPEG1Video,
-            MPEG2Video,
-            MS_MPEG4Part2V2,
-            PNG,
-            RGB24,
-            S3TC_DXT1,
-            S3TC_DXT5,
-
-            //Subtitle
-            DVD_Subtitle,
-        };
-    }
-}
+	String GetName() const override
+	{
+		return u8"Microsoft MPEG-4 Part2 V2";
+	}
+};

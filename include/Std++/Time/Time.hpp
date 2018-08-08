@@ -28,7 +28,6 @@ namespace StdXX
 	*/
 	class STDPLUSPLUS_API Time
 	{
-		friend class DateTime;
 	public:
 		//Constructors
 		inline Time() : millisecs(0)
@@ -55,6 +54,19 @@ namespace StdXX
 		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
 
 		//Inline
+		inline Time AddSecs(int32 s) const
+		{
+			return this->AddMSecs(s * 1000);
+		}
+
+		inline Time AddMSecs(int32 ms) const
+		{
+			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
+			Time t;
+			t.millisecs = (this->millisecs + ms) % msecsPerDay;
+			return t;
+		}
+
 		inline uint8 GetHour() const
 		{
 			return this->millisecs / 1000 / 60 / 60;
@@ -63,6 +75,11 @@ namespace StdXX
 		inline uint16 GetMilliSecond() const
 		{
 			return this->millisecs % 1000;
+		}
+
+		inline uint32 GetMilliSecondsSinceStartOfDay() const
+		{
+			return this->millisecs;
 		}
 
 		inline uint8 GetMinute() const

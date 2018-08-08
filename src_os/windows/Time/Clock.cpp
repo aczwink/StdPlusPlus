@@ -37,13 +37,29 @@ Clock::Clock()
 //Public methods
 uint64 Clock::GetElapsedNanoseconds() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	LARGE_INTEGER current;
+	QueryPerformanceCounter(&current);
+
+	uint64 s = static_cast<uint64>(current.QuadPart / frequency.QuadPart) - this->startSeconds;
+	uint64 ns = static_cast<uint64>((current.QuadPart % frequency.QuadPart) * 1000000000 / frequency.QuadPart);
+	
+	if (ns < this->startNanoSeconds)
+	{
+		s--;
+		ns += 1000000000;
+	}
+	ns -= this->startNanoSeconds;
+	
+	return s * 1000000000 + ns;
 }
 
 void Clock::Start()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	LARGE_INTEGER current;
+	QueryPerformanceCounter(&current);
+
+	this->startSeconds = static_cast<uint64>(current.QuadPart / frequency.QuadPart);
+	this->startNanoSeconds = static_cast<uint64>( (current.QuadPart % frequency.QuadPart) * 1000000000 / frequency.QuadPart);
 }
 
 uint64 Clock::GetCurrentValue() const

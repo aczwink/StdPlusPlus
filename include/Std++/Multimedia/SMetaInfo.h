@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/Map/Map.hpp"
-#include "../Containers/Strings/OldString.hpp"
+#include "../Containers/Strings/String.hpp"
 #include "../Definitions.h"
 
 namespace StdXX
@@ -28,14 +28,14 @@ namespace StdXX
     {
         struct SMetaInfo
         {
-            OldString album;
-            OldString artist;
-            OldString composer;
-            OldString title;
+            String album;
+            String artist;
+            String composer;
+            String title;
             uint8 trackNumber; //1-based
             uint16 year;
 
-            Map<OldString, OldString> additionalTags;
+            Map<String, String> additionalTags;
         };
     }
 }

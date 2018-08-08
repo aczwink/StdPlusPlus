@@ -26,7 +26,7 @@ using namespace StdXX::Math;
 using namespace StdXX::Multimedia;
 
 //Constructor
-MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this, CodecId::PCM_S16LE), demuxerThread(this), videoDecodeThread(this, CodecId::RGB24)
+/*MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this, CodecId::PCM_S16LE), demuxerThread(this), videoDecodeThread(this, CodecId::RGB24)
 {
 	this->demuxer = nullptr;
 	this->audioStreamIndex = Natural<uint32>::Max();
@@ -49,7 +49,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 			this->refLogger << "No format could be found for file '" << refPath.GetString() << "'. Either the format is not supported or this is not a valid media file." << endl;
 			return;
 		}
-		*/
+		*//*
 	}
 
 	//get demuxer
@@ -114,7 +114,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	this->demuxerThread.Start();
 	this->audioDecodeThread.Start();
 	this->videoDecodeThread.Start();
-}
+}*/
 
 //Destructor
 MediaPlayer::~MediaPlayer()

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
 //Audio codecs
 #include "Codecs/MPEG/MP3/MP3_Codec.hpp"
 #include "Codecs/PCM/S16LE/PCM_S16LE_Codec.hpp"
@@ -23,17 +24,13 @@
 //Video codecs
 #include "Codecs/BGR24/BGR24_Codec.hpp"
 #include "Codecs/MPEG/H264_Codec.hpp"
-#include "Codecs/MPEG/MS_MPEG4_Part2_V2_Codec.hpp"
 #include "Codecs/RGB24/RGB24_Codec.hpp"
 #include "Codecs/Images/PNG_Codec.hpp"
 
-//Formats
+
 #include "Formats/BMP/BMP_Format.hpp"
-#include "Formats/Matroska/MatroskaVideo.hpp"
 #include "Formats/WAVE/WAVE_Format.hpp"
 #include "Formats/Raw/RawContainerImages.hpp"
-//Namespaces
-using namespace _stdxx_;
 
 void MultimediaRegisterCodecsAndFormats()
 {
@@ -45,13 +42,29 @@ void MultimediaRegisterCodecsAndFormats()
 	//Video codecs
 	Codec::Register(new BGR24_Codec);
 	Codec::Register(new H264_Codec);
-	Codec::Register(new MS_MPEG4_Part2_V2_Codec);
 	Codec::Register(new PNG_Codec);
 	Codec::Register(new RGB24_Codec);
 
 	//Formats
 	Format::Register(new BMP_Format);
-	Format::Register(new MatroskaVideo);
 	Format::Register(new PNG_Format);
 	Format::Register(new WAVE_Format);
+}
+*/
+
+//Coding formats
+#include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
+
+//Formats
+#include "Formats/Matroska/MatroskaVideo.hpp"
+//Namespaces
+//using namespace _stdxx_;
+
+void MultimediaRegisterCodecsAndFormats()
+{
+	//Coding formats
+	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
+
+	//Formats
+	Format::Register(new MatroskaVideo);
 }

@@ -103,7 +103,8 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 {
 	g_ignoreMessage = false;
 
-	Widget &widget = backend.GetWidget();
+	NOT_IMPLEMENTED_ERROR; //TODO: following lines
+	/*Widget &widget = backend.GetWidget();
 	Window &window = (Window &)widget;
 
 	switch(message)
@@ -167,6 +168,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 				return false;
 				}
 				 */
+	/*
 				return false;
 			}
 		}
@@ -188,7 +190,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 	break;
 	default:
 		return false;
-	}
+	}*/
 
 	return !g_ignoreMessage;
 }

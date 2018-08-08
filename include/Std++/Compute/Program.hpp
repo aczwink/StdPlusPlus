@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include "../Containers/Strings/ByteString.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 #include "Kernel.hpp"
 
 namespace StdXX
@@ -26,20 +27,14 @@ namespace StdXX
 	{
 		class Program
 		{
-			friend class DeviceContext;
 		public:
 			//Destructor
-			~Program();
+			virtual ~Program() {}
 
-			//Methods
-			Kernel GetKernel(const ByteString &kernelName);
-
-		private:
-			//Members
-			void *internal;
-
-			//Constructor
-			Program(void *internal);
+			//Abstract
+			virtual bool Build() = 0;
+			virtual Kernel *CreateKernel(const String &kernelName) = 0;
+			virtual String GetBuildLog() const = 0;
 		};
 	}
 }

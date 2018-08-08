@@ -45,7 +45,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codec.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/CodecId.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Decoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp

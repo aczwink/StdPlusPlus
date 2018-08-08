@@ -17,41 +17,14 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compute/Program.hpp>
-//Global
-#ifdef XPC_OS_DARWIN
-#include <OpenCL/cl.h>
-#else
-#include <CL/cl.h>
-#endif
-//Local
-#include <Std++/Containers/Strings/String.hpp>
+#include "OpenCL1Buffer.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Compute;
-//Definitions
-#define THIS ((cl_program)this->internal)
-
-//Constructor
-Program::Program(void *internal)
-{
-	this->internal = internal;
-
-	clBuildProgram(THIS, 0, nullptr, nullptr, nullptr, nullptr);
-}
 
 //Destructor
-Program::~Program()
+OpenCL1Buffer::~OpenCL1Buffer()
 {
-	clReleaseProgram(THIS);
-}
-
-//Public methods
-Kernel Program::GetKernel(const ByteString &kernelName)
-{
-	cl_kernel kernel = clCreateKernel(THIS, kernelName.GetC_Str(), nullptr);
-
-	ASSERT(kernel, u8"The kernel '" + String(kernelName.GetC_Str()) + u8"' does not exist.");
-
-	return Kernel(kernel);
+	clReleaseMemObject(this->buffer);
 }

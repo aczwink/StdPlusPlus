@@ -29,5 +29,5 @@ using namespace StdXX::Multimedia;
 #define BMP_INFOHEADER_SIZE 40
 
 //Prototypes
-void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet);
+//void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet);
 void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &refStream);

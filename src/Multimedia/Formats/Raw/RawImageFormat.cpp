@@ -27,6 +27,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Public methods
+/*
 Demuxer *RawImageFormat::CreateDemuxer(SeekableInputStream &refInput) const
 {
 	return new RawImageDemuxer(*this, refInput, this->codecId);
@@ -44,7 +45,7 @@ CodecId RawImageFormat::GetDefaultCodec(DataType dataType) const
 		return CodecId::Unknown;
 
 	return CodecId::Unknown;
-}
+}*/
 
 void RawImageFormat::GetFormatInfo(FormatInfo &refFormatInfo) const
 {

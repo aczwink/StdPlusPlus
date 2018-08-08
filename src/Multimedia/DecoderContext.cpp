@@ -17,27 +17,37 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Multimedia/Codec.hpp>
+#include <Std++/Multimedia/DecoderContext.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Global variables
-DynamicArray<const Codec *> g_codecs;
-
-//Class functions
-const Codec *Codec::GetCodec(CodecId codecId)
+//Destructor
+DecoderContext::~DecoderContext()
 {
-	for(const Codec *const& refpCodec : g_codecs)
-	{
-		if(refpCodec->GetId() == codecId)
-			return refpCodec;
-	}
-
-	return nullptr;
+	this->Reset();
 }
 
-void Codec::Register(Codec *pCodec)
+//Protected methods
+void DecoderContext::AddFrame(Frame *pFrame, uint32 frameNumber)
 {
-	g_codecs.Push(pCodec);
+	this->unorderedFrames.Insert(frameNumber, pFrame);
+
+	//Flush the ready frames
+	while(!this->unorderedFrames.IsEmpty() && this->unorderedFrames.GetFirstPriority() <= this->frameCounter)
+	{
+		this->orderedFrames.InsertTail(this->unorderedFrames.PopFirst());
+		this->frameCounter++;
+	}
+}
+
+//Public methods
+void DecoderContext::Reset()
+{
+	while(!this->unorderedFrames.IsEmpty())
+		delete this->unorderedFrames.PopFirst();
+
+	for(const Frame *const& refpFrame : this->orderedFrames)
+		delete refpFrame;
+	this->orderedFrames.Release();
 }

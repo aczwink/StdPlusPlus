@@ -26,8 +26,8 @@ using namespace StdXX::Multimedia;
 Stream::Stream()
 {
 	this->pCodec = nullptr;
-	this->pDecoder = nullptr;
-	this->pParser = nullptr;
+	this->decoderContext = nullptr;
+	this->parserContext = nullptr;
 	this->pEncoder = nullptr;
 
 	this->startTime = Natural<uint64>::Max();
@@ -39,10 +39,8 @@ Stream::Stream()
 //Destructor
 Stream::~Stream()
 {
-	if(this->pParser)
-		delete this->pParser;
-	if(this->pDecoder)
-		delete this->pDecoder;
+	delete this->parserContext;
+	delete this->decoderContext;
 	if(this->pEncoder)
 		delete this->pEncoder;
 }
@@ -53,28 +51,10 @@ bool Stream::AllInfoIsAvailable()
 	if(!this->bitRate)
 		return false;
 
-	if(!this->GetDecoder()) //we don't have a decoder
+	if(!this->decoderContext) //we don't have a decoder
 		return false;
 
 	return this->AllDecoderInfoIsAvailable();
-}
-
-Decoder *Stream::GetDecoder()
-{
-	if(this->pDecoder == NULL)
-	{
-		//we have no decoder... try to instantiate one
-		if(this->pCodec)
-		{
-			//we have a codec... create instance
-			this->pDecoder = this->pCodec->CreateDecoder(*this);
-			return this->pDecoder;
-		}
-
-		return NULL;
-	}
-
-	return this->pDecoder;
 }
 
 Encoder *Stream::GetEncoder()
@@ -93,16 +73,4 @@ Encoder *Stream::GetEncoder()
 	}
 
 	return this->pEncoder;
-}
-
-AParser *Stream::GetParser()
-{
-	if(this->pParser == nullptr)
-	{
-		//try to instantiate
-		if(this->pCodec)
-			this->pParser = this->pCodec->CreateParser();
-	}
-
-	return this->pParser;
 }

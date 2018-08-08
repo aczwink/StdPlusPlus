@@ -57,7 +57,7 @@ void MatroskaDemuxer::AddStream()
 	}
 
 	pStream->timeScale = this->timeScale;
-	pStream->SetCodec(this->parserState.currentTrack.codecId);
+	pStream->SetCodingFormat(this->parserState.currentTrack.codingFormatId);
 
 	index = Demuxer::AddStream(pStream);
 	this->trackToStreamMap[this->parserState.currentTrack.number] = index;
@@ -72,18 +72,19 @@ void MatroskaDemuxer::AddStream()
 			refpAudioStream->nChannels = this->parserState.currentTrack.audio.nChannels;
 			refpAudioStream->sampleRate = (uint32)this->parserState.currentTrack.audio.samplingFrequency;
 
+			/*
 			//check for PCM
-			if(this->parserState.currentTrack.codecId == CodecId::Unknown && this->parserState.currentTrack.codecPrivate.isFloatPCM)
+			if(this->parserState.currentTrack.codingFormatId == CodingFormatId::Unknown && this->parserState.currentTrack.codecPrivate.isFloatPCM)
 			{
 				switch(this->parserState.currentTrack.audio.bitDepth)
 				{
 					case 32:
-						pStream->SetCodec(CodecId::PCM_Float32LE);
+						pStream->SetCodingFormat(CodingFormatId::PCM_Float32LE);
 						break;
 					default:
 						NOT_IMPLEMENTED_ERROR;
 				}
-			}
+			}*/
 		}
 			break;
 		case TRACK_TYPE_VIDEO:
@@ -91,7 +92,7 @@ void MatroskaDemuxer::AddStream()
 			VideoStream *const& refpVideoStream = (VideoStream *)pStream;
 
 			//check for microsoft BMP header
-			if(this->parserState.currentTrack.codecId == CodecId::Unknown && this->parserState.currentTrack.codecPrivate.isMS_BMPHeader)
+			if(this->parserState.currentTrack.codingFormatId == CodingFormatId::Unknown && this->parserState.currentTrack.codecPrivate.isMS_BMPHeader)
 			{
 				bool isBottomUp;
 				uint64 currentOffset;
@@ -117,7 +118,7 @@ void MatroskaDemuxer::BeginParseChilds(uint64 id)
 		case MATROSKA_ID_TRACKENTRY:
 		{
 			this->parserState.currentTrack.type = Natural<uint8>::Max();
-			this->parserState.currentTrack.codecId = CodecId::Unknown;
+			this->parserState.currentTrack.codingFormatId = CodingFormatId::Unknown;
 			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = false;
 			this->parserState.currentTrack.codecPrivate.isFloatPCM = false;
 			this->parserState.currentTrack.codecPrivate.isIntegerPCM = false;
@@ -182,75 +183,54 @@ void MatroskaDemuxer::EndParseChilds(uint64 id)
 
 bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 {
-	switch(id)
+	switch (id)
 	{
-		case MATROSKA_ID_CODECID:
-			refElemInfo.type = EMatroskaType::ASCII_String;
-			return true;
-		case MATROSKA_ID_BLOCK:
-		case MATROSKA_ID_CODECPRIVATE:
-		case MATROSKA_ID_SIMPLEBLOCK:
-			refElemInfo.type = EMatroskaType::Binary;
-			return true;
-		case MATROSKA_ID_DURATION:
-		case MATROSKA_ID_SAMPLINGFREQUENCY:
-			refElemInfo.type = EMatroskaType::Float;
-			return true;
-		case MATROSKA_ID_AUDIO:
-		case MATROSKA_ID_CLUSTER:
-		case MATROSKA_ID_INFO:
-		case MATROSKA_ID_SEGMENT:
-		case MATROSKA_ID_TRACKS:
-		case MATROSKA_ID_TRACKENTRY:
-			refElemInfo.type = EMatroskaType::Master;
-			return true;
-		case MATROSKA_ID_BITDEPTH:
-		case MATROSKA_ID_CHANNELS:
-		case MATROSKA_ID_TIMECODE:
-		case MATROSKA_ID_TIMECODESCALE:
-		case MATROSKA_ID_TRACKNUMBER:
-		case MATROSKA_ID_TRACKTYPE:
-			refElemInfo.type = EMatroskaType::UInt;
-			return true;
+	case MATROSKA_ID_CODECID:
+		refElemInfo.type = EMatroskaType::ASCII_String;
+		return true;
+	case MATROSKA_ID_BLOCK:
+	case MATROSKA_ID_CODECPRIVATE:
+	case MATROSKA_ID_SIMPLEBLOCK:
+		refElemInfo.type = EMatroskaType::Binary;
+		return true;
+	case MATROSKA_ID_DURATION:
+	case MATROSKA_ID_SAMPLINGFREQUENCY:
+		refElemInfo.type = EMatroskaType::Float;
+		return true;
+	case MATROSKA_ID_AUDIO:
+	case MATROSKA_ID_CLUSTER:
+	case MATROSKA_ID_INFO:
+	case MATROSKA_ID_SEGMENT:
+	case MATROSKA_ID_TRACKS:
+	case MATROSKA_ID_TRACKENTRY:
+		refElemInfo.type = EMatroskaType::Master;
+		return true;
+	case MATROSKA_ID_BITDEPTH:
+	case MATROSKA_ID_CHANNELS:
+	case MATROSKA_ID_TIMECODE:
+	case MATROSKA_ID_TIMECODESCALE:
+	case MATROSKA_ID_TRACKNUMBER:
+	case MATROSKA_ID_TRACKTYPE:
+		refElemInfo.type = EMatroskaType::UInt;
+		return true;
 	}
 
 	return false;
 }
 
-CodecId MatroskaDemuxer::MapCodecId(const ByteString &refString)
-{
-	//audio codecs
-	if(refString == CODEC_PCM_FLOAT_LE)
-	{
-		this->parserState.currentTrack.codecPrivate.isFloatPCM = true;
-		return CodecId::Unknown;
-	}
-
-	if(refString == CODEC_PCM_INTEGER_LE)
-	{
-		this->parserState.currentTrack.codecPrivate.isIntegerPCM = true;
-		return CodecId::Unknown;
-	}
-
-	//video codecs
-	if(refString == CODEC_MS_FOURCC)
-	{
-		this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = true;
-		return CodecId::Unknown;
-	}
-
-	return MapCodecString(refString);
-}
-
-void MatroskaDemuxer::ParseASCIIString(uint64 id, const ByteString &refString)
+void MatroskaDemuxer::ParseASCIIString(uint64 id, const String &string)
 {
 	switch(id)
 	{
-		case MATROSKA_ID_CODECID:
-		{
-			this->parserState.currentTrack.codecId = this->MapCodecId(refString);
-		}
-			break;
+	case MATROSKA_ID_CODECID:
+	{
+		this->parserState.currentTrack.codingFormatId = this->codecIdMap.GetId(string);
+
+		//special cases
+		if (string == CODEC_MS_FOURCC)
+			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = true;
+	}
+	break;
 	}
 }
 
@@ -308,13 +288,9 @@ uint64 MatroskaDemuxer::ParseElement()
 		{
 			case EMatroskaType::ASCII_String:
 			{
-				ByteString str;
-
 				TextReader reader(this->inputStream, TextCodecType::ASCII);
-
-				NOT_IMPLEMENTED_ERROR; //TODO: needs new string class
-				//str = reader.ReadString(size);
-				this->ParseASCIIString(id, str);
+				
+				this->ParseASCIIString(id, reader.ReadString(size)); //size=length here because for ascii each char is 1 byte
 			}
 				break;
 			case EMatroskaType::Binary:

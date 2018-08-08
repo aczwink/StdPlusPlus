@@ -19,7 +19,7 @@
 //Local
 #include "main.hpp"
 #include <Std++.hpp>
-#ifdef _STDPP_OS_WINDOWS
+#ifdef XPC_OS_WINDOWS
 #include <Windows.h>
 #endif
 
@@ -32,10 +32,10 @@ STDPLUSPLUS_API void StartUserMemoryLogging();
 static void ReportError(const String &message1, const String &message2)
 {
 	stdErr << message1 << message2 << endl;
-#ifdef _STDPP_OS_WINDOWS
+#ifdef XPC_OS_WINDOWS
 	MessageBoxW(NULL, (LPCWSTR)message2.ToUTF16().GetRawZeroTerminatedData(), (LPCWSTR)message1.ToUTF16().GetRawZeroTerminatedData(), MB_ICONERROR | MB_TASKMODAL);
 #endif
-#ifdef _STDPP_COMPILER_MSVC
+#ifdef XPC_COMPILER_MSVC
 	OutputDebugStringW((LPCWSTR)(message1 + message2).ToUTF16().GetRawZeroTerminatedData());
 #endif
 }

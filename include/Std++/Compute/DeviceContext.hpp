@@ -18,8 +18,9 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/ByteString.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 #include "Buffer.hpp"
+#include "CommandQueue.hpp"
 #include "Program.hpp"
 
 namespace StdXX
@@ -28,21 +29,14 @@ namespace StdXX
 	{
 		class DeviceContext
 		{
-			friend class CommandQueue;
 		public:
-			//Constructor
-			//DeviceContext(const Device &device);
-
 			//Destructor
-			~DeviceContext();
+			virtual ~DeviceContext() {}
 
-			//Methods
-			Buffer CreateBuffer(uint32 size, bool read = true, bool write = true);
-			Program CreateProgram(const ByteString &source);
-
-		private:
-			//Members
-			void *internal;
+			//Abstract
+			virtual Buffer *CreateBuffer(uint32 size, bool read = true, bool write = true) = 0;
+			virtual CommandQueue *CreateCommandQueue() = 0;
+			virtual Program *CreateProgram(const String &source) = 0;
 		};
 	}
 }

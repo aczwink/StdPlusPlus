@@ -18,8 +18,12 @@
 */
 //Class header
 #include <Std++/Filesystem/FileSystem.hpp>
+//Global
+#include <Windows.h>
 //Namespaces
 using namespace StdXX;
+//Definitions
+#undef CreateFile
 
 //Class functions
 FileSystem &FileSystem::GetOSFileSystem()
@@ -40,8 +44,7 @@ FileSystem &FileSystem::GetOSFileSystem()
 
 		bool Exists(const Path &path) const
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return false;
+			return GetFileAttributesW((LPCWSTR)path.GetString().ToUTF16().GetRawZeroTerminatedData()) != INVALID_FILE_ATTRIBUTES;
 		}
 
 		void Flush()
@@ -65,6 +68,14 @@ FileSystem &FileSystem::GetOSFileSystem()
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			return 0;
+		}
+
+		bool IsDirectory(const Path &path) const override
+		{
+			DWORD result = GetFileAttributesW((LPCWSTR)path.GetString().ToUTF16().GetRawZeroTerminatedData());
+			ASSERT(result != INVALID_FILE_ATTRIBUTES, u8"TODO: throw exception that path doesn't exist");
+
+			return (result & FILE_ATTRIBUTE_DIRECTORY) != 0;
 		}
 
 		void Move(const Path &from, const Path &to)

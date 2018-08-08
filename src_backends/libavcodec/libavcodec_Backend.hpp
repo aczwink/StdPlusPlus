@@ -16,24 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef _STDXX_EXTENSION_LIBAVCODEC
 //Global
 extern "C"
 {
 #include <libavcodec/avcodec.h>
 }
 //Local
-#include <Std++/_Backends/MultimediaBackend.hpp>
-#include <Std++/Multimedia/CodecId.hpp>
+#include <Std++/_Backends/Extension.hpp>
+#include <Std++/Multimedia/CodingFormatId.hpp>
 
-namespace StdXX
+namespace _stdxx_
 {
-	class libavcodec_Backend : public MultimediaBackend
+	class libavcodec_Backend : public Extension
 	{
 	public:
 		//Methods
 		void Load() override;
-		void Unload() const override;
 	};
-
-	AVCodecID MapCodecId(StdXX::Multimedia::CodecId codecId);
 }
+#endif

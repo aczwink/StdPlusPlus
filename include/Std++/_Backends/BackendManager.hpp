@@ -82,6 +82,9 @@ namespace StdXX
 
 		inline void ReleaseAll()
 		{
+			if (this->activeBackend != nullptr)
+				this->activeBackend->Unload();
+
 			while(!this->backends.IsEmpty())
 				delete this->backends.PopFirst();
 			this->backends.Release();

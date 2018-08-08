@@ -56,11 +56,10 @@ namespace StdXX
 		inline DateTime AddMilliSeconds(int64 milliSeconds) const
 		{
 			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
-			Time time;
-			time.millisecs = (this->time.millisecs + milliSeconds) % msecsPerDay;
-			int64 deltaDays = (milliSeconds - time.millisecs) / msecsPerDay;
+			int32 ms = (this->time.GetMilliSecondsSinceStartOfDay() + milliSeconds) % msecsPerDay;
+			int64 deltaDays = (milliSeconds - ms) / msecsPerDay;
 
-			return DateTime(this->date.AddDays(deltaDays), time);
+			return DateTime(this->date.AddDays(deltaDays), this->time.AddMSecs(ms));
 		}
 
 		inline DateTime AddMinutes(int64 minutes) const

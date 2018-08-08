@@ -27,7 +27,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-RawImageDemuxer::RawImageDemuxer(const Format &format, SeekableInputStream &inputStream, CodecId id) : Demuxer(format, inputStream)
+/*RawImageDemuxer::RawImageDemuxer(const Format &format, SeekableInputStream &inputStream, CodecId id) : Demuxer(format, inputStream)
 {
 	this->codecId = codecId;
 }
@@ -39,7 +39,7 @@ void RawImageDemuxer::ReadHeader()
 	stream->SetCodec(Codec::GetCodec(this->codecId));
 
 	this->AddStream(stream);
-}
+}*/
 
 bool RawImageDemuxer::ReadPacket(Packet &packet)
 {

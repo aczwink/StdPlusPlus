@@ -17,56 +17,55 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compute/DeviceContext.hpp>
-//Global
-#ifdef XPC_OS_DARWIN
-#include <OpenCL/cl.h>
-#else
-#include <CL/cl.h>
-#endif
+#include "OpenCL1DeviceContext.hpp"
+//Local
+#include "OpenCL1Buffer.hpp"
+#include "OpenCL1CommandQueue.hpp"
+#include "OpenCL1Program.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Compute;
-//Definitions
-#define THIS ((cl_context)this->internal)
-
-//Constructor
-/*
-DeviceContext::DeviceContext(const Device &device)
-{
-	this->internal = clCreateContext(nullptr, 1, reinterpret_cast<cl_device_id const *>(&device.deviceId.ptr), nullptr, nullptr, nullptr);
-}
- */
 
 //Destructor
-DeviceContext::~DeviceContext()
+OpenCL1DeviceContext::~OpenCL1DeviceContext()
 {
-	clReleaseContext(THIS);
+	clReleaseContext(this->context);
 }
 
 //Public methods
-Buffer DeviceContext::CreateBuffer(uint32 size, bool read, bool write)
+Buffer *OpenCL1DeviceContext::CreateBuffer(uint32 size, bool read, bool write)
 {
 	cl_mem_flags memFlag;
 
 	ASSERT(read || write, u8"A buffer must be either readable or writeable (or both).");
-	if(read && write)
+	if (read && write)
 		memFlag = CL_MEM_READ_WRITE;
-	else if(read)
+	else if (read)
 		memFlag = CL_MEM_READ_ONLY;
-	else if(write)
+	else if (write)
 		memFlag = CL_MEM_WRITE_ONLY;
 
-	cl_mem memObj = clCreateBuffer(THIS, memFlag, size, nullptr, nullptr);
+	cl_mem memObj = clCreateBuffer(this->context, memFlag, size, nullptr, nullptr);
 
-	return Buffer(memObj);
+	return new OpenCL1Buffer(memObj);
 }
 
-Program DeviceContext::CreateProgram(const ByteString &source)
+CommandQueue *OpenCL1DeviceContext::CreateCommandQueue()
 {
-	const char *src = source.GetC_Str();
-	size_t len = source.GetLength();
-	cl_program prog = clCreateProgramWithSource(THIS, 1, &src, &len, nullptr);
+	cl_device_id deviceId;
+	clGetContextInfo(this->context, CL_CONTEXT_DEVICES, sizeof(deviceId), &deviceId, nullptr);
 
-	return Program(prog);
+	cl_command_queue queue = clCreateCommandQueue(this->context, deviceId, 0, nullptr);
+
+	return new OpenCL1CommandQueue(queue);
+}
+
+Program * OpenCL1DeviceContext::CreateProgram(const String & source)
+{
+	const char *src = (const char *)source.ToUTF8().GetRawZeroTerminatedData();
+	size_t len = source.GetLength();
+	cl_program prog = clCreateProgramWithSource(this->context, 1, &src, &len, nullptr);
+
+	return new OpenCL1Program(prog);
 }

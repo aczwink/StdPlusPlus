@@ -150,27 +150,13 @@ uint64 StdXX::StringToUInt64(const OldString &refString)
 
 OldString StdXX::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
 {
-    NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
-    /*
+	NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
+	/*
 	if(addBase)
 		return "0x" + ::ToString(value, 16, nMinChars);
 	return ::ToString(value, 16, nMinChars);
-     */
+	 */
 	return OldString();
-}
-
-OldString StdXX::TimeToString(uint64 timeStamp, const Fraction &refTimeScale)
-{
-    uint64 usecs, hours, mins, secs;
-
-    secs = timeStamp * refTimeScale.numerator / refTimeScale.denominator;
-    usecs = (timeStamp * refTimeScale.numerator) % refTimeScale.denominator;
-    mins = secs / 60;
-    secs %= 60;
-    hours = mins / 60;
-    mins %= 60;
-
-    return ToString(hours, 2) + ':' + ToString(mins, 2) + ':' + ToString(secs, 2) + '.' + ToString(100 * usecs * refTimeScale.numerator / refTimeScale.denominator, 2);
 }
 
 //8-bit functions

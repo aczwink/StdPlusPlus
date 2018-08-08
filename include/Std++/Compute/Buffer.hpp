@@ -24,19 +24,9 @@ namespace StdXX
 	{
 		class Buffer
 		{
-			friend class CommandQueue;
-			friend class DeviceContext;
-			friend class Kernel;
 		public:
 			//Destructor
-			~Buffer();
-
-		private:
-			//Members
-			void *internal;
-
-			//Constructor
-			Buffer(void *internal);
+			virtual ~Buffer() {}
 		};
 	}
 }

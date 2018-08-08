@@ -19,18 +19,40 @@
 #pragma once
 //Local
 #include "../Containers/LinkedList/LinkedList.hpp"
-#include "CodecId.hpp"
 #include "Packet.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API AParser
+        class STDPLUSPLUS_API ParserContext
         {
-        private:
-            //Members
-            LinkedList<Packet> parsedFrames;
+		public:
+			//Constructor
+			ParserContext();
+
+			//Destructor
+			virtual ~ParserContext();
+
+			//Abstract
+			//virtual CodecId GetCodecId() const = 0;
+			virtual void Parse(const Packet &refPacket) = 0;
+
+			//Overrideable
+			virtual void Reset();
+
+			//Inline
+			inline void GetParsedFrame(Packet &refPacket)
+			{
+				ASSERT(this->IsFrameReady(), "If you see this, report to Std++");
+
+				refPacket = parsedFrames.PopFront();
+			}
+
+			inline bool IsFrameReady() const
+			{
+				return !this->parsedFrames.IsEmpty();
+			}
 
         protected:
             //Members
@@ -42,44 +64,21 @@ namespace StdXX
             void ReadyFrameBuffer(uint32 nOverreadBytes = 0);
 
             //Inline
-            inline void AddFrameHeader(uint32 header)
-            {
-                byte b[4];
+			inline void AddFrameHeader(uint32 header)
+			{
+				byte b[4];
 
-                b[0] = byte(header >> 24);
-                b[1] = byte(header >> 16 & 0xFF);
-                b[2] = byte(header >> 8 & 0xFF);
-                b[3] = byte(header & 0xFF);
+				b[0] = byte(header >> 24);
+				b[1] = byte(header >> 16 & 0xFF);
+				b[2] = byte(header >> 8 & 0xFF);
+				b[3] = byte(header & 0xFF);
 
-                this->AddToFrameBuffer(b, 4);
-            }
+				this->AddToFrameBuffer(b, 4);
+			}
 
-        public:
-            //Constructor
-            AParser();
-
-            //Destructor
-            virtual ~AParser();
-
-            //Abstract
-            virtual CodecId GetCodecId() const = 0;
-            virtual void Parse(const Packet &refPacket) = 0;
-
-            //Overrideable
-            virtual void Reset();
-
-            //Inline
-            inline void GetParsedFrame(Packet &refPacket)
-            {
-                ASSERT(this->IsFrameReady(), "If you see this, report to Std++");
-
-                refPacket = parsedFrames.PopFront();
-            }
-
-            inline bool IsFrameReady() const
-            {
-                return !this->parsedFrames.IsEmpty();
-            }
+		private:
+			//Members
+			LinkedList<Packet> parsedFrames;
         };
     }
 }

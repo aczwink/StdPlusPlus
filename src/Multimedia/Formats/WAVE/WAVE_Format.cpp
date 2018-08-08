@@ -34,7 +34,7 @@ Muxer *WAVE_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
 	return new WAVE_Muxer(*this, refOutput);
 }
 
-CodecId WAVE_Format::GetDefaultCodec(DataType dataType) const
+/*CodecId WAVE_Format::GetDefaultCodec(DataType dataType) const
 {
 	NOT_IMPLEMENTED_ERROR;
 
@@ -63,7 +63,7 @@ FiniteSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
 	NOT_IMPLEMENTED_ERROR;
 
 	return result;
-}
+}*/
 
 float32 WAVE_Format::Matches(BufferInputStream &inputStream) const
 {

@@ -73,6 +73,8 @@ void BMP_Muxer::WriteHeader()
 
 void BMP_Muxer::WritePacket(const Packet &refPacket)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: next
+	/*
 	VideoStream *pStream;
 
 	pStream = (VideoStream *)this->GetStream(0);
@@ -103,5 +105,5 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 		default:
 			this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
 			this->imageSize += refPacket.GetSize();
-	}
+	}*/
 }

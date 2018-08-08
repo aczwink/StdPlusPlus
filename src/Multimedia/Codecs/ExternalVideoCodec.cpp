@@ -20,7 +20,6 @@
 #include "ExternalVideoCodec.hpp"
 //Local
 #include "LibAV_VideoDecoder.hpp"
-#include "../../../src_backends/libavcodec/Multimedia/libavcodec_Encoder.hpp"
 
 //Public methods
 Decoder *ExternalVideoCodec::CreateDecoder(Stream &stream) const
@@ -34,13 +33,11 @@ Decoder *ExternalVideoCodec::CreateDecoder(Stream &stream) const
 
 Encoder *ExternalVideoCodec::CreateEncoder(Stream &stream) const
 {
-#ifdef _STDXX_BACKEND_LIBAVCODEC
-	return new _stdxx_::libavcodec_Encoder(stream, this->GetId());
-#endif
+	//return new _stdxx_::libavcodec_Encoder(stream, this->GetId());
 	return nullptr;
 }
 
-AParser *ExternalVideoCodec::CreateParser() const
+ParserContext *ExternalVideoCodec::CreateParser() const
 {
 	return nullptr;
 }

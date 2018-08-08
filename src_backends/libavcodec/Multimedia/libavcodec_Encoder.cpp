@@ -32,11 +32,10 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_Encoder::libavcodec_Encoder(Stream &stream, CodecId codecId)
+libavcodec_Encoder::libavcodec_Encoder(Stream &stream, CodingFormatId codecId)
 {
-	BackendManager<MultimediaBackend>::GetRootInstance().GetActiveBackend();
-
-	this->codec = avcodec_find_encoder(MapCodecId(codecId));
+	NOT_IMPLEMENTED_ERROR; //TODO: next line
+	//this->codec = avcodec_find_encoder(MapCodecId(codecId));
 	this->codecContext = avcodec_alloc_context3(this->codec);
 	this->packet = av_packet_alloc();
 	this->frame = av_frame_alloc();

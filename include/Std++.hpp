@@ -48,6 +48,7 @@
 
 //Devices
 #include <Std++/Devices/AudioDevice.hpp>
+#include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
 //Eventhandling

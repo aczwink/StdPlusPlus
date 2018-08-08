@@ -32,17 +32,18 @@ Encoder *PCM_S16LE_Codec::CreateEncoder(Stream &stream) const
 	return new PCM_S16LE_Encoder;
 }
 
-AParser *PCM_S16LE_Codec::CreateParser() const
+ParserContext *PCM_S16LE_Codec::CreateParser() const
 {
 	return nullptr;
 }
-
+/*
 CodecId PCM_S16LE_Codec::GetId() const
 {
 	return CodecId::PCM_S16LE;
 }
-
+*/
+/*
 String PCM_S16LE_Codec::GetName() const
 {
 	return u8"PCM signed 16-bit little-endian interleaved channels";
-}
+}*/

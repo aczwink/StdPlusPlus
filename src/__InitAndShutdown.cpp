@@ -23,34 +23,20 @@
 #include <Std++/Memory.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/ByteString.hpp>
-#include <Std++/Multimedia/CodecId.hpp>
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
-#include <Std++/_Backends/ComputeDevice.hpp>
+#include <Std++/_Backends/ComputeBackend.hpp>
+#include <Std++/_Backends/ExtensionManager.hpp>
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
-using namespace StdXX::Multimedia;
 
 //Prototypes
 void InitStdPlusPlus_Platform();
 void MultimediaRegisterCodecsAndFormats();
 void ShutdownStdPlusPlus_Platform();
-
-//Local functions
-static void FreeAudioVideo()
-{
-	//free static variables so that they don't get reported as memory leaks
-	extern Map<ByteString, CodecId> g_matroskaCodecStringMap;
-	g_matroskaCodecStringMap.Release();
-
-	extern Map<uint16, CodecId> g_ms_audio_twoCC_map;
-	g_ms_audio_twoCC_map.Release();
-
-	extern Map<uint32, CodecId> g_ms_video_fourCC_map;
-	g_ms_video_fourCC_map.Release();
-}
 
 //Global functions
 void InitStdPlusPlus()
@@ -59,12 +45,13 @@ void InitStdPlusPlus()
 	RegisterAudioBackends();
 	void RegisterComputeBackends();
 	RegisterComputeBackends();
-	void RegisterMultimediaBackends();
-	RegisterMultimediaBackends();
 	void RegisterUIBackends();
 	RegisterUIBackends();
 
 	MultimediaRegisterCodecsAndFormats();
+
+	void RegisterExtensions();
+	RegisterExtensions();
 
 	InitStdPlusPlus_Platform();
 }
@@ -72,8 +59,6 @@ void InitStdPlusPlus()
 void ShutdownStdPlusPlus()
 {
 	ShutdownStdPlusPlus_Platform();
-
-	FreeAudioVideo();
 
 	//release file system formats
 	extern DynamicArray<const FileSystemFormat *> g_fsFormats;
@@ -90,6 +75,9 @@ void ShutdownStdPlusPlus()
 	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<RenderBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<UIBackend>::GetRootInstance().ReleaseAll();
+
+	//release extensions
+	ExtensionManager::GetRootInstance().ReleaseAll();
 
 #ifdef _DEBUG
     //look for memory leaks

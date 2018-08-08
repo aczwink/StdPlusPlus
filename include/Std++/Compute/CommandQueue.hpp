@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include "DeviceContext.hpp"
 #include "Kernel.hpp"
 
 namespace StdXX
@@ -28,28 +27,24 @@ namespace StdXX
 		class CommandQueue
 		{
 		public:
-			//Constructor
-			CommandQueue(const DeviceContext &dc);
-
 			//Destructor
-			~CommandQueue();
+			virtual ~CommandQueue() {}
+
+			//Abstract
+			virtual void EnqueueReadBuffer(const Buffer &buffer, bool block, uint32 offset, uint32 size, void *destination) = 0;
+			virtual void EnqueueTask(const Kernel &kernel, uint32 globalWorkSize) = 0;
+			virtual void EnqueueWriteBuffer(Buffer &buffer, bool block, uint32 offset, uint32 size, const void *src) = 0;
+			/**
+			* Makes sure that all queued commands have been issued and completed.
+			*/
+			virtual void Finish() = 0;
 
 			//Methods
-			void EnqueueReadBuffer(const Buffer &buffer, uint32 offset, uint32 size, void *destination);
-			void EnqueueTask(const Kernel &kernel);
-			/**
-			 * Makes sure that all queued commands have been issued and completed.
-			 */
-			void Finish();
 			/**
 			 * Makes sure that all queued commands have been issued to the device.
 			 * Does not guarantee that commands have finished execution.
 			 */
 			void Flush();
-
-		private:
-			//Members
-			void *internal;
 		};
 	}
 }

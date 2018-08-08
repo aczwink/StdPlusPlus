@@ -134,6 +134,8 @@ void MatroskaMuxer::WriteEBMLUInt(uint64 value)
 
 void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: next
+	/*
 	ASSERT(refStream.GetCodec(), "If you see this, report to StdXX");
 
 	switch(refStream.GetCodec()->GetId())
@@ -144,15 +146,16 @@ void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 		}
 			break;
 	}
+	*/
 }
 
 void MatroskaMuxer::WriteCodecElement(Stream &refStream)
 {
-	ByteString codecId;
-
+	NOT_IMPLEMENTED_ERROR; //TODO: next
+	/*
 	ASSERT(refStream.GetCodec(), "If you see this, report to StdXX");
 
-	codecId = MapToCodecString(refStream.GetCodec()->GetId());
+	String codecId = MapToCodecString(refStream.GetCodec()->GetId());
 	if(!codecId.IsEmpty())
 	{
 		this->WriteASCIIElement(MATROSKA_ID_CODECID, codecId);
@@ -174,7 +177,7 @@ void MatroskaMuxer::WriteCodecElement(Stream &refStream)
 			break;
 		default:
 			NOT_IMPLEMENTED_ERROR;
-	}
+	}*/
 }
 
 void MatroskaMuxer::WriteCuePoints()
@@ -389,6 +392,8 @@ void MatroskaMuxer::WriteHeader()
 
 void MatroskaMuxer::WritePacket(const Packet &packet)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: next
+	/*
 	bool startNewCluster;
 	uint8 flags;
 	int16 pts;
@@ -407,7 +412,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 		/*
 		As of here https://www.matroska.org/technical/diagram/index.html
 		it seems that a new cluster should be created every 5 MB or every 5 seconds - whichever comes first.
-		*/
+		*//*
 		if(this->currentCluster.size > 5 * MiB)
 			startNewCluster = true;
 		if(this->currentCluster.pts > this->currentCluster.basePTS + this->MapSeconds(5))
@@ -442,7 +447,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 
 	As of here https://www.matroska.org/technical/diagram/index.html
 	it is sufficient to index video keyframes
-	*/
+	*//*
 	if(packet.containsKeyframe && transformedPTS != Natural<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
 	{
 		CueEntry &cueEntry = this->cues[transformedPTS];
@@ -474,4 +479,5 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	this->EndElement();
 
 	this->currentCluster.size += packet.GetSize();
+	*/
 }

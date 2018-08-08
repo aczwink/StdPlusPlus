@@ -18,59 +18,30 @@
  */
 #pragma once
 //Local
-#include "../Containers/LinkedList/LinkedList.hpp"
-#include "../Containers/PriorityQueue.hpp"
-#include "Frame.hpp"
-#include "Packet.hpp"
+#include <Std++/Containers/Strings/String.hpp>
+#include "CodingFormatId.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API Decoder
+		//Forward declarations
+		class DecoderContext;
+		class Stream;
+
+        class Decoder
         {
-        public:
-            //Constructor
-            inline Decoder()
-            {
-                this->frameCounter = 0;
-            }
+		public:
+			//Destructor
+			virtual ~Decoder() {}
 
-            //Destructor
-            virtual ~Decoder();
+			//Abstract
+			virtual DecoderContext *CreateContext(Stream &stream) const = 0;
+			virtual CodingFormatId GetCodingFormatId() const = 0;
+			virtual String GetName() const = 0;
 
-            //Abstract
-            virtual void Decode(const Packet &packet) = 0;
-
-            //Overrideable
-            virtual void Reset();
-
-            //Inline
-            inline Frame *GetNextFrame()
-            {
-                return this->orderedFrames.PopFront();
-            }
-
-            inline bool IsFrameReady() const
-            {
-                return !this->orderedFrames.IsEmpty();
-            }
-
-        private:
-            //Members
-            uint32 frameCounter;
-            PriorityQueue<Frame *> unorderedFrames;
-            LinkedList<Frame *> orderedFrames;
-
-		protected:
-			//Methods
-			void AddFrame(Frame *pFrame, uint32 frameNumber = 0);
-
-			//Inline
-			inline void ResetFrameCounter()
-			{
-				this->frameCounter = 0;
-			}
-        };
+			//Functions
+			static STDPLUSPLUS_API void Register(Decoder *decoder, float32 quality);
+		};
     }
 }

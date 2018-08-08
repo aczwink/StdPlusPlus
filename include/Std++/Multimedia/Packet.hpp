@@ -24,7 +24,7 @@ namespace StdXX
 {
     namespace Multimedia
     {
-		class Packet
+		class STDPLUSPLUS_API Packet
 		{
 		private:
 			//Members

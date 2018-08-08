@@ -18,11 +18,9 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
 #include "../Definitions.h"
 #include "Decoder.hpp"
-#include "AParser.h"
-#include "CodecId.hpp"
+#include "ParserContext.hpp"
 #include "EnumTypes.hpp"
 #include "Encoder.hpp"
 
@@ -30,25 +28,13 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        //Move declarations
-        class Stream;
-
+		class Stream;
         class Codec
         {
         public:
-            //Destructor
-            virtual ~Codec(){}
-
             //Methods
-            virtual Decoder *CreateDecoder(Stream &refStream) const = 0;
             virtual Encoder *CreateEncoder(Stream &stream) const = 0;
-            virtual AParser *CreateParser() const = 0;
-            virtual CodecId GetId() const = 0;
-            virtual String GetName() const = 0;
-
-            //Functions
-            static STDPLUSPLUS_API const Codec *GetCodec(CodecId codecId);
-            static STDPLUSPLUS_API void Register(Codec *pCodec);
+            virtual ParserContext *CreateParser() const = 0;
         };
     }
 }

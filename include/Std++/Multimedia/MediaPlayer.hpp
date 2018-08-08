@@ -46,7 +46,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodecId encodingCodec);
+		//DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodecId encodingCodec);
 
 		//Destructor
 		~DecoderThread();
@@ -106,7 +106,7 @@ namespace _stdxx_
 		StdXX::ConditionVariable workSignal;
 		volatile bool working;
 		uint32 streamIndex;
-		StdXX::Multimedia::Decoder *decoder;
+		StdXX::Multimedia::DecoderContext *decoderContext;
 		StdXX::Multimedia::Encoder *encoder;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;
 		StdXX::Mutex inputPacketQueueLock;

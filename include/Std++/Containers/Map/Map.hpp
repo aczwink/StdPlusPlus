@@ -32,12 +32,13 @@ namespace StdXX
     {
         //typedef Map<KeyType, ValueType> Map;
         typedef MapNode<KeyType, ValueType> Node;
-		typedef MapIterator<KeyType, ValueType> Iterator;
-        typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
 
 		friend class ConstMapIterator<KeyType, ValueType>;
 
     public:
+		typedef MapIterator<KeyType, ValueType> Iterator;
+		typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
+
         //Constructors
         Map()
         {

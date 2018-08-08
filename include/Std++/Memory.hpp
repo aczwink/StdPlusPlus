@@ -164,6 +164,8 @@ void *operator new(size_t size, std::align_val_t al);
 void *operator new[](size_t size, std::align_val_t al);
 void operator delete(void *p) noexcept;
 void operator delete[](void *p) noexcept;
+void operator delete(void *p, size_t size) noexcept;
+void operator delete[](void *p, size_t size) noexcept;
 void operator delete(void *p, std::align_val_t al) noexcept;
 void operator delete[](void *p, std::align_val_t al) noexcept;
 

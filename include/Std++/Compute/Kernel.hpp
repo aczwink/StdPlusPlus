@@ -27,21 +27,12 @@ namespace StdXX
 	{
 		class Kernel
 		{
-			friend class CommandQueue;
-			friend class Program;
 		public:
 			//Destructor
-			~Kernel();
+			virtual ~Kernel() {}
 
-			//Methods
-			void SetArg(uint8 argIndex, const Buffer &buffer);
-
-		private:
-			//Members
-			void *internal;
-
-			//Constructor
-			Kernel(void *internal);
+			//Abstract
+			virtual void SetArg(uint8 argIndex, Buffer &buffer) = 0;
 		};
 	}
 }

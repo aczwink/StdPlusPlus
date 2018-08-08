@@ -19,14 +19,19 @@ if(${BACKEND_OPENCL})
 		${SOURCE_FILES}
 
 		#Compute
-		${CMAKE_CURRENT_SOURCE_DIR}/Compute/Buffer.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Compute/CommandQueue.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Compute/DeviceContext.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Buffer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Buffer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1CommandQueue.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1CommandQueue.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1DeviceContext.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1DeviceContext.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Kernel.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Kernel.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Program.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Compute/OpenCL1Program.hpp
 
 		#.
-			${CMAKE_CURRENT_SOURCE_DIR}/OpenCL1Backend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/OpenCL1Backend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenCLDevice.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenCLDeviceEnumeratorState.hpp
 

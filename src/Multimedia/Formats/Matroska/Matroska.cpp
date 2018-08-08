@@ -18,9 +18,11 @@
  */
 //Main header
 #include "Matroska.hpp"
-
+//Namespaces
+using namespace _stdxx_;
+/*
 //Global variables
-Map<ByteString, CodecId> g_matroskaCodecStringMap;
+Map<String, CodecId> g_matroskaCodecStringMap;
 
 //Local functions
 static void LoadMap()
@@ -32,28 +34,28 @@ static void LoadMap()
 		loaded = true;
 
 		//Audio codecs
-		g_matroskaCodecStringMap.Insert("A_AAC", CodecId::AAC);
-		g_matroskaCodecStringMap.Insert("A_MPEG/L2", CodecId::MP2);
-		g_matroskaCodecStringMap.Insert("A_MPEG/L3", CodecId::MP3);
+		g_matroskaCodecStringMap.Insert(u8"A_AAC", CodecId::AAC);
+		g_matroskaCodecStringMap.Insert(u8"A_MPEG/L2", CodecId::MP2);
+		g_matroskaCodecStringMap.Insert(u8"A_MPEG/L3", CodecId::MP3);
 
 		//Video codecs
-		g_matroskaCodecStringMap.Insert("V_MPEG1", CodecId::MPEG1Video);
-		g_matroskaCodecStringMap.Insert("V_MPEG4/ISO/AVC", CodecId::H264);
+		g_matroskaCodecStringMap.Insert(u8"V_MPEG1", CodecId::MPEG1Video);
+		g_matroskaCodecStringMap.Insert(u8"V_MPEG4/ISO/AVC", CodecId::H264);
 	}
 }
 
 //Namespace functions
-CodecId Matroska::MapCodecString(const ByteString &refCodecString)
+CodecId Matroska::MapCodecString(const String &codecString)
 {
 	LoadMap();
 
-	if(g_matroskaCodecStringMap.Contains(refCodecString))
-		return g_matroskaCodecStringMap[refCodecString];
+	if(g_matroskaCodecStringMap.Contains(codecString))
+		return g_matroskaCodecStringMap[codecString];
 
 	return CodecId::Unknown;
 }
 
-ByteString Matroska::MapToCodecString(CodecId codecId)
+String Matroska::MapToCodecString(CodecId codecId)
 {
 	LoadMap();
 
@@ -61,5 +63,27 @@ ByteString Matroska::MapToCodecString(CodecId codecId)
 		if(refKV.value == codecId)
 			return refKV.key;
 
-	return ByteString();
+	return String();
+}*/
+
+CodingFormatIdMap<String> GetCodingFormatMap()
+{
+	CodingFormatIdMap<String> matroskaCodecMap;
+
+	/*
+	//audio codecs
+	if (string == CODEC_PCM_FLOAT_LE)
+	{
+		this->parserState.currentTrack.codecPrivate.isFloatPCM = true;
+		return CodecId::Unknown;
+	}
+
+	if (string == CODEC_PCM_INTEGER_LE)
+	{
+		this->parserState.currentTrack.codecPrivate.isIntegerPCM = true;
+		return CodecId::Unknown;
+	}
+	*/
+
+	return matroskaCodecMap;
 }

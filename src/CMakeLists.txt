@@ -2,8 +2,7 @@ add_subdirectory(CommonFileFormats)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(Devices)
 add_subdirectory(Math)
-add_subdirectory(Multimedia/Codecs)
-add_subdirectory(Multimedia/Formats)
+add_subdirectory(Multimedia)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -39,16 +38,12 @@ set(SOURCE_FILES
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AParser.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codec.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Decoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/FourCC.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.cpp

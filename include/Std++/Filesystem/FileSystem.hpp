@@ -27,7 +27,7 @@ namespace StdXX
 	//Move declarations
 	class FileSystemFormat;
 
-	class FileSystem
+	class STDPLUSPLUS_API FileSystem
 	{
 	public:
 		//Constructor
@@ -47,6 +47,7 @@ namespace StdXX
 		virtual AutoPointer<Directory> GetDirectory(const Path &directoryPath) = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
 		virtual uint64 GetSize() const = 0;
+		virtual bool IsDirectory(const Path &path) const = 0;
 		virtual void Move(const Path &from, const Path &to) = 0;
 
 		//Methods

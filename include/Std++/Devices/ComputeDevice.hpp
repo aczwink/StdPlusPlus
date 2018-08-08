@@ -17,7 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-
+//Local
+#include <Std++/Compute/DeviceContext.hpp>
 #include "Device.hpp"
 
 namespace StdXX
@@ -25,6 +26,9 @@ namespace StdXX
 	class ComputeDevice : public Device
 	{
 	public:
+		//Abstract
+		virtual Compute::DeviceContext *CreateDeviceContext() const = 0;
+
 		//Methods
 		DeviceType GetType() const;
 	};

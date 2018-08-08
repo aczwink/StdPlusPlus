@@ -39,5 +39,5 @@ private:
 	uint32 dataChunkSizeOffset;
 
 	//Methods
-	uint16 GetBitsPerSample(CodecId codecId) const;
+	//uint16 GetBitsPerSample(CodecId codecId) const;
 };

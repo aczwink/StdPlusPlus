@@ -24,7 +24,6 @@
 #include "../Streams/BufferInputStream.hpp"
 #include "../Streams/ASeekableOutputStream.h"
 #include "EnumTypes.hpp"
-#include "CodecId.hpp"
 
 namespace StdXX
 {
@@ -53,11 +52,11 @@ namespace StdXX
             //Abstract
             virtual Demuxer *CreateDemuxer(SeekableInputStream &refInput) const = 0;
             virtual Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const = 0;
-            virtual CodecId GetDefaultCodec(DataType dataType) const = 0;
+            //virtual CodecId GetDefaultCodec(DataType dataType) const = 0;
             virtual String GetExtension() const = 0;
             virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = 0;
             virtual String GetName() const = 0;
-            virtual FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
+            //virtual FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
             virtual float32 Matches(BufferInputStream &refBuffer) const = 0;
 
             //Functions

@@ -27,12 +27,12 @@ namespace _stdxx_
 		//Methods
 		StdXX::Multimedia::Demuxer *CreateDemuxer(StdXX::SeekableInputStream &refInput) const override;
 		StdXX::Multimedia::Muxer *CreateMuxer(StdXX::ASeekableOutputStream &outputStream) const override;
-		StdXX::Multimedia::CodecId GetDefaultCodec(StdXX::Multimedia::DataType dataType) const override;
+		//StdXX::Multimedia::CodecId GetDefaultCodec(StdXX::Multimedia::DataType dataType) const override;
 		void GetFormatInfo(StdXX::Multimedia::FormatInfo &refFormatInfo) const override;
 		StdXX::String GetName() const override;
 
 	protected:
 		//Members
-		StdXX::Multimedia::CodecId codecId;
+		//StdXX::Multimedia::CodecId codecId;
 	};
 }

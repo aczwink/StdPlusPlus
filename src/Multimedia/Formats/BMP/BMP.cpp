@@ -21,31 +21,21 @@
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
-#include "../../FourCC.h"
-
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
-
-//Global variables
-Map<uint32, CodecId> g_ms_video_fourCC_map;
+#include "../../CodingFormatIdMap.hpp"
 
 //Local functions
-static void LoadMap()
+static _stdxx_::CodingFormatIdMap<uint32> LoadMap()
 {
-	static bool loaded = false;
+#define ADD_FOURCC_ID(codingFormatId) m.Insert(uint32(codingFormatId), codingFormatId);
+	_stdxx_::CodingFormatIdMap<uint32> m;
 
-	if(!loaded)
-	{
-		loaded = true;
+	ADD_FOURCC_ID(CodingFormatId::MS_MPEG4Part2V2);
 
-		g_ms_video_fourCC_map.Insert(FOURCC("MP42"), CodecId::MS_MPEG4Part2V2); // Microsoft MPEG-4 version 2
-		g_ms_video_fourCC_map.Insert(FOURCC("MPG1"), CodecId::MPEG1Video);
-	}
+	return m;
+#undef ADD_FOURCC_ID
 }
 
+/*
 //Functions
 void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet)
 {
@@ -53,24 +43,18 @@ void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet)
 
 	for(const auto &refKV : g_ms_video_fourCC_map)
 		refCodecSet.Insert(refKV.value);
-}
+}*/
 
 void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &refStream)
 {
-	uint16 bitsPerPixel;
-	int32 height;
-	uint32 size, codecTag;
-
 	DataReader reader(false, inputStream);
 
-	LoadMap();
-
-	size = reader.ReadUInt32();
+	uint32 size = reader.ReadUInt32();
 	refStream.width = reader.ReadUInt32();
-	height = reader.ReadInt32();
+	int32 height = reader.ReadInt32();
 	inputStream.Skip(2); //planes
-	bitsPerPixel = reader.ReadUInt16();
-	codecTag = reader.ReadUInt32();
+	uint16 bitsPerPixel = reader.ReadUInt16();
+	uint32 codecTag = reader.ReadUInt32();
 	inputStream.Skip(20); //rest of bmp data
 
 	refIsBottomUp = false;
@@ -81,22 +65,24 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 		refIsBottomUp = true;
 	refStream.height = (uint16)height;
 
+	CodingFormatId codingFormatId = CodingFormatId::Unknown;
 	switch(codecTag)
 	{
+		/*
 		case 0: //BGR
 		{
 			switch(bitsPerPixel)
 			{
 				case 24:
 				{
-					refStream.SetCodec(Codec::GetCodec(CodecId::BGR24));
+					refStream.SetCodingFormat(Codec::GetCodec(CodecId::BGR24));
 				}
 					break;
 				default:
 					NOT_IMPLEMENTED_ERROR;
 			}
 		}
-			break;
+			break;*/
 			/*case FOURCC_CINEPAK:
 				{
 					refStream.SetCodec(GetCodec(CODEC_ID_CINEPAK));
@@ -112,10 +98,14 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 					refStream.SetCodec(GetCodec(CODEC_ID_MPEG4PART2));
 				}
 				break;*/
+		//g_ms_video_fourCC_map.Insert(FOURCC("MPG1"), CodecId::MPEG1Video);
+	default:
+	{
+		_stdxx_::CodingFormatIdMap<uint32> codecIdMap = LoadMap();
+		codingFormatId = codecIdMap.GetId(codecTag);
 	}
-
-	if(refStream.GetCodec() == nullptr && g_ms_video_fourCC_map.Contains(codecTag))
-		refStream.SetCodec(g_ms_video_fourCC_map[codecTag]);
+	}
+	refStream.SetCodingFormat(codingFormatId);
 
 	ASSERT(size >= 40, "If you see this, report to StdXX");
 	if(size > 40)

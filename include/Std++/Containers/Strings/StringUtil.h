@@ -34,7 +34,6 @@ namespace StdXX
     bool IsStringConvertibleToInteger(const ByteString &refString);
     STDPLUSPLUS_API int64 StringToInt64(const OldString &refString);
     STDPLUSPLUS_API uint64 StringToUInt64(const OldString &refString);
-    STDPLUSPLUS_API OldString TimeToString(uint64 timeStamp, const Fraction &refTimeScale);
     STDPLUSPLUS_API OldString ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
 
     //8-bit functions

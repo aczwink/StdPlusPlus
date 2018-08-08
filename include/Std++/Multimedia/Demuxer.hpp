@@ -28,20 +28,6 @@ namespace StdXX
     {
         class STDPLUSPLUS_API Demuxer : public MediaObject
         {
-        private:
-            //Members
-            uint32 bitRate;
-
-            //Methods
-            bool AllInfoIsAvailable();
-            bool AllStreamsHaveDuration() const;
-            void DeriveDurationFromPacketTimestamps();
-            void ExtractInfo(Packet &refPacket);
-
-        protected:
-            //Members
-            SeekableInputStream &inputStream;
-
         public:
             //Constructor
             inline Demuxer(const Format &refFormat, SeekableInputStream &refInput) : MediaObject(refFormat), inputStream(refInput)
@@ -67,6 +53,20 @@ namespace StdXX
             {
                 return this->startTime;
             }
+
+		protected:
+			//Members
+			SeekableInputStream & inputStream;
+
+		private:
+			//Members
+			uint32 bitRate;
+
+			//Methods
+			bool AllInfoIsAvailable();
+			bool AllStreamsHaveDuration() const;
+			void DeriveDurationFromPacketTimestamps();
+			void ExtractInfo(Packet &refPacket);
         };
     }
 }

@@ -28,7 +28,7 @@ namespace StdXX
 	 *
 	 * The reference time point for the clock is unspecified and therefore unknown.
 	 */
-	class Clock
+	class STDPLUSPLUS_API Clock
 	{
 	public:
 		//Constructor

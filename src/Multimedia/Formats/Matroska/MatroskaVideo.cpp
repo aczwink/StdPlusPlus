@@ -36,12 +36,12 @@ Muxer *MatroskaVideo::CreateMuxer(ASeekableOutputStream &refOutput) const
 	return new MatroskaMuxer(*this, refOutput);
 }
 
-CodecId MatroskaVideo::GetDefaultCodec(DataType dataType) const
+/*CodecId MatroskaVideo::GetDefaultCodec(DataType dataType) const
 {
 	NOT_IMPLEMENTED_ERROR;
 
 	return CodecId::Unknown;
-}
+}*/
 
 String MatroskaVideo::GetExtension() const
 {
@@ -58,7 +58,7 @@ String MatroskaVideo::GetName() const
 	return u8"Matroska Video";
 }
 
-FiniteSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
+/*FiniteSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
 {
 	FiniteSet<CodecId> result;
 
@@ -84,7 +84,7 @@ FiniteSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
 	}
 
 	return result;
-}
+}*/
 
 float32 MatroskaVideo::Matches(BufferInputStream &refBuffer) const
 {

@@ -20,38 +20,50 @@
 #include "libavcodec_Backend.hpp"
 //Local
 #include <Std++/Containers/Map/Map.hpp>
+#include "Multimedia/libavcodec_Decoder.hpp"
+#include "Multimedia/libavcodec_Parser.hpp"
+#include "../../../src/Multimedia/CodingFormatIdMap.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Global variables
-StdXX::Map<StdXX::Multimedia::CodecId, AVCodecID> g_libavcodec_codec_map;
+//Local functions
+static void RegisterParserIfAvailable(CodingFormatId codingFormatId, AVCodecID libavCodecId)
+{
+	AVCodecParserContext *parserContext = av_parser_init(libavCodecId);
+	if (parserContext)
+	{
+		Parser::Register(new libavcodec_Parser(codingFormatId, libavCodecId), 0.5f);
+		av_parser_close(parserContext);
+	}
+}
 
 //Public methods
 void libavcodec_Backend::Load()
 {
 	avcodec_register_all();
 
+	CodingFormatIdMap<AVCodecID> libavCodecIdMap;
+
+	//patented
+#ifdef _STDXX_EXTENSION_LIBAVCODEC_ENABLE_PATENDED
+	libavCodecIdMap.Insert(AV_CODEC_ID_MSMPEG4V2, CodingFormatId::MS_MPEG4Part2V2);
+#endif
+
+	for (const auto &kv : libavCodecIdMap)
+	{
+		RegisterParserIfAvailable(kv.value, kv.key);
+		Decoder::Register(new libavcodec_Decoder(kv.value, kv.key), 0.5f);
+	}
+
+
+	/*
 	//audio
 	g_libavcodec_codec_map.Insert(CodecId::MP3, AV_CODEC_ID_MP3);
 
 	//video
 	g_libavcodec_codec_map.Insert(CodecId::H264, AV_CODEC_ID_H264);
-	g_libavcodec_codec_map.Insert(CodecId::MS_MPEG4Part2V2, AV_CODEC_ID_MSMPEG4V2);
 	g_libavcodec_codec_map.Insert(CodecId::PNG, AV_CODEC_ID_PNG);
-}
-
-void libavcodec_Backend::Unload() const
-{
-	g_libavcodec_codec_map.Release();
-}
-
-//Namespace functions
-AVCodecID StdXX::MapCodecId(CodecId codecId)
-{
-	auto it = g_libavcodec_codec_map.Find(codecId);
-	if(it == g_libavcodec_codec_map.end())
-		return AV_CODEC_ID_NONE;
-
-	return (AVCodecID)(*it).value;
+	*/
 }
