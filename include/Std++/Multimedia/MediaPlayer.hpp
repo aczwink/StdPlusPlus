@@ -107,7 +107,7 @@ namespace _stdxx_
 		volatile bool working;
 		uint32 streamIndex;
 		StdXX::Multimedia::DecoderContext *decoderContext;
-		StdXX::Multimedia::Encoder *encoder;
+		StdXX::Multimedia::EncoderContext *encoder;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;
 		StdXX::Mutex inputPacketQueueLock;
 		StdXX::ConditionVariable inputPacketQueueSignal;

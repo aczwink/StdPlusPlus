@@ -27,10 +27,9 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Public methods
-/*
 Demuxer *RawImageFormat::CreateDemuxer(SeekableInputStream &refInput) const
 {
-	return new RawImageDemuxer(*this, refInput, this->codecId);
+	return new RawImageDemuxer(*this, refInput, this->codingFormatId);
 }
 
 Muxer *RawImageFormat::CreateMuxer(ASeekableOutputStream &outputStream) const
@@ -38,7 +37,7 @@ Muxer *RawImageFormat::CreateMuxer(ASeekableOutputStream &outputStream) const
 	return new RawImageMuxer(*this, outputStream);
 }
 
-CodecId RawImageFormat::GetDefaultCodec(DataType dataType) const
+/*CodecId RawImageFormat::GetDefaultCodec(DataType dataType) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	if(dataType == DataType::Video)

@@ -278,15 +278,16 @@ uint32 OpenGLDeviceContext::GetNumberOfTextureUnits() const
 	return static_cast<uint32>(maxTextures);
 }
 
-FixedArray<byte> OpenGLDeviceContext::ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect)
+Multimedia::Pixmap *OpenGLDeviceContext::ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect)
 {
 	this->Bind();
 
-	this->SetDownloadAlignment(1);
-	FixedArray<byte> colorData(3u * rect.width() * rect.height());
-	this->glFuncs.glReadPixels(rect.x(), rect.y(), rect.width(), rect.height(), GL_RGB, GL_UNSIGNED_BYTE, &colorData[0]);
+	Multimedia::Pixmap *pixmap = new Multimedia::Pixmap(rect.size, Multimedia::NamedPixelFormat::RGB_24);
 
-	return colorData;
+	this->SetDownloadAlignment(1);
+	this->glFuncs.glReadPixels(rect.x(), rect.y(), rect.width(), rect.height(), GL_RGB, GL_UNSIGNED_BYTE, pixmap->GetPlane(0));
+
+	return pixmap;
 }
 
 void OpenGLDeviceContext::ReadDepthBuffer(const StdXX::Math::Rect<uint16> &block, float32 *output)

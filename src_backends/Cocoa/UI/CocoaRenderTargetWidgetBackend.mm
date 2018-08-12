@@ -129,13 +129,6 @@ void CocoaRenderTargetWidgetBackend::Repaint()
 
 
 //OLD STUFF:
-WidgetBackend *
-CocoaRenderTargetWidgetBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 Math::SizeD CocoaRenderTargetWidgetBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

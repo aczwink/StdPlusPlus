@@ -17,10 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Main header
-#include "BMP.h"
+#include "BMP.hpp"
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/Streams/Writers/DataWriter.hpp>
 #include "../../CodingFormatIdMap.hpp"
 
 //Local functions
@@ -45,12 +46,12 @@ void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet)
 		refCodecSet.Insert(refKV.value);
 }*/
 
-void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &refStream)
+void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &stream)
 {
 	DataReader reader(false, inputStream);
 
 	uint32 size = reader.ReadUInt32();
-	refStream.width = reader.ReadUInt32();
+	stream.size.width = static_cast<uint16>(reader.ReadUInt32());
 	int32 height = reader.ReadInt32();
 	inputStream.Skip(2); //planes
 	uint16 bitsPerPixel = reader.ReadUInt16();
@@ -63,7 +64,7 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 		height = -height;
 	else
 		refIsBottomUp = true;
-	refStream.height = (uint16)height;
+	stream.size.height = (uint16)height;
 
 	CodingFormatId codingFormatId = CodingFormatId::Unknown;
 	switch(codecTag)
@@ -75,7 +76,7 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 			{
 				case 24:
 				{
-					refStream.SetCodingFormat(Codec::GetCodec(CodecId::BGR24));
+					stream.SetCodingFormat(Codec::GetCodec(CodecId::BGR24));
 				}
 					break;
 				default:
@@ -85,31 +86,48 @@ void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &r
 			break;*/
 			/*case FOURCC_CINEPAK:
 				{
-					refStream.SetCodec(GetCodec(CODEC_ID_CINEPAK));
+					stream.SetCodec(GetCodec(CODEC_ID_CINEPAK));
 				}
 				break;
 			case FOURCC_H264:
 				{
-					refStream.SetCodec(GetCodec(CODEC_ID_H264));
+					stream.SetCodec(GetCodec(CODEC_ID_H264));
 				}
 				break;
 			case FOURCC_XVID:
 				{
-					refStream.SetCodec(GetCodec(CODEC_ID_MPEG4PART2));
+					stream.SetCodec(GetCodec(CODEC_ID_MPEG4PART2));
 				}
 				break;*/
 		//g_ms_video_fourCC_map.Insert(FOURCC("MPG1"), CodecId::MPEG1Video);
 	default:
 	{
 		_stdxx_::CodingFormatIdMap<uint32> codecIdMap = LoadMap();
-		codingFormatId = codecIdMap.GetId(codecTag);
+		codingFormatId = codecIdMap.Get(codecTag);
 	}
 	}
-	refStream.SetCodingFormat(codingFormatId);
+	stream.SetCodingFormat(codingFormatId);
 
 	ASSERT(size >= 40, "If you see this, report to StdXX");
 	if(size > 40)
 	{
 		inputStream.Skip(size - 40);
 	}
+}
+
+void _stdxx_::WriteBitmapInfoHeader(VideoStream &stream, OutputStream &outputStream)
+{
+	DataWriter dataWriter(false, outputStream);
+
+	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
+	dataWriter.WriteUInt32(stream.size.width);
+	dataWriter.WriteUInt32(stream.size.height);
+	dataWriter.WriteUInt16(1); //number of planes
+	dataWriter.WriteUInt16(24); //bits per pixel
+	dataWriter.WriteUInt32(static_cast<uint32>(stream.GetCodingFormat()->GetId())); //compression
+	dataWriter.WriteUInt32(0); //image size...
+	dataWriter.WriteUInt32(0); //pixels per meter horizontal
+	dataWriter.WriteUInt32(0); //pixels per meter vertical
+	dataWriter.WriteUInt32(0); //number of color indexes
+	dataWriter.WriteUInt32(0); //biClrImportant
 }

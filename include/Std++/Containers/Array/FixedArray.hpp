@@ -43,6 +43,15 @@ namespace StdXX
 			this->data = new DataType[nElements];
 		}
 
+		template<uint32 sourceCount>
+		inline FixedArray(const DataType (&source)[sourceCount])
+		{
+			this->nElements = sourceCount;
+			this->data = new DataType[this->nElements];
+			for(uint32 i = 0; i < sourceCount; i++)
+				this->data[i] = source[i];
+		}
+
 		inline FixedArray(const FixedArray<DataType> &source) //copy ctor
 		{
 			*this = source;

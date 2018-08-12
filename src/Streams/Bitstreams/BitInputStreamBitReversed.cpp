@@ -20,6 +20,7 @@
 #include <Std++/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
 //Local
 #include <Std++/Debug.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -47,7 +48,7 @@ void BitInputStreamBitReversed::Skip(uint32 nBits)
 	uint8 left;
 	while(nBits)
 	{
-		left = MIN(nBits, 8);
+		left = Math::Min(nBits, 8u);
 		this->EnsureBufferFilled(left);
 		this->validBitsInBuffer -= left;
 		this->nReadBits += left;

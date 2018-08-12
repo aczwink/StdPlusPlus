@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*DEPRECATED
 //Class header
 #include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
 //Local
@@ -63,4 +64,4 @@ void YCbCr420Image::GetPixel(uint32 index, byte &refY, byte &refCb, byte &refCr)
 	refY = this->pY[index];
 	refCb = this->pCb[chromaIndex];
 	refCr = this->pCr[chromaIndex];
-}
+}*/

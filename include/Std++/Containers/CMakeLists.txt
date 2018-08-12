@@ -19,6 +19,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedListNode.hpp
 
 	#Map
+	${CMAKE_CURRENT_SOURCE_DIR}/Map/BijectiveMap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Map/Map.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Map/MapIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Map/MapNode.hpp

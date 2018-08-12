@@ -24,10 +24,14 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 //Definitions
-#define BMP_HEADER_TYPE "BM"
+#define BMP_HEADER_TYPE u8"BM"
 #define BMP_HEADER_TYPE_SIZE 2
 #define BMP_INFOHEADER_SIZE 40
 
 //Prototypes
 //void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet);
-void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &refStream);
+namespace _stdxx_
+{
+	void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &stream);
+	void WriteBitmapInfoHeader(VideoStream &stream, OutputStream &outputStream);
+}

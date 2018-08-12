@@ -20,51 +20,20 @@
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Multimedia/CodingFormatId.hpp>
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 
 namespace _stdxx_
 {
 	template<typename T>
-	class CodingFormatIdMap
+	class CodingFormatIdMap : public StdXX::BijectiveMap<T, StdXX::Multimedia::CodingFormatId>
 	{
 	public:
 		//Inline
-		inline StdXX::Multimedia::CodingFormatId GetId(const T &t) const
+		inline StdXX::Multimedia::CodingFormatId Get(const T &t) const
 		{
-			if (this->map.Contains(t))
-				return this->map[t];
-			return CodingFormatId::Unknown;
+			if(this->Contains(t))
+				return StdXX::BijectiveMap<T, StdXX::Multimedia::CodingFormatId>::Get(t);
+			return StdXX::Multimedia::CodingFormatId::Unknown;
 		}
-
-		inline void Insert(const T &t, StdXX::Multimedia::CodingFormatId id)
-		{
-			this->map.Insert(t, id);
-			this->back.Insert(id, t);
-		}
-
-		//For range-based loop
-		typename StdXX::Map<T, StdXX::Multimedia::CodingFormatId>::Iterator begin()
-		{
-			return this->map.begin();
-		}
-
-		typename StdXX::Map<T, StdXX::Multimedia::CodingFormatId>::ConstIterator begin() const
-		{
-			return this->map.begin();
-		}
-
-		typename StdXX::Map<T, StdXX::Multimedia::CodingFormatId>::Iterator end()
-		{
-			return this->map.end();
-		}
-
-		typename StdXX::Map<T, StdXX::Multimedia::CodingFormatId>::ConstIterator end() const
-		{
-			return this->map.end();
-		}
-
-	private:
-		//Members
-		StdXX::Map<T, StdXX::Multimedia::CodingFormatId> map;
-		StdXX::Map<StdXX::Multimedia::CodingFormatId, T> back;
 	};
 }

@@ -19,7 +19,7 @@
 //Class Header
 #include "BMP_Format.hpp"
 //Local
-#include "BMP.h"
+#include "BMP.hpp"
 //#include "CBMPDemuxer.h"
 #include "BMP_Muxer.hpp"
 
@@ -42,7 +42,7 @@ Muxer *BMP_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
 		return CodecId::BGR24;
 
 	return CodecId::Unknown;
-}
+}*/
 
 String BMP_Format::GetExtension() const
 {
@@ -59,7 +59,7 @@ String BMP_Format::GetName() const
 	return u8"BMP Bitmap image";
 }
 
-FiniteSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
+/*FiniteSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
 {
 	FiniteSet<CodecId> result;
 

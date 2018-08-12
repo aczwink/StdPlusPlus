@@ -161,21 +161,6 @@ namespace StdXX
 			this->WriteBytes(&value, sizeof(value));
 		}
 
-		inline void WriteUInt16BE(uint16 value)
-		{
-			byte b[2];
-
-			b[0] = (uint8)(value >> 8);
-			b[1] = (uint8)(value & 0xFF);
-
-			this->WriteBytes(&b, sizeof(b));
-		}
-
-		inline void WriteUInt16LE(uint16 value)
-		{
-			this->WriteBytes(&value, sizeof(value));
-		}
-
 		inline void WriteUInt64BE(uint64 value)
 		{
 			byte b[8];

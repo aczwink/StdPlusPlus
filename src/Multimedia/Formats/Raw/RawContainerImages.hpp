@@ -26,10 +26,8 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		/*
-		PNG_Format()
+		PNG_Format() : RawImageFormat(CodingFormatId::PNG)
 		{
-			this->codecId = CodecId::PNG;
 		}
 
 		//Methods
@@ -38,7 +36,7 @@ namespace _stdxx_
 			return u8"png";
 		}
 
-		FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const override
+		/*FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const override
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 

@@ -17,6 +17,8 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
+//Local
+#include <Std++/Definitions.h>
 
 /*
 Mircosoft FourCCs:
@@ -24,7 +26,7 @@ http://www.faqs.org/rfcs/rfc2361.html
 https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
 */
 //FourCCs are always little endian
-#define FOURCC(fcc) (fcc[0] | (fcc[1] << 8) | (fcc[2] << 16) | (fcc[3] << 24))
+#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
 
 namespace StdXX
 {
@@ -38,7 +40,8 @@ namespace StdXX
 			Unknown = 0,
 
 			//Video codecs
-			MS_MPEG4Part2V2 = FOURCC(u8"MP42")
+			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
+			PNG = FOURCC(u8"png ")
 		};
 	}
 }

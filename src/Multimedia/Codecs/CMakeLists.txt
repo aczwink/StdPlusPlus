@@ -7,7 +7,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BGR24/BGR24_Encoder.hpp
 
 	#Images
-	${CMAKE_CURRENT_SOURCE_DIR}/Images/PNG_Codec.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Images/PNG_CodingFormat.hpp
 
 	#MPEG
 	${CMAKE_CURRENT_SOURCE_DIR}/MPEG/MP3/MP3_Codec.hpp
@@ -26,12 +26,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.hpp
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_AudioCodec.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_AudioCodec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_AudioDecoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_AudioDecoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ExternalVideoCodec.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ExternalVideoCodec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_VideoDecoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LibAV_VideoDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LibAVCodec.cpp

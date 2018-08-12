@@ -26,20 +26,14 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Constructor
-/*RawImageDemuxer::RawImageDemuxer(const Format &format, SeekableInputStream &inputStream, CodecId id) : Demuxer(format, inputStream)
-{
-	this->codecId = codecId;
-}
-
 //Public methods
 void RawImageDemuxer::ReadHeader()
 {
 	Stream *stream = new VideoStream;
-	stream->SetCodec(Codec::GetCodec(this->codecId));
+	stream->SetCodingFormat(this->codingFormatId);
 
 	this->AddStream(stream);
-}*/
+}
 
 bool RawImageDemuxer::ReadPacket(Packet &packet)
 {

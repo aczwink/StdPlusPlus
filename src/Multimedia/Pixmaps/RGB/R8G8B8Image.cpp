@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*DEPRECATED:
 //Class header
 #include <Std++/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp>
 //Local
@@ -112,4 +113,4 @@ void R8G8B8Image::SetPixel(uint32 index, byte r, byte g, byte b)
 	this->pBlueChannel[index] = b;
 	this->pGreenChannel[index] = g;
 	this->pRedChannel[index] = r;
-}
+}*/

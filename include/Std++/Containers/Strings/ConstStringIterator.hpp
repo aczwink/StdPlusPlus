@@ -50,7 +50,7 @@ namespace StdXX
 			else
 			{
 				this->current -= 2;
-				if ((*(uint16 *)this->current) & 0xFFFFFC00 == 0xDC00)
+				if ( ((*(uint16 *)this->current) & 0xFFFFFC00) == 0xDC00)
 					this->current -= 2; //surrogate pair
 			}
 

@@ -31,6 +31,20 @@ ParserContext * libavcodec_Parser::CreateContext() const
 
 FixedArray<CodingFormatId> libavcodec_Parser::GetCodingFormatIds() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return FixedArray<CodingFormatId>(0);
+	DynamicArray<CodingFormatId> codingFormatIds;
+	for(uint32 i = 0; i < sizeof(this->parser->codec_ids)/sizeof(this->parser->codec_ids[0]); i++)
+	{
+		if(this->parser->codec_ids[i] == AV_CODEC_ID_NONE)
+			break;
+		CodingFormatId codingFormatId = this->libavCodecIdMap.Get(
+				reinterpret_cast<const AVCodecID &>(this->parser->codec_ids[i]));
+		if(codingFormatId != CodingFormatId::Unknown)
+			codingFormatIds.Push(codingFormatId);
+	}
+
+	FixedArray<CodingFormatId> result(codingFormatIds.GetNumberOfElements());
+	for(uint32 i = 0; i < result.GetNumberOfElements(); i++)
+		result[i] = codingFormatIds[i];
+
+	return result;
 }

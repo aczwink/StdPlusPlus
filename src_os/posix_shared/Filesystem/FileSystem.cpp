@@ -134,11 +134,11 @@ private:
 //Class functions
 FileSystem &FileSystem::GetOSFileSystem()
 {
-	static class LinuxFS : public FileSystem
+	static class POSIX_FS : public FileSystem
 	{
 	public:
 		//Constructor
-		LinuxFS() : FileSystem(nullptr)
+		POSIX_FS() : FileSystem(nullptr)
 		{}
 
 		//Public methods
@@ -176,12 +176,18 @@ FileSystem &FileSystem::GetOSFileSystem()
 			return 0;
 		}
 
+		bool IsDirectory(const Path &path) const override
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return false;
+		}
+
 		void Move(const Path &from, const Path &to) override
 		{
 			rename(reinterpret_cast<const char *>(from.GetString().ToUTF8().GetRawZeroTerminatedData()),
 				   reinterpret_cast<const char *>(to.GetString().ToUTF8().GetRawZeroTerminatedData()));
 		}
-	} linuxFS;
+	} posix_fs;
 
-	return linuxFS;
+	return posix_fs;
 }

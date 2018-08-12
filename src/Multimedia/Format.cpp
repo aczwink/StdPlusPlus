@@ -20,12 +20,13 @@
 #include <Std++/Multimedia/Format.hpp>
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 //Definitions
 #define DETECTIONBUFFER_MINSIZE 17
-#define DETECTIONBUFFER_MAXSIZE 17
+#define DETECTIONBUFFER_MAXSIZE 17u
 
 //Global variables
 DynamicArray<const Format *> g_formats;
@@ -109,7 +110,7 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 
 		if(resize)
 		{
-			detectionBufferSize = MIN(detectionBufferSize * 2, DETECTIONBUFFER_MAXSIZE);
+			detectionBufferSize = Math::Min(detectionBufferSize * 2, DETECTIONBUFFER_MAXSIZE);
 		}
 	}
 

@@ -20,7 +20,7 @@
 #include "MatroskaVideo.hpp"
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
-#include "../BMP/BMP.h"
+#include "../BMP/BMP.hpp"
 #include "../WAVE/WAVE.h"
 #include "MatroskaDemuxer.hpp"
 #include "MatroskaMuxer.hpp"

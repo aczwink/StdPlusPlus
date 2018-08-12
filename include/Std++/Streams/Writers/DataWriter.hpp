@@ -56,6 +56,14 @@ namespace StdXX
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 
+		inline void WriteUInt16(uint16 value)
+		{
+			if(this->writeBigEndian)
+				this->WriteUInt16BE(value);
+			else
+				this->WriteUInt16LE(value);
+		}
+
 		inline void WriteUInt32(uint32 value)
 		{
 			if(this->writeBigEndian)
@@ -79,6 +87,21 @@ namespace StdXX
 			b[1] = (uint8)(value & 0xFF);
 
 			this->outputStream.WriteBytes(&b, sizeof(b));
+		}
+
+		inline void WriteUInt16BE(uint16 value)
+		{
+			byte b[2];
+
+			b[0] = (uint8)(value >> 8u);
+			b[1] = (uint8)(value & 0xFFu);
+
+			this->outputStream.WriteBytes(&b, sizeof(b));
+		}
+
+		inline void WriteUInt16LE(uint16 value)
+		{
+			this->outputStream.WriteBytes(&value, sizeof(value));
 		}
 
 		inline void WriteUInt32BE(uint32 value)

@@ -152,7 +152,7 @@ void MediaPlayer::OnMasterClockTriggered()
 			this->videoFrameDelay -= elapsed;
 			if(this->videoFrameDelay <= 0 && this->videoWidget)
 			{
-				this->videoWidget->UpdatePicture(this->nextVideoPacket, Size<uint16>(videoStream->width, videoStream->height));
+				this->videoWidget->UpdatePicture(this->nextVideoPacket, videoStream->size);
 				this->nextVideoPacket = nullptr;
 			}
 		}
@@ -170,7 +170,7 @@ void MediaPlayer::OnMasterClockTriggered()
 	}
 
 	//set up next call
-	int64 nextDelay = MIN(this->videoFrameDelay, 0); //TODO: audioframedealy
+	int64 nextDelay = Math::Min(this->videoFrameDelay, int64(0)); //TODO: audioframedealy
 	nextDelay = Max(nextDelay, int64(1));
 
 	this->masterClockTimer.OneShot((uint32) (nextDelay * 1000));

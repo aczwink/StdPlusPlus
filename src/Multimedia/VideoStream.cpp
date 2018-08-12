@@ -25,7 +25,7 @@ using namespace StdXX::Multimedia;
 bool VideoStream::AllDecoderInfoIsAvailable()
 {
 	//we have a decoder, but check if we have all important parameters
-	if(!this->width || !this->height)
+	if((this->size.width == 0) || (this->size.height == 0))
 		return false;
 
 	return true;

@@ -84,6 +84,7 @@ namespace StdXX
 		{
 			if (this->activeBackend != nullptr)
 				this->activeBackend->Unload();
+			this->activeBackend = nullptr;
 
 			while(!this->backends.IsEmpty())
 				delete this->backends.PopFirst();

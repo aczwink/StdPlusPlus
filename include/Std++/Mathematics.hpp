@@ -68,6 +68,12 @@ namespace StdXX
 			return ((a) > (b)) ? (a) : (b);
 		}
 
+		template<typename T>
+		constexpr T Min(const T &a, const T &b)
+		{
+			return ((a) < (b)) ? (a) : (b);
+		}
+
 		uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
 	}
 }

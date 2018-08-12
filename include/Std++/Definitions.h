@@ -52,10 +52,6 @@
 #define UNICODE_MAX ((uint32)0x10FFFF)
 
 //Math
-#ifndef MIN //maybe defined by the user
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#endif
-
 #define IS_POWER_OF_TWO(x) (((x) != 0) && (((x) & ((x) - 1)) == 0))
 
 //Types

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "ExternalVideoCodec.hpp"
 //Local
-#include "LibAV_VideoDecoder.hpp"
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-//Public methods
-Decoder *ExternalVideoCodec::CreateDecoder(Stream &stream) const
+class PNG_CodingFormat : public CodingFormat
 {
-#ifdef _AC_LIB_USEAVCODEC
-	return new LibAV_VideoDecoder(stream, this->GetId());
-#else
-	return nullptr;
-#endif
-}
+public:
+	//Methods
+	CodingFormatId GetId() const override
+	{
+		return CodingFormatId::PNG;
+	}
 
-Encoder *ExternalVideoCodec::CreateEncoder(Stream &stream) const
-{
-	//return new _stdxx_::libavcodec_Encoder(stream, this->GetId());
-	return nullptr;
-}
-
-ParserContext *ExternalVideoCodec::CreateParser() const
-{
-	return nullptr;
-}
+	String GetName() const override
+	{
+		return u8"Portable Network Graphics (PNG)";
+	}
+};

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*
 #include <Std++/Multimedia/Codec.hpp>
 //Namespaces
 using namespace StdXX;
@@ -26,8 +27,8 @@ class PCM_S16LE_Codec : public Codec
 public:
 	//Methods
 	Decoder *CreateDecoder(Stream &refStream) const;
-	Encoder *CreateEncoder(Stream &stream) const;
+	EncoderContext *CreateEncoder(Stream &stream) const;
 	ParserContext *CreateParser() const;
-	//CodecId GetId() const;
+	//CodecId Get() const;
 	String GetName() const;
-};
+};*/

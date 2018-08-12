@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include "../Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
@@ -25,16 +26,70 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        enum class PixelFormat
-        {
-            Unknown,
-            R8G8B8,
-            R8G8B8A8,
-            YCbCr420
-        };
+		enum class NamedPixelFormat
+		{
+			RGB_24, //packed uint8 RGB
+			YCbCr_420_P //planar uint8 YCbCr, Cb & Cr are subsampled by factor of 2 horizontally and vertically
+		};
 
-        //Functions
-        STDPLUSPLUS_API ColorSpace GetColorSpace(PixelFormat pixelFormat);
-        STDPLUSPLUS_API OldString ToString(PixelFormat pixelFormat);
+        class PixelFormat
+        {
+		public:
+        	//Constants
+        	static const uint8 MAX_COLOR_COMPONENTS = 3;
+        	static const uint8 MAX_PLANES = 3;
+
+        	//Members
+        	ColorSpace colorSpace;
+        	uint8 nPlanes;
+        	struct
+			{
+				/**
+				 * In which plane is the color component found.
+				 */
+				uint8 planeIndex;
+				/**
+				 * How many bits does the color component take.
+				 */
+				uint8 nBits;
+				/**
+				 * Specifies the number of bits that are discarded, before 'nBits' are read.
+				 */
+				uint8 shift;
+				/**
+				 * Should the color component be interpreted as float or integer.
+				 */
+				bool isFloat;
+				/**
+				 * Minimum value the component can take.
+				 */
+				union
+				{
+					uint8 u8;
+				} min;
+				/**
+				 * Maximum value the component can take.
+				 */
+				union
+				{
+					uint8 u8;
+				} max;
+			} colorComponents[MAX_COLOR_COMPONENTS];
+
+        	//Constructors
+			inline PixelFormat(ColorSpace colorSpace) : colorSpace(colorSpace)
+			{
+			}
+
+			PixelFormat(NamedPixelFormat namedPixelFormat);
+
+			//Operators
+			bool operator==(const PixelFormat &other) const;
+
+        	//Methods
+			uint32 ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const;
+			bool GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const;
+			uint8 GetNumberOfColorComponents() const;
+        };
     }
 }

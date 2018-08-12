@@ -42,7 +42,7 @@ public:
 		return new _stdxx_::OpenCL1DeviceContext(this->deviceId);
 	}
 
-	String GetName() const
+	String GetName() const override
 	{
 		char buffer[4096];
 		cl_int result = clGetDeviceInfo(this->deviceId, CL_DEVICE_NAME, sizeof(buffer), buffer, nullptr);

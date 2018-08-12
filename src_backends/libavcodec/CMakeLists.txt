@@ -27,6 +27,8 @@ if(${EXTENSION_LIBAVCODEC})
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_DecoderContext.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Encoder.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Encoder.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_EncoderContext.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_EncoderContext.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Parser.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Parser.hpp
 

@@ -19,7 +19,6 @@
 //Class header
 #include "RGB24_Encoder.hpp"
 //Local
-#include <Std++/Multimedia/Pixmaps/RGBPixmap.hpp>
 #include <Std++/Multimedia/Frame.hpp>
 #include <Std++/Debug.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
@@ -28,6 +27,8 @@
 //Public methods
 void RGB24_Encoder::Encode(const Frame &frame)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: see BGR24 encoder
+	/*
 	byte *rgb;
 	RGBPixmap *rgbImage;
 
@@ -68,7 +69,7 @@ void RGB24_Encoder::Encode(const Frame &frame)
 	if(videoFrame.GetImage() != rgbImage)
 	{
 		delete rgbImage; //the frame that we converted
-	}
+	}*/
 }
 
 void RGB24_Encoder::Flush()

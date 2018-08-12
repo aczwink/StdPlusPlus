@@ -22,10 +22,9 @@
 #include "../Math/Fraction.hpp"
 #include "ParserContext.hpp"
 #include "EnumTypes.hpp"
-#include "Codec.hpp"
 #include "CodingFormat.hpp"
 #include "DecoderContext.hpp"
-#include "Encoder.hpp"
+#include "EncoderContext.hpp"
 
 namespace StdXX
 {
@@ -52,7 +51,6 @@ namespace StdXX
 
             //Methods
             bool AllInfoIsAvailable();
-            Encoder *GetEncoder();
 
             //Inline
             inline const CodingFormat *GetCodingFormat() const
@@ -63,6 +61,11 @@ namespace StdXX
 			inline DecoderContext *GetDecoderContext()
 			{
 				return this->decoderContext;
+			}
+
+			inline EncoderContext *GetEncoderContext()
+			{
+				return this->encoderContext;
 			}
 
 			inline ParserContext *GetParserContext()
@@ -81,6 +84,12 @@ namespace StdXX
 				this->decoderContext = decoderContext;
 			}
 
+			inline void SetEncoderContext(EncoderContext *encoderContext)
+			{
+				delete this->encoderContext;
+				this->encoderContext = encoderContext;
+			}
+
             inline void SetParserContext(ParserContext *parserContext)
             {
                 this->parserContext = parserContext;
@@ -89,9 +98,8 @@ namespace StdXX
 		private:
 			//Members
 			const CodingFormat *codingFormat;
-			const Codec *pCodec;
 			DecoderContext *decoderContext;
-			Encoder *pEncoder;
+			EncoderContext *encoderContext;
 			ParserContext *parserContext;
 
 			//Abstract

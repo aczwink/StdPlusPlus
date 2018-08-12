@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Encoder.hpp>
+#include <Std++/Multimedia/EncoderContext.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class PCM_S16LE_Encoder : public Encoder
+class PCM_S16LE_Encoder : public EncoderContext
 {
 public:
 	//Methods

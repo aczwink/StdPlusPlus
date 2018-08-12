@@ -22,6 +22,7 @@
 #include <Std++/Integer.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
+#include "../BMP/BMP.hpp"
 
 //Constructor
 MatroskaMuxer::MatroskaMuxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
@@ -32,7 +33,7 @@ MatroskaMuxer::MatroskaMuxer(const Format &refFormat, ASeekableOutputStream &ref
 }
 
 //Private methods
-void MatroskaMuxer::BeginElement(EMatroskaId id)
+void MatroskaMuxer::BeginElement(MatroskaId id)
 {
 	this->WriteId(id);
 	this->elementSizeOffsets.Push(this->outputStream.GetCurrentOffset());
@@ -85,7 +86,7 @@ void MatroskaMuxer::FinalizeMetaSeekInfo()
 	this->outputStream.WriteUInt64BE(this->metaSeekInfoOffsets.cueingDataOffset - this->segmentOutputStreamOffset);
 }
 
-uint64 MatroskaMuxer::PrepareMetaSeekEntry(EMatroskaId id)
+uint64 MatroskaMuxer::PrepareMetaSeekEntry(MatroskaId id)
 {
 	uint64 offset;
 
@@ -138,7 +139,7 @@ void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 	/*
 	ASSERT(refStream.GetCodec(), "If you see this, report to StdXX");
 
-	switch(refStream.GetCodec()->GetId())
+	switch(refStream.GetCodec()->Get())
 	{
 		case CodecId::PCM_Float32LE:
 		{
@@ -149,13 +150,35 @@ void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 	*/
 }
 
-void MatroskaMuxer::WriteCodecElement(Stream &refStream)
+void MatroskaMuxer::WriteCodecElement(Stream &stream)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: next
-	/*
-	ASSERT(refStream.GetCodec(), "If you see this, report to StdXX");
+	ASSERT(stream.GetCodingFormat(), u8"If you see this, report to StdXX");
 
-	String codecId = MapToCodecString(refStream.GetCodec()->GetId());
+	switch(stream.GetType())
+	{
+		case DataType::Audio:
+			NOT_IMPLEMENTED_ERROR; //TODO: next
+			break;
+		case DataType::Subtitle:
+			NOT_IMPLEMENTED_ERROR; //TODO: next
+			break;
+		case DataType::Video:
+			{
+				//native codecs
+				switch(stream.GetCodingFormat()->GetId())
+				{
+					default: //non-native
+						this->WriteASCIIElement(MATROSKA_ID_CODECID, codecId_ms_fourcc);
+						this->BeginElement(MATROSKA_ID_CODECPRIVATE);
+						_stdxx_::WriteBitmapInfoHeader(dynamic_cast<VideoStream &>(stream), this->outputStream);
+						this->EndElement();
+				}
+			}
+			break;
+	}
+	/*
+
+	String codecId = MapToCodecString(stream.GetCodec()->GetId());
 	if(!codecId.IsEmpty())
 	{
 		this->WriteASCIIElement(MATROSKA_ID_CODECID, codecId);
@@ -163,7 +186,7 @@ void MatroskaMuxer::WriteCodecElement(Stream &refStream)
 		return;
 	}
 
-	switch(refStream.GetCodec()->GetId())
+	switch(stream.GetCodec()->Get())
 	{
 		case CodecId::PCM_Float32LE:
 		{
@@ -203,7 +226,7 @@ void MatroskaMuxer::WriteCuePoints()
 	}
 }
 
-void MatroskaMuxer::WriteId(EMatroskaId id)
+void MatroskaMuxer::WriteId(MatroskaId id)
 {
 	DataWriter writer(true, this->outputStream);
 
@@ -215,13 +238,13 @@ void MatroskaMuxer::WriteId(EMatroskaId id)
 	else if((id & 0xFFFF) == id)
 	{
 		//Class B
-		this->outputStream.WriteUInt16BE(id & 0xFFFF);
+		writer.WriteUInt16(id & 0xFFFF);
 	}
 	else if((id & 0xFFFFFF) == id)
 	{
 		//Class C
 		writer.WriteByte((id >> 16) & 0xFF);
-		this->outputStream.WriteUInt16BE(id & 0xFFFF);
+		writer.WriteUInt16(id & 0xFFFF);
 	}
 	else
 	{
@@ -372,12 +395,12 @@ void MatroskaMuxer::WriteHeader()
 				break;
 			case DataType::Video:
 			{
-				VideoStream *const& refpVideoStream = (VideoStream *)stream;
+				VideoStream *const& videoStream = (VideoStream *)stream;
 
 				this->BeginElement(MATROSKA_ID_VIDEO);
 
-				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, refpVideoStream->width);
-				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, refpVideoStream->height);
+				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, videoStream->size.width);
+				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, videoStream->size.height);
 
 				this->EndElement();
 			}
@@ -392,16 +415,11 @@ void MatroskaMuxer::WriteHeader()
 
 void MatroskaMuxer::WritePacket(const Packet &packet)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: next
-	/*
-	bool startNewCluster;
-	uint8 flags;
-	int16 pts;
-	uint64 transformedPTS;
+	uint64 transformedPTS = this->TransformPTS(packet.pts, packet.streamIndex);
 
-	transformedPTS = this->TransformPTS(packet.pts, packet.streamIndex);
+	//check for new cluster
+	bool startNewCluster = false;
 
-	startNewCluster = false;
 	if(!this->currentCluster.isClusterOpen)
 	{
 		//if we don't have a cluster open we need to open one
@@ -412,7 +430,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 		/*
 		As of here https://www.matroska.org/technical/diagram/index.html
 		it seems that a new cluster should be created every 5 MB or every 5 seconds - whichever comes first.
-		*//*
+		*/
 		if(this->currentCluster.size > 5 * MiB)
 			startNewCluster = true;
 		if(this->currentCluster.pts > this->currentCluster.basePTS + this->MapSeconds(5))
@@ -447,7 +465,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 
 	As of here https://www.matroska.org/technical/diagram/index.html
 	it is sufficient to index video keyframes
-	*//*
+	*/
 	if(packet.containsKeyframe && transformedPTS != Natural<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
 	{
 		CueEntry &cueEntry = this->cues[transformedPTS];
@@ -464,10 +482,10 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	//write packet header
 	DataWriter writer(true, this->outputStream);
 
-	pts = int16(transformedPTS - this->currentCluster.basePTS);
+	int16 pts = int16(transformedPTS - this->currentCluster.basePTS);
 	writer.WriteInt16(pts);
 
-	flags = 0;
+	uint8 flags = 0;
 	if(packet.containsKeyframe)
 	{
 		flags |= 0x80;
@@ -479,5 +497,4 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	this->EndElement();
 
 	this->currentCluster.size += packet.GetSize();
-	*/
 }

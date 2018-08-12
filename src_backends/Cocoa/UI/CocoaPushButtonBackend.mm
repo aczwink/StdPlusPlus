@@ -100,12 +100,6 @@ void CocoaPushButtonBackend::SetText(const StdXX::String &text)
 
 
 //OLD STUFF
-WidgetBackend *CocoaPushButtonBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 Math::SizeD CocoaPushButtonBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

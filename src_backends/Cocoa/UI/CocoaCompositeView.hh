@@ -55,8 +55,6 @@ namespace _stdxx_
 
 
 		//OLD STUFF:
-		WidgetBackend *CreateChildBackend(StdXX::UI::Widget *widget) const override;
-
 		StdXX::Math::SizeD GetSize() const override;
 		void Paint() override;
 

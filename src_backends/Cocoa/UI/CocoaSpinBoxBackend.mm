@@ -148,12 +148,6 @@ void CocoaSpinBoxBackend::SetValue(int32 value)
 
 
 //old stuff
-WidgetBackend *CocoaSpinBoxBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 StdXX::Math::SizeD CocoaSpinBoxBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

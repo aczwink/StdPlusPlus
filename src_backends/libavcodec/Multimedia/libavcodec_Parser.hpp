@@ -23,6 +23,7 @@ extern "C"
 }
 //Local
 #include <Std++/Multimedia/Parser.hpp>
+#include "../../../src/Multimedia/CodingFormatIdMap.hpp"
 
 namespace _stdxx_
 {
@@ -30,9 +31,12 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline libavcodec_Parser(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId) :
-			codingFormatId(codingFormatId)
+		inline libavcodec_Parser(const CodingFormatIdMap<AVCodecID> &libavCodecIdMap, StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId) :
+			codingFormatId(codingFormatId), libavCodecIdMap(libavCodecIdMap)
 		{
+			AVCodecParserContext *parserContext = av_parser_init(libavCodecId);
+			this->parser = parserContext->parser;
+			av_parser_close(parserContext);
 		}
 
 		//Methods
@@ -42,5 +46,7 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::Multimedia::CodingFormatId codingFormatId;
+		const CodingFormatIdMap<AVCodecID> &libavCodecIdMap;
+		AVCodecParser *parser;
 	};
 }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*DEPRECATED:
 #pragma once
 //Local
 #include "Std++/Multimedia/Pixmap.hpp"
@@ -24,11 +25,6 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        /*
-        Y = Luminance from black to white
-        Cb = Chrominance blue from grey to blue
-        Cr = Chrominance red from grey to red
-        */
         class STDPLUSPLUS_API YCbCrImage : public Pixmap
         {
         private:
@@ -38,7 +34,7 @@ namespace StdXX
             the limited ranges are the following:
             Luminance in range [16, 235]
             Chrominance in range [16, 240]
-            */
+            *//*
             bool useFullRange;
         public:
             //Constructor
@@ -60,4 +56,4 @@ namespace StdXX
             }
         };
     }
-}
+}*/

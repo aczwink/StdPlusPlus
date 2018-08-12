@@ -33,7 +33,7 @@ http://haali.su/mkv/codecs.pdf
 
 namespace Matroska
 {
-	enum EMatroskaId
+	enum MatroskaId
 	{
 		//EBML Header
 		MATROSKA_ID_EBML = 0x1A45DFA3,
@@ -100,7 +100,7 @@ namespace Matroska
 	//Specific codecs
 #define CODEC_PCM_FLOAT_LE "A_PCM/FLOAT/IEEE"
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
-#define CODEC_MS_FOURCC u8"V_MS/VFW/FOURCC"
+	const String codecId_ms_fourcc = u8"V_MS/VFW/FOURCC";
 
 	//Functions
 	_stdxx_::CodingFormatIdMap<String> GetCodingFormatMap();

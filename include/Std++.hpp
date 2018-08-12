@@ -137,8 +137,8 @@
 #include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Multimedia/ClusterIndex.hpp>
-#include <Std++/Multimedia/Codec.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
+#include <Std++/Multimedia/Encoder.hpp>
 #include <Std++/Multimedia/Format.hpp>
 #include <Std++/Multimedia/MediaPlayer.hpp>
 #include <Std++/Multimedia/Muxer.hpp>
@@ -151,10 +151,6 @@
 #include <Std++/Multimedia/CAudioVoice.h>
 #include <Std++/Multimedia/SMetaInfo.h>
 //Pixmaps
-//Pixmaps/RGB
-#include <Std++/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp>
-//Pixmaps/RGBA
-#include <Std++/Multimedia/Pixmaps/RGBA/CR8G8B8A8Image.h>
 //Pixmaps/YCbCr
 #include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
 

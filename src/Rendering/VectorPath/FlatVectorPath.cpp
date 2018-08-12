@@ -18,6 +18,7 @@
  */
 //Class header
 #include <Std++/Rendering/VectorPath/FlatVectorPath.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX::Rendering;
 
@@ -61,7 +62,7 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 		}
 
 		//should we use bevel or miter for inner join
-		limit = MIN(refPrev.length, refCurrent.length) * w_inverse;
+		limit = Math::Min(refPrev.length, refCurrent.length) * w_inverse;
 		if(limit < 1)
 			limit = 1;
 		if((extrusionLengthSquared * limit * limit) < 1.0)

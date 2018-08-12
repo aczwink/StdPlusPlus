@@ -104,12 +104,6 @@ void CocoaSliderBackend::ValueChanged()
 
 
 //OLD STUFF
-WidgetBackend *CocoaSliderBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 Math::SizeD CocoaSliderBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

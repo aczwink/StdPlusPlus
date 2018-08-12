@@ -20,14 +20,14 @@
 #include "PCM_S16LE_Codec.hpp"
 //Local
 #include "PCM_S16LE_Encoder.hpp"
-
+/*
 //Public methods
 Decoder *PCM_S16LE_Codec::CreateDecoder(Stream &refStream) const
 {
 	return nullptr;
 }
 
-Encoder *PCM_S16LE_Codec::CreateEncoder(Stream &stream) const
+EncoderContext *PCM_S16LE_Codec::CreateEncoder(Stream &stream) const
 {
 	return new PCM_S16LE_Encoder;
 }
@@ -35,9 +35,9 @@ Encoder *PCM_S16LE_Codec::CreateEncoder(Stream &stream) const
 ParserContext *PCM_S16LE_Codec::CreateParser() const
 {
 	return nullptr;
-}
+}*/
 /*
-CodecId PCM_S16LE_Codec::GetId() const
+CodecId PCM_S16LE_Codec::Get() const
 {
 	return CodecId::PCM_S16LE;
 }

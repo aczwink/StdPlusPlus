@@ -82,7 +82,7 @@ void EventQueue::WaitForEvents()
 	for(const EventSource *const& source : this->sources)
 	{
 		uint64 tmp = source->GetMaxTimeout();
-		minWaitTime = MIN(minWaitTime, tmp);
+		minWaitTime = Math::Min(minWaitTime, tmp);
 	}
 
 	if(minWaitTime == 0)

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+ /*DEPRECATED
 #pragma once
 //Local
 #include "../YCbCrImage.hpp"
@@ -67,4 +68,4 @@ namespace StdXX
             }
         };
     }
-}
+}*/

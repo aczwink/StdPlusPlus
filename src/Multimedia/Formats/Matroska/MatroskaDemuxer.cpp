@@ -23,7 +23,7 @@
 #include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include "Matroska.hpp"
-#include "../BMP/BMP.h"
+#include "../BMP/BMP.hpp"
 //Namespaces
 using namespace Matroska;
 
@@ -99,7 +99,7 @@ void MatroskaDemuxer::AddStream()
 
 				currentOffset = this->inputStream.GetCurrentOffset();
 				this->inputStream.SetCurrentOffset(this->parserState.currentTrack.codecPrivate.offset);
-				ReadBMPHeader(isBottomUp, this->inputStream, *refpVideoStream);
+				_stdxx_::ReadBMPHeader(isBottomUp, this->inputStream, *refpVideoStream);
 				this->inputStream.SetCurrentOffset(currentOffset);
 			}
 		}
@@ -224,10 +224,10 @@ void MatroskaDemuxer::ParseASCIIString(uint64 id, const String &string)
 	{
 	case MATROSKA_ID_CODECID:
 	{
-		this->parserState.currentTrack.codingFormatId = this->codecIdMap.GetId(string);
+		this->parserState.currentTrack.codingFormatId = this->codecIdMap.Get(string);
 
 		//special cases
-		if (string == CODEC_MS_FOURCC)
+		if (string == codecId_ms_fourcc)
 			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = true;
 	}
 	break;

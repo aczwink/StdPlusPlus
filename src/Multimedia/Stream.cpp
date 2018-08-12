@@ -25,10 +25,9 @@ using namespace StdXX::Multimedia;
 //Constructor
 Stream::Stream()
 {
-	this->pCodec = nullptr;
 	this->decoderContext = nullptr;
 	this->parserContext = nullptr;
-	this->pEncoder = nullptr;
+	this->encoderContext = nullptr;
 
 	this->startTime = Natural<uint64>::Max();
 	this->duration = Natural<uint64>::Max();
@@ -41,8 +40,7 @@ Stream::~Stream()
 {
 	delete this->parserContext;
 	delete this->decoderContext;
-	if(this->pEncoder)
-		delete this->pEncoder;
+	delete this->encoderContext;
 }
 
 //Public methods
@@ -55,22 +53,4 @@ bool Stream::AllInfoIsAvailable()
 		return false;
 
 	return this->AllDecoderInfoIsAvailable();
-}
-
-Encoder *Stream::GetEncoder()
-{
-	if(this->pEncoder == NULL)
-	{
-		//we have no encoder... try to instantiate one
-		if(this->pCodec)
-		{
-			//we have a codec... create instance
-			this->pEncoder = this->pCodec->CreateEncoder(*this);
-			return this->pEncoder;
-		}
-
-		return NULL;
-	}
-
-	return this->pEncoder;
 }

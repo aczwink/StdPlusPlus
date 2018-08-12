@@ -37,16 +37,16 @@ bool AxisAlignedBox<ScalarType>::Intersects(const Vector4S &refOrigin, const Vec
 	t1 = (Vector4S(this->max, 0) - refOrigin) / refDir;
 
 	//check x
-	tmin = MIN(t0.x, t1.x);
+	tmin = Min(t0.x, t1.x);
 	tmax = Max(t0.x, t1.x);
 
 	//check y
-	tmin = Max(tmin, MIN(t0.y, t1.y));
-	tmax = MIN(tmax, Max(t0.y, t1.y));
+	tmin = Max(tmin, Min(t0.y, t1.y));
+	tmax = Min(tmax, Max(t0.y, t1.y));
 
 	//check z
-	tmin = Max(tmin, MIN(t0.z, t1.z));
-	tmax = MIN(tmax, Max(t0.z, t1.z));
+	tmin = Max(tmin, Min(t0.z, t1.z));
+	tmax = Min(tmax, Max(t0.z, t1.z));
 
 	//t can't be negative as this would be behind the ray origin...
 

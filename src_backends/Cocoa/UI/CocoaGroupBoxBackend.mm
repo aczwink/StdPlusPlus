@@ -125,12 +125,6 @@ StdXX::Math::SizeD CocoaGroupBoxBackend::ComputeTextSize(NSString *string, NSFon
 
 
 //OLD STUFF
-WidgetBackend *CocoaGroupBoxBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 Math::SizeD CocoaGroupBoxBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

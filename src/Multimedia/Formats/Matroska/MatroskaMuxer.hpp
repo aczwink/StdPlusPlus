@@ -64,17 +64,17 @@ private:
 	} metaSeekInfoWriteOffsets;
 
 	//Methods
-	void BeginElement(EMatroskaId id);
+	void BeginElement(MatroskaId id);
 	void ComputeTimeScales();
 	void EndElement();
 	void FinalizeMetaSeekInfo();
-	uint64 PrepareMetaSeekEntry(EMatroskaId id);
+	uint64 PrepareMetaSeekEntry(MatroskaId id);
 	void PrepareMetaSeekInfo();
 	void WriteAdditionalAudioStreamInfo(AudioStream &refStream);
-	void WriteCodecElement(Stream &refStream);
+	void WriteCodecElement(Stream &stream);
 	void WriteCuePoints();
 	void WriteEBMLUInt(uint64 value);
-	void WriteId(EMatroskaId id);
+	void WriteId(MatroskaId id);
 	void WriteUInt(uint64 value);
 
 	//Inline
@@ -91,7 +91,7 @@ private:
 		return pts / this->timeScale * this->GetStream(streamIndex)->timeScale;
 	}
 
-	inline void WriteASCIIElement(EMatroskaId id, const String &string)
+	inline void WriteASCIIElement(MatroskaId id, const String &string)
 	{
 		this->BeginElement(id);
 		TextWriter writer(this->outputStream, TextCodecType::ASCII);
@@ -99,21 +99,21 @@ private:
 		this->EndElement();
 	}
 
-	inline void WriteFloatElement(EMatroskaId id, float64 value)
+	inline void WriteFloatElement(MatroskaId id, float64 value)
 	{
 		this->BeginElement(id);
 		this->outputStream.WriteFloat64BE(value);
 		this->EndElement();
 	}
 
-	inline void WriteUIntElement(EMatroskaId id, uint64 value)
+	inline void WriteUIntElement(MatroskaId id, uint64 value)
 	{
 		this->BeginElement(id);
 		this->WriteUInt(value);
 		this->EndElement();
 	}
 
-	inline void WriteUTF8Element(EMatroskaId id, const UTF8String &refString)
+	inline void WriteUTF8Element(MatroskaId id, const UTF8String &refString)
 	{
 		this->BeginElement(id);
 		this->outputStream.WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());

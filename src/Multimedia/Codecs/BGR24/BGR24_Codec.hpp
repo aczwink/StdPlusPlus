@@ -35,7 +35,7 @@ public:
 		return nullptr;
 	}
 
-	Encoder *CreateEncoder(Stream &stream) const
+	EncoderContext *CreateEncoder(Stream &stream) const
 	{
 		return new BGR24_Encoder;
 	}

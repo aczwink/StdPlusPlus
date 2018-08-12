@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Multimedia/Demuxer.hpp>
 //Local
+#include <Std++/Multimedia/Decoder.hpp>
 #include <Std++/Multimedia/Format.hpp>
 #include <Std++/Multimedia/Parser.hpp>
 //Namespaces

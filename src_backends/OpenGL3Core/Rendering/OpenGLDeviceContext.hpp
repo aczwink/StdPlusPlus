@@ -61,7 +61,7 @@ namespace _stdxx_
 		void EnablePolygonFilling(bool enabled) override;
 		void EnableStencilTest(bool enabled) override;
 		uint32 GetNumberOfTextureUnits() const override;
-		StdXX::FixedArray<byte> ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect) override;
+		StdXX::Multimedia::Pixmap *ReadColorBuffer(const StdXX::Math::Rect<uint16> &rect) override;
 		void ReadDepthBuffer(const StdXX::Math::Rect<uint16> &block, float32 *output) override;
 		void SetDepthTest(StdXX::Rendering::TestFunction function) override;
 		void SetDownloadAlignment(uint8 value) override;

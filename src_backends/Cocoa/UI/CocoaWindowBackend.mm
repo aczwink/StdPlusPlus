@@ -161,13 +161,6 @@ void CocoaWindowBackend::Show(bool visible)
 
 
 //OLD STUFF:
-
-WidgetBackend *CocoaWindowBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 uint32 CocoaWindowBackend::GetPosition() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

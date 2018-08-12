@@ -16,39 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _STDXX_EXTENSION_LIBAVCODEC
 //Global
 extern "C"
 {
 #include <libavcodec/avcodec.h>
 }
 //Local
-#include <Std++/_Backends/Extension.hpp>
+#include <Std++/Multimedia/EncoderContext.hpp>
 #include <Std++/Multimedia/CodingFormatId.hpp>
+#include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
-#include "../../src/Multimedia/CodingFormatIdMap.hpp"
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 
 namespace _stdxx_
 {
-	class libavcodec_Backend : public Extension
+	class libavcodec_EncoderContext : public StdXX::Multimedia::EncoderContext
 	{
 	public:
+		//Constructor
+		libavcodec_EncoderContext(StdXX::Multimedia::Stream &stream, AVCodec *codec,
+								  const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap);
+
+		//Destructor
+		~libavcodec_EncoderContext();
+
 		//Methods
-		void Load() override;
+		void Encode(const StdXX::Multimedia::Frame &frame) override;
+		void Flush() override;
 
 	private:
 		//Members
-		CodingFormatIdMap<AVCodecID> libavCodecIdMap;
-		StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> libavPixelFormatMap;
+		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
+		AVCodecContext *codecContext;
+		AVFrame *frame;
+		AVPacket *packet;
+		StdXX::Multimedia::NamedPixelFormat namedPixelFormat;
 
 		//Methods
-		void LoadCodingFormatIdMap();
-#ifdef _STDXX_EXTENSION_LIBAVCODEC_ENABLE_PATENDED
-		void LoadPatentedCodingFormatIdMap();
-#endif
-		void LoadPixelFormatMap();
-		void RegisterEncoderIfAvailable(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId);
-		void RegisterParserIfAvailable(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId);
+		void Encode(AVFrame *frame);
+		void MapFrame(const StdXX::Multimedia::Frame &frame) const;
+		void MapPacket();
 	};
 }
-#endif

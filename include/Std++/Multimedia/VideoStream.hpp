@@ -18,7 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Size.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Stream.hpp"
+#include "PixelFormat.hpp"
 
 namespace StdXX
 {
@@ -26,21 +29,10 @@ namespace StdXX
     {
         class STDPLUSPLUS_API VideoStream : public Stream
         {
-        private:
-            //Methods
-            bool AllDecoderInfoIsAvailable();
-
         public:
             //Members
-            uint16 width;
-            uint16 height;
-
-            //Constructor
-            inline VideoStream()
-            {
-                this->width = 0;
-                this->height = 0;
-            }
+            Math::Size<uint16> size;
+            UniquePointer<PixelFormat> pixelFormat;
 
             //Methods
             DataType GetType() const;
@@ -48,8 +40,12 @@ namespace StdXX
             //Inline
             inline Fraction GetAspectRatio() const
             {
-                return Fraction(this->width, this->height).Reduce();
+                return Fraction(this->size.width, this->size.height).Reduce();
             }
+
+        private:
+            //Methods
+            bool AllDecoderInfoIsAvailable();
         };
     }
 }

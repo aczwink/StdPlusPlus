@@ -88,7 +88,7 @@ bool String::operator==(const String &rhs) const
 
 bool String::operator<(const String &rhs) const
 {
-	uint32 cmpLength = MIN(this->length, rhs.length);
+	uint32 cmpLength = Math::Min(this->length, rhs.length);
 
 	auto it = this->begin();
 	auto it2 = rhs.begin();
@@ -117,8 +117,8 @@ bool String::EndsWith(const String &string) const
 
 uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 {
-	startPos = MIN(startPos, this->length-1);
-	length = MIN(length, this->length - startPos);
+	startPos = Math::Min(startPos, this->length-1);
+	length = Math::Min(length, this->length - startPos);
 
 	auto it = this->begin();
 
@@ -157,8 +157,8 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 
 uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length) const
 {
-	startPos = MIN(startPos, this->length - 1);
-	length = MIN(length, startPos + 1);
+	startPos = Math::Min(startPos, this->length - 1);
+	length = Math::Min(length, startPos + 1);
 
 	auto it = this->GetIteratorAt(startPos);
 	while(length)
@@ -247,7 +247,7 @@ String String::SubString(uint32 startPos, uint32 length) const
 {
 	auto it = this->GetIteratorAt(startPos);
 	uint32 startOffset = it.GetByteOffset();
-	length = MIN(length, this->length - startPos);
+	length = Math::Min(length, this->length - startPos);
 
 	//go to end
 	for(uint32 i = 0; i < length; i++)

@@ -20,7 +20,7 @@
 #include "BMP_Muxer.hpp"
 //Local
 #include <Std++/Streams/Writers/DataWriter.hpp>
-#include "BMP.h"
+#include "BMP.hpp"
 //Definitions
 #define BMP_FILEHEADER_SIZE 14
 
@@ -42,9 +42,9 @@ void BMP_Muxer::Finalize()
 
 void BMP_Muxer::WriteHeader()
 {
-	VideoStream *pStream;
+	VideoStream *stream;
 
-	pStream = (VideoStream *)this->GetStream(0);
+	stream = (VideoStream *)this->GetStream(0);
 
 	this->startOffset = this->outputStream.GetCurrentOffset();
 
@@ -53,22 +53,11 @@ void BMP_Muxer::WriteHeader()
 	//bitmap file header
 	this->outputStream.WriteBytes(BMP_HEADER_TYPE, BMP_HEADER_TYPE_SIZE);
 	dataWriter.WriteUInt32(0); //file size... updated in finalize
-	this->outputStream.WriteUInt16LE(0); //reserved1
-	this->outputStream.WriteUInt16LE(0); //reserved2
+	dataWriter.WriteUInt16(0); //reserved1
+	dataWriter.WriteUInt16(0); //reserved2
 	dataWriter.WriteUInt32(BMP_FILEHEADER_SIZE + BMP_INFOHEADER_SIZE); //data offset
 
-	//bitmap info header
-	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
-	dataWriter.WriteUInt32(pStream->width);
-	dataWriter.WriteUInt32(-(int32)pStream->height);
-	this->outputStream.WriteUInt16LE(1); //number of planes
-	this->outputStream.WriteUInt16LE(24); //bits per pixel
-	dataWriter.WriteUInt32(0); //compression
-	dataWriter.WriteUInt32(0); //image size... updated in finalize
-	dataWriter.WriteUInt32(0); //pixels per meter horizontal
-	dataWriter.WriteUInt32(0); //pixels per meter vertical
-	dataWriter.WriteUInt32(0); //number of color indexes
-	dataWriter.WriteUInt32(0); //biClrImportant
+	_stdxx_::WriteBitmapInfoHeader(*stream, this->outputStream);
 }
 
 void BMP_Muxer::WritePacket(const Packet &refPacket)
@@ -79,7 +68,7 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 
 	pStream = (VideoStream *)this->GetStream(0);
 
-	switch(pStream->GetCodec()->GetId())
+	switch(pStream->GetCodec()->Get())
 	{
 		case CodecId::BGR24:
 		{

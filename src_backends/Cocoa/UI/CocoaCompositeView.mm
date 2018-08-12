@@ -74,12 +74,6 @@ void CocoaCompositeView::SetBounds(const StdXX::Math::RectD &area)
 
 
 //OLD STUFF
-_stdxx_::WidgetBackend *_stdxx_::CocoaCompositeView::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 StdXX::Math::SizeD _stdxx_::CocoaCompositeView::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

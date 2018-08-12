@@ -31,12 +31,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.hpp
 
 	#Multimedia
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp
-
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBAImage.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGBPixmap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCrImage.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.hpp
@@ -44,20 +40,15 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Codec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Decoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Encoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Frame.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp

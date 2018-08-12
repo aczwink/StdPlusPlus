@@ -76,7 +76,7 @@ void WAVE_Muxer::WriteHeader()
 	//format chunk
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
-	this->outputStream.WriteUInt16LE(MapToTwoCC(stream->GetCodec()->GetId()));
+	this->outputStream.WriteUInt16LE(MapToTwoCC(stream->GetCodec()->Get()));
 	this->outputStream.WriteUInt16LE(stream->nChannels);
 	writer.WriteUInt32(stream->sampleRate);
 	writer.WriteUInt32(stream->sampleRate * blockAlign);

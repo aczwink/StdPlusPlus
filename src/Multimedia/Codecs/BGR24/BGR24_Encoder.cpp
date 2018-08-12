@@ -19,13 +19,14 @@
 //Class header
 #include "BGR24_Encoder.hpp"
 //Local
-#include <Std++/Multimedia/Pixmaps/RGBPixmap.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 
 //Public methods
 void BGR24_Encoder::Encode(const Frame &refFrame)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement but without stupid resampling and with new api
+	/*
 	byte *pBGR;
 	RGBPixmap *pRGBImage;
 
@@ -63,7 +64,7 @@ void BGR24_Encoder::Encode(const Frame &refFrame)
 	if(refVideoFrame.GetImage() != pRGBImage)
 	{
 		delete pRGBImage; //the frame that we converted
-	}
+	}*/
 }
 
 void BGR24_Encoder::Flush()

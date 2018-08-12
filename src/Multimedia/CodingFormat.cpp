@@ -33,6 +33,11 @@ void CodingFormat::AddDecoder(Decoder *decoder, float32 quality)
 	this->decoders.Insert(1 - quality, decoder);
 }
 
+void CodingFormat::AddEncoder(Encoder *encoder, float32 quality)
+{
+	this->encoders.Insert(1 - quality, encoder);
+}
+
 void CodingFormat::AddParser(Parser *parser, float32 quality)
 {
 	this->parsers.Insert(1 - quality, parser);
@@ -43,6 +48,13 @@ const Decoder *CodingFormat::GetBestMatchingDecoder() const
 	if (this->decoders.IsEmpty())
 		return nullptr;
 	return this->decoders.GetFirst();
+}
+
+const Encoder *CodingFormat::GetBestMatchingEncoder() const
+{
+	if (this->encoders.IsEmpty())
+		return nullptr;
+	return this->encoders.GetFirst();
 }
 
 const Parser *CodingFormat::GetBestMatchingParser() const

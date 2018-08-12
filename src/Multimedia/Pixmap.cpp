@@ -20,17 +20,33 @@
 #include <Std++/Multimedia/Pixmap.hpp>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Multimedia/Pixmaps/RGB/R8G8B8Image.hpp>
-#include <Std++/Multimedia/Pixmaps/RGBAImage.hpp>
-#include <Std++/Multimedia/Pixmaps/YCbCrImage.hpp>
 #include <Std++/Mathematics.hpp>
-#include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
 #include <Std++/Natural.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::Multimedia;
 
+//Destructor
+Pixmap::~Pixmap()
+{
+	//release planes
+	for(uint8 i = 0; i < this->pixelFormat.nPlanes; i++)
+		MemFree(this->planes[i]);
+}
+
+//Private methods
+void Pixmap::Allocate()
+{
+	//allocate planes
+	for(uint8 i = 0; i < this->pixelFormat.nPlanes; i++)
+	{
+		this->lineSizes[i] = this->pixelFormat.ComputeLineSize(i, size.width);
+		this->planes[i] = MemAlloc(this->lineSizes[i] * size.height);
+	}
+}
+
+/*DEPRECATED:
 //Local functions
 static Pixmap *CreateImage(uint16 width, uint16 height, ColorSpace colorSpace)
 {
@@ -96,7 +112,7 @@ static void ConvertColor(uint16 x, uint16 y, const Pixmap &refSourceImage, Pixma
 					refDestImage.GetRedChannel()[i] = byte((a * r) / 255);
 					refDestImage.GetGreenChannel()[i] = byte((a * g) / 255);
 					refDestImage.GetBlueChannel()[i] = byte((a * b) / 255);
-					*/
+					*//*
 					//discard alpha channel
 					refDestImage.GetRedChannel()[i] = r;
 					refDestImage.GetGreenChannel()[i] = g;
@@ -164,4 +180,4 @@ Pixmap *Pixmap::Resample(ColorSpace desiredColorSpace) const
 	}
 
 	return pResampledImage;
-}
+}*/

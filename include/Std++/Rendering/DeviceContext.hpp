@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/Multimedia/Pixmap.hpp>
 #include "../Definitions.h"
 #include "../Color.hpp"
 #include "../Math/Geometry/Rect.hpp"
@@ -94,7 +95,7 @@ namespace StdXX
 			virtual void EnablePolygonFilling(bool enabled = true) = 0;
 			virtual void EnableStencilTest(bool enabled = true) = 0;
 			virtual uint32 GetNumberOfTextureUnits() const = 0;
-			virtual FixedArray<byte> ReadColorBuffer(const Math::Rect<uint16> &rect) = 0;
+			virtual Multimedia::Pixmap *ReadColorBuffer(const Math::Rect<uint16> &rect) = 0;
 			virtual void ReadDepthBuffer(const Math::Rect<uint16> &block, float32 *output) = 0;
 			virtual void SetDepthTest(TestFunction function) = 0;
 			virtual void SetDownloadAlignment(uint8 value) = 0;

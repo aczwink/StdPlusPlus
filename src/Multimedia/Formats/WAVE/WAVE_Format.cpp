@@ -39,7 +39,7 @@ Muxer *WAVE_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
 	NOT_IMPLEMENTED_ERROR;
 
 	return CodecId::Unknown;
-}
+}*/
 
 String WAVE_Format::GetExtension() const
 {
@@ -56,7 +56,7 @@ String WAVE_Format::GetName() const
 	return u8"Waveform Audio (WAVE)";
 }
 
-FiniteSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
+/*FiniteSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
 {
 	FiniteSet<CodecId> result;
 

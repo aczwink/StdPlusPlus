@@ -67,7 +67,6 @@ namespace _stdxx_
 
 
 		//OLD STUFF
-		WidgetBackend *CreateChildBackend(StdXX::UI::Widget *widget) const override;
 		uint32 GetPosition() const override;
 		void GetRange(int32 &min, int32 &max) override;
 		StdXX::Math::SizeD GetSize() const override;

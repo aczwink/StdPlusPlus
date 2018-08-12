@@ -18,8 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Size.hpp>
 #include "../Definitions.h"
 #include "EnumTypes.hpp"
+#include "PixelFormat.hpp"
 
 namespace StdXX
 {
@@ -27,43 +29,63 @@ namespace StdXX
     {
         class STDPLUSPLUS_API Pixmap
         {
-        private:
-            //Members
-            uint16 width;
-            uint16 height;
-
         public:
             //Constructor
-            inline Pixmap(uint16 width, uint16 height)
-            {
-                this->width = width;
-                this->height = height;
-            }
+        	inline Pixmap(const Math::Size<uint16> &size, const PixelFormat &pixelFormat)
+					: size(size), pixelFormat(pixelFormat)
+			{
+				this->Allocate();
+			}
+
+			inline Pixmap(const Math::Size<uint16> &size, NamedPixelFormat namedPixelFormat)
+					: size(size), pixelFormat(namedPixelFormat)
+			{
+				this->Allocate();
+			}
 
             //Destructor
-            virtual ~Pixmap(){}
-
-            //Abstract
-            virtual ColorSpace GetColorSpace() const = 0;
-
-            //Methods
-            Pixmap *Resample(ColorSpace desiredColorSpace) const;
+			~Pixmap();
 
             //Inline
-            inline uint16 GetHeight() const
-            {
-                return this->height;
-            }
+			inline uint32 GetLineSize(uint8 planeIndex) const
+			{
+				return this->lineSizes[planeIndex];
+			}
 
-            inline uint16 GetWidth() const
-            {
-                return this->width;
-            }
+			inline const PixelFormat &GetPixelFormat() const
+			{
+				return this->pixelFormat;
+			}
+
+			inline void *GetPlane(uint8 i)
+			{
+				return this->planes[i];
+			}
+
+			inline const void *GetPlane(uint8 i) const
+			{
+				return this->planes[i];
+			}
+
+			inline const Math::Size<uint16> &GetSize() const
+			{
+				return this->size;
+			}
 
             inline uint32 GetNumberOfPixels() const
             {
-                return (uint32)this->width * (uint32)this->height;
+                return (uint32)this->size.width * (uint32)this->size.height;
             }
+
+        private:
+        	//Members
+        	Math::Size<uint16> size;
+            PixelFormat pixelFormat;
+            void *planes[PixelFormat::MAX_PLANES];
+            uint32 lineSizes[PixelFormat::MAX_PLANES];
+
+            //Methods
+			void Allocate();
         };
     }
 }

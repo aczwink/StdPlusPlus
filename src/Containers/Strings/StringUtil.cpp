@@ -54,7 +54,7 @@ OldString StdXX::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
 			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
             //str = ToString((float64)bitSize / MiB);
 
-            length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
+            length = Math::Min(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
             return str.SubString(0, length) + " Mibit";
         }
         return OldString(bitSize / MiB) + " Mibit";
@@ -69,7 +69,7 @@ OldString StdXX::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
 			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
             //str = ToString((float64)bitSize / KiB);
 
-            length = MIN(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
+            length = Math::Min(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
             return str.SubString(0, length) + " Kibit";
         }
 		NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class

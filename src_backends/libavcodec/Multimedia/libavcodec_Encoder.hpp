@@ -1,21 +1,21 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
- *
- * This file is part of Std++.
- *
- * Std++ is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Std++ is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+*
+* This file is part of Std++.
+*
+* Std++ is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Std++ is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Std++.  If not, see <http://www.gnu.org/licenses/>.
+*/
 //Global
 extern "C"
 {
@@ -23,8 +23,8 @@ extern "C"
 }
 //Local
 #include <Std++/Multimedia/Encoder.hpp>
-#include <Std++/Multimedia/CodingFormatId.hpp>
-#include <Std++/Multimedia/Stream.hpp>
+#include <Std++/Multimedia/PixelFormat.hpp>
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 
 namespace _stdxx_
 {
@@ -32,25 +32,22 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_Encoder(StdXX::Multimedia::Stream &stream, StdXX::Multimedia::CodingFormatId codecId);
-
-		//Destructor
-		~libavcodec_Encoder();
+		inline libavcodec_Encoder(const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap,
+								  StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId)
+				: libavPixelFormatMap(libavPixelFormatMap), codingFormatId(codingFormatId)
+		{
+			this->codec = avcodec_find_encoder(libavCodecId);
+		}
 
 		//Methods
-		void Encode(const StdXX::Multimedia::Frame &frame) override;
-		void Flush() override;
+		StdXX::Multimedia::EncoderContext *CreateContext(StdXX::Multimedia::Stream &stream) const override;
+		StdXX::Multimedia::CodingFormatId GetCodingFormatId() const override;
+		StdXX::String GetName() const override;
 
 	private:
 		//Members
-		const AVCodec *codec;
-		AVCodecContext *codecContext;
-		AVFrame *frame;
-		AVPacket *packet;
-
-		//Methods
-		void Encode(AVFrame *frame);
-		void MapFrame(const StdXX::Multimedia::Frame &frame) const;
-		void MapPacket();
+		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
+		StdXX::Multimedia::CodingFormatId codingFormatId;
+		AVCodec *codec;
 	};
 }

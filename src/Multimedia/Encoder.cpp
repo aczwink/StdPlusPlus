@@ -17,13 +17,15 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <Std++/Multimedia/Pixmaps/RGBAImage.hpp>
+#include <Std++/Multimedia/Encoder.hpp>
+//Local
+#include <Std++/Multimedia/CodingFormat.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Public methods
-ColorSpace RGBAImage::GetColorSpace() const
+void Encoder::Register(Encoder *encoder, float32 quality)
 {
-	return ColorSpace::RGBA;
+	CodingFormat *codingFormat = const_cast<CodingFormat *>(CodingFormat::GetCodingFormatById(encoder->GetCodingFormatId()));
+	codingFormat->AddEncoder(encoder, quality);
 }

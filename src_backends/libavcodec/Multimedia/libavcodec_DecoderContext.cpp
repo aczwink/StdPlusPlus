@@ -39,10 +39,10 @@ libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Str
 		VideoStream &videoStream = (VideoStream &)stream;
 
 		//some codecs don't have this info in its encoded data
-		if (videoStream.width)
-			this->codecContext->width = videoStream.width;
-		if (videoStream.height)
-			this->codecContext->height = videoStream.height;
+		if (videoStream.size.width)
+			this->codecContext->width = videoStream.size.width;
+		if (videoStream.size.height)
+			this->codecContext->height = videoStream.size.height;
 	}
 	break;
 	}

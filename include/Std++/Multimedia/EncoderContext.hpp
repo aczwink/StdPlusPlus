@@ -19,22 +19,47 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "Decoder.hpp"
-#include "ParserContext.hpp"
-#include "EnumTypes.hpp"
-#include "Encoder.hpp"
+#include <Std++/Containers/LinkedList/LinkedList.hpp>
 
 namespace StdXX
 {
     namespace Multimedia
     {
-		class Stream;
-        class Codec
+        //Move declarations
+		class Frame;
+		class Packet;
+
+        class EncoderContext
         {
         public:
+            //Destructor
+            virtual ~EncoderContext(){}
+
             //Methods
-            virtual Encoder *CreateEncoder(Stream &stream) const = 0;
-            virtual ParserContext *CreateParser() const = 0;
+            virtual void Encode(const Frame &frame) = 0;
+            virtual void Flush() = 0;
+
+            //Inline
+			inline Packet *GetNextPacket()
+			{
+				return this->orderedPackets.PopFront();
+			}
+
+			inline bool IsPacketReady() const
+			{
+				return !this->orderedPackets.IsEmpty();
+			}
+
+		protected:
+        	//Inline
+        	inline void AddPacket(Packet *packet)
+			{
+				this->orderedPackets.InsertTail(packet);
+			}
+
+		private:
+        	//Members
+			LinkedList<Packet *> orderedPackets;
         };
     }
 }

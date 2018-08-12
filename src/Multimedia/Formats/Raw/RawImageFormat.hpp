@@ -18,12 +18,18 @@
  */
 //Local
 #include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/CodingFormatId.hpp>
 
 namespace _stdxx_
 {
 	class RawImageFormat : public StdXX::Multimedia::Format
 	{
 	public:
+		//Constructor
+		inline RawImageFormat(StdXX::Multimedia::CodingFormatId codingFormatId) : codingFormatId(codingFormatId)
+		{
+		}
+
 		//Methods
 		StdXX::Multimedia::Demuxer *CreateDemuxer(StdXX::SeekableInputStream &refInput) const override;
 		StdXX::Multimedia::Muxer *CreateMuxer(StdXX::ASeekableOutputStream &outputStream) const override;
@@ -31,8 +37,8 @@ namespace _stdxx_
 		void GetFormatInfo(StdXX::Multimedia::FormatInfo &refFormatInfo) const override;
 		StdXX::String GetName() const override;
 
-	protected:
+	private:
 		//Members
-		//StdXX::Multimedia::CodecId codecId;
+		StdXX::Multimedia::CodingFormatId codingFormatId;
 	};
 }

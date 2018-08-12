@@ -18,48 +18,30 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include <Std++/Containers/LinkedList/LinkedList.hpp>
+#include <Std++/Containers/Strings/String.hpp>
+#include "CodingFormatId.hpp"
 
 namespace StdXX
 {
-    namespace Multimedia
-    {
-        //Move declarations
-		class Frame;
-		class Packet;
+	namespace Multimedia
+	{
+		//Forward declarations
+		class EncoderContext;
+		class Stream;
 
-        class Encoder
-        {
-        public:
-            //Destructor
-            virtual ~Encoder(){}
+		class Encoder
+		{
+		public:
+			//Destructor
+			virtual ~Encoder() {}
 
-            //Methods
-            virtual void Encode(const Frame &frame) = 0;
-            virtual void Flush() = 0;
+			//Abstract
+			virtual EncoderContext *CreateContext(Stream &stream) const = 0;
+			virtual CodingFormatId GetCodingFormatId() const = 0;
+			virtual String GetName() const = 0;
 
-            //Inline
-			inline Packet *GetNextPacket()
-			{
-				return this->orderedPackets.PopFront();
-			}
-
-			inline bool IsPacketReady() const
-			{
-				return !this->orderedPackets.IsEmpty();
-			}
-
-		protected:
-        	//Inline
-        	inline void AddPacket(Packet *packet)
-			{
-				this->orderedPackets.InsertTail(packet);
-			}
-
-		private:
-        	//Members
-			LinkedList<Packet *> orderedPackets;
-        };
-    }
+			//Functions
+			static STDPLUSPLUS_API void Register(Encoder *encoder, float32 quality);
+		};
+	}
 }

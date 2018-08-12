@@ -108,13 +108,6 @@ void CocoaCheckBoxBackend::SetText(const String &text)
 
 
 //old stuff:
-WidgetBackend *
-CocoaCheckBoxBackend::CreateChildBackend(StdXX::UI::Widget *widget) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
 StdXX::Math::SizeD CocoaCheckBoxBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

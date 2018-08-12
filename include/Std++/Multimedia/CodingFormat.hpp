@@ -28,6 +28,7 @@ namespace StdXX
 	{
 		//Forward declarations
 		class Decoder;
+		class Encoder;
 		class Parser;
 
 		class CodingFormat
@@ -42,8 +43,10 @@ namespace StdXX
 
 			//Methods
 			void AddDecoder(Decoder *decoder, float32 quality);
+			void AddEncoder(Encoder *encoder, float32 quality);
 			void AddParser(Parser *parser, float32 quality);
 			const Decoder *GetBestMatchingDecoder() const;
+			const Encoder *GetBestMatchingEncoder() const;
 			const Parser *GetBestMatchingParser() const;
 
 			//Functions
@@ -53,6 +56,7 @@ namespace StdXX
 		private:
 			//Members
 			PriorityQueue<Decoder *, float32> decoders;
+			PriorityQueue<Encoder *, float32> encoders;
 			PriorityQueue<Parser *, float32> parsers;
 		};
 	}
