@@ -28,9 +28,6 @@ namespace StdXX
         class STDPLUSPLUS_API ParserContext
         {
 		public:
-			//Constructor
-			ParserContext();
-
 			//Destructor
 			virtual ~ParserContext();
 

@@ -39,49 +39,4 @@ static ChannelLayout MapChannels(int nChannels)
 
 	NOT_IMPLEMENTED_ERROR;
 }
-
-static void CopyImportantInfo(const AVFrame &src, Frame &dest)
-{
-	dest.pts = src.pts;
-}
-
-static void Decode(CodecState &state, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames)
-{
-	
-}
-
-//Functions
-void DecodePacket(CodecState &state, const StdXX::Multimedia::Packet &packet, StdXX::DynamicArray<StdXX::Multimedia::Frame *> &frames)
-{
-	const byte *data = packet.GetData();
-	uint32 leftSize = packet.GetSize();
-
-	if(state.parser)
-	{
-		//parse packet into frame packets
-		while(leftSize)
-		{
-			//parse frames from our packet
-			int ret = av_parser_parse2(state.parser, state.codecContext, &state.pkt->data, &state.pkt->size, data, leftSize, AV_NOPTS_VALUE, AV_NOPTS_VALUE, 0);
-			if(ret < 0)
-				break; //an error occured. skip packet
-
-			data += ret;
-			leftSize -= ret;
-
-			if(state.pkt->size)
-				Decode(state, frames);
-		}
-	}
-}
-
-void FreeCodecState(CodecState &state)
-{
-	av_parser_close(state.parser);
-}
-
-void InitCodecState(CodecState &state, StdXX::Multimedia::CodecId codecId, Stream &stream)
-{
-	state.parser = av_parser_init(state.codec->id);
-}
 #endif

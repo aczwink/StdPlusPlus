@@ -42,25 +42,22 @@ void libavcodec_Backend::Load()
 	//register
 	for (const auto &kv : this->libavCodecIdMap)
 	{
+		this->RegisterDecoderIfAvailable(kv.value, kv.key);
 		this->RegisterEncoderIfAvailable(kv.value, kv.key);
 		this->RegisterParserIfAvailable(kv.value, kv.key);
-		Decoder::Register(new libavcodec_Decoder(kv.value, kv.key), 0.5f);
 	}
 
 
 	/*
-	//audio
-	g_libavcodec_codec_map.Insert(CodecId::MP3, AV_CODEC_ID_MP3);
-
 	//video
 	g_libavcodec_codec_map.Insert(CodecId::H264, AV_CODEC_ID_H264);
-	g_libavcodec_codec_map.Insert(CodecId::PNG, AV_CODEC_ID_PNG);
 	*/
 }
 
 //Private methods
 void libavcodec_Backend::LoadCodingFormatIdMap()
 {
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PNG, CodingFormatId::PNG);
 }
 
@@ -75,6 +72,13 @@ void libavcodec_Backend::LoadPixelFormatMap()
 {
 	this->libavPixelFormatMap.Insert(NamedPixelFormat::RGB_24, AV_PIX_FMT_RGB24);
 	this->libavPixelFormatMap.Insert(NamedPixelFormat::YCbCr_420_P, AV_PIX_FMT_YUV420P);
+}
+
+void libavcodec_Backend::RegisterDecoderIfAvailable(CodingFormatId codingFormatId, AVCodecID libavCodecId)
+{
+	AVCodec *codec = avcodec_find_decoder(libavCodecId);
+	if (codec)
+		Decoder::Register(new libavcodec_Decoder(this->libavPixelFormatMap, codingFormatId, libavCodecId), 0.5f);
 }
 
 void libavcodec_Backend::RegisterEncoderIfAvailable(CodingFormatId codingFormatId, AVCodecID libavCodecId)

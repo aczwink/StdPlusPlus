@@ -32,7 +32,7 @@ namespace _stdxx_
 	public:
 		//Constructor
 		inline libavcodec_Parser(const CodingFormatIdMap<AVCodecID> &libavCodecIdMap, StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId) :
-			codingFormatId(codingFormatId), libavCodecIdMap(libavCodecIdMap)
+			codingFormatId(codingFormatId), libavCodecId(libavCodecId), libavCodecIdMap(libavCodecIdMap)
 		{
 			AVCodecParserContext *parserContext = av_parser_init(libavCodecId);
 			this->parser = parserContext->parser;
@@ -46,6 +46,7 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::Multimedia::CodingFormatId codingFormatId;
+		AVCodecID libavCodecId;
 		const CodingFormatIdMap<AVCodecID> &libavCodecIdMap;
 		AVCodecParser *parser;
 	};

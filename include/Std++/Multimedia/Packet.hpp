@@ -19,6 +19,8 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include <Std++/Debug.hpp>
+#include <Std++/Utility.hpp>
 
 namespace StdXX
 {
@@ -26,28 +28,41 @@ namespace StdXX
     {
 		class STDPLUSPLUS_API Packet
 		{
-		private:
-			//Members
-			byte *data;
-			uint32 size;
-			uint32 capacity;
-
 		public:
 			//Members
 			uint32 streamIndex;
 			uint64 pts; //the presentation time stamp
 			bool containsKeyframe;
 
-			//Constructor
+			//Constructors
 			Packet();
+
+			inline Packet(const Packet &source) : data(nullptr), capacity(0) //copy ctor
+			{
+				*this = source;
+			}
+
+			inline Packet(Packet &&source) : data(nullptr) //move ctor
+			{
+				*this = Move(source);
+			}
 
 			//Destructor
 			~Packet();
+
+			//Operators
+			Packet &operator=(const Packet &source); //copy assign
+			Packet &operator=(Packet &&source); //move assign
 
 			//Methods
 			void Allocate(uint32 size);
 
 			//Inline
+			inline void AllocateAdditional(uint32 size)
+			{
+				this->Allocate(this->size + size);
+			}
+
 			inline byte *GetData()
 			{
 				return this->data;
@@ -62,6 +77,18 @@ namespace StdXX
 			{
 				return this->size;
 			}
+
+			inline void RemoveEnd(uint32 nBytes)
+			{
+				ASSERT(this->size > nBytes, u8"Can't remove more bytes than are in packet.");
+				this->size -= nBytes;
+			}
+
+		private:
+			//Members
+			byte * data;
+			uint32 size;
+			uint32 capacity;
 		};
     }
 }

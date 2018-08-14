@@ -52,6 +52,11 @@ namespace StdXX
 				return this->lineSizes[planeIndex];
 			}
 
+			inline uint32 GetNumberOfLines(uint8 planeIndex) const
+			{
+				return this->planeLines[planeIndex];
+			}
+
 			inline const PixelFormat &GetPixelFormat() const
 			{
 				return this->pixelFormat;
@@ -82,6 +87,7 @@ namespace StdXX
         	Math::Size<uint16> size;
             PixelFormat pixelFormat;
             void *planes[PixelFormat::MAX_PLANES];
+			uint32 planeLines[PixelFormat::MAX_PLANES];
             uint32 lineSizes[PixelFormat::MAX_PLANES];
 
             //Methods

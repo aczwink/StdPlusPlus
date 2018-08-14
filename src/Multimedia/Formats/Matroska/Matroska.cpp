@@ -20,6 +20,7 @@
 #include "Matroska.hpp"
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX::Multimedia;
 /*
 //Global variables
 Map<String, CodecId> g_matroskaCodecStringMap;
@@ -36,7 +37,6 @@ static void LoadMap()
 		//Audio codecs
 		g_matroskaCodecStringMap.Insert(u8"A_AAC", CodecId::AAC);
 		g_matroskaCodecStringMap.Insert(u8"A_MPEG/L2", CodecId::MP2);
-		g_matroskaCodecStringMap.Insert(u8"A_MPEG/L3", CodecId::MP3);
 
 		//Video codecs
 		g_matroskaCodecStringMap.Insert(u8"V_MPEG1", CodecId::MPEG1Video);
@@ -66,9 +66,12 @@ String Matroska::MapToCodecString(CodecId codecId)
 	return String();
 }*/
 
-CodingFormatIdMap<String> GetCodingFormatMap()
+CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 {
 	CodingFormatIdMap<String> matroskaCodecMap;
+
+	//Audio coding formats
+	matroskaCodecMap.Insert(u8"A_MPEG/L3", CodingFormatId::MP3);
 
 	/*
 	//audio codecs

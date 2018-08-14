@@ -128,9 +128,9 @@ void libavcodec_EncoderContext::MapFrame(const Frame &frame) const
 
 	for(uint8 i = 0; i < pixelFormat.nPlanes; i++)
 	{
-		for(uint32 line = 0; line < pixmap->GetSize().height; line++)
+		for(uint32 line = 0; line < pixmap->GetNumberOfLines(i); line++)
 		{
-			uint32 libav_lineIndex = (pixmap->GetSize().height - line - 1) * this->frame->linesize[i];
+			uint32 libav_lineIndex = (pixmap->GetNumberOfLines(i) - line - 1) * this->frame->linesize[i];
 			const void *src = ((byte *)pixmap->GetPlane(i)) + line * pixmap->GetLineSize(i);
 			MemCopy(&this->frame->data[i][libav_lineIndex], src, Math::Min((uint32)this->frame->linesize[i], pixmap->GetLineSize(i))); //min size because of alignment
 		}

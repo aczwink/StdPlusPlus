@@ -22,34 +22,29 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 //Local
-#include <Std++/Multimedia/DecoderContext.hpp>
-#include <Std++/Multimedia/Stream.hpp>
-#include <Std++/Multimedia/PixelFormat.hpp>
-#include <Std++/Containers/Map/BijectiveMap.hpp>
+#include <Std++/Multimedia/ParserContext.hpp>
 
 namespace _stdxx_
 {
-	class libavcodec_DecoderContext : public StdXX::Multimedia::DecoderContext
+	class libavcodec_ParserContext : public StdXX::Multimedia::ParserContext
 	{
 	public:
 		//Constructor
-		libavcodec_DecoderContext(const StdXX::Multimedia::Decoder &decoder, StdXX::Multimedia::Stream &stream, AVCodec *codec, const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap);
+		libavcodec_ParserContext(AVCodecID libavCodecId);
 
 		//Destructor
-		~libavcodec_DecoderContext();
+		~libavcodec_ParserContext();
 
 		//Methods
-		void Decode(const StdXX::Multimedia::Packet & packet) override;
+		void Parse(const StdXX::Multimedia::Packet & refPacket) override;
 
 	private:
 		//Members
-		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
-		AVCodecContext * codecContext;
+		AVCodecParserContext *parserContext;
+		AVCodecContext *codecContext;
 		AVPacket *packet;
-		AVFrame *frame;
 
 		//Methods
-		void MapPacket(const StdXX::Multimedia::Packet &packet);
-		void MapVideoFrame();
+		void MapPacket(const StdXX::Multimedia::Packet &sourcePacket);
 	};
 }

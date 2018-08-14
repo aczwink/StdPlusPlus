@@ -18,6 +18,8 @@
 */
 //Class header
 #include "libavcodec_Parser.hpp"
+//Local
+#include "libavcodec_ParserContext.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -25,8 +27,7 @@ using namespace StdXX::Multimedia;
 
 ParserContext * libavcodec_Parser::CreateContext() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new libavcodec_ParserContext(this->libavCodecId);
 }
 
 FixedArray<CodingFormatId> libavcodec_Parser::GetCodingFormatIds() const

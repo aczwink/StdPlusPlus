@@ -17,8 +17,6 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-//Audio codecs
-#include "Codecs/MPEG/MP3/MP3_Codec.hpp"
 #include "Codecs/PCM/S16LE/PCM_S16LE_Codec.hpp"
 
 //Video codecs
@@ -35,7 +33,6 @@ void MultimediaRegisterCodecsAndFormats()
 {
 	//Codecs
 	//Audio codecs
-	Codec::Register(new MP3_Codec);
 	Codec::Register(new PCM_S16LE_Codec);
 
 	//Video codecs
@@ -49,7 +46,10 @@ void MultimediaRegisterCodecsAndFormats()
 }
 */
 
-//Coding formats
+//Audio coding formats
+#include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
+
+//Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
 
@@ -61,7 +61,11 @@ using namespace _stdxx_;
 
 void MultimediaRegisterCodecsAndFormats()
 {
-	//Coding formats
+	//Audio coding formats
+	CodingFormat::Register(new MP3_CodingFormat);
+
+
+	//Video coding formats
 	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
 	CodingFormat::Register(new PNG_CodingFormat);
 

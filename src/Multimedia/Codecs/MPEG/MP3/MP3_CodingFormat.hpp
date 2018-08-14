@@ -16,18 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../LibAV_AudioCodec.hpp"
+ //Local
+#include <Std++/Multimedia/CodingFormat.hpp>
+ //Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-class MP3_Codec : public LibAV_AudioCodec
+class MP3_CodingFormat : public CodingFormat
 {
 public:
 	//Methods
-	CodecId GetId() const
+	CodingFormatId GetId() const override
 	{
-		return CodecId::MP3;
+		return CodingFormatId::MP3;
 	}
 
-	String GetName() const
+	String GetName() const override
 	{
 		return u8"MPEG-1/2/2.5 Audio Layer III (MP3)";
 	}

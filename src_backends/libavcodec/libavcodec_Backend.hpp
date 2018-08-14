@@ -47,6 +47,7 @@ namespace _stdxx_
 		void LoadPatentedCodingFormatIdMap();
 #endif
 		void LoadPixelFormatMap();
+		void RegisterDecoderIfAvailable(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId);
 		void RegisterEncoderIfAvailable(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId);
 		void RegisterParserIfAvailable(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId);
 	};

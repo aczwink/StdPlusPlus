@@ -228,18 +228,15 @@ namespace StdXX
 
         DataType PopFront()
         {
-            DataType data;
-            Node *pNode;
-
-            if(!this->nElements)
+			if(!this->nElements)
             {
                 //throw exception
                 NOT_IMPLEMENTED_ERROR;
                 return DataType();
             }
 
-            pNode = this->head;
-            data = pNode->data;
+            Node *pNode = this->head;
+			DataType data = Move(pNode->data);
             if(this->head == this->tail)
             {
                 this->head = NULL;

@@ -42,6 +42,41 @@ Packet::~Packet()
 		MemFree(this->data);
 }
 
+//Operators
+Packet &Packet::operator=(const Packet &source)
+{
+	this->Allocate(source.GetSize());
+	MemCopy(this->GetData(), source.GetData(), this->GetSize());
+
+	this->streamIndex = source.streamIndex;
+	this->pts = source.pts;
+	this->containsKeyframe = source.containsKeyframe;
+
+	return *this;
+}
+
+Packet &Packet::operator=(Packet &&source)
+{
+	if (this->data)
+		MemFree(this->data);
+
+	//take data
+	this->data = source.data;
+	source.data = nullptr;
+
+	//take sizes
+	this->size = source.size;
+	this->capacity = source.capacity;
+	source.size = source.capacity = 0;
+
+	//copy misc info
+	this->streamIndex = source.streamIndex;
+	this->pts = source.pts;
+	this->containsKeyframe = source.containsKeyframe;
+
+	return *this;
+}
+
 //Public methods
 void Packet::Allocate(uint32 size)
 {

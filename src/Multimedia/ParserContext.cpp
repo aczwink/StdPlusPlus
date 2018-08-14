@@ -18,6 +18,8 @@
 */
 //Class header
 #include <Std++/Multimedia/ParserContext.hpp>
+//Local
+#include <Std++/Natural.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -25,27 +27,45 @@ using namespace StdXX::Multimedia;
 //Destructor
 ParserContext::~ParserContext()
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->Reset();
 }
 
 //Public methods
 void ParserContext::Reset()
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->frameBuffer = Packet();
 }
 
 //Protected methods
 void ParserContext::AddToFrameBuffer(const Packet &refPacket)
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->AddToFrameBuffer(refPacket.GetData(), refPacket.GetSize());
+
+	this->frameBuffer.streamIndex = refPacket.streamIndex;
+	if (this->frameBuffer.pts == Natural<uint64>::Max() && refPacket.pts != Natural<uint64>::Max())
+		this->frameBuffer.pts = refPacket.pts;
+	if (refPacket.containsKeyframe)
+		this->frameBuffer.containsKeyframe = true;
 }
 
 void ParserContext::AddToFrameBuffer(const void *pData, uint32 size)
 {
-	NOT_IMPLEMENTED_ERROR;
+	uint32 offset = this->frameBuffer.GetSize();
+	this->frameBuffer.AllocateAdditional(size);
+	MemCopy(this->frameBuffer.GetData() + offset, pData, size);
 }
 
 void ParserContext::ReadyFrameBuffer(uint32 nOverreadBytes)
 {
-	NOT_IMPLEMENTED_ERROR;
+	Packet parsedBuffer = Move(this->frameBuffer);
+	this->frameBuffer = Packet();
+	if (nOverreadBytes)
+	{
+		//Put the overread bytes in the next frame buffer
+		byte *data = parsedBuffer.GetData() + parsedBuffer.GetSize() - nOverreadBytes;
+		this->AddToFrameBuffer(data, nOverreadBytes);
+	}
+	
+	parsedBuffer.RemoveEnd(nOverreadBytes); //remove overread bytes from parser buffer
+	this->parsedFrames.InsertTail(parsedBuffer);
 }

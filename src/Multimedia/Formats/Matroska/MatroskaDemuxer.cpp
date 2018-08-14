@@ -28,7 +28,7 @@
 using namespace Matroska;
 
 //Constructor
-MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput) : Demuxer(refFormat, refInput)
+MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput) : Demuxer(refFormat, refInput), codecIdMap(GetCodingFormatMap())
 {
 	this->timeScale = Fraction(1000000, 1000000000); //default timeCodeScale is 1.000.000 but all units are in nanoseconds
 }
@@ -107,7 +107,7 @@ void MatroskaDemuxer::AddStream()
 	}
 }
 
-void MatroskaDemuxer::BeginParseChilds(uint64 id)
+/*void MatroskaDemuxer::BeginParseChilds(uint64 id)
 {
 	switch(id)
 	{
@@ -125,39 +125,6 @@ void MatroskaDemuxer::BeginParseChilds(uint64 id)
 		}
 			break;
 	}
-}
-
-uint64 MatroskaDemuxer::DecodeVariableLengthInteger(uint8 &refLength)
-{
-	byte first, mask;
-	uint64 result;
-
-	DataReader reader(true, this->inputStream);
-
-	result = 0;
-	refLength = 1;
-	mask = 0x80;
-	first = reader.ReadByte();
-	while(mask)
-	{
-		if(first & mask)
-		{
-			uint8 firstBitLength, restBitLength;
-
-			firstBitLength = 8 - refLength;
-			restBitLength = (refLength - 1) * 8;
-
-			first &= (1 << firstBitLength) - 1;
-			return result | ((uint64)first << restBitLength);
-		}
-
-		result = (result << 8) | reader.ReadByte();
-		refLength++;
-		mask >>= 1;
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-	return result;
 }
 
 void MatroskaDemuxer::EndParseChilds(uint64 id)
@@ -260,106 +227,6 @@ void MatroskaDemuxer::ParseBinary(uint64 id, uint64 size)
 	}
 }
 
-uint64 MatroskaDemuxer::ParseElement()
-{
-	uint8 headerLength, length;
-	uint64 id, size;
-	SElemInfo elemInfo;
-
-	DataReader reader(true, this->inputStream);
-
-	//read id
-	id = this->DecodeVariableLengthInteger(length);
-	id = PutLength(id, length);
-
-	headerLength = length;
-
-	//read size
-	size = this->DecodeVariableLengthInteger(length);
-
-	headerLength += length;
-
-	if(this->inputStream.IsAtEnd())
-		return 0;
-
-	if(this->GetElementInfo(id, elemInfo))
-	{
-		switch(elemInfo.type)
-		{
-			case EMatroskaType::ASCII_String:
-			{
-				TextReader reader(this->inputStream, TextCodecType::ASCII);
-				
-				this->ParseASCIIString(id, reader.ReadString(size)); //size=length here because for ascii each char is 1 byte
-			}
-				break;
-			case EMatroskaType::Binary:
-			{
-				this->ParseBinary(id, size);
-			}
-				break;
-			case EMatroskaType::Date:
-			{
-				this->inputStream.Skip(size);
-			}
-				break;
-			case EMatroskaType::Float:
-			{
-				float64 value;
-
-				if(size == 4)
-					value = reader.ReadFloat32();
-				else
-					value = reader.ReadFloat64();
-
-				this->ParseFloat(id, value);
-			}
-				break;
-			case EMatroskaType::Master:
-			{
-				uint64 left;
-
-				this->BeginParseChilds(id);
-
-				left = size;
-				while(left)
-				{
-					left -= this->ParseElement();
-				}
-
-				this->EndParseChilds(id);
-			}
-				break;
-			case EMatroskaType::UInt:
-			{
-				uint8 left;
-				uint64 value;
-
-				value = 0;
-				left = (uint8)size;
-				while(left--)
-					value = (value << 8) | reader.ReadByte();
-
-				this->ParseUInt(id, value);
-			}
-				break;
-			case EMatroskaType::UTF8:
-			{
-				this->inputStream.Skip(size);
-			}
-				break;
-			default:
-				NOT_IMPLEMENTED_ERROR;
-		}
-	}
-	else
-	{
-		this->inputStream.Skip(size);
-	}
-
-	return headerLength + size;
-}
-
 void MatroskaDemuxer::ParseFloat(uint64 id, float64 value)
 {
 	switch(id)
@@ -403,11 +270,12 @@ void MatroskaDemuxer::ParseUInt(uint64 id, uint64 value)
 		}
 			break;
 	}
-}
+}*/
 
 //Public methods
 void MatroskaDemuxer::ReadHeader()
 {
+	EBMLParser parser(this->inputStream);
 	while(!this->inputStream.IsAtEnd())
 		this->ParseElement();
 
@@ -421,54 +289,85 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 
 	DataReader reader(true, this->inputStream);
 
-	while(true)
+	//find cluster
+	while (true)
 	{
-		if(this->clusters.FindEntry(this->inputStream.GetCurrentOffset(), clusterIndex))
+		if (this->clusters.FindEntry(this->inputStream.GetCurrentOffset(), clusterIndex))
+			break;
+		
+		//resync
+		const CClusterEntry &refEntry = this->clusters.GetCluster(clusterIndex);
+		
+		if (refEntry.offset < this->inputStream.GetCurrentOffset())
+			clusterIndex++; //go to next cluster
+		if (clusterIndex >= this->clusters.GetNumberOfClusters())
+			return false; //read all clusters... we're at the end
+						  
+		//move input stream to next cluster offset
+		const CClusterEntry &refResyncEntry = this->clusters.GetCluster(clusterIndex);
+		this->inputStream.SetCurrentOffset(refResyncEntry.offset);
+	}
+	const CClusterEntry &cluster = this->clusters.GetCluster(clusterIndex);
+
+	//are we at the beginning of a lace or block header
+	if (this->demuxerState.lacedFrameSizes.IsEmpty())
+	{
+		//read next block header
+		uint8 length;
+		uint64 trackNumber = this->DecodeVariableLengthInteger(length);
+		int16 timeCode = reader.ReadInt16();
+		uint8 flags = reader.ReadByte();
+
+		this->demuxerState.blockStreamIndex = this->trackToStreamMap[trackNumber];
+
+		switch ((flags >> 1) & 3)
 		{
-			uint8 length, flags;
-			int16 timeCode;
-			uint64 trackNumber;
+		case 0: //no lacing
+		{
+			packet.Allocate(cluster.GetRemainingBytes(this->inputStream.GetCurrentOffset()));
+			this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
 
-			const CClusterEntry &refEntry = this->clusters.GetCluster(clusterIndex);
+			packet.streamIndex = this->demuxerState.blockStreamIndex;
+			packet.pts = cluster.timeStamp + timeCode;
+			packet.containsKeyframe = (flags & 0x80) != 0; //TODO: this assumes that this is a SimpleBlock. It will fail for standard blocks as this will always be 0
 
-			trackNumber = this->DecodeVariableLengthInteger(length);
-			timeCode = reader.ReadInt16();
-			flags = reader.ReadByte();
-
-			switch((flags >> 5) & 3)
-			{
-				case 0: //no lacing
-				{
-					packet.Allocate(refEntry.GetRemainingBytes(this->inputStream.GetCurrentOffset()));
-					this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
-
-					packet.streamIndex = this->trackToStreamMap[trackNumber];
-					packet.pts = refEntry.timeStamp + timeCode;
-					packet.containsKeyframe = (flags & 0x80) != 0;
-
-					return true;
-				}
-					break;
-				default:
-					NOT_IMPLEMENTED_ERROR;
-			}
+			return true;
 		}
-		else
+		break;
+		case 3: //EBML lacing
 		{
-			//resync
-			const CClusterEntry &refEntry = this->clusters.GetCluster(clusterIndex);
+			uint8 nEncodedLaceSizes = reader.ReadByte();
+			uint64 laceSize = this->DecodeVariableLengthInteger(length);
 
-			if(refEntry.offset < this->inputStream.GetCurrentOffset())
-				clusterIndex++; //go to next cluster
-			if(clusterIndex >= this->clusters.GetNumberOfClusters())
-				break; //read all clusters... we're at the end
+			this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
+			nEncodedLaceSizes--;
 
-			//move input stream to next cluster offset
-			const CClusterEntry &refResyncEntry = this->clusters.GetCluster(clusterIndex);
+			uint64 sum = laceSize;
+			for (uint8 i = 0; i < nEncodedLaceSizes; i++)
+			{
 
-			this->inputStream.SetCurrentOffset(refResyncEntry.offset);
+				uint64 codedSize = this->DecodeVariableLengthInteger(length);
+				int64 rangeShift = (1 << (length * 8 - length - 1)) - 1;
+				laceSize += int64(codedSize) - rangeShift;
+				this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
+
+				sum += laceSize;
+			}
+			
+			this->demuxerState.lacedFrameSizes.InsertTail(cluster.size - sum); //TODO: cluster is actually implemented as block index! this is wrong! this should say block size - sum
+		}
+		break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
 		}
 	}
+	
+	//read next frame from lace
+	uint64 frameSize = this->demuxerState.lacedFrameSizes.PopFront();
+	packet.Allocate(frameSize);
+	this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
+	
+	packet.streamIndex = this->demuxerState.blockStreamIndex;
 
-	return false;
+	return true;
 }

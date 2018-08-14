@@ -23,6 +23,7 @@
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include "../BMP/BMP.hpp"
+#include "EBML.hpp"
 
 //Constructor
 MatroskaMuxer::MatroskaMuxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
@@ -309,7 +310,7 @@ void MatroskaMuxer::WriteHeader()
 	this->ComputeTimeScales();
 
 	//write the EBML header
-	this->BeginElement(MATROSKA_ID_EBML);
+	this->BeginElement((MatroskaId)EBML_ID_EBML);
 
 	this->WriteUIntElement(MATROSKA_ID_EBMLVERSION, 1);
 	this->WriteUIntElement(MATROSKA_ID_EBMLREADVERSION, 1);

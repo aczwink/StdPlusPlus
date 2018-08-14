@@ -61,6 +61,20 @@ namespace StdXX
 				 */
 				bool isFloat;
 				/**
+				 * The sampling factor in horizontal direction.
+				 * 1 if one sample is used for 1 pixel.
+				 * 2 if one sample is used for 2 (horizontally) consecutive pixels.
+				 * etc.
+				 */
+				uint8 horzSampleFactor;
+				/**
+				* The sampling factor in vertical direction.
+				* 1 if one sample is used for 1 pixel.
+				* 2 if one sample is used for 2 (vertically) consecutive pixels.
+				* etc.
+				*/
+				uint8 vertSampleFactor;
+				/**
 				 * Minimum value the component can take.
 				 */
 				union
@@ -88,6 +102,7 @@ namespace StdXX
 
         	//Methods
 			uint32 ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const;
+			uint32 ComputeNumberOfLines(uint8 planeIndex, uint16 height) const;
 			bool GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const;
 			uint8 GetNumberOfColorComponents() const;
         };

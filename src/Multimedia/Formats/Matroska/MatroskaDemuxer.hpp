@@ -30,22 +30,6 @@ Sources:
 https://www.matroska.org/technical/specs/index.html
 */
 
-enum class EMatroskaType
-{
-	ASCII_String,
-	Binary,
-	Date,
-	Float,
-	Master,
-	UInt, //1 to 8 byte
-	UTF8
-};
-
-struct SElemInfo
-{
-	EMatroskaType type;
-};
-
 struct STrackInfo
 {
 	uint64 number;
@@ -95,22 +79,12 @@ private:
 
 		STrackInfo currentTrack;
 	} parserState;
+	struct
+	{
+		uint32 blockStreamIndex;
+		LinkedList<uint64> lacedFrameSizes;
+	} demuxerState;
 
 	//Methods
 	void AddStream();
-	void BeginParseChilds(uint64 id);
-	uint64 DecodeVariableLengthInteger(uint8 &refLength);
-	void EndParseChilds(uint64 id);
-	bool GetElementInfo(uint64 id, SElemInfo &refElemInfo);
-	void ParseASCIIString(uint64 id, const String &string);
-	void ParseBinary(uint64 id, uint64 size);
-	uint64 ParseElement();
-	void ParseFloat(uint64 id, float64 value);
-	void ParseUInt(uint64 id, uint64 value);
-
-	//Inline
-	inline uint64 PutLength(uint64 uncoded, uint8 length)
-	{
-		return uncoded | (1ULL << uint64((length - 1) * 8 + (8 - length)));
-	}
 };

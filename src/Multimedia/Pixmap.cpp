@@ -41,8 +41,9 @@ void Pixmap::Allocate()
 	//allocate planes
 	for(uint8 i = 0; i < this->pixelFormat.nPlanes; i++)
 	{
-		this->lineSizes[i] = this->pixelFormat.ComputeLineSize(i, size.width);
-		this->planes[i] = MemAlloc(this->lineSizes[i] * size.height);
+		this->planeLines[i] = this->pixelFormat.ComputeNumberOfLines(i, this->size.height);
+		this->lineSizes[i] = this->pixelFormat.ComputeLineSize(i, this->size.width);
+		this->planes[i] = MemAlloc(this->lineSizes[i] * this->planeLines[i]);
 	}
 }
 

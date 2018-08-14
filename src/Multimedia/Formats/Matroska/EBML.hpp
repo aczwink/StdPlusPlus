@@ -16,35 +16,19 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
-//Local
-#include <Std++/Definitions.h>
-
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
-//FourCCs are always little endian
-#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
-
 namespace StdXX
 {
-	namespace Multimedia
+	enum EBMLClassId
 	{
-		/*
-		 * In order to not break binary-compatibility, assign each enumerator a unique value!
-		 */
-		enum class CodingFormatId
-		{
-			Unknown = 0,
+		EBML_ID_EBML = 0x1A45DFA3,
+	};
 
-			//Audio codecs
-			MP3 = 0x55,
-
-			//Video codecs
-			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
-			PNG = FOURCC(u8"png ")
-		};
-	}
+	struct EBMLHeader
+	{
+		uint64 version = 1;
+		uint8 maxIdLength = 4;
+		uint8 maxSizeLength = 8;
+		String docType;
+		uint32 docTypeVersion = 1;
+	};
 }

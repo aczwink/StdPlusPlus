@@ -29,7 +29,7 @@ using namespace StdXX::Multimedia;
 //Public methods
 DecoderContext * libavcodec_Decoder::CreateContext(Stream &stream) const
 {
-	return new libavcodec_DecoderContext(*this, stream, this->codec);
+	return new libavcodec_DecoderContext(*this, stream, this->codec, this->libavPixelFormatMap);
 }
 
 CodingFormatId libavcodec_Decoder::GetCodingFormatId() const

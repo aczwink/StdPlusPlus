@@ -19,6 +19,8 @@
 //Class header
 #include "libavcodec_DecoderContext.hpp"
 //Local
+#include <Std++/Multimedia/Pixmap.hpp>
+#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 //Namespaces
 using namespace _stdxx_;
@@ -26,7 +28,8 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec) : DecoderContext(decoder)
+libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec, const BijectiveMap<NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap)
+	: DecoderContext(decoder), libavPixelFormatMap(libavPixelFormatMap)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
@@ -122,25 +125,19 @@ void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packe
 
 void libavcodec_DecoderContext::MapVideoFrame()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	/*switch (state.frame->format)
+	Pixmap *pixmap = new Pixmap(Math::Size<uint16>(this->frame->width, this->frame->height), this->libavPixelFormatMap.GetReverse((AVPixelFormat)this->frame->format));
+	for (uint8 i = 0; i < pixmap->GetPixelFormat().nPlanes; i++)
 	{
-	case AV_PIX_FMT_YUV420P:
-	{
-	YCbCr420Image *image = new YCbCr420Image(state.frame->width, state.frame->height, false);
-	for (uint32 i = 0; i < state.frame->height; i++)
-	MemCopy(&image->GetLumaChannel()[i * state.frame->width], &state.frame->data[0][i * state.frame->linesize[0]], state.frame->width);
-	for (uint32 i = 0; i < state.frame->height / 2; i++)
-	{
-	MemCopy(&image->GetChromaRedChannel()[i * state.frame->width / 2], &state.frame->data[1][i * state.frame->linesize[1]], state.frame->width / 2);
-	MemCopy(&image->GetChromaBlueChannel()[i * state.frame->width / 2], &state.frame->data[2][i * state.frame->linesize[2]], state.frame->width / 2);
+		for (uint32 line = 0; line < pixmap->GetNumberOfLines(i); line++)
+		{
+			uint32 libav_lineIndex = (pixmap->GetNumberOfLines(i) - line - 1) * this->frame->linesize[i];
+			void *dst = ((byte *)pixmap->GetPlane(i)) + line * pixmap->GetLineSize(i);
+			MemCopy(dst, &this->frame->data[i][libav_lineIndex], Math::Min((uint32)this->frame->linesize[i], pixmap->GetLineSize(i))); //min size because of alignment
+		}
 	}
-	Frame *frame = new VideoFrame(image);
-	CopyImportantInfo(*state.frame, *frame);
-	frames.Push(frame);
-	}
-	break;
-	default:
-	NOT_IMPLEMENTED_ERROR;
-	}*/
+
+	VideoFrame *frame = new VideoFrame(pixmap);
+	frame->pts = this->frame->pts;
+
+	this->AddFrame(frame);
 }

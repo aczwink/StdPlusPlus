@@ -23,6 +23,8 @@ extern "C"
 }
 //Local
 #include <Std++/Multimedia/Decoder.hpp>
+#include <Std++/Multimedia/PixelFormat.hpp>
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 
 namespace _stdxx_
 {
@@ -30,8 +32,8 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline libavcodec_Decoder(StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId) :
-			codingFormatId(codingFormatId)
+		inline libavcodec_Decoder(const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap, StdXX::Multimedia::CodingFormatId codingFormatId, AVCodecID libavCodecId)
+			: libavPixelFormatMap(libavPixelFormatMap), codingFormatId(codingFormatId)
 		{
 			this->codec = avcodec_find_decoder(libavCodecId);
 		}
@@ -43,6 +45,7 @@ namespace _stdxx_
 
 	private:
 		//Members
+		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
 		StdXX::Multimedia::CodingFormatId codingFormatId;
 		AVCodec *codec;
 	};

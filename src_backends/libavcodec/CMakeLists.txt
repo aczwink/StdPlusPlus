@@ -2,7 +2,7 @@ option(EXTENSION_LIBAVCODEC "libavcodec (ffmpeg) codec-backend." OFF)
 
 #VERY IMPORTANT!
 #!license issues!
-option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." OFF)
+option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." ON)
 #VERY IMPORTANT!
 
 include(FindFFmpeg.cmake)
@@ -31,6 +31,8 @@ if(${EXTENSION_LIBAVCODEC})
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_EncoderContext.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Parser.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_Parser.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_ParserContext.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/libavcodec_ParserContext.hpp
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/libavcodec_Backend.cpp

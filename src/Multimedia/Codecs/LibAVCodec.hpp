@@ -34,7 +34,6 @@ using namespace StdXX::Multimedia;
 struct CodecState
 {
 	AVPacket *pkt;
-	AVCodecParserContext *parser;
 	AVFrame *frame;
 };
 

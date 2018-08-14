@@ -44,6 +44,8 @@ PixelFormat::PixelFormat(NamedPixelFormat namedPixelFormat)
 					cc.nBits = 8;
 					cc.shift = shift;
 					cc.isFloat = false;
+					cc.horzSampleFactor = 1;
+					cc.vertSampleFactor = 1;
 					cc.min.u8 = 0;
 					cc.max.u8 = Natural<uint8>::Max();
 
@@ -52,8 +54,34 @@ PixelFormat::PixelFormat(NamedPixelFormat namedPixelFormat)
 			}
 			break;
 		case NamedPixelFormat::YCbCr_420_P:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			break;
+		{
+			this->colorSpace = ColorSpace::YCbCr;
+			this->nPlanes = 3;
+
+			for (uint8 i = 0; i < 3; i++)
+			{
+				auto &cc = this->colorComponents[i];
+
+				cc.planeIndex = i;
+				cc.nBits = 8;
+				cc.shift = 0;
+				cc.isFloat = false;
+				cc.min.u8 = 16; //foot room
+			}
+			//headroom
+			this->colorComponents[0].max.u8 = 235;
+			this->colorComponents[1].max.u8 = 240;
+			this->colorComponents[2].max.u8 = 240;
+
+			this->colorComponents[0].horzSampleFactor = 1;
+			this->colorComponents[0].vertSampleFactor = 1;
+			//cb and cr are sub-sampled in both directions
+			this->colorComponents[1].horzSampleFactor = 2;
+			this->colorComponents[1].vertSampleFactor = 2;
+			this->colorComponents[2].horzSampleFactor = 2;
+			this->colorComponents[2].vertSampleFactor = 2;
+		}
+		break;
 		default:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
@@ -77,15 +105,40 @@ bool PixelFormat::operator==(const PixelFormat &other) const
 //Public methods
 uint32 PixelFormat::ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const
 {
-	uint8 nBits = 0;
+	/**
+	 * We assume here that there are not different sample factors per plane.
+	 * This would lead to having multiple line sizes for one plane.
+	 * However, to not cause problems we will use the smallest sample factor (i.e. best sampling)
+	 * and thus return the largest line-size (which will cause over-allocations).
+	 * Actually I also don't believe that this case exists in practical cases.
+	 */
+	uint8 nBitsMax = 0;
+	uint8 sampleFactor = Natural<uint8>::Max();
 	for(uint8 i = 0; i < this->GetNumberOfColorComponents(); i++)
 	{
 		const auto &cc = this->colorComponents[i];
-		if(cc.planeIndex == planeIndex)
-			nBits = Math::Max(nBits, uint8(cc.shift + cc.nBits));
+		if (cc.planeIndex == planeIndex)
+		{
+			nBitsMax = Math::Max(nBitsMax, uint8(cc.shift + cc.nBits));
+			sampleFactor = Math::Min(sampleFactor, cc.horzSampleFactor);
+		}
 	}
 
-	return static_cast<uint32>(((nBits / 8) + (((nBits % 8) == 0) ? 0 : 1 )) * nPixelsPerRow);
+	return static_cast<uint32>(((nBitsMax / 8) + (((nBitsMax % 8) == 0) ? 0 : 1 )) * nPixelsPerRow / sampleFactor);
+}
+
+uint32 PixelFormat::ComputeNumberOfLines(uint8 planeIndex, uint16 height) const
+{
+	//We assume here that there are not different sample factors per plane (see PixelFormat::ComputeLineSize)
+	uint32 nLinesMax = 0;
+	for (uint8 i = 0; i < this->GetNumberOfColorComponents(); i++)
+	{
+		const auto &cc = this->colorComponents[i];
+		if (cc.planeIndex == planeIndex)
+			nLinesMax = Math::Max(nLinesMax, uint32(height / cc.vertSampleFactor));
+	}
+
+	return nLinesMax;
 }
 
 bool PixelFormat::GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const
