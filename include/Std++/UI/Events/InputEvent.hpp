@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,35 +17,36 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include "../../Definitions.h"
-#include "../Keyboard.hpp"
 
 namespace StdXX
 {
-    namespace UI
-    {
-        namespace Events
-        {
-            class CKeyEvent
-            {
-            private:
-                //Members
-                KeyCode keyCode;
+	namespace UI
+	{
+		namespace Events
+		{
+			struct KeyboardModifiers
+			{
+				bool ctrl;
+			};
 
-            public:
-                //Constructor
-                inline CKeyEvent(KeyCode keyCode)
-                {
-                    this->keyCode = keyCode;
-                }
+			class InputEvent
+			{
+			public:
+				//Constructor
+				inline InputEvent(const KeyboardModifiers &keyboardModifiers) : keyboardModifiers(keyboardModifiers)
+				{
+				}
 
-                //Inline
-                inline KeyCode GetKeyCode() const
-                {
-                    return this->keyCode;
-                }
-            };
-        }
-    }
+				//Inline
+				inline const KeyboardModifiers &GetKeyboardModifiers() const
+				{
+					return this->keyboardModifiers;
+				}
+
+			private:
+				//Members
+				KeyboardModifiers keyboardModifiers;
+			};
+		}
+	}
 }

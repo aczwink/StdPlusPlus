@@ -310,7 +310,7 @@ void MatroskaMuxer::WriteHeader()
 	this->ComputeTimeScales();
 
 	//write the EBML header
-	this->BeginElement((MatroskaId)EBML_ID_EBML);
+	this->BeginElement((MatroskaId)EBML::EBML_ID_EBML);
 
 	this->WriteUIntElement(MATROSKA_ID_EBMLVERSION, 1);
 	this->WriteUIntElement(MATROSKA_ID_EBMLREADVERSION, 1);

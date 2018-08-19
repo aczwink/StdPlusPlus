@@ -31,8 +31,9 @@ namespace StdXX
             virtual ~IndexBuffer() {}
 
             //Abstract
-            virtual void Allocate(uint32 nIndices, const uint16 *pIndices) = 0;
-            virtual void Allocate(uint32 nIndices, const uint32 *pIndices) = 0;
+            virtual void Allocate16(uint32 nIndices, const uint16 *indices = nullptr) = 0;
+            virtual void Allocate32(uint32 nIndices, const uint32 *indices = nullptr) = 0;
+            virtual void Write(uint32 index, uint32 nIndices, const uint32 *data) = 0;
         };
     }
 }

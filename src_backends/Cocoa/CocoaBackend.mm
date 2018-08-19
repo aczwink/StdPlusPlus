@@ -38,6 +38,9 @@ using namespace StdXX::UI;
 //Cocoa
 #undef new
 #include <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+
+NSAutoreleasePool *g_autoreleasePool;
 
 //Public methods
 CheckBoxBackend *StdXX::CocoaBackend::CreateCheckBoxBackend(CheckBox *checkBox)
@@ -98,11 +101,13 @@ WindowBackend *StdXX::CocoaBackend::CreateWindowBackend(Window *window)
 
 void StdXX::CocoaBackend::Load()
 {
+	g_autoreleasePool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 	[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
 }
 
 void StdXX::CocoaBackend::Unload() const
 {
+	[g_autoreleasePool drain];
 	[NSApp release];
 }

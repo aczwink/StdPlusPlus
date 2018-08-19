@@ -68,14 +68,14 @@ void CocoaEventSource::EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint po
 	l_eventSource->DispatchMouseMovedEvent(widget, Math::PointD(point.x, point.y));
 }
 
-void CocoaEventSource::EmitMousePressedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point)
+void CocoaEventSource::EmitMousePressedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event)
 {
-	l_eventSource->DispatchMouseButtonPressed(widget, button, Math::PointD(point.x, point.y));
+	l_eventSource->DispatchMouseButtonPressed(widget, event);
 }
 
-void CocoaEventSource::EmitMouseReleasedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point)
+void CocoaEventSource::EmitMouseReleasedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event)
 {
-	l_eventSource->DispatchMouseButtonReleased(widget, button, Math::PointD(point.x, point.y));
+	l_eventSource->DispatchMouseButtonReleased(widget, event);
 }
 
 void CocoaEventSource::EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta)

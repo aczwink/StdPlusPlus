@@ -66,12 +66,12 @@ Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const 
 }
 
 //Eventhandlers
-void Widget::OnMouseButtonPressed(MouseButton button, const Math::PointD &pos)
+void Widget::OnMouseButtonPressed(const Events::MouseClickEvent &event)
 {
 	this->IgnoreEvent();
 }
 
-void Widget::OnMouseButtonReleased(MouseButton button, const Math::PointD &pos)
+void Widget::OnMouseButtonReleased(const Events::MouseClickEvent &event)
 {
 	this->IgnoreEvent();
 }

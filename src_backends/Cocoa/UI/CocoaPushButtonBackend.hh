@@ -51,6 +51,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
+		void SetEnabled(bool enable) const override;
 		void SetText(const StdXX::String &text) override;
 
 
@@ -74,9 +75,6 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
 		void Show(bool visible) override;
 
@@ -84,7 +82,6 @@ namespace _stdxx_
 
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 		uint32 GetPosition() const override;
-		void GetRange(int32 &min, int32 &max) override;
 		void ResetView() const override;
 
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;

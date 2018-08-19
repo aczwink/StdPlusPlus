@@ -51,7 +51,7 @@ namespace _stdxx_
 		void DrawPoints(uint32 startVertexIndex, uint32 count) override;
 		void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices) override;
 		void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles) override;
-		void DrawTrianglesIndexed() override;
+		void DrawTrianglesIndexed(uint32 startIndex, uint32 nTriangles) override;
 		void DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices) override;
 		void EnableBlending(bool enabled) override;
 		void EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha) override;

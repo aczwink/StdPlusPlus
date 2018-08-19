@@ -22,6 +22,7 @@
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
+#include "EBML.hpp"
 #include "Matroska.hpp"
 #include "../BMP/BMP.hpp"
 //Namespaces
@@ -275,9 +276,17 @@ void MatroskaDemuxer::ParseUInt(uint64 id, uint64 value)
 //Public methods
 void MatroskaDemuxer::ReadHeader()
 {
-	EBMLParser parser(this->inputStream);
+	//we don't need to check header, because this was done in the container format
+	EBML::Header header;
+	EBML::ParseHeader(header, this->inputStream);
+
+	NOT_IMPLEMENTED_ERROR; //there should be here exactly one segment
+
 	while(!this->inputStream.IsAtEnd())
-		this->ParseElement();
+	{
+		NOT_IMPLEMENTED_ERROR; //Read everything but the clusters
+	}
+	//read clusters without blocks
 
 	//move to beginning of data
 	this->inputStream.SetCurrentOffset(this->clusters.GetStartOffset());
@@ -296,25 +305,25 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			break;
 		
 		//resync
-		const CClusterEntry &refEntry = this->clusters.GetCluster(clusterIndex);
+		const IndexEntry &refEntry = this->clusters.GetEntry(clusterIndex);
 		
 		if (refEntry.offset < this->inputStream.GetCurrentOffset())
 			clusterIndex++; //go to next cluster
-		if (clusterIndex >= this->clusters.GetNumberOfClusters())
+		if (clusterIndex >= this->clusters.GetNumberOfEntries())
 			return false; //read all clusters... we're at the end
 						  
 		//move input stream to next cluster offset
-		const CClusterEntry &refResyncEntry = this->clusters.GetCluster(clusterIndex);
+		const IndexEntry &refResyncEntry = this->clusters.GetEntry(clusterIndex);
 		this->inputStream.SetCurrentOffset(refResyncEntry.offset);
 	}
-	const CClusterEntry &cluster = this->clusters.GetCluster(clusterIndex);
+	const IndexEntry &cluster = this->clusters.GetEntry(clusterIndex);
 
 	//are we at the beginning of a lace or block header
 	if (this->demuxerState.lacedFrameSizes.IsEmpty())
 	{
 		//read next block header
 		uint8 length;
-		uint64 trackNumber = this->DecodeVariableLengthInteger(length);
+		uint64 trackNumber = EBML::DecodeVariableLengthInteger(length, this->inputStream);
 		int16 timeCode = reader.ReadInt16();
 		uint8 flags = reader.ReadByte();
 
@@ -337,7 +346,7 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 		case 3: //EBML lacing
 		{
 			uint8 nEncodedLaceSizes = reader.ReadByte();
-			uint64 laceSize = this->DecodeVariableLengthInteger(length);
+			uint64 laceSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
 
 			this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
 			nEncodedLaceSizes--;
@@ -346,7 +355,7 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			for (uint8 i = 0; i < nEncodedLaceSizes; i++)
 			{
 
-				uint64 codedSize = this->DecodeVariableLengthInteger(length);
+				uint64 codedSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
 				int64 rangeShift = (1 << (length * 8 - length - 1)) - 1;
 				laceSize += int64(codedSize) - rangeShift;
 				this->demuxerState.lacedFrameSizes.InsertTail(laceSize);

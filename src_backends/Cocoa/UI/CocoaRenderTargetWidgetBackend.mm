@@ -40,6 +40,22 @@ using namespace StdXX::UI;
 	return self;
 }
 
+//Methods
+- (Math::PointD)GetClickLocation:(NSEvent *)event
+{
+	NSPoint p = [self convertPoint:[event locationInWindow] fromView:nil];
+	return Math::PointD(p.x, p.y);
+}
+
+- (Events::KeyboardModifiers)GetKeyboardModifiers:(NSEvent *)event
+{
+	Events::KeyboardModifiers keyboardModifiers;
+
+	keyboardModifiers.ctrl = [event modifierFlags] & NSEventModifierFlagControl;
+
+	return keyboardModifiers;
+}
+
 //Override
 - (BOOL)acceptsFirstResponder
 {
@@ -64,7 +80,8 @@ using namespace StdXX::UI;
 
 - (void) mouseDown: (NSEvent*) event
 {
-	CocoaEventSource::EmitMousePressedEvent(self->backend->GetWidget(), MouseButton::Left, [self convertPoint:[event locationInWindow] fromView:nil]);
+	Events::MouseClickEvent mouseClickEvent(MouseButton::Left, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	CocoaEventSource::EmitMousePressedEvent(self->backend->GetWidget(), mouseClickEvent);
 }
 
 - (void)mouseMoved:(NSEvent *)event
@@ -78,7 +95,20 @@ using namespace StdXX::UI;
 
 - (void) mouseUp: (NSEvent*) event
 {
-	CocoaEventSource::EmitMouseReleasedEvent(self->backend->GetWidget(), MouseButton::Left, [self convertPoint:[event locationInWindow] fromView:nil]);
+	Events::MouseClickEvent mouseClickEvent(MouseButton::Left, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	CocoaEventSource::EmitMouseReleasedEvent(self->backend->GetWidget(), mouseClickEvent);
+}
+
+- (void)rightMouseDown:(NSEvent *)event
+{
+	Events::MouseClickEvent mouseClickEvent(MouseButton::Right, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	CocoaEventSource::EmitMousePressedEvent(self->backend->GetWidget(), mouseClickEvent);
+}
+
+- (void)rightMouseUp:(NSEvent *)event
+{
+	Events::MouseClickEvent mouseClickEvent(MouseButton::Right, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	CocoaEventSource::EmitMouseReleasedEvent(self->backend->GetWidget(), mouseClickEvent);
 }
 
 - (void)scrollWheel:(NSEvent *)event
@@ -184,11 +214,6 @@ uint32 CocoaRenderTargetWidgetBackend::GetPosition() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;
-}
-
-void CocoaRenderTargetWidgetBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CocoaRenderTargetWidgetBackend::ResetView() const

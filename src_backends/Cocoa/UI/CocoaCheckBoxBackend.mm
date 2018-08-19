@@ -91,6 +91,11 @@ bool CocoaCheckBoxBackend::IsChecked() const
 	return [this->cocoaCheckBox state] == NSControlStateValueOn;
 }
 
+void CocoaCheckBoxBackend::SetEnabled(bool enable) const
+{
+	[this->cocoaCheckBox setEnabled:enable];
+}
+
 void CocoaCheckBoxBackend::SetText(const String &text)
 {
 	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
@@ -134,11 +139,6 @@ void CocoaCheckBoxBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaCheckBoxBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaCheckBoxBackend::SetHint(const StdXX::String &text) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -163,11 +163,6 @@ uint32 CocoaCheckBoxBackend::GetPosition() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;
-}
-
-void CocoaCheckBoxBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CocoaCheckBoxBackend::ResetView() const

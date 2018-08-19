@@ -1,3 +1,5 @@
+add_subdirectory(Events)
+
 set(SOURCE_FILES
 	${SOURCE_FILES}
 

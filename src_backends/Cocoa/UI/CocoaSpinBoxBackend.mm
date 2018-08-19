@@ -205,11 +205,6 @@ uint32 CocoaSpinBoxBackend::GetPosition() const
 	return 0;
 }
 
-void CocoaSpinBoxBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSpinBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

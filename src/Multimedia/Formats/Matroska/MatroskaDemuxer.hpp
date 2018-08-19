@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Multimedia/ClusterIndex.hpp>
+#include <Std++/Multimedia/Index.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Format.hpp>
 #include "Matroska.hpp"
@@ -66,7 +66,7 @@ public:
 private:
 	//Members
 	_stdxx_::CodingFormatIdMap<String> codecIdMap;
-	ClusterIndex clusters;
+	Index clusters;
 	Map<uint64, uint32> trackToStreamMap;
 	struct
 	{

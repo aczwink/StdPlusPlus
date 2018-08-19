@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/UI/Events/MouseClickEvent.hpp>
 #include "Std++/_Backends/UI/WidgetBackend.hpp"
 #include "../Function.hpp"
 #include "../Containers/Strings/OldString.hpp"
@@ -148,8 +149,8 @@ namespace StdXX
 			Math::RectD bounds;
 
 			//Eventhandlers
-			virtual void OnMouseButtonPressed(MouseButton button, const Math::PointD &pos);
-			virtual void OnMouseButtonReleased(MouseButton button, const Math::PointD &pos);
+			virtual void OnMouseButtonPressed(const Events::MouseClickEvent &event);
+			virtual void OnMouseButtonReleased(const Events::MouseClickEvent &event);
 			virtual void OnMouseMoved(const Math::PointD &pos);
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnPaint();

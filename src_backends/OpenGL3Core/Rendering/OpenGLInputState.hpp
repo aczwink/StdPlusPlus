@@ -39,8 +39,8 @@ public:
     ~OpenGLInputState();
 
     //Methods
-    void AddVertexBuffer(VertexBuffer *pVertexBuffer, const InputLayout &refInputLayout);
-    void SetIndexBuffer(IndexBuffer *pIndexBuffer);
+    void AddVertexBuffer(const VertexBuffer *vertexBuffer, const InputLayout &inputLayout);
+    void SetIndexBuffer(const IndexBuffer *indexBuffer);
 
     //Inline
     inline void Bind() const
@@ -48,9 +48,9 @@ public:
         this->glFuncs.glBindVertexArray(this->id);
     }
 
-    inline OpenGLIndexBuffer *GetIndexBuffer()
+    inline const OpenGLIndexBuffer *GetIndexBuffer() const
     {
-        return this->pIndexBuffer;
+        return this->indexBuffer;
     }
 private:
 	//Members
@@ -58,5 +58,5 @@ private:
     GLFunctions_3_0 &glFuncs;
 	uint32 id;
 	uint8 currentAttributeIndex;
-	OpenGLIndexBuffer *pIndexBuffer;
+	const OpenGLIndexBuffer *indexBuffer;
 };

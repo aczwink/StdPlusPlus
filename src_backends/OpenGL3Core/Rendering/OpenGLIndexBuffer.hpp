@@ -36,8 +36,9 @@ public:
     ~OpenGLIndexBuffer();
 
     //Methods
-    void Allocate(uint32 nIndices, const uint16 *pIndices);
-    void Allocate(uint32 nIndices, const uint32 *pIndices);
+    void Allocate16(uint32 nIndices, const uint16 *pIndices);
+    void Allocate32(uint32 nIndices, const uint32 *pIndices);
+    void Write(uint32 index, uint32 nIndices, const uint32 *data) override;
 
     //Inline
     inline void Bind() const

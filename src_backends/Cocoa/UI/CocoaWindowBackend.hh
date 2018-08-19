@@ -68,7 +68,6 @@ namespace _stdxx_
 
 		//OLD STUFF
 		uint32 GetPosition() const override;
-		void GetRange(int32 &min, int32 &max) override;
 		StdXX::Math::SizeD GetSize() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() const;

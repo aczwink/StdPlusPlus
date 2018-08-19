@@ -32,5 +32,5 @@ public:
 	void GetFormatInfo(FormatInfo &refFormatInfo) const;
 	String GetName() const;
 	//FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const;
-	float32 Matches(BufferInputStream &refBuffer) const;
+	float32 Matches(BufferInputStream &buffer) const;
 };

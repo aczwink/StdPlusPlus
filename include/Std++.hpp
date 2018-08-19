@@ -136,7 +136,7 @@
 #include <Std++/Multimedia/AudioDecoder.hpp>
 #include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/AudioStream.hpp>
-#include <Std++/Multimedia/ClusterIndex.hpp>
+#include <Std++/Multimedia/Index.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
 #include <Std++/Multimedia/Format.hpp>
@@ -222,7 +222,7 @@
 //Displays
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Events
-#include <Std++/UI/Events/CKeyEvent.h>
+#include <Std++/UI/Events/KeyEvent.hpp>
 //Layouts
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Menu

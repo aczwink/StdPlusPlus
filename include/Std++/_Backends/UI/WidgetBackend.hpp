@@ -76,9 +76,6 @@ namespace _stdxx_
 		//Abstract, for Slider
 		virtual uint32 GetPosition() const = 0;
 
-		//Abstract, for SpinBox
-		virtual void GetRange(int32 &min, int32 &max) = 0;
-
 		//Abstract, for View
 		virtual void ResetView() const = 0;
 

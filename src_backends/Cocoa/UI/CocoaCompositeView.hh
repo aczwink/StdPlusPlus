@@ -75,8 +75,6 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 
 		uint32 GetPosition() const override;
-
-		void GetRange(int32 &min, int32 &max) override;
 		void ResetView() const override;
 
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;

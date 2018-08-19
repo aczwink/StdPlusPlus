@@ -167,11 +167,6 @@ uint32 CocoaWindowBackend::GetPosition() const
 	return 0;
 }
 
-void CocoaWindowBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 StdXX::Math::SizeD CocoaWindowBackend::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

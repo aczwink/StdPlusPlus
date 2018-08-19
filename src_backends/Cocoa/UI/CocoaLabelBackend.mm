@@ -134,11 +134,6 @@ uint32 CocoaLabelBackend::GetPosition() const
 	return 0;
 }
 
-void CocoaLabelBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaLabelBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

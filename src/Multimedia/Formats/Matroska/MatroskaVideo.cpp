@@ -22,6 +22,7 @@
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include "../BMP/BMP.hpp"
 #include "../WAVE/WAVE.h"
+#include "EBML.hpp"
 #include "MatroskaDemuxer.hpp"
 #include "MatroskaMuxer.hpp"
 
@@ -86,17 +87,23 @@ String MatroskaVideo::GetName() const
 	return result;
 }*/
 
-float32 MatroskaVideo::Matches(BufferInputStream &refBuffer) const
+float32 MatroskaVideo::Matches(BufferInputStream &buffer) const
 {
-	DataReader reader(true, refBuffer);
-
-	if(reader.ReadUInt32() == 0x1A45DFA3)
+	EBML::Header header;
+	if(!EBML::ParseHeader(header, buffer))
 	{
-		if(refBuffer.IsAtEnd())
+		if(buffer.IsAtEnd())
 			return FORMAT_MATCH_BUFFER_TOO_SMALL;
 
-		return 1;
+		return 0;
 	}
 
-	return 0;
+	if(header.version != 1)
+		return 0;
+	if(header.docType != u8"matroska")
+		return 0;
+	if(header.docTypeVersion > 2)
+		return 0;
+
+	return 1;
 }

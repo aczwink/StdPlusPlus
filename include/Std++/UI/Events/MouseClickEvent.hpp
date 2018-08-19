@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,42 +18,41 @@
  */
 #pragma once
 //Local
-#include <Std++/_Backends/UI/SpinBoxBackend.hpp>
-#include "../Widget.hpp"
+#include <Std++/UI/Mouse.hpp>
+#include <Std++/Math/Point.hpp>
+#include "InputEvent.hpp"
 
 namespace StdXX
 {
 	namespace UI
 	{
-		class STDPLUSPLUS_API SpinBox : public Widget
+		namespace Events
 		{
-		public:
-			//Constructor
-			SpinBox();
-
-			//Inline
-			inline int32 GetValue() const
+			class MouseClickEvent : public InputEvent
 			{
-				return this->spinBoxBackend->GetValue();
-			}
+			public:
+				//Constructor
+				inline MouseClickEvent(MouseButton mouseButton, const Math::PointD &pos, const KeyboardModifiers &keyboardModifiers)
+						: InputEvent(keyboardModifiers), mouseButton(mouseButton), pos(pos)
+				{
+				}
 
-			inline void SetRange(int32 min, int32 max)
-			{
-				this->min = min;
-				this->max = max;
-				this->spinBoxBackend->SetRange(min, max);
-			}
-			
-			inline void SetValue(int32 value)
-			{
-				this->spinBoxBackend->SetValue(Math::Clamp(value, this->min, this->max));
-			}
+				//Inline
+				inline MouseButton GetMouseButton() const
+				{
+					return this->mouseButton;
+				}
 
-		private:
-			//Members
-			_stdxx_::SpinBoxBackend *spinBoxBackend;
-			int32 min;
-			int32 max;
-		};
+				inline const Math::PointD &GetPosition() const
+				{
+					return this->pos;
+				}
+
+			private:
+				//Members
+				MouseButton mouseButton;
+				Math::PointD pos;
+			};
+		}
 	}
 }

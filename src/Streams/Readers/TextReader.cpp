@@ -47,19 +47,19 @@ TextReader &TextReader::operator>>(String &target)
 	target = String();
 
 	uint32 codePoint = this->SkipWhitespaces();
-	if(this->inputStream.IsAtEnd())
+	if(codePoint == Natural<uint32>::Max())
 		return *this;
 	target += codePoint;
 
 	while(true)
 	{
 		codePoint = this->codec->ReadCodePoint(this->inputStream);
+		if(this->inputStream.IsAtEnd())
+			break;
+
 		if(IsWhiteSpaceChar(codePoint))
 			break;
 		target += codePoint;
-
-		if(this->inputStream.IsAtEnd())
-			break;
 	}
 
 	return *this;
@@ -186,7 +186,7 @@ uint32 TextReader::SkipWhitespaces()
 	while(true)
 	{
 		if(this->inputStream.IsAtEnd())
-			return -1;
+			return Natural<uint32>::Max();
 		codePoint = this->codec->ReadCodePoint(this->inputStream);
 		if(!IsWhiteSpaceChar(codePoint))
 			break;

@@ -35,7 +35,7 @@ OpenGLIndexBuffer::~OpenGLIndexBuffer()
 }
 
 //Public methods
-void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint16 *pIndices)
+void OpenGLIndexBuffer::Allocate16(uint32 nIndices, const uint16 *pIndices)
 {
     this->Bind();
 
@@ -45,7 +45,7 @@ void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint16 *pIndices)
     this->isShort = true;
 }
 
-void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint32 *pIndices)
+void OpenGLIndexBuffer::Allocate32(uint32 nIndices, const uint32 *pIndices)
 {
     this->Bind();
 
@@ -53,4 +53,11 @@ void OpenGLIndexBuffer::Allocate(uint32 nIndices, const uint32 *pIndices)
 
     this->nIndices = nIndices;
     this->isShort = false;
+}
+
+void OpenGLIndexBuffer::Write(uint32 index, uint32 nIndices, const uint32 *data)
+{
+	this->Bind();
+
+	this->glFuncs.glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, index * 4, nIndices * 4, data);
 }

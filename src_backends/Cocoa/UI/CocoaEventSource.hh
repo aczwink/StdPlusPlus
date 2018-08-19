@@ -39,8 +39,8 @@ namespace _stdxx_
 		//Class function
 		static void EmitCloseEvent(StdXX::UI::Window &window);
 		static void EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint point);
-		static void EmitMousePressedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point);
-		static void EmitMouseReleasedEvent(StdXX::UI::Widget &widget, StdXX::UI::MouseButton button, NSPoint point);
+		static void EmitMousePressedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event);
+		static void EmitMouseReleasedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event);
 		static void EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta);
 		static void EmitPaintEvent(StdXX::UI::Widget &widget);
 		static void EmitResizedEvent(StdXX::UI::Widget &widget);

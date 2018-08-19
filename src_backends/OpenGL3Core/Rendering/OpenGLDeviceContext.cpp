@@ -180,17 +180,33 @@ void OpenGLDeviceContext::DrawTriangles(uint32 startVertexIndex, uint32 nTriangl
 	this->glFuncs.glDrawArrays(GL_TRIANGLES, startVertexIndex, nTriangles * 3);
 }
 
-void OpenGLDeviceContext::DrawTrianglesIndexed()
+void OpenGLDeviceContext::DrawTrianglesIndexed(uint32 startIndex, uint32 nTriangles)
 {
 	this->Bind();
 	this->currentInputState->Bind();
-	OpenGLIndexBuffer *pIndexBuffer = this->currentInputState->GetIndexBuffer();
-	pIndexBuffer->Bind();
+	const OpenGLIndexBuffer *openGLIndexBuffer = this->currentInputState->GetIndexBuffer();
+	openGLIndexBuffer->Bind();
 
-	if(pIndexBuffer->IndicesShort())
-		this->glFuncs.glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
+	uint32 nIndices;
+	if(nTriangles == Natural<uint32>::Max())
+		nIndices = openGLIndexBuffer->GetNumberOfIndices() - startIndex;
 	else
-		this->glFuncs.glDrawElements(GL_TRIANGLES, pIndexBuffer->GetNumberOfIndices(), GL_UNSIGNED_INT, nullptr);
+		nIndices = nTriangles * 3;
+
+	GLenum indexType;
+	uint32 offset;
+	if(openGLIndexBuffer->IndicesShort())
+	{
+		indexType = GL_UNSIGNED_SHORT;
+		offset = startIndex * 2;
+	}
+	else
+	{
+		indexType = GL_UNSIGNED_INT;
+		offset = startIndex * 4;
+	}
+
+	this->glFuncs.glDrawElements(GL_TRIANGLES, nIndices, indexType, reinterpret_cast<const void *>(offset));
 }
 
 void OpenGLDeviceContext::DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices)

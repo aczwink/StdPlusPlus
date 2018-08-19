@@ -40,7 +40,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ClusterIndex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Index.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp

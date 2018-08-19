@@ -85,7 +85,13 @@ namespace StdXX
 			virtual void DrawPoints(uint32 startVertexIndex, uint32 count) = 0;
 			virtual void DrawTriangleFan(uint32 startVertexIndex, uint32 nVertices) = 0;
 			virtual void DrawTriangles(uint32 startVertexIndex, uint32 nTriangles) = 0;
-			virtual void DrawTrianglesIndexed() = 0;
+			/**
+			 * If nTriangles == Natural<uint32>::Max() (default), then the number of triangles is taken from the index buffer.
+			 *
+			 * @param startIndex
+			 * @param nTriangles
+			 */
+			virtual void DrawTrianglesIndexed(uint32 startIndex = 0, uint32 nTriangles = Natural<uint32>::Max()) = 0;
 			virtual void DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices) = 0;
 			virtual void EnableBlending(bool enabled = true) = 0;
 			virtual void EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha) = 0;

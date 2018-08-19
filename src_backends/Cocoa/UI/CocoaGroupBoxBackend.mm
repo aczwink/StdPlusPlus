@@ -187,11 +187,6 @@ uint32 CocoaGroupBoxBackend::GetPosition() const
 	return 0;
 }
 
-void CocoaGroupBoxBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaGroupBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

@@ -10,9 +10,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BMP/BMP_Muxer.hpp
 
 	#Matroska
+	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBML.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBML.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBMLParser.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBMLParser.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/Matroska.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/Matroska.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaDemuxer.cpp

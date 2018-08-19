@@ -38,30 +38,26 @@ OpenGLInputState::~OpenGLInputState()
 }
 
 //Public methods
-void OpenGLInputState::AddVertexBuffer(VertexBuffer *pVB, const InputLayout &refInputLayout)
+void OpenGLInputState::AddVertexBuffer(const VertexBuffer *vertexBuffer, const InputLayout &inputLayout)
 {
-    uint8 i, location;
-    OpenGLVertexBuffer *pVertexBuffer;
-
-    pVertexBuffer = (OpenGLVertexBuffer *)pVB;
-
     this->Bind();
-    pVertexBuffer->Bind();
+    OpenGLVertexBuffer *openGLVertexBuffer = (OpenGLVertexBuffer *)vertexBuffer;
+    openGLVertexBuffer->Bind();
 
-    for(i = 0; i < refInputLayout.GetNumberOfAttributes(); i++)
+    for(uint8 i = 0; i < inputLayout.GetNumberOfAttributes(); i++)
     {
-        auto &refVA = refInputLayout.GetAttribute(i);
+        auto &refVA = inputLayout.GetAttribute(i);
 
-        location = this->currentAttributeIndex + i;
+        uint8 location = this->currentAttributeIndex + i;
 
         this->glFuncs.glEnableVertexAttribArray(location);
-        this->glFuncs.glVertexAttribPointer(location, refVA.nComponents, GL_FLOAT, false, refInputLayout.GetSize(), (void *)refVA.offset);
+        this->glFuncs.glVertexAttribPointer(location, refVA.nComponents, GL_FLOAT, false, inputLayout.GetSize(), (void *)refVA.offset);
     }
 
-    this->currentAttributeIndex += refInputLayout.GetNumberOfAttributes();
+    this->currentAttributeIndex += inputLayout.GetNumberOfAttributes();
 }
 
-void OpenGLInputState::SetIndexBuffer(IndexBuffer *pIndexBuffer)
+void OpenGLInputState::SetIndexBuffer(const IndexBuffer *indexBuffer)
 {
-    this->pIndexBuffer = (OpenGLIndexBuffer *)pIndexBuffer;
+    this->indexBuffer = dynamic_cast<const OpenGLIndexBuffer *>(indexBuffer);
 }

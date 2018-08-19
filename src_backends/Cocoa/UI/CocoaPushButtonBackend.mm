@@ -83,6 +83,11 @@ Widget &CocoaPushButtonBackend::GetWidget()
 	return *this->pushButton;
 }
 
+void CocoaPushButtonBackend::SetEnabled(bool enable) const
+{
+	[this->cocoaButton setEnabled:enable];
+}
+
 void CocoaPushButtonBackend::SetText(const StdXX::String &text)
 {
 	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
@@ -126,11 +131,6 @@ void CocoaPushButtonBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaPushButtonBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaPushButtonBackend::SetHint(const StdXX::String &text) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -155,11 +155,6 @@ uint32 CocoaPushButtonBackend::GetPosition() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;
-}
-
-void CocoaPushButtonBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CocoaPushButtonBackend::ResetView() const

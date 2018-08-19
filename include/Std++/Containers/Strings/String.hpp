@@ -177,6 +177,11 @@ namespace StdXX
 			return rhs < *this;
 		}
 
+		inline bool operator!=(const String &rhs) const
+		{
+			return !(*this == rhs);
+		}
+
 		//Methods
 		bool EndsWith(const String &string) const;
 		/**

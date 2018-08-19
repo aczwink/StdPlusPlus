@@ -136,11 +136,6 @@ uint32 _stdxx_::CocoaCompositeView::GetPosition() const
 	return 0;
 }
 
-void _stdxx_::CocoaCompositeView::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CocoaCompositeView::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

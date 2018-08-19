@@ -161,12 +161,6 @@ uint32 CocoaSliderBackend::GetPosition() const
 	return 0;
 }
 
-void CocoaSliderBackend::GetRange(int32 &min, int32 &max)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-
 void CocoaSliderBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

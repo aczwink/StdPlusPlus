@@ -18,26 +18,34 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include "InputEvent.hpp"
+#include <Std++/UI/Keyboard.hpp>
 
 namespace StdXX
 {
-    namespace Rendering
+    namespace UI
     {
-        //Move declarations
-        class InputLayout;
-        class IndexBuffer;
-        class VertexBuffer;
-
-        class STDPLUSPLUS_API InputState
+        namespace Events
         {
-        public:
-            //Destructor
-            virtual ~InputState() {}
+            class KeyEvent : public InputEvent
+            {
+            public:
+                //Constructor
+                inline KeyEvent(KeyCode keyCode, const KeyboardModifiers &keyboardModifiers) : InputEvent(keyboardModifiers)
+                {
+                    this->keyCode = keyCode;
+                }
 
-            //Abstract
-            virtual void AddVertexBuffer(const VertexBuffer *vertexBuffer, const InputLayout &inputLayout) = 0;
-            virtual void SetIndexBuffer(const IndexBuffer *indexBuffer) = 0;
-        };
+                //Inline
+                inline KeyCode GetKeyCode() const
+                {
+                    return this->keyCode;
+                }
+
+            private:
+                //Members
+                KeyCode keyCode;
+            };
+        }
     }
 }

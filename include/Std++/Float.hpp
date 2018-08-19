@@ -50,6 +50,11 @@ namespace StdXX
 			return Math::Abs(a - b) <= epsilon;
 		}
 
+		static constexpr float64 Infinity()
+		{
+			return HUGE_VAL;
+		}
+
 		static bool IsNotANumber(float64 f)
 		{
 #ifdef XPC_COMPILER_CLANG

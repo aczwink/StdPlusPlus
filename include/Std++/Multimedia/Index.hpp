@@ -25,16 +25,16 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        class CClusterEntry
+        class IndexEntry
         {
         public:
             //Members
             uint64 offset;
-            uint64 size;
+            uint64 size; //when used as a block index. Else this should be set to 0
             uint64 timeStamp;
 
             //Inline operators
-            inline bool operator<(const CClusterEntry &refOther) const
+            inline bool operator<(const IndexEntry &refOther) const
             {
                 return this->offset < refOther.offset;
             }
@@ -56,42 +56,42 @@ namespace StdXX
             }
         };
 
-        class STDPLUSPLUS_API ClusterIndex
+        class STDPLUSPLUS_API Index
         {
-        private:
-            //Members
-            bool clustersSorted;
-			DynamicArray<CClusterEntry> clusters;
-
-            //Inline
-            inline void EnsureSorted()
-            {
-                if(!this->clustersSorted)
-                {
-                    this->clusters.Sort();
-                    this->clustersSorted = true;
-                }
-            }
-
         public:
             //Constructor
-            ClusterIndex();
+            Index();
 
             //Methods
-            void AddCluster(uint64 offset, uint64 size, uint64 timeStamp);
-            bool FindEntry(uint64 offset, uint32 &refClusterIndex);
+            void AddEntry(uint64 offset, uint64 size, uint64 timeStamp);
+            bool FindEntry(uint64 offset, uint32 &entryIndex);
             uint64 GetStartOffset();
 
             //Inline
-            inline const CClusterEntry &GetCluster(uint32 index) const
+            inline const IndexEntry &GetEntry(uint32 index) const
             {
-                return this->clusters[index];
+                return this->entries[index];
             }
 
-            inline uint32 GetNumberOfClusters() const
+            inline uint32 GetNumberOfEntries() const
             {
-                return this->clusters.GetNumberOfElements();
+                return this->entries.GetNumberOfElements();
             }
+
+		private:
+			//Members
+			bool entriesSorted;
+			DynamicArray<IndexEntry> entries;
+
+			//Inline
+			inline void EnsureSorted()
+			{
+				if(!this->entriesSorted)
+				{
+					this->entries.Sort();
+					this->entriesSorted = true;
+				}
+			}
         };
     }
 }

@@ -17,69 +17,69 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Multimedia/ClusterIndex.hpp>
+#include <Std++/Multimedia/Index.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-ClusterIndex::ClusterIndex()
+Index::Index()
 {
-	this->clustersSorted = true;
+	this->entriesSorted = true;
 }
 
 //Public methods
-void ClusterIndex::AddCluster(uint64 offset, uint64 size, uint64 timeStamp)
+void Index::AddEntry(uint64 offset, uint64 size, uint64 timeStamp)
 {
-	CClusterEntry entry;
+	IndexEntry entry;
 
 	entry.offset = offset;
 	entry.size = size;
 	entry.timeStamp = timeStamp;
 
-	if(this->clusters.IsEmpty())
+	if(this->entries.IsEmpty())
 	{
-		this->clustersSorted = true;
+		this->entriesSorted = true;
 	}
 	else
 	{
-		this->clustersSorted = this->clustersSorted && this->clusters[this->clusters.GetNumberOfElements() - 1].GetEndOffset() <= offset;
+		this->entriesSorted = this->entriesSorted && this->entries[this->entries.GetNumberOfElements() - 1].GetEndOffset() <= offset;
 	}
 
-	this->clusters.Push(entry);
+	this->entries.Push(entry);
 }
 
-bool ClusterIndex::FindEntry(uint64 offset, uint32 &refClusterIndex)
+bool Index::FindEntry(uint64 offset, uint32 &entryIndex)
 {
 	uint32 low, high;
 
 	this->EnsureSorted();
 
 	low = 0;
-	high = this->clusters.GetNumberOfElements() - 1;
+	high = this->entries.GetNumberOfElements() - 1;
 
 	while(low <= high)
 	{
-		refClusterIndex = low + (high - low) / 2;
+		entryIndex = low + (high - low) / 2;
 
-		if(this->clusters[refClusterIndex].Contains(offset))
+		if(this->entries[entryIndex].Contains(offset))
 			return true;
 
-		if(this->clusters[refClusterIndex].offset > offset)
-			high = refClusterIndex - 1;
+		if(this->entries[entryIndex].offset > offset)
+			high = entryIndex - 1;
 		else
-			low = refClusterIndex + 1;
+			low = entryIndex + 1;
 	}
 
 	return false;
 }
 
-uint64 ClusterIndex::GetStartOffset()
+uint64 Index::GetStartOffset()
 {
 	this->EnsureSorted();
 
-	if(this->clusters.IsEmpty())
+	if(this->entries.IsEmpty())
 		return 0;
 
-	return this->clusters[0].offset;
+	return this->entries[0].offset;
 }

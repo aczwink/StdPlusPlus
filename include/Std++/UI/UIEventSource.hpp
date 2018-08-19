@@ -50,14 +50,14 @@ namespace StdXX
 				window.OnClose();
 			}
 
-			inline void DispatchMouseButtonPressed(Widget &widget, MouseButton button, const Math::PointD &pos)
+			inline void DispatchMouseButtonPressed(Widget &widget, const Events::MouseClickEvent &event)
 			{
-				widget.OnMouseButtonPressed(button, pos);
+				widget.OnMouseButtonPressed(event);
 			}
 
-			inline void DispatchMouseButtonReleased(Widget &widget, MouseButton button, const Math::PointD &pos)
+			inline void DispatchMouseButtonReleased(Widget &widget, const Events::MouseClickEvent &event)
 			{
-				widget.OnMouseButtonReleased(button, pos);
+				widget.OnMouseButtonReleased(event);
 			}
 
 			inline void DispatchMouseMovedEvent(Widget &widget, const Math::PointD &pos)
