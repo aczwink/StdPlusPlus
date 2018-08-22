@@ -90,3 +90,137 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 
 	return matroskaCodecMap;
 }
+
+void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream)
+{
+	for(uint64 childrenSize = seekHead.dataSize; childrenSize != 0;)
+	{
+		EBML::Element seek;
+		EBML::ParseElementHeader(seek, inputStream);
+		
+		ASSERT(seek.id == MATROSKA_ID_SEEK, u8"Expected seek element.");
+
+		uint64 id = Natural<uint64>::Max(), offset = Natural<uint64>::Max();
+		for (uint64 seekSize = seek.dataSize; seekSize != 0;)
+		{
+			EBML::Element child;
+			EBML::ParseElementHeader(child, inputStream);
+
+			switch (child.id)
+			{
+			case MATROSKA_ID_SEEKID: //it is defined as binary, but using UInt reading works perfectly in this case
+				child.dataType = EBML::DataType::UInt;
+				EBML::ReadElementData(child, inputStream);
+				id = child.data.ui;
+			break;
+			case MATROSKA_ID_SEEKPOSITION:
+				child.dataType = EBML::DataType::UInt;
+				EBML::ReadElementData(child, inputStream);
+				offset = child.data.ui;
+				break;
+			default:
+				inputStream.Skip(child.dataSize);
+			}
+			seekSize -= child.headerSize + child.dataSize;
+		}
+		if ((id != Natural<uint64>::Max()) && (offset != Natural<uint64>::Max())) //only insert valid seeks
+			idOffsetMap[id] = segmentOffset + offset;
+		
+		childrenSize -= seek.headerSize + seek.dataSize;
+	}
+}
+
+void Matroska::ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segmentInfo, SeekableInputStream &inputStream)
+{
+	for (uint64 infoSize = info.dataSize; infoSize != 0;) //read it flattened
+	{
+		EBML::Element child;
+		EBML::ParseElementHeader(child, inputStream);
+
+		//set type
+		switch (child.id)
+		{
+		case MATROSKA_ID_DURATION:
+			child.dataType = EBML::DataType::Float;
+			break;
+		case MATROSKA_ID_TIMECODESCALE:
+			child.dataType = EBML::DataType::UInt;
+			break;
+		}
+
+		EBML::ReadElementData(child, inputStream);
+
+		//set attributes
+		switch (child.id)
+		{
+		case MATROSKA_ID_DURATION:
+			segmentInfo.duration = child.data.f;
+			break;
+		case MATROSKA_ID_TIMECODESCALE:
+			segmentInfo.timeCodeScale = child.data.ui;
+			break;
+		}
+
+		if (child.dataType != EBML::DataType::Master) //flattened
+			infoSize -= child.headerSize + child.dataSize;
+	}
+}
+
+void Matroska::ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Track> &tracks, SeekableInputStream &inputStream)
+{
+	for (uint64 tracksSize = tracksElement.dataSize; tracksSize != 0;)
+	{
+		EBML::Element trackEntry;
+		EBML::ParseElementHeader(trackEntry, inputStream);
+		
+		ASSERT(trackEntry.id == MATROSKA_ID_TRACKENTRY, u8"Expected track entry.");
+
+		Track track;
+		for (uint64 trackEntrySize = trackEntry.dataSize; trackEntrySize != 0;)
+		{
+			//we read each track entry flattened
+			EBML::Element child;
+			EBML::ParseElementHeader(child, inputStream);
+
+			//set type
+			switch (child.id)
+			{
+			case MATROSKA_ID_CODECID:
+				child.dataType = EBML::DataType::ASCII_String;
+				break;
+			case MATROSKA_ID_CODECPRIVATE:
+				child.dataType = EBML::DataType::Binary;
+				break;
+			case MATROSKA_ID_TRACKNUMBER:
+			case MATROSKA_ID_TRACKTYPE:
+				child.dataType = EBML::DataType::UInt;
+				break;
+			}
+
+			if(child.dataType != EBML::DataType::Binary) //handle binary ourselves here
+				EBML::ReadElementData(child, inputStream);
+
+			//set attributes
+			switch (child.id)
+			{
+			case MATROSKA_ID_CODECID:
+				track.codecId = child.data.string;
+				break;
+			case MATROSKA_ID_CODECPRIVATE:
+				inputStream.FlushTo(track.codecPrivate, child.dataSize);
+				break;
+			case MATROSKA_ID_TRACKNUMBER:
+				track.number = child.data.ui;
+				break;
+			case MATROSKA_ID_TRACKTYPE:
+				track.type = child.data.ui;
+				break;
+			}
+
+			trackEntrySize -= child.headerSize + child.dataSize;
+		}
+		tracks.Push(track);
+		
+		tracksSize -= trackEntry.headerSize + trackEntry.dataSize;
+	}
+}

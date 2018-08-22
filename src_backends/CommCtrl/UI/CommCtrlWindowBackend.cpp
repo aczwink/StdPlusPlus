@@ -134,10 +134,10 @@ uint32 CommCtrlWindowBackend::GetPosition() const
 	return uint32();
 }
 
-void CommCtrlWindowBackend::GetRange(int32 &min, int32 &max)
+/*void CommCtrlWindowBackend::GetRange(int32 &min, int32 &max)
 {
 	SendMessageW(this->hWndReal, UDM_GETRANGE32, (WPARAM)&min, (LPARAM)&max);
-}
+}*/
 
 Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSize() const
 {

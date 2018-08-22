@@ -37,6 +37,8 @@ MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &r
 //Private methods
 void MatroskaDemuxer::AddStream()
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+	/*
 	uint32 index;
 	Stream *pStream;
 
@@ -85,7 +87,7 @@ void MatroskaDemuxer::AddStream()
 					default:
 						NOT_IMPLEMENTED_ERROR;
 				}
-			}*/
+			}*//*
 		}
 			break;
 		case TRACK_TYPE_VIDEO:
@@ -105,17 +107,13 @@ void MatroskaDemuxer::AddStream()
 			}
 		}
 			break;
-	}
+	}*/
 }
 
 /*void MatroskaDemuxer::BeginParseChilds(uint64 id)
 {
 	switch(id)
 	{
-		case MATROSKA_ID_SEGMENT:
-		{
-		}
-			break;
 		case MATROSKA_ID_TRACKENTRY:
 		{
 			this->parserState.currentTrack.type = Natural<uint8>::Max();
@@ -153,15 +151,10 @@ bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 {
 	switch (id)
 	{
-	case MATROSKA_ID_CODECID:
-		refElemInfo.type = EMatroskaType::ASCII_String;
-		return true;
 	case MATROSKA_ID_BLOCK:
-	case MATROSKA_ID_CODECPRIVATE:
 	case MATROSKA_ID_SIMPLEBLOCK:
 		refElemInfo.type = EMatroskaType::Binary;
 		return true;
-	case MATROSKA_ID_DURATION:
 	case MATROSKA_ID_SAMPLINGFREQUENCY:
 		refElemInfo.type = EMatroskaType::Float;
 		return true;
@@ -169,16 +162,11 @@ bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 	case MATROSKA_ID_CLUSTER:
 	case MATROSKA_ID_INFO:
 	case MATROSKA_ID_SEGMENT:
-	case MATROSKA_ID_TRACKS:
-	case MATROSKA_ID_TRACKENTRY:
 		refElemInfo.type = EMatroskaType::Master;
 		return true;
 	case MATROSKA_ID_BITDEPTH:
 	case MATROSKA_ID_CHANNELS:
 	case MATROSKA_ID_TIMECODE:
-	case MATROSKA_ID_TIMECODESCALE:
-	case MATROSKA_ID_TRACKNUMBER:
-	case MATROSKA_ID_TRACKTYPE:
 		refElemInfo.type = EMatroskaType::UInt;
 		return true;
 	}
@@ -215,14 +203,6 @@ void MatroskaDemuxer::ParseBinary(uint64 id, uint64 size)
 			this->inputStream.Skip(size);
 		}
 			break;
-		case MATROSKA_ID_CODECPRIVATE:
-		{
-			this->parserState.currentTrack.codecPrivate.offset = this->inputStream.GetCurrentOffset();
-			this->parserState.currentTrack.codecPrivate.size = size;
-
-			this->inputStream.Skip(size);
-		}
-			break;
 		default:
 			this->inputStream.Skip(size);
 	}
@@ -232,9 +212,6 @@ void MatroskaDemuxer::ParseFloat(uint64 id, float64 value)
 {
 	switch(id)
 	{
-		case MATROSKA_ID_DURATION:
-			this->duration = (uint64)value;
-			break;
 		case MATROSKA_ID_SAMPLINGFREQUENCY:
 			this->parserState.currentTrack.audio.samplingFrequency = value;
 			break;
@@ -251,24 +228,8 @@ void MatroskaDemuxer::ParseUInt(uint64 id, uint64 value)
 		case MATROSKA_ID_CHANNELS:
 			this->parserState.currentTrack.audio.nChannels = (uint8)value;
 			break;
-		case MATROSKA_ID_TRACKNUMBER:
-			this->parserState.currentTrack.number = value;
-			break;
-		case MATROSKA_ID_TRACKTYPE:
-			this->parserState.currentTrack.type = (uint8)value;
-			break;
 		case MATROSKA_ID_TIMECODE:
 			this->parserState.currentCluster.timeCode = value;
-			break;
-		case MATROSKA_ID_TIMECODESCALE:
-		{
-			this->timeScale.numerator = value;
-
-			for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
-			{
-				this->GetStream(i)->timeScale = this->timeScale;
-			}
-		}
 			break;
 	}
 }*/
@@ -279,14 +240,22 @@ void MatroskaDemuxer::ReadHeader()
 	//we don't need to check header, because this was done in the container format
 	EBML::Header header;
 	EBML::ParseHeader(header, this->inputStream);
-
-	NOT_IMPLEMENTED_ERROR; //there should be here exactly one segment
-
+	
+	//read segments
+	DynamicArray<uint64> segmentOffsets;
 	while(!this->inputStream.IsAtEnd())
 	{
-		NOT_IMPLEMENTED_ERROR; //Read everything but the clusters
+		EBML::Element element;
+		EBML::ParseElementHeader(element, this->inputStream);
+		ASSERT(element.id == MATROSKA_ID_SEGMENT, u8"Invalid element found in matroska file. Expected segment.");
+		segmentOffsets.Push(element.dataOffset);
+		this->inputStream.Skip(element.dataSize);
 	}
-	//read clusters without blocks
+
+	//read segment
+	ASSERT(segmentOffsets.GetNumberOfElements() == 1, u8"Can't read matroska files with multiple segments currently.");
+
+	this->ReadSegment(segmentOffsets[0]);
 
 	//move to beginning of data
 	this->inputStream.SetCurrentOffset(this->clusters.GetStartOffset());
@@ -379,4 +348,80 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 	packet.streamIndex = this->demuxerState.blockStreamIndex;
 
 	return true;
+}
+
+//Private methods
+void MatroskaDemuxer::ReadSegment(uint64 segmentOffset)
+{
+	this->inputStream.SetCurrentOffset(segmentOffset);
+
+	Map<uint64, uint64> idOffsetMap;
+	FiniteSet<uint64> readSections;
+	bool foundCluster = false;
+	while (!foundCluster)
+	{
+		EBML::Element element;
+		EBML::ParseElementHeader(element, this->inputStream);
+
+		switch (element.id)
+		{
+		case MATROSKA_ID_SEEKHEAD:
+			Matroska::ReadSeekHeadData(element, idOffsetMap, segmentOffset, this->inputStream);
+			break;
+		case MATROSKA_ID_CUES:
+		case MATROSKA_ID_INFO:
+		case MATROSKA_ID_TRACKS:
+			this->ReadSection(element);
+			readSections.Insert(element.id);
+			break;
+		case MATROSKA_ID_CLUSTER:
+			foundCluster = true;
+			break; //we are at the clusters.... break from here
+		default: //unknown... skip
+			this->inputStream.Skip(element.dataSize);
+		}
+	}
+
+	for (const auto &kv : idOffsetMap)
+	{
+		if (!readSections.Contains(kv.key))
+		{
+			this->inputStream.SetCurrentOffset(kv.value);
+			EBML::Element element;
+			EBML::ParseElementHeader(element, this->inputStream);
+			this->ReadSection(element);
+		}
+	}
+}
+
+void MatroskaDemuxer::ReadSection(const EBML::Element &element)
+{
+	switch (element.id)
+	{
+	case MATROSKA_ID_CUES:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	case MATROSKA_ID_INFO:
+	{
+		Matroska::SegmentInfo segmentInfo;
+		Matroska::ReadSegmentInfoData(element, segmentInfo, this->inputStream);
+
+		if(segmentInfo.duration != 0)
+			this->duration = (uint64)segmentInfo.duration;
+
+		this->timeScale.numerator = segmentInfo.timeCodeScale;
+		for (uint32 i = 0; i < this->GetNumberOfStreams(); i++)
+			this->GetStream(i)->timeScale = this->timeScale;
+	}
+	break;
+	case MATROSKA_ID_TRACKS:
+	{
+		DynamicArray<Matroska::Track> tracks;
+		Matroska::ReadTrackData(element, tracks, this->inputStream);
+
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+	break;
+	default:
+		this->inputStream.Skip(element.dataSize);
+	}
 }

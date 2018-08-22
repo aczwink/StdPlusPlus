@@ -20,7 +20,9 @@
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Containers/FIFOBuffer.hpp>
 #include "../../CodingFormatIdMap.hpp"
+#include "EBML.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -40,9 +42,6 @@ namespace Matroska
 		MATROSKA_ID_EBMLREADVERSION = 0x42F7,
 		MATROSKA_ID_EBMLMAXIDLENGTH = 0x42F2,
 		MATROSKA_ID_EBMLMAXSIZELENGTH = 0x42F3,
-		MATROSKA_ID_DOCTYPE = 0x4282,
-		MATROSKA_ID_DOCTYPEVERSION = 0x4287,
-		MATROSKA_ID_DOCTYPEREADVERSION = 0x4285,
 		//Segment
 			MATROSKA_ID_SEGMENT = 0x18538067,
 		//Meta Seek Information
@@ -101,6 +100,23 @@ namespace Matroska
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
 	const String codecId_ms_fourcc = u8"V_MS/VFW/FOURCC";
 
+	struct SegmentInfo
+	{
+		float64 duration = 0;
+		uint64 timeCodeScale = 1000000;
+	};
+
+	struct Track
+	{
+		uint64 number;
+		uint8 type;
+		String codecId;
+		FIFOBuffer codecPrivate;
+	};
+
 	//Functions
 	_stdxx_::CodingFormatIdMap<String> GetCodingFormatMap();
+	void ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream);
+	void ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segmentInfo, SeekableInputStream &inputStream);
+	void ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Track> &tracks, SeekableInputStream &inputStream);
 }

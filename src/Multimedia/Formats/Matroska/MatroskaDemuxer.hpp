@@ -32,8 +32,6 @@ https://www.matroska.org/technical/specs/index.html
 
 struct STrackInfo
 {
-	uint64 number;
-	uint8 type;
 	CodingFormatId codingFormatId;
 
 	struct
@@ -48,8 +46,6 @@ struct STrackInfo
 		bool isMS_BMPHeader;
 		bool isIntegerPCM;
 		bool isFloatPCM;
-		uint64 offset;
-		uint64 size;
 	} codecPrivate;
 };
 
@@ -87,4 +83,6 @@ private:
 
 	//Methods
 	void AddStream();
+	void ReadSegment(uint64 segmentOffset);
+	void ReadSection(const EBML::Element &element);
 };

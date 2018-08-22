@@ -119,7 +119,7 @@ namespace StdXX
 			ASSERT(newBuffer, u8"If you see this, report it to StdXX");
 
 			for(uint32 i = 0; i < this->nElements; i++)
-				newBuffer[i] = this->data[i];
+				newBuffer[i] = Move(this->data[i]);
 
 			delete[] this->data;
 			this->data = newBuffer;

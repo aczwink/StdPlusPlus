@@ -75,6 +75,8 @@ void EBML::ParseElementHeader(Element &element, SeekableInputStream &inputStream
 	element.headerSize += length;
 
 	element.dataOffset = inputStream.GetCurrentOffset();
+
+	element.dataType = DataType::Unknown;
 }
 
 bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
@@ -92,14 +94,35 @@ bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
 		//set type
 		switch(child.id)
 		{
-			default:
-				child.dataType = DataType::Unknown;
+		case EBML_ID_DOCTYPE:
+			child.dataType = DataType::ASCII_String;
+			break;
+		case EBML_ID_DOCTYPEVERSION:
+		case EBML_ID_DOCTYPEREADVERSION:
+			child.dataType = DataType::UInt;
+			break;
 		}
 
 		ReadElementData(child, inputStream);
-		childrenSize -= child.headerSize + child.dataSize;
 
 		//set attributes
+		switch (child.id)
+		{
+		case EBML_ID_DOCTYPE:
+			header.docType = child.data.string;
+			break;
+		case EBML_ID_DOCTYPEREADVERSION:
+			header.docTypeVersion = child.data.ui;
+			break;
+		case EBML_ID_DOCTYPEVERSION: //not interesting for reading
+			break;
+		}
+
+		//update size
+		uint64 childSize = child.headerSize + child.dataSize;
+		if (childSize > childrenSize)
+			return false;
+		childrenSize -= childSize;
 	}
 
 	return true;

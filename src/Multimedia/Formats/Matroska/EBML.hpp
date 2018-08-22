@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
@@ -62,6 +63,9 @@ namespace StdXX
 		enum ClassId
 		{
 			EBML_ID_EBML = 0x1A45DFA3,
+			EBML_ID_DOCTYPE = 0x4282,
+			EBML_ID_DOCTYPEVERSION = 0x4287,
+			EBML_ID_DOCTYPEREADVERSION = 0x4285,
 		};
 
 		struct Header

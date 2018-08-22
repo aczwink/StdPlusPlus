@@ -36,7 +36,6 @@ namespace _stdxx_
 
         //Public methods
 		uint32 GetPosition() const override;
-		void GetRange(int32 &min, int32 &max) override;
         Math::SizeD GetSize() const override;
 		Math::SizeD GetSizeHint() const override;
 		void IgnoreEvent() override;

@@ -316,9 +316,9 @@ void MatroskaMuxer::WriteHeader()
 	this->WriteUIntElement(MATROSKA_ID_EBMLREADVERSION, 1);
 	this->WriteUIntElement(MATROSKA_ID_EBMLMAXIDLENGTH, 4);
 	this->WriteUIntElement(MATROSKA_ID_EBMLMAXSIZELENGTH, 8);
-	this->WriteASCIIElement(MATROSKA_ID_DOCTYPE, "matroska");
-	this->WriteUIntElement(MATROSKA_ID_DOCTYPEVERSION, 2); //in order to use "SimpleBlock" it must be at least 2
-	this->WriteUIntElement(MATROSKA_ID_DOCTYPEREADVERSION, 2);
+	this->WriteASCIIElement((MatroskaId)EBML::EBML_ID_DOCTYPE, u8"matroska");
+	this->WriteUIntElement((MatroskaId)EBML::EBML_ID_DOCTYPEVERSION, 2); //in order to use "SimpleBlock" it must be at least 2
+	this->WriteUIntElement((MatroskaId)EBML::EBML_ID_DOCTYPEREADVERSION, 2);
 
 	this->EndElement();
 
