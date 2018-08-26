@@ -53,6 +53,6 @@ private:
 	 * @param lParam
 	 * @return true if message was processed, false if not.
 	 */
-	bool DispatchMessageEvent(_stdxx_::CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam);
+	bool DispatchMessageEvent(_stdxx_::WidgetBackend &backend, UINT message, WPARAM wParam, LPARAM lParam);
 	void DispatchNotificationEvent(StdXX::UI::Widget &refWidget, const NMHDR &refNmHdr);
 };

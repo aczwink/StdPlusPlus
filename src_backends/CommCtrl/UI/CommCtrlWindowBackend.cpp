@@ -22,6 +22,7 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
+#include <Std++/UI/Window.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"
 #include "Definitions.h"
@@ -40,13 +41,12 @@ WinAPI Documentation:
 */
 
 //Constructor
-CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Widget *widget, HWND hParent) : WindowBackend(uiBackend)
+CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend),
+	Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN), WidgetBackend(uiBackend), window(window), showFirstTime(true), maximizeWindow(false)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: new implementation
 	/*
 	this->hWndReal = nullptr;
 
-	HINSTANCE hInstance = GetModuleHandle(NULL);
     switch(type)
     {
 	case WindowBackendType::CheckBox:
@@ -86,28 +86,21 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Widget *widge
 			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 		}
 		break;
-        case WindowBackendType::Window:
-            {
-                this->hWnd = CreateWindowExW(0, STDPLUSPLUS_WIN_WNDCLASS, nullptr, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, 0, 0, 0, 0, hParent, NULL, hInstance, this);
-            }
-            break;
         default:
             NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    }
-
-	if(this->type != WindowBackendType::Window)
-		SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)this);
-
-	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);*/
-}
-
-//Destructor
-CommCtrlWindowBackend::~CommCtrlWindowBackend()
-{
-    DestroyWindow(this->hWnd);
+    }*/
 }
 
 //Public methods
+void CommCtrlWindowBackend::AddChild(Widget *widget)
+{
+}
+
+CompositeWidget *CommCtrlWindowBackend::CreateContentArea()
+{
+	return new CompositeWidget;
+}
+
 /*
 Rect CommCtrlWindowBackend::GetChildrenRect() const
 {
@@ -149,6 +142,16 @@ Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSizeHint() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return Math::SizeD();
+}
+
+Widget &CommCtrlWindowBackend::GetWidget()
+{
+	return *this->window;
+}
+
+const Widget &CommCtrlWindowBackend::GetWidget() const
+{
+	return *this->window;
 }
 
 /*Size CommCtrlWindowBackend::GetSize() const
@@ -248,33 +251,21 @@ void CommCtrlWindowBackend::IgnoreEvent()
 
 void CommCtrlWindowBackend::Maximize()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	this->maximizeWindow = true;
 }
 
-void _stdxx_::CommCtrlWindowBackend::Paint()
+void CommCtrlWindowBackend::Paint()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	HBRUSH hBrush;
+	PAINTSTRUCT ps;
+
+	BeginPaint(this->GetHWND(), &ps);
+	hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
+
+	FillRect(ps.hdc, &ps.rcPaint, hBrush);
+
+	EndPaint(this->GetHWND(), &ps);
 }
-
-/*void CommCtrlWindowBackend::Paint()
-{
-	switch(this->type)
-	{
-	case WindowBackendType::Window:
-		{
-			HBRUSH hBrush;
-			PAINTSTRUCT ps;
-
-			BeginPaint(this->hWnd, &ps);
-			hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
-
-			FillRect(ps.hdc, &ps.rcPaint, hBrush);
-
-			EndPaint(this->hWnd, &ps);
-		}
-		break;
-	}
-}*/
 
 void CommCtrlWindowBackend::Repaint()
 {
@@ -360,12 +351,14 @@ void _stdxx_::CommCtrlWindowBackend::SetBounds(const StdXX::Math::RectD & area)
 
 void CommCtrlWindowBackend::SetEditable(bool enable) const
 {
-	SendMessageA(this->hWnd, EM_SETREADONLY, !enable, 0);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me next line
+	//SendMessageA(this->hWnd, EM_SETREADONLY, !enable, 0);
 }
 
 void CommCtrlWindowBackend::SetEnabled(bool enable) const
 {
-	EnableWindow(this->hWnd, enable);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me next line
+	//EnableWindow(this->hWnd, enable);
 }
 
 void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
@@ -373,10 +366,12 @@ void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+void CommCtrlWindowBackend::SetMenuBar(MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
+	this->RequireRealized();
+	
 	CommCtrlMenuBarBackend *commCtrlMenuBarBackend = (CommCtrlMenuBarBackend *)menuBarBackend;
-	::SetMenu(this->hWnd, commCtrlMenuBarBackend->GetHandle());
+	::SetMenu(this->GetHWND(), commCtrlMenuBarBackend->GetHandle());
 
 	//bind hWnd to hMenu
 	MENUINFO mi;
@@ -387,9 +382,37 @@ void CommCtrlWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBacke
 	SetMenuInfo(commCtrlMenuBarBackend->GetHandle(), &mi);
 }
 
-void _stdxx_::CommCtrlWindowBackend::Show(bool visible)
+void CommCtrlWindowBackend::SetTitle(const String & title)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	this->SetText(title);
+}
+
+void CommCtrlWindowBackend::Show(bool visible)
+{
+	if (visible)
+	{
+		//was the window ever visible?
+		if (this->showFirstTime)
+		{
+			ShowWindow(this->GetHWND(), SW_SHOWNORMAL);
+			this->showFirstTime = false;
+		}
+		else
+		{
+			ShowWindow(this->GetHWND(), SW_SHOW);
+		}
+
+		//maximize?
+		if (this->maximizeWindow)
+		{
+			ShowWindow(this->GetHWND(), SW_MAXIMIZE);
+			this->maximizeWindow = false;
+		}
+	}
+	else
+	{
+		ShowWindow(this->GetHWND(), SW_HIDE);
+	}
 }
 
 void _stdxx_::CommCtrlWindowBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
@@ -407,11 +430,6 @@ void _stdxx_::CommCtrlWindowBackend::UpdateSelection(StdXX::UI::SelectionControl
 	SendMessageW(this->hWndReal, UDM_SETRANGE32, min, max);
 	//update pos always because of redraw
 	this->SetValue(this->GetValue());
-}
-
-void CommCtrlWindowBackend::SetText(const String &text)
-{
-    SendMessageW(this->hWnd, WM_SETTEXT, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
 }
 
 void CommCtrlWindowBackend::SetValue(int32 value)
@@ -441,6 +459,9 @@ void CommCtrlWindowBackend::Show(bool visible)
 //Private methods
 String CommCtrlWindowBackend::GetText() const
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me next lines
+	return String();
+	/*
 	const uint16 nCodeUnits = 2048;
 	uint16 buffer[nCodeUnits]; //should be sufficient for most cases
 	uint32 length = SendMessageW(this->hWnd, WM_GETTEXTLENGTH, 0, 0);
@@ -453,6 +474,13 @@ String CommCtrlWindowBackend::GetText() const
 	buffer[nCopied] = 0;
 
 	return String::CopyRawString(buffer);
+	*/
+}
+
+StdXX::Math::RectD _stdxx_::CommCtrlWindowBackend::GetContentAreaBounds() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::Math::RectD();
 }
 /*
 Size CommCtrlWindowBackend::GetTextExtents() const

@@ -45,6 +45,7 @@ static DateTime TimeZoneDescriptionRelativeSystemTimeToDateTime(const SYSTEMTIME
 //Constructor
 TimeZone::TimeZone(const String &timeZoneIdentifier)
 {
+#if WINVER >= _WIN32_WINNT_WIN8
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 	ASSERT(timeZoneIdentifier.GetLength() < sizeof(dtzi.TimeZoneKeyName) / sizeof(dtzi.TimeZoneKeyName[0]), u8"Illegal time zone identifier");
 	for (DWORD index = 0; EnumDynamicTimeZoneInformation(index, &dtzi) == 0; index++) //very poor doc for EnumDynamicTimeZoneInformation, apparently 0 means success
@@ -55,6 +56,9 @@ TimeZone::TimeZone(const String &timeZoneIdentifier)
 			return;
 		}
 	}
+#else
+	NOT_IMPLEMENTED_ERROR; //TODO: read time zones from HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones
+#endif
 
 	NOT_IMPLEMENTED_ERROR; //TOOD: Illegal time zone identifier
 }
@@ -62,10 +66,14 @@ TimeZone::TimeZone(const String &timeZoneIdentifier)
 //Public methods
 DateTime TimeZone::Translate(const DateTime &dt) const
 {
+	TIME_ZONE_INFORMATION tzi;
+#if WINVER >= _WIN32_WINNT_WIN8
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 	EnumDynamicTimeZoneInformation((DWORD)this->osHandle, &dtzi);
-	TIME_ZONE_INFORMATION tzi;
 	GetTimeZoneInformationForYear(dt.GetYear(), &dtzi, &tzi);
+#else
+	NOT_IMPLEMENTED_ERROR; //TODO: Time zone from registry key (see above)
+#endif
 
 	if (tzi.DaylightDate.wMonth != 0)
 	{

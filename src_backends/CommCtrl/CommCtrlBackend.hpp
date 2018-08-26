@@ -25,9 +25,7 @@
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/CommCtrlMenuBackend.hpp"
 #include "UI/CommCtrlMenuBarBackend.hpp"
-#include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/Definitions.h"
-#include "UI/WindowsMessageQueueEventSource.hpp"
 
 //Manifest definition. Without it, InitCommonControls will fail and Visual Styles won't work
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -38,19 +36,9 @@ namespace StdXX
 	{
 	public:
 		//Constructor
-		CommCtrlBackend()
-		{
-			this->eventSource = new WindowsMessageQueueEventSource;
-		}
+		CommCtrlBackend();
 
 		//Methods
-		EventSource *CreateEventSource() override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
-			//return this->eventSource.operator->();
-			return nullptr;
-		}
-
 		_stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) override
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
@@ -58,41 +46,18 @@ namespace StdXX
 			return nullptr;
 		}
 
-		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
-			//return new _stdxx_::CommCtrlMenuBarBackend(menuBar);
-			return nullptr;
-		}
 		_stdxx_::CheckBoxBackend * CreateCheckBoxBackend(UI::CheckBox * checkBox) override;
+		EventSource *CreateEventSource() override;
 		_stdxx_::GroupBoxBackend * CreateGroupBoxBackend(UI::GroupBox * groupBox) override;
 		_stdxx_::LabelBackend * CreateLabelBackend(UI::Label * label) override;
+		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override;
 		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton * pushButton) override;
 		_stdxx_::WidgetBackend * CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget) override;
 		_stdxx_::SliderBackend * CreateSliderBackend(UI::Slider * slider) override;
 		_stdxx_::SpinBoxBackend * CreateSpinBoxBackend(UI::SpinBox * spinBox) override;
 		_stdxx_::WindowBackend * CreateWindowBackend(UI::Window * window) override;
 
-		void Load() override
-		{
-            //init control library
-            INITCOMMONCONTROLSEX iccex;
-
-            iccex.dwSize = sizeof(iccex);
-            iccex.dwICC = ICC_BAR_CLASSES | ICC_LINK_CLASS | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES | ICC_UPDOWN_CLASS;
-
-            ASSERT(InitCommonControlsEx(&iccex), u8"Could not initialize common controls library.");
-
-            //register window class
-            WNDCLASSEXW wcex = {0};
-            //wcex.style = CS_OWNDC;
-            wcex.cbSize = sizeof(wcex);
-            wcex.hInstance = GetModuleHandle(NULL);;
-            wcex.lpfnWndProc = WindowsMessageQueueEventSource::WndProc;
-            wcex.lpszClassName = STDPLUSPLUS_WIN_WNDCLASS;
-
-            ASSERT(RegisterClassExW(&wcex), u8"Could not register window class");
-		}
+		void Load() override;
 
 		void Unload() const override
 		{
@@ -119,10 +84,6 @@ namespace StdXX
                 }
             }
 		}
-
-	private:
-		//Members
-		mutable UniquePointer<EventSource> eventSource;
 	};
 }
 #endif

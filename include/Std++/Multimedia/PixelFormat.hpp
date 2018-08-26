@@ -32,7 +32,7 @@ namespace StdXX
 			YCbCr_420_P //planar uint8 YCbCr, Cb & Cr are subsampled by factor of 2 horizontally and vertically
 		};
 
-        class PixelFormat
+        class STDPLUSPLUS_API PixelFormat
         {
 		public:
         	//Constants

@@ -35,7 +35,6 @@ set(SOURCE_FILES
         #UI
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Render\ Targets/CDefaultTerminalRenderTarget.cpp
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/C3DView.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/AWidget.cpp

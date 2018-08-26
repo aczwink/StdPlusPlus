@@ -31,7 +31,7 @@ namespace StdXX
 		 * A widget with only one child, the content area.
 		 * The content area is a container, to which other widgets can be added.
 		 */
-		class ContentAreaWidget : public WidgetContainer
+		class STDPLUSPLUS_API ContentAreaWidget : public WidgetContainer
 		{
 		public:
 			//Constructor

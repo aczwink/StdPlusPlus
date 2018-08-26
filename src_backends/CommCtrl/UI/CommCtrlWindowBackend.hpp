@@ -18,6 +18,7 @@
  */
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
+#include "Win32Window.hpp"
 #include "Definitions.h"
 //Namespaces
 using namespace StdXX;
@@ -25,19 +26,21 @@ using namespace StdXX::UI;
 
 namespace _stdxx_
 {
-    class CommCtrlWindowBackend : public WindowBackend
+    class CommCtrlWindowBackend : public WindowBackend, public Win32Window
     {
     public:
         //Constructor
-        CommCtrlWindowBackend(UIBackend *uiBackend, Widget *widget, HWND hParent = nullptr);
-
-        //Destructor
-        ~CommCtrlWindowBackend();
+        CommCtrlWindowBackend(UIBackend *uiBackend, Window *window);
 
         //Public methods
+		void AddChild(StdXX::UI::Widget * widget) override;
+		StdXX::UI::CompositeWidget * CreateContentArea() override;
+		StdXX::Math::RectD GetContentAreaBounds() const override;
 		uint32 GetPosition() const override;
         Math::SizeD GetSize() const override;
 		Math::SizeD GetSizeHint() const override;
+		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
         void Paint() override;
@@ -50,34 +53,20 @@ namespace _stdxx_
         void SetEnabled(bool enable) const override;
         void SetHint(const StdXX::String &text) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
+		void SetTitle(const StdXX::String & title) override;
         void Show(bool visible) override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
         void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
-		//Inline
-		inline HWND GetHandle()
-		{
-			return this->hWnd;
-		}
-
     private:
         //Members
-        HWND hWnd;
-		HWND hWndReal; //the Up-Down-Control (i.e. this->hWnd is the buddy) for SpinBoxes
+		Window *window;
+		bool showFirstTime;
+		bool maximizeWindow;
+		//HWND hWndReal; //the Up-Down-Control (i.e. this->hWnd is the buddy) for SpinBoxes
 
 		//Methods
 		String GetText() const;
 		Math::SizeD GetTextExtents() const;
-
-		//Inline
-		inline HFONT GetFont() const
-		{
-			return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-		}
-
-		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
-		{
-			return SendMessageW(this->hWnd, Msg, wParam, lParam);
-		}
 	};
 }

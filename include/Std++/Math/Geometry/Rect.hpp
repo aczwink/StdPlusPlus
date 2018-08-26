@@ -146,6 +146,9 @@ namespace StdXX
             }
         };
 
+		//Explicit instantiations
+		template class StdXX::Math::Rect<uint16>;
+
 		typedef Rect<float64> RectD;
     }
 }

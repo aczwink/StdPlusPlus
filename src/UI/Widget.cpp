@@ -46,8 +46,17 @@ Math::SizeD Widget::GetSizeHint() const
 
 Window *Widget::GetWindow()
 {
-	if(IS_INSTANCE_OF(this, Window))
+	if (IS_INSTANCE_OF(this, Window))
 		return dynamic_cast<Window *>(this);
+	if (this->parent)
+		return this->parent->GetWindow();
+	return nullptr;
+}
+
+const Window *Widget::GetWindow() const
+{
+	if(IS_INSTANCE_OF(this, const Window))
+		return dynamic_cast<const Window *>(this);
 	if(this->parent)
 		return this->parent->GetWindow();
 	return nullptr;

@@ -18,12 +18,32 @@
 */
 //Class header
 #include "CommCtrlBackend.hpp"
+//Local
+#include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
+#include "UI/CommCtrlWindowBackend.hpp"
+#include "UI/WindowsMessageQueueEventSource.hpp"
+//Namespaces
+using namespace _stdxx_;
+
+//Constructor
+CommCtrlBackend::CommCtrlBackend()
+{
+#ifdef _STDPLUSPLUS_BACKEND_OPENGL
+	CommCtrlOpenGL3CoreBackend *commCtrlOpenGL3CoreBackend = new CommCtrlOpenGL3CoreBackend;
+	this->renderBackends.RegisterBackend(commCtrlOpenGL3CoreBackend, 0);
+#endif
+}
 
 //Public methods
 _stdxx_::CheckBoxBackend * StdXX::CommCtrlBackend::CreateCheckBoxBackend(UI::CheckBox * checkBox)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
+}
+
+EventSource *CommCtrlBackend::CreateEventSource()
+{
+	return new WindowsMessageQueueEventSource;
 }
 
 _stdxx_::GroupBoxBackend * StdXX::CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
@@ -38,16 +58,20 @@ _stdxx_::LabelBackend * StdXX::CommCtrlBackend::CreateLabelBackend(UI::Label * l
 	return nullptr;
 }
 
+MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
+{
+	return new CommCtrlMenuBarBackend(menuBar);
+}
+
 _stdxx_::PushButtonBackend * StdXX::CommCtrlBackend::CreatePushButtonBackend(UI::PushButton * pushButton)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
 
-_stdxx_::WidgetBackend * StdXX::CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget)
+WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlRenderTargetWidgetBackend(this, renderTargetWidget);
 }
 
 _stdxx_::SliderBackend * StdXX::CommCtrlBackend::CreateSliderBackend(UI::Slider * slider)
@@ -62,8 +86,28 @@ _stdxx_::SpinBoxBackend * StdXX::CommCtrlBackend::CreateSpinBoxBackend(UI::SpinB
 	return nullptr;
 }
 
-_stdxx_::WindowBackend * StdXX::CommCtrlBackend::CreateWindowBackend(UI::Window * window)
+WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlWindowBackend(this, window);
+}
+
+void CommCtrlBackend::Load()
+{
+	//init control library
+	INITCOMMONCONTROLSEX iccex;
+
+	iccex.dwSize = sizeof(iccex);
+	iccex.dwICC = ICC_BAR_CLASSES | ICC_LINK_CLASS | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES | ICC_UPDOWN_CLASS;
+
+	ASSERT(InitCommonControlsEx(&iccex), u8"Could not initialize common controls library.");
+
+	//register window class
+	WNDCLASSEXW wcex = { 0 };
+	//wcex.style = CS_OWNDC;
+	wcex.cbSize = sizeof(wcex);
+	wcex.hInstance = GetModuleHandle(NULL);;
+	wcex.lpfnWndProc = WindowsMessageQueueEventSource::WndProc;
+	wcex.lpszClassName = STDPLUSPLUS_WIN_WNDCLASS;
+
+	ASSERT(RegisterClassExW(&wcex), u8"Could not register window class");
 }

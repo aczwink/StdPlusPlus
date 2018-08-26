@@ -19,9 +19,13 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Definitions.h
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.hpp
 

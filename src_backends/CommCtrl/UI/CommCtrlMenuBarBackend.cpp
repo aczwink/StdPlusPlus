@@ -64,5 +64,5 @@ void CommCtrlMenuBarBackend::Update()
 	GetMenuInfo(hMenu, &mi);
 
 	CommCtrlWindowBackend *wndBackend = (CommCtrlWindowBackend *)mi.dwMenuData;
-	DrawMenuBar(wndBackend->GetHandle());
+	DrawMenuBar(wndBackend->GetHWND());
 }

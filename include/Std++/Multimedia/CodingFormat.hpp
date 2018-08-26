@@ -31,7 +31,7 @@ namespace StdXX
 		class Encoder;
 		class Parser;
 
-		class CodingFormat
+		class STDPLUSPLUS_API CodingFormat
 		{
 		public:
 			//Destructor
@@ -50,8 +50,8 @@ namespace StdXX
 			const Parser *GetBestMatchingParser() const;
 
 			//Functions
-			static STDPLUSPLUS_API const CodingFormat *GetCodingFormatById(CodingFormatId codingFormatId);
-			static STDPLUSPLUS_API void Register(CodingFormat *codingFormat);
+			static const CodingFormat *GetCodingFormatById(CodingFormatId codingFormatId);
+			static void Register(CodingFormat *codingFormat);
 
 		private:
 			//Members

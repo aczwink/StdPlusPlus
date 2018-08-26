@@ -40,11 +40,6 @@ void Window::EnableDrop()
 }
 
 /* OLD STUFF:
-void Window::Maximize()
-{
-ShowWindow((HWND)this->backend, SW_MAXIMIZE);
-}
-
 void Window::ShowErrorBox(const String &refTitle, const String &refMessage)
 {
 	UTF16String title, message;

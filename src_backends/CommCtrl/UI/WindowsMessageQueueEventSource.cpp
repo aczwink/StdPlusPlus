@@ -67,13 +67,15 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx
 }
 
 //Private methods
-/*void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
+void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
 {
 	Widget &widget = backend.GetWidget();
 	switch(notificationCode)
 	{
 		case BN_CLICKED:
 		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			/*
 			switch (backend.GetType())
 			{
 			case WindowBackendType::CheckBox:
@@ -86,7 +88,7 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx
 			case WindowBackendType::PushButton:
 				this->DispatchActivatedEvent((PushButton &)widget);
 				break;
-			}
+			}*/
 		}
 		break;
 		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
@@ -97,14 +99,13 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx
 		}
 		break;
 	}
-}*/
+}
 
-bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend &backend, UINT message, WPARAM wParam, LPARAM lParam)
+bool WindowsMessageQueueEventSource::DispatchMessageEvent(WidgetBackend &backend, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
-
-	NOT_IMPLEMENTED_ERROR; //TODO: following lines
-	/*Widget &widget = backend.GetWidget();
+	
+	Widget &widget = backend.GetWidget();
 	Window &window = (Window &)widget;
 
 	switch(message)
@@ -168,7 +169,6 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 				return false;
 				}
 				 */
-	/*
 				return false;
 			}
 		}
@@ -190,7 +190,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWindowBackend 
 	break;
 	default:
 		return false;
-	}*/
+	}
 
 	return !g_ignoreMessage;
 }
@@ -212,16 +212,16 @@ void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget
 //Class functions
 LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CommCtrlWindowBackend *backend;
+	WidgetBackend *backend;
 	if(message == WM_NCCREATE)
 	{
-		backend = (CommCtrlWindowBackend *)((LPCREATESTRUCT)lParam)->lpCreateParams;
+		backend = (WidgetBackend *)((LPCREATESTRUCT)lParam)->lpCreateParams;
 
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)backend);
 	}
 	else
 	{
-		backend = (CommCtrlWindowBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+		backend = (WidgetBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	}
 
 	if(backend && l_winMsgEvtQueue->DispatchMessageEvent(*backend, message, wParam, lParam))

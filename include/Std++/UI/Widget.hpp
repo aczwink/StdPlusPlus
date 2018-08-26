@@ -62,6 +62,7 @@ namespace StdXX
 
             //Methods
 			Window *GetWindow();
+			const Window *GetWindow() const;
 			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
@@ -86,6 +87,11 @@ namespace StdXX
 			inline Math::RectD GetLocalBounds() const
 			{
 				return Math::RectD(Math::PointD(), this->GetSize());
+			}
+
+			inline WidgetContainer *GetParent()
+			{
+				return this->parent;
 			}
 
             inline const WidgetContainer *GetParent() const

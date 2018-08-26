@@ -71,8 +71,8 @@ namespace StdXX
 			//Inline
 			inline void Add(ScalarType dx, ScalarType dy)
 			{
-				this->width = Math::Max(this->width + dx, ScalarType(0));
-				this->height = Math::Max(this->height + dy, ScalarType(0));
+				this->width = Math::Max(ScalarType(this->width + dx), ScalarType(0));
+				this->height = Math::Max(ScalarType(this->height + dy), ScalarType(0));
 			}
 
 			template <typename CastType>
