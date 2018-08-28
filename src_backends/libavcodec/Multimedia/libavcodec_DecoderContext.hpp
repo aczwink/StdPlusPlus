@@ -44,11 +44,14 @@ namespace _stdxx_
 	private:
 		//Members
 		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
-		AVCodecContext * codecContext;
+		AVCodecContext *codecContext;
+		StdXX::Multimedia::Stream &stream;
 		AVPacket *packet;
 		AVFrame *frame;
 
 		//Methods
+		void MapAudioFrame();
+		StdXX::Multimedia::ChannelLayout MapChannels(int channels);
 		void MapPacket(const StdXX::Multimedia::Packet &packet);
 		void MapVideoFrame();
 	};

@@ -670,7 +670,7 @@ String String::CopyRawString(const uint16 *utf16)
 	return str;
 }
 
-String String::FormatByteSize(uint64 byteSize)
+String String::FormatBinaryPrefixed(uint64 byteSize, const String &suffix)
 {
 	static const char * prefixes[] = {u8"", u8"Ki", u8"Mi", u8"Gi"};
 	uint32 i;
@@ -683,8 +683,6 @@ String String::FormatByteSize(uint64 byteSize)
 	}
 	if(i == sizeof(prefixes)/sizeof(prefixes[0]))
 		i--;
-
-	const auto suffix = u8"B";
 
 	String result;
 	if(i == 0)

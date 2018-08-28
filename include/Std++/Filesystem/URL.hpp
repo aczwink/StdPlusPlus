@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,9 +16,21 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/Filesystem/DirectoryIterator.hpp>
+#pragma once
 //Local
-#include <Std++/ErrorHandling/FileNotFoundException.hpp>
-//Namespaces
-using namespace StdXX;
+#include "Path.hpp"
+
+namespace StdXX
+{
+	class STDPLUSPLUS_API URL
+	{
+	public:
+		//Constructors
+		URL(const String &url);
+
+	private:
+		//Members
+		String scheme;
+		Path path;
+	};
+}

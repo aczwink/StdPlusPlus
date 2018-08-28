@@ -439,7 +439,7 @@ void *StdXX::MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint
     if(size > newBlock->userSize)
     {
         //fill new allocated memory with random value
-        MemSet(newBlock->GetUserData() + size - newBlock->userSize, HEAP_INIT_VALUE, size - newBlock->userSize);
+        MemSet(newBlock->GetUserData() + newBlock->userSize, HEAP_INIT_VALUE, size - newBlock->userSize);
     }
 
 	//update header
@@ -503,87 +503,4 @@ STDPLUSPLUS_API void StartUserMemoryLogging()
 {
     g_seqNumberUser = g_seqNumber;
 }
-
-#undef new
-void *operator new(size_t size)
-{
-	const char *fileName = __file__;
-	__file__ = u8"???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
-}
-
-void *operator new[](size_t size)
-{
-	const char *fileName = __file__;
-	__file__ = u8"???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
-}
-
-void *operator new(size_t size, std::align_val_t al)
-{
-	const char *fileName = __file__;
-	__file__ = u8"???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
-}
-
-void *operator new[](size_t size, std::align_val_t al)
-{
-	const char *fileName = __file__;
-	__file__ = u8"???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
-}
-
-const char *__file__;
-int __line__;
-#else
-void *operator new(size_t size)
-{
-	return StdXX::MemoryAllocate(size);
-}
 #endif
-
-void operator delete(void *p) noexcept
-{
-	StdXX::MemFree(p);
-}
-
-void operator delete[](void *p) noexcept
-{
-	StdXX::MemFree(p);
-}
-
-void operator delete(void *p, size_t) noexcept
-{
-	StdXX::MemFree(p);
-}
-
-void operator delete[](void *p, size_t) noexcept
-{
-	StdXX::MemFree(p);
-}
-
-void operator delete(void *p, std::align_val_t al) noexcept
-{
-	StdXX::MemFreeAligned(p);
-}
-
-void operator delete[](void *p, std::align_val_t al) noexcept
-{
-	StdXX::MemFreeAligned(p);
-}

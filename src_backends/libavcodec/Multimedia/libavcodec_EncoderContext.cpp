@@ -21,7 +21,7 @@
 //Local
 #include "../libavcodec_Backend.hpp"
 #include <Std++/Debug.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
+#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 //Namespaces
@@ -42,7 +42,22 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 	switch(stream.GetType())
 	{
 		case DataType::Audio:
-			break;
+		{
+			//TODO: always check if the palanar one is supported, if not save that because we need this in MapAudioFrame
+			const AudioStream &audioStream = (const AudioStream &)stream;
+			switch (audioStream.sampleFormat)
+			{
+			case AudioSampleFormat::Float32:
+				this->codecContext->sample_fmt = AV_SAMPLE_FMT_FLTP;
+				break;
+			case AudioSampleFormat::S16:
+				this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
+				break;
+			case AudioSampleFormat::Unknown:
+				NOT_IMPLEMENTED_ERROR; //TODO: throw exception
+			}
+		}
+		break;
 		case DataType::Video:
 		{
 			const VideoStream &videoStream = (const VideoStream &) stream;
@@ -74,7 +89,15 @@ libavcodec_EncoderContext::~libavcodec_EncoderContext()
 //Public methods
 void libavcodec_EncoderContext::Encode(const Frame &frame)
 {
-	this->MapFrame(frame);
+	switch (frame.GetType())
+	{
+	case DataType::Audio:
+	case DataType::Subtitle:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	case DataType::Video:
+		this->MapVideoFrame((const VideoFrame &)frame);
+		break;
+	}
 	this->Encode(this->frame);
 }
 
@@ -102,10 +125,42 @@ void libavcodec_EncoderContext::Encode(AVFrame *frame)
 	}
 }
 
-void libavcodec_EncoderContext::MapFrame(const Frame &frame) const
+void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) const
 {
-	const VideoFrame &videoFrame = (const VideoFrame &) frame;
+	av_frame_unref(this->frame);
 
+	this->frame->format = this->codecContext->sample_fmt;
+	this->frame->pts = audioFrame.pts;
+	this->frame->nb_samples = audioFrame.GetAudioBuffer()->GetNumberOfSamplesPerChannel();
+
+	int ret = av_frame_get_buffer(this->frame, 0);
+	ASSERT(ret == 0, u8"TODO: implement this correctly");
+
+	ret = av_frame_make_writable(this->frame);
+	ASSERT(ret == 0, u8"TODO: implement this correctly");
+
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	//TODO: check constructor
+	//based on planar or not we have top fill the frame buffer
+}
+
+void libavcodec_EncoderContext::MapPacket()
+{
+	Packet *packet = new Packet;
+
+	//data
+	packet->Allocate(static_cast<uint32>(this->packet->size));
+	MemCopy(packet->GetData(), this->packet->data, packet->GetSize());
+
+	//meta
+	packet->pts = this->packet->pts;
+	packet->containsKeyframe = (this->packet->flags & AV_PKT_FLAG_KEY) != 0;
+
+	this->AddPacket(packet);
+}
+
+void libavcodec_EncoderContext::MapVideoFrame(const VideoFrame &videoFrame) const
+{
 	NamedPixelFormat framePixelFormat;
 	ASSERT(videoFrame.GetPixmap()->GetPixelFormat().GetNameIfExisting(framePixelFormat), u8"TODO: ...");
 	ASSERT(this->namedPixelFormat == framePixelFormat, u8"Pixel format changed? Check what libavcodec would say to that...");
@@ -115,7 +170,7 @@ void libavcodec_EncoderContext::MapFrame(const Frame &frame) const
 	this->frame->format = this->libavPixelFormatMap.Get(framePixelFormat);
 	this->frame->width = videoFrame.GetPixmap()->GetSize().width;
 	this->frame->height = videoFrame.GetPixmap()->GetSize().height;
-	this->frame->pts = frame.pts;
+	this->frame->pts = videoFrame.pts;
 
 	int ret = av_frame_get_buffer(this->frame, 0);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
@@ -135,19 +190,4 @@ void libavcodec_EncoderContext::MapFrame(const Frame &frame) const
 			MemCopy(&this->frame->data[i][libav_lineIndex], src, Math::Min((uint32)this->frame->linesize[i], pixmap->GetLineSize(i))); //min size because of alignment
 		}
 	}
-}
-
-void libavcodec_EncoderContext::MapPacket()
-{
-	Packet *packet = new Packet;
-
-	//data
-	packet->Allocate(static_cast<uint32>(this->packet->size));
-	MemCopy(packet->GetData(), this->packet->data, packet->GetSize());
-
-	//meta
-	packet->pts = this->packet->pts;
-	packet->containsKeyframe = (this->packet->flags & AV_PKT_FLAG_KEY) != 0;
-
-	this->AddPacket(packet);
 }

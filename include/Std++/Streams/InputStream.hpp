@@ -40,6 +40,9 @@ namespace StdXX
 		 */
         virtual bool IsAtEnd() const = 0;
         virtual uint32 ReadBytes(void *destination, uint32 count) = 0;
+		/**
+		 * Returns the number of skipped bytes.
+		 */
         virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods

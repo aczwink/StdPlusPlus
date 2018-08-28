@@ -17,8 +17,6 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*
-#include "Codecs/PCM/S16LE/PCM_S16LE_Codec.hpp"
-
 //Video codecs
 #include "Codecs/BGR24/BGR24_Codec.hpp"
 #include "Codecs/MPEG/H264_Codec.hpp"
@@ -27,7 +25,6 @@
 
 
 #include "Formats/BMP/BMP_Format.hpp"
-#include "Formats/WAVE/WAVE_Format.hpp"
 
 void MultimediaRegisterCodecsAndFormats()
 {
@@ -42,12 +39,12 @@ void MultimediaRegisterCodecsAndFormats()
 
 	//Formats
 	Format::Register(new BMP_Format);
-	Format::Register(new WAVE_Format);
 }
 */
 
 //Audio coding formats
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
+#include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
 
 //Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
@@ -56,6 +53,7 @@ void MultimediaRegisterCodecsAndFormats()
 //Formats
 #include "Formats/Matroska/MatroskaVideo.hpp"
 #include "Formats/Raw/RawContainerImages.hpp"
+#include "Formats/WAVE/WAVE_Format.hpp"
 //Namespaces
 using namespace _stdxx_;
 
@@ -63,6 +61,7 @@ void MultimediaRegisterCodecsAndFormats()
 {
 	//Audio coding formats
 	CodingFormat::Register(new MP3_CodingFormat);
+	CodingFormat::Register(new PCM_S16LE_CodingFormat);
 
 
 	//Video coding formats
@@ -72,4 +71,5 @@ void MultimediaRegisterCodecsAndFormats()
 	//Formats
 	Format::Register(new MatroskaVideo);
 	Format::Register(new PNG_Format);
+	Format::Register(new WAVE_Format);
 }

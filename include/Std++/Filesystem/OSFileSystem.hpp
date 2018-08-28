@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -18,34 +18,25 @@
 */
 #pragma once
 //Local
-#include <Std++/Definitions.h>
-
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
-//FourCCs are always little endian
-#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
+#include "FileSystem.hpp"
 
 namespace StdXX
 {
-	namespace Multimedia
+	class STDPLUSPLUS_API OSFileSystem : public FileSystem
 	{
-		/*
-		 * In order to not break binary-compatibility, assign each enumerator a unique value!
-		 */
-		enum class CodingFormatId
+	public:
+		//Constructor
+		inline OSFileSystem() : FileSystem(nullptr)
 		{
-			Unknown = 0,
+		}
 
-			//Audio codecs
-			MP3 = 0x55,
-			PCM_S16LE = 1,
+		//Methods
+		Path FromNativePath(const String &nativePath) const;
+		Path GetWorkingDirectory() const;
+		Path ToAbsolutePath(const Path &path) const;
+		String ToNativePath(const Path &path) const;
 
-			//Video codecs
-			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
-			PNG = FOURCC(u8"png ")
-		};
-	}
+		//Functions
+		static OSFileSystem &GetInstance();
+	};
 }

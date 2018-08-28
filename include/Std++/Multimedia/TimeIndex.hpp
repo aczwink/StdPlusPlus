@@ -16,36 +16,35 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
-//Local
-#include <Std++/Definitions.h>
-
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
-//FourCCs are always little endian
-#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
+//Lcoal
+#include "Index.hpp"
 
 namespace StdXX
 {
 	namespace Multimedia
 	{
-		/*
-		 * In order to not break binary-compatibility, assign each enumerator a unique value!
-		 */
-		enum class CodingFormatId
+		struct TimeIndexEntryStreamInfo
 		{
-			Unknown = 0,
+		};
 
-			//Audio codecs
-			MP3 = 0x55,
-			PCM_S16LE = 1,
+		template <typename EntryInfoType = TimeIndexEntryInfo>
+		class TimeIndexEntry
+		{
+		public:
+			//Members
+			uint64 timeStamp;
+			DynamicArray<EntryInfoType> streamsInfo;
 
-			//Video codecs
-			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
-			PNG = FOURCC(u8"png ")
+			//Inline operators
+			inline bool operator<=(const TimeIndexEntry &rhs) const
+			{
+				return this->timeStamp <= rhs.timeStamp;
+			}
+		};
+
+		template <typename IndexEntryType = TimeIndexEntry<>>
+		class TimeIndex : public Index<IndexEntryType>
+		{
 		};
 	}
 }

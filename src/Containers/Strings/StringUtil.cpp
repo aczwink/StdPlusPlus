@@ -40,44 +40,6 @@ OldString StdXX::ToString(uint64 i, uint8 bla)
 }
 
 //Namespace Functions
-OldString StdXX::FormatBitSize(uint32 bitSize, uint32 nFractionalDigits)
-{
-    OldString result;
-
-    if(bitSize > MiB)
-    {
-        if(nFractionalDigits)
-        {
-            OldString str;
-            uint32 length;
-
-			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
-            //str = ToString((float64)bitSize / MiB);
-
-            length = Math::Min(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
-            return str.SubString(0, length) + " Mibit";
-        }
-        return OldString(bitSize / MiB) + " Mibit";
-    }
-    else if(bitSize > KiB)
-    {
-        if(nFractionalDigits)
-        {
-            OldString str;
-            uint32 length;
-
-			NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
-            //str = ToString((float64)bitSize / KiB);
-
-            length = Math::Min(str.GetLength(), str.FindReverse('.') + 1 + nFractionalDigits);
-            return str.SubString(0, length) + " Kibit";
-        }
-		NOT_IMPLEMENTED_ERROR; //TODO: alter and change into new string class
-        //return ToString((float64)bitSize / KiB) + " Kibit";
-    }
-    return ToString((uint64)bitSize) + " bit";
-}
-
 bool StdXX::IsStringConvertibleToFloat(const ByteString &refString)
 {
     char *pStr;

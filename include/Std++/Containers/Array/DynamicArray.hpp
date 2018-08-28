@@ -20,6 +20,7 @@
 //Local
 #include "../../Natural.hpp"
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
+#include <Std++/Utility.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 
@@ -43,38 +44,21 @@ namespace StdXX
 
         inline DynamicArray(DynamicArray<DataType> &&refSource) //move ctor
         {
-            *this = refSource;
+            *this = Move(refSource);
         }
 
         //Operators
-        DynamicArray<DataType> &operator=(const DynamicArray<DataType> &refSource) //copy assign
-        {
-            this->Release();
-            this->EnsureCapacity(refSource.nElements);
+		DynamicArray<DataType> &operator=(const DynamicArray<DataType> &rhs) //copy assign
+		{
+			ResizeableSequenceContainer<DataType>::operator=(rhs);
+			return *this;
+		}
 
-            for(uint32 i = 0; i < refSource.GetNumberOfElements(); i++)
-            {
-                this->data[i] = refSource[i];
-            }
-            this->nElements = refSource.nElements;
-            this->elementsAllocInterval = refSource.elementsAllocInterval;
-
-            return *this;
-        }
-
-        DynamicArray<DataType> &operator=(DynamicArray<DataType> &&refSource) //move assign
-        {
-            this->Release();
-
-            this->capacity = refSource.capacity;
-            this->elementsAllocInterval = refSource.elementsAllocInterval;
-            this->data = refSource.data;
-            this->nElements = refSource.nElements;
-
-            refSource.data = nullptr;
-
-            return *this;
-        }
+		DynamicArray<DataType> &operator=(DynamicArray<DataType> &&rhs) //move assign
+		{
+			ResizeableSequenceContainer<DataType>::operator=(Move(rhs));
+			return *this;
+		}
 
         inline DataType &operator[](uint32 index)
         {

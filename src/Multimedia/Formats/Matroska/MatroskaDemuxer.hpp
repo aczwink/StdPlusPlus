@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Multimedia/Index.hpp>
+#include <Std++/Multimedia/BlockIndex.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Format.hpp>
 #include "Matroska.hpp"
@@ -62,27 +62,17 @@ public:
 private:
 	//Members
 	_stdxx_::CodingFormatIdMap<String> codecIdMap;
-	Index clusters;
 	Map<uint64, uint32> trackToStreamMap;
+	TimeIndex<Matroska::CuePoint> cues;
 	struct
 	{
-		struct
-		{
-			uint64 timeCode;
-			DynamicArray<uint64> offsets;
-			DynamicArray<uint64> sizes;
-		} currentCluster;
-
-		STrackInfo currentTrack;
-	} parserState;
-	struct
-	{
+		uint64 clusterTimecode;
 		uint32 blockStreamIndex;
 		LinkedList<uint64> lacedFrameSizes;
 	} demuxerState;
 
 	//Methods
-	void AddStream();
+	void AddStream(Matroska::Track &track);
 	void ReadSegment(uint64 segmentOffset);
 	void ReadSection(const EBML::Element &element);
 };

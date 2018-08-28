@@ -27,19 +27,18 @@ namespace StdXX
     {
         class STDPLUSPLUS_API AudioStream : public Stream
         {
-        private:
-            //Methods
-            bool AllDecoderInfoIsAvailable();
         public:
             //Members
             uint8 nChannels;
             uint32 sampleRate;
+			AudioSampleFormat sampleFormat;
 
             //Constructor
             inline AudioStream()
             {
                 this->nChannels = 0;
                 this->sampleRate = 0;
+				this->sampleFormat = AudioSampleFormat::Unknown;
             }
 
             //Methods
@@ -58,6 +57,10 @@ namespace StdXX
 
                 NOT_IMPLEMENTED_ERROR;
             }
+
+		private:
+			//Methods
+			bool AllDecoderInfoIsAvailable();
         };
     }
 }

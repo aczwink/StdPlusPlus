@@ -28,7 +28,7 @@ namespace StdXX
     {
         struct SAudioPlaybackFormat
         {
-            EAudioSampleType sampleType;
+            AudioSampleFormat sampleType;
             uint32 sampleRate;
             uint8 nChannels;
         };

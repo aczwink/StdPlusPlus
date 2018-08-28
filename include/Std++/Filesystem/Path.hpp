@@ -108,7 +108,6 @@ namespace StdXX
         }
 
         //Methods
-		Path GetAbsolutePath() const;
         String GetFileExtension() const;
         Time GetLastModifiedTime() const;
 		/**

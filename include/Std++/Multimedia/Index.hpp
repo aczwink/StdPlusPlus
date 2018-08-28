@@ -1,97 +1,78 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
- *
- * This file is part of Std++.
- *
- * Std++ is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Std++ is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+*
+* This file is part of Std++.
+*
+* Std++ is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Std++ is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Std++.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #pragma once
 //Local
-#include "../Containers/Array/DynamicArray.hpp"
-#include "../Definitions.h"
+#include <Std++/Containers/Array/DynamicArray.hpp>
 
 namespace StdXX
 {
-    namespace Multimedia
-    {
-        class IndexEntry
-        {
-        public:
-            //Members
-            uint64 offset;
-            uint64 size; //when used as a block index. Else this should be set to 0
-            uint64 timeStamp;
+	namespace Multimedia
+	{
+		template <typename EntryType>
+		class Index
+		{
+		public:
+			//Constructor
+			inline Index() : entriesSorted(true)
+			{
+			}
 
-            //Inline operators
-            inline bool operator<(const IndexEntry &refOther) const
-            {
-                return this->offset < refOther.offset;
-            }
+			//Inline
+			inline void AddEntry(const EntryType &entry)
+			{
+				if (this->entries.IsEmpty())
+					this->entriesSorted = true;
+				else
+					this->entriesSorted = this->entriesSorted && this->entries[this->entries.GetNumberOfElements() - 1] <= entry;
+				this->entries.Push(entry);
+			}
 
-            //Inline
-            inline bool Contains(uint64 offset) const
-            {
-                return (offset >= this->offset) && (offset < this->offset + this->size);
-            }
+			inline const DynamicArray<EntryType> &GetEntries() const
+			{
+				return this->entries;
+			}
 
-            inline uint64 GetEndOffset()
-            {
-                return this->offset + this->size;
-            }
+			inline const EntryType &GetEntry(uint32 index) const
+			{
+				return this->entries[index];
+			}
 
-            inline uint64 GetRemainingBytes(uint64 offset) const
-            {
-                return this->size - (offset - this->offset);
-            }
-        };
+			inline uint32 GetNumberOfEntries() const
+			{
+				return this->entries.GetNumberOfElements();
+			}
 
-        class STDPLUSPLUS_API Index
-        {
-        public:
-            //Constructor
-            Index();
-
-            //Methods
-            void AddEntry(uint64 offset, uint64 size, uint64 timeStamp);
-            bool FindEntry(uint64 offset, uint32 &entryIndex);
-            uint64 GetStartOffset();
-
-            //Inline
-            inline const IndexEntry &GetEntry(uint32 index) const
-            {
-                return this->entries[index];
-            }
-
-            inline uint32 GetNumberOfEntries() const
-            {
-                return this->entries.GetNumberOfElements();
-            }
-
-		private:
-			//Members
-			bool entriesSorted;
-			DynamicArray<IndexEntry> entries;
-
+		protected:
 			//Inline
 			inline void EnsureSorted()
 			{
-				if(!this->entriesSorted)
+				if (!this->entriesSorted)
 				{
 					this->entries.Sort();
 					this->entriesSorted = true;
 				}
 			}
-        };
-    }
+
+		private:
+			//Members
+			bool entriesSorted;
+			DynamicArray<EntryType> entries;
+		};
+	}
 }

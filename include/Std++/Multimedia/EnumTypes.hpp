@@ -41,5 +41,12 @@ namespace StdXX
             Mono, //left
             Stereo //left, right
         };
+
+		enum class AudioSampleFormat //Always host endian order
+		{
+			Unknown,
+			Float32,
+			S16,
+		};
     }
 }

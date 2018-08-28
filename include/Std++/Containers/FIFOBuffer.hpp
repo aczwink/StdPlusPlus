@@ -27,8 +27,22 @@ namespace StdXX
     class STDPLUSPLUS_API FIFOBuffer : public ResizeableSequenceContainer<byte>, public InputStream, public OutputStream
     {
     public:
-        //Constructor
+        //Constructors
         FIFOBuffer();
+
+		inline FIFOBuffer(const FIFOBuffer &other)
+		{
+			*this = other;
+		}
+
+		inline FIFOBuffer(FIFOBuffer &&other)
+		{
+			*this = Move(other);
+		}
+
+		//Operators
+		FIFOBuffer &operator=(const FIFOBuffer &rhs);
+		FIFOBuffer &operator=(FIFOBuffer &&rhs);
 
         //Methods
         void EnsureCapacity(uint32 requiredNumberOfElements) override;

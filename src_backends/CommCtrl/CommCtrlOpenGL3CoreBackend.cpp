@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,13 +17,13 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <Std++/Filesystem/Path.hpp>
+#include "CommCtrlOpenGL3CoreBackend.hpp"
 //Namespaces
 using namespace StdXX;
 
 //Public methods
-Path Path::GetAbsolutePath() const
+Rendering::DeviceContext *CommCtrlOpenGL3CoreBackend::CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Path();
+	return nullptr;
 }

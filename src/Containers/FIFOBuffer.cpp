@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Containers/FIFOBuffer.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -26,23 +28,49 @@ FIFOBuffer::FIFOBuffer()
 {
 	this->pCurrentFront = NULL;
 	this->pCurrentTail = NULL;
-	this->atEnd = false;
+	this->atEnd = true;
 	this->SetAllocationInterval(1024);
 }
 
+//Operators
+FIFOBuffer &FIFOBuffer::operator=(const FIFOBuffer &rhs)
+{
+	ResizeableSequenceContainer<byte>::operator=(rhs);
+
+	this->pCurrentFront = this->data + (rhs.pCurrentFront - rhs.data);
+	this->pCurrentTail = this->data + (rhs.pCurrentTail - rhs.data);
+	this->atEnd = rhs.atEnd;
+	
+	return *this;
+}
+
+FIFOBuffer &FIFOBuffer::operator=(FIFOBuffer &&rhs)
+{
+	ResizeableSequenceContainer<byte>::operator=(Move(rhs));
+
+	this->pCurrentFront = rhs.pCurrentFront;
+	rhs.pCurrentFront = nullptr;
+	this->pCurrentTail = rhs.pCurrentTail;
+	rhs.pCurrentTail = nullptr;
+	this->atEnd = rhs.atEnd;
+	rhs.atEnd = true;
+
+	return *this;
+}
+
+//Public methods
 void FIFOBuffer::EnsureCapacity(uint32 requiredNumberOfElements)
 {
-	uint32 offsetToFront, offsetTail;
+	if ((this->GetEnd() - this->data) < requiredNumberOfElements)
+	{
+		uint32 offsetToFront = (uint32)(this->pCurrentFront - this->data);
+		uint32 offsetTail = (uint32)(this->pCurrentTail - this->data);
 
-	ASSERT(requiredNumberOfElements > this->GetEnd() - this->data, u8"If you see this, report to Std++");
+		ResizeableSequenceContainer<byte>::EnsureCapacity(requiredNumberOfElements);
 
-	offsetToFront = (uint32)(this->pCurrentFront - this->data);
-	offsetTail = (uint32)(this->pCurrentTail - this->data);
-
-	ResizeableSequenceContainer<byte>::EnsureCapacity(requiredNumberOfElements);
-
-	this->pCurrentFront = this->data + offsetToFront;
-	this->pCurrentTail = this->data + offsetTail;
+		this->pCurrentFront = this->data + offsetToFront;
+		this->pCurrentTail = this->data + offsetTail;
+	}
 }
 
 bool FIFOBuffer::IsAtEnd() const
@@ -75,13 +103,22 @@ uint32 FIFOBuffer::ReadBytes(void *destination, uint32 count)
 
 void FIFOBuffer::Release()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	ResizeableSequenceContainer<byte>::Release();
+
+	this->pCurrentFront = nullptr;
+	this->pCurrentTail = nullptr;
+	this->atEnd = true;
 }
 
 uint32 FIFOBuffer::Skip(uint32 nBytes)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	nBytes = Math::Min(nBytes, uint32(this->pCurrentTail - this->pCurrentFront));
+	this->pCurrentFront += nBytes;
+	this->nElements -= nBytes;
+	if (this->pCurrentFront == this->pCurrentTail)
+		this->atEnd = true;
+
+	return nBytes;
 }
 
 uint32 FIFOBuffer::WriteBytes(const void *pSource, uint32 count)
@@ -93,6 +130,8 @@ uint32 FIFOBuffer::WriteBytes(const void *pSource, uint32 count)
 	MemCopy(this->pCurrentTail, pSource, count);
 	this->pCurrentTail += count;
 	this->nElements += count;
+	if (count)
+		this->atEnd = false;
 
 	return count;
 }
@@ -111,7 +150,7 @@ void FIFOBuffer::EnsureStorage(uint32 requiredAdditionalSize)
 	if(spaceBack < requiredAdditionalSize)
 	{
 		//check if we have enough place at front+back, but with some threshold to not always copy when only few bytes are free
-		if(offsetToFront + spaceBack < requiredAdditionalSize || offsetToFront+spaceBack < this->capacity / 8)
+		if(offsetToFront + spaceBack < requiredAdditionalSize || offsetToFront+spaceBack < this->GetCapacity() / 8)
 		{
 			this->EnsureAdditionalCapacity(requiredAdditionalSize);
 		}

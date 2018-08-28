@@ -16,32 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _AC_LIB_USEAVCODEC
-#pragma once
-#include <StdXX/Multimedia/AudioDecoder.hpp>
 //Local
-#include "LibAVCodec.hpp"
+#include <Std++/Multimedia/CodingFormat.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class LibAV_AudioDecoder : public AudioDecoder
+class PCM_S16LE_CodingFormat : public CodingFormat
 {
 public:
-	//Constructor
-	inline LibAV_AudioDecoder(Stream &stream, CodecId codecId) : AudioDecoder(stream)
+	//Methods
+	CodingFormatId GetId() const override
 	{
-		InitCodecState(state, codecId, stream);
+		return CodingFormatId::PCM_S16LE;
 	}
 
-	//Destructor
-	~LibAV_AudioDecoder();
-
-	//Methods
-	void Decode(const Packet &packet);
-
-private:
-	//Members
-	CodecState state;
+	String GetName() const override
+	{
+		return u8"PCM signed 16-bit little-endian interleaved channels";
+	}
 };
-#endif

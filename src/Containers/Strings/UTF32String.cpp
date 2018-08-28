@@ -38,20 +38,6 @@ UTF32String &UTF32String::operator=(const UTF32String &refString)
 	return *this;
 }
 
-UTF32String &UTF32String::operator=(UTF32String &&refString)
-{
-	this->Release();
-
-	this->nElements = refString.nElements;
-	this->data = refString.data;
-	this->capacity = refString.capacity;
-	this->elementsAllocInterval = refString.elementsAllocInterval;
-
-	refString.data = nullptr;
-
-	return *this;
-}
-
 UTF32String &UTF32String::operator=(uint8 c)
 {
 	this->EnsureCapacity(1);

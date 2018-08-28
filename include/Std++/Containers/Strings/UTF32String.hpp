@@ -76,7 +76,6 @@ namespace StdXX
 
         //Operators
         UTF32String &operator=(const UTF32String &refString); //copy assign
-        UTF32String &operator=(UTF32String &&refString); //move assign
         UTF32String &operator=(uint8 c);
         UTF32String &operator=(const uint8 *pString);
         UTF32String &operator=(const uint16 *pStr);

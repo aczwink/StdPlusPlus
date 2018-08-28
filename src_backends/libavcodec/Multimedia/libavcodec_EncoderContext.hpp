@@ -22,10 +22,12 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 //Local
+#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/EncoderContext.hpp>
 #include <Std++/Multimedia/CodingFormatId.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
+#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Containers/Map/BijectiveMap.hpp>
 
 namespace _stdxx_
@@ -54,7 +56,8 @@ namespace _stdxx_
 
 		//Methods
 		void Encode(AVFrame *frame);
-		void MapFrame(const StdXX::Multimedia::Frame &frame) const;
+		void MapAudioFrame(const StdXX::Multimedia::AudioFrame &audioFrame) const;
 		void MapPacket();
+		void MapVideoFrame(const StdXX::Multimedia::VideoFrame &frame) const;
 	};
 }

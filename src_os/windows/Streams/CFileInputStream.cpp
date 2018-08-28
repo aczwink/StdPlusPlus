@@ -23,21 +23,27 @@
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 #include <Std++/ErrorHandling/FileNotFoundException.hpp>
+#include <Std++/Filesystem/OSFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
-FileInputStream::FileInputStream(const Path &refPath)
+FileInputStream::FileInputStream(const Path &path)
 {
 	this->hitEnd = false;
-	this->pFileHandle = CreateFileW((LPCWSTR)refPath.GetString().ToUTF16().GetRawZeroTerminatedData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	String nativePath = OSFileSystem::GetInstance().ToNativePath(path);
+	this->pFileHandle = CreateFileW((LPCWSTR)nativePath.GetRawZeroTerminatedData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if(this->pFileHandle == INVALID_HANDLE_VALUE)
 	{
-		switch(GetLastError())
+		DWORD errorCode = GetLastError();
+		switch(errorCode)
 		{
 		case ERROR_PATH_NOT_FOUND:
-			throw ErrorHandling::FileNotFoundException(refPath);
+			throw ErrorHandling::FileNotFoundException(path);
+		default:
+			NOT_IMPLEMENTED_ERROR;
 		}
 	}
 }

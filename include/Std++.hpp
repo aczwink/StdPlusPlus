@@ -60,6 +60,7 @@
 #include <Std++/Filesystem/File.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
+#include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Filesystem/Path.hpp>
 
 //Internationalization

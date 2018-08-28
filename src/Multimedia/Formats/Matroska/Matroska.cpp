@@ -91,6 +91,86 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 	return matroskaCodecMap;
 }
 
+void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint> &index, SeekableInputStream &inputStream)
+{
+	for (uint64 childrenSize = cuesElement.dataSize; childrenSize != 0;)
+	{
+		EBML::Element cuePoint;
+		EBML::ParseElementHeader(cuePoint, inputStream);
+		ASSERT(cuePoint.id == MATROSKA_ID_CUEPOINT, u8"Expected CuePoint element.");
+
+		CuePoint entry;
+		for (uint64 cuePointSize = cuePoint.dataSize; cuePointSize != 0;)
+		{
+			EBML::Element child;
+			EBML::ParseElementHeader(child, inputStream);
+
+			//set type
+			switch (child.id)
+			{
+			case MATROSKA_ID_CUETIME:
+			case MATROSKA_ID_CUETRACK:
+				child.dataType = EBML::DataType::UInt;
+				break;
+			case MATROSKA_ID_CUETRACKPOSITIONS:
+				child.dataType = EBML::DataType::Master;
+				break;
+			}
+
+			if (child.dataType != EBML::DataType::Master) //we read positions manually
+				EBML::ReadElementData(child, inputStream);
+
+			//set attributes
+			switch (child.id)
+			{
+			case MATROSKA_ID_CUETIME:
+				entry.timeStamp = child.data.ui;
+				break;
+			case MATROSKA_ID_CUETRACKPOSITIONS:
+			{
+				CuePointPosition pos;
+				for (uint64 posSize = child.dataSize; posSize != 0;)
+				{
+					EBML::Element posChild;
+					EBML::ParseElementHeader(posChild, inputStream);
+
+					//set type
+					switch (posChild.id)
+					{
+					case MATROSKA_ID_CUETRACK:
+					case MATROSKA_ID_CUECLUSTERPOSITION:
+						posChild.dataType = EBML::DataType::UInt;
+						break;
+					}
+
+					EBML::ReadElementData(posChild, inputStream);
+
+					//set attributes
+					switch (posChild.id)
+					{
+					case MATROSKA_ID_CUETRACK:
+						pos.trackNumber = posChild.data.ui;
+						break;
+					case MATROSKA_ID_CUECLUSTERPOSITION:
+						pos.clusterPos = posChild.data.ui;
+						break;
+					}
+
+					posSize -= posChild.headerSize + posChild.dataSize;
+				}
+				entry.streamsInfo.Push(pos);
+			}
+			break;
+			}
+			
+			cuePointSize -= child.headerSize + child.dataSize;
+		}
+		index.AddEntry(entry);
+
+		childrenSize -= cuePoint.headerSize + cuePoint.dataSize;
+	}
+}
+
 void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream)
 {
 	for(uint64 childrenSize = seekHead.dataSize; childrenSize != 0;)

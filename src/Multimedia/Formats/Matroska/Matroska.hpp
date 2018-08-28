@@ -21,6 +21,7 @@
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/FIFOBuffer.hpp>
+#include <Std++/Multimedia/TimeIndex.hpp>
 #include "../../CodingFormatIdMap.hpp"
 #include "EBML.hpp"
 //Namespaces
@@ -100,6 +101,16 @@ namespace Matroska
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
 	const String codecId_ms_fourcc = u8"V_MS/VFW/FOURCC";
 
+	struct CuePointPosition : public Multimedia::TimeIndexEntryStreamInfo
+	{
+		uint64 trackNumber;
+		uint64 clusterPos;
+	};
+
+	class CuePoint : public Multimedia::TimeIndexEntry<CuePointPosition>
+	{
+	};
+
 	struct SegmentInfo
 	{
 		float64 duration = 0;
@@ -116,6 +127,7 @@ namespace Matroska
 
 	//Functions
 	_stdxx_::CodingFormatIdMap<String> GetCodingFormatMap();
+	void ReadCuesData(const EBML::Element &cuesElement, Multimedia::TimeIndex<CuePoint> &index, SeekableInputStream &inputStream);
 	void ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream);
 	void ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segmentInfo, SeekableInputStream &inputStream);
 	void ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Track> &tracks, SeekableInputStream &inputStream);

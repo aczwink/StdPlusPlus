@@ -22,6 +22,7 @@
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/WindowsMessageQueueEventSource.hpp"
+#include "CommCtrlOpenGL3CoreBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 

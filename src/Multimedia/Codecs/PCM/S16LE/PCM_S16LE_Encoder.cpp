@@ -40,7 +40,7 @@ void PCM_S16LE_Encoder::Encode(const Frame &frame)
 
 	//convert if needed
 	pAudioBuffer = refAudioFrame.GetAudioBuffer();
-	if(pAudioBuffer->GetSampleType() == EAudioSampleType::PCM_S16LE)
+	if(pAudioBuffer->GetSampleType() == AudioSampleFormat::S16)
 	{
 		sourceBuffer = (const AudioBuffer<int16> *)pAudioBuffer;
 		deleteSourceBuffer = false;

@@ -45,6 +45,41 @@ namespace StdXX
 				this->FreeContainer();
         }
 
+		//Operators
+		ResizeableSequenceContainer<DataType> &operator=(const ResizeableSequenceContainer<DataType> &rhs) //copy assign
+		{
+			this->Release();
+			this->EnsureCapacity(rhs.nElements);
+
+			for (uint32 i = 0; i < rhs.GetNumberOfElements(); i++)
+			{
+				this->data[i] = rhs.data[i];
+			}
+			
+			this->elementsAllocInterval = rhs.elementsAllocInterval;
+			this->nElements = rhs.nElements;
+			
+			return *this;
+		}
+
+		ResizeableSequenceContainer<DataType> &operator=(ResizeableSequenceContainer<DataType> &&rhs) //move assign
+		{
+			this->Release();
+
+			this->data = rhs.data;
+			rhs.data = nullptr;
+
+			this->capacity = rhs.capacity;
+			rhs.capacity = 0;
+
+			this->elementsAllocInterval = rhs.elementsAllocInterval;
+
+			this->nElements = rhs.nElements;
+			rhs.nElements = 0;
+
+			return *this;
+		}
+
         //Overwriteable
         virtual void EnsureCapacity(uint32 requiredNumberOfElements)
         {
@@ -87,8 +122,6 @@ namespace StdXX
     protected:
         //Members
         DataType *data;
-        uint32 capacity; //shouldn't be altered other through methods in this class, but needed for move ctor
-        uint32 elementsAllocInterval; //shouldn't be altered other through methods in this class, but needed for move and copy ctor
 
         //Inline
         inline const DataType *GetEnd() const //pointer to first element after the container, shouldn't read there
@@ -97,6 +130,10 @@ namespace StdXX
         }
 
 	private:
+		//Members
+		uint32 capacity;
+		uint32 elementsAllocInterval;
+
 		//Inline
 		template <typename T = DataType>
 		typename EnableIf<IsTrivial<T>::value, void>::type

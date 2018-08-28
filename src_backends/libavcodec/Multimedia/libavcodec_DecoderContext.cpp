@@ -19,6 +19,9 @@
 //Class header
 #include "libavcodec_DecoderContext.hpp"
 //Local
+#include <Std++/Multimedia/AudioBuffer.hpp>
+#include <Std++/Multimedia/AudioFrame.hpp>
+#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Multimedia/Pixmap.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
@@ -29,7 +32,7 @@ using namespace StdXX::Multimedia;
 
 //Constructor
 libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec, const BijectiveMap<NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap)
-	: DecoderContext(decoder), libavPixelFormatMap(libavPixelFormatMap)
+	: DecoderContext(decoder), libavPixelFormatMap(libavPixelFormatMap), stream(stream)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
@@ -76,7 +79,7 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 	{
 		ret = avcodec_receive_frame(this->codecContext, this->frame);
 		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-			return;
+			break;
 		ASSERT(ret == 0, u8"TODO: implement error handling");
 		/*else if (ret < 0)
 			return; //an error occured. skip packet*/
@@ -85,28 +88,8 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 		switch (this->codecContext->codec_type)
 		{
 		case AVMEDIA_TYPE_AUDIO:
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: next lines
-			/*
-			switch (this->frame->format)
-			{
-			case AV_SAMPLE_FMT_S16P:
-			{
-				AudioBuffer<int16> *buffer = new AudioBuffer<int16>(MapChannels(state.frame->channels), (uint32)state.frame->nb_samples);
-				for (uint32 i = 0; i < state.frame->channels; i++)
-				{
-					MemCopy(buffer->GetChannel((Channel)i), state.frame->data[i], state.frame->nb_samples * sizeof(int16));
-				}
-				Frame *frame = new AudioFrame(buffer);
-				CopyImportantInfo(*state.frame, *frame);
-				frames.Push(frame);
-			}
+			this->MapAudioFrame();
 			break;
-			default:
-				NOT_IMPLEMENTED_ERROR;
-			}*/
-		}
-		break;
 		case AVMEDIA_TYPE_VIDEO:
 			this->MapVideoFrame();
 			break;
@@ -114,9 +97,61 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 	}
+
+	//update stream if possible
+	if ((this->stream.bitRate == 0) && (this->codecContext->bit_rate != 0))
+		this->stream.bitRate = this->codecContext->bit_rate;
+	
+	switch (this->codecContext->codec_type)
+	{
+	case AVMEDIA_TYPE_AUDIO:
+	{
+		AudioStream &audioStream = (AudioStream &)this->stream;
+		if ((audioStream.sampleRate == 0) && (this->codecContext->sample_rate != 0))
+			audioStream.sampleRate = this->codecContext->sample_rate;
+		if ((audioStream.nChannels == 0) && (this->codecContext->channels != 0))
+			audioStream.nChannels = this->codecContext->channels;
+	}
+	break;
+	}
 }
 
 //Private methods
+void libavcodec_DecoderContext::MapAudioFrame()
+{
+	AudioFrame *audioFrame;
+	switch (this->frame->format)
+	{
+	case AV_SAMPLE_FMT_FLTP:
+	{
+		AudioBuffer<float32> *buffer = new AudioBuffer<float32>(this->MapChannels(this->frame->channels), (uint32)this->frame->nb_samples);
+		for (uint32 i = 0; i < this->frame->channels; i++)
+			MemCopy(buffer->GetChannel((Channel)i), this->frame->data[i], this->frame->nb_samples * sizeof(float32));
+		audioFrame = new AudioFrame(buffer);
+	}
+	break;
+	default:
+		NOT_IMPLEMENTED_ERROR;
+	}
+
+	audioFrame->pts = this->frame->pts;
+
+	this->AddFrame(audioFrame);
+}
+
+ChannelLayout libavcodec_DecoderContext::MapChannels(int nChannels)
+{
+	switch (nChannels)
+	{
+	case 1:
+		return ChannelLayout::Mono;
+	case 2:
+		return ChannelLayout::Stereo;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+}
+
 void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packet)
 {
 	this->packet->data = (uint8_t *)packet.GetData();

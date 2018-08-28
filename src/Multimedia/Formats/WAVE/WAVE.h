@@ -31,4 +31,4 @@ using namespace StdXX;
 
 //Functions
 //void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet);
-//uint16 MapToTwoCC(CodecId codecId);
+//uint16 MapToTwoCC(CodingFormatId codingFormatId);

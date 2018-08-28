@@ -24,6 +24,9 @@ namespace StdXX
 {
     namespace Multimedia
     {
+		/**
+		 * A planar audio buffer.
+		 */
         template<typename SampleType>
         class STDPLUSPLUS_API AudioBuffer : public AbstractAudioBuffer
         {
@@ -48,7 +51,7 @@ namespace StdXX
             ~AudioBuffer();
 
             //Methods
-            EAudioSampleType GetSampleType() const;
+			AudioSampleFormat GetSampleType() const;
 
             //Inline
             inline SampleType *GetChannel(Channel channel)

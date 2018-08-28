@@ -61,7 +61,6 @@ namespace StdXX
 
         //Operators
         ByteString &operator=(const char *pStr);
-        ByteString &operator=(ByteString &&refString); //move assign
         ByteString &operator+=(const ByteString &refString);
 
         //Inline Operators

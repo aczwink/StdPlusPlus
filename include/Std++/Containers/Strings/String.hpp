@@ -317,13 +317,13 @@ namespace StdXX
 		static String CopyRawString(const uint16 *utf16);
 
 		/**
-		 * Formats a byte size using binary prefixes.
-		 * For instance the input 1024 is transformed to "1 KiB".
+		 * Formats a value using binary prefixes.
+		 * For instance the input 1024, 'B' is transformed to "1 KiB".
 		 *
-		 * @param size in bytes
+		 * @param
 		 * @return
 		 */
-		static String FormatByteSize(uint64 size);
+		static String FormatBinaryPrefixed(uint64 value, const String &suffix = u8"B");
 
 		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true)
 		{

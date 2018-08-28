@@ -35,20 +35,6 @@ ByteString &ByteString::operator=(const char *pStr)
     return *this;
 }
 
-ByteString &ByteString::operator=(ByteString &&refString)
-{
-    this->Release();
-
-    this->capacity = refString.capacity;
-    this->elementsAllocInterval = refString.elementsAllocInterval;
-    this->nElements = refString.nElements;
-    this->data = refString.data;
-
-    refString.data = nullptr;
-
-    return *this;
-}
-
 ByteString &ByteString::operator+=(const ByteString &refString)
 {
     this->EnsureAdditionalCapacity(refString.GetLength());

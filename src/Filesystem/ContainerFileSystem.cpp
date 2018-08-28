@@ -20,13 +20,14 @@
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
 //Local
 #include <Std++/Filesystem/ContainerDirectory.hpp>
+#include <Std++/Filesystem/OSFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
 ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath) : FileSystem(format),
 																									   fileSystemPath(fileSystemPath),
-																									   containerInputStream((FileSystem::GetOSFileSystem().Exists(fileSystemPath.GetAbsolutePath())) ? (new FileInputStream(fileSystemPath)) : nullptr),
+																									   containerInputStream((OSFileSystem::GetInstance().Exists(fileSystemPath)) ? (new FileInputStream(fileSystemPath)) : nullptr),
 																									   root(new ContainerDirectory(this))
 {
 	this->isFlushed = !this->containerInputStream.IsNull();
@@ -93,7 +94,7 @@ void ContainerFileSystem::AddSourceFile(const Path &filePath, uint64 offset, uin
 UniquePointer<FileOutputStream> ContainerFileSystem::OpenTempContainer()
 {
 	Path p = this->fileSystemPath + Path(u8".stdpptmp");
-	ASSERT(!FileSystem::GetOSFileSystem().Exists(p), u8"If you see this, report to StdXX please");
+	ASSERT(!OSFileSystem::GetInstance().Exists(p), u8"If you see this, report to StdXX please");
 
 	return new FileOutputStream(p);
 }
@@ -106,7 +107,7 @@ void ContainerFileSystem::SwapWithTempContainer(UniquePointer<FileOutputStream> 
 	Path tempPath = tempContainer->GetPath();
 	tempContainer = nullptr; //close temp file
 
-	FileSystem::GetOSFileSystem().Move(tempPath, this->fileSystemPath);
+	OSFileSystem::GetInstance().Move(tempPath, this->fileSystemPath);
 
 	//TODO: we now have to reopen this->containerInputStream and read again all offsets...
 	//TODO: also all files that have buffers must be closed now... i.e. the buffers must be deleted

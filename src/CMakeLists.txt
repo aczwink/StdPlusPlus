@@ -26,6 +26,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/URL.cpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.cpp
@@ -37,7 +38,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Index.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.cpp
@@ -92,5 +92,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MemoryOperators.cpp
 
 	PARENT_SCOPE)

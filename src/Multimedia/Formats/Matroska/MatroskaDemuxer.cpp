@@ -35,118 +35,7 @@ MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &r
 }
 
 //Private methods
-void MatroskaDemuxer::AddStream()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
-	/*
-	uint32 index;
-	Stream *pStream;
-
-	//create stream
-	switch(this->parserState.currentTrack.type)
-	{
-		case TRACK_TYPE_AUDIO:
-			pStream = new AudioStream;
-			break;
-		case TRACK_TYPE_SUBTITLE:
-			pStream = new SubtitleStream;
-			break;
-		case TRACK_TYPE_VIDEO:
-			pStream = new VideoStream;
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR;
-			pStream = nullptr;
-	}
-
-	pStream->timeScale = this->timeScale;
-	pStream->SetCodingFormat(this->parserState.currentTrack.codingFormatId);
-
-	index = Demuxer::AddStream(pStream);
-	this->trackToStreamMap[this->parserState.currentTrack.number] = index;
-
-	//stream specific
-	switch(this->parserState.currentTrack.type)
-	{
-		case TRACK_TYPE_AUDIO:
-		{
-			AudioStream *const& refpAudioStream = (AudioStream *)pStream;
-
-			refpAudioStream->nChannels = this->parserState.currentTrack.audio.nChannels;
-			refpAudioStream->sampleRate = (uint32)this->parserState.currentTrack.audio.samplingFrequency;
-
-			/*
-			//check for PCM
-			if(this->parserState.currentTrack.codingFormatId == CodingFormatId::Unknown && this->parserState.currentTrack.codecPrivate.isFloatPCM)
-			{
-				switch(this->parserState.currentTrack.audio.bitDepth)
-				{
-					case 32:
-						pStream->SetCodingFormat(CodingFormatId::PCM_Float32LE);
-						break;
-					default:
-						NOT_IMPLEMENTED_ERROR;
-				}
-			}*//*
-		}
-			break;
-		case TRACK_TYPE_VIDEO:
-		{
-			VideoStream *const& refpVideoStream = (VideoStream *)pStream;
-
-			//check for microsoft BMP header
-			if(this->parserState.currentTrack.codingFormatId == CodingFormatId::Unknown && this->parserState.currentTrack.codecPrivate.isMS_BMPHeader)
-			{
-				bool isBottomUp;
-				uint64 currentOffset;
-
-				currentOffset = this->inputStream.GetCurrentOffset();
-				this->inputStream.SetCurrentOffset(this->parserState.currentTrack.codecPrivate.offset);
-				_stdxx_::ReadBMPHeader(isBottomUp, this->inputStream, *refpVideoStream);
-				this->inputStream.SetCurrentOffset(currentOffset);
-			}
-		}
-			break;
-	}*/
-}
-
-/*void MatroskaDemuxer::BeginParseChilds(uint64 id)
-{
-	switch(id)
-	{
-		case MATROSKA_ID_TRACKENTRY:
-		{
-			this->parserState.currentTrack.type = Natural<uint8>::Max();
-			this->parserState.currentTrack.codingFormatId = CodingFormatId::Unknown;
-			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = false;
-			this->parserState.currentTrack.codecPrivate.isFloatPCM = false;
-			this->parserState.currentTrack.codecPrivate.isIntegerPCM = false;
-		}
-			break;
-	}
-}
-
-void MatroskaDemuxer::EndParseChilds(uint64 id)
-{
-	switch(id)
-	{
-		case MATROSKA_ID_CLUSTER:
-		{
-			for(uint32 i = 0; i < this->parserState.currentCluster.offsets.GetNumberOfElements(); i++)
-			{
-				this->clusters.AddCluster(this->parserState.currentCluster.offsets[i], this->parserState.currentCluster.sizes[i], this->parserState.currentCluster.timeCode);
-			}
-
-			this->parserState.currentCluster.offsets.Clear();
-			this->parserState.currentCluster.sizes.Clear();
-		}
-			break;
-		case MATROSKA_ID_TRACKENTRY:
-			this->AddStream();
-			break;
-	}
-}
-
+/*
 bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 {
 	switch (id)
@@ -159,9 +48,6 @@ bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 		refElemInfo.type = EMatroskaType::Float;
 		return true;
 	case MATROSKA_ID_AUDIO:
-	case MATROSKA_ID_CLUSTER:
-	case MATROSKA_ID_INFO:
-	case MATROSKA_ID_SEGMENT:
 		refElemInfo.type = EMatroskaType::Master;
 		return true;
 	case MATROSKA_ID_BITDEPTH:
@@ -172,22 +58,6 @@ bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 	}
 
 	return false;
-}
-
-void MatroskaDemuxer::ParseASCIIString(uint64 id, const String &string)
-{
-	switch(id)
-	{
-	case MATROSKA_ID_CODECID:
-	{
-		this->parserState.currentTrack.codingFormatId = this->codecIdMap.Get(string);
-
-		//special cases
-		if (string == codecId_ms_fourcc)
-			this->parserState.currentTrack.codecPrivate.isMS_BMPHeader = true;
-	}
-	break;
-	}
 }
 
 void MatroskaDemuxer::ParseBinary(uint64 id, uint64 size)
@@ -203,8 +73,6 @@ void MatroskaDemuxer::ParseBinary(uint64 id, uint64 size)
 			this->inputStream.Skip(size);
 		}
 			break;
-		default:
-			this->inputStream.Skip(size);
 	}
 }
 
@@ -257,56 +125,59 @@ void MatroskaDemuxer::ReadHeader()
 
 	this->ReadSegment(segmentOffsets[0]);
 
-	//move to beginning of data
-	this->inputStream.SetCurrentOffset(this->clusters.GetStartOffset());
+	//ReadSegment will place us at the beginning of the first cluster
 }
 
 bool MatroskaDemuxer::ReadPacket(Packet &packet)
 {
-	uint32 clusterIndex;
-
 	DataReader reader(true, this->inputStream);
 
-	//find cluster
-	while (true)
-	{
-		if (this->clusters.FindEntry(this->inputStream.GetCurrentOffset(), clusterIndex))
-			break;
-		
-		//resync
-		const IndexEntry &refEntry = this->clusters.GetEntry(clusterIndex);
-		
-		if (refEntry.offset < this->inputStream.GetCurrentOffset())
-			clusterIndex++; //go to next cluster
-		if (clusterIndex >= this->clusters.GetNumberOfEntries())
-			return false; //read all clusters... we're at the end
-						  
-		//move input stream to next cluster offset
-		const IndexEntry &refResyncEntry = this->clusters.GetEntry(clusterIndex);
-		this->inputStream.SetCurrentOffset(refResyncEntry.offset);
-	}
-	const IndexEntry &cluster = this->clusters.GetEntry(clusterIndex);
-
-	//are we at the beginning of a lace or block header
 	if (this->demuxerState.lacedFrameSizes.IsEmpty())
 	{
-		//read next block header
+		//read new cluster or block
+		bool foundBlock = false;
+		uint32 blockSize;
+		while (!foundBlock)
+		{
+			EBML::Element element;
+			EBML::ParseElementHeader(element, this->inputStream);
+
+			switch (element.id)
+			{
+			case MATROSKA_ID_CLUSTER:
+				//do nothing
+				break;
+			case MATROSKA_ID_TIMECODE:
+				element.dataType = EBML::DataType::UInt;
+				EBML::ReadElementData(element, this->inputStream);
+				this->demuxerState.clusterTimecode = element.data.ui;
+				break;
+			case MATROSKA_ID_SIMPLEBLOCK:
+				foundBlock = true;
+				blockSize = element.dataSize;
+				break;
+			default:
+				this->inputStream.Skip(element.dataSize);
+			}
+		}
+
+		//read block header
 		uint8 length;
 		uint64 trackNumber = EBML::DecodeVariableLengthInteger(length, this->inputStream);
 		int16 timeCode = reader.ReadInt16();
 		uint8 flags = reader.ReadByte();
+		uint32 blockHeaderSize = length + 2 + 1;
 
 		this->demuxerState.blockStreamIndex = this->trackToStreamMap[trackNumber];
-
 		switch ((flags >> 1) & 3)
 		{
 		case 0: //no lacing
 		{
-			packet.Allocate(cluster.GetRemainingBytes(this->inputStream.GetCurrentOffset()));
+			packet.Allocate(blockSize - blockHeaderSize);
 			this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
 
 			packet.streamIndex = this->demuxerState.blockStreamIndex;
-			packet.pts = cluster.timeStamp + timeCode;
+			packet.pts = this->demuxerState.clusterTimecode + timeCode;
 			packet.containsKeyframe = (flags & 0x80) != 0; //TODO: this assumes that this is a SimpleBlock. It will fail for standard blocks as this will always be 0
 
 			return true;
@@ -315,7 +186,9 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 		case 3: //EBML lacing
 		{
 			uint8 nEncodedLaceSizes = reader.ReadByte();
+			blockHeaderSize++;
 			uint64 laceSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
+			blockHeaderSize += length;
 
 			this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
 			nEncodedLaceSizes--;
@@ -323,16 +196,16 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			uint64 sum = laceSize;
 			for (uint8 i = 0; i < nEncodedLaceSizes; i++)
 			{
-
 				uint64 codedSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
+				blockHeaderSize += length;
 				int64 rangeShift = (1 << (length * 8 - length - 1)) - 1;
 				laceSize += int64(codedSize) - rangeShift;
 				this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
 
 				sum += laceSize;
 			}
-			
-			this->demuxerState.lacedFrameSizes.InsertTail(cluster.size - sum); //TODO: cluster is actually implemented as block index! this is wrong! this should say block size - sum
+
+			this->demuxerState.lacedFrameSizes.InsertTail(blockSize - blockHeaderSize - sum);
 		}
 		break;
 		default:
@@ -351,6 +224,75 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 }
 
 //Private methods
+void MatroskaDemuxer::AddStream(Matroska::Track &track)
+{
+	//create stream
+	Stream *pStream;
+	switch(track.type)
+	{
+	case TRACK_TYPE_AUDIO:
+		pStream = new AudioStream;
+		break;
+	case TRACK_TYPE_SUBTITLE:
+		pStream = new SubtitleStream;
+		break;
+	case TRACK_TYPE_VIDEO:
+		pStream = new VideoStream;
+		break;
+	default:
+		NOT_IMPLEMENTED_ERROR;
+		pStream = nullptr;
+	}
+	
+	pStream->timeScale = this->timeScale;
+	CodingFormatId codingFormatId = this->codecIdMap.Get(track.codecId);
+	pStream->SetCodingFormat(codingFormatId);
+	
+	uint32 index = Demuxer::AddStream(pStream);
+	this->trackToStreamMap[track.number] = index;
+	
+	//stream specific
+	switch(track.type)
+	{
+	case TRACK_TYPE_AUDIO:
+	{
+		AudioStream *const& refpAudioStream = (AudioStream *)pStream;
+
+		/*		
+		refpAudioStream->nChannels = this->parserState.currentTrack.audio.nChannels;
+		refpAudioStream->sampleRate = (uint32)this->parserState.currentTrack.audio.samplingFrequency;
+		*/
+		
+		/*
+		//check for PCM
+		if(this->parserState.currentTrack.codingFormatId == CodingFormatId::Unknown && this->parserState.currentTrack.codecPrivate.isFloatPCM)
+		{
+		switch(this->parserState.currentTrack.audio.bitDepth)
+		{
+		case 32:
+		pStream->SetCodingFormat(CodingFormatId::PCM_Float32LE);
+		break;
+		default:
+		NOT_IMPLEMENTED_ERROR;
+		}
+		}*/
+	}
+	break;
+	case TRACK_TYPE_VIDEO:
+	{
+		VideoStream *const& refpVideoStream = (VideoStream *)pStream;
+
+		//check for microsoft BMP header
+		if (codingFormatId == CodingFormatId::Unknown && track.codecId == codecId_ms_fourcc)
+		{
+			bool isBottomUp;
+			_stdxx_::ReadBMPHeader(isBottomUp, track.codecPrivate, *refpVideoStream);
+		}
+	}
+	break;
+	}
+}
+
 void MatroskaDemuxer::ReadSegment(uint64 segmentOffset)
 {
 	this->inputStream.SetCurrentOffset(segmentOffset);
@@ -378,6 +320,7 @@ void MatroskaDemuxer::ReadSegment(uint64 segmentOffset)
 			foundCluster = true;
 			break; //we are at the clusters.... break from here
 		default: //unknown... skip
+			readSections.Insert(element.id);
 			this->inputStream.Skip(element.dataSize);
 		}
 	}
@@ -386,12 +329,18 @@ void MatroskaDemuxer::ReadSegment(uint64 segmentOffset)
 	{
 		if (!readSections.Contains(kv.key))
 		{
+			uint64 currentOffset = this->inputStream.GetCurrentOffset();
+
 			this->inputStream.SetCurrentOffset(kv.value);
 			EBML::Element element;
 			EBML::ParseElementHeader(element, this->inputStream);
 			this->ReadSection(element);
+
+			this->inputStream.SetCurrentOffset(currentOffset);
 		}
 	}
+
+	ASSERT(foundCluster, u8"if you see this, report this please.")
 }
 
 void MatroskaDemuxer::ReadSection(const EBML::Element &element)
@@ -399,7 +348,10 @@ void MatroskaDemuxer::ReadSection(const EBML::Element &element)
 	switch (element.id)
 	{
 	case MATROSKA_ID_CUES:
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	{
+		Matroska::ReadCuesData(element, this->cues, this->inputStream);
+	}
+	break;
 	case MATROSKA_ID_INFO:
 	{
 		Matroska::SegmentInfo segmentInfo;
@@ -418,7 +370,8 @@ void MatroskaDemuxer::ReadSection(const EBML::Element &element)
 		DynamicArray<Matroska::Track> tracks;
 		Matroska::ReadTrackData(element, tracks, this->inputStream);
 
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		for (Matroska::Track &track : tracks)
+			this->AddStream(track);
 	}
 	break;
 	default:

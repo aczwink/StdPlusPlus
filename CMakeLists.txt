@@ -57,6 +57,9 @@ endif()
 
 #---TARGET: Std++Static---
 add_library(Std++Static STATIC src_static/main.cpp src_static/main.hpp src_static/StdPlusPlusMain.cpp src_static/windows.cpp)
+IF(WIN32) #windows defines operator new and delete per module (i.e. dll)
+	target_sources(Std++Static PRIVATE src/MemoryOperators.cpp) #link this into the static lib
+ENDIF()
 target_include_directories(Std++Static PRIVATE "include")
 
 

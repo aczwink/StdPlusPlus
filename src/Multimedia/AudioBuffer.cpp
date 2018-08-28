@@ -32,7 +32,7 @@ AudioBuffer<SampleType>::AudioBuffer(const AbstractAudioBuffer &refBuffer) : Abs
 {
 	switch(refBuffer.GetSampleType())
 	{
-		case EAudioSampleType::PCM_Float32LE:
+		case AudioSampleFormat::Float32:
 			this->Resample((const AudioBuffer<float32> &)refBuffer);
 			break;
 		default:
@@ -110,14 +110,14 @@ void AudioBuffer<int16>::Resample(const AudioBuffer<float32>& refBuffer)
 
 //Public methods
 template<>
-EAudioSampleType AudioBuffer<float32>::GetSampleType() const
+AudioSampleFormat AudioBuffer<float32>::GetSampleType() const
 {
-	return EAudioSampleType::PCM_Float32LE;
+	return AudioSampleFormat::Float32;
 }
 template<>
-EAudioSampleType AudioBuffer<int16>::GetSampleType() const
+AudioSampleFormat AudioBuffer<int16>::GetSampleType() const
 {
-	return EAudioSampleType::PCM_S16LE;
+	return AudioSampleFormat::S16;
 }
 
 //Explicit instantiation

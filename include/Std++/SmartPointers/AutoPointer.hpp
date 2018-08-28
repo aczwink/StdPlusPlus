@@ -18,9 +18,8 @@
  */
 #pragma once
 //Local
-#include "Std++/Debug.hpp"
+#include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
-#include "../Definitions.h"
 
 namespace _stdxx_
 {
@@ -57,7 +56,7 @@ namespace StdXX
 
 		inline AutoPointer(ValueType *pointer, bool owned = true) : pointer(pointer), isOwner(owned)
 		{
-			this->controlBlock = new _stdxx_::AutoPointerControlBlock;
+			this->controlBlock = new _stdxx_::AutoPointerControlBlock();
 			this->controlBlock->referenceCount = 1;
 			this->controlBlock->expired = false;
 		}

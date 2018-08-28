@@ -27,21 +27,6 @@
 WAVE_Muxer::WAVE_Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 {
 }
-/*
-//Private methods
-uint16 WAVE_Muxer::GetBitsPerSample(CodecId codecId) const
-{
-	switch(codecId)
-	{
-		case CodecId::PCM_Float32LE:
-			return 32;
-		case CodecId::PCM_S16LE:
-			return 16;
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-	return 0;
-}*/
 
 //Public methods
 void WAVE_Muxer::Finalize()
@@ -57,14 +42,10 @@ void WAVE_Muxer::Finalize()
 
 void WAVE_Muxer::WriteHeader()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: next
-	/*
-	uint16 bitsPerSample, blockAlign;
-
 	AudioStream *stream = (AudioStream *)this->GetStream(0);
 
-	bitsPerSample = this->GetBitsPerSample(stream->GetCodec()->GetId());
-	blockAlign = stream->nChannels * bitsPerSample / 8;
+	uint16 bitsPerSample = this->GetBitsPerSample(stream->GetCodingFormat()->GetId());
+	uint16 blockAlign = stream->nChannels * bitsPerSample / 8;
 
 	DataWriter writer(false, this->outputStream);
 	//riff chunk
@@ -76,21 +57,35 @@ void WAVE_Muxer::WriteHeader()
 	//format chunk
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
-	this->outputStream.WriteUInt16LE(MapToTwoCC(stream->GetCodec()->Get()));
-	this->outputStream.WriteUInt16LE(stream->nChannels);
+	writer.WriteUInt16((uint16)(stream->GetCodingFormat()->GetId()));
+	writer.WriteUInt16(stream->nChannels);
 	writer.WriteUInt32(stream->sampleRate);
 	writer.WriteUInt32(stream->sampleRate * blockAlign);
-	this->outputStream.WriteUInt16LE(blockAlign);
-	this->outputStream.WriteUInt16LE(bitsPerSample);
+	writer.WriteUInt16(blockAlign);
+	writer.WriteUInt16(bitsPerSample);
 
 	//data chunk
 	writer.WriteUInt32(WAVE_DATACHUNK_CHUNKID);
 	this->dataChunkSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
 	writer.WriteUInt32(0); //chunk size
-	*/
 }
 
 void WAVE_Muxer::WritePacket(const Packet &packet)
 {
 	this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
+}
+
+//Private methods
+uint16 WAVE_Muxer::GetBitsPerSample(CodingFormatId codingFormatId) const
+{
+	switch(codingFormatId)
+	{
+		//case CodingFormatId::PCM_Float32LE:
+			//return 32;
+		case CodingFormatId::PCM_S16LE:
+			return 16;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+	return 0;
 }

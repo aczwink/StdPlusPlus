@@ -18,26 +18,11 @@
  */
 //Main header
 #include "WAVE.h"
+//Local
+#include "../../CodingFormatIdMap.hpp"
 //Namespaces
+using namespace _stdxx_;
 /*
-//Global variables
-Map<uint16, CodecId> g_ms_audio_twoCC_map;
-
-//Local functions
-static void LoadMap()
-{
-	static bool loaded = false;
-
-	if(!loaded)
-	{
-		loaded = true;
-
-		g_ms_audio_twoCC_map.Insert(1, CodecId::PCM_S16LE); //WAVE_FORMAT_PCM
-		g_ms_audio_twoCC_map.Insert(3, CodecId::PCM_Float32LE); //WAVE_FORMAT_IEEE_FLOAT
-		g_ms_audio_twoCC_map.Insert(0x50, CodecId::MP2); //TODO: could also be layer 1
-	}
-}
-
 //Functions
 void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet)
 {
@@ -46,16 +31,26 @@ void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet)
 	for(const auto &refKV : g_ms_audio_twoCC_map)
 		refCodecSet.Insert(refKV.value);
 }
+*/
+/*
+//Local functions
+static CodingFormatIdMap<uint16> LoadMap()
+{
+	CodingFormatIdMap<uint16> twoCCMap;
+	
+	twoCCMap.Insert(1, CodingFormatId::PCM_S16LE); //WAVE_FORMAT_PCM
+	twoCCMap.Insert(3, CodingFormatId::PCM_Float32LE); //WAVE_FORMAT_IEEE_FLOAT
+	twoCCMap.Insert(0x50, CodingFormatId::MP2); //TODO: could also be layer 1
+}
 
 uint16 MapToTwoCC(CodecId codecId)
 {
 	LoadMap();
 
-	for(const auto &refKV : g_ms_audio_twoCC_map)
-		if(refKV.value == codecId)
+	for (const auto &refKV : g_ms_audio_twoCC_map)
+		if (refKV.value == codecId)
 			return refKV.key;
 
 	NOT_IMPLEMENTED_ERROR;
 	return -1;
-}
-*/
+}*/

@@ -29,7 +29,6 @@ namespace StdXX
     OldString ToString(uint64 i, uint8 bla = 0);
 
     //Functions
-    STDPLUSPLUS_API OldString FormatBitSize(uint32 bitSize, uint32 nFractionalDigits = 0);
     bool IsStringConvertibleToFloat(const ByteString &refString);
     bool IsStringConvertibleToInteger(const ByteString &refString);
     STDPLUSPLUS_API int64 StringToInt64(const OldString &refString);

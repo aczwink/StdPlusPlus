@@ -42,17 +42,12 @@ UTF8String &UTF8String::operator=(const UTF8String &refString)
 
 UTF8String &UTF8String::operator=(UTF8String &&refString)
 {
-    this->Release();
+	ResizeableString<byte>::operator=(Move(refString));
 
-    this->capacity = refString.capacity;
-    this->elementsAllocInterval = refString.elementsAllocInterval;
     this->length = refString.length;
-    this->nElements = refString.nElements;
-    this->data = refString.data;
-
-    refString.data = nullptr;
-
-    return *this;
+	refString.length = 0;
+	
+	return *this;
 }
 
 UTF8String &UTF8String::operator=(const char *string)

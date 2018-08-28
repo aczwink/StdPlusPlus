@@ -55,7 +55,6 @@ namespace StdXX
 
 		//Functions
 		static UniquePointer<FileSystem> Create(const String &id, const Path &p);
-		static FileSystem &GetOSFileSystem();
 		static UniquePointer<FileSystem> LoadFromFile(const Path &p);
 
 		//Inline

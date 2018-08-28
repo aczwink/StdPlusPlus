@@ -31,12 +31,6 @@ namespace StdXX
             Right = 1
         };
 
-        enum class EAudioSampleType
-        {
-            PCM_Float32LE,
-            PCM_S16LE,
-        };
-
         class STDPLUSPLUS_API AbstractAudioBuffer
         {
         private:
@@ -57,7 +51,7 @@ namespace StdXX
 
             //Abstract
             virtual uint16 GetSampleSize() const = 0;
-            virtual EAudioSampleType GetSampleType() const = 0;
+            virtual AudioSampleFormat GetSampleType() const = 0;
 
             //Methods
             uint8 GetNumberOfChannels() const;
