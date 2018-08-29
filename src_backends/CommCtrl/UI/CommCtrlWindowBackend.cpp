@@ -25,7 +25,7 @@
 #include <Std++/UI/Window.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"
-#include "Definitions.h"
+#include "../Imports.h"
 //Namespaces
 using namespace _stdxx_;
 
@@ -367,9 +367,7 @@ void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
 }
 
 void CommCtrlWindowBackend::SetMenuBar(MenuBar *menuBar, MenuBarBackend *menuBarBackend)
-{
-	this->RequireRealized();
-	
+{	
 	CommCtrlMenuBarBackend *commCtrlMenuBarBackend = (CommCtrlMenuBarBackend *)menuBarBackend;
 	::SetMenu(this->GetHWND(), commCtrlMenuBarBackend->GetHandle());
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,29 +16,9 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifdef _STDPLUSPLUS_BACKEND_OPENGL
-//Local
-#include "../OpenGL3Core/OpenGL3CoreBackend.hpp"
+//Corresponding header
+#include "WGL.h"
 
-namespace StdXX
-{
-	class CommCtrlOpenGL3CoreBackend : public OpenGL3CoreBackend
-	{
-	public:
-		//Constructor
-		inline CommCtrlOpenGL3CoreBackend() : wglFunctionsLoaded(false)
-		{
-		}
-
-		//Methods
-		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const override;
-
-	private:
-		//Members
-		mutable bool wglFunctionsLoaded;
-
-		//Methods
-		void LoadWGLFunctions() const;
-	};
-}
-#endif
+//WGL Function pointers
+PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
+PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;

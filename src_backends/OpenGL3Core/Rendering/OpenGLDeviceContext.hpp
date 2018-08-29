@@ -27,6 +27,14 @@ class OpenGLInputState;
 
 namespace _stdxx_
 {
+	//Forward declarations
+	class OpenGLDeviceContext;
+
+	struct OpenGLState
+	{
+		const OpenGLDeviceContext *currentContext = nullptr;
+	};
+
 	class OpenGLDeviceContext : public StdXX::Rendering::DeviceContext
 	{
 	public:
@@ -79,12 +87,14 @@ namespace _stdxx_
 
 	protected:
 		//Abstract
-		virtual void Bind() const = 0;
+		virtual void MakeContextCurrent() const = 0;
 
 		//Methods
 		void Init(GL_EXT_LOADER extensionLoaderFunction);
 
 	private:
+		//Fields
+		static thread_local OpenGLState state;
 		//Members
 		OpenGLInputState *currentInputState;
 
@@ -96,6 +106,15 @@ namespace _stdxx_
 		inline void ActivateLastTextureUnit()
 		{
 			this->glFuncs.glActiveTexture(GL_TEXTURE31); //see OpenGLDeviceContext::SetTexture
+		}
+
+		inline void Bind() const
+		{
+			if (OpenGLDeviceContext::state.currentContext != this)
+			{
+				this->MakeContextCurrent();
+				OpenGLDeviceContext::state.currentContext = this;
+			}
 		}
 	};
 }

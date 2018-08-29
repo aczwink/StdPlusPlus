@@ -16,29 +16,31 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifdef _STDPLUSPLUS_BACKEND_OPENGL
 //Local
-#include "../OpenGL3Core/OpenGL3CoreBackend.hpp"
+#include "WGL.h" //this must be included before gl headers!!!
+#include "../../OpenGL3Core/Rendering/OpenGLDeviceContext.hpp"
 
-namespace StdXX
+namespace _stdxx_
 {
-	class CommCtrlOpenGL3CoreBackend : public OpenGL3CoreBackend
+	class CommCtrlOpenGL3CoreDeviceContext : public OpenGLDeviceContext
 	{
 	public:
 		//Constructor
-		inline CommCtrlOpenGL3CoreBackend() : wglFunctionsLoaded(false)
-		{
-		}
+		CommCtrlOpenGL3CoreDeviceContext(HDC hDC, uint8 nSamples, GL_EXT_LOADER loader);
+
+		//Destructor
+		~CommCtrlOpenGL3CoreDeviceContext();
 
 		//Methods
-		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const override;
+		void SwapBuffers() override;
+
+	protected:
+		//Methods
+		void MakeContextCurrent() const override;
 
 	private:
 		//Members
-		mutable bool wglFunctionsLoaded;
-
-		//Methods
-		void LoadWGLFunctions() const;
+		HDC hDC;
+		HGLRC hGLRC;
 	};
 }
-#endif

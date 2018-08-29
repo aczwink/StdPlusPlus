@@ -40,9 +40,11 @@ void Win32Window::Realize()
 		return;
 
 	//get parent window
+	bool selfIsWindow = false;
 	Window *parentWindow = (Window *)this->widgetBackend.GetWidget().GetWindow();
 	if (&this->widgetBackend.GetWidget() == parentWindow)
 	{
+		selfIsWindow = true;
 		if (parentWindow->GetParent())
 			parentWindow = parentWindow->GetParent()->GetWindow();
 		else
@@ -57,9 +59,24 @@ void Win32Window::Realize()
 		hParent = windowBackend->GetHWND();
 	}
 
+	//set style
+	DWORD dwStyle = this->dwStyle;
+	if (!selfIsWindow)
+	{
+		if (hParent == nullptr)
+			dwStyle |= WS_POPUP; //the widget does not have a parent yet :S
+		else
+		{
+			dwStyle |= WS_CHILD; //its a child
+			dwStyle |= WS_VISIBLE; //children default to be visible
+		}
+	}
+
 	//create HWND
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	this->hWnd = CreateWindowExW(this->dwExStyle, this->lpClassName, nullptr, this->dwStyle, 0, 0, 0, 0, hParent, NULL, hInstance, (LPVOID)&this->widgetBackend);
+
+	ASSERT(this->hWnd, u8"Realization failed");
 
 	//set stuff on HWND
 	SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)&this->widgetBackend);

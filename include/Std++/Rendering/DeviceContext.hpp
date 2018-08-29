@@ -70,6 +70,11 @@ namespace StdXX
         class STDPLUSPLUS_API DeviceContext
         {
         public:
+			//Destructor
+			virtual ~DeviceContext()
+			{
+			}
+
 			//Abstract
 			virtual void ClearColorBuffer(const Color &refColor) = 0;
 			virtual void ClearDepthBuffer() = 0;
@@ -117,15 +122,6 @@ namespace StdXX
 			virtual void SetUploadAlignment(uint8 value) = 0;
             virtual void SetViewPort(uint16 width, uint16 height) = 0;
             virtual void SwapBuffers() = 0;
-
-        private:
-            //Members
-            void *systemHandle;
-            void *deviceState;
-
-            //Methods
-            void DestroyOSContext();
-            void UnbindOSContext();
         };
     }
 }

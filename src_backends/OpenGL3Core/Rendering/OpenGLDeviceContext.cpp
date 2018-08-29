@@ -35,6 +35,9 @@ using namespace _stdxx_;
 //Global variables
 uint32 g_currentTextureId = Natural<uint32>::Max();
 
+//Class fields
+thread_local OpenGLState OpenGLDeviceContext::state;
+
 //Local functions
 static inline uint32 MapTestEffect(ETestEffect effect)
 {

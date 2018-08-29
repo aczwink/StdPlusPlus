@@ -19,7 +19,6 @@ set(SOURCE_FILES
 
 		#Rendering
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CDeviceContext.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGL.cpp
 
 		#Streams
 		${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp

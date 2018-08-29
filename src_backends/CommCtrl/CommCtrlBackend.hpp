@@ -17,15 +17,12 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef _STDPLUSPLUS_BACKEND_COMMCTRL
-//Global
-#include <Windows.h>
-#include <CommCtrl.h>
 //Local
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include "Imports.h"
 #include "UI/CommCtrlMenuBackend.hpp"
 #include "UI/CommCtrlMenuBarBackend.hpp"
-#include "UI/Definitions.h"
 
 //Manifest definition. Without it, InitCommonControls will fail and Visual Styles won't work
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")

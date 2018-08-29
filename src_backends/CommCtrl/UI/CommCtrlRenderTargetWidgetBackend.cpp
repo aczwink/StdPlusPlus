@@ -25,7 +25,7 @@ using namespace StdXX::UI;
 
 //Constructor
 CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(UIBackend *uiBackend, RenderTargetWidget *renderTargetWidget)
-	: WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CHILD | WS_VISIBLE), renderTargetWidget(renderTargetWidget)
+	: WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
 {
 }
 

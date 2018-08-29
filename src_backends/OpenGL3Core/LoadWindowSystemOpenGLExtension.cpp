@@ -26,6 +26,9 @@ using namespace StdXX;
 #ifdef _STDPP_WINDOWSYSTEM_COCOA
 #include <mach-o/dyld.h>
 #endif
+#ifdef _STDPP_WINDOWSYSTEM_WINDOWS
+#include <Windows.h>
+#endif
 #ifdef _STDPP_WINDOWSYSTEM_X11
 #include <GL/glx.h>
 #endif
@@ -36,14 +39,23 @@ void *OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension(const char *extensionN
 #ifdef _STDPP_WINDOWSYSTEM_COCOA
 	uint32 len = GetStringLength(extensionName);
 	char *symbolName = static_cast<char *>(malloc(len + 2));
-	MemCopy(symbolName+1, extensionName, len+1);
+	MemCopy(symbolName + 1, extensionName, len + 1);
 	symbolName[0] = u8'_';
 	NSSymbol symbol = nullptr;
-	if(NSIsSymbolNameDefined(symbolName))
+	if (NSIsSymbolNameDefined(symbolName))
 		symbol = NSLookupAndBindSymbol(symbolName);
 	free(symbolName);
-	if(symbol)
+	if (symbol)
 		return NSAddressOfSymbol(symbol);
+#endif
+#ifdef _STDPP_WINDOWSYSTEM_WINDOWS
+	void *p = wglGetProcAddress(extensionName);
+	if (!p)
+	{
+		static HMODULE hOGLModule = LoadLibraryA(u8"opengl32.dll");
+		return GetProcAddress(hOGLModule, extensionName);
+	}
+	return p;
 #endif
 #ifdef _STDPP_WINDOWSYSTEM_X11
 	return (void *)glXGetProcAddressARB((const GLubyte *)extensionName);

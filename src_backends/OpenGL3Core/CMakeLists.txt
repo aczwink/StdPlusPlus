@@ -67,6 +67,11 @@ if(${BACKEND_OPENGL})
 		target_compile_definitions(Std++ PRIVATE _STDPP_WINDOWSYSTEM_X11)
 	endif()
 
+	#Windows
+	if(WIN32)
+		target_compile_definitions(Std++ PRIVATE _STDPP_WINDOWSYSTEM_WINDOWS)
+	endif()
+
 	#set in parent scope
 	set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
 	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)

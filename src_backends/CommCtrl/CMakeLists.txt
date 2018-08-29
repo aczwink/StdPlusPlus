@@ -23,7 +23,6 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Definitions.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp
@@ -32,6 +31,7 @@ if(${BACKEND_COMMCTRL})
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Imports.h
 		)
 
     target_compile_definitions(Std++ PRIVATE _STDPLUSPLUS_BACKEND_COMMCTRL)
@@ -41,6 +41,12 @@ if(${BACKEND_COMMCTRL})
 	if(${BACKEND_OPENGL})
 		set(SOURCE_FILES
 			${SOURCE_FILES}
+
+			#Rendering
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CommCtrlOpenGL3CoreDeviceContext.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CommCtrlOpenGL3CoreDeviceContext.hpp
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/WGL.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/WGL.h
 
 			#.
 			${CMAKE_CURRENT_SOURCE_DIR}/CommCtrlOpenGL3CoreBackend.hpp

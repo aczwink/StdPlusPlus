@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/WidgetBackend.hpp>
-#include "Definitions.h"
+#include "../Imports.h"
 
 namespace _stdxx_
 {
@@ -27,7 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline Win32Window(const WidgetBackend &widgetBackend, LPCWSTR lpClassName, DWORD dwStyle, DWORD dwExStyle = 0)
+		inline Win32Window(const WidgetBackend &widgetBackend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
 			: widgetBackend(widgetBackend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle), hWnd(nullptr)
 		{
 		}
@@ -38,14 +38,8 @@ namespace _stdxx_
 		//Inline
 		inline HWND GetHWND()
 		{
-			this->RequireRealized();
-			return this->hWnd;
-		}
-
-		inline void RequireRealized()
-		{
 			this->Realize();
-			ASSERT(this->hWnd != nullptr, u8"Coudln't realize though required.");
+			return this->hWnd;
 		}
 
 		inline void SetText(const StdXX::String &text)

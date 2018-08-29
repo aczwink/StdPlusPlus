@@ -19,7 +19,7 @@
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include "Win32Window.hpp"
-#include "Definitions.h"
+#include "../Imports.h"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;

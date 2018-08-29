@@ -16,9 +16,12 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
+//Local
+#include "../Imports.h"
 //Definitions
-#define WGL_DRAW_TO_WINDOW_ARB 0x2001
 #define WGL_ACCELERATION_ARB 0x2003
+#define WGL_DRAW_TO_WINDOW_ARB 0x2001
 #define WGL_SWAP_METHOD_ARB 0x2007
 #define WGL_SUPPORT_OPENGL_ARB 0x2010
 #define WGL_DOUBLE_BUFFER_ARB 0x2011
