@@ -57,14 +57,12 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual StdXX::Math::SizeD GetSize() const = 0;
 		virtual StdXX::Math::SizeD GetSizeHint() const = 0;
 		virtual StdXX::UI::Widget &GetWidget() = 0;
 		virtual const StdXX::UI::Widget &GetWidget() const = 0;
-		virtual void Paint() = 0;
 		virtual void Repaint() = 0;
 		virtual void Select(StdXX::UI::ControllerIndex &controllerIndex) const = 0;
-		virtual void SetBounds(const StdXX::Math::RectD &area) = 0;
+		virtual void SetBounds(const StdXX::Math::RectD &bounds) = 0;
 		virtual void SetEditable(bool enable) const = 0;
 		virtual void SetEnabled(bool enable) const = 0;
 		virtual void SetHint(const StdXX::String &text) const = 0;

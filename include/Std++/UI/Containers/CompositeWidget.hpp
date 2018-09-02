@@ -25,7 +25,7 @@ namespace StdXX
 {
     namespace UI
     {
-        //Move declarations
+        //Forward declarations
         class ILayout;
 
         class STDPLUSPLUS_API CompositeWidget : public WidgetContainer
@@ -41,6 +41,8 @@ namespace StdXX
             virtual ~CompositeWidget();
 
             //Methods
+			Widget *GetChild(uint32 index);
+			uint32 GetNumberOfChildren() const;
             void SetLayout(ILayout *pLayout);
 
             //Overrideable

@@ -15,14 +15,22 @@ if(${BACKEND_COMMCTRL})
 		${SOURCE_FILES}
 
 		#UI
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlContainerBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlContainerBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlPushButtonBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlPushButtonBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp

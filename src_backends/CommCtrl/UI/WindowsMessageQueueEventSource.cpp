@@ -29,6 +29,7 @@
 #include "../Imports.h"
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::Math;
 using namespace StdXX::UI;
 using namespace _stdxx_;
 
@@ -67,7 +68,7 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx
 }
 
 //Private methods
-void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend &backend, UINT notificationCode)
+void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend &backend, UINT notificationCode)
 {
 	Widget &widget = backend.GetWidget();
 	switch(notificationCode)
@@ -101,44 +102,39 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWindowBackend 
 	}
 }
 
-bool WindowsMessageQueueEventSource::DispatchMessageEvent(WidgetBackend &backend, UINT message, WPARAM wParam, LPARAM lParam)
+bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
 	
 	Widget &widget = backend.GetWidget();
-	Window &window = (Window &)widget;
-
+	Window *window = dynamic_cast<Window *>(&widget);
+	
 	switch(message)
 	{
-		case WM_SIZE:
-		{
-			this->DispatchResizedEvent(window);
-			l_messageResult = 0;
-		}
-			break;
-		case WM_PAINT:
-		{
-			//very ugly to check this here like this
-			if(dynamic_cast<RenderTargetWidget *>(&widget))
-			{
-				RECT rcUpdate;
+	case WM_SIZE:
+	{
+		//actually any hWnd can receive this event but because we only create windows with this window class, its always a window
+		RECT rcWindow;
+		GetWindowRect(hWnd, &rcWindow);
 
-				//validate the update region (it is important that this is done before calling the event handler because user might want to redraw in paint handler!!!)
-				NOT_IMPLEMENTED_ERROR; //TODO: next line
-				//GetUpdateRect(GET_HWND(&widget), &rcUpdate, false);
-				//ValidateRect(GET_HWND(&widget), &rcUpdate);
-			}
-
-			this->DispatchPaintEvent(widget);
-			l_messageResult = 0;
-		}
-			break;
-		case WM_CLOSE:
-		{
-			this->DispatchCloseEvent(window);
-			l_messageResult = 0;
-		}
-			break;
+		RectD bounds(rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
+		widget.SetBounds(bounds);
+		l_messageResult = 0;
+	}
+	break;
+	case WM_PAINT:
+	{
+		backend.PrePaint();		
+		this->DispatchPaintEvent(widget);
+		l_messageResult = 0;
+	}
+	break;
+	case WM_CLOSE:
+	{
+		this->DispatchCloseEvent(*window);
+		l_messageResult = 0;
+	}
+	break;
 		case WM_NOTIFY:
 		{
 			const NMHDR *const& refpNmHdr = (NMHDR *)lParam;
@@ -212,19 +208,19 @@ void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget
 //Class functions
 LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	WidgetBackend *backend;
+	CommCtrlWidgetBackend *backend;
 	if(message == WM_NCCREATE)
 	{
-		backend = (WidgetBackend *)((LPCREATESTRUCT)lParam)->lpCreateParams;
+		backend = (CommCtrlWidgetBackend *)((LPCREATESTRUCT)lParam)->lpCreateParams;
 
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)backend);
 	}
 	else
 	{
-		backend = (WidgetBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+		backend = (CommCtrlWidgetBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	}
 
-	if(backend && l_winMsgEvtQueue->DispatchMessageEvent(*backend, message, wParam, lParam))
+	if(backend && l_winMsgEvtQueue->DispatchMessageEvent(*backend, hWnd, message, wParam, lParam))
 		return l_messageResult;
 
 	return DefWindowProcW(hWnd, message, wParam, lParam);

@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Containers
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/CompositeWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ContentAreaWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/GroupBox.cpp
 
@@ -44,7 +45,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CompositeWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Window.cpp
 
 	PARENT_SCOPE)

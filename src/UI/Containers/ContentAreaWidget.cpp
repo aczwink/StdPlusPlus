@@ -29,6 +29,17 @@ ContentAreaWidget::~ContentAreaWidget()
 }
 
 //Public methods
+Widget *ContentAreaWidget::GetChild(uint32 index)
+{
+	ASSERT(index == 0, u8"A content area widget has just one child");
+	return this->contentContainer;
+}
+
+uint32 ContentAreaWidget::GetNumberOfChildren() const
+{
+	return 1;
+}
+
 SizeD ContentAreaWidget::GetSizeHint() const
 {
 	return Widget::GetSizeHint() + this->contentContainer->GetSizeHint();

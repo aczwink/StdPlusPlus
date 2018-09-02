@@ -58,9 +58,26 @@ namespace StdXX
 				return *this;
 			}
 
+			inline Point<ScalarType> &operator-=(const Point<ScalarType> &rhs)
+			{
+				this->x -= rhs.x;
+				this->y -= rhs.y;
+				return *this;
+			}
+
 			inline Point<ScalarType> operator-(const Point<ScalarType> &right) const
 			{
 				return Point(this->x - right.x, this->y - right.y);
+			}
+
+			inline bool operator==(const Point<ScalarType> &rhs) const
+			{
+				return (this->x == rhs.x) && (this->y == rhs.y);
+			}
+
+			inline bool operator!=(const Point<ScalarType> &rhs) const
+			{
+				return !(*this == rhs);
 			}
 
 			//Inline methods

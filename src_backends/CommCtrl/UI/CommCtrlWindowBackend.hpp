@@ -18,6 +18,8 @@
  */
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
+#include <Std++/UI/Window.hpp>
+#include "CommCtrlContainerBackend.hpp"
 #include "Win32Window.hpp"
 #include "../Imports.h"
 //Namespaces
@@ -26,24 +28,29 @@ using namespace StdXX::UI;
 
 namespace _stdxx_
 {
-    class CommCtrlWindowBackend : public WindowBackend, public Win32Window
+    class CommCtrlWindowBackend : public WindowBackend, public CommCtrlContainerBackend, public Win32Window
     {
     public:
         //Constructor
-        CommCtrlWindowBackend(UIBackend *uiBackend, Window *window);
+		inline CommCtrlWindowBackend(UIBackend *uiBackend, Window *window)
+			: WindowBackend(uiBackend), WidgetContainerBackend(uiBackend), CommCtrlContainerBackend(uiBackend, window),
+			CommCtrlWidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN),
+			WidgetBackend(uiBackend),
+			window(window), showFirstTime(true), maximizeWindow(false)
+		{
+		}
 
         //Public methods
 		void AddChild(StdXX::UI::Widget * widget) override;
 		StdXX::UI::CompositeWidget * CreateContentArea() override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		uint32 GetPosition() const override;
-        Math::SizeD GetSize() const override;
 		Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
-        void Paint() override;
+		void PrePaint() override;
         void Repaint() override;
 		void ResetView() const override;
         void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
@@ -64,9 +71,5 @@ namespace _stdxx_
 		bool showFirstTime;
 		bool maximizeWindow;
 		//HWND hWndReal; //the Up-Down-Control (i.e. this->hWnd is the buddy) for SpinBoxes
-
-		//Methods
-		String GetText() const;
-		Math::SizeD GetTextExtents() const;
 	};
 }

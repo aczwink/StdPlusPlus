@@ -46,6 +46,8 @@ namespace StdXX
 			virtual Math::SizeD GetSizeHint() const;
 
 			//Methods
+			Widget *GetChild(uint32 index);
+			uint32 GetNumberOfChildren() const;
 			void RemoveChild(Widget *child);
 
 			//Inline
@@ -55,6 +57,11 @@ namespace StdXX
 			}
 
 			inline CompositeWidget *GetContentContainer()
+			{
+				return this->contentContainer;
+			}
+
+			inline const CompositeWidget *GetContentContainer() const
 			{
 				return this->contentContainer;
 			}

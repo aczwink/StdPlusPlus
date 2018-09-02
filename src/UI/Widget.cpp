@@ -95,17 +95,15 @@ void Widget::OnMouseWheelTurned(int16 delta)
 	this->IgnoreEvent();
 }
 
+void Widget::OnMoved()
+{
+}
+
 void Widget::OnPaint()
 {
-    this->backend->Paint();
 }
 
 void Widget::OnResized()
 {
     this->IgnoreEvent();
-}
-
-void Widget::OnResizing(const Math::RectD &newBounds)
-{
-	this->bounds = newBounds;
 }

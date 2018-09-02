@@ -18,7 +18,7 @@
 */
 #pragma once
 //Local
-#include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include "CommCtrlWidgetBackend.hpp"
 #include "../Imports.h"
 
 namespace _stdxx_
@@ -27,7 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline Win32Window(const WidgetBackend &widgetBackend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
+		inline Win32Window(const CommCtrlWidgetBackend &widgetBackend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
 			: widgetBackend(widgetBackend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle), hWnd(nullptr)
 		{
 		}
@@ -35,11 +35,32 @@ namespace _stdxx_
 		//Destructor
 		~Win32Window();
 
+		//Methods
+		StdXX::String GetText() const;
+		StdXX::Math::Size<uint16> GetTextExtents() const;
+		void SetParent(Win32Window *parent);
+
 		//Inline
 		inline HWND GetHWND()
 		{
 			this->Realize();
 			return this->hWnd;
+		}
+
+		inline HWND Get_HWND_ReadOnly() const
+		{
+			ASSERT(this->hWnd, u8"Window handle not realized");
+			return this->hWnd;
+		}
+
+		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
+		{
+			return SendMessageW(this->Get_HWND_ReadOnly(), Msg, wParam, lParam);
+		}
+
+		inline void SetRect(const StdXX::Math::RectD &bounds)
+		{
+			SetWindowPos(this->GetHWND(), HWND_TOP, bounds.x(), bounds.y(), bounds.width(), bounds.height(), SWP_NOZORDER);
 		}
 
 		inline void SetText(const StdXX::String &text)
@@ -49,7 +70,7 @@ namespace _stdxx_
 
 	private:
 		//Members
-		const WidgetBackend &widgetBackend;
+		const CommCtrlWidgetBackend &widgetBackend;
 		HWND hWnd;
 		LPCWSTR lpClassName;
 		DWORD dwStyle;
@@ -64,9 +85,9 @@ namespace _stdxx_
 			return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		}
 
-		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
+		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam)
 		{
-			return SendMessageW(this->hWnd, Msg, wParam, lParam);
+			return SendMessageW(this->GetHWND(), Msg, wParam, lParam);
 		}
 	};
 }

@@ -23,19 +23,7 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
-//Constructor
-CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(UIBackend *uiBackend, RenderTargetWidget *renderTargetWidget)
-	: WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
-{
-}
-
 //Public methods
-StdXX::Math::SizeD _stdxx_::CommCtrlRenderTargetWidgetBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
 StdXX::Math::SizeD _stdxx_::CommCtrlRenderTargetWidgetBackend::GetSizeHint() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -52,9 +40,13 @@ const StdXX::UI::Widget & _stdxx_::CommCtrlRenderTargetWidgetBackend::GetWidget(
 	return *this->renderTargetWidget;
 }
 
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::Paint()
+void CommCtrlRenderTargetWidgetBackend::PrePaint()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	RECT rcUpdate;
+	
+	//validate the update region (it is important that this is done before calling the event handler because user might want to redraw in paint handler!!!)
+	GetUpdateRect(this->GetHWND(), &rcUpdate, FALSE);
+	ValidateRect(this->GetHWND(), &rcUpdate);
 }
 
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::Repaint()

@@ -19,10 +19,12 @@
 //Class header
 #include "CommCtrlBackend.hpp"
 //Local
+#include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/WindowsMessageQueueEventSource.hpp"
 #include "CommCtrlOpenGL3CoreBackend.hpp"
+#include "UI/CommCtrlGroupBoxBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 
@@ -49,8 +51,7 @@ EventSource *CommCtrlBackend::CreateEventSource()
 
 _stdxx_::GroupBoxBackend * StdXX::CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlGroupBoxBackend(this, groupBox);
 }
 
 _stdxx_::LabelBackend * StdXX::CommCtrlBackend::CreateLabelBackend(UI::Label * label)
@@ -64,10 +65,9 @@ MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 	return new CommCtrlMenuBarBackend(menuBar);
 }
 
-_stdxx_::PushButtonBackend * StdXX::CommCtrlBackend::CreatePushButtonBackend(UI::PushButton * pushButton)
+PushButtonBackend *CommCtrlBackend::CreatePushButtonBackend(UI::PushButton * pushButton)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlPushButtonBackend(this, pushButton);
 }
 
 WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget)

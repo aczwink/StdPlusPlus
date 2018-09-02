@@ -104,15 +104,50 @@ namespace StdXX
 				return this->bounds.size;
 			}
 
+			inline void Move(const Math::PointD &newOrigin)
+			{
+				if (this->bounds.origin != newOrigin)
+				{
+					this->bounds.origin = newOrigin;
+					this->backend->SetBounds(this->bounds);
+					this->OnMoved();
+				}
+			}
+
 			inline void Repaint()
 			{
 				this->backend->Repaint();
 			}
 
+			inline void Resize(const Math::SizeD &newSize)
+			{
+				if (this->bounds.size != newSize)
+				{
+					this->bounds.size = newSize;
+					this->backend->SetBounds(this->bounds);
+					this->OnResized();
+				}
+			}
+
 			inline void SetBounds(const Math::RectD &newBounds)
 			{
-				if(this->backend)
-					this->backend->SetBounds(newBounds);
+				bool updatedPos = false, updatedSize = false;
+				if (this->bounds.origin != newBounds.origin)
+				{
+					this->bounds.origin = newBounds.origin;
+					updatedPos = true;
+				}
+				if (this->bounds.size != newBounds.size)
+				{
+					this->bounds.size = newBounds.size;
+					updatedSize = true;
+				}
+				if(updatedPos || updatedSize)
+					this->backend->SetBounds(this->bounds);
+				if (updatedPos)
+					this->OnMoved();
+				if (updatedSize)
+					this->OnResized();
 			}
 
 			inline void SetEnabled(bool enable = true)
@@ -159,9 +194,9 @@ namespace StdXX
 			virtual void OnMouseButtonReleased(const Events::MouseClickEvent &event);
 			virtual void OnMouseMoved(const Math::PointD &pos);
 			virtual void OnMouseWheelTurned(int16 delta);
+			virtual void OnMoved();
 			virtual void OnPaint();
 			virtual void OnResized();
-			virtual void OnResizing(const Math::RectD &newBounds);
         };
     }
 }

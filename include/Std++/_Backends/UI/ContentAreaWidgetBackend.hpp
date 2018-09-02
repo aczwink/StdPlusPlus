@@ -32,7 +32,7 @@ namespace StdXX
 
 namespace _stdxx_
 {
-	class ContentAreaWidgetBackend : public WidgetContainerBackend
+	class ContentAreaWidgetBackend : virtual public WidgetContainerBackend
 	{
 	public:
 		//Constructor

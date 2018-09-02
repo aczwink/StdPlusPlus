@@ -75,16 +75,6 @@ namespace StdXX
 				widget.OnPaint();
 			}
 
-			inline void DispatchResizingEvent(Widget &widget, const Math::RectD &newBounds)
-			{
-				widget.OnResizing(newBounds);
-			}
-
-			inline void DispatchResizedEvent(Widget &widget)
-			{
-				widget.OnResized();
-			}
-
 			inline void DispatchSelectionChangedEvent(View &view)
 			{
 				view.OnSelectionChanged();

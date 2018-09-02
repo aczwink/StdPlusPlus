@@ -29,6 +29,8 @@ namespace StdXX
 		{
 		public:
 			//Abstract
+			virtual Widget *GetChild(uint32 index) = 0;
+			virtual uint32 GetNumberOfChildren() const = 0;
 			virtual void RemoveChild(Widget *child) = 0;
 
 		protected:

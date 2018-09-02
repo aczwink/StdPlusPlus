@@ -47,8 +47,7 @@ CompositeWidget::~CompositeWidget()
 //Eventhandlers
 void CompositeWidget::OnPaint()
 {
-    this->backend->Paint();
-    if(!this->backend)
+	if(!this->backend)
 	{
 		for(Widget *const& refpChild : this->children)
 			refpChild->Repaint();
@@ -69,6 +68,16 @@ void CompositeWidget::SetLayout(ILayout *pLayout)
 }
 
 //Public methods
+Widget *CompositeWidget::GetChild(uint32 index)
+{
+	return this->children[index];
+}
+
+uint32 CompositeWidget::GetNumberOfChildren() const
+{
+	return this->children.GetNumberOfElements();
+}
+
 Math::SizeD CompositeWidget::GetSizeHint() const
 {
 	Math::SizeD size;

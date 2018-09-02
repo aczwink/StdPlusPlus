@@ -68,6 +68,16 @@ namespace StdXX
 				return Size(this->width / i, this->height / i);
 			}
 
+			inline bool operator==(const Size<ScalarType> &rhs) const
+			{
+				return (this->width == rhs.width) && (this->height == rhs.height);
+			}
+
+			inline bool operator!=(const Size<ScalarType> &rhs) const
+			{
+				return !(*this == rhs);
+			}
+
 			//Inline
 			inline void Add(ScalarType dx, ScalarType dy)
 			{

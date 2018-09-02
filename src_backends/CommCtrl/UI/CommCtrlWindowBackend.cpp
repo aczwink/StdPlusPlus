@@ -22,29 +22,22 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
-#include <Std++/UI/Window.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"
+#include "CommCtrlContainerBackend.hpp"
 #include "../Imports.h"
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX::Math;
 
 /*
 WinAPI Documentation:
 	CheckBox: https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
-	GroupBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 	Label: https://msdn.microsoft.com/en-us/library/windows/desktop/bb760769(v=vs.85).aspx
 	ListView: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775146(v=vs.85).aspx
-	PushButon: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
 	SpinBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb759880(v=vs.85).aspx
 	TextEdit: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775458(v=vs.85).aspx
-*/
 
-//Constructor
-CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend),
-	Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN), WidgetBackend(uiBackend), window(window), showFirstTime(true), maximizeWindow(false)
-{
-	/*
 	this->hWndReal = nullptr;
 
     switch(type)
@@ -52,11 +45,6 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Window *windo
 	case WindowBackendType::CheckBox:
 	{
 		this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-	}
-	break;
-	case WindowBackendType::GroupBox:
-	{
-		this->hWnd = CreateWindowExW(WS_EX_TRANSPARENT, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_GROUPBOX, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
 	case WindowBackendType::Label:
@@ -69,11 +57,6 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Window *windo
 		this->hWnd = CreateWindowExW(0, WC_LISTBOXW, nullptr, WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
-		case WindowBackendType::PushButton:
-		{
-			this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-		}
-		break;
 		case WindowBackendType::SpinBox:
 		{
 			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | ES_NUMBER | ES_RIGHT, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
@@ -86,19 +69,32 @@ CommCtrlWindowBackend::CommCtrlWindowBackend(UIBackend *uiBackend, Window *windo
 			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 		}
 		break;
-        default:
-            NOT_IMPLEMENTED_ERROR; //TODO: implement me
     }*/
-}
 
 //Public methods
 void CommCtrlWindowBackend::AddChild(Widget *widget)
 {
+	CommCtrlWidgetBackend *commCtrlWidgetBackend = dynamic_cast<CommCtrlWidgetBackend *>(widget->_GetBackend());
+	commCtrlWidgetBackend->Reparent(this);
 }
 
 CompositeWidget *CommCtrlWindowBackend::CreateContentArea()
 {
-	return new CompositeWidget;
+	return new CommCtrlContainer;
+}
+
+RectD CommCtrlWindowBackend::GetContentAreaBounds() const
+{
+	RECT rcWindow;
+	GetWindowRect(this->Get_HWND_ReadOnly(), &rcWindow);
+
+	RECT rcClient;
+	GetClientRect(this->Get_HWND_ReadOnly(), &rcClient);
+
+	POINT origin{ 0, rcClient.bottom };
+	ClientToScreen(this->Get_HWND_ReadOnly(), &origin);
+
+	return RectD(origin.x - rcWindow.left, rcWindow.bottom - origin.y, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
 }
 
 /*
@@ -107,16 +103,6 @@ Rect CommCtrlWindowBackend::GetChildrenRect() const
 	RECT rc;
 	GetClientRect(this->hWnd, &rc);
 	Rect result = {rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top};
-
-	switch (this->type)
-	{
-		case WindowBackendType::GroupBox:
-		{
-			result.Enlarge(-5, -8);
-			result.y() += 4; //TODO... of course dependant to font
-		}
-		break;
-	}
 
 	return result;
 }*/
@@ -131,12 +117,6 @@ uint32 CommCtrlWindowBackend::GetPosition() const
 {
 	SendMessageW(this->hWndReal, UDM_GETRANGE32, (WPARAM)&min, (LPARAM)&max);
 }*/
-
-Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Math::SizeD();
-}
 
 Math::SizeD _stdxx_::CommCtrlWindowBackend::GetSizeHint() const
 {
@@ -180,18 +160,6 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 	case WindowBackendType::ListView:
 		return Size(); //no idea...
 		break;
-		case WindowBackendType::PushButton:
-		{			
-			//TODO: calc min width
-			//TODO: this seems to be working... dont known how it is with different fonts
-
-			SIZE size{};
-			this->SendMessage(BCM_GETIDEALSIZE, 0, (LPARAM)&size);
-			if (size.cy < 25)
-				size.cy = 25; //aesthetics
-			return Size((uint16)size.cx, (uint16)size.cy);
-		}
-		break;
 		case WindowBackendType::RadioButton:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			break;
@@ -215,7 +183,6 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 		case WindowBackendType::TreeView:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			break;
-		case WindowBackendType::GroupBox: //at least text
 		case WindowBackendType::Label:
 		case WindowBackendType::TextEdit:
 		case WindowBackendType::Window: //at least the title should be displayed
@@ -254,14 +221,12 @@ void CommCtrlWindowBackend::Maximize()
 	this->maximizeWindow = true;
 }
 
-void CommCtrlWindowBackend::Paint()
+void CommCtrlWindowBackend::PrePaint()
 {
-	HBRUSH hBrush;
 	PAINTSTRUCT ps;
-
 	BeginPaint(this->GetHWND(), &ps);
-	hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
 
+	HBRUSH hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
 	FillRect(ps.hdc, &ps.rcPaint, hBrush);
 
 	EndPaint(this->GetHWND(), &ps);
@@ -318,20 +283,13 @@ Path CommCtrlWindowBackend::SelectExistingDirectory(const StdXX::String &title, 
     return Path();
 }
 
-void _stdxx_::CommCtrlWindowBackend::SetBounds(const StdXX::Math::RectD & area)
+void CommCtrlWindowBackend::SetBounds(const RectD &bounds)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	this->SetRect(bounds);
 }
 
 /*void CommCtrlWindowBackend::SetBounds(const Rect &area)
 {
-	Point translated;
-	if(this->type == WindowBackendType::Window)
-		translated = area.origin;
-	else
-		//we got called just after this->bounds = area happened
-		translated = this->widget->TranslateToOwnerCoords(Point()); //area.origin is relative to the parent!
-
 	switch (this->type)
 	{
 	case WindowBackendType::SpinBox:
@@ -344,8 +302,6 @@ void _stdxx_::CommCtrlWindowBackend::SetBounds(const StdXX::Math::RectD & area)
 		SetWindowPos(this->hWndReal, HWND_TOP, translated.x + w1, translated.y, w2, area.height(), SWP_NOZORDER);
 	}
 		break;
-	default:
-		SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, area.width(), area.height(), SWP_NOZORDER);
 	}
 }*/
 
@@ -450,48 +406,4 @@ void CommCtrlWindowBackend::Show(bool visible)
 
 		SetWindowPos(this->hWnd, HWND_TOPMOST, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOZORDER);
 	}
-
-    ShowWindow(this->hWnd, visible ? SW_SHOW : SW_HIDE);
-}*/
-
-//Private methods
-String CommCtrlWindowBackend::GetText() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me next lines
-	return String();
-	/*
-	const uint16 nCodeUnits = 2048;
-	uint16 buffer[nCodeUnits]; //should be sufficient for most cases
-	uint32 length = SendMessageW(this->hWnd, WM_GETTEXTLENGTH, 0, 0);
-	if (length > nCodeUnits)
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-
-	uint32 nCopied = SendMessageW(this->hWnd, WM_GETTEXT, sizeof(buffer) / sizeof(buffer[0]), (LPARAM)buffer);
-	buffer[nCopied] = 0;
-
-	return String::CopyRawString(buffer);
-	*/
-}
-
-StdXX::Math::RectD _stdxx_::CommCtrlWindowBackend::GetContentAreaBounds() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::RectD();
-}
-/*
-Size CommCtrlWindowBackend::GetTextExtents() const
-{
-	HDC hDC = GetDC(this->hWnd);
-	HGDIOBJ oldFont = SelectObject(hDC, this->GetFont());
-
-	String str = this->GetText();
-	SIZE size;
-	GetTextExtentPoint32W(hDC, (LPCWSTR)str.GetRawData(), str.GetLength(), &size);
-
-	SelectObject(hDC, oldFont);
-	ReleaseDC(this->hWnd, hDC);
-
-	return Size(size.cx, size.cy);
 }*/
