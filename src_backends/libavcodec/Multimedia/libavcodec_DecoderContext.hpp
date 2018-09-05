@@ -22,6 +22,7 @@ extern "C"
 #include <libavcodec/avcodec.h>
 }
 //Local
+#include <Std++/Multimedia/AudioSampleFormat.hpp>
 #include <Std++/Multimedia/DecoderContext.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
@@ -45,7 +46,6 @@ namespace _stdxx_
 		//Members
 		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
 		AVCodecContext *codecContext;
-		StdXX::Multimedia::Stream &stream;
 		AVPacket *packet;
 		AVFrame *frame;
 
@@ -53,6 +53,7 @@ namespace _stdxx_
 		void MapAudioFrame();
 		StdXX::Multimedia::ChannelLayout MapChannels(int channels);
 		void MapPacket(const StdXX::Multimedia::Packet &packet);
+		StdXX::Multimedia::AudioSampleType MapSampleFormat(AVSampleFormat sampleFormat) const;
 		void MapVideoFrame();
 	};
 }

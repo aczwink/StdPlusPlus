@@ -48,7 +48,6 @@ namespace _stdxx_
 
 	private:
 		//Members
-		const StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap;
 		AVCodecContext *codecContext;
 		AVFrame *frame;
 		AVPacket *packet;
@@ -56,6 +55,7 @@ namespace _stdxx_
 
 		//Methods
 		void Encode(AVFrame *frame);
+		bool FindSampleFormat(AVSampleFormat sampleFormat, const AVCodec *codec) const;
 		void MapAudioFrame(const StdXX::Multimedia::AudioFrame &audioFrame) const;
 		void MapPacket();
 		void MapVideoFrame(const StdXX::Multimedia::VideoFrame &frame) const;

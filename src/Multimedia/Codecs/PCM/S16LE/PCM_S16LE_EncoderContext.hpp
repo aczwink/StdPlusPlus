@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/EncoderContext.hpp>
+//Local
+#include <Std++/Multimedia/AudioEncoderContext.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class PCM_S16LE_Encoder : public EncoderContext
+class PCM_S16LE_EncoderContext : public AudioEncoderContext
 {
 public:
 	//Methods
-	void Encode(const Frame &frame);
 	void Flush() override;
 };

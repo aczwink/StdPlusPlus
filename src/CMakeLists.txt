@@ -34,7 +34,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.cpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp

@@ -15,6 +15,7 @@ set(SOURCE_FILES
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BufferOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.hpp

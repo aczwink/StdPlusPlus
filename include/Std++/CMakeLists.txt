@@ -35,7 +35,6 @@ set(SOURCE_FILES
 
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCrImage.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AbstractAudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp

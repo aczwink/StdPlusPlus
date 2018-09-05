@@ -25,13 +25,19 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        //Move declarations
+        //Forward declarations
 		class Frame;
 		class Packet;
+		class Stream;
 
         class EncoderContext
         {
         public:
+			//Constructor
+			inline EncoderContext(Stream &stream) : stream(stream)
+			{
+			}
+
             //Destructor
             virtual ~EncoderContext(){}
 
@@ -43,6 +49,11 @@ namespace StdXX
 			inline Packet *GetNextPacket()
 			{
 				return this->orderedPackets.PopFront();
+			}
+
+			inline const Stream &GetStream() const
+			{
+				return this->stream;
 			}
 
 			inline bool IsPacketReady() const
@@ -59,6 +70,7 @@ namespace StdXX
 
 		private:
         	//Members
+			Stream &stream;
 			LinkedList<Packet *> orderedPackets;
         };
     }

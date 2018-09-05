@@ -4,9 +4,12 @@ set(SOURCE_FILES
 	#Pixmaps/RGB
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AudioEncoderContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/AudioSampleFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatId.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Encoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EncoderContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Decoder.hpp

@@ -382,6 +382,9 @@ void *StdXX::MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber)
 
 void StdXX::MemFreeDebug(void *userData)
 {
+	if (userData == nullptr)
+		return;
+
 	g_memMutex.Lock();
 
 	DebugMemBlockHeader *memBlockHeader = GetHeaderFromUserData(userData);

@@ -386,7 +386,7 @@ void MatroskaMuxer::WriteHeader()
 
 				this->BeginElement(MATROSKA_ID_AUDIO);
 
-				this->WriteUIntElement(MATROSKA_ID_CHANNELS, refpAudioStream->nChannels);
+				this->WriteUIntElement(MATROSKA_ID_CHANNELS, refpAudioStream->sampleFormat->nChannels);
 				this->WriteFloatElement(MATROSKA_ID_SAMPLINGFREQUENCY, refpAudioStream->sampleRate);
 
 				this->WriteAdditionalAudioStreamInfo(*refpAudioStream);

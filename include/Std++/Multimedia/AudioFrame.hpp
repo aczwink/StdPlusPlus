@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Frame.hpp"
-#include "AbstractAudioBuffer.hpp"
+#include "AudioBuffer.hpp"
 
 namespace StdXX
 {
@@ -27,13 +27,9 @@ namespace StdXX
     {
         class STDPLUSPLUS_API AudioFrame : public Frame
         {
-        private:
-            //Members
-            AbstractAudioBuffer *audioBuffer;
-
         public:
             //Constructor
-            AudioFrame(AbstractAudioBuffer *pAudioBuffer);
+            AudioFrame(AudioBuffer *pAudioBuffer);
 
             //Destructor
             ~AudioFrame();
@@ -42,10 +38,14 @@ namespace StdXX
             DataType GetType() const;
 
             //Inline
-            inline const AbstractAudioBuffer *GetAudioBuffer() const
+            inline const AudioBuffer *GetAudioBuffer() const
             {
                 return this->audioBuffer;
             }
+
+		private:
+			//Members
+			AudioBuffer *audioBuffer;
         };
     }
 }

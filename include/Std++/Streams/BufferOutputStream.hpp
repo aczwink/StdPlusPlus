@@ -22,23 +22,22 @@
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API CBufferOutputStream : public ASeekableOutputStream
+    class STDPLUSPLUS_API BufferOutputStream : public ASeekableOutputStream
     {
-    private:
-        //Variables
-        byte *pStart;
-        byte *pCurrent;
-        byte *pEnd;
-        bool hitEnd; //ISN'T SET CORRECTLY
-
     public:
         //Constructor
-        CBufferOutputStream(void *pBuffer, uint32 size);
+        BufferOutputStream(void *pBuffer, uint32 size);
 
         //Methods
-        uint64 GetCurrentOffset() const;
-        void SetCurrentOffset(uint64 offset);
-        void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 size);
+        uint64 GetCurrentOffset() const override;
+        void SetCurrentOffset(uint64 offset) override;
+        uint32 WriteBytes(const void *pSource, uint32 size) override;
+
+	private:
+		//Variables
+		byte *pStart;
+		byte *pCurrent;
+		byte *pEnd;
+		bool hitEnd; //ISN'T SET CORRECTLY
     };
 }

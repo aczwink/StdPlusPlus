@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Multimedia/AbstractAudioBuffer.hpp>
-//Local
-#include <Std++/Debug.hpp>
+ //Local
+#include <Std++/Multimedia/CodingFormat.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Public methods
-uint8 AbstractAudioBuffer::GetNumberOfChannels() const
+class RawVideo_CodingFormat : public CodingFormat
 {
-	switch(this->GetChannelLayout())
+public:
+	//Methods
+	CodingFormatId GetId() const override
 	{
-		case ChannelLayout::Mono:
-			return 1;
-		case ChannelLayout::Stereo:
-			return 2;
+		return CodingFormatId::RawVideo;
 	}
 
-	NOT_IMPLEMENTED_ERROR;
-	return -1;
-}
+	String GetName() const override
+	{
+		return u8"Unencoded (raw) video";
+	}
+};

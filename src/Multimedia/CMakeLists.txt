@@ -5,7 +5,9 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AudioSampleFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatIdMap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Decoder.cpp

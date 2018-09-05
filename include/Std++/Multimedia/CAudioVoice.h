@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "AbstractAudioBuffer.hpp"
 #include "../Function.hpp"
 
 namespace StdXX

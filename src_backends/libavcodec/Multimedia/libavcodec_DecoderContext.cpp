@@ -32,7 +32,8 @@ using namespace StdXX::Multimedia;
 
 //Constructor
 libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec, const BijectiveMap<NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap)
-	: DecoderContext(decoder), libavPixelFormatMap(libavPixelFormatMap), stream(stream)
+	: DecoderContext(decoder, stream),
+	libavPixelFormatMap(libavPixelFormatMap)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
@@ -83,6 +84,25 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 		ASSERT(ret == 0, u8"TODO: implement error handling");
 		/*else if (ret < 0)
 			return; //an error occured. skip packet*/
+			
+		//update stream if possible
+		if ((this->stream.bitRate == 0) && (this->codecContext->bit_rate != 0))
+			this->stream.bitRate = this->codecContext->bit_rate;
+
+		switch (this->codecContext->codec_type)
+		{
+		case AVMEDIA_TYPE_AUDIO:
+		{
+			AudioStream &audioStream = (AudioStream &)this->stream;
+			if ((audioStream.sampleRate == 0) && (this->codecContext->sample_rate != 0))
+				audioStream.sampleRate = this->codecContext->sample_rate;
+			if ((audioStream.sampleFormat.IsNull()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
+			{
+				audioStream.sampleFormat = new AudioSampleFormat(this->codecContext->channels, this->MapSampleFormat(this->codecContext->sample_fmt), av_sample_fmt_is_planar(this->codecContext->sample_fmt) == 1);
+			}
+		}
+		break;
+		}
 					
 		//ready frame
 		switch (this->codecContext->codec_type)
@@ -97,43 +117,19 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 	}
-
-	//update stream if possible
-	if ((this->stream.bitRate == 0) && (this->codecContext->bit_rate != 0))
-		this->stream.bitRate = this->codecContext->bit_rate;
-	
-	switch (this->codecContext->codec_type)
-	{
-	case AVMEDIA_TYPE_AUDIO:
-	{
-		AudioStream &audioStream = (AudioStream &)this->stream;
-		if ((audioStream.sampleRate == 0) && (this->codecContext->sample_rate != 0))
-			audioStream.sampleRate = this->codecContext->sample_rate;
-		if ((audioStream.nChannels == 0) && (this->codecContext->channels != 0))
-			audioStream.nChannels = this->codecContext->channels;
-	}
-	break;
-	}
 }
 
 //Private methods
 void libavcodec_DecoderContext::MapAudioFrame()
 {
-	AudioFrame *audioFrame;
-	switch (this->frame->format)
+	AudioStream &audioStream = (AudioStream &)this->stream;
+	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *audioStream.sampleFormat);
+	for (uint8 i = 0; i < audioStream.sampleFormat->nPlanes; i++)
 	{
-	case AV_SAMPLE_FMT_FLTP:
-	{
-		AudioBuffer<float32> *buffer = new AudioBuffer<float32>(this->MapChannels(this->frame->channels), (uint32)this->frame->nb_samples);
-		for (uint32 i = 0; i < this->frame->channels; i++)
-			MemCopy(buffer->GetChannel((Channel)i), this->frame->data[i], this->frame->nb_samples * sizeof(float32));
-		audioFrame = new AudioFrame(buffer);
-	}
-	break;
-	default:
-		NOT_IMPLEMENTED_ERROR;
+		MemCopy(audioBuffer->GetPlane(i), this->frame->data[i], Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}
 
+	AudioFrame *audioFrame = new AudioFrame(audioBuffer);
 	audioFrame->pts = this->frame->pts;
 
 	this->AddFrame(audioFrame);
@@ -156,6 +152,18 @@ void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packe
 {
 	this->packet->data = (uint8_t *)packet.GetData();
 	this->packet->size = packet.GetSize();
+}
+
+AudioSampleType libavcodec_DecoderContext::MapSampleFormat(AVSampleFormat sampleFormat) const
+{
+	switch (sampleFormat)
+	{
+	case AV_SAMPLE_FMT_FLTP:
+		return AudioSampleType::Float;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+	return AudioSampleType::S16;
 }
 
 void libavcodec_DecoderContext::MapVideoFrame()

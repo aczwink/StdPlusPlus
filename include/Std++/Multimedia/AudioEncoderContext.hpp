@@ -16,42 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Codec.hpp>
-//Local
-#include "BGR24_Encoder.hpp"
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::Multimedia;
+#pragma once
+ //Local
+#include "EncoderContext.hpp"
 
-class BGR24_Codec : public Codec
+namespace StdXX
 {
-public:
-	//Methods
-	Decoder *CreateDecoder(Stream &refStream) const
+	namespace Multimedia
 	{
-		NOT_IMPLEMENTED_ERROR;
-		//#include "CBGR24Decoder.h"
-		//return new CBGR24Decoder(refStream);
-		return nullptr;
+		class AudioEncoderContext : public EncoderContext
+		{
+		};
 	}
-
-	EncoderContext *CreateEncoder(Stream &stream) const
-	{
-		return new BGR24_Encoder;
-	}
-
-	AParser *CreateParser() const
-	{
-		return nullptr;
-	}
-
-	CodecId GetId() const
-	{
-		return CodecId::BGR24;
-	}
-
-	String GetName() const
-	{
-		return u8"24-bit B8G8R8 Interleaved (BGR24)";
-	}
-};
+}

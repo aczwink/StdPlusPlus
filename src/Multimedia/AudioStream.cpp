@@ -25,7 +25,7 @@ using namespace StdXX::Multimedia;
 bool AudioStream::AllDecoderInfoIsAvailable()
 {
 	//we have a decoder, but check if we have all important parameters
-	if(this->nChannels == 0 || this->sampleRate == 0)
+	if(this->sampleFormat.IsNull() || this->sampleRate == 0)
 		return false;
 
 	return true;

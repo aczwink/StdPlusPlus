@@ -18,56 +18,62 @@
  */
 #pragma once
 //Local
-#include "AbstractAudioBuffer.hpp"
+#include "AudioSampleFormat.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-		/**
-		 * A planar audio buffer.
-		 */
-        template<typename SampleType>
-        class STDPLUSPLUS_API AudioBuffer : public AbstractAudioBuffer
-        {
-        private:
-            //Members
-            SampleType *pChannels[2];
-
-            //Methods
-            void AllocateMemory();
-            template<typename InputSampleType>
-            void Resample(const AudioBuffer<InputSampleType> &refBuffer);
-
-        public:
-            //Constructors
-            inline AudioBuffer(ChannelLayout channelLayout, uint32 nSamplesPerChannel) : AbstractAudioBuffer(channelLayout, nSamplesPerChannel)
+		class STDPLUSPLUS_API AudioBuffer
+		{
+		public:
+			//Constructors
+            inline AudioBuffer(uint32 nSamplesPerChannel, const AudioSampleFormat &sampleFormat) : nSamplesPerChannel(nSamplesPerChannel)
             {
-                this->AllocateMemory();
+                this->AllocateMemory(sampleFormat);
             }
-            AudioBuffer(const AbstractAudioBuffer &refBuffer);
 
             //Destructor
             ~AudioBuffer();
 
-            //Methods
-			AudioSampleFormat GetSampleType() const;
+			//Methods
+			AudioBuffer *Resample(const AudioSampleFormat &fromFormat, const AudioSampleFormat &toFormat) const;
 
-            //Inline
-            inline SampleType *GetChannel(Channel channel)
-            {
-                return this->pChannels[(uint32)channel];
-            }
+			//Inline
+			inline uint32 GetNumberOfSamplesPerChannel() const
+			{
+				return this->nSamplesPerChannel;
+			}
 
-            inline const SampleType *GetChannel(Channel channel) const
-            {
-                return this->pChannels[(uint32)channel];
-            }
+			inline void *GetPlane(uint8 i)
+			{
+				return this->planes[i];
+			}
 
-            inline uint16 GetSampleSize() const
-            {
-                return sizeof(SampleType);
-            }
+			inline const void *GetPlane(uint8 planeIndex) const
+			{
+				return this->planes[planeIndex];
+			}
+
+			inline uint8 GetPlaneBlockSize(uint8 planeIndex) const
+			{
+				return this->planeBlockSizes[planeIndex];
+			}
+
+			inline uint32 GetPlaneSize(uint8 planeIndex) const
+			{
+				return this->planeSizes[planeIndex];
+			}
+
+		private:
+			//Members
+			uint32 nSamplesPerChannel;
+			void *planes[AudioSampleFormat::MAX_PLANES];
+			uint32 planeSizes[AudioSampleFormat::MAX_PLANES];
+			uint8 planeBlockSizes[AudioSampleFormat::MAX_PLANES];
+
+			//Methods
+			void AllocateMemory(const AudioSampleFormat &sampleFormat);
         };
     }
 }

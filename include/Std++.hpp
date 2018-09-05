@@ -82,7 +82,7 @@
 #include <Std++/Streams/OutputStream.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
 #include <Std++/Streams/BufferInputStream.hpp>
-#include <Std++/Streams/CBufferOutputStream.h>
+#include <Std++/Streams/BufferOutputStream.hpp>
 #include <Std++/Streams/CConcatenatedInputStream.h>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>

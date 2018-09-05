@@ -18,6 +18,8 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include "AudioSampleFormat.hpp"
 #include "Stream.hpp"
 #include "EnumTypes.hpp"
 
@@ -29,34 +31,17 @@ namespace StdXX
         {
         public:
             //Members
-            uint8 nChannels;
             uint32 sampleRate;
-			AudioSampleFormat sampleFormat;
-
-            //Constructor
+			UniquePointer<AudioSampleFormat> sampleFormat;
+			
+			//Constructor
             inline AudioStream()
             {
-                this->nChannels = 0;
                 this->sampleRate = 0;
-				this->sampleFormat = AudioSampleFormat::Unknown;
             }
 
             //Methods
             DataType GetType() const;
-
-            //Inline
-            inline ChannelLayout GetChannelLayout() const
-            {
-                switch(this->nChannels)
-                {
-                    case 1:
-                        return ChannelLayout::Mono;
-                    case 2:
-                        return ChannelLayout::Stereo;
-                }
-
-                NOT_IMPLEMENTED_ERROR;
-            }
 
 		private:
 			//Methods

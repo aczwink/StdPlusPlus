@@ -31,7 +31,7 @@ using namespace StdXX::Multimedia;
 
 //Constructor
 libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *codec, const BijectiveMap<NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap)
-		: libavPixelFormatMap(libavPixelFormatMap)
+	: EncoderContext(stream)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
@@ -43,19 +43,24 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 	{
 		case DataType::Audio:
 		{
-			//TODO: always check if the palanar one is supported, if not save that because we need this in MapAudioFrame
 			const AudioStream &audioStream = (const AudioStream &)stream;
-			switch (audioStream.sampleFormat)
+
+			ASSERT(!audioStream.sampleFormat.IsNull(), u8"You must give a sample format.");
+			switch (audioStream.sampleFormat->sampleType)
 			{
-			case AudioSampleFormat::Float32:
-				this->codecContext->sample_fmt = AV_SAMPLE_FMT_FLTP;
-				break;
-			case AudioSampleFormat::S16:
-				this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
-				break;
-			case AudioSampleFormat::Unknown:
-				NOT_IMPLEMENTED_ERROR; //TODO: throw exception
+			case AudioSampleType::S16:
+			{
+				if (audioStream.sampleFormat->IsPlanar())
+					this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16P;
+				else
+					this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
 			}
+			break;
+			default:
+				NOT_IMPLEMENTED_ERROR;
+			}
+			
+			//AV_SAMPLE_FMT_FLTP
 		}
 		break;
 		case DataType::Video:
@@ -65,7 +70,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 			ASSERT(!videoStream.pixelFormat.IsNull(), u8"You must give a pixel format.");
 			ASSERT(videoStream.pixelFormat->GetNameIfExisting(this->namedPixelFormat), u8"TODO: ...");
 
-			this->codecContext->pix_fmt = this->libavPixelFormatMap.Get(this->namedPixelFormat);
+			this->codecContext->pix_fmt = libavPixelFormatMap.Get(this->namedPixelFormat);
 			this->codecContext->width = videoStream.size.width;
 			this->codecContext->height = videoStream.size.height;
 		}
@@ -92,6 +97,8 @@ void libavcodec_EncoderContext::Encode(const Frame &frame)
 	switch (frame.GetType())
 	{
 	case DataType::Audio:
+		this->MapAudioFrame((const AudioFrame &)frame);
+		break;
 	case DataType::Subtitle:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	case DataType::Video:
@@ -125,23 +132,42 @@ void libavcodec_EncoderContext::Encode(AVFrame *frame)
 	}
 }
 
+bool libavcodec_EncoderContext::FindSampleFormat(AVSampleFormat sampleFormat, const AVCodec *codec) const
+{
+	ASSERT(codec->sample_fmts, u8"Report this please!");
+	const AVSampleFormat *current = codec->sample_fmts;
+
+	while ((*current != -1))
+	{
+		if (*current == sampleFormat)
+			return true;
+		current++;
+	}
+	return false;
+}
+
 void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) const
 {
+	AudioStream &audioStream = (AudioStream &)this->GetStream();
+	const AudioBuffer *audioBuffer = audioFrame.GetAudioBuffer();
+
 	av_frame_unref(this->frame);
 
 	this->frame->format = this->codecContext->sample_fmt;
 	this->frame->pts = audioFrame.pts;
-	this->frame->nb_samples = audioFrame.GetAudioBuffer()->GetNumberOfSamplesPerChannel();
+	this->frame->nb_samples = audioBuffer->GetNumberOfSamplesPerChannel();
+	this->frame->channels = audioStream.sampleFormat->nChannels;
 
 	int ret = av_frame_get_buffer(this->frame, 0);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
 
 	ret = av_frame_make_writable(this->frame);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
-
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	//TODO: check constructor
-	//based on planar or not we have top fill the frame buffer
+	
+	for (uint8 i = 0; i < audioStream.sampleFormat->nPlanes; i++)
+	{
+		MemCopy(this->frame->data[i], audioBuffer->GetPlane(i), Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
+	}
 }
 
 void libavcodec_EncoderContext::MapPacket()
@@ -167,7 +193,7 @@ void libavcodec_EncoderContext::MapVideoFrame(const VideoFrame &videoFrame) cons
 
 	av_frame_unref(this->frame);
 
-	this->frame->format = this->libavPixelFormatMap.Get(framePixelFormat);
+	this->frame->format = this->codecContext->pix_fmt;
 	this->frame->width = videoFrame.GetPixmap()->GetSize().width;
 	this->frame->height = videoFrame.GetPixmap()->GetSize().height;
 	this->frame->pts = videoFrame.pts;

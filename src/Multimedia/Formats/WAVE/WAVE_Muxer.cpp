@@ -45,7 +45,7 @@ void WAVE_Muxer::WriteHeader()
 	AudioStream *stream = (AudioStream *)this->GetStream(0);
 
 	uint16 bitsPerSample = this->GetBitsPerSample(stream->GetCodingFormat()->GetId());
-	uint16 blockAlign = stream->nChannels * bitsPerSample / 8;
+	uint16 blockAlign = stream->sampleFormat->nChannels * bitsPerSample / 8;
 
 	DataWriter writer(false, this->outputStream);
 	//riff chunk
@@ -58,7 +58,7 @@ void WAVE_Muxer::WriteHeader()
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
 	writer.WriteUInt16((uint16)(stream->GetCodingFormat()->GetId()));
-	writer.WriteUInt16(stream->nChannels);
+	writer.WriteUInt16(stream->sampleFormat->nChannels);
 	writer.WriteUInt32(stream->sampleRate);
 	writer.WriteUInt32(stream->sampleRate * blockAlign);
 	writer.WriteUInt16(blockAlign);

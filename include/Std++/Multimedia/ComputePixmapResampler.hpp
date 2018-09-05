@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,36 +17,27 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-//Local
-#include <Std++/Definitions.h>
-
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
-//FourCCs are always little endian
-#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
+#include <Std++/Compute/DeviceContext.hpp>
+#include <Std++/Devices/ComputeDevice.hpp>
+#include <Std++/SmartPointers/AutoPointer.hpp>
+#include "Pixmap.hpp"
 
 namespace StdXX
 {
 	namespace Multimedia
 	{
-		/*
-		 * In order to not break binary-compatibility, assign each enumerator a unique value!
-		 */
-		enum class CodingFormatId
+		class ComputePixmapResampler
 		{
-			Unknown = -1,
+		public:
+			//Constructor
+			ComputePixmapResampler(const Pixmap &pixmap);
 
-			//Audio codecs
-			MP3 = 0x55,
-			PCM_S16LE = 1,
-
-			//Video codecs
-			RawVideo = 0,
-			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
-			PNG = FOURCC(u8"png ")
+		private:
+			//Members
+			const Pixmap &pixmap;
+			AutoPointer<Device> device;
+			UniquePointer<Compute::DeviceContext> dc;
+			UniquePointer<Compute::CommandQueue> commandQueue;
 		};
 	}
 }

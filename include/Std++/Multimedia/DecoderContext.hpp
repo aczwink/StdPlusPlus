@@ -29,12 +29,13 @@ namespace StdXX
 	{
 		//Forward declarations
 		class Decoder;
+		class Stream;
 
 		class STDPLUSPLUS_API DecoderContext
 		{
 		public:
 			//Constructor
-			inline DecoderContext(const Decoder &decoder) : decoder(decoder)
+			inline DecoderContext(const Decoder &decoder, Stream &stream) : decoder(decoder), stream(stream)
 			{
 				this->frameCounter = 0;
 			}
@@ -65,6 +66,9 @@ namespace StdXX
 			}
 
 		protected:
+			//Members
+			Stream &stream;
+
 			//Methods
 			void AddFrame(Frame *pFrame, uint32 frameNumber = 0);
 

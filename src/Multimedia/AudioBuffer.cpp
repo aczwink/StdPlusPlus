@@ -26,6 +26,41 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
+//Destructor
+AudioBuffer::~AudioBuffer()
+{
+	for (uint8 i = 0; i < AudioSampleFormat::MAX_PLANES; i++)
+	{
+		MemFree(this->planes[i]);
+	}
+}
+
+//Public methods
+AudioBuffer *AudioBuffer::Resample(const AudioSampleFormat &fromFormat, const AudioSampleFormat &toFormat) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
+//Private methods
+void AudioBuffer::AllocateMemory(const AudioSampleFormat &sampleFormat)
+{
+	uint8 i;
+	for (i = 0; i < sampleFormat.nPlanes; i++)
+	{
+		this->planeSizes[i] = sampleFormat.ComputePlaneSize(i, this->nSamplesPerChannel);
+		this->planeBlockSizes[i] = sampleFormat.ComputeBlockSize(i);
+		this->planes[i] = MemAlloc(this->planeSizes[i]);
+	}
+	for (; i < AudioSampleFormat::MAX_PLANES; i++)
+	{
+		this->planeSizes[i] = 0;
+		this->planeBlockSizes[i] = 0;
+		this->planes[i] = nullptr;
+	}
+}
+
+/*
 //Constructors
 template<typename SampleType>
 AudioBuffer<SampleType>::AudioBuffer(const AbstractAudioBuffer &refBuffer) : AbstractAudioBuffer(refBuffer.GetChannelLayout(), refBuffer.GetNumberOfSamplesPerChannel())
@@ -34,35 +69,6 @@ AudioBuffer<SampleType>::AudioBuffer(const AbstractAudioBuffer &refBuffer) : Abs
 	{
 		case AudioSampleFormat::Float32:
 			this->Resample((const AudioBuffer<float32> &)refBuffer);
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR;
-	}
-}
-
-//Destructor
-template<typename SampleType>
-AudioBuffer<SampleType>::~AudioBuffer()
-{
-	if(this->pChannels[0])
-		MemFree(this->pChannels[0]);
-	if(this->pChannels[1])
-		MemFree(this->pChannels[1]);
-}
-
-//Private methods
-template<typename SampleType>
-void AudioBuffer<SampleType>::AllocateMemory()
-{
-	switch(this->GetChannelLayout())
-	{
-		case ChannelLayout::Mono:
-			this->pChannels[(uint32)Channel::Left] = (SampleType *)MemAlloc(this->GetChannelSize());
-			this->pChannels[(uint32)Channel::Right] = nullptr;
-			break;
-		case ChannelLayout::Stereo:
-			this->pChannels[(uint32)Channel::Left] = (SampleType *)MemAlloc(this->GetChannelSize());
-			this->pChannels[(uint32)Channel::Right] = (SampleType *)MemAlloc(this->GetChannelSize());
 			break;
 		default:
 			NOT_IMPLEMENTED_ERROR;
@@ -123,3 +129,4 @@ AudioSampleFormat AudioBuffer<int16>::GetSampleType() const
 //Explicit instantiation
 template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<float32>;
 template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<int16>;
+*/
