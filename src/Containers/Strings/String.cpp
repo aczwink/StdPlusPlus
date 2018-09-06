@@ -350,7 +350,7 @@ float64 String::ToFloat() const
 			++it;
 
 		int16 exp = 0;
-		while(*it)
+		while(it != this->end())
 		{
 			if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
 			{

@@ -42,10 +42,7 @@ namespace _stdxx_
 
 	protected:
 		//Methods
-		void Bind() const override
-		{
-			[this->openGLContext makeCurrentContext];
-		}
+		void MakeContextCurrent() const override;
 
 	private:
 		//Members

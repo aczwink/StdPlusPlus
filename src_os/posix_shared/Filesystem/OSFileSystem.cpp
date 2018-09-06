@@ -17,14 +17,24 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Filesystem/FileSystem.hpp>
+#include <Std++/Filesystem/OSFileSystem.hpp>
 //Global
-#include <stdio.h>
+#include <climits>
+#include <cstdio>
 #include <sys/stat.h>
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 //Namespaces
 using namespace StdXX;
+
+//Public methods
+Path OSFileSystem::ToAbsolutePath(const Path &path) const
+{
+	char p[PATH_MAX];
+	realpath(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), p);
+
+	return {String::CopyRawString(p)};
+}
 
 class LinuxDirectory : public Directory
 {
@@ -132,15 +142,11 @@ private:
 };
 
 //Class functions
-FileSystem &FileSystem::GetOSFileSystem()
+OSFileSystem &OSFileSystem::GetInstance()
 {
-	static class POSIX_FS : public FileSystem
+	static class POSIX_FS : public OSFileSystem
 	{
 	public:
-		//Constructor
-		POSIX_FS() : FileSystem(nullptr)
-		{}
-
 		//Public methods
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override
 		{
@@ -150,7 +156,7 @@ FileSystem &FileSystem::GetOSFileSystem()
 
 		bool Exists(const Path &path) const override
 		{
-			Path p = path.GetAbsolutePath();
+			Path p = this->ToAbsolutePath(path);
 			struct stat sb{};
 			return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 		}

@@ -86,6 +86,11 @@ Widget &CocoaCheckBoxBackend::GetWidget()
 	return *this->checkBox;
 }
 
+const Widget &CocoaCheckBoxBackend::GetWidget() const
+{
+	return *this->checkBox;
+}
+
 bool CocoaCheckBoxBackend::IsChecked() const
 {
 	return [this->cocoaCheckBox state] == NSControlStateValueOn;
@@ -113,17 +118,6 @@ void CocoaCheckBoxBackend::SetText(const String &text)
 
 
 //old stuff:
-StdXX::Math::SizeD CocoaCheckBoxBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaCheckBoxBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaCheckBoxBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

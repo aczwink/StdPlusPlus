@@ -51,6 +51,8 @@ namespace _stdxx_
 		void AddChild(StdXX::UI::Widget *widget) override;
 		StdXX::UI::CompositeWidget *CreateContentArea() override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
+		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
 		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
@@ -68,10 +70,8 @@ namespace _stdxx_
 
 		//OLD STUFF
 		uint32 GetPosition() const override;
-		StdXX::Math::SizeD GetSize() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() const;
-		void Paint() override;
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;

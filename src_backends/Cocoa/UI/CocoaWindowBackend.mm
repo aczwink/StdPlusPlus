@@ -43,7 +43,10 @@ using namespace StdXX::UI;
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-	CocoaEventSource::EmitResizedEvent( self->backend->GetWindow() );
+	NSWindow *window = [notification object];
+	NSRect r = [window frame];
+	self->backend->GetWidget().Resize(StdXX::Math::SizeD(r.size.width, r.size.height));
+	//CocoaEventSource::EmitResizedEvent( self->backend->GetWindow() );
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -53,15 +56,15 @@ using namespace StdXX::UI;
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
-	NSRect r = [sender frame];
-	CocoaEventSource::EmitResizingEvent( self->backend->GetWindow(), StdXX::Math::RectD(r.origin.x, r.origin.y, frameSize.width, frameSize.height));
+	//NSRect r = [sender frame];
+	//CocoaEventSource::EmitResizingEvent( self->backend->GetWindow(), StdXX::Math::RectD(r.origin.x, r.origin.y, frameSize.width, frameSize.height));
 
 	return frameSize;
 }
 @end
 
 //Constructor
-CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend), WidgetBackend(uiBackend), window(window)
+CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), window(window)
 {
 	NSWindowStyleMask windowStyleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSWindowStyleMaskUnifiedTitleAndToolbar;
 	this->cocoaWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 1, 1) styleMask:windowStyleMask
@@ -96,6 +99,16 @@ Math::RectD CocoaWindowBackend::GetContentAreaBounds() const
 {
 	const NSRect f = [[this->cocoaWindow contentView] frame];
 	return StdXX::Math::RectD(f.origin.x, f.origin.y, f.size.width, f.size.height);
+}
+
+Widget &CocoaWindowBackend::GetWidget()
+{
+	return *this->window;
+}
+
+const Widget &CocoaWindowBackend::GetWidget() const
+{
+	return *this->window;
 }
 
 void CocoaWindowBackend::IgnoreEvent()
@@ -167,12 +180,6 @@ uint32 CocoaWindowBackend::GetPosition() const
 	return 0;
 }
 
-StdXX::Math::SizeD CocoaWindowBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
 StdXX::Math::SizeD CocoaWindowBackend::GetSizeHint() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -183,11 +190,6 @@ NSView *CocoaWindowBackend::GetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nil;
-}
-
-void CocoaWindowBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CocoaWindowBackend::Repaint()

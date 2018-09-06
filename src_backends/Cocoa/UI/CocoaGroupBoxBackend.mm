@@ -29,7 +29,7 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend *uiBackend, GroupBox *groupBox) : CocoaView(uiBackend), GroupBoxBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
+CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend *uiBackend, GroupBox *groupBox) : CocoaView(uiBackend), GroupBoxBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
 {
 	this->cocoaGroupBox = [[NSBox alloc] init];
 	[this->cocoaGroupBox setTitle:@""];
@@ -99,6 +99,11 @@ Widget &CocoaGroupBoxBackend::GetWidget()
 	return *this->groupBox;
 }
 
+const Widget &CocoaGroupBoxBackend::GetWidget() const
+{
+	return *this->groupBox;
+}
+
 void CocoaGroupBoxBackend::SetTitle(const StdXX::String &title)
 {
 	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(title.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
@@ -125,16 +130,6 @@ StdXX::Math::SizeD CocoaGroupBoxBackend::ComputeTextSize(NSString *string, NSFon
 
 
 //OLD STUFF
-Math::SizeD CocoaGroupBoxBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaGroupBoxBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
 
 void CocoaGroupBoxBackend::Repaint()
 {

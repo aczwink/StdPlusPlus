@@ -51,6 +51,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		bool IsChecked() const override;
 		void SetEnabled(bool enable) const override;
 		void SetText(const StdXX::String &text) override;
@@ -61,8 +62,6 @@ namespace _stdxx_
 
 
 		//old stuff
-		StdXX::Math::SizeD GetSize() const override;
-		void Paint() override;
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;

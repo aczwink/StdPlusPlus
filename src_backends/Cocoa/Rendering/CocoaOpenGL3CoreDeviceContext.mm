@@ -67,3 +67,9 @@ void CocoaOpenGL3CoreDeviceContext::SwapBuffers()
 {
 	[this->openGLContext flushBuffer];
 }
+
+//Protected methods
+void CocoaOpenGL3CoreDeviceContext::MakeContextCurrent() const
+{
+	[this->openGLContext makeCurrentContext];
+}

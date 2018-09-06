@@ -59,6 +59,11 @@ UI::Widget &CocoaCompositeView::GetWidget()
 	return *this;
 }
 
+const UI::Widget &CocoaCompositeView::GetWidget() const
+{
+	return *this;
+}
+
 void CocoaCompositeView::SetBounds(const StdXX::Math::RectD &area)
 {
 	CocoaEventSource::EmitResizingEvent(*this, area);
@@ -74,17 +79,6 @@ void CocoaCompositeView::SetBounds(const StdXX::Math::RectD &area)
 
 
 //OLD STUFF
-StdXX::Math::SizeD _stdxx_::CocoaCompositeView::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void _stdxx_::CocoaCompositeView::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CocoaCompositeView::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

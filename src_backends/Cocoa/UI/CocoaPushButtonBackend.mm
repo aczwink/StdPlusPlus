@@ -83,6 +83,11 @@ Widget &CocoaPushButtonBackend::GetWidget()
 	return *this->pushButton;
 }
 
+const Widget &CocoaPushButtonBackend::GetWidget() const
+{
+	return *this->pushButton;
+}
+
 void CocoaPushButtonBackend::SetEnabled(bool enable) const
 {
 	[this->cocoaButton setEnabled:enable];
@@ -105,17 +110,6 @@ void CocoaPushButtonBackend::SetText(const StdXX::String &text)
 
 
 //OLD STUFF
-Math::SizeD CocoaPushButtonBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaPushButtonBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaPushButtonBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

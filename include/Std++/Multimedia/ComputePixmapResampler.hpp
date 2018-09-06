@@ -20,6 +20,7 @@
 #include <Std++/Compute/DeviceContext.hpp>
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/SmartPointers/AutoPointer.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Pixmap.hpp"
 
 namespace StdXX

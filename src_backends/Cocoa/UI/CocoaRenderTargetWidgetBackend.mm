@@ -147,6 +147,10 @@ Widget &CocoaRenderTargetWidgetBackend::GetWidget()
 	return *this->widget;
 }
 
+const Widget &CocoaRenderTargetWidgetBackend::GetWidget() const
+{
+	return *this->widget;
+}
 
 void CocoaRenderTargetWidgetBackend::Repaint()
 {
@@ -159,17 +163,6 @@ void CocoaRenderTargetWidgetBackend::Repaint()
 
 
 //OLD STUFF:
-Math::SizeD CocoaRenderTargetWidgetBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaRenderTargetWidgetBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

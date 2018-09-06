@@ -90,10 +90,10 @@ void CocoaEventSource::EmitPaintEvent(StdXX::UI::Widget &widget)
 
 void CocoaEventSource::EmitResizedEvent(StdXX::UI::Widget &widget)
 {
-	l_eventSource->DispatchResizedEvent(widget);
+	//l_eventSource->DispatchResizedEvent(widget);
 }
 
 void CocoaEventSource::EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds)
 {
-	l_eventSource->DispatchResizingEvent(widget, newBounds);
+	//l_eventSource->DispatchResizingEvent(widget, newBounds);
 }

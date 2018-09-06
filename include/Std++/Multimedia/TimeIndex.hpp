@@ -27,7 +27,7 @@ namespace StdXX
 		{
 		};
 
-		template <typename EntryInfoType = TimeIndexEntryInfo>
+		template <typename EntryInfoType = TimeIndexEntryStreamInfo>
 		class TimeIndexEntry
 		{
 		public:

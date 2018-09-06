@@ -96,7 +96,6 @@ GLXFBConfig ChooseFrameBufferConfig(Display *display, uint8 nSamples)
 
 	return bestFB;
 }
- */
 
 //Private methods
 void DeviceContext::DestroyOSContext()
@@ -113,3 +112,4 @@ void DeviceContext::UnbindOSContext()
 }
 
 //glXSwapBuffers(display, win);
+ */

@@ -78,6 +78,11 @@ Widget &CocoaSliderBackend::GetWidget()
 	return *this->slider;
 }
 
+const Widget &CocoaSliderBackend::GetWidget() const
+{
+	return *this->slider;
+}
+
 void CocoaSliderBackend::SetPosition(uint32 pos)
 {
 	[this->cocoaSlider setDoubleValue:pos];
@@ -104,17 +109,6 @@ void CocoaSliderBackend::ValueChanged()
 
 
 //OLD STUFF
-Math::SizeD CocoaSliderBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaSliderBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSliderBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

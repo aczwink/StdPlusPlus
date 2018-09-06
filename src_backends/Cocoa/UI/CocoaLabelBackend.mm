@@ -52,6 +52,11 @@ Widget &CocoaLabelBackend::GetWidget()
 	return *this->label;
 }
 
+const Widget &CocoaLabelBackend::GetWidget() const
+{
+	return *this->label;
+}
+
 NSView *CocoaLabelBackend::GetView()
 {
 	return this->textField;
@@ -77,17 +82,6 @@ void CocoaLabelBackend::SetText(const StdXX::String &text)
 
 
 //OLD STUFF
-Math::SizeD CocoaLabelBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaLabelBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaLabelBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

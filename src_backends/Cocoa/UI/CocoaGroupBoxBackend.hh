@@ -50,9 +50,6 @@ namespace _stdxx_
 
 
 		//OLD STUFF
-		StdXX::Math::SizeD GetSize() const override;
-		void Paint() override;
-
 		void Repaint() override;
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
@@ -73,6 +70,8 @@ namespace _stdxx_
 		void ResetView() const override;
 
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
+
+		const StdXX::UI::Widget &GetWidget() const override;
 		//END OF OLD STUFF
 
 	private:

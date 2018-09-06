@@ -95,6 +95,16 @@ int32 CocoaSpinBoxBackend::GetValue() const
 	return value;
 }
 
+StdXX::UI::Widget &CocoaSpinBoxBackend::GetWidget()
+{
+	return *this->spinBox;
+}
+
+const StdXX::UI::Widget &CocoaSpinBoxBackend::GetWidget() const
+{
+	return *this->spinBox;
+}
+
 void CocoaSpinBoxBackend::IgnoreEvent()
 {
 }
@@ -148,17 +158,6 @@ void CocoaSpinBoxBackend::SetValue(int32 value)
 
 
 //old stuff
-StdXX::Math::SizeD CocoaSpinBoxBackend::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
-}
-
-void CocoaSpinBoxBackend::Paint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSpinBoxBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

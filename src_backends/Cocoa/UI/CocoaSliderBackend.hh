@@ -50,6 +50,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		void SetPosition(uint32 pos) override;
 		void SetRange(uint32 min, uint32 max) override;
 		void ValueChanged();
@@ -61,9 +62,6 @@ namespace _stdxx_
 
 
 		//OLD STUFF
-		StdXX::Math::SizeD GetSize() const override;
-		void Paint() override;
-
 		void Repaint() override;
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;

@@ -5,8 +5,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 
 	#Filesystem
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
