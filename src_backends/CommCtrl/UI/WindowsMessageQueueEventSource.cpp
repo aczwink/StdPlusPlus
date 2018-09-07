@@ -108,13 +108,19 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 	{
 	case WM_SIZE:
 	{
-		//actually any hWnd can receive this event but because we only create windows with this window class, its always a window
-		RECT rcWindow;
-		GetWindowRect(hWnd, &rcWindow);
+		if (window)
+		{ //we forward this only to windows, which will forward the resize to all others
+			RECT rcWindow;
+			GetWindowRect(hWnd, &rcWindow);
 
-		RectD bounds(rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
-		widget.SetBounds(bounds);
-		l_messageResult = 0;
+			RectD bounds(rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
+			widget.SetBounds(bounds);
+			l_messageResult = 0;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	break;
 	case WM_PAINT:

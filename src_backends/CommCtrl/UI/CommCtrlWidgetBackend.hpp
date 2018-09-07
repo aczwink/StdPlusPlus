@@ -40,6 +40,7 @@ namespace _stdxx_
 
 		//Methods
 		void IgnoreEvent() override;
+		void Repaint() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
 
 	protected:

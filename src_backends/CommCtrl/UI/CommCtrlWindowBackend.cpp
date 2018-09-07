@@ -157,11 +157,6 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 }
 */
 
-/*bool CommCtrlWindowBackend::IsChecked() const
-{
-	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
-}*/
-
 void CommCtrlWindowBackend::Maximize()
 {
 	this->maximizeWindow = true;

@@ -45,6 +45,11 @@ const Widget & CommCtrlCheckBoxBackend::GetWidget() const
 	return *this->checkBox;
 }
 
+bool CommCtrlCheckBoxBackend::IsChecked() const
+{
+	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
+}
+
 void CommCtrlCheckBoxBackend::SetText(const String & text)
 {
 	Win32Window::SetText(text);
@@ -104,10 +109,4 @@ void _stdxx_::CommCtrlCheckBoxBackend::ResetView() const
 void _stdxx_::CommCtrlCheckBoxBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-bool _stdxx_::CommCtrlCheckBoxBackend::IsChecked() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
 }

@@ -70,6 +70,7 @@ namespace StdXX
 			 * @param cellBounds
 			 */
 			void PositionChild(Widget &widget, const Math::RectD &cellBounds);
+			void ShrinkRows(float64 totalShrinkHeight, DynamicArray<uint16> &rowHeights);
         };
 
         class STDPLUSPLUS_API HorizontalLayout : public GridLayout

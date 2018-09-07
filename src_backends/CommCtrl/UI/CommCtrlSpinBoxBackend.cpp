@@ -22,6 +22,7 @@
 #include <Std++/UI/Controls/SpinBox.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
 
@@ -38,7 +39,7 @@ int32 CommCtrlSpinBoxBackend::GetValue() const
 {
 	BOOL valid;
 	int32 value = this->upDownControl.SendMessage(UDM_GETPOS32, 0, (LPARAM)&valid);
-	if (valid == FALSE)
+	if (valid != 0)
 		return 0;
 	return value;
 }

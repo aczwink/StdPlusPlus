@@ -21,13 +21,13 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Public methods
-StdXX::Math::SizeD _stdxx_::CommCtrlRenderTargetWidgetBackend::GetSizeHint() const
+SizeD CommCtrlRenderTargetWidgetBackend::GetSizeHint() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Math::SizeD();
+	return SizeD();
 }
 
 Widget & CommCtrlRenderTargetWidgetBackend::GetWidget()
@@ -49,17 +49,7 @@ void CommCtrlRenderTargetWidgetBackend::PrePaint()
 	ValidateRect(this->GetHWND(), &rcUpdate);
 }
 
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::Repaint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetBounds(const StdXX::Math::RectD & area)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -37,9 +37,7 @@ namespace _stdxx_
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
 		void PrePaint();
-		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
 		void Show(bool visible) override;

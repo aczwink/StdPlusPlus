@@ -40,6 +40,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
+		bool IsChecked() const override;
 		void SetText(const StdXX::String & text) override;
 
 		//not implemented
@@ -53,7 +54,6 @@ namespace _stdxx_
 		uint32 GetPosition() const override;
 		void ResetView() const override;
 		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;
-		bool IsChecked() const override;
 
 	private:
 		//Members
