@@ -27,10 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
-			: CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
-		{
-		}
+		CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget);
 
 		//Methods
 		StdXX::Math::SizeD GetSizeHint() const override;

@@ -97,6 +97,142 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 	}
 }
 
+void CWinMessageEventQueue::DispatchInputEvent(HRAWINPUT hRawInput)
+{
+	/*
+	source:
+	http://blog.molecular-matters.com/2011/09/05/properly-handling-keyboard-input/
+	*/
+
+	RAWINPUT input;
+	UINT size = sizeof(input);
+	GetRawInputData(hRawInput, RID_INPUT, &input, &size, sizeof(RAWINPUTHEADER));
+
+	if(input.header.dwType == RIM_TYPEKEYBOARD)
+	{
+		bool isE0, isE1, keyUp;
+		UINT virtualKey;
+		EKeyCode keyCode;
+		extern bool g_keyStates[256];
+
+		isE0 = (input.data.keyboard.Flags & RI_KEY_E0) != 0;
+		isE1 = (input.data.keyboard.Flags & RI_KEY_E1) != 0;
+		keyUp = (input.data.keyboard.Flags & RI_KEY_BREAK) != 0;
+
+		virtualKey = input.data.keyboard.VKey;
+
+		if(virtualKey == VK_SHIFT)
+		{
+			//correct left / right shift
+			virtualKey = MapVirtualKey(input.data.keyboard.MakeCode, MAPVK_VSC_TO_VK_EX);
+		}
+
+		keyCode = MapVirtualKeyToKeyCode(virtualKey);
+
+		CKeyEvent keyEvent(keyCode);
+
+		if(keyUp)
+		{
+			g_keyStates[(uint8)keyCode] = false;
+			CEventQueue::DispatchKeyReleasedEvent(*AWindow::GetFocusedWindow(), keyEvent);
+		}
+		else
+		{
+			g_keyStates[(uint8)keyCode] = true;
+			CEventQueue::DispatchKeyPressedEvent(*AWindow::GetFocusedWindow(), keyEvent);
+		}
+	}
+	else if(input.header.dwType == RIM_TYPEMOUSE)
+	{
+		bool cursorMoved;
+		POINT cursorPos;
+		HWND hWnd;
+		AWindow *pWnd;
+		CRect rc;
+		extern bool g_mouseButtonStates[1];
+
+		::GetCursorPos(&cursorPos);
+
+		static POINT lastCursorPos = cursorPos;
+
+		cursorMoved = lastCursorPos.x != cursorPos.x || lastCursorPos.y != cursorPos.y;
+
+		hWnd = WindowFromPoint(cursorPos);
+		pWnd = GetAttachedObj(hWnd);
+
+		if(pWnd)
+		{
+			uint16 matchedX, matchedY;
+			POINT pt;
+
+			if(dynamic_cast<APopupWindow *>(pWnd))
+			{
+				uint32 packedCoord;
+				LRESULT hitTestRes;
+
+				packedCoord = MAKE32(cursorPos.x, cursorPos.y);
+
+				hitTestRes = SendMessage(hWnd, WM_NCHITTEST, 0, packedCoord);
+				if(hitTestRes != HTCLIENT)
+				{
+					WPARAM wParam;
+					POINTS pts;
+
+					wParam = 0; //TODO: set extended key modifiers
+
+					pts.x = (SHORT)cursorPos.x;
+					pts.y = (SHORT)cursorPos.y;
+
+					if(mouseMoved)
+						//PostMessage(hWnd, WM_MOUSEMOVE, wParam, packedCoord);
+						PostMessage(hWnd, WM_NCMOUSEMOVE, hitTestRes, (LPARAM)&pts);
+					//left mouse button
+					if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+						PostMessage(hWnd, WM_NCLBUTTONDOWN, hitTestRes, (LPARAM)&pts);
+					if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
+						PostMessage(hWnd, WM_NCLBUTTONUP, hitTestRes, (LPARAM)&pts);
+					//right mouse button
+					if(input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
+						PostMessage(hWnd, WM_NCRBUTTONDOWN, hitTestRes, (LPARAM)&pts);
+					if(input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
+						PostMessage(hWnd, WM_NCRBUTTONUP, hitTestRes, (LPARAM)&pts);
+
+					goto endMouse;
+				}
+			}
+
+			pt = cursorPos;
+			ScreenToClient(hWnd, &pt);
+			matchedX = (uint16)pt.x;
+			matchedY = (uint16)pt.y;
+
+			if(dynamic_cast<AWindowContainer *>(pWnd))
+				pWnd = &((AWindowContainer *)pWnd)->Find(matchedX, matchedY);
+
+			if(cursorMoved)
+				CEventQueue::DispatchMouseMovedEvent(*pWnd, matchedX, matchedY);
+			if(input.data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
+				CEventQueue::DispatchMouseWheelEvent(*pWnd, (int16)input.data.mouse.usButtonData / WHEEL_DELTA);
+
+			//buttons
+			if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+			{
+				g_mouseButtonStates[(uint8)EMouseButton::LEFT] = true;
+			}
+			else if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
+			{
+				g_mouseButtonStates[(uint8)EMouseButton::LEFT] = false;
+			}
+		}
+
+		lastCursorPos = cursorPos;
+	}
+	else
+	{
+		g_ignoreMessage = true;
+	}
+}
+
 bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
@@ -136,6 +272,12 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 			Widget &refWidget = *(Widget *)GetWindowLongPtr((HWND)refpNmHdr->hwndFrom, GWLP_USERDATA);
 
 			this->DispatchNotificationEvent(refWidget, *refpNmHdr);
+		}
+			break;
+		case WM_INPUT:
+		{
+			DispatchInputEvent((HRAWINPUT)lParam);
+			g_messageResult = 0;
 		}
 			break;
 		case WM_COMMAND:

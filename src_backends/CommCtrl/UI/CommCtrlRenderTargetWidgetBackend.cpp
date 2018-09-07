@@ -23,6 +23,26 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
+//Constructor
+CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
+		: CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
+{
+	//register keyboard input
+	RAWINPUTDEVICE inputDev;
+	inputDev.dwFlags = RIDEV_NOLEGACY;
+	inputDev.hwndTarget = NULL;
+	inputDev.usUsagePage = 1; //'generic desktop' from USB HID usage table
+	inputDev.usUsage = 6; //keyboard
+
+	RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));
+
+	//register mouse input
+	inputDev.dwFlags = 0; //TODO: unfortunately we need legacy messages for frames. Whenever frames are custom drawn this can be changed
+	inputDev.usUsage = 2;
+
+	RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));
+}
+
 //Public methods
 StdXX::Math::SizeD _stdxx_::CommCtrlRenderTargetWidgetBackend::GetSizeHint() const
 {
