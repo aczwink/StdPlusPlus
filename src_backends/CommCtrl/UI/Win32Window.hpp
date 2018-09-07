@@ -53,6 +53,16 @@ namespace _stdxx_
 			return this->hWnd;
 		}
 
+		inline void SetEnabled(bool enable) 
+		{
+			EnableWindow(this->GetHWND(), enable);
+		}
+
+		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam)
+		{
+			return SendMessageW(this->GetHWND(), Msg, wParam, lParam);
+		}
+
 		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
 		{
 			return SendMessageW(this->Get_HWND_ReadOnly(), Msg, wParam, lParam);
@@ -83,11 +93,6 @@ namespace _stdxx_
 		inline HFONT GetFont() const
 		{
 			return (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-		}
-
-		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam)
-		{
-			return SendMessageW(this->GetHWND(), Msg, wParam, lParam);
 		}
 	};
 }

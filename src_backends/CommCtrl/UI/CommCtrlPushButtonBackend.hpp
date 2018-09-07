@@ -44,12 +44,10 @@ namespace _stdxx_
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
 		void Show(bool visible) override;
 		void ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void IgnoreEvent() override;
 		uint32 GetPosition() const override;
 		void ResetView() const override;
 		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;

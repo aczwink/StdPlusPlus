@@ -69,11 +69,6 @@ void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetHint(const StdXX::String & text) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -90,11 +85,6 @@ void _stdxx_::CommCtrlRenderTargetWidgetBackend::ShowInformationBox(const StdXX:
 }
 
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::IgnoreEvent()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

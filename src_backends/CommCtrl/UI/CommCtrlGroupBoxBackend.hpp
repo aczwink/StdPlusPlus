@@ -49,13 +49,11 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
-		void IgnoreEvent() override;
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;

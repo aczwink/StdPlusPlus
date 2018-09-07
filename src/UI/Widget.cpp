@@ -97,10 +97,12 @@ void Widget::OnMouseWheelTurned(int16 delta)
 
 void Widget::OnMoved()
 {
+	this->IgnoreEvent();
 }
 
 void Widget::OnPaint()
 {
+	this->IgnoreEvent();
 }
 
 void Widget::OnResized()

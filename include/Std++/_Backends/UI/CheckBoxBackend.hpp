@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CheckBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::CheckBox *checkBox)
+		inline CheckBoxBackend(StdXX::UIBackend *uiBackend)
 				: WidgetBackend(uiBackend)
 		{
 		}

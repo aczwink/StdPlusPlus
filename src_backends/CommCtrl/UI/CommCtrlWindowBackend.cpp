@@ -32,38 +32,18 @@ using namespace StdXX::Math;
 
 /*
 WinAPI Documentation:
-	CheckBox: https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
-	Label: https://msdn.microsoft.com/en-us/library/windows/desktop/bb760769(v=vs.85).aspx
 	ListView: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775146(v=vs.85).aspx
-	SpinBox: https://msdn.microsoft.com/en-us/library/windows/desktop/bb759880(v=vs.85).aspx
 	TextEdit: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775458(v=vs.85).aspx
 
 	this->hWndReal = nullptr;
 
     switch(type)
     {
-	case WindowBackendType::CheckBox:
-	{
-		this->hWnd = CreateWindowExW(0, WC_BUTTONW, nullptr, WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-	}
-	break;
-	case WindowBackendType::Label:
-	{
-		this->hWnd = CreateWindowExW(0, WC_STATICW, nullptr, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-	}
-	break;
 	case WindowBackendType::ListView:
 	{
 		this->hWnd = CreateWindowExW(0, WC_LISTBOXW, nullptr, WS_CHILD | WS_VISIBLE | WS_BORDER | LBS_NOTIFY, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
 	}
 	break;
-		case WindowBackendType::SpinBox:
-		{
-			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | ES_NUMBER | ES_RIGHT, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-			this->hWndReal = CreateWindowExW(0, UPDOWN_CLASSW, nullptr, WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_HOTTRACK | UDS_SETBUDDYINT, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
-			SendMessageW(this->hWndReal, UDM_SETBUDDY, (WPARAM)this->hWnd, 0);
-		}
-		break;
 		case WindowBackendType::TextEdit:
 		{
 			this->hWnd = CreateWindowExW(WS_EX_CLIENTEDGE, WC_EDITW, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE, 0, 0, 0, 0, hParent, nullptr, hInstance, nullptr);
@@ -146,14 +126,6 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 {
 	switch (type)
 	{
-	case WindowBackendType::CheckBox:
-	{
-		Size checkSize;
-		checkSize.width = GetSystemMetrics(SM_CXMENUCHECK);
-		checkSize.height = GetSystemMetrics(SM_CYMENUCHECK);
-		return checkSize + this->GetTextExtents();
-	}
-		break;
 	case WindowBackendType::ComboBox:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		break;
@@ -169,21 +141,9 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 		case WindowBackendType::SearchBox:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			break;
-		case WindowBackendType::Slider:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			break;
-		case WindowBackendType::SpinBox:
-		{
-			//TODO: min width
-			//TODO: this seems to be working... dont known how it is with different fonts
-
-			return Size(40, 26);
-		}
-		break;
 		case WindowBackendType::TreeView:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			break;
-		case WindowBackendType::Label:
 		case WindowBackendType::TextEdit:
 		case WindowBackendType::Window: //at least the title should be displayed
 		{
@@ -195,21 +155,7 @@ Size CommCtrlWindowBackend::GetSizeHint() const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return Size();
 }
-
-int32 CommCtrlWindowBackend::GetValue() const
-{
-	BOOL valid;
-	int32 value = SendMessageW(this->hWndReal, UDM_GETPOS32, 0, (LPARAM)&valid);
-	if (valid == FALSE)
-		return 0;
-	return value;
-}*/
-
-void CommCtrlWindowBackend::IgnoreEvent()
-{
-	extern bool g_ignoreMessage;
-	g_ignoreMessage = true;
-}
+*/
 
 /*bool CommCtrlWindowBackend::IsChecked() const
 {
@@ -288,33 +234,10 @@ void CommCtrlWindowBackend::SetBounds(const RectD &bounds)
 	this->SetRect(bounds);
 }
 
-/*void CommCtrlWindowBackend::SetBounds(const Rect &area)
-{
-	switch (this->type)
-	{
-	case WindowBackendType::SpinBox:
-	{
-		int w2 = 20;
-		int w1 = area.width() - w2;
-		if (area.width() <= w2)
-			w1 = w2 = area.width() / 2;
-		SetWindowPos(this->hWnd, HWND_TOP, translated.x, translated.y, w1, area.height(), SWP_NOZORDER);
-		SetWindowPos(this->hWndReal, HWND_TOP, translated.x + w1, translated.y, w2, area.height(), SWP_NOZORDER);
-	}
-		break;
-	}
-}*/
-
 void CommCtrlWindowBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me next line
 	//SendMessageA(this->hWnd, EM_SETREADONLY, !enable, 0);
-}
-
-void CommCtrlWindowBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me next line
-	//EnableWindow(this->hWnd, enable);
 }
 
 void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
@@ -379,18 +302,7 @@ void _stdxx_::CommCtrlWindowBackend::UpdateSelection(StdXX::UI::SelectionControl
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-/*void CommCtrlWindowBackend::SetRange(int32 min, int32 max)
-{
-	SendMessageW(this->hWndReal, UDM_SETRANGE32, min, max);
-	//update pos always because of redraw
-	this->SetValue(this->GetValue());
-}
-
-void CommCtrlWindowBackend::SetValue(int32 value)
-{
-	SendMessageW(this->hWndReal, UDM_SETPOS32, 0, value);
-}
-
+/*
 void CommCtrlWindowBackend::Show(bool visible)
 {
 	if (this->type == WindowBackendType::Window)

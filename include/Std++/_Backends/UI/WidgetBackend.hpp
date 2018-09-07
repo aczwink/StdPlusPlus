@@ -61,14 +61,11 @@ namespace _stdxx_
 		virtual StdXX::UI::Widget &GetWidget() = 0;
 		virtual const StdXX::UI::Widget &GetWidget() const = 0;
 		virtual void Repaint() = 0;
-		virtual void Select(StdXX::UI::ControllerIndex &controllerIndex) const = 0;
 		virtual void SetBounds(const StdXX::Math::RectD &bounds) = 0;
 		virtual void SetEditable(bool enable) const = 0;
-		virtual void SetEnabled(bool enable) const = 0;
+		virtual void SetEnabled(bool enable) = 0;
 		virtual void SetHint(const StdXX::String &text) const = 0;
 		virtual void Show(bool visible) = 0;
-		virtual void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const = 0;
-		virtual void UpdateSelection(StdXX::UI::SelectionController &selectionController) const = 0;
 
 		//Abstract, for Widget
 		virtual void IgnoreEvent() = 0;
@@ -78,9 +75,12 @@ namespace _stdxx_
 
 		//Abstract, for View
 		virtual void ResetView() const = 0;
+		virtual void Select(StdXX::UI::ControllerIndex &controllerIndex) const = 0;
+		virtual void UpdateSelection(StdXX::UI::SelectionController &selectionController) const = 0;
 
 		//Abstract, for Window
 		virtual void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) = 0;
+		virtual void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const = 0;
 
 		//Inline
 		inline StdXX::UIBackend *GetUIBackend() const

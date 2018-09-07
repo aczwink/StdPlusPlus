@@ -19,8 +19,12 @@
 //Class header
 #include "CommCtrlBackend.hpp"
 //Local
+#include "UI/CommCtrlCheckBoxBackend.hpp"
+#include "UI/CommCtrlLabelBackend.hpp"
 #include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
+#include "UI/CommCtrlSliderBackend.hpp"
+#include "UI/CommCtrlSpinBoxBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/WindowsMessageQueueEventSource.hpp"
 #include "CommCtrlOpenGL3CoreBackend.hpp"
@@ -38,10 +42,9 @@ CommCtrlBackend::CommCtrlBackend()
 }
 
 //Public methods
-_stdxx_::CheckBoxBackend * StdXX::CommCtrlBackend::CreateCheckBoxBackend(UI::CheckBox * checkBox)
+CheckBoxBackend *CommCtrlBackend::CreateCheckBoxBackend(UI::CheckBox *checkBox)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlCheckBoxBackend(this, checkBox);
 }
 
 EventSource *CommCtrlBackend::CreateEventSource()
@@ -49,15 +52,14 @@ EventSource *CommCtrlBackend::CreateEventSource()
 	return new WindowsMessageQueueEventSource;
 }
 
-_stdxx_::GroupBoxBackend * StdXX::CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
+GroupBoxBackend *CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
 {
 	return new CommCtrlGroupBoxBackend(this, groupBox);
 }
 
-_stdxx_::LabelBackend * StdXX::CommCtrlBackend::CreateLabelBackend(UI::Label * label)
+LabelBackend *CommCtrlBackend::CreateLabelBackend(UI::Label *label)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlLabelBackend(this, label);
 }
 
 MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
@@ -75,16 +77,14 @@ WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTarget
 	return new CommCtrlRenderTargetWidgetBackend(this, renderTargetWidget);
 }
 
-_stdxx_::SliderBackend * StdXX::CommCtrlBackend::CreateSliderBackend(UI::Slider * slider)
+SliderBackend *CommCtrlBackend::CreateSliderBackend(UI::Slider *slider)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlSliderBackend(this, slider);
 }
 
-_stdxx_::SpinBoxBackend * StdXX::CommCtrlBackend::CreateSpinBoxBackend(UI::SpinBox * spinBox)
+SpinBoxBackend *CommCtrlBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new CommCtrlSpinBoxBackend(this, spinBox);
 }
 
 WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)

@@ -36,8 +36,10 @@ namespace _stdxx_
 		//Overrideable
 		virtual void PrePaint();
 		virtual void Reparent(Win32Window *newParent);
+		virtual void SetEnabled(bool enable) override;
 
 		//Methods
+		void IgnoreEvent() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
 
 	protected:

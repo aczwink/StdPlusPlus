@@ -62,11 +62,6 @@ void _stdxx_::CommCtrlPushButtonBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlPushButtonBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlPushButtonBackend::SetHint(const StdXX::String & text) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -83,11 +78,6 @@ void _stdxx_::CommCtrlPushButtonBackend::ShowInformationBox(const StdXX::String 
 }
 
 void _stdxx_::CommCtrlPushButtonBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlPushButtonBackend::IgnoreEvent()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

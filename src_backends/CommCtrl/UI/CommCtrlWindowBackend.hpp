@@ -48,7 +48,6 @@ namespace _stdxx_
 		Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
-		void IgnoreEvent() override;
 		void Maximize() override;
 		void PrePaint() override;
         void Repaint() override;
@@ -57,7 +56,6 @@ namespace _stdxx_
         Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
         void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
-        void SetEnabled(bool enable) const override;
         void SetHint(const StdXX::String &text) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String & title) override;

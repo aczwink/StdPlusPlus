@@ -17,30 +17,41 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/UI/Displays/RenderTargetWidget.hpp>
+#include <Std++/_Backends/UI/SpinBoxBackend.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 
 namespace _stdxx_
 {
-	class CommCtrlRenderTargetWidgetBackend : public CommCtrlWidgetBackend, public Win32Window
+	/*
+	WinAPI Documentation: https://msdn.microsoft.com/en-us/library/windows/desktop/bb759880(v=vs.85).aspx
+	*/
+	class CommCtrlSpinBoxBackend : public SpinBoxBackend, public CommCtrlWidgetBackend
 	{
 	public:
 		//Constructor
-		inline CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
-			: CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
+		inline CommCtrlSpinBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::SpinBox *spinBox)
+			: SpinBoxBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
+			spinBox(spinBox), editControl(*this, WC_EDITW, ES_NUMBER | ES_RIGHT, WS_EX_CLIENTEDGE), upDownControl(*this, UPDOWN_CLASSW, UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_HOTTRACK | UDS_SETBUDDYINT)
 		{
+			this->upDownControl.SendMessage(UDM_SETBUDDY, (WPARAM)this->editControl.GetHWND(), 0);
 		}
 
 		//Methods
 		StdXX::Math::SizeD GetSizeHint() const override;
+		int32 GetValue() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
-		void PrePaint();
+		void Reparent(Win32Window *newParent);
+		void SetBounds(const StdXX::Math::RectD &bounds) override;
+		void SetRange(int32 min, int32 max) override;
+		void SetValue(int32 value) override;
+
+		// not implemented
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
+		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
 		void Show(bool visible) override;
 		void ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const override;
@@ -50,7 +61,9 @@ namespace _stdxx_
 		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;
 
 	private:
-		//Methods
-		StdXX::UI::RenderTargetWidget *renderTargetWidget;
+		//Members
+		StdXX::UI::SpinBox *spinBox;
+		Win32Window editControl;
+		Win32Window upDownControl;
 	};
 }

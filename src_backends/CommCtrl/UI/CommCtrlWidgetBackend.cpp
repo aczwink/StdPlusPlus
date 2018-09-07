@@ -29,6 +29,12 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Public methods
+void CommCtrlWidgetBackend::IgnoreEvent()
+{
+	extern bool g_ignoreMessage;
+	g_ignoreMessage = true;
+}
+
 void CommCtrlWidgetBackend::PrePaint()
 {
 }
@@ -46,10 +52,18 @@ void CommCtrlWidgetBackend::SetBounds(const RectD &bounds)
 		thisWnd->SetRect(this->ToWinAPIBounds(bounds));
 }
 
+void CommCtrlWidgetBackend::SetEnabled(bool enable)
+{
+	Win32Window *thisWnd = dynamic_cast<Win32Window *>(this);
+	thisWnd->SetEnabled(enable);
+}
+
 //Protected methods
 RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 {
-	PointD origin = this->TransformToWindow(PointD()); //we want the root point (0, 0) of the widgets local coordinates
+	//bounds are in widgets local coordinates
+	PointD origin = bounds.origin - this->GetWidget().GetBounds().origin; //get offset in local coordinates
+	origin = this->TransformToWindow(origin); //transform to window coordinates
 
 	//origin is in content area coordinates of window, i.e. in "client coordinates" (but with bottom-left corner)
 	const RectD &basis = this->GetWidget().GetWindow()->GetContentContainer()->GetBounds();

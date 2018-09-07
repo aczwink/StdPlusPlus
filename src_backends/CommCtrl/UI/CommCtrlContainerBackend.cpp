@@ -55,6 +55,11 @@ const Widget &CommCtrlContainerBackend::GetWidget() const
 	return *this->container;
 }
 
+void CommCtrlContainerBackend::IgnoreEvent()
+{
+	//do nothing
+}
+
 void _stdxx_::CommCtrlContainerBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -84,7 +89,7 @@ void _stdxx_::CommCtrlContainerBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlContainerBackend::SetEnabled(bool enable) const
+void _stdxx_::CommCtrlContainerBackend::SetEnabled(bool enable)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -105,11 +110,6 @@ void _stdxx_::CommCtrlContainerBackend::ShowInformationBox(const StdXX::String &
 }
 
 void _stdxx_::CommCtrlContainerBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::IgnoreEvent()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

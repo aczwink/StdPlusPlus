@@ -35,9 +35,10 @@ CompositeWidget *CommCtrlGroupBoxBackend::CreateContentArea()
 
 RectD CommCtrlGroupBoxBackend::GetContentAreaBounds() const
 {
-	RectD result = this->groupBox->GetBounds();
-	result.Enlarge(-5, 0);
-	result.height() -= 15; //TODO... of course dependant to font
+	RectD result;
+	result.size = this->groupBox->GetSize();
+	result.Enlarge(-5, -5);
+	result.height() -= 10; //TODO... title of course dependant to font
 	return result;
 }
 
@@ -82,11 +83,6 @@ void _stdxx_::CommCtrlGroupBoxBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlGroupBoxBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::SetHint(const StdXX::String &text) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -104,11 +100,6 @@ _stdxx_::CommCtrlGroupBoxBackend::ShowInformationBox(const StdXX::String &title,
 }
 
 void _stdxx_::CommCtrlGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlGroupBoxBackend::IgnoreEvent()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -17,18 +17,22 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/UI/Displays/RenderTargetWidget.hpp>
+#include <Std++/_Backends/UI/CheckBoxBackend.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 
 namespace _stdxx_
 {
-	class CommCtrlRenderTargetWidgetBackend : public CommCtrlWidgetBackend, public Win32Window
+	/*
+	WinAPI Documentation: https://msdn.microsoft.com/de-de/library/windows/desktop/bb775943(v=vs.85).aspx
+	*/
+	class CommCtrlCheckBoxBackend : public CheckBoxBackend, public CommCtrlWidgetBackend, public Win32Window
 	{
 	public:
 		//Constructor
-		inline CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
-			: CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
+		inline CommCtrlCheckBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::CheckBox *checkBox)
+			: CheckBoxBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, WC_BUTTONW, BS_AUTOCHECKBOX),
+			checkBox(checkBox)
 		{
 		}
 
@@ -36,10 +40,11 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
-		void PrePaint();
+		void SetText(const StdXX::String & text) override;
+
+		//not implemented
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
 		void Show(bool visible) override;
@@ -48,9 +53,10 @@ namespace _stdxx_
 		uint32 GetPosition() const override;
 		void ResetView() const override;
 		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;
+		bool IsChecked() const override;
 
 	private:
-		//Methods
-		StdXX::UI::RenderTargetWidget *renderTargetWidget;
+		//Members
+		StdXX::UI::CheckBox *checkBox;
 	};
 }

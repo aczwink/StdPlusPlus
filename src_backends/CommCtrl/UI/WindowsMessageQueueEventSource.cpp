@@ -75,21 +75,16 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 	{
 		case BN_CLICKED:
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			/*
-			switch (backend.GetType())
+			if (IS_INSTANCE_OF(&widget, CheckBox))
 			{
-			case WindowBackendType::CheckBox:
-			{
-				CheckBox & refCheckBox = (CheckBox &)widget;
-
-				this->DispatchToggledEvent(refCheckBox);
+				CheckBox &checkBox = dynamic_cast<CheckBox &>(widget);
+				this->DispatchToggledEvent(checkBox);
 			}
-				break;
-			case WindowBackendType::PushButton:
-				this->DispatchActivatedEvent((PushButton &)widget);
-				break;
-			}*/
+			else if (IS_INSTANCE_OF(&widget, PushButton))
+			{
+				PushButton &pushButton = dynamic_cast<PushButton &>(widget);
+				this->DispatchActivatedEvent(pushButton);
+			}
 		}
 		break;
 		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
@@ -149,7 +144,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 
 			if(lParam)
 			{
-				this->DispatchControlEvent(*(CommCtrlWindowBackend *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA), HIWORD(wParam));
+				this->DispatchControlEvent(*(CommCtrlWidgetBackend *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA), HIWORD(wParam));
 			}
 			else
 			{

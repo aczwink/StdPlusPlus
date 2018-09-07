@@ -15,10 +15,14 @@ if(${BACKEND_COMMCTRL})
 		${SOURCE_FILES}
 
 		#UI
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlCheckBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlCheckBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlContainerBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlContainerBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlLabelBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlLabelBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBarBackend.cpp
@@ -27,10 +31,14 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlPushButtonBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSliderBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSliderBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSpinBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSpinBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp
