@@ -31,14 +31,14 @@ CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(StdXX::UIBa
 	//register keyboard input
 	RAWINPUTDEVICE inputDev;
 	inputDev.dwFlags = RIDEV_NOLEGACY;
-	inputDev.hwndTarget = NULL;
+	inputDev.hwndTarget = this->GetHWND();
 	inputDev.usUsagePage = 1; //'generic desktop' from USB HID usage table
 	inputDev.usUsage = 6; //keyboard
 
 	RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));
 
 	//register mouse input
-	inputDev.dwFlags = 0; //TODO: unfortunately we need legacy messages for frames. Whenever frames are custom drawn this can be changed
+	inputDev.dwFlags = 0; //TODO: unfortunately we need legacy messages for windows. If ever windows are custom drawn this can be changed
 	inputDev.usUsage = 2;
 
 	RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));

@@ -45,6 +45,7 @@ public:
 private:
 	//Methods
 	void DispatchControlEvent(_stdxx_::CommCtrlWidgetBackend &backend, UINT notificationCode);
+	void DispatchInputEvent(HRAWINPUT hRawInput);
 	/**
 	 *
 	 * @param widget
@@ -55,4 +56,7 @@ private:
 	 */
 	bool DispatchMessageEvent(_stdxx_::CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void DispatchNotificationEvent(StdXX::UI::Widget &refWidget, const NMHDR &refNmHdr);
+
+	//Functions
+	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackend(HWND hWnd);
 };
