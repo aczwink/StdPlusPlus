@@ -21,24 +21,44 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/SmartPointers/AutoPointer.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Optional.hpp>
 #include "Pixmap.hpp"
 
 namespace StdXX
 {
 	namespace Multimedia
 	{
-		class ComputePixmapResampler
+		class STDPLUSPLUS_API ComputePixmapResampler
 		{
 		public:
 			//Constructor
-			ComputePixmapResampler(const Pixmap &pixmap);
+			ComputePixmapResampler(const Pixmap &pixmap, const PixelFormat &sourcePixelFormat);
+
+			//Methods
+			Pixmap *Run();
+
+			//Inline
+			inline void ChangePixelFormat(const PixelFormat &targetPixelFormat)
+			{
+				this->targetPixelFormat = targetPixelFormat;
+			}
 
 		private:
 			//Members
 			const Pixmap &pixmap;
+			PixelFormat sourcePixelFormat;
 			AutoPointer<Device> device;
 			UniquePointer<Compute::DeviceContext> dc;
 			UniquePointer<Compute::CommandQueue> commandQueue;
+			Optional<PixelFormat> targetPixelFormat;
+			UniquePointer<Compute::Program> program;
+
+			//Methods
+			void CompileProgram();
+			String GenerateMainResampleFunctionCode(uint8 nPixelsPerWorker) const;
+			String GenerateReadPixelFunctionCode(uint8 nPixelsPerWorker) const;
+			String GenerateWritePixelsFunctionCode(uint8 nPixelsPerWorker) const;
+			String GetPixelFormatConversionFunctionCode() const;
 		};
 	}
 }

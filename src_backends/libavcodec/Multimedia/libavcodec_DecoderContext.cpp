@@ -102,6 +102,16 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 			}
 		}
 		break;
+		case AVMEDIA_TYPE_VIDEO:
+		{
+			VideoStream &videoStream = (VideoStream &)this->stream;
+			if (!videoStream.pixelFormat.HasValue() && (this->frame->format != -1))
+			{
+				NamedPixelFormat name = this->libavPixelFormatMap.GetReverse((AVPixelFormat)this->frame->format);
+				videoStream.pixelFormat = PixelFormat(name);
+			}
+		}
+		break;
 		}
 					
 		//ready frame
@@ -168,7 +178,9 @@ AudioSampleType libavcodec_DecoderContext::MapSampleFormat(AVSampleFormat sample
 
 void libavcodec_DecoderContext::MapVideoFrame()
 {
-	Pixmap *pixmap = new Pixmap(Math::Size<uint16>(this->frame->width, this->frame->height), this->libavPixelFormatMap.GetReverse((AVPixelFormat)this->frame->format));
+	VideoStream &videoStream = (VideoStream &)this->stream;
+
+	Pixmap *pixmap = new Pixmap(Math::Size<uint16>(this->frame->width, this->frame->height), videoStream.pixelFormat.Value());
 	for (uint8 i = 0; i < pixmap->GetPixelFormat().nPlanes; i++)
 	{
 		for (uint32 line = 0; line < pixmap->GetNumberOfLines(i); line++)

@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Math/Size.hpp>
-#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Optional.hpp>
 #include "Stream.hpp"
 #include "PixelFormat.hpp"
 
@@ -32,7 +32,7 @@ namespace StdXX
         public:
             //Members
             Math::Size<uint16> size;
-            UniquePointer<PixelFormat> pixelFormat;
+			Optional<PixelFormat> pixelFormat;
 
             //Methods
             DataType GetType() const;

@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Mathematics.hpp>
+#include <Std++/Memory.hpp>
 #include <Std++/Natural.hpp>
 //Namespaces
 using namespace StdXX;

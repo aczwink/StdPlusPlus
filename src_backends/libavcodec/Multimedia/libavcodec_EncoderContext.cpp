@@ -67,8 +67,8 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 		{
 			const VideoStream &videoStream = (const VideoStream &) stream;
 
-			ASSERT(!videoStream.pixelFormat.IsNull(), u8"You must give a pixel format.");
-			ASSERT(videoStream.pixelFormat->GetNameIfExisting(this->namedPixelFormat), u8"TODO: ...");
+			ASSERT(videoStream.pixelFormat.HasValue(), u8"You must give a pixel format.");
+			ASSERT(videoStream.pixelFormat.Value().GetNameIfExisting(this->namedPixelFormat), u8"TODO: ...");
 
 			this->codecContext->pix_fmt = libavPixelFormatMap.Get(this->namedPixelFormat);
 			this->codecContext->width = videoStream.size.width;

@@ -20,6 +20,7 @@
 #include <Std++/Multimedia/PixelFormat.hpp>
 //Local
 #include <Std++/Mathematics.hpp>
+#include <Std++/Natural.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 //Namespaces
 using namespace StdXX;
@@ -103,7 +104,7 @@ bool PixelFormat::operator==(const PixelFormat &other) const
 }
 
 //Public methods
-uint32 PixelFormat::ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const
+uint8 PixelFormat::ComputeBlockSize(uint8 planeIndex, uint8 &sampleFactor) const
 {
 	/**
 	 * We assume here that there are not different sample factors per plane.
@@ -113,7 +114,7 @@ uint32 PixelFormat::ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) cons
 	 * Actually I also don't believe that this case exists in practical cases.
 	 */
 	uint8 nBitsMax = 0;
-	uint8 sampleFactor = Natural<uint8>::Max();
+	sampleFactor = Natural<uint8>::Max();
 	for(uint8 i = 0; i < this->GetNumberOfColorComponents(); i++)
 	{
 		const auto &cc = this->colorComponents[i];
@@ -124,7 +125,7 @@ uint32 PixelFormat::ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) cons
 		}
 	}
 
-	return static_cast<uint32>(((nBitsMax / 8) + (((nBitsMax % 8) == 0) ? 0 : 1 )) * nPixelsPerRow / sampleFactor);
+	return static_cast<uint8>(((nBitsMax / 8) + (((nBitsMax % 8) == 0) ? 0 : 1 )));
 }
 
 uint32 PixelFormat::ComputeNumberOfLines(uint8 planeIndex, uint16 height) const

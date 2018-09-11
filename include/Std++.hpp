@@ -137,6 +137,7 @@
 #include <Std++/Multimedia/AudioDecoder.hpp>
 #include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/AudioStream.hpp>
+#include <Std++/Multimedia/ComputePixmapResampler.hpp>
 #include <Std++/Multimedia/Index.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
@@ -183,6 +184,9 @@
 #include <Std++/Rendering/VertexBuffer.hpp>
 //Rendering/VectorPath
 #include <Std++/Rendering/VectorPath/DevicePathRenderer.hpp>
+
+//Smart Pointers
+#include <Std++/SmartPointers/UniquePointer.hpp>
 
 //Time
 #include <Std++/Time/Clock.hpp>
@@ -253,4 +257,4 @@
 #include <Std++/Float.hpp>
 #include <Std++/Integer.hpp>
 #include <Std++/Mathematics.hpp>
-#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Optional.hpp>

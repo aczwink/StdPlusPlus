@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/OldString.hpp"
 #include "../Definitions.h"
 #include "EnumTypes.hpp"
 
@@ -100,11 +99,23 @@ namespace StdXX
 			//Operators
 			bool operator==(const PixelFormat &other) const;
 
+			inline bool operator!=(const PixelFormat &other) const
+			{
+				return !(*this == other);
+			}
+
         	//Methods
-			uint32 ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const;
+			uint8 ComputeBlockSize(uint8 planeIndex, uint8 &sampleFactor) const;
 			uint32 ComputeNumberOfLines(uint8 planeIndex, uint16 height) const;
 			bool GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const;
 			uint8 GetNumberOfColorComponents() const;
+
+			//Inline
+			inline uint32 ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const
+			{
+				uint8 sampleFactor;
+				return this->ComputeBlockSize(planeIndex, sampleFactor) * nPixelsPerRow / sampleFactor;
+			}
         };
     }
 }
