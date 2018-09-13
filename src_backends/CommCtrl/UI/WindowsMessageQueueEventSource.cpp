@@ -98,7 +98,7 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 	}
 }
 
-void WindowsMessageQueueEventSource::DispatchInputEvent(HRAWINPUT hRawInput)
+void WindowsMessageQueueEventSource::DispatchInputEvent(HWND hWnd, Widget &widget, HRAWINPUT hRawInput)
 {
 	/*
 	source:
@@ -160,6 +160,7 @@ void WindowsMessageQueueEventSource::DispatchInputEvent(HRAWINPUT hRawInput)
 		static POINT lastCursorPos = cursorPos;
 
 		//get the widget
+		/*
 		HWND hWnd = WindowFromPoint(cursorPos);
 		CommCtrlWidgetBackend *backend = WindowsMessageQueueEventSource::GetAttachedBackend(hWnd);
 		CommCtrlRenderTargetWidgetBackend *renderTargetWidgetBackend = dynamic_cast<CommCtrlRenderTargetWidgetBackend *>(backend);
@@ -167,44 +168,47 @@ void WindowsMessageQueueEventSource::DispatchInputEvent(HRAWINPUT hRawInput)
 			return;
 
 		Widget &widget = backend->GetWidget();
+		*/
 
 		//convert cursor pos
 		POINT clientCursorPos = cursorPos;
 		ScreenToClient(hWnd, &clientCursorPos);
-		PointD transformed = PointD(clientCursorPos.x, clientCursorPos.y);
-		//TODO: convert y to correct coordinates
+		RECT rcClient;
+		GetClientRect(hWnd, &rcClient);
+		PointD transformed = PointD(clientCursorPos.x, rcClient.bottom - clientCursorPos.y);
+		bool cursorInWindow = PtInRect(&rcClient, clientCursorPos) != 0;
 
 		//did cursor move?		
 		bool cursorMoved = (lastCursorPos.x != cursorPos.x) || (lastCursorPos.y != cursorPos.y);
-		if (cursorMoved)
+		if (cursorMoved && cursorInWindow)
 			this->DispatchMouseMovedEvent(widget, transformed);
 
-		//was mouse wheel used?		
-		if (input.data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
+		//was mouse wheel used?
+		if ((input.data.mouse.usButtonFlags & RI_MOUSE_WHEEL) && cursorInWindow)
 			this->DispatchMouseWheelEvent(widget, (int16)input.data.mouse.usButtonData / WHEEL_DELTA);
 
-		//mouse buttons changed?
-		bool isLeftDown = (input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN) == RI_MOUSE_LEFT_BUTTON_DOWN;
-		bool isRightDown = (input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP) == RI_MOUSE_LEFT_BUTTON_UP;
-
-		static bool stateIsLeftDown = isLeftDown;
-		static bool stateIsRightDown = isRightDown;
-
-		if(stateIsLeftDown != isLeftDown)
+		Events::MouseClickEvent eventl(MouseButton::Left, transformed, keyboardModifiers);
+		if ((input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN))
 		{
-			Events::MouseClickEvent event(MouseButton::Left, transformed, keyboardModifiers);
-			if (stateIsLeftDown)
-				this->DispatchMouseButtonPressed(widget, event);
-			else
-				this->DispatchMouseButtonReleased(widget, event);
+			//left mouse state changed to down
+			this->DispatchMouseButtonPressed(widget, eventl);
 		}
-		if (stateIsRightDown != isRightDown)
+		else if ((input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP))
 		{
-			Events::MouseClickEvent event(MouseButton::Right, transformed, keyboardModifiers);
-			if (stateIsRightDown)
-				this->DispatchMouseButtonPressed(widget, event);
-			else
-				this->DispatchMouseButtonReleased(widget, event);
+			//left mouse state changed to up
+			this->DispatchMouseButtonReleased(widget, eventl);
+		}
+
+		Events::MouseClickEvent eventr(MouseButton::Right, transformed, keyboardModifiers);
+		if ((input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN))
+		{
+			//right mouse state changed to down
+			this->DispatchMouseButtonPressed(widget, eventr);
+		}
+		else if ((input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP))
+		{
+			//right mouse state changed to up
+			this->DispatchMouseButtonReleased(widget, eventr);
 		}
 		
 		/*
@@ -306,7 +310,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 			break;
 		case WM_INPUT:
 		{
-			this->DispatchInputEvent((HRAWINPUT)lParam);
+			this->DispatchInputEvent(hWnd, widget, (HRAWINPUT)lParam);
 			l_messageResult = 0;
 		}
 			break;
