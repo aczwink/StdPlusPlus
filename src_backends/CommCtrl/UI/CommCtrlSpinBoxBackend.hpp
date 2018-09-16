@@ -18,6 +18,7 @@
 */
 //Local
 #include <Std++/_Backends/UI/SpinBoxBackend.hpp>
+#include <Std++/UI/Controls/SpinBox.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 

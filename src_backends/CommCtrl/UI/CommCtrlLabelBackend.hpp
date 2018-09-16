@@ -18,6 +18,7 @@
 */
 //Local
 #include <Std++/_Backends/UI/LabelBackend.hpp>
+#include <Std++/UI/Controls/Label.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 

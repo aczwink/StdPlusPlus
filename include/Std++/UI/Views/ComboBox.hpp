@@ -36,7 +36,7 @@ namespace StdXX
 			inline void Select(uint32 index)
 			{
 				ControllerIndex controllerIndex = this->GetController()->GetChildIndex(index, 0, ControllerIndex());
-				this->backend->Select(controllerIndex);
+				this->_GetBackend()->Select(controllerIndex);
 			}
         };
     }

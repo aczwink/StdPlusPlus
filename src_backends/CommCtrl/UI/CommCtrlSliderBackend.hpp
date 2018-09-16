@@ -18,6 +18,7 @@
 */
 //Local
 #include <Std++/_Backends/UI/SliderBackend.hpp>
+#include <Std++/UI/Controls/Slider.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 

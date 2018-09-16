@@ -47,7 +47,7 @@ CompositeWidget::~CompositeWidget()
 //Eventhandlers
 void CompositeWidget::OnPaint()
 {
-	if(!this->backend)
+	if(this->_GetBackend() == nullptr)
 	{
 		for(Widget *const& refpChild : this->children)
 			refpChild->Repaint();
@@ -81,10 +81,23 @@ uint32 CompositeWidget::GetNumberOfChildren() const
 Math::SizeD CompositeWidget::GetSizeHint() const
 {
 	Math::SizeD size;
-	if(this->backend)
-		size = size.Max(this->backend->GetSizeHint());
+	if(this->_GetBackend())
+		size = size.Max(this->_GetBackend()->GetSizeHint());
     if(this->layout)
 		size = size.Max(this->layout->GetPreferredSize(*this));
 
 	return size;
+}
+
+//Private methods
+void CompositeWidget::RealizeSelf()
+{
+	WidgetContainer* parent = this->GetParent();
+
+	ContentAreaWidget* parentCAW = dynamic_cast<ContentAreaWidget *>(parent);
+	if (parentCAW)
+	{
+		_stdxx_::WidgetContainerBackend *backend = parentCAW->_GetContentAreaWidgetBackend()->CreateContentAreaBackend(*this);
+		this->_SetBackend(backend);
+	}
 }

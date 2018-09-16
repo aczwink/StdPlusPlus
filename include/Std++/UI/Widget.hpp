@@ -53,7 +53,7 @@ namespace StdXX
             SizingPolicy sizingPolicy;
 
             //Constructor
-            inline Widget() : parent(nullptr), backend(nullptr)
+            inline Widget() : parent(nullptr), backend(nullptr), isRealized(false)
 			{
 			}
 
@@ -70,6 +70,11 @@ namespace StdXX
 
             //Inline
 			inline _stdxx_::WidgetBackend *_GetBackend()
+			{
+				return this->backend;
+			}
+
+			inline const _stdxx_::WidgetBackend *_GetBackend() const
 			{
 				return this->backend;
 			}
@@ -171,13 +176,18 @@ namespace StdXX
 			}
 
 		protected:
-			//Members
-			_stdxx_::WidgetBackend *backend;
+			//Methods
+			UIBackend * _GetUIBackend();
 
 			//Inline
 			inline void IgnoreEvent()
 			{
 				this->backend->IgnoreEvent();
+			}
+
+			inline void _SetBackend(_stdxx_::WidgetBackend* widgetBackend)
+			{
+				this->backend = widgetBackend;
 			}
 
 		private:
@@ -188,6 +198,18 @@ namespace StdXX
 			 * The bounds are always relative to the parents coordinate system.
 			 */
 			Math::RectD bounds;
+			_stdxx_::WidgetBackend *backend;
+			bool isRealized;
+
+			//Methods
+			/**
+			 * Pre-condition: CanRealize()
+			 */
+			void Realize();
+
+			//Overrideable
+			virtual bool CanRealize() const;
+			virtual void RealizeSelf();
 
 			//Eventhandlers
 			virtual void OnMouseButtonPressed(const Events::MouseClickEvent &event);
@@ -196,6 +218,7 @@ namespace StdXX
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnMoved();
 			virtual void OnPaint();
+			virtual void OnRealized();
 			virtual void OnResized();
         };
     }

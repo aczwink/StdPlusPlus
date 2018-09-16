@@ -43,7 +43,7 @@ namespace _stdxx_
 		virtual void Reparent(Win32Window *newParent);
 
 		//Methods
-		StdXX::UI::CompositeWidget *CreateContentArea() override;
+		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		uint32 GetPosition() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;

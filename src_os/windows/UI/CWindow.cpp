@@ -32,11 +32,14 @@ using namespace StdXX::UI;
 //Public methods
 void Window::EnableDrop()
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
+	/*
 	if(!this->pOSDropTarget)
 	{
 		this->pOSDropTarget = new CDropTarget(this);
 		RegisterDragDrop((HWND)this->backend, this->pOSDropTarget);
 	}
+	*/
 }
 
 /* OLD STUFF:

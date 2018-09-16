@@ -34,12 +34,7 @@ Window::Window()
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
 
-	this->windowBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(this);
-	this->contentAreaWidgetBackend = this->windowBackend;
-	this->widgetContainerBackend = this->windowBackend;
-	this->backend = this->windowBackend;
-
-    this->SetContentContainer(this->windowBackend->CreateContentArea());
+	this->SetContentContainer(new CompositeWidget);
 }
 
 //Destructor
@@ -78,7 +73,7 @@ void Window::OnDrop(const ITransfer &refTransfer)
 //Public methods
 void Window::SwitchFullscreen(bool state)
 {
-    if(this->backend)
+    if(this->_GetBackend())
     {
         //OS-handled!
         NOT_IMPLEMENTED_ERROR;
@@ -89,4 +84,16 @@ void Window::SwitchFullscreen(bool state)
         NOT_IMPLEMENTED_ERROR;
         this->Repaint();
     }
+}
+
+//Private methods
+bool Window::CanRealize() const
+{
+	return true;
+}
+
+void Window::RealizeSelf()
+{
+	_stdxx_::WindowBackend* windowBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateWindowBackend(this);
+	this->_SetBackend(windowBackend);
 }

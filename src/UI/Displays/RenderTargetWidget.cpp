@@ -30,15 +30,23 @@ RenderTargetWidget::RenderTargetWidget() : deviceContext(nullptr)
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
-
-    this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateRenderTargetWidgetBackend(this);
-    this->deviceContext = this->backend->GetUIBackend()->renderBackends.GetActiveBackend()->CreateDeviceContext(*this->backend, 4);
 }
 
 //Destructor
 RenderTargetWidget::~RenderTargetWidget()
 {
 	delete this->deviceContext;
+}
+
+//Private methods
+void RenderTargetWidget::RealizeSelf()
+{
+	UIBackend *uiBackend = this->_GetUIBackend();
+
+	_stdxx_::WidgetBackend* widgetBackend = uiBackend->CreateRenderTargetWidgetBackend(this);
+	this->deviceContext = uiBackend->renderBackends.GetActiveBackend()->CreateDeviceContext(*widgetBackend, 4);
+
+	this->_SetBackend(widgetBackend);
 }
 
 //Eventhandlers

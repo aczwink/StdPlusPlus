@@ -33,7 +33,6 @@ SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max())
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
 	this->spinBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSpinBoxBackend(this);
-	this->backend = this->spinBoxBackend;
 
 	this->spinBoxBackend->SetRange(this->min, this->max);
 }

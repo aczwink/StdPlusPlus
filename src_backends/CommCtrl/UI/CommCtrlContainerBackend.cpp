@@ -29,7 +29,8 @@ void CommCtrlContainerBackend::AddChild(StdXX::UI::Widget *widget)
 	if (this->container->GetParent())
 	{
 		CommCtrlContainerBackend *parentBackend = dynamic_cast<CommCtrlContainerBackend *>(this->container->GetParent()->_GetBackend());
-		parentBackend->AddChild(widget);
+		if(parentBackend)
+			parentBackend->AddChild(widget);
 	}
 }
 

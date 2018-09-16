@@ -41,7 +41,7 @@ namespace _stdxx_
 		}
 
 		//Abstract
+		virtual _stdxx_::WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) = 0;
 		virtual StdXX::Math::RectD GetContentAreaBounds() const = 0;
-		virtual StdXX::UI::CompositeWidget *CreateContentArea() = 0;
 	};
 }

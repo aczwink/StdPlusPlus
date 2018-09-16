@@ -70,7 +70,6 @@ namespace _stdxx_
 		inline CommCtrlContainer() : CompositeWidget()
 		{
 			this->widgetContainerBackend = new CommCtrlContainerBackend(StdXX::BackendManager<StdXX::UIBackend>::GetRootInstance().GetActiveBackend(), this);
-			this->backend = this->widgetContainerBackend;
 		}
 	};
 }

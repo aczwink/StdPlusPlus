@@ -196,7 +196,6 @@
 #include <Std++/Time/Timer.hpp>
 
 //UI
-#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Action.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>
@@ -206,7 +205,9 @@
 #include <Std++/UI/Mouse.hpp>
 //Containers
 #include <Std++/UI/Containers/CTabBox.h>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Containers/GroupBox.hpp>
+#include <Std++/UI/Containers/ScrollArea.hpp>
 //Controllers
 #include <Std++/UI/Controllers/ACheckListController.h>
 #include <Std++/UI/Controllers/ListController.hpp>

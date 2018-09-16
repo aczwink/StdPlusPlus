@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "Std++/UI/Containers/CompositeWidget.hpp"
+#include <Std++/UI/Widget.hpp>
 
 namespace StdXX
 {
@@ -30,7 +30,7 @@ namespace StdXX
 
     namespace UI
     {
-        class STDPLUSPLUS_API RenderTargetWidget : public CompositeWidget
+        class STDPLUSPLUS_API RenderTargetWidget : public Widget
         {
         public:
             //Constructor
@@ -47,6 +47,9 @@ namespace StdXX
             virtual void OnResized();
 
         private:
+			//Methods
+			void RealizeSelf() override;
+
             //Eventhandlers
             virtual void OnPaint();
         };

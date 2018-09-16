@@ -55,9 +55,9 @@ Window *Widget::GetWindow()
 
 const Window *Widget::GetWindow() const
 {
-	if(IS_INSTANCE_OF(this, const Window))
+	if (IS_INSTANCE_OF(this, const Window))
 		return dynamic_cast<const Window *>(this);
-	if(this->parent)
+	if (this->parent)
 		return this->parent->GetWindow();
 	return nullptr;
 }
@@ -72,6 +72,46 @@ Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const 
 		current = current->parent;
 	}
 	return translated;
+}
+
+//Protected methods
+UIBackend* Widget::_GetUIBackend()
+{
+	if (this->backend)
+		return this->backend->GetUIBackend();
+	return this->parent->_GetUIBackend();
+}
+
+//Private methods
+bool Widget::CanRealize() const
+{
+	if (this->parent)
+	{
+		if (this->parent->isRealized)
+			return true;
+		return this->parent->CanRealize();
+	}
+	return false;
+}
+
+void Widget::Realize()
+{
+	//already realized?
+	if (this->isRealized)
+		return;
+	this->isRealized = true; //do this early to prevent double realization by parents that realize their children
+
+	//parent should also be realized
+	if(this->parent)
+		this->parent->Realize();
+
+	//realize self
+	this->RealizeSelf();
+	this->OnRealized();
+}
+
+void Widget::RealizeSelf()
+{
 }
 
 //Eventhandlers
@@ -101,6 +141,11 @@ void Widget::OnMoved()
 }
 
 void Widget::OnPaint()
+{
+	this->IgnoreEvent();
+}
+
+void Widget::OnRealized()
 {
 	this->IgnoreEvent();
 }

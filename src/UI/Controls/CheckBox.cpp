@@ -32,5 +32,4 @@ CheckBox::CheckBox()
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
 	this->checkBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateCheckBoxBackend(this);
-	this->backend = this->checkBoxBackend;
 }

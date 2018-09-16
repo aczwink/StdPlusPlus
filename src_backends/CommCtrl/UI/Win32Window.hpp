@@ -27,8 +27,8 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline Win32Window(const CommCtrlWidgetBackend &widgetBackend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
-			: widgetBackend(widgetBackend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle), hWnd(nullptr)
+		inline Win32Window(CommCtrlWidgetBackend& backend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
+			: hWnd(nullptr), backend(backend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle)
 		{
 		}
 
@@ -43,13 +43,15 @@ namespace _stdxx_
 		//Inline
 		inline HWND GetHWND()
 		{
-			this->Realize();
+			if (this->hWnd == nullptr)
+				this->CreateHWND();
 			return this->hWnd;
 		}
 
-		inline HWND Get_HWND_ReadOnly() const
+		inline const HWND GetHWND() const
 		{
-			ASSERT(this->hWnd, u8"Window handle not realized");
+			if (this->hWnd == nullptr)
+				this->CreateHWND();
 			return this->hWnd;
 		}
 
@@ -65,7 +67,7 @@ namespace _stdxx_
 
 		inline LRESULT SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
 		{
-			return SendMessageW(this->Get_HWND_ReadOnly(), Msg, wParam, lParam);
+			return SendMessageW(this->GetHWND(), Msg, wParam, lParam);
 		}
 
 		inline void SetRect(const StdXX::Math::RectD &bounds)
@@ -80,14 +82,14 @@ namespace _stdxx_
 
 	private:
 		//Members
-		const CommCtrlWidgetBackend &widgetBackend;
-		HWND hWnd;
+		mutable HWND hWnd;
+		CommCtrlWidgetBackend& backend;
 		LPCWSTR lpClassName;
 		DWORD dwStyle;
 		DWORD dwExStyle;
 
 		//Methods
-		void Realize();
+		void CreateHWND() const;
 
 		//Inline
 		inline HFONT GetFont() const

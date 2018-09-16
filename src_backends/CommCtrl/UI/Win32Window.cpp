@@ -52,7 +52,7 @@ String Win32Window::GetText() const
 
 Size<uint16> Win32Window::GetTextExtents() const
 {
-	HDC hDC = GetDC(this->hWnd);
+	HDC hDC = GetDC(this->GetHWND());
 	HGDIOBJ oldFont = SelectObject(hDC, this->GetFont());
 
 	String str = this->GetText();
@@ -67,6 +67,8 @@ Size<uint16> Win32Window::GetTextExtents() const
 
 void Win32Window::SetParent(Win32Window *parent)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
+	/*
 	parent->Realize();
 	this->Realize();
 
@@ -81,52 +83,48 @@ void Win32Window::SetParent(Win32Window *parent)
 	::SetParent(this->hWnd, parent->hWnd);
 	SetWindowLongPtrW(this->hWnd, GWL_STYLE, dwStyle);
 	SetWindowPos(this->hWnd, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+	*/
 }
 
 //Private methods
-void Win32Window::Realize()
+void Win32Window::CreateHWND() const
 {
-	//already realized?
-	if (this->hWnd != nullptr)
-		return;
+	//find a suitable parent
+	const Widget *current = this->backend.GetWidget().GetParent();
+	while (current && current->_GetBackend() == nullptr)
+		current = current->GetParent();
 
-	//get parent window
-	bool selfIsWindow = false;
-	Window *parentWindow = (Window *)this->widgetBackend.GetWidget().GetWindow();
-	if (&this->widgetBackend.GetWidget() == parentWindow)
-	{
-		selfIsWindow = true;
-		if (parentWindow->GetParent())
-			parentWindow = parentWindow->GetParent()->GetWindow();
-		else
-			parentWindow = nullptr;
-	}
-
-	//get parent HWND	
+	const Win32Window* parent = nullptr;
 	HWND hParent = nullptr;
-	if(parentWindow)
+	if (current)
 	{
-		CommCtrlWindowBackend *windowBackend = dynamic_cast<CommCtrlWindowBackend *>(parentWindow->_GetBackend());
-		hParent = windowBackend->GetHWND();
+		const CommCtrlWidgetBackend *parentBackend = dynamic_cast<const CommCtrlWidgetBackend *>(current->_GetBackend());
+		parent = parentBackend->GetFirstWindow();
+		hParent = parent->GetHWND();
 	}
 
 	//set style
 	DWORD dwStyle = this->dwStyle;
-	if (!selfIsWindow)
+	if (parent)
 	{
-		if (hParent == nullptr)
-			dwStyle |= WS_POPUP; //the widget does not have a parent yet :S
+		bool isWindow = &this->backend.GetWidget() == this->backend.GetWidget().GetWindow();
+		if (isWindow)
+			dwStyle |= WS_POPUP; //window with other
 		else
 		{
 			dwStyle |= WS_CHILD; //its a child
-			dwStyle |= WS_VISIBLE; //children default to be visible
+								 //dwStyle |= WS_VISIBLE; //children default to be visible
 		}
+	}
+	else
+	{
+		dwStyle |= WS_OVERLAPPED;
 	}
 
 	//position
 	int x = 0;
 	int width = 0;
-	if ((dwStyle & (WS_POPUP | WS_CHILD)) == WS_OVERLAPPED)
+	if ((dwStyle & (WS_POPUP | WS_CHILD)) == WS_OVERLAPPED) //is it a top-level window?
 	{
 		x = CW_USEDEFAULT;
 		width = CW_USEDEFAULT;
@@ -134,11 +132,11 @@ void Win32Window::Realize()
 
 	//create HWND
 	HINSTANCE hInstance = GetModuleHandle(NULL);
-	this->hWnd = CreateWindowExW(this->dwExStyle, this->lpClassName, nullptr, this->dwStyle, x, 0, width, 0, hParent, NULL, hInstance, (LPVOID)&this->widgetBackend);
+	this->hWnd = CreateWindowExW(dwExStyle, lpClassName, nullptr, dwStyle, x, 0, width, 0, hParent, NULL, hInstance, (LPVOID)&backend);
 
 	ASSERT(this->hWnd, u8"Realization failed");
 
 	//set stuff on HWND
-	SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)&this->widgetBackend);
+	SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)&backend);
 	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);
 }

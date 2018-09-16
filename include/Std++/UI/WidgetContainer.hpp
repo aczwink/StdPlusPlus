@@ -28,6 +28,11 @@ namespace StdXX
 		class STDPLUSPLUS_API WidgetContainer : public Widget
 		{
 		public:
+			//Constructor
+			inline WidgetContainer() : widgetContainerBackend(nullptr)
+			{
+			}
+
 			//Abstract
 			virtual Widget *GetChild(uint32 index) = 0;
 			virtual uint32 GetNumberOfChildren() const = 0;
@@ -38,6 +43,12 @@ namespace StdXX
 			_stdxx_::WidgetContainerBackend *widgetContainerBackend;
 
 			//Inline
+			inline void _SetBackend(_stdxx_::WidgetContainerBackend *widgetContainerBackend)
+			{
+				Widget::_SetBackend(widgetContainerBackend);
+				this->widgetContainerBackend = widgetContainerBackend;
+			}
+
 			inline void FreeWidgetOwnership(Widget *widget)
 			{
 				widget->parent = nullptr;
@@ -48,8 +59,15 @@ namespace StdXX
 				if(widget->parent)
 					widget->parent->RemoveChild(widget);
 				widget->parent = this;
-				this->widgetContainerBackend->AddChild(widget);
+				if (widget->CanRealize())
+					widget->Realize();
+				if(this->widgetContainerBackend != nullptr)
+					this->widgetContainerBackend->AddChild(widget);
 			}
+
+		private:
+			//Eventhandlers
+			void OnRealized();
 		};
 	}
 }

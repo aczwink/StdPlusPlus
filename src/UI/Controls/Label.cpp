@@ -36,5 +36,4 @@ Label::Label()
 	*/
 
 	this->labelBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateLabelBackend(this);
-	this->backend = this->labelBackend;
 }
