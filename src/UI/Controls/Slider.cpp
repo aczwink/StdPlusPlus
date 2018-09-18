@@ -32,5 +32,4 @@ Slider::Slider()
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
 	this->sliderBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSliderBackend(this);
-	this->backend = this->sliderBackend;
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,21 +16,19 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
-#include <Std++/UI/Controls/PushButton.hpp>
+#pragma once
 //Local
-#include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UI/UIBackend.hpp>
-#include <Std++/_Backends/UI/PushButtonBackend.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::UI;
+#include "ContentAreaWidget.hpp"
 
-//Constructor
-PushButton::PushButton()
+namespace StdXX
 {
-	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
-
-	this->pushButtonBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreatePushButtonBackend(this);
+	namespace UI
+	{
+		class STDPLUSPLUS_API ScrollArea : public ContentAreaWidget
+		{
+		public:
+			//Constructor
+			ScrollArea();
+		};
+	}
 }

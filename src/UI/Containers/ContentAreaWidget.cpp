@@ -37,6 +37,8 @@ Widget *ContentAreaWidget::GetChild(uint32 index)
 
 uint32 ContentAreaWidget::GetNumberOfChildren() const
 {
+	if (this->contentContainer == nullptr)
+		return 0;
 	return 1;
 }
 

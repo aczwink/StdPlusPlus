@@ -34,11 +34,25 @@ namespace StdXX
             //Inline
             inline void SetTitle(const String &title)
             {
-                this->groupBoxBackend->SetTitle(title);
+				this->title = title;
+				if(this->groupBoxBackend)
+					this->groupBoxBackend->SetTitle(this->title);
             }
 
 		private:
+			//Members
+			String title;
 			_stdxx_::GroupBoxBackend *groupBoxBackend;
+
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::GroupBoxBackend *groupBoxBackend)
+			{
+				ContentAreaWidget::_SetBackend(groupBoxBackend);
+				this->groupBoxBackend = groupBoxBackend;
+			}
         };
     }
 }

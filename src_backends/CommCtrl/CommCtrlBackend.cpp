@@ -23,6 +23,7 @@
 #include "UI/CommCtrlLabelBackend.hpp"
 #include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
+#include "UI/CommCtrlScrollAreaBackend.hpp"
 #include "UI/CommCtrlSliderBackend.hpp"
 #include "UI/CommCtrlSpinBoxBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
@@ -85,6 +86,11 @@ SliderBackend *CommCtrlBackend::CreateSliderBackend(UI::Slider *slider)
 SpinBoxBackend *CommCtrlBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
 {
 	return new CommCtrlSpinBoxBackend(this, spinBox);
+}
+
+ContentAreaWidgetBackend* CommCtrlBackend::CreateScrollAreaBackend(UI::ScrollArea * scrollArea)
+{
+	return new CommCtrlScrollAreaBackend(this, scrollArea);
 }
 
 WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)

@@ -23,6 +23,7 @@
 #include <CommCtrl.h>
 //Definitions
 #undef AppendMenu
+#undef GetNextWindow
 #undef SendMessage
 
 #define STDPLUSPLUS_WIN_WNDCLASS L"Std++"

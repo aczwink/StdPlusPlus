@@ -36,7 +36,7 @@ namespace StdXX
             //Inline
 			inline void SetEditable(bool editable)
 			{
-				this->backend->SetEditable(editable);
+				this->_GetBackend()->SetEditable(editable);
 			}
 
 			inline void SetText(const String &text)

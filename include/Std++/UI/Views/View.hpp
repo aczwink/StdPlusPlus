@@ -72,7 +72,7 @@ namespace StdXX
 			//Inline
 			inline void OnModelChanged()
 			{
-				this->backend->ResetView();
+				this->_GetBackend()->ResetView();
 			}
 		};
 	}

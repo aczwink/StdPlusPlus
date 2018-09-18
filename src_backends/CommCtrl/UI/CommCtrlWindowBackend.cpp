@@ -55,24 +55,25 @@ WinAPI Documentation:
 void CommCtrlWindowBackend::AddChild(Widget *widget)
 {
 	CommCtrlWidgetBackend *commCtrlWidgetBackend = dynamic_cast<CommCtrlWidgetBackend *>(widget->_GetBackend());
-	commCtrlWidgetBackend->Reparent(this);
+	if(commCtrlWidgetBackend != nullptr)
+		commCtrlWidgetBackend->Reparent(this);
 }
 
-CompositeWidget *CommCtrlWindowBackend::CreateContentArea()
+WidgetContainerBackend *CommCtrlWindowBackend::CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget)
 {
-	return new CommCtrlContainer;
+	return nullptr;
 }
 
 RectD CommCtrlWindowBackend::GetContentAreaBounds() const
 {
 	RECT rcWindow;
-	GetWindowRect(this->Get_HWND_ReadOnly(), &rcWindow);
+	GetWindowRect(this->GetHWND(), &rcWindow);
 
 	RECT rcClient;
-	GetClientRect(this->Get_HWND_ReadOnly(), &rcClient);
+	GetClientRect(this->GetHWND(), &rcClient);
 
 	POINT origin{ 0, rcClient.bottom };
-	ClientToScreen(this->Get_HWND_ReadOnly(), &origin);
+	ClientToScreen(this->GetHWND(), &origin);
 
 	return RectD(origin.x - rcWindow.left, rcWindow.bottom - origin.y, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
 }

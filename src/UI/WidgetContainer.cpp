@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,20 +17,18 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Class header
-#include <Std++/UI/Controls/PushButton.hpp>
-//Local
-#include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/_Backends/UI/UIBackend.hpp>
-#include <Std++/_Backends/UI/PushButtonBackend.hpp>
+#include <Std++/UI/WidgetContainer.hpp>
 //Namespaces
-using namespace StdXX;
 using namespace StdXX::UI;
 
-//Constructor
-PushButton::PushButton()
+//Eventhandlers
+void WidgetContainer::OnRealized()
 {
-	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+	for (uint32 i = 0; i < this->GetNumberOfChildren(); i++)
+	{
+		Widget *widget = this->GetChild(i);
 
-	this->pushButtonBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreatePushButtonBackend(this);
+		if (widget->CanRealize())
+			widget->Realize();
+	}
 }

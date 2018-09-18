@@ -34,6 +34,7 @@ namespace _stdxx_
 		}
 
 		//Overrideable
+		virtual const Win32Window* GetNextWindow(const Win32Window* window) const;
 		virtual void PrePaint();
 		virtual void Reparent(Win32Window *newParent);
 		virtual void SetEnabled(bool enable) override;
@@ -42,6 +43,12 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 		void Repaint() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
+
+		//Inline
+		inline const Win32Window* GetFirstWindow() const
+		{
+			return this->GetNextWindow(nullptr);
+		}
 
 	protected:
 		//Methods

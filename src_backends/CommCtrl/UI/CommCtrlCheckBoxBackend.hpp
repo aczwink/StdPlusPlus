@@ -18,6 +18,7 @@
 */
 //Local
 #include <Std++/_Backends/UI/CheckBoxBackend.hpp>
+#include <Std++/UI/Controls/CheckBox.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 

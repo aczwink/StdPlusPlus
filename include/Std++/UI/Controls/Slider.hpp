@@ -37,7 +37,7 @@ namespace StdXX
 			//Inline
 			inline uint32 GetPosition() const
 			{
-				return this->backend->GetPosition();
+				return this->sliderBackend->GetPosition();
 			}
 
 			inline void SetPosition(uint32 pos)

@@ -72,6 +72,9 @@ namespace StdXX
             //Members
             LinkedList<Widget *> children;
 
+			//Methods
+			void RealizeSelf() override;
+
             //Inline
             inline void RemoveChild(Widget *child)
             {

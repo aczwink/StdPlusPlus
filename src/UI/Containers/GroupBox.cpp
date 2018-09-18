@@ -28,13 +28,16 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-GroupBox::GroupBox() : ContentAreaWidget()
+GroupBox::GroupBox() : ContentAreaWidget(),
+	groupBoxBackend(nullptr)
 {
-	this->groupBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateGroupBoxBackend(this);
-	this->contentAreaWidgetBackend = this->groupBoxBackend;
-	this->widgetContainerBackend = this->groupBoxBackend;
-	this->backend = this->groupBoxBackend;
-
-	this->SetContentContainer(this->groupBoxBackend->CreateContentArea());
+	this->SetContentContainer(new CompositeWidget);
 	this->GetContentContainer()->SetLayout(new VerticalLayout);
+}
+
+//Private methods
+void GroupBox::RealizeSelf()
+{
+	_stdxx_::GroupBoxBackend* groupBoxBackend = this->_GetUIBackend()->CreateGroupBoxBackend(this);
+	this->_SetBackend(groupBoxBackend);
 }

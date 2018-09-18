@@ -77,7 +77,7 @@ namespace StdXX
 			{
 				delete this->pMenuBar;
 				this->pMenuBar = menuBar;
-				this->backend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
+				this->windowBackend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
 			}
 
 			inline void SetTitle(const String &title)
@@ -87,7 +87,15 @@ namespace StdXX
 
 			inline void ShowInformationBox(const String &title, const String &message)
 			{
-				this->backend->ShowInformationBox(title, message);
+				this->windowBackend->ShowInformationBox(title, message);
+			}
+
+		protected:
+			//Inline
+			inline void _SetBackend(_stdxx_::WindowBackend *windowBackend)
+			{
+				ContentAreaWidget::_SetBackend(windowBackend);
+				this->windowBackend = windowBackend;
 			}
 
         private:
@@ -95,6 +103,10 @@ namespace StdXX
         	_stdxx_::WindowBackend *windowBackend;
             MenuBar *pMenuBar;
             CDropTarget *pOSDropTarget;
+
+			//Methods
+			bool CanRealize() const override;
+			void RealizeSelf() override;
 
             //Eventhandlers
             virtual void OnClose();

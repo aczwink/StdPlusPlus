@@ -42,7 +42,7 @@ namespace _stdxx_
 
         //Public methods
 		void AddChild(StdXX::UI::Widget * widget) override;
-		StdXX::UI::CompositeWidget * CreateContentArea() override;
+		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		uint32 GetPosition() const override;
 		Math::SizeD GetSizeHint() const override;

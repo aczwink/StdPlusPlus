@@ -51,6 +51,11 @@ namespace StdXX
 			void RemoveChild(Widget *child);
 
 			//Inline
+			inline _stdxx_::ContentAreaWidgetBackend* _GetContentAreaWidgetBackend()
+			{
+				return this->contentAreaWidgetBackend;
+			}
+
 			inline void AddContentChild(Widget *widget)
 			{
 				this->contentContainer->AddChild(widget);
@@ -78,6 +83,13 @@ namespace StdXX
 
 			//Eventhandlers
 			virtual void OnResized();
+
+			//Inline
+			inline void _SetBackend(_stdxx_::ContentAreaWidgetBackend *contentAreaWidgetBackend)
+			{
+				WidgetContainer::_SetBackend(contentAreaWidgetBackend);
+				this->contentAreaWidgetBackend = contentAreaWidgetBackend;
+			}
 
 		private:
 			//Members

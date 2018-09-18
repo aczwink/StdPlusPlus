@@ -29,6 +29,13 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Public methods
+const Win32Window* CommCtrlWidgetBackend::GetNextWindow(const Win32Window* window) const
+{
+	if (window == nullptr)
+		return dynamic_cast<const Win32Window*>(this);
+	return nullptr;
+}
+
 void CommCtrlWidgetBackend::IgnoreEvent()
 {
 	extern bool g_ignoreMessage;
@@ -67,6 +74,8 @@ void CommCtrlWidgetBackend::SetEnabled(bool enable)
 //Protected methods
 RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
+	/*
 	//bounds are in widgets local coordinates
 	PointD origin = bounds.origin - this->GetWidget().GetBounds().origin; //get offset in local coordinates
 	origin = this->TransformToWindow(origin); //transform to window coordinates
@@ -79,10 +88,14 @@ RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 	origin.y = basis.size.height - origin.y;
 	
 	return RectD(origin, bounds.size);
+	*/
+	return RectD();
 }
 
 PointD CommCtrlWidgetBackend::TransformToWindow(const PointD &point) const
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
+	/*
 	PointD transformed = point;
 
 	const Window *window = this->GetWidget().GetWindow();
@@ -94,4 +107,6 @@ PointD CommCtrlWidgetBackend::TransformToWindow(const PointD &point) const
 	}
 
 	return  transformed;
+	*/
+	return PointD();
 }

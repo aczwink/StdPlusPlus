@@ -28,9 +28,9 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Public methods
-CompositeWidget *CommCtrlGroupBoxBackend::CreateContentArea()
+WidgetContainerBackend * CommCtrlGroupBoxBackend::CreateContentAreaBackend(CompositeWidget & widget)
 {
-	return new CommCtrlContainer;
+	return nullptr;
 }
 
 RectD CommCtrlGroupBoxBackend::GetContentAreaBounds() const

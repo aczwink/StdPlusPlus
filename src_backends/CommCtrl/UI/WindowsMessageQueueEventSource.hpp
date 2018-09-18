@@ -45,7 +45,7 @@ public:
 private:
 	//Methods
 	void DispatchControlEvent(_stdxx_::CommCtrlWidgetBackend &backend, UINT notificationCode);
-	void DispatchInputEvent(HRAWINPUT hRawInput);
+	void DispatchInputEvent(HWND hWnd, StdXX::UI::Widget &widget, HRAWINPUT hRawInput);
 	/**
 	 *
 	 * @param widget

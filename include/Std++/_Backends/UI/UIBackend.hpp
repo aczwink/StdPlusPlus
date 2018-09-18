@@ -27,6 +27,7 @@
 namespace _stdxx_
 {
 	class CheckBoxBackend;
+	class ContentAreaWidgetBackend;
 	class GroupBoxBackend;
 	class LabelBackend;
 	class MenuBackend;
@@ -50,6 +51,7 @@ namespace StdXX
 		class Menu;
 		class MenuBar;
 		class PushButton;
+		class ScrollArea;
 		class Slider;
 		class SpinBox;
 		class Widget;
@@ -71,6 +73,7 @@ namespace StdXX
 		virtual _stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
 		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton *pushButton) = 0;
 		virtual _stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget *renderTargetWidget) = 0;
+		virtual _stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea *scrollArea) = 0;
 		virtual _stdxx_::SliderBackend *CreateSliderBackend(UI::Slider *slider) = 0;
 		virtual _stdxx_::SpinBoxBackend *CreateSpinBoxBackend(UI::SpinBox *spinBox) = 0;
 		virtual _stdxx_::WindowBackend *CreateWindowBackend(UI::Window *window) = 0;
