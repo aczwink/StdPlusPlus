@@ -57,6 +57,7 @@ namespace _stdxx_
 		void Encode(AVFrame *frame);
 		bool FindSampleFormat(AVSampleFormat sampleFormat, const AVCodec *codec) const;
 		void MapAudioFrame(const StdXX::Multimedia::AudioFrame &audioFrame) const;
+		uint64_t MapChannelLayout(const StdXX::Multimedia::AudioSampleFormat &sampleFormat) const;
 		void MapPacket();
 		void MapVideoFrame(const StdXX::Multimedia::VideoFrame &frame) const;
 	};

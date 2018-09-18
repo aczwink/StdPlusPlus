@@ -19,14 +19,16 @@
 //Class header
 #include <Std++/Multimedia/ComputePixmapResampler.hpp>
 //Local
+#include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
+#include <Std++/Math/Fraction.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Compute;
 using namespace StdXX::Multimedia;
 
 //Constructor
-ComputePixmapResampler::ComputePixmapResampler(const Pixmap &pixmap, const PixelFormat &sourcePixelFormat) : pixmap(pixmap), sourcePixelFormat(sourcePixelFormat)
+ComputePixmapResampler::ComputePixmapResampler(const Math::Size<uint16> &sourceSize, const PixelFormat &sourcePixelFormat) : sourceSize(sourceSize), sourcePixelFormat(sourcePixelFormat), compileProgram(true)
 {
 	//get a device
 	DeviceEnumerator enumerator(DeviceType::Compute);
@@ -39,57 +41,74 @@ ComputePixmapResampler::ComputePixmapResampler(const Pixmap &pixmap, const Pixel
 	this->commandQueue = this->dc->CreateCommandQueue();
 }
 
-#include <Std++/Streams/StdOut.hpp>
+//#include <Std++/Streams/StdOut.hpp>
 
 //Public methods
-Pixmap *ComputePixmapResampler::Run()
+Pixmap *ComputePixmapResampler::Run(const Pixmap &sourcePixmap)
 {
-	this->CompileProgram();
+	//create target pixmap
+	Pixmap* targetPixmap = new Pixmap(this->sourceSize, *this->targetPixelFormat);
+
+	//determine the number of pixels per worker.
+	uint32 nPixelsTotal = targetPixmap->GetSize().width * targetPixmap->GetSize().height;
+	uint8 nPixelsPerWorker = 0;
+	for (uint8 i = 0; i < this->targetPixelFormat->nPlanes; i++)
+	{
+		const auto &plane = this->targetPixelFormat->planes[i];
+		//we can only write multiples of 32bit (without byte-addressing-store extensions)
+		uint8 currentBlockSize = this->targetPixelFormat->ComputeBlockSize(i);
+		uint8 current = ComputeLeastCommonMultiple(4, currentBlockSize) * plane.horzSampleFactor * plane.vertSampleFactor;
+		nPixelsPerWorker = Math::Max(nPixelsPerWorker, current);
+	}
+
+	//compile program
+	if (this->compileProgram)
+	{
+		this->CompileProgram(nPixelsPerWorker);
+		this->compileProgram = false;
+	}
 
 	//create kernel
 	UniquePointer<Kernel> kernel = this->program->CreateKernel(u8"ResampleMain");
 
-	//TODO: create program code
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	//create source buffers
+	uint32 kernelArgIdx = 0;
+	FixedArray<UniquePointer<Buffer>> sourceBuffers(this->sourcePixelFormat.nPlanes);
+	for (uint8 i = 0; i < this->sourcePixelFormat.nPlanes; i++)
+	{
+		uint32 planeSize = sourcePixmap.GetNumberOfLines(i) * sourcePixmap.GetLineSize(i);
+		sourceBuffers[i] = this->dc->CreateBuffer(planeSize);
+		this->commandQueue->EnqueueWriteBuffer(*sourceBuffers[i], false, 0, planeSize, sourcePixmap.GetPlane(i));
+		kernel->SetArg(kernelArgIdx++, *sourceBuffers[i]);
+	}
+	
+	//create target buffers
+	FixedArray<UniquePointer<Buffer>> destBuffers(this->targetPixelFormat->nPlanes);
+	for (uint8 i = 0; i < this->targetPixelFormat->nPlanes; i++)
+	{
+		uint32 planeSize = targetPixmap->GetNumberOfLines(i) * targetPixmap->GetLineSize(i);
+		destBuffers[i] = this->dc->CreateBuffer(planeSize);
+		kernel->SetArg(kernelArgIdx++, *destBuffers[i]);
+	}
 
-	/*
-	//create buffers
-	UniquePointer<Buffer> srcBuf = this->dc->CreateBuffer(W * H * 3);
-	UniquePointer<Buffer> dstBuf = this->dc->CreateBuffer(W * H * 3 * 4);
-
-	//write input pixmap
-	commandQueue->EnqueueWriteBuffer(*srcBuf, false, 0, W * H * 3, pixmap);
-
-	//call kernel
-	kernel->SetArg(0, *srcBuf);
-	kernel->SetArg(1, *dstBuf);
-	commandQueue->EnqueueTask(*kernel, W*H);
-
+	commandQueue->EnqueueTask(*kernel, nPixelsTotal / nPixelsPerWorker);
 	//wait for kernel to finish
 	commandQueue->Finish();
 
 	//read back transformed pixmap
-	commandQueue->EnqueueReadBuffer(*dstBuf, false, 0, W * H * 3 * 4, dst);
+	for (uint8 i = 0; i < this->targetPixelFormat->nPlanes; i++)
+	{
+		uint32 planeSize = targetPixmap->GetNumberOfLines(i) * targetPixmap->GetLineSize(i);
+		commandQueue->EnqueueReadBuffer(*destBuffers[i], false, 0, planeSize, targetPixmap->GetPlane(i));
+	}
 	commandQueue->Finish();
 
-	*/
-	NOT_IMPLEMENTED_ERROR; //this stays here until this method is solidly tested
-	return nullptr;
+	return targetPixmap;
 }
 
 //Private methods
-void ComputePixmapResampler::CompileProgram()
+void ComputePixmapResampler::CompileProgram(uint8 nPixelsPerWorker)
 {
-	//determine the number of pixels per worker.
-	uint8 nPixelsPerWorker = 0;
-	for (uint8 i = 0; i < this->sourcePixelFormat.nPlanes; i++)
-	{
-		//we can only write multiples of 32bit (without byte-addressing-store extensions)
-		uint8 horzSampleFactor;
-		uint8 currentBlockSize = this->sourcePixelFormat.ComputeBlockSize(i, horzSampleFactor);
-		4 / currentBlockSize * horzSampleFactor;
-	}
-
 	//add functions
 	String programCode;
 	if (this->targetPixelFormat.HasValue())
@@ -98,14 +117,14 @@ void ComputePixmapResampler::CompileProgram()
 	programCode += this->GenerateWritePixelsFunctionCode(nPixelsPerWorker);
 	programCode += this->GenerateMainResampleFunctionCode(nPixelsPerWorker);
 
-	stdOut << programCode << endl;
+	//stdOut << programCode << endl;
 
 	//create program object
 	this->program = this->dc->CreateProgram(programCode);
 	bool result = this->program->Build();
 	if (!result)
 	{
-		//should not happen... other than if we created wrong code 
+		//should not happen... other than if we created wrong code
 		ASSERT(false, program->GetBuildLog());
 	}
 }
@@ -129,15 +148,15 @@ String ComputePixmapResampler::GenerateMainResampleFunctionCode(uint8 nPixelsPer
 
 	programCode += u8")\r\n{\r\n";
 
-	programCode += u8"uint y = get_global_id(0) * " + String::Number(nPixelsPerWorker) + u8" / " + String::Number(this->pixmap.GetSize().width) + u8";\r\n";
-	programCode += u8"uint x = get_global_id(0) * " + String::Number(nPixelsPerWorker) + u8" % " + String::Number(this->pixmap.GetSize().width) + u8";\r\n";
+	programCode += u8"uint y = get_global_id(0) * " + String::Number(nPixelsPerWorker) + u8" / " + String::Number(this->sourceSize.width) + u8";\r\n";
+	programCode += u8"uint x = get_global_id(0) * " + String::Number(nPixelsPerWorker) + u8" % " + String::Number(this->sourceSize.width) + u8";\r\n";
 
 	//first step: read pixels
 	programCode += u8"float4 in_pixels[" + String::Number(nPixelsPerWorker) + u8"];\r\n";
 	programCode += u8"for(uint i = 0; i < " + String::Number(nPixelsPerWorker) + u8"; i++)\r\n";
 	programCode += u8"{\r\n";
-	programCode += u8"uint y_cur = y + ((x + i) / " + String::Number(this->pixmap.GetSize().width) + u8");\r\n";
-	programCode += u8"uint x_cur = (x + i) % " + String::Number(this->pixmap.GetSize().width) + u8";\r\n";
+	programCode += u8"uint y_cur = y + ((x + i) / " + String::Number(this->sourceSize.width) + u8");\r\n";
+	programCode += u8"uint x_cur = (x + i) % " + String::Number(this->sourceSize.width) + u8";\r\n";
 	programCode += u8"in_pixels[i] = ReadPixel(";
 	for (uint8 i = 0; i < this->sourcePixelFormat.nPlanes; i++)
 		programCode += u8"in" + String::Number(i) + u8", ";
@@ -225,18 +244,18 @@ String ComputePixmapResampler::GenerateReadPixelFunctionCode(uint8 nPixelsPerWor
 	for (uint8 i = 0; i < this->sourcePixelFormat.GetNumberOfColorComponents(); i++)
 	{
 		const auto &cc = this->sourcePixelFormat.colorComponents[i];
+		const auto &plane = this->sourcePixelFormat.planes[cc.planeIndex];
 
 		ASSERT(cc.shift % 8 == 0, u8"TODO: IMPLEMENT NON BYTE INDEX");
 		ASSERT(cc.nBits == 8, u8"TODO: IMPLEMENT OTHER THAN BYTE READING");
 
 		//get x and y from global id
-		programCode += u8"lineSize = " + String::Number(this->pixmap.GetLineSize(cc.planeIndex)) + u8";\r\n";
+		programCode += u8"lineSize = " + String::Number(this->sourcePixelFormat.ComputeLineSize(cc.planeIndex, this->sourceSize.width)) + u8";\r\n";
 		
 		//get correct pointer
-		uint8 sampleFactor;
-		uint8 blockSize = this->sourcePixelFormat.ComputeBlockSize(cc.planeIndex, sampleFactor);
+		uint8 blockSize = this->sourcePixelFormat.ComputeBlockSize(cc.planeIndex);
 		programCode += u8"__global uchar* in_c" + String::Number(i) + u8"_ptr = &in" + String::Number(cc.planeIndex)
-			+ u8"[(y/" + String::Number(cc.vertSampleFactor) + u8")*lineSize+(x/" + String::Number(cc.horzSampleFactor) + u8")*" + String::Number(blockSize) + u8"+"
+			+ u8"[(y/" + String::Number(plane.vertSampleFactor) + u8")*lineSize+(x/" + String::Number(plane.horzSampleFactor) + u8")*" + String::Number(blockSize) + u8"+"
 			+ String::Number(cc.shift / 8) + u8"]; \r\n";
 		
 		//read and scale input
@@ -258,6 +277,42 @@ String ComputePixmapResampler::GenerateWritePixelsFunctionCode(uint8 nPixelsPerW
 		programCode += u8"__global uchar* out" + String::Number(i) + u8", ";
 	programCode += u8"uint y, uint x)\r\n";
 	programCode += u8"{\r\n";
+	programCode += u8"uchar4 block;\r\n";
+	programCode += u8"__global uchar* blockPtr;\r\n";
+	
+	//always write 4 consecutive bytes to each plane
+	for (uint8 i = 0; i < this->targetPixelFormat->nPlanes; i++)
+	{
+		const uint8 blockSize = this->targetPixelFormat->ComputeBlockSize(i);
+		const uint8 nBlocks = nPixelsPerWorker / 4;
+		for (uint8 j = 0; j < nBlocks; j++)
+		{
+			const uint8 firstPixelIndex = j * 4 / blockSize;
+			const uint8 nPixels = (4 / blockSize) + ((4 % blockSize) ? 1 : 0);
+
+			const uint8 firstBitIndex = j * 32;
+			const uint8 nBitsForBlock = 32;
+			const uint8 lastBitIndex = firstBitIndex + nBitsForBlock;
+
+			for (uint8 k = 0; k < nPixels; k++)
+			{
+				for (uint8 l = 0; l < this->targetPixelFormat->GetNumberOfColorComponents(); l++)
+				{
+					const auto &cc = this->targetPixelFormat->colorComponents[l];
+					const uint8 bitIndex = (firstPixelIndex + k) * blockSize * 8 + cc.shift;
+					const uint8 byteIndex = (bitIndex / 8) % 4;
+					if ((bitIndex >= firstBitIndex) && (bitIndex < lastBitIndex))
+					{
+						programCode += u8"block.s" + String::Number(byteIndex) + u8" = (uchar)((pixels[" + String::Number(firstPixelIndex + k) + u8"].s" + String::Number(l) + u8")*" + String::Number(cc.max.u8 - cc.min.u8) + u8"+" + String::Number(cc.min.u8) + u8");\r\n";
+					}
+				}
+			}
+			
+			programCode += u8"blockPtr = &out" + String::Number(i) + u8"[y*" + String::Number(this->targetPixelFormat->ComputeLineSize(i, this->sourceSize.width)) + u8"+x*" + String::Number(blockSize) + u8"];\r\n";
+			programCode += u8"*(__global uchar4*)blockPtr = block;\r\n";
+		}
+	}
+	
 	programCode += u8"}\r\n";
 
 	return programCode;

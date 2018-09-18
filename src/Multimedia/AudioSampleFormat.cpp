@@ -36,8 +36,8 @@ AudioSampleFormat::AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType
 		case 2:
 			this->channels[0].offset = 0;
 			this->channels[0].planeIndex = 0;
-			this->channels[1].offset = this->GetSampleSize();
-			this->channels[1].planeIndex = 0;
+			this->channels[1].offset = 0;
+			this->channels[1].planeIndex = 1;
 			break;
 		default:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me

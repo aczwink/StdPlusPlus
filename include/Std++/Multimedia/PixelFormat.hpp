@@ -60,20 +60,6 @@ namespace StdXX
 				 */
 				bool isFloat;
 				/**
-				 * The sampling factor in horizontal direction.
-				 * 1 if one sample is used for 1 pixel.
-				 * 2 if one sample is used for 2 (horizontally) consecutive pixels.
-				 * etc.
-				 */
-				uint8 horzSampleFactor;
-				/**
-				* The sampling factor in vertical direction.
-				* 1 if one sample is used for 1 pixel.
-				* 2 if one sample is used for 2 (vertically) consecutive pixels.
-				* etc.
-				*/
-				uint8 vertSampleFactor;
-				/**
 				 * Minimum value the component can take.
 				 */
 				union
@@ -88,6 +74,30 @@ namespace StdXX
 					uint8 u8;
 				} max;
 			} colorComponents[MAX_COLOR_COMPONENTS];
+			struct
+			{
+				/**
+				 * We assume here that there are not different sample factors per plane.
+				 * This would lead to having multiple line sizes for one plane.
+				 * Actually I also don't believe that this case exists in practical cases.
+				 * However, to not cause problems we will use the smallest sample factor (i.e. best sampling)
+				 * and thus use the largest line-size (which will cause over-allocations).
+				 */
+				/**
+				 * The sampling factor in horizontal direction.
+				 * 1 if one sample is used for 1 pixel.
+				 * 2 if one sample is used for 2 (horizontally) consecutive pixels.
+				 * etc.
+				 */
+				uint8 horzSampleFactor;
+				/**
+				* The sampling factor in vertical direction.
+				* 1 if one sample is used for 1 pixel.
+				* 2 if one sample is used for 2 (vertically) consecutive pixels.
+				* etc.
+				*/
+				uint8 vertSampleFactor;
+			} planes[MAX_PLANES];
 
         	//Constructors
 			inline PixelFormat(ColorSpace colorSpace) : colorSpace(colorSpace)
@@ -105,7 +115,7 @@ namespace StdXX
 			}
 
         	//Methods
-			uint8 ComputeBlockSize(uint8 planeIndex, uint8 &sampleFactor) const;
+			uint8 ComputeBlockSize(uint8 planeIndex) const;
 			uint32 ComputeNumberOfLines(uint8 planeIndex, uint16 height) const;
 			bool GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const;
 			uint8 GetNumberOfColorComponents() const;
@@ -113,8 +123,7 @@ namespace StdXX
 			//Inline
 			inline uint32 ComputeLineSize(uint8 planeIndex, uint16 nPixelsPerRow) const
 			{
-				uint8 sampleFactor;
-				return this->ComputeBlockSize(planeIndex, sampleFactor) * nPixelsPerRow / sampleFactor;
+				return this->ComputeBlockSize(planeIndex) * nPixelsPerRow / this->planes[planeIndex].horzSampleFactor;
 			}
         };
     }

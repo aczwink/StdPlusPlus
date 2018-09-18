@@ -142,6 +142,9 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			EBML::Element element;
 			EBML::ParseElementHeader(element, this->inputStream);
 
+			if (this->inputStream.IsAtEnd())
+				return false; //no more data
+
 			switch (element.id)
 			{
 			case MATROSKA_ID_CLUSTER:
@@ -181,6 +184,16 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			packet.containsKeyframe = (flags & 0x80) != 0; //TODO: this assumes that this is a SimpleBlock. It will fail for standard blocks as this will always be 0
 
 			return true;
+		}
+		break;
+		case 2: //fixed-size lacing
+		{
+			uint8 nFrames = reader.ReadByte() + 1;
+			blockHeaderSize++;
+
+			uint32 frameSize = (blockSize - blockHeaderSize) / nFrames;
+			for (uint8 i = 0; i < nFrames; i++)
+				this->demuxerState.lacedFrameSizes.InsertTail(frameSize);
 		}
 		break;
 		case 3: //EBML lacing

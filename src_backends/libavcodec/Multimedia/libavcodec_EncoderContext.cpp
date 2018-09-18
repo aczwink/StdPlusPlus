@@ -61,6 +61,10 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 			}
 			
 			//AV_SAMPLE_FMT_FLTP
+
+			this->codecContext->sample_rate = audioStream.sampleRate;
+			this->codecContext->channel_layout = this->MapChannelLayout(*audioStream.sampleFormat);
+			this->codecContext->channels = audioStream.sampleFormat->nChannels;
 		}
 		break;
 		case DataType::Video:
@@ -157,6 +161,7 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	this->frame->pts = audioFrame.pts;
 	this->frame->nb_samples = audioBuffer->GetNumberOfSamplesPerChannel();
 	this->frame->channels = audioStream.sampleFormat->nChannels;
+	this->frame->channel_layout = this->codecContext->channel_layout;
 
 	int ret = av_frame_get_buffer(this->frame, 0);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
@@ -168,6 +173,11 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	{
 		MemCopy(this->frame->data[i], audioBuffer->GetPlane(i), Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}
+}
+
+uint64_t libavcodec_EncoderContext::MapChannelLayout(const AudioSampleFormat &sampleFormat) const
+{
+	return av_get_default_channel_layout(sampleFormat.nChannels); //TODO: implement this correctly
 }
 
 void libavcodec_EncoderContext::MapPacket()

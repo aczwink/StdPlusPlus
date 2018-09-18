@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Integer.hpp>
+#include <Std++/Mathematics.hpp>
 #include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
@@ -38,8 +39,30 @@ AudioBuffer::~AudioBuffer()
 //Public methods
 AudioBuffer *AudioBuffer::Resample(const AudioSampleFormat &fromFormat, const AudioSampleFormat &toFormat) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	AudioBuffer* result = new AudioBuffer(this->GetNumberOfSamplesPerChannel(), toFormat);
+
+	ASSERT(fromFormat.nChannels == toFormat.nChannels, u8"TODO: implement channel mixing");
+	ASSERT(fromFormat.sampleType == AudioSampleType::Float && toFormat.sampleType == AudioSampleType::S16, u8"TODO: implement correct sample type conversion");
+
+	for (uint8 ch = 0; ch < fromFormat.nChannels; ch++)
+	{
+		const auto &srcChannel = fromFormat.channels[ch];
+		const auto &destChannel = toFormat.channels[ch];
+		for (uint32 i = 0; i < this->GetNumberOfSamplesPerChannel(); i++)
+		{
+			const byte* src = (const byte*)this->GetPlane(srcChannel.planeIndex);
+			src += i * this->GetPlaneBlockSize(srcChannel.planeIndex) + srcChannel.offset;
+			float32 src_sample = *(const float32*)src;
+
+			byte* dst = (byte*)result->GetPlane(destChannel.planeIndex);
+			dst += i * result->GetPlaneBlockSize(destChannel.planeIndex) + destChannel.offset;
+
+			int16* dst_typed = (int16*)dst;
+			*dst_typed = Math::Clamp(int16(src_sample * Integer<int16>::Max()), Integer<int16>::Min(), Integer<int16>::Max());
+		}
+	}
+
+	return result;
 }
 
 //Private methods

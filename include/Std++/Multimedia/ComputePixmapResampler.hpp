@@ -32,29 +32,31 @@ namespace StdXX
 		{
 		public:
 			//Constructor
-			ComputePixmapResampler(const Pixmap &pixmap, const PixelFormat &sourcePixelFormat);
+			ComputePixmapResampler(const Math::Size<uint16> &sourceSize, const PixelFormat &sourcePixelFormat);
 
 			//Methods
-			Pixmap *Run();
+			Pixmap *Run(const Pixmap &sourcePixmap);
 
 			//Inline
 			inline void ChangePixelFormat(const PixelFormat &targetPixelFormat)
 			{
 				this->targetPixelFormat = targetPixelFormat;
+				this->compileProgram = true;
 			}
 
 		private:
 			//Members
-			const Pixmap &pixmap;
-			PixelFormat sourcePixelFormat;
+			bool compileProgram;
 			AutoPointer<Device> device;
 			UniquePointer<Compute::DeviceContext> dc;
 			UniquePointer<Compute::CommandQueue> commandQueue;
-			Optional<PixelFormat> targetPixelFormat;
 			UniquePointer<Compute::Program> program;
+			Math::Size<uint16> sourceSize;
+			PixelFormat sourcePixelFormat;
+			Optional<PixelFormat> targetPixelFormat;
 
 			//Methods
-			void CompileProgram();
+			void CompileProgram(uint8 nPixelsPerWorker);
 			String GenerateMainResampleFunctionCode(uint8 nPixelsPerWorker) const;
 			String GenerateReadPixelFunctionCode(uint8 nPixelsPerWorker) const;
 			String GenerateWritePixelsFunctionCode(uint8 nPixelsPerWorker) const;

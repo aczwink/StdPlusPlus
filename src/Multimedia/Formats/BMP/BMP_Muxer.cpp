@@ -62,37 +62,30 @@ void BMP_Muxer::WriteHeader()
 
 void BMP_Muxer::WritePacket(const Packet &refPacket)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: next
-	/*
-	VideoStream *pStream;
-
-	pStream = (VideoStream *)this->GetStream(0);
-
-	switch(pStream->GetCodec()->Get())
+	VideoStream *pStream = (VideoStream *)this->GetStream(0);
+	
+	switch(pStream->GetCodingFormat()->GetId())
 	{
-		case CodecId::BGR24:
+	case CodingFormatId::RawVideo:
+	{
+		const byte *pCurrent = refPacket.GetData();
+		uint16 nRows = refPacket.GetSize() / 3 / pStream->size.height;
+		uint16 rowSize = 3 * pStream->size.width;
+		for (uint16 y = 0; y < nRows; y++)
 		{
-			uint16 nRows, rowSize;
+			this->outputStream.WriteBytes(pCurrent, rowSize);
 
-			const byte *pCurrent = refPacket.GetData();
-			nRows = refPacket.GetSize() / 3 / pStream->height;
-			rowSize = 3 * pStream->width;
-			for(uint16 y = 0; y < nRows; y++)
-			{
-				this->outputStream.WriteBytes(pCurrent, rowSize);
+			//write padding
+			static byte null = 0;
+			for (uint8 p = 0; p < rowSize % 4; p++)
+				this->outputStream.WriteBytes(&null, 1);
 
-				//write padding
-				static byte null = 0;
-				for(uint8 p = 0; p < rowSize % 4; p++)
-					this->outputStream.WriteBytes(&null, 1);
-
-				pCurrent += rowSize;
-			}
+			pCurrent += rowSize;
 		}
-			break;
-
-		default:
-			this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
-			this->imageSize += refPacket.GetSize();
-	}*/
+	}
+	break;
+	default:
+		this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
+		this->imageSize += refPacket.GetSize();
+	}
 }
