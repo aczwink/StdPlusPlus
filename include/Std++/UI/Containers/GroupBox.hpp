@@ -39,6 +39,10 @@ namespace StdXX
 					this->groupBoxBackend->SetTitle(this->title);
             }
 
+		protected:
+			//Event handlers
+			void OnRealized() override;
+
 		private:
 			//Members
 			String title;

@@ -33,8 +33,10 @@ Window::Window()
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
-
+	
 	this->SetContentContainer(new CompositeWidget);
+
+	this->Show(false);
 }
 
 //Destructor

@@ -42,6 +42,7 @@ namespace StdXX
 
             //Methods
 			Widget *GetChild(uint32 index);
+			const Widget* GetChild(uint32 index) const;
 			uint32 GetNumberOfChildren() const;
             void SetLayout(ILayout *pLayout);
 

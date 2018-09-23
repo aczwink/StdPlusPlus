@@ -86,6 +86,12 @@ void CommCtrlSpinBoxBackend::SetValue(int32 value)
 	this->upDownControl.SendMessage(UDM_SETPOS32, 0, value);
 }
 
+void CommCtrlSpinBoxBackend::Show(bool visible)
+{
+	this->editControl.Show(visible);
+	this->upDownControl.Show(visible);
+}
+
 
 
 
@@ -112,11 +118,6 @@ void _stdxx_::CommCtrlSpinBoxBackend::SetEnabled(bool enable)
 }
 
 void _stdxx_::CommCtrlSpinBoxBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSpinBoxBackend::Show(bool visible)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

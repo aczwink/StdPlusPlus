@@ -27,10 +27,15 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-PushButton::PushButton()
+PushButton::PushButton() : pushButtonBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
 
-	this->pushButtonBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreatePushButtonBackend(this);
+//Private methods
+void PushButton::OnRealized()
+{
+	_stdxx_::PushButtonBackend* pushButtonBackend = this->_GetUIBackend()->CreatePushButtonBackend(this);
+	this->_SetBackend(pushButtonBackend);
 }

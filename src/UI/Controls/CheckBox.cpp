@@ -26,10 +26,15 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CheckBox::CheckBox()
+CheckBox::CheckBox() : checkBoxBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
 
-	this->checkBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateCheckBoxBackend(this);
+//Private methods
+void CheckBox::RealizeSelf()
+{
+	_stdxx_::CheckBoxBackend* checkBoxBackend = this->_GetUIBackend()->CreateCheckBoxBackend(this);
+	this->_SetBackend(checkBoxBackend);
 }

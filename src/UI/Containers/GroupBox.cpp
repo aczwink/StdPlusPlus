@@ -41,3 +41,11 @@ void GroupBox::RealizeSelf()
 	_stdxx_::GroupBoxBackend* groupBoxBackend = this->_GetUIBackend()->CreateGroupBoxBackend(this);
 	this->_SetBackend(groupBoxBackend);
 }
+
+//Event handlers
+void GroupBox::OnRealized()
+{
+	ContentAreaWidget::OnRealized();
+
+	this->groupBoxBackend->SetTitle(this->title);
+}

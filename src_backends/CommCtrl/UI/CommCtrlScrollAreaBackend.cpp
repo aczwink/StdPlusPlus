@@ -29,10 +29,25 @@ WidgetContainerBackend* CommCtrlScrollAreaBackend::CreateContentAreaBackend(Comp
 	return nullptr;
 }
 
+RectD CommCtrlScrollAreaBackend::GetContentAreaBounds() const
+{
+	return RectD(PointD(), this->scrollArea->GetSizeHint());
+}
+
 SizeD CommCtrlScrollAreaBackend::GetSizeHint() const
 {
 	//TODO: actually sizes of both scroll bars...
 	return SizeD(); //no requirements
+}
+
+void CommCtrlScrollAreaBackend::SetBounds(const RectD &bounds)
+{
+	CommCtrlWidgetBackend::SetBounds(bounds);
+
+	RectD contentBounds = this->GetContentAreaBounds();
+	
+	ShowScrollBar(this->GetHWND(), SB_HORZ, contentBounds.width() > bounds.width());
+	ShowScrollBar(this->GetHWND(), SB_VERT, contentBounds.height() > bounds.height());
 }
 
 
@@ -62,11 +77,6 @@ void _stdxx_::CommCtrlScrollAreaBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
 
-void _stdxx_::CommCtrlScrollAreaBackend::SetBounds(const StdXX::Math::RectD & bounds)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
 void _stdxx_::CommCtrlScrollAreaBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
@@ -78,16 +88,6 @@ void _stdxx_::CommCtrlScrollAreaBackend::SetEnabled(bool enable)
 }
 
 void _stdxx_::CommCtrlScrollAreaBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::IgnoreEvent()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
@@ -121,10 +121,4 @@ void _stdxx_::CommCtrlScrollAreaBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar
 void _stdxx_::CommCtrlScrollAreaBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-StdXX::Math::RectD _stdxx_::CommCtrlScrollAreaBackend::GetContentAreaBounds() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-	return StdXX::Math::RectD();
 }

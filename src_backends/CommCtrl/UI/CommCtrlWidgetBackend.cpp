@@ -71,42 +71,37 @@ void CommCtrlWidgetBackend::SetEnabled(bool enable)
 	thisWnd->SetEnabled(enable);
 }
 
+void CommCtrlWidgetBackend::Show(bool visible)
+{
+	Win32Window *thisWnd = dynamic_cast<Win32Window *>(this);
+	thisWnd->Show(visible);
+}
+
 //Protected methods
 RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
 	/*
-	//bounds are in widgets local coordinates
-	PointD origin = bounds.origin - this->GetWidget().GetBounds().origin; //get offset in local coordinates
-	origin = this->TransformToWindow(origin); //transform to window coordinates
+	we basically need to only "invert" the y axis of the origin.
+	It should be kept in mind that the origin is defined inside the bounds (client rect) of the parent! (i.e. the parent with a commctrl backend!!!)
+	*/
+	//find parent
+	const WidgetContainer* parent = this->GetWidget().GetParent();
+	while (parent->_GetBackend() == nullptr) //skip only virtual containers (i.e. without backend)
+		parent = parent->GetParent();
 
-	//origin is in content area coordinates of window, i.e. in "client coordinates" (but with bottom-left corner)
-	const RectD &basis = this->GetWidget().GetWindow()->GetContentContainer()->GetBounds();
-	//compute the top of the rect
-	origin.y += bounds.size.height;
-	//invert y axis
-	origin.y = basis.size.height - origin.y;
+	//parent should be a ContainerWidget
+	ASSERT(parent->GetNumberOfChildren() == 1, u8"TODO: report this please");
+	const WidgetContainer* container = dynamic_cast<const WidgetContainer*>(parent->GetChild(0));
+
+	//transform coordinates
+	PointD origin = bounds.origin;
+	origin.y = bounds.GetVerticalEnd(); //compute "top"
+	origin = this->GetWidget().GetParent()->TranslateToAncestorCoords(origin, container); //bounds.origin is defined in parent coordinates
+																						  
+	//"invert" y axis
+	const Win32Window* wnd = dynamic_cast<const Win32Window*>(parent->_GetBackend());
+	ASSERT(wnd, u8"TODO: report this please");
+	origin.y = wnd->GetClientRect().height() - origin.y;
 	
 	return RectD(origin, bounds.size);
-	*/
-	return RectD();
-}
-
-PointD CommCtrlWidgetBackend::TransformToWindow(const PointD &point) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: reimplement
-	/*
-	PointD transformed = point;
-
-	const Window *window = this->GetWidget().GetWindow();
-	const Widget *current = &this->GetWidget();
-	while (current->GetParent() != window)
-	{
-		transformed += current->GetBounds().origin;
-		current = current->GetParent();
-	}
-
-	return  transformed;
-	*/
-	return PointD();
 }

@@ -38,6 +38,7 @@ namespace _stdxx_
 		virtual void PrePaint();
 		virtual void Reparent(Win32Window *newParent);
 		virtual void SetEnabled(bool enable) override;
+		virtual void Show(bool visible) override;
 
 		//Methods
 		void IgnoreEvent() override;
@@ -56,9 +57,5 @@ namespace _stdxx_
 		Translates bounds into WinAPI Coordinate system i.e. (0,0) is the top-left corner.
 		*/
 		StdXX::Math::RectD ToWinAPIBounds(const StdXX::Math::RectD &bounds) const;
-		/*
-		Returns the point in coordinates of its window content area.
-		*/
-		StdXX::Math::PointD TransformToWindow(const StdXX::Math::PointD &point) const;
 	};
 }

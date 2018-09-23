@@ -29,6 +29,10 @@ namespace StdXX
 		public:
 			//Constructor
 			ScrollArea();
+
+		private:
+			//Methods
+			void RealizeSelf() override;
 		};
 	}
 }

@@ -81,10 +81,6 @@ void _stdxx_::CommCtrlContainerBackend::Select(StdXX::UI::ControllerIndex & cont
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlContainerBackend::SetBounds(const RectD &area)
-{
-}
-
 void _stdxx_::CommCtrlContainerBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -96,11 +92,6 @@ void _stdxx_::CommCtrlContainerBackend::SetEnabled(bool enable)
 }
 
 void _stdxx_::CommCtrlContainerBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::Show(bool visible)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -37,12 +37,25 @@ namespace StdXX
             //Inline
             inline void SetText(const String &text)
 			{
-				this->pushButtonBackend->SetText(text);
+				this->text = text;
+				if(this->pushButtonBackend)
+					this->pushButtonBackend->SetText(this->text);
 			}
 
 		private:
         	//Members
+			String text;
         	_stdxx_::PushButtonBackend *pushButtonBackend;
+
+			//Methods
+			void OnRealized() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::PushButtonBackend* pushButtonBackend)
+			{
+				Widget::_SetBackend(pushButtonBackend);
+				this->pushButtonBackend = pushButtonBackend;
+			}
         };
     }
 }

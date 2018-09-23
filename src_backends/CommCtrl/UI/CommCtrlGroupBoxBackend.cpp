@@ -88,11 +88,6 @@ void _stdxx_::CommCtrlGroupBoxBackend::SetHint(const StdXX::String &text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlGroupBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void
 _stdxx_::CommCtrlGroupBoxBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {

@@ -34,6 +34,13 @@ Win32Window::~Win32Window()
 }
 
 //Public methods
+RectD Win32Window::GetClientRect() const
+{
+	RECT rcClient;
+	::GetClientRect(this->GetHWND(), &rcClient);
+	return RectD(0, 0, rcClient.right, rcClient.bottom);
+}
+
 String Win32Window::GetText() const
 {
 	const uint16 nCodeUnits = 2048;

@@ -26,14 +26,9 @@
 using namespace StdXX;
 using namespace StdXX::UI;
 
-//Constructor
-Label::Label()
+//Private methods
+void Label::OnRealized()
 {
-	/*
-	sizing policy:
-	horz: preferred
-	vert: preferred
-	*/
-
-	this->labelBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateLabelBackend(this);
+	_stdxx_::LabelBackend* labelBackend = this->_GetUIBackend()->CreateLabelBackend(this);
+	this->_SetBackend(labelBackend);
 }

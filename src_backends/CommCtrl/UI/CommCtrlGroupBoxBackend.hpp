@@ -57,7 +57,6 @@ namespace _stdxx_
 		void SetHint(const StdXX::String &text) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;
-		void Show(bool visible) override;
 		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 

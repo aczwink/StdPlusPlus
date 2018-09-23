@@ -147,7 +147,7 @@ void Widget::OnPaint()
 
 void Widget::OnRealized()
 {
-	this->IgnoreEvent();
+	this->Show(this->visible);
 }
 
 void Widget::OnResized()

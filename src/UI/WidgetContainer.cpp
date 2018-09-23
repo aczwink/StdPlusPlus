@@ -24,6 +24,8 @@ using namespace StdXX::UI;
 //Eventhandlers
 void WidgetContainer::OnRealized()
 {
+	Widget::OnRealized();
+
 	for (uint32 i = 0; i < this->GetNumberOfChildren(); i++)
 	{
 		Widget *widget = this->GetChild(i);

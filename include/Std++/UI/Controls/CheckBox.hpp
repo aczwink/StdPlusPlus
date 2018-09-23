@@ -42,11 +42,25 @@ namespace StdXX
 
 			inline void SetText(const String &text)
 			{
-				this->checkBoxBackend->SetText(text);
+				this->text = text;
+				if(this->checkBoxBackend)
+					this->checkBoxBackend->SetText(text);
 			}
 
 		private:
+			//Members
+			String text;
 			_stdxx_::CheckBoxBackend *checkBoxBackend;
+
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::CheckBoxBackend* checkBoxBackend)
+			{
+				Widget::_SetBackend(checkBoxBackend);
+				this->checkBoxBackend = checkBoxBackend;
+			}
         };
     }
 }

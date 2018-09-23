@@ -79,11 +79,6 @@ void _stdxx_::CommCtrlCheckBoxBackend::SetHint(const StdXX::String & text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlCheckBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlCheckBoxBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
