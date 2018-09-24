@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../../Rendering/VectorPath/DevicePathRenderer.hpp"
 #include "../Displays/RenderTargetWidget.hpp"
 
@@ -27,16 +28,12 @@ namespace StdXX
     {
         class STDPLUSPLUS_API PathRenderTargetWidget : public RenderTargetWidget
         {
-
-        public:
-            //Constructor
-            inline PathRenderTargetWidget() : renderer(*this->deviceContext)
-            {
-            }
-
 		protected:
 			//Members
-			Rendering::DevicePathRenderer renderer;
+			UniquePointer<Rendering::DevicePathRenderer> renderer;
+
+			//Eventhandlers
+			void OnRealized();
 
 		private:
 			//Eventhandlers

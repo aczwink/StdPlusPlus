@@ -141,49 +141,45 @@ void DevicePathRenderer::InitRendering()
 
 	static const char vsShaderCode[] =
 		{
-			"#version 330\r\n"
-				"#extension GL_ARB_explicit_uniform_location : require\r\n"
-
-				"layout(location = 0) uniform vec2 viewSize;\r\n"
-
-				"layout(location = 0) in vec2 pos;\r\n"
-
-				"out vec2 textureCoords;\r\n"
-
-				"void main(void)\r\n"
-				"{\r\n"
-				"gl_Position = vec4(2.0 * pos.x / viewSize.x - 1.0, 2.0 * pos.y / viewSize.y - 1.0, 0, 1);\r\n"
-				"textureCoords = pos / viewSize;\r\n"
-				"}\r\n"
+		"#version 330\r\n"
+		"#extension GL_ARB_explicit_attrib_location : require\r\n"
+		"layout(location = 0) uniform vec2 viewSize;\r\n"
+		"layout(location = 0) in vec2 pos;\r\n"
+		"out vec2 textureCoords;\r\n"
+		"void main(void)\r\n"
+		"{\r\n"
+		"gl_Position = vec4(2.0 * pos.x / viewSize.x - 1.0, 2.0 * pos.y / viewSize.y - 1.0, 0, 1);\r\n"
+		"textureCoords = pos / viewSize;\r\n"
+		"}\r\n"
 		};
 
 	static const char fsShaderCode[] =
 		{
-			"#version 150\r\n"
-				"#extension GL_ARB_explicit_uniform_location : require\r\n"
-
-				"layout(location = 1) uniform int fragmentType;\r\n"
-				"layout(location = 2) uniform vec4 color;\r\n"
-				"layout(location = 3) uniform sampler2D textureSampler;\r\n"
-				"layout(location = 4) uniform mat2 transform;"
-
-				"in vec2 textureCoords;\r\n"
-
-				"out vec4 outColor;\r\n"
-
-				"void main(void)\r\n"
-				"{\r\n"
-
-				"if(fragmentType == 0)\r\n"
-				"{\r\n"
-				"outColor = color;\r\n"
-				"}\r\n"
-				"else if(fragmentType == 1)\r\n"
-				"{\r\n"
-				"outColor = texture(textureSampler, transform * textureCoords);\r\n"
-				"}\r\n"
-
-				"}\r\n"
+		"#version 150\r\n"
+		"#extension GL_ARB_explicit_attrib_location : require\r\n"
+		
+		"layout(location = 1) uniform int fragmentType;\r\n"
+		"layout(location = 2) uniform vec4 color;\r\n"
+		"layout(location = 3) uniform sampler2D textureSampler;\r\n"
+		"layout(location = 4) uniform mat2 transform;"
+		
+		"in vec2 textureCoords;\r\n"
+		
+		"out vec4 outColor;\r\n"
+		
+		"void main(void)\r\n"
+		"{\r\n"
+		
+		"if(fragmentType == 0)\r\n"
+		"{\r\n"
+		"outColor = color;\r\n"
+		"}\r\n"
+		"else if(fragmentType == 1)\r\n"
+		"{\r\n"
+		"outColor = texture(textureSampler, transform * textureCoords);\r\n"
+		"}\r\n"
+		
+		"}\r\n"
 		};
 
 	//compile vertex shader

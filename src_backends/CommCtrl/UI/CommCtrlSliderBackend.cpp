@@ -85,11 +85,6 @@ void _stdxx_::CommCtrlSliderBackend::Show(bool visible)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlSliderBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlSliderBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -102,11 +97,6 @@ uint32 _stdxx_::CommCtrlSliderBackend::GetPosition() const
 }
 
 void _stdxx_::CommCtrlSliderBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSliderBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

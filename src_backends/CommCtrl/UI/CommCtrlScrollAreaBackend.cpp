@@ -92,12 +92,6 @@ void _stdxx_::CommCtrlScrollAreaBackend::IgnoreEvent()
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
 
-uint32 _stdxx_::CommCtrlScrollAreaBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-	return uint32();
-}
-
 void _stdxx_::CommCtrlScrollAreaBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
@@ -109,16 +103,6 @@ void _stdxx_::CommCtrlScrollAreaBackend::Select(StdXX::UI::ControllerIndex & con
 }
 
 void _stdxx_::CommCtrlScrollAreaBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }

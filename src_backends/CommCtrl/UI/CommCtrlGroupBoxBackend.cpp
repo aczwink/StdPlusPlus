@@ -93,29 +93,12 @@ void _stdxx_::CommCtrlGroupBoxBackend::Show(bool visible)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void
-_stdxx_::CommCtrlGroupBoxBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 _stdxx_::CommCtrlGroupBoxBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlGroupBoxBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, _stdxx_::MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

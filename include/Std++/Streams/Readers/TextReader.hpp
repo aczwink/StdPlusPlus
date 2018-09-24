@@ -59,6 +59,17 @@ namespace StdXX
         uint32 ReadUTF8();
         UTF8String ReadUTF8Line();
 
+		//Inline
+		inline bool IsAtEnd() const
+		{
+			return this->inputStream.IsAtEnd();
+		}
+
+		inline uint32 ReadCodePoint()
+		{
+			return this->codec->ReadCodePoint(this->inputStream);
+		}
+
 	private:
 		//Members
 		InputStream &inputStream;

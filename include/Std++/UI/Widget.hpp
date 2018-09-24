@@ -176,6 +176,9 @@ namespace StdXX
 			}
 
 		protected:
+			//Event handlers
+			virtual void OnRealized();
+
 			//Methods
 			UIBackend * _GetUIBackend();
 
@@ -218,7 +221,6 @@ namespace StdXX
 			virtual void OnMouseWheelTurned(int16 delta);
 			virtual void OnMoved();
 			virtual void OnPaint();
-			virtual void OnRealized();
 			virtual void OnResized();
         };
     }

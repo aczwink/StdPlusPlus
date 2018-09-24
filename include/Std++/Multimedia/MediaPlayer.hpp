@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Multitasking/ConditionVariable.hpp"
 #include "../Multitasking/Mutex.hpp"
@@ -45,8 +46,9 @@ namespace _stdxx_
 	class DecoderThread : public StdXX::Thread
 	{
 	public:
-		//Constructor
-		//DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodecId encodingCodec);
+		//Constructors
+		DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodingFormatId encodingCodec);
+		DecoderThread(StdXX::Multimedia::MediaPlayer* player, StdXX::Multimedia::NamedPixelFormat pixelFormatName);
 
 		//Destructor
 		~DecoderThread();
@@ -107,7 +109,8 @@ namespace _stdxx_
 		volatile bool working;
 		uint32 streamIndex;
 		StdXX::Multimedia::DecoderContext *decoderContext;
-		StdXX::Multimedia::EncoderContext *encoder;
+		StdXX::UniquePointer<StdXX::Multimedia::Stream> encodingStream;
+		StdXX::Multimedia::EncoderContext *encoderContext;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;
 		StdXX::Mutex inputPacketQueueLock;
 		StdXX::ConditionVariable inputPacketQueueSignal;
@@ -195,7 +198,7 @@ namespace StdXX
 
 	namespace Multimedia
 	{
-		class MediaPlayer
+		class STDPLUSPLUS_API MediaPlayer
 		{
 		public:
 			//Constructor

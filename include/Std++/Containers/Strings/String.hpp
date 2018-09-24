@@ -27,7 +27,7 @@
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class ConstStringIterator;
 
 	/**

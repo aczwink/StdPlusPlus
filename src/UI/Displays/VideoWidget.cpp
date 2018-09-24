@@ -26,13 +26,6 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 using namespace StdXX::UI;
 
-//Constructor
-VideoWidget::VideoWidget()
-{
-	this->texture = this->deviceContext->CreateTexture2D();
-	this->nextFrame = nullptr;
-}
-
 //Destructor
 VideoWidget::~VideoWidget()
 {
@@ -96,11 +89,18 @@ void VideoWidget::OnPaint()
 	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
 	this->deviceContext->EnableDepthTest(false); //#TODO: gtk3 bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
 
-	this->renderer.BeginPath();
-	this->renderer.Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
-	this->renderer.SetFillTexture(this->texture);
-	this->renderer.Fill();
+	this->renderer->BeginPath();
+	this->renderer->Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
+	this->renderer->SetFillTexture(this->texture);
+	this->renderer->Fill();
 
-	this->renderer.Sync();
+	this->renderer->Sync();
 	this->deviceContext->SwapBuffers();
+}
+
+void VideoWidget::OnRealized()
+{
+	PathRenderTargetWidget::OnRealized();
+
+	this->texture = this->deviceContext->CreateTexture2D();
 }

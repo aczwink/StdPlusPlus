@@ -34,12 +34,6 @@ void CommCtrlContainerBackend::AddChild(StdXX::UI::Widget *widget)
 	}
 }
 
-uint32 _stdxx_::CommCtrlContainerBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return uint32();
-}
-
 SizeD CommCtrlContainerBackend::GetSizeHint() const
 {
 	//no requirements here
@@ -105,22 +99,12 @@ void _stdxx_::CommCtrlContainerBackend::Show(bool visible)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlContainerBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlContainerBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::CommCtrlContainerBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

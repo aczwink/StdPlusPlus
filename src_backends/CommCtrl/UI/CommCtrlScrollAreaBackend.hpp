@@ -47,12 +47,9 @@ namespace _stdxx_
 		void SetHint(const StdXX::String & text) const override;
 		void Show(bool visible) override;
 		void IgnoreEvent() override;
-		uint32 GetPosition() const override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;
-		void ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 	};
 }

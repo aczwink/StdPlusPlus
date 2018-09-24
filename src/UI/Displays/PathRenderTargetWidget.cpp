@@ -23,11 +23,18 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Eventhandlers
+void PathRenderTargetWidget::OnRealized()
+{
+	RenderTargetWidget::OnRealized();
+
+	this->renderer = new Rendering::DevicePathRenderer(*this->deviceContext);
+}
+
 void PathRenderTargetWidget::OnResized()
 {
 	RenderTargetWidget::OnResized();
 
-	this->renderer.SetViewPort(this->GetSize());
+	this->renderer->SetViewPort(this->GetSize());
 
 	this->Repaint();
 }

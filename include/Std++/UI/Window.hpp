@@ -54,7 +54,6 @@ namespace StdXX
 
             //Methods
             void EnableDrop();
-            void ShowErrorBox(const OldString &title, const OldString &message);
             void SwitchFullscreen(bool state);
 
             //Inline
@@ -83,6 +82,11 @@ namespace StdXX
 			inline void SetTitle(const String &title)
 			{
 				this->windowBackend->SetTitle(title);
+			}
+
+			inline void ShowErrorBox(const String &title, const String &message)
+			{
+				this->windowBackend->ShowErrorBox(title, message);
 			}
 
 			inline void ShowInformationBox(const String &title, const String &message)

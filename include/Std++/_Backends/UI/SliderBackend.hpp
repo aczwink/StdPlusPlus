@@ -40,6 +40,7 @@ namespace _stdxx_
 		}
 
 		//Abstract
+		virtual uint32 GetPosition() const = 0;
 		virtual void SetPosition(uint32 pos) = 0;
 		virtual void SetRange(uint32 min, uint32 max) = 0;
 	};

@@ -18,23 +18,30 @@
  */
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
+//Local
+#include <Std++/Multimedia/Encoder.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Constructor
-/*DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodecId encodingCodec)
+//Constructors
+DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodingFormatId encodingCodec)
+	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), streamIndex(Natural<uint32>::Max())
 {
-	this->player = player;
-	this->shutdown = false;
-	this->work = false;
-	this->working = false;
-	this->decoder = nullptr;
-	this->streamIndex = Natural<uint32>::Max();
-	NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//this->encoder = Codec::GetCodec(encodingCodec)->CreateEncoder();
-}*/
+	this->encodingStream = new AudioStream;
+	this->encoderContext = CodingFormat::GetCodingFormatById(encodingCodec)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
+}
+
+DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer* player, StdXX::Multimedia::NamedPixelFormat pixelFormatName)
+	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), streamIndex(Natural<uint32>::Max())
+{
+	VideoStream* encodingStream = new VideoStream;
+	encodingStream->pixelFormat = PixelFormat(pixelFormatName);
+
+	this->encodingStream = encodingStream;
+	this->encoderContext = CodingFormat::GetCodingFormatById(CodingFormatId::RawVideo)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
+}
 
 //Destructor
 DecoderThread::~DecoderThread()
@@ -42,7 +49,7 @@ DecoderThread::~DecoderThread()
 	this->FlushInputQueue();
 	this->FlushOutputQueue();
 
-	delete this->encoder;
+	delete this->encoderContext;
 }
 
 //Private methods
@@ -99,11 +106,11 @@ int32 DecoderThread::ThreadMain()
 			Frame *frame = this->decoderContext->GetNextFrame();
 
 			//encode as the desired playback format
-			this->encoder->Encode(*frame);
-			while(this->encoder->IsPacketReady())
+			this->encoderContext->Encode(*frame);
+			while(this->encoderContext->IsPacketReady())
 			{
 				//this packet is ready to be played
-				this->AddOutputPacket(this->encoder->GetNextPacket());
+				this->AddOutputPacket(this->encoderContext->GetNextPacket());
 			}
 
 			delete frame;

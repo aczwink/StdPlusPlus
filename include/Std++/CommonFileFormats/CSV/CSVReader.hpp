@@ -40,7 +40,6 @@ namespace StdXX
 			//Members
 			TextReader &reader;
 			const CSVDialect &dialect;
-			String currentCellValue;
 		};
 	}
 }

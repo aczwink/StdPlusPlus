@@ -41,7 +41,6 @@ namespace _stdxx_
 
 		//Methods
 		void AddChild(StdXX::UI::Widget * widget) override;
-		uint32 GetPosition() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
@@ -53,9 +52,7 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
-		void SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend) override;
 		void Show(bool visible) override;
-		void ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 
 	private:

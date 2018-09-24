@@ -42,6 +42,9 @@ namespace _stdxx_
 		//Abstract
 		virtual void Maximize() = 0;
 		virtual StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const = 0;
+		virtual void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) = 0;
 		virtual void SetTitle(const StdXX::String &title) = 0;
+		virtual void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const = 0;
+		virtual void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const = 0;
 	};
 }

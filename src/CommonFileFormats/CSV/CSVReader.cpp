@@ -18,6 +18,8 @@
 */
 //Class header
 #include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
+//Local
+#include <Std++/Containers/Strings/ConstStringIterator.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
@@ -25,13 +27,61 @@ using namespace StdXX::CommonFileFormats;
 //Public methods
 bool CSVReader::ReadCell(String &cell)
 {
-	uint32 sepPos = 0;
-	uint32 lsepPos = 0;
+	cell = String();
 
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-
+	String tmp;
+	bool sepMatch = false;
+	auto sepIterator = this->dialect.separator.begin();
+	bool lsepMatch = false;
+	auto lsepIterator = this->dialect.lineSeparator.begin();
 	while (true)
 	{
-		this->reader.ReadString(1);
+		uint32 codePoint = this->reader.ReadCodePoint();
+		if (this->reader.IsAtEnd())
+			break;
+
+		//check if tmp is still valid
+		if (sepMatch)
+		{
+			if (codePoint != *sepIterator)
+			{
+				cell += tmp;
+				tmp = String();
+				sepMatch = false;
+				sepIterator = this->dialect.separator.begin();
+			}
+		}
+		if (lsepMatch)
+		{
+			if (codePoint != *lsepIterator)
+			{
+				cell += tmp;
+				tmp = String();
+				lsepMatch = false;
+				lsepIterator = this->dialect.lineSeparator.begin();
+			}
+		}
+
+		//check if codePoint is part of iterator		
+		bool consumed = false;
+		if (codePoint == *sepIterator)
+		{
+			++sepIterator;
+			if (sepIterator == this->dialect.separator.end())
+				return true;
+			consumed = true;
+		}
+		if (codePoint == *lsepIterator)
+		{
+			++lsepIterator;
+			if (sepIterator == this->dialect.separator.end())
+				return true;
+			consumed = true;
+		}
+
+		if (!consumed)
+			cell += codePoint;
 	}
+
+	return false;
 }

@@ -88,12 +88,6 @@ Rect CommCtrlWindowBackend::GetChildrenRect() const
 	return result;
 }*/
 
-uint32 CommCtrlWindowBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return uint32();
-}
-
 /*void CommCtrlWindowBackend::GetRange(int32 &min, int32 &max)
 {
 	SendMessageW(this->hWndReal, UDM_GETRANGE32, (WPARAM)&min, (LPARAM)&max);
@@ -288,7 +282,12 @@ void CommCtrlWindowBackend::Show(bool visible)
 	}
 }
 
-void _stdxx_::CommCtrlWindowBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
+void CommCtrlWindowBackend::ShowErrorBox(const String & title, const String & message) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void CommCtrlWindowBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

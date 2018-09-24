@@ -44,7 +44,6 @@ namespace _stdxx_
 		void AddChild(StdXX::UI::Widget * widget) override;
 		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
-		uint32 GetPosition() const override;
 		Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
@@ -60,6 +59,7 @@ namespace _stdxx_
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String & title) override;
         void Show(bool visible) override;
+		void ShowErrorBox(const StdXX::String & title, const StdXX::String & message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
         void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 

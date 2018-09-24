@@ -31,13 +31,20 @@ namespace StdXX
 		{
 		public:
 			//Constructor
-			VideoWidget();
+			inline VideoWidget()
+				: texture(nullptr), nextFrame(nullptr)
+			{
+			}
 
 			//Destructor
 			~VideoWidget();
 
 			//Methods
 			void UpdatePicture(Multimedia::Packet *videoPacket, Math::Size<uint16> frameSize);
+
+		protected:
+			//Event handlers
+			void OnRealized();
 
 		private:
 			//Members

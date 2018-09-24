@@ -72,28 +72,12 @@ void _stdxx_::CommCtrlPushButtonBackend::Show(bool visible)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlPushButtonBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlPushButtonBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 _stdxx_::CommCtrlPushButtonBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return uint32();
-}
-
 void _stdxx_::CommCtrlPushButtonBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlPushButtonBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

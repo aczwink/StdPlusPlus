@@ -75,28 +75,12 @@ void _stdxx_::CommCtrlLabelBackend::Show(bool visible)
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlLabelBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlLabelBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 _stdxx_::CommCtrlLabelBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return uint32();
-}
-
 void _stdxx_::CommCtrlLabelBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlLabelBackend::SetMenuBar(StdXX::UI::MenuBar * menuBar, MenuBarBackend * menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

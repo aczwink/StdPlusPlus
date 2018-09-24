@@ -25,12 +25,18 @@ namespace StdXX
 	{
 		friend class String;
 	public:
+		//Copy ctor
+		inline ConstStringIterator(const ConstStringIterator& source)
+			: string(source.string), current(source.current), position(source.position)
+		{
+		}
+
 		//Operators
 		inline ConstStringIterator &operator++() //Prefix ++
 		{
 			uint8 nBytes;
 
-			this->string.Decode(this->current, nBytes);
+			this->string->Decode(this->current, nBytes);
 			this->current += nBytes;
 			this->position++;
 
@@ -39,7 +45,7 @@ namespace StdXX
 
 		inline ConstStringIterator &operator--() //Prefix--
 		{
-			if(this->string.IsUTF8())
+			if(this->string->IsUTF8())
 			{
 				do
 				{
@@ -61,7 +67,7 @@ namespace StdXX
 
 		inline bool operator==(const ConstStringIterator &rhs) const
 		{
-			return &this->string == &rhs.string && this->position == rhs.position;
+			return this->string == rhs.string && this->position == rhs.position;
 		}
 
 		inline bool operator!=(const ConstStringIterator &rhs) const
@@ -73,7 +79,7 @@ namespace StdXX
 		{
 			uint8 nBytes;
 
-			return this->string.Decode(this->current, nBytes);
+			return this->string->Decode(this->current, nBytes);
 		}
 
 		//Inline
@@ -84,12 +90,12 @@ namespace StdXX
 
 	private:
 		//Members
-		const String &string;
+		const String* string;
 		const byte *current;
 		uint32 position; //In character units
 
 		//Constructor
-		inline ConstStringIterator(const String &string, const byte *start, uint32 pos) : string(string), current(start), position(pos)
+		inline ConstStringIterator(const String &string, const byte *start, uint32 pos) : string(&string), current(start), position(pos)
 		{
 		}
 
@@ -124,7 +130,7 @@ namespace StdXX
 
 		inline uint32 GetByteOffset() const
 		{
-			return static_cast<uint32>(this->current - this->string.GetRawData());
+			return static_cast<uint32>(this->current - this->string->GetRawData());
 		}
 	};
 }

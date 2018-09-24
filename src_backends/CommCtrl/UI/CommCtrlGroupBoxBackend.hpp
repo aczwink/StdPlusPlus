@@ -45,7 +45,6 @@ namespace _stdxx_
 		//Methods
 		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
-		uint32 GetPosition() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
@@ -55,10 +54,8 @@ namespace _stdxx_
 		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;
 		void Show(bool visible) override;
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
 	private:
