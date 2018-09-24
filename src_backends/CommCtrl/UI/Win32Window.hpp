@@ -36,6 +36,7 @@ namespace _stdxx_
 		~Win32Window();
 
 		//Methods
+		StdXX::Math::RectD GetClientRect() const;
 		StdXX::String GetText() const;
 		StdXX::Math::Size<uint16> GetTextExtents() const;
 		void SetParent(Win32Window *parent);
@@ -78,6 +79,11 @@ namespace _stdxx_
 		inline void SetText(const StdXX::String &text)
 		{
 			this->SendMessage(WM_SETTEXT, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
+		}
+
+		inline void Show(bool visible)
+		{
+			ShowWindow(this->GetHWND(), visible ? SW_SHOW : SW_HIDE);
 		}
 
 	private:

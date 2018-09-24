@@ -29,10 +29,25 @@ WidgetContainerBackend* CommCtrlScrollAreaBackend::CreateContentAreaBackend(Comp
 	return nullptr;
 }
 
+RectD CommCtrlScrollAreaBackend::GetContentAreaBounds() const
+{
+	return RectD(PointD(), this->scrollArea->GetSizeHint());
+}
+
 SizeD CommCtrlScrollAreaBackend::GetSizeHint() const
 {
 	//TODO: actually sizes of both scroll bars...
 	return SizeD(); //no requirements
+}
+
+void CommCtrlScrollAreaBackend::SetBounds(const RectD &bounds)
+{
+	CommCtrlWidgetBackend::SetBounds(bounds);
+
+	RectD contentBounds = this->GetContentAreaBounds();
+	
+	ShowScrollBar(this->GetHWND(), SB_HORZ, contentBounds.width() > bounds.width());
+	ShowScrollBar(this->GetHWND(), SB_VERT, contentBounds.height() > bounds.height());
 }
 
 
@@ -58,11 +73,6 @@ SizeD CommCtrlScrollAreaBackend::GetSizeHint() const
 
 //Not implemented:
 void _stdxx_::CommCtrlScrollAreaBackend::Repaint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::SetBounds(const StdXX::Math::RectD & bounds)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
@@ -105,10 +115,4 @@ void _stdxx_::CommCtrlScrollAreaBackend::Select(StdXX::UI::ControllerIndex & con
 void _stdxx_::CommCtrlScrollAreaBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-StdXX::Math::RectD _stdxx_::CommCtrlScrollAreaBackend::GetContentAreaBounds() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-	return StdXX::Math::RectD();
 }

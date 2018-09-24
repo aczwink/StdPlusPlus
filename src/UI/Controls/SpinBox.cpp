@@ -27,12 +27,15 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max())
+SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max()), spinBoxBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
 
-	this->spinBoxBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSpinBoxBackend(this);
-
-	this->spinBoxBackend->SetRange(this->min, this->max);
+//Private methods
+void SpinBox::RealizeSelf()
+{
+	_stdxx_::SpinBoxBackend* spinBoxBackend = this->_GetUIBackend()->CreateSpinBoxBackend(this);
+	this->_SetBackend(spinBoxBackend);
 }

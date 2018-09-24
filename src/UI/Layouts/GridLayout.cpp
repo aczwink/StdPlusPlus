@@ -60,7 +60,7 @@ void GridLayout::Layout(CompositeWidget &refContainer)
     rc = this->GetPlacementRect(refContainer);
     minSize = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
 
-    ASSERT(minSize.width <= rc.width(), u8"TODO: Can't do that allocation. Need to shrink widgets");
+    //ASSERT(minSize.width <= rc.width(), u8"TODO: Can't do that allocation. Need to shrink widgets");
 	if (minSize.height > rc.height())
 		this->ShrinkRows(minSize.height - rc.height(), rowHeights);
 	

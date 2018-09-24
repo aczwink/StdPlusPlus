@@ -30,3 +30,10 @@ ScrollArea::ScrollArea()
 	this->contentAreaWidgetBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateScrollAreaBackend(this);
 	this->widgetContainerBackend = this->contentAreaWidgetBackend;
 }
+
+//Private methods
+void ScrollArea::RealizeSelf()
+{
+	_stdxx_::ContentAreaWidgetBackend* contentAreaWidgetBackend = this->_GetUIBackend()->CreateScrollAreaBackend(this);
+	this->_SetBackend(contentAreaWidgetBackend);
+}

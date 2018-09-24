@@ -35,12 +35,16 @@ namespace StdXX
 
 			//Abstract
 			virtual Widget *GetChild(uint32 index) = 0;
+			virtual const Widget* GetChild(uint32 index) const = 0;
 			virtual uint32 GetNumberOfChildren() const = 0;
 			virtual void RemoveChild(Widget *child) = 0;
 
 		protected:
 			//Members
 			_stdxx_::WidgetContainerBackend *widgetContainerBackend;
+
+			//Eventhandlers
+			virtual void OnRealized();
 
 			//Inline
 			inline void _SetBackend(_stdxx_::WidgetContainerBackend *widgetContainerBackend)
@@ -64,10 +68,6 @@ namespace StdXX
 				if(this->widgetContainerBackend != nullptr)
 					this->widgetContainerBackend->AddChild(widget);
 			}
-
-		private:
-			//Eventhandlers
-			void OnRealized();
 		};
 	}
 }

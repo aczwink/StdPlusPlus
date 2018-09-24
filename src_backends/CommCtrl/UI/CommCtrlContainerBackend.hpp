@@ -48,25 +48,13 @@ namespace _stdxx_
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
-		void Show(bool visible) override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 
 	private:
 		//Members
 		StdXX::UI::WidgetContainer *container;
-	};
-
-	class CommCtrlContainer : public StdXX::UI::CompositeWidget
-	{
-	public:
-		//Inline
-		inline CommCtrlContainer() : CompositeWidget()
-		{
-			this->widgetContainerBackend = new CommCtrlContainerBackend(StdXX::BackendManager<StdXX::UIBackend>::GetRootInstance().GetActiveBackend(), this);
-		}
 	};
 }

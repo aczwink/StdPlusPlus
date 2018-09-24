@@ -35,6 +35,12 @@ Widget *ContentAreaWidget::GetChild(uint32 index)
 	return this->contentContainer;
 }
 
+const Widget* ContentAreaWidget::GetChild(uint32 index) const
+{
+	ASSERT(index == 0, u8"A content area widget has just one child");
+	return this->contentContainer;
+}
+
 uint32 ContentAreaWidget::GetNumberOfChildren() const
 {
 	if (this->contentContainer == nullptr)

@@ -42,17 +42,35 @@ namespace StdXX
 
 			inline void SetPosition(uint32 pos)
 			{
-				this->sliderBackend->SetPosition(pos);
+				this->pos = pos;
+				if(this->sliderBackend)
+					this->sliderBackend->SetPosition(pos);
 			}
 
-			inline void SetRange(uint32 min, uint32 max) const
+			inline void SetRange(uint32 min, uint32 max)
 			{
-				this->sliderBackend->SetRange(min, max);
+				this->min = min;
+				this->max = max;
+				if(this->sliderBackend)
+					this->sliderBackend->SetRange(min, max);
 			}
 
 		private:
         	//Members
+			uint32 min;
+			uint32 max;
+			uint32 pos;
         	_stdxx_::SliderBackend *sliderBackend;
+
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::SliderBackend* sliderBackend)
+			{
+				Widget::_SetBackend(sliderBackend);
+				this->sliderBackend = sliderBackend;
+			}
         };
     }
 }

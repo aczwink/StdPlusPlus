@@ -73,6 +73,11 @@ Widget *CompositeWidget::GetChild(uint32 index)
 	return this->children[index];
 }
 
+const Widget* CompositeWidget::GetChild(uint32 index) const
+{
+	return this->children[index];
+}
+
 uint32 CompositeWidget::GetNumberOfChildren() const
 {
 	return this->children.GetNumberOfElements();

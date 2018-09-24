@@ -88,11 +88,6 @@ void _stdxx_::CommCtrlGroupBoxBackend::SetHint(const StdXX::String &text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlGroupBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

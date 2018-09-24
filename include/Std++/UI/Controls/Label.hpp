@@ -29,17 +29,37 @@ namespace StdXX
         {
         public:
             //Constructor
-            Label();
+			inline Label() : labelBackend(nullptr)
+			{
+				/*
+				sizing policy:
+				horz: preferred
+				vert: preferred
+				*/
+			}
 
 			//Inline
 			inline void SetText(const String &text)
 			{
-				this->labelBackend->SetText(text);
+				this->text = text;
+				if(this->labelBackend)
+					this->labelBackend->SetText(text);
 			}
 
 		private:
         	//Members
+			String text;
         	_stdxx_::LabelBackend *labelBackend;
+
+			//Methods
+			void OnRealized() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::LabelBackend* labelBackend)
+			{
+				Widget::_SetBackend(labelBackend);
+				this->labelBackend = labelBackend;
+			}
         };
     }
 }

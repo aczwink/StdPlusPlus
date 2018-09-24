@@ -70,7 +70,7 @@ RectD CommCtrlWindowBackend::GetContentAreaBounds() const
 	GetWindowRect(this->GetHWND(), &rcWindow);
 
 	RECT rcClient;
-	GetClientRect(this->GetHWND(), &rcClient);
+	::GetClientRect(this->GetHWND(), &rcClient);
 
 	POINT origin{ 0, rcClient.bottom };
 	ClientToScreen(this->GetHWND(), &origin);

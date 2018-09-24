@@ -26,10 +26,19 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-Slider::Slider()
+Slider::Slider() : sliderBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 
-	this->sliderBackend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateSliderBackend(this);
+	this->min = 0;
+	this->max = 100;
+	this->pos = 50;
+}
+
+//Private methods
+void Slider::RealizeSelf()
+{
+	_stdxx_::SliderBackend* sliderBackend = this->_GetUIBackend()->CreateSliderBackend(this);
+	this->_SetBackend(sliderBackend);
 }

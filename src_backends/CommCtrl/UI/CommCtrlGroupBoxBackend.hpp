@@ -55,7 +55,6 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
 		void SetTitle(const StdXX::String &title) override;
-		void Show(bool visible) override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
 	private:

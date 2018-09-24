@@ -41,7 +41,8 @@ namespace StdXX
 			{
 				this->min = min;
 				this->max = max;
-				this->spinBoxBackend->SetRange(min, max);
+				if(this->spinBoxBackend)
+					this->spinBoxBackend->SetRange(min, max);
 			}
 			
 			inline void SetValue(int32 value)
@@ -51,9 +52,19 @@ namespace StdXX
 
 		private:
 			//Members
-			_stdxx_::SpinBoxBackend *spinBoxBackend;
 			int32 min;
 			int32 max;
+			_stdxx_::SpinBoxBackend *spinBoxBackend;
+
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::SpinBoxBackend* spinBoxBackend)
+			{
+				Widget::_SetBackend(spinBoxBackend);
+				this->spinBoxBackend = spinBoxBackend;
+			}
 		};
 	}
 }

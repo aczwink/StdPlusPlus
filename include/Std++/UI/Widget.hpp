@@ -53,7 +53,7 @@ namespace StdXX
             SizingPolicy sizingPolicy;
 
             //Constructor
-            inline Widget() : parent(nullptr), backend(nullptr), isRealized(false)
+            inline Widget() : parent(nullptr), visible(true), enabled(true), backend(nullptr), isRealized(false)
 			{
 			}
 
@@ -147,7 +147,7 @@ namespace StdXX
 					this->bounds.size = newBounds.size;
 					updatedSize = true;
 				}
-				if(updatedPos || updatedSize)
+				if((updatedPos || updatedSize) && this->backend)
 					this->backend->SetBounds(this->bounds);
 				if (updatedPos)
 					this->OnMoved();
@@ -157,7 +157,9 @@ namespace StdXX
 
 			inline void SetEnabled(bool enable = true)
 			{
-				this->backend->SetEnabled(enable);
+				this->enabled = enable;
+				if(this->backend)
+					this->backend->SetEnabled(enable);
 			}
 
 			inline void SetHint(const String &text)
@@ -167,7 +169,9 @@ namespace StdXX
 
 			inline void Show(bool visible = true)
 			{
-				this->backend->Show(visible);
+				this->visible = visible;
+				if(this->backend)
+					this->backend->Show(visible);
 			}
 
 			inline Math::PointD TranslateToParentCoords(const Math::PointD &point) const
@@ -185,7 +189,8 @@ namespace StdXX
 			//Inline
 			inline void IgnoreEvent()
 			{
-				this->backend->IgnoreEvent();
+				if(this->backend)
+					this->backend->IgnoreEvent();
 			}
 
 			inline void _SetBackend(_stdxx_::WidgetBackend* widgetBackend)
@@ -201,6 +206,8 @@ namespace StdXX
 			 * The bounds are always relative to the parents coordinate system.
 			 */
 			Math::RectD bounds;
+			bool visible;
+			bool enabled;
 			_stdxx_::WidgetBackend *backend;
 			bool isRealized;
 

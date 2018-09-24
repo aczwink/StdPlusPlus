@@ -84,11 +84,6 @@ void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetHint(const StdXX::String & t
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

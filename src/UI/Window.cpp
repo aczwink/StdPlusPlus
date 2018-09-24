@@ -29,12 +29,15 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructors
-Window::Window()
+Window::Window() : canRealize(false), windowBackend(nullptr)
 {
     this->pMenuBar = nullptr;
     this->pOSDropTarget = nullptr;
-
+	
 	this->SetContentContainer(new CompositeWidget);
+
+	this->Show(false);
+	this->canRealize = true;
 }
 
 //Destructor
@@ -89,7 +92,7 @@ void Window::SwitchFullscreen(bool state)
 //Private methods
 bool Window::CanRealize() const
 {
-	return true;
+	return this->canRealize;
 }
 
 void Window::RealizeSelf()

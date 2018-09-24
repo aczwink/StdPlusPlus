@@ -76,12 +76,15 @@ namespace StdXX
 			{
 				delete this->pMenuBar;
 				this->pMenuBar = menuBar;
-				this->windowBackend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
+				if(this->windowBackend)
+					this->windowBackend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
 			}
 
 			inline void SetTitle(const String &title)
 			{
-				this->windowBackend->SetTitle(title);
+				this->title = title;
+				if(this->windowBackend)
+					this->windowBackend->SetTitle(title);
 			}
 
 			inline void ShowErrorBox(const String &title, const String &message)
@@ -104,9 +107,14 @@ namespace StdXX
 
         private:
             //Members
+			/**
+			 * To control that the window should realize after the initialization from the constructor.
+			 */
+			bool canRealize;
         	_stdxx_::WindowBackend *windowBackend;
             MenuBar *pMenuBar;
             CDropTarget *pOSDropTarget;
+			String title;
 
 			//Methods
 			bool CanRealize() const override;

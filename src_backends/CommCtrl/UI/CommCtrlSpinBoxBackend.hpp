@@ -47,6 +47,7 @@ namespace _stdxx_
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
 		void SetRange(int32 min, int32 max) override;
 		void SetValue(int32 value) override;
+		void Show(bool visible) override;
 
 		// not implemented
 		void Repaint() override;
@@ -54,7 +55,6 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
-		void Show(bool visible) override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 		void ResetView() const override;
 
