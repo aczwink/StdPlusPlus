@@ -62,12 +62,6 @@ void _stdxx_::CommCtrlGroupBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlGroupBoxBackend::Reparent(Win32Window *newParent)
-{
-	this->SetParent(newParent);
-	CommCtrlContainerBackend::Reparent(newParent);
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

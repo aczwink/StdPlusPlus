@@ -24,9 +24,6 @@
 
 namespace _stdxx_
 {
-	/*
-	https://msdn.microsoft.com/en-us/library/windows/desktop/bb775943(v=vs.85).aspx
-	*/
 	class CommCtrlGroupBoxBackend : public GroupBoxBackend, virtual public CommCtrlContainerBackend, public Win32Window
 	{
 	public:
@@ -34,13 +31,10 @@ namespace _stdxx_
 		inline CommCtrlGroupBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::GroupBox *groupBox)
 			: GroupBoxBackend(uiBackend), CommCtrlContainerBackend(uiBackend, groupBox), WidgetContainerBackend(uiBackend),
 			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
-			Win32Window(*this, WC_BUTTONW, WS_CLIPSIBLINGS | BS_GROUPBOX, WS_EX_TRANSPARENT),
+			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS),
 			groupBox(groupBox)
 		{
 		}
-
-		//Overrideable
-		virtual void Reparent(Win32Window *newParent);
 
 		//Methods
 		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;

@@ -52,12 +52,6 @@ void CommCtrlWidgetBackend::Repaint()
 	InvalidateRect(thisWnd->GetHWND(), nullptr, false);
 }
 
-void CommCtrlWidgetBackend::Reparent(Win32Window *newParent)
-{
-	Win32Window *thisWnd = dynamic_cast<Win32Window *>(this);
-	thisWnd->SetParent(newParent);
-}
-
 void CommCtrlWidgetBackend::SetBounds(const RectD &bounds)
 {
 	Win32Window *thisWnd = dynamic_cast<Win32Window *>(this);

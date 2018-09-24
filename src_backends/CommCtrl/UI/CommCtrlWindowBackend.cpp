@@ -54,9 +54,6 @@ WinAPI Documentation:
 //Public methods
 void CommCtrlWindowBackend::AddChild(Widget *widget)
 {
-	CommCtrlWidgetBackend *commCtrlWidgetBackend = dynamic_cast<CommCtrlWidgetBackend *>(widget->_GetBackend());
-	if(commCtrlWidgetBackend != nullptr)
-		commCtrlWidgetBackend->Reparent(this);
 }
 
 WidgetContainerBackend *CommCtrlWindowBackend::CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget)

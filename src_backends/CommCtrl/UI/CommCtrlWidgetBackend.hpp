@@ -36,7 +36,6 @@ namespace _stdxx_
 		//Overrideable
 		virtual const Win32Window* GetNextWindow(const Win32Window* window) const;
 		virtual void PrePaint();
-		virtual void Reparent(Win32Window *newParent);
 		virtual void SetEnabled(bool enable) override;
 		virtual void Show(bool visible) override;
 

@@ -60,16 +60,6 @@ void _stdxx_::CommCtrlContainerBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CommCtrlContainerBackend::Reparent(Win32Window *newParent)
-{
-	//we dont have hwnds but our children might have
-	for (uint32 i = 0; i < this->container->GetNumberOfChildren(); i++)
-	{
-		CommCtrlWidgetBackend *commCtrlWidgetBackend = dynamic_cast<CommCtrlWidgetBackend *>(this->container->GetChild(i)->_GetBackend());
-		commCtrlWidgetBackend->Reparent(newParent);
-	}
-}
-
 void _stdxx_::CommCtrlContainerBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

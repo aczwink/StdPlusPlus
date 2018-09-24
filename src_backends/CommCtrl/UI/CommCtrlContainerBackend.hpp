@@ -36,9 +36,6 @@ namespace _stdxx_
 		{
 		}
 
-		//Overrideable
-		virtual void Reparent(Win32Window *newParent);
-
 		//Methods
 		void AddChild(StdXX::UI::Widget * widget) override;
 		StdXX::Math::SizeD GetSizeHint() const override;
