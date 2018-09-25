@@ -54,7 +54,7 @@ namespace StdXX
 
             struct SVertex
             {
-                Math::Vector2D position;
+                Math::Vector2S position;
             };
 
         public:
@@ -114,9 +114,14 @@ namespace StdXX
 				this->AddVertex(Math::Vector2D(x, y));
 			}
 
+			inline void AddVertex(const Math::Vector2S &pos)
+			{
+				this->vertices.Push({ pos });
+			}
+
 			inline void AddVertex(const Math::Vector2D &refPos)
 			{
-				this->vertices.Push({refPos});
+				this->AddVertex(Math::Vector2S(refPos.x, refPos.y));
 			}
 
 		private:
