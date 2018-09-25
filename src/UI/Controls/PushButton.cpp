@@ -34,8 +34,15 @@ PushButton::PushButton() : pushButtonBackend(nullptr)
 }
 
 //Private methods
-void PushButton::OnRealized()
+void PushButton::RealizeSelf()
 {
 	_stdxx_::PushButtonBackend* pushButtonBackend = this->_GetUIBackend()->CreatePushButtonBackend(this);
 	this->_SetBackend(pushButtonBackend);
+}
+
+//Event handlers
+void PushButton::OnRealized()
+{
+	Widget::OnRealized();
+	this->pushButtonBackend->SetText(this->text);
 }

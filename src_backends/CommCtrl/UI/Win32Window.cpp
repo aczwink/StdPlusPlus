@@ -21,11 +21,29 @@
 //Local
 #include <Std++/UI/Window.hpp>
 #include "CommCtrlWindowBackend.hpp"
+#include "WindowsMessageQueueEventSource.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
+
+LRESULT CALLBACK SubclassProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	_stdxx_::CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend(hWnd);
+	
+	WinMessageEvent event;
+	event.hWnd = hWnd;
+	event.message = message;
+	event.wParam = wParam;
+	event.lParam = lParam;
+
+	backend->OnMessage(event);
+	if (event.consumed)
+		return event.result;
+
+	return CallWindowProcW(backend->origWndProc, hWnd, message, wParam, lParam);
+}
 
 //Destructor
 Win32Window::~Win32Window()
@@ -145,6 +163,10 @@ void Win32Window::CreateHWND() const
 
 	//set stuff on HWND
 	SetWindowLongPtr(this->hWnd, GWLP_USERDATA, (LONG_PTR)&backend);
+
+	if (this->subclass)
+		this->backend.origWndProc = (WNDPROC)SetWindowLongPtrW(this->hWnd, GWLP_WNDPROC, (LONG_PTR)SubclassProc);
+
 	this->SendMessage(WM_SETFONT, (WPARAM)this->GetFont(), TRUE);
 	UpdateWindow(this->hWnd); //force redraw hwnd
 }

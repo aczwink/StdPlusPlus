@@ -81,11 +81,6 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 				CheckBox &checkBox = dynamic_cast<CheckBox &>(widget);
 				this->DispatchToggledEvent(checkBox);
 			}
-			else if (IS_INSTANCE_OF(&widget, PushButton))
-			{
-				PushButton &pushButton = dynamic_cast<PushButton &>(widget);
-				this->DispatchActivatedEvent(pushButton);
-			}
 		}
 		break;
 		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
@@ -261,7 +256,7 @@ void WindowsMessageQueueEventSource::DispatchInputEvent(HWND hWnd, Widget &widge
 	}
 }
 
-bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+/*bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	g_ignoreMessage = false;
 	
@@ -270,38 +265,15 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 	
 	switch(message)
 	{
-	case WM_SIZE:
-	{
-		if (window)
-		{ //we forward this only to windows, which will forward the resize to all others
-			RECT rcWindow;
-			GetWindowRect(hWnd, &rcWindow);
-
-			RectD bounds(rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
-			widget.SetBounds(bounds);
-			l_messageResult = 0;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	break;
 	case WM_PAINT:
 	{
-		backend.PrePaint();		
-		this->DispatchPaintEvent(widget);
+		if(backend.PrePaint())
+			this->DispatchPaintEvent(widget);
 		l_messageResult = 0;
 	}
 	break;
-	case WM_CLOSE:
+	case WM_NOTIFY:
 	{
-		this->DispatchCloseEvent(*window);
-		l_messageResult = 0;
-	}
-	break;
-		case WM_NOTIFY:
-		{
 			const NMHDR *const& refpNmHdr = (NMHDR *)lParam;
 			Widget &refWidget = *(Widget *)GetWindowLongPtr((HWND)refpNmHdr->hwndFrom, GWLP_USERDATA);
 
@@ -314,32 +286,6 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 			l_messageResult = 0;
 		}
 			break;
-		case WM_COMMAND:
-		{
-			l_messageResult = 0;
-
-			if(lParam)
-			{
-				this->DispatchControlEvent(*(CommCtrlWidgetBackend *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA), HIWORD(wParam));
-			}
-			else
-			{
-				/*
-				if(HIGH16(wParam))
-				{
-				//Accelerator
-				return false;
-				}
-				else
-				{
-				//Menu
-				return false;
-				}
-				 */
-				return false;
-			}
-		}
-		break;
 	case WM_MENUCOMMAND:
 	{
 		MENUITEMINFOW menuItemInfo;
@@ -360,7 +306,7 @@ bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend 
 	}
 
 	return !g_ignoreMessage;
-}
+}*/
 
 void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget, const NMHDR &refNmHdr)
 {
@@ -381,12 +327,20 @@ CommCtrlWidgetBackend *WindowsMessageQueueEventSource::GetAttachedBackend(HWND h
 {
 	if (!hWnd)
 		return nullptr;
+	
+	return (CommCtrlWidgetBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+}
+
+CommCtrlWidgetBackend *WindowsMessageQueueEventSource::GetAttachedBackendIfStdXXWnd(HWND hWnd)
+{
+	if (!hWnd)
+		return nullptr;
 
 	//check class name
 	wchar_t className[STDPLUSPLUS_WIN_WNDCLASS_LENGTH];
 	GetClassNameW(hWnd, className, sizeof(className) / sizeof(className[0]));
-	if(MemCmp(className, STDPLUSPLUS_WIN_WNDCLASS, STDPLUSPLUS_WIN_WNDCLASS_LENGTH) == 0)
-		return (CommCtrlWidgetBackend *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	if (MemCmp(className, STDPLUSPLUS_WIN_WNDCLASS, STDPLUSPLUS_WIN_WNDCLASS_LENGTH) == 0)
+		return WindowsMessageQueueEventSource::GetAttachedBackend(hWnd);
 	return nullptr;
 }
 
@@ -404,9 +358,18 @@ LRESULT CALLBACK WindowsMessageQueueEventSource::WndProc(HWND hWnd, UINT message
 		backend = WindowsMessageQueueEventSource::GetAttachedBackend(hWnd);
 	}
 
-	if(backend && l_winMsgEvtQueue->DispatchMessageEvent(*backend, hWnd, message, wParam, lParam))
-		return l_messageResult;
+	if (backend)
+	{
+		WinMessageEvent event;
+		event.hWnd = hWnd;
+		event.message = message;
+		event.wParam = wParam;
+		event.lParam = lParam;
 
+		backend->OnMessage(event);
+		if (event.consumed)
+			return event.result;
+	}
 	return DefWindowProcW(hWnd, message, wParam, lParam);
 }
 

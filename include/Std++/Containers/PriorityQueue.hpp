@@ -125,8 +125,10 @@ namespace StdXX
 
 		void Remove(const DataType &value)
 		{
-			Node *node = this->head;
+			if (this->head == nullptr)
+				return;
 
+			Node *node = this->head;
 			if(this->head->data == value)
 			{
 				this->head = this->head->next;

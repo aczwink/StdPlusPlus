@@ -60,13 +60,25 @@ const StdXX::UI::Widget & _stdxx_::CommCtrlRenderTargetWidgetBackend::GetWidget(
 	return *this->renderTargetWidget;
 }
 
-void CommCtrlRenderTargetWidgetBackend::PrePaint()
+void CommCtrlRenderTargetWidgetBackend::OnMessage(WinMessageEvent& event)
 {
-	RECT rcUpdate;
-	
-	//validate the update region (it is important that this is done before calling the event handler because user might want to redraw in paint handler!!!)
-	GetUpdateRect(this->GetHWND(), &rcUpdate, FALSE);
-	ValidateRect(this->GetHWND(), &rcUpdate);
+	switch (event.message)
+	{
+	case WM_PAINT:
+	{
+		//validate the update region (it is important that this is done before calling the event handler because user might want to redraw in paint handler!!!)
+		RECT rcUpdate;
+		GetUpdateRect(this->GetHWND(), &rcUpdate, FALSE);
+		ValidateRect(this->GetHWND(), &rcUpdate);
+
+		Event e(EventType::WidgetShouldBePainted);
+		this->renderTargetWidget->Event(e);
+
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	}
 }
 
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const

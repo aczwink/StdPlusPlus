@@ -42,7 +42,7 @@ void CommCtrlWidgetBackend::IgnoreEvent()
 	g_ignoreMessage = true;
 }
 
-void CommCtrlWidgetBackend::PrePaint()
+void CommCtrlWidgetBackend::OnMessage(WinMessageEvent& event)
 {
 }
 

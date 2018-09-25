@@ -50,6 +50,7 @@ namespace _stdxx_
 		AVFrame *frame;
 
 		//Methods
+		uint64 GetBestFramePTS() const;
 		void MapAudioFrame();
 		StdXX::Multimedia::ChannelLayout MapChannels(int channels);
 		void MapPacket(const StdXX::Multimedia::Packet &packet);

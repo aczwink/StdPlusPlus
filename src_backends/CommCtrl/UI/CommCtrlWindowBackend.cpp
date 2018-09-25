@@ -19,12 +19,14 @@
 //Class header
 #include "CommCtrlWindowBackend.hpp"
 //Local
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Events/WindowResizedEvent.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
-#include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"
 #include "CommCtrlContainerBackend.hpp"
+#include "WindowsMessageQueueEventSource.hpp"
 #include "../Imports.h"
 //Namespaces
 using namespace _stdxx_;
@@ -154,15 +156,55 @@ void CommCtrlWindowBackend::Maximize()
 	this->maximizeWindow = true;
 }
 
-void CommCtrlWindowBackend::PrePaint()
+void CommCtrlWindowBackend::OnMessage(WinMessageEvent& event)
 {
-	PAINTSTRUCT ps;
-	BeginPaint(this->GetHWND(), &ps);
+	switch (event.message)
+	{
+	case WM_SIZE:
+	{
+		RECT rcWindow;
+		GetWindowRect(event.hWnd, &rcWindow);
 
-	HBRUSH hBrush = GetSysColorBrush(COLOR_MENU); //stupid winapi.. this should be COLOR_WINDOW... it seems that microsoft doesn't understand its own api
-	FillRect(ps.hdc, &ps.rcPaint, hBrush);
+		SizeD newSize(rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
+		WindowResizedEvent e(newSize);
+		this->window->Event(e);
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		BeginPaint(this->GetHWND(), &ps);
 
-	EndPaint(this->GetHWND(), &ps);
+		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
+		FillRect(ps.hdc, &ps.rcPaint, hBrush);
+
+		EndPaint(this->GetHWND(), &ps);
+
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	case WM_CLOSE:
+	{
+		Event e(EventType::WindowShouldBeClosed);
+		this->window->Event(e);
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	case WM_COMMAND:
+	{
+		if (event.lParam) //control-event
+		{
+			CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
+			if (backend)
+				backend->OnMessage(event);
+		}
+	}
+	break;
+	}
 }
 
 void CommCtrlWindowBackend::Repaint()

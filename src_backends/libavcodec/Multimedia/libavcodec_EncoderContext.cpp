@@ -45,7 +45,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 		{
 			const AudioStream &audioStream = (const AudioStream &)stream;
 
-			ASSERT(!audioStream.sampleFormat.IsNull(), u8"You must give a sample format.");
+			ASSERT(audioStream.sampleFormat.HasValue(), u8"You must give a sample format.");
 			switch (audioStream.sampleFormat->sampleType)
 			{
 			case AudioSampleType::S16:
@@ -189,7 +189,10 @@ void libavcodec_EncoderContext::MapPacket()
 	MemCopy(packet->GetData(), this->packet->data, packet->GetSize());
 
 	//meta
-	packet->pts = this->packet->pts;
+	if (this->packet->pts == AV_NOPTS_VALUE)
+		packet->pts = Natural<uint64>::Max();
+	else
+		packet->pts = this->packet->pts;
 	packet->containsKeyframe = (this->packet->flags & AV_PKT_FLAG_KEY) != 0;
 
 	this->AddPacket(packet);

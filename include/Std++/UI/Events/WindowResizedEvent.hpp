@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,23 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Multimedia/AudioStream.hpp>
-//Namespaces
-using namespace StdXX::Multimedia;
+//Local
+#include <Std++/Math/Size.hpp>
+#include "Event.hpp"
 
-//Private methods
-bool AudioStream::AllDecoderInfoIsAvailable()
+namespace StdXX
 {
-	//we have a decoder, but check if we have all important parameters
-	if(!this->sampleFormat.HasValue() || this->sampleRate == 0)
-		return false;
+	namespace UI
+	{
+		class WindowResizedEvent : public Event
+		{
+		public:
+			//Constructor
+			inline WindowResizedEvent(const Math::SizeD& newSize) : Event(EventType::WindowWasResized),
+				newSize(newSize)
+			{
+			}
 
-	return true;
-}
+			//Inline
+			inline const Math::SizeD& GetNewSize() const
+			{
+				return this->newSize;
+			}
 
-//Public methods
-DataType AudioStream::GetType() const
-{
-	return DataType::Audio;
+		private:
+			//Members
+			Math::SizeD newSize;
+		};
+	}
 }

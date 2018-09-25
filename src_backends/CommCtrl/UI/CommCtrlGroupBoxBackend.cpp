@@ -18,9 +18,13 @@
 */
 //Class header
 #include "CommCtrlGroupBoxBackend.hpp"
+//Global
+#include <Uxtheme.h>
+#include <vsstyle.h>
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include "CommCtrlContainerBackend.hpp"
+#include "WindowsMessageQueueEventSource.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -35,27 +39,140 @@ WidgetContainerBackend * CommCtrlGroupBoxBackend::CreateContentAreaBackend(Compo
 
 RectD CommCtrlGroupBoxBackend::GetContentAreaBounds() const
 {
+	Size<uint16> titleSize = this->GetTextExtents();
+	titleSize.width += 10 + 4 - 2;
+
 	RectD result;
 	result.size = this->groupBox->GetSize();
-	result.Enlarge(-5, -5);
-	result.height() -= 10; //TODO... title of course dependant to font
+	result.height() -= titleSize.height / 1.5;
 	return result;
 }
 
 SizeD CommCtrlGroupBoxBackend::GetSizeHint() const
 {
-	return this->GetTextExtents().Cast<float64>();
+	SizeD titleSize = this->GetTextExtents().Cast<float64>();
+	titleSize.width += 10 + 4 - 2;
+
+	return titleSize;
 }
 
-StdXX::UI::Widget &_stdxx_::CommCtrlGroupBoxBackend::GetWidget()
+Widget &CommCtrlGroupBoxBackend::GetWidget()
 {
 	return *this->groupBox;
 }
 
-const StdXX::UI::Widget &_stdxx_::CommCtrlGroupBoxBackend::GetWidget() const
+const Widget &CommCtrlGroupBoxBackend::GetWidget() const
 {
 	return *this->groupBox;
 }
+
+void CommCtrlGroupBoxBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_PAINT:
+		this->Paint();
+		event.consumed = true;
+		event.result = 0;
+		break;
+	case WM_SETFONT:
+		event.consumed = true;
+		event.result = 0;
+		this->hFont = (HFONT)event.wParam;
+		break;
+	case WM_GETFONT:
+		event.consumed = true;
+		event.result = (LRESULT)this->hFont;
+		break;
+	case WM_COMMAND:
+	{
+		if (event.lParam) //control-event
+		{
+			CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
+			if (backend)
+				backend->OnMessage(event);
+		}
+	}
+	break;
+	}
+}
+
+void CommCtrlGroupBoxBackend::SetBounds(const RectD &bounds)
+{
+	this->SetRect(this->ToWinAPIBounds(bounds));
+}
+
+void CommCtrlGroupBoxBackend::SetTitle(const String &title)
+{
+	this->SetText(title);
+}
+
+//Private methods
+void CommCtrlGroupBoxBackend::Paint()
+{
+	PAINTSTRUCT ps;
+	HWND hWnd = this->GetHWND();
+	HTHEME hTheme = GetWindowTheme(hWnd);
+	if (hTheme == nullptr)
+		hTheme = OpenThemeData(hWnd, WC_BUTTONW);
+
+	HDC hDC = BeginPaint(hWnd, &ps);
+
+	GROUPBOXSTATES state = GBS_DISABLED;
+	if (IsWindowEnabled(hWnd))
+		state = GBS_NORMAL;
+
+	HFONT hFont = (HFONT)this->SendMessage(WM_GETFONT, 0, 0);
+	SelectObject(hDC, hFont);
+
+	//compute rects
+	RECT clientRect;
+	::GetClientRect(hWnd, &clientRect);
+
+	RECT textRect;
+	auto textExtent = this->GetTextExtents();
+	textRect.left = clientRect.left + 10;
+	textRect.right = textRect.left + textExtent.width + 4;
+	textRect.top = clientRect.top;
+	textRect.bottom = textRect.top + textExtent.height;
+	ExcludeClipRect(hDC, textRect.left, textRect.top, textRect.right, textRect.bottom);
+
+	RECT backgroundRect = clientRect;
+	backgroundRect.top += textExtent.height / 2;
+
+	RECT contentRect;
+	GetThemeBackgroundContentRect(hTheme, hDC, BP_GROUPBOX, state, &backgroundRect, &contentRect);
+	ExcludeClipRect(hDC, contentRect.left, contentRect.top, contentRect.right, contentRect.bottom);
+
+	//draw
+	if (IsThemeBackgroundPartiallyTransparent(hTheme, BP_GROUPBOX, state))
+		DrawThemeParentBackground(hWnd, hDC, nullptr);
+	DrawThemeBackground(hTheme, hDC, BP_GROUPBOX, state, &backgroundRect, nullptr);
+
+	SelectClipRgn(hDC, nullptr);
+
+	const String& text = this->groupBox->GetTitle();
+	textRect.left += 2;
+	textRect.right -= 2;
+	DrawThemeText(hTheme, hDC, BP_GROUPBOX, state, (LPCWSTR)text.ToUTF16().GetRawZeroTerminatedData(), text.GetLength(), 0, 0, &textRect);
+
+	EndPaint(hWnd, &ps);
+
+	CloseThemeData(hTheme);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//TODO:
 
 void _stdxx_::CommCtrlGroupBoxBackend::Repaint()
 {
@@ -65,11 +182,6 @@ void _stdxx_::CommCtrlGroupBoxBackend::Repaint()
 void _stdxx_::CommCtrlGroupBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CommCtrlGroupBoxBackend::SetBounds(const RectD &bounds)
-{
-	this->SetRect(this->ToWinAPIBounds(bounds));
 }
 
 void _stdxx_::CommCtrlGroupBoxBackend::SetEditable(bool enable) const
@@ -90,9 +202,4 @@ void _stdxx_::CommCtrlGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionContr
 void _stdxx_::CommCtrlGroupBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CommCtrlGroupBoxBackend::SetTitle(const String &title)
-{
-	this->SetText(title);
 }

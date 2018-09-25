@@ -27,8 +27,8 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline Win32Window(CommCtrlWidgetBackend& backend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0)
-			: hWnd(nullptr), backend(backend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle)
+		inline Win32Window(CommCtrlWidgetBackend& backend, LPCWSTR lpClassName, DWORD dwStyle = 0, DWORD dwExStyle = 0, bool subclass = false)
+			: hWnd(nullptr), backend(backend), lpClassName(lpClassName), dwStyle(dwStyle), dwExStyle(dwExStyle), subclass(subclass)
 		{
 		}
 
@@ -93,6 +93,7 @@ namespace _stdxx_
 		LPCWSTR lpClassName;
 		DWORD dwStyle;
 		DWORD dwExStyle;
+		bool subclass;
 
 		//Methods
 		void CreateHWND() const;

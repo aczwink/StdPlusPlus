@@ -56,6 +56,9 @@ namespace StdXX
             void EnableDrop();
             void SwitchFullscreen(bool state);
 
+			//Overrideable
+			virtual void Event(UI::Event& e);
+
             //Inline
             inline MenuBar *GetMenuBar()
             {

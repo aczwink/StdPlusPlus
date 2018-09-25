@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Optional.hpp>
 #include "AudioSampleFormat.hpp"
 #include "Stream.hpp"
 #include "EnumTypes.hpp"
@@ -32,7 +33,7 @@ namespace StdXX
         public:
             //Members
             uint32 sampleRate;
-			UniquePointer<AudioSampleFormat> sampleFormat;
+			Optional<AudioSampleFormat> sampleFormat;
 			
 			//Constructor
             inline AudioStream()

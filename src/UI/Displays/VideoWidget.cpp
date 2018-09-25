@@ -86,12 +86,13 @@ void VideoWidget::OnPaint()
 	frameRect.origin.y = (this->GetSize().height - frameRect.size.height) / 2;
 
 	//render
-	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
 	this->deviceContext->EnableDepthTest(false); //#TODO: gtk3 bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
-
-	this->renderer->BeginPath();
-	this->renderer->Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
-	this->renderer->SetFillTexture(this->texture);
+	this->deviceContext->ClearColorBuffer(Color(0, 1, 0, 1));
+	
+	//this->renderer->Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
+	this->renderer->Rectangle(10, 10, 100, 100);
+	this->renderer->SetFillColor(Color(1, 0, 0, 1));
+	//this->renderer->SetFillTexture(this->texture);
 	this->renderer->Fill();
 
 	this->renderer->Sync();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,23 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Multimedia/AudioStream.hpp>
-//Namespaces
-using namespace StdXX::Multimedia;
-
-//Private methods
-bool AudioStream::AllDecoderInfoIsAvailable()
+#pragma once
+namespace StdXX
 {
-	//we have a decoder, but check if we have all important parameters
-	if(!this->sampleFormat.HasValue() || this->sampleRate == 0)
-		return false;
+	namespace UI
+	{
+		enum class EventType
+		{
+			WidgetShouldBePainted,
+			WindowShouldBeClosed,
+			WindowWasResized,
+		};
 
-	return true;
-}
+		class Event
+		{
+		public:
+			//Constructor
+			inline Event(EventType type) : type(type), accepted(false)
+			{
+			}
 
-//Public methods
-DataType AudioStream::GetType() const
-{
-	return DataType::Audio;
+			//Inline
+			inline void Accept()
+			{
+				this->accepted = true;
+			}
+
+			inline EventType GetType() const
+			{
+				return this->type;
+			}
+
+		private:
+			//Members
+			EventType type;
+			bool accepted;
+		};
+	}
 }

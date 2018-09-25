@@ -32,6 +32,11 @@ namespace StdXX
             GroupBox();
 
             //Inline
+			inline const String& GetTitle() const
+			{
+				return this->title;
+			}
+
             inline void SetTitle(const String &title)
             {
 				this->title = title;

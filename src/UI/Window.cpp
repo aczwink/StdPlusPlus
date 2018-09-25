@@ -74,6 +74,19 @@ void Window::OnDrop(const ITransfer &refTransfer)
 }
 
 //Public methods
+void Window::Event(UI::Event& e)
+{
+	switch (e.GetType())
+	{
+	case EventType::WindowShouldBeClosed:
+		this->OnClose();
+		e.Accept();
+		break;
+	default:
+		ContentAreaWidget::Event(e);
+	}
+}
+
 void Window::SwitchFullscreen(bool state)
 {
     if(this->_GetBackend())

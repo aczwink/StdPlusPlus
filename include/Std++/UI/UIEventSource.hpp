@@ -32,22 +32,10 @@ namespace StdXX
 		class UIEventSource : public EventSource
 		{
 		protected:
-			//Inline
-			inline void DispatchActivatedEvent(PushButton &refButton)
-			{
-				if (refButton.onActivatedHandler.IsBound())
-					refButton.onActivatedHandler();
-			}
-
 			inline void DispatchActivatedEvent(RadioButton &button)
 			{
 				if (button.onActivatedHandler.IsBound())
 					button.onActivatedHandler();
-			}
-
-			inline void DispatchCloseEvent(Window &window)
-			{
-				window.OnClose();
 			}
 
 			inline void DispatchMouseButtonPressed(Widget &widget, const Events::MouseClickEvent &event)
@@ -68,11 +56,6 @@ namespace StdXX
 			inline void DispatchMouseWheelEvent(Widget &widget, int16 delta)
 			{
 				widget.OnMouseWheelTurned(delta);
-			}
-
-			inline void DispatchPaintEvent(Widget &widget)
-			{
-				widget.OnPaint();
 			}
 
 			inline void DispatchSelectionChangedEvent(View &view)

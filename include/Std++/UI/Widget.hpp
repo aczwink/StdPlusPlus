@@ -26,6 +26,7 @@
 #include "../Definitions.h"
 #include "../Math/Geometry/Rect.hpp"
 #include "../Math/Size.hpp"
+#include "Events/Event.hpp"
 #include "Mouse.hpp"
 #include "SizingPolicy.hpp"
 
@@ -66,6 +67,7 @@ namespace StdXX
 			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
+			virtual void Event(Event& e);
             virtual Math::SizeD GetSizeHint() const;
 
             //Inline

@@ -96,9 +96,9 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 			AudioStream &audioStream = (AudioStream &)this->stream;
 			if ((audioStream.sampleRate == 0) && (this->codecContext->sample_rate != 0))
 				audioStream.sampleRate = this->codecContext->sample_rate;
-			if ((audioStream.sampleFormat.IsNull()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
+			if ((!audioStream.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
 			{
-				audioStream.sampleFormat = new AudioSampleFormat(this->codecContext->channels, this->MapSampleFormat(this->codecContext->sample_fmt), av_sample_fmt_is_planar(this->codecContext->sample_fmt) == 1);
+				audioStream.sampleFormat = AudioSampleFormat(this->codecContext->channels, this->MapSampleFormat(this->codecContext->sample_fmt), av_sample_fmt_is_planar(this->codecContext->sample_fmt) == 1);
 			}
 		}
 		break;
@@ -130,6 +130,17 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 }
 
 //Private methods
+uint64 libavcodec_DecoderContext::GetBestFramePTS() const
+{
+	int64_t pts = this->frame->pts;
+	if (pts == AV_NOPTS_VALUE)
+		pts = av_frame_get_best_effort_timestamp(this->frame);
+
+	if (pts == AV_NOPTS_VALUE)
+		return Natural<uint64>::Max();
+	return pts;
+}
+
 void libavcodec_DecoderContext::MapAudioFrame()
 {
 	AudioStream &audioStream = (AudioStream &)this->stream;
@@ -140,7 +151,7 @@ void libavcodec_DecoderContext::MapAudioFrame()
 	}
 
 	AudioFrame *audioFrame = new AudioFrame(audioBuffer);
-	audioFrame->pts = this->frame->pts;
+	audioFrame->pts = this->GetBestFramePTS();
 
 	this->AddFrame(audioFrame);
 }
@@ -162,6 +173,11 @@ void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packe
 {
 	this->packet->data = (uint8_t *)packet.GetData();
 	this->packet->size = packet.GetSize();
+
+	if (packet.pts == Natural<uint64>::Max())
+		this->packet->pts = AV_NOPTS_VALUE;
+	else
+		this->packet->pts = packet.pts;
 }
 
 AudioSampleType libavcodec_DecoderContext::MapSampleFormat(AVSampleFormat sampleFormat) const
@@ -192,7 +208,7 @@ void libavcodec_DecoderContext::MapVideoFrame()
 	}
 
 	VideoFrame *frame = new VideoFrame(pixmap);
-	frame->pts = this->frame->pts;
+	frame->pts = this->GetBestFramePTS();
 
 	this->AddFrame(frame);
 }

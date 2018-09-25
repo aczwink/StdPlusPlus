@@ -27,6 +27,7 @@
 #include "../Time/Clock.hpp"
 #include "../Time/Timer.hpp"
 #include "AudioStream.hpp"
+#include "ComputePixmapResampler.hpp"
 #include "Demuxer.hpp"
 #include "Format.hpp"
 #include "SubtitleStream.hpp"
@@ -47,8 +48,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructors
-		DecoderThread(StdXX::Multimedia::MediaPlayer *player, StdXX::Multimedia::CodingFormatId encodingCodec);
-		DecoderThread(StdXX::Multimedia::MediaPlayer* player, StdXX::Multimedia::NamedPixelFormat pixelFormatName);
+		DecoderThread(StdXX::Multimedia::MediaPlayer *player);
 
 		//Destructor
 		~DecoderThread();
@@ -56,6 +56,7 @@ namespace _stdxx_
 		//Methods
 		void FlushInputQueue();
 		void FlushOutputQueue();
+		void SetStreamIndex(uint32 streamIndex);
 		StdXX::Multimedia::Packet *TryGetNextOutputPacket();
 
 		//Inline
@@ -73,11 +74,6 @@ namespace _stdxx_
 			this->workLock.Lock();
 			this->workSignal.Signal();
 			this->workLock.Unlock();
-		}
-
-		inline void SetStreamIndex(uint32 streamIndex)
-		{
-			this->streamIndex = streamIndex;
 		}
 
 		inline void Shutdown()
@@ -109,6 +105,8 @@ namespace _stdxx_
 		volatile bool working;
 		uint32 streamIndex;
 		StdXX::Multimedia::DecoderContext *decoderContext;
+		bool requireResampling;
+		StdXX::UniquePointer<StdXX::Multimedia::ComputePixmapResampler> pixmapResampler;
 		StdXX::UniquePointer<StdXX::Multimedia::Stream> encodingStream;
 		StdXX::Multimedia::EncoderContext *encoderContext;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;

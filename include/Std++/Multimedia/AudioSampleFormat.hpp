@@ -73,7 +73,15 @@ namespace StdXX
 			AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType, bool planar); //Create standard layout
 
 			//Operators
-			bool operator==(const AudioSampleFormat &other) const;
+			inline bool operator==(const AudioSampleFormat &other) const
+			{
+				return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->channels == other.channels);
+			}
+
+			inline bool operator!=(const AudioSampleFormat& other) const
+			{
+				return (*this == other);
+			}
 
 			//Methods
 			uint8 ComputeBlockSize(uint8 planeIndex) const;

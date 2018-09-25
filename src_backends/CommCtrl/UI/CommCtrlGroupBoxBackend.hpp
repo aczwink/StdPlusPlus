@@ -31,8 +31,8 @@ namespace _stdxx_
 		inline CommCtrlGroupBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::GroupBox *groupBox)
 			: GroupBoxBackend(uiBackend), CommCtrlContainerBackend(uiBackend, groupBox), WidgetContainerBackend(uiBackend),
 			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
-			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS),
-			groupBox(groupBox)
+			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN),
+			groupBox(groupBox), hFont(nullptr)
 		{
 		}
 
@@ -42,17 +42,24 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
+		void OnMessage(WinMessageEvent& event) override;
+		void SetBounds(const StdXX::Math::RectD & area) override;
+		void SetTitle(const StdXX::String &title) override;
+
+		//not implemented
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD & area) override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
-		void SetTitle(const StdXX::String &title) override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
 	private:
 		//Members
 		StdXX::UI::GroupBox *groupBox;
+		HFONT hFont;
+
+		//Methods
+		void Paint();
 	};
 }

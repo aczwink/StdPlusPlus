@@ -40,23 +40,13 @@ public:
 	void VisitWaitObjects(const StdXX::Function<void (_stdxx_::WaitObjHandle, bool)>& visitFunc) const override;
 
 	//Functions
+	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackend(HWND hWnd);
+	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackendIfStdXXWnd(HWND hWnd);
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
 	//Methods
 	void DispatchControlEvent(_stdxx_::CommCtrlWidgetBackend &backend, UINT notificationCode);
 	void DispatchInputEvent(HWND hWnd, StdXX::UI::Widget &widget, HRAWINPUT hRawInput);
-	/**
-	 *
-	 * @param widget
-	 * @param message
-	 * @param wParam
-	 * @param lParam
-	 * @return true if message was processed, false if not.
-	 */
-	bool DispatchMessageEvent(_stdxx_::CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void DispatchNotificationEvent(StdXX::UI::Widget &refWidget, const NMHDR &refNmHdr);
-
-	//Functions
-	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackend(HWND hWnd);
 };

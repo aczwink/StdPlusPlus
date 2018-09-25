@@ -20,6 +20,7 @@
 #include <Std++/UI/Widget.hpp>
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
+#include <Std++/UI/Events/WindowResizedEvent.hpp>
 #include <Std++/UI/Window.hpp>
 //Namespaces
 using namespace StdXX;
@@ -36,6 +37,28 @@ Widget::~Widget()
 }
 
 //Public methods
+void Widget::Event(UI::Event& e)
+{
+	switch (e.GetType())
+	{
+	case EventType::WidgetShouldBePainted:
+		this->OnPaint();
+		e.Accept();
+		break;
+	case EventType::WindowWasResized:
+	{
+		WindowResizedEvent& wre = static_cast<WindowResizedEvent&>(e);
+		if (this->bounds.size != wre.GetNewSize())
+		{
+			this->bounds.size = wre.GetNewSize();
+			this->OnResized();
+		}
+		e.Accept();
+	}
+	break;
+	}
+}
+
 Math::SizeD Widget::GetSizeHint() const
 {
 	if(this->backend)

@@ -41,11 +41,11 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
+		void OnMessage(WinMessageEvent& event) override;
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
-		void Show(bool visible) override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 		void ResetView() const override;
 		void SetText(const StdXX::String & text) override;

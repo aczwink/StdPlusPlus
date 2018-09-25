@@ -25,12 +25,6 @@
 using namespace StdXX;
 using namespace StdXX::Rendering;
 //Definitions
-#define LOCATION_UNIFORM_VIEWSIZE 0
-#define LOCATION_UNIFORM_FRAGMENT_TYPE 1
-#define LOCATION_UNIFORM_COLOR 2
-#define LOCATION_UNIFORM_TEXTURE 3
-#define LOCATION_UNIFORM_TRANSFORM 4
-
 #define FRAGMENT_TYPE_COLOR 0
 #define FRAGMENT_TYPE_TEXTURE 1
 
@@ -65,16 +59,16 @@ void DevicePathRenderer::Sync()
 	this->pVertexBuffer->Allocate(this->vertices.GetNumberOfElements(), sizeof(SVertex), &this->vertices[0]);
 
 	//prepare rendering
-	this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_VIEWSIZE, this->viewSize);
-	this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_TEXTURE, 0); //we always just need one texture unit
+	this->pShaderProgram->SetUniformValue(this->uniformLocations.viewSize, this->viewSize);
+	this->pShaderProgram->SetUniformValue(this->uniformLocations.textureSampler, 0); //we always just need one texture unit
 	this->refDC.SetInputState(this->pInputState);
 	this->refDC.SetProgram(this->pShaderProgram);
 
 	//render
 	for(const SRenderEntry &refDrawCall : this->renderCalls)
 	{
-		this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_COLOR, refDrawCall.color);
-		this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_TRANSFORM, this->state.transform); //TODO: this should be in the draw entry
+		this->pShaderProgram->SetUniformValue(this->uniformLocations.color, refDrawCall.color);
+		this->pShaderProgram->SetUniformValue(this->uniformLocations.transform, this->state.transform); //TODO: this should be in the draw entry
 
 		switch(refDrawCall.renderMethod)
 		{
@@ -94,7 +88,7 @@ void DevicePathRenderer::Sync()
 				this->refDC.SetStencilTest(TestFunction::NotEqual, 0, 0xFF);
 				this->refDC.SetStencilTestEffects(ETestEffect::SetToZero, ETestEffect::SetToZero, ETestEffect::SetToZero);
 
-				this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_FRAGMENT_TYPE, FRAGMENT_TYPE_COLOR);
+				this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
 				this->refDC.DrawTriangles(refDrawCall.boundingRectangleOffset, 2);
 
 				this->refDC.EnableStencilTest(false);
@@ -104,12 +98,12 @@ void DevicePathRenderer::Sync()
 			{
 				if(refDrawCall.pTexture)
 				{
-					this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_FRAGMENT_TYPE, FRAGMENT_TYPE_TEXTURE);
+					this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_TEXTURE);
 
 					this->refDC.SetTexture(0, refDrawCall.pTexture);
 				}
 				else
-					this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_FRAGMENT_TYPE, FRAGMENT_TYPE_COLOR);
+					this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
 
 				//only one path
 				this->refDC.DrawTriangleFan(refDrawCall.pathAttributes[0].verticesBeginIndex, refDrawCall.pathAttributes[0].nVertices);
@@ -117,7 +111,7 @@ void DevicePathRenderer::Sync()
 				break;
 			case ERenderMethod::Stroke:
 			{
-				this->pShaderProgram->SetUniformValue(LOCATION_UNIFORM_FRAGMENT_TYPE, FRAGMENT_TYPE_COLOR);
+				this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
 
 				for(const SPathAttributes &refPA : refDrawCall.pathAttributes)
 					this->refDC.DrawTriangleStrip(refPA.verticesBeginIndex, refPA.nVertices);
@@ -143,7 +137,7 @@ void DevicePathRenderer::InitRendering()
 		{
 		"#version 330\r\n"
 		"#extension GL_ARB_explicit_attrib_location : require\r\n"
-		"layout(location = 0) uniform vec2 viewSize;\r\n"
+		"uniform vec2 viewSize;\r\n"
 		"layout(location = 0) in vec2 pos;\r\n"
 		"out vec2 textureCoords;\r\n"
 		"void main(void)\r\n"
@@ -158,10 +152,10 @@ void DevicePathRenderer::InitRendering()
 		"#version 150\r\n"
 		"#extension GL_ARB_explicit_attrib_location : require\r\n"
 		
-		"layout(location = 1) uniform int fragmentType;\r\n"
-		"layout(location = 2) uniform vec4 color;\r\n"
-		"layout(location = 3) uniform sampler2D textureSampler;\r\n"
-		"layout(location = 4) uniform mat2 transform;"
+		"uniform int fragmentType;\r\n"
+		"uniform vec4 color;\r\n"
+		"uniform sampler2D textureSampler;\r\n"
+		"uniform mat2 transform;"
 		
 		"in vec2 textureCoords;\r\n"
 		
@@ -205,6 +199,13 @@ void DevicePathRenderer::InitRendering()
 
 	delete pVSShader;
 	delete pFSShader;
+
+	//get uniform locations
+	this->uniformLocations.color = this->pShaderProgram->GetUniformId(u8"color");
+	this->uniformLocations.fragmentType = this->pShaderProgram->GetUniformId(u8"fragmentType");
+	this->uniformLocations.viewSize = this->pShaderProgram->GetUniformId(u8"viewSize");
+	this->uniformLocations.textureSampler = this->pShaderProgram->GetUniformId(u8"textureSampler");
+	this->uniformLocations.transform = this->pShaderProgram->GetUniformId(u8"transform");
 
 	//init vertex buffer
 	this->pVertexBuffer = refDC.CreateVertexBuffer();

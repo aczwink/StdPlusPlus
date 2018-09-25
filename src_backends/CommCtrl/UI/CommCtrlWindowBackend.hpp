@@ -48,7 +48,7 @@ namespace _stdxx_
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void Maximize() override;
-		void PrePaint() override;
+		void OnMessage(WinMessageEvent& event) override;
         void Repaint() override;
 		void ResetView() const override;
         void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;

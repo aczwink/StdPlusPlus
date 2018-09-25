@@ -101,6 +101,14 @@ namespace StdXX
             VertexBuffer *pVertexBuffer;
             ITexture *pTexture;
             Math::Vector2S viewSize;
+			struct
+			{
+				uint32 color;
+				uint32 fragmentType;
+				uint32 textureSampler;
+				uint32 transform;
+				uint32 viewSize;
+			} uniformLocations;
 
             DeviceContext &refDC;
 

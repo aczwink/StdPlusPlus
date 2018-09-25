@@ -19,23 +19,39 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include "../Imports.h"
 
 namespace _stdxx_
 {
 	//Forward declarations
+	class CommCtrlWidgetBackend;
 	class Win32Window;
+
+	struct WinMessageEvent
+	{
+		HWND hWnd;
+		UINT message;
+		WPARAM wParam;
+		LPARAM lParam;
+		bool consumed = false;
+		LRESULT result;
+	};
 
 	class CommCtrlWidgetBackend : virtual public WidgetBackend
 	{
 	public:
+		//Members
+		WNDPROC origWndProc;
+
 		//Constructor
-		inline CommCtrlWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline CommCtrlWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend),
+			origWndProc(nullptr)
 		{
 		}
 
 		//Overrideable
 		virtual const Win32Window* GetNextWindow(const Win32Window* window) const;
-		virtual void PrePaint();
+		virtual void OnMessage(WinMessageEvent& event);
 		virtual void SetEnabled(bool enable) override;
 		virtual void Show(bool visible) override;
 

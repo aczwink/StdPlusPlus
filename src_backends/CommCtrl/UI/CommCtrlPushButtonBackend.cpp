@@ -47,6 +47,28 @@ const StdXX::UI::Widget & _stdxx_::CommCtrlPushButtonBackend::GetWidget() const
 	return *this->pushButton;
 }
 
+void CommCtrlPushButtonBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_COMMAND:
+	{
+		switch (HIWORD(event.wParam))
+		{
+		case BN_CLICKED:
+		{
+			if(this->pushButton->onActivatedHandler.IsBound())
+				this->pushButton->onActivatedHandler();
+			event.consumed = true;
+			event.result = 0;
+		}
+		break;
+		}
+	}
+	break;
+	}
+}
+
 void _stdxx_::CommCtrlPushButtonBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -63,11 +85,6 @@ void _stdxx_::CommCtrlPushButtonBackend::SetEditable(bool enable) const
 }
 
 void _stdxx_::CommCtrlPushButtonBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlPushButtonBackend::Show(bool visible)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

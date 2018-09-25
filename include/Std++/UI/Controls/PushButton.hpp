@@ -47,8 +47,11 @@ namespace StdXX
 			String text;
         	_stdxx_::PushButtonBackend *pushButtonBackend;
 
+			//Event handlers
+			virtual void OnRealized() override;
+
 			//Methods
-			void OnRealized() override;
+			void RealizeSelf() override;
 
 			//Inline
 			inline void _SetBackend(_stdxx_::PushButtonBackend* pushButtonBackend)

@@ -26,7 +26,7 @@ using namespace StdXX::Math;
 using namespace StdXX::Multimedia;
 
 //Constructor
-MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this, CodingFormatId::PCM_S16LE), demuxerThread(this), videoDecodeThread(this, CodingFormatId::RawVideo)
+MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), audioDecodeThread(this), demuxerThread(this), videoDecodeThread(this)
 {
 	this->demuxer = nullptr;
 	this->audioStreamIndex = Natural<uint32>::Max();

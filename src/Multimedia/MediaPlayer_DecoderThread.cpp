@@ -19,28 +19,18 @@
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
 //Local
+#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
+#include <Std++/Multimedia/VideoFrame.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructors
-DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player, CodingFormatId encodingCodec)
-	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), streamIndex(Natural<uint32>::Max())
+DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player)
+	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), encoderContext(nullptr), streamIndex(Natural<uint32>::Max())
 {
-	this->encodingStream = new AudioStream;
-	this->encoderContext = CodingFormat::GetCodingFormatById(encodingCodec)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
-}
-
-DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer* player, StdXX::Multimedia::NamedPixelFormat pixelFormatName)
-	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), streamIndex(Natural<uint32>::Max())
-{
-	VideoStream* encodingStream = new VideoStream;
-	encodingStream->pixelFormat = PixelFormat(pixelFormatName);
-
-	this->encodingStream = encodingStream;
-	this->encoderContext = CodingFormat::GetCodingFormatById(CodingFormatId::RawVideo)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
 }
 
 //Destructor
@@ -105,6 +95,37 @@ int32 DecoderThread::ThreadMain()
 		{
 			Frame *frame = this->decoderContext->GetNextFrame();
 
+			//resample
+			if (this->requireResampling)
+			{
+				Frame* resampledFrame;
+				if (this->pixmapResampler.IsNull())
+				{
+					//audio
+					const AudioFrame* audioFrame = dynamic_cast<const AudioFrame*>(frame);
+					const AudioBuffer* srcBuffer = audioFrame->GetAudioBuffer();
+
+					const AudioStream* sourceStream = dynamic_cast<const AudioStream*>(this->player->GetDemuxer()->GetStream(this->streamIndex));
+					const AudioStream& destStream = dynamic_cast<const AudioStream&>(*this->encodingStream);
+
+					resampledFrame = new AudioFrame(srcBuffer->Resample(*sourceStream->sampleFormat, *destStream.sampleFormat));
+				}
+				else
+				{
+					const VideoFrame* videoFrame = dynamic_cast<const VideoFrame*>(frame);
+
+					Pixmap* resampledPixmap = this->pixmapResampler->Run(*videoFrame->GetPixmap());
+
+					//video
+					resampledFrame = new VideoFrame(resampledPixmap);
+				}
+
+				resampledFrame->pts = frame->pts;
+
+				delete frame;
+				frame = resampledFrame;
+			}
+
 			//encode as the desired playback format
 			this->encoderContext->Encode(*frame);
 			while(this->encoderContext->IsPacketReady())
@@ -168,6 +189,52 @@ void DecoderThread::FlushOutputQueue()
 	while(!this->outputPacketQueue.IsEmpty())
 		delete this->outputPacketQueue.PopFront();
 	this->outputPacketQueueLock.Unlock();
+}
+
+void DecoderThread::SetStreamIndex(uint32 streamIndex)
+{
+	this->streamIndex = streamIndex;
+
+	const Stream* sourceStream = this->player->GetDemuxer()->GetStream(streamIndex);
+	CodingFormatId codingFormatId;
+	switch (sourceStream->GetType())
+	{
+	case DataType::Audio:
+	{
+		const AudioStream* audioSrcStream = dynamic_cast<const AudioStream*>(sourceStream);
+
+		AudioStream *audioStream = new AudioStream;
+		audioStream->sampleFormat = AudioSampleFormat(audioSrcStream->sampleFormat->nChannels, AudioSampleType::S16, false);
+
+		this->encodingStream = audioStream;
+		codingFormatId = CodingFormatId::PCM_S16LE;
+
+		this->requireResampling = *audioSrcStream->sampleFormat != *audioStream->sampleFormat;
+	}
+	break;
+	case DataType::Video:
+	{
+		const VideoStream* videoSrcStream = dynamic_cast<const VideoStream*>(sourceStream);
+
+		VideoStream* videoStream = new VideoStream;
+		videoStream->pixelFormat = PixelFormat(NamedPixelFormat::RGB_24);
+		videoStream->size = videoSrcStream->size;
+
+		if (*videoSrcStream->pixelFormat != *videoStream->pixelFormat)
+		{
+			this->pixmapResampler = new ComputePixmapResampler(videoSrcStream->size, *videoSrcStream->pixelFormat);
+			this->pixmapResampler->ChangePixelFormat(*videoStream->pixelFormat);
+		}
+
+		this->encodingStream = videoStream;
+		codingFormatId = CodingFormatId::RawVideo;
+
+		this->requireResampling = !this->pixmapResampler.IsNull();
+	}
+	break;
+	}
+	this->encodingStream->timeScale = sourceStream->timeScale;
+	this->encoderContext = CodingFormat::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
 }
 
 Packet *DecoderThread::TryGetNextOutputPacket()
