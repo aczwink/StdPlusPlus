@@ -31,7 +31,7 @@ namespace _stdxx_
 		//Constructor
 		inline CommCtrlScrollAreaBackend(StdXX::UIBackend *uiBackend, StdXX::UI::ScrollArea *scrollArea)
 			: ContentAreaWidgetBackend(uiBackend), CommCtrlContainerBackend(uiBackend, scrollArea), WidgetContainerBackend(uiBackend),
-			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN),
+			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN | WS_BORDER),
 			scrollArea(scrollArea)
 		{
 		}
@@ -40,6 +40,7 @@ namespace _stdxx_
 		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
+		void OnMessage(WinMessageEvent& event);
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
 
 		//NOt implemented:
@@ -47,8 +48,6 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
-		void Show(bool visible) override;
-		void IgnoreEvent() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
@@ -56,5 +55,8 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::UI::ScrollArea *scrollArea;
+
+		//Methods
+		void Scroll(int32 dx, int32 dy);
 	};
 }

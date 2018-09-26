@@ -19,6 +19,7 @@
 //Class header
 #include "CommCtrlWidgetBackend.hpp"
 //Local
+#include <Std++/UI/Containers/ScrollArea.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
 #include <Std++/UI/Window.hpp>
 #include "Win32Window.hpp"
@@ -82,7 +83,7 @@ RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 	const WidgetContainer* parent = this->GetWidget().GetParent();
 	while (parent->_GetBackend() == nullptr) //skip only virtual containers (i.e. without backend)
 		parent = parent->GetParent();
-
+	
 	//parent should be a ContainerWidget
 	ASSERT(parent->GetNumberOfChildren() == 1, u8"TODO: report this please");
 	const WidgetContainer* container = dynamic_cast<const WidgetContainer*>(parent->GetChild(0));
@@ -95,6 +96,9 @@ RectD CommCtrlWidgetBackend::ToWinAPIBounds(const RectD &bounds) const
 	//"invert" y axis
 	const Win32Window* wnd = dynamic_cast<const Win32Window*>(parent->_GetBackend());
 	ASSERT(wnd, u8"TODO: report this please");
+	if (IS_INSTANCE_OF(parent, ScrollArea)) //special
+		origin.y = container->GetSize().height - origin.y;
+	else
 	origin.y = wnd->GetClientRect().height() - origin.y;
 	
 	return RectD(origin, bounds.size);

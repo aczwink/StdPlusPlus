@@ -79,7 +79,7 @@ typedef unsigned long long uint64;
 typedef float float32;
 typedef double float64;
 
-#define IS_INSTANCE_OF(ptr, classType) (dynamic_cast<classType *>(ptr))
+#define IS_INSTANCE_OF(ptr, classType) (dynamic_cast<const classType *>(ptr))
 
 //Things from C/C++ Standard Headers
 #define EXIT_SUCCESS 0
