@@ -16,31 +16,32 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
-//Class header
-#include "WidgetBackend.hpp"
+//Local
+#include <Std++/Variant.hpp>
+#include "Event.hpp"
 
-//Forward declarations
 namespace StdXX
 {
 	namespace UI
 	{
-		class Slider;
-	}
-}
-
-namespace _stdxx_
-{
-	class SliderBackend : virtual public WidgetBackend
-	{
-	public:
-		//Constructor
-		inline SliderBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		class ValueChangedEvent : public Event
 		{
-		}
+		public:
+			//Constructor
+			inline ValueChangedEvent(const Variant& variant) : Event(EventType::ValueChanged),
+				variant(variant)
+			{
+			}
 
-		//Abstract
-		virtual void SetPosition(uint32 pos) = 0;
-		virtual void SetRange(uint32 min, uint32 max) = 0;
-	};
+			//Inline
+			inline const Variant& GetNewValue() const
+			{
+				return this->variant;
+			}
+
+		private:
+			//Members
+			Variant variant;
+		};
+	}
 }

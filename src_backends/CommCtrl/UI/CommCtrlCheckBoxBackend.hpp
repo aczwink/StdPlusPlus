@@ -42,6 +42,7 @@ namespace _stdxx_
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
 		bool IsChecked() const override;
+		void OnMessage(WinMessageEvent& event) override;
 		void SetText(const StdXX::String & text) override;
 
 		//not implemented
@@ -49,7 +50,6 @@ namespace _stdxx_
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
-		void Show(bool visible) override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 		void ResetView() const override;
 

@@ -371,6 +371,16 @@ float64 String::ToFloat() const
 	return sign * (integerPart + fractionPart / divisor) * base;
 }
 
+int64 String::ToInt() const
+{
+	if (this->StartsWith(u8"-"))
+	{
+		uint64 v = this->SubString(1).ToUInt();
+		return -int64(v);
+	}
+	return this->ToUInt();
+}
+
 String String::ToLowercase() const
 {
 	String tmp;

@@ -50,11 +50,12 @@ void RenderTargetWidget::RealizeSelf()
 }
 
 //Eventhandlers
-void RenderTargetWidget::OnPaint()
+void RenderTargetWidget::OnPaint(UI::Event& event)
 {
     this->deviceContext->ClearColorBuffer(Color());
-
     this->deviceContext->SwapBuffers();
+
+	event.Accept();
 }
 
 void RenderTargetWidget::OnResized()

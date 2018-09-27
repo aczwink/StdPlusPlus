@@ -68,46 +68,14 @@ bool StdXX::IsStringConvertibleToInteger(const ByteString &refString)
 
 int64 StdXX::StringToInt64(const OldString &refString)
 {
-    int64 result;
-
-    result = 0;
-
-    if(refString[0] == '-')
-    {
-        for(uint32 i = 1; i < refString.GetLength(); i++)
-        {
-            const char &refC = refString[i];
-            if(!IsValueInInterval(refC, '0', '9'))
-                return -1;
-            result -= Power((uint64)10, (uint64)(refString.GetLength() - i - 1)) * (refC - '0');
-        }
-
-        return result;
-    }
-
-    return StringToUInt64(refString);
+	NOT_IMPLEMENTED_ERROR; //deprecated
+	return 0;
 }
 
 uint64 StdXX::StringToUInt64(const OldString &refString)
 {
-    uint32 i;
-    uint64 result;
-
-    i = 0;
-    result = 0;
-
-    if(refString[0] == '+')
-        i++;
-
-    for(; i < refString.GetLength(); i++)
-    {
-        if(!IsValueInInterval(refString[i], (uint32)u8'0', (uint32)u8'9'))
-            return -1;
-
-        result += Power((uint64)10, (uint64)(refString.GetLength() - i - 1)) * (refString[i] - '0');
-    }
-
-    return result;
+	NOT_IMPLEMENTED_ERROR; //deprecated
+	return 0;
 }
 
 OldString StdXX::ToHexString(uint64 value, uint8 nMinChars, bool addBase)

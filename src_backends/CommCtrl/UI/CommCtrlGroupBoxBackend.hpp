@@ -21,6 +21,8 @@
 #include <Std++/UI/Containers/GroupBox.hpp>
 #include "CommCtrlContainerBackend.hpp"
 #include "Win32Window.hpp"
+//Global
+#include <Uxtheme.h>
 
 namespace _stdxx_
 {
@@ -32,9 +34,12 @@ namespace _stdxx_
 			: GroupBoxBackend(uiBackend), CommCtrlContainerBackend(uiBackend, groupBox), WidgetContainerBackend(uiBackend),
 			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
 			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN),
-			groupBox(groupBox), hFont(nullptr)
+			groupBox(groupBox), hFont(nullptr), hTheme(nullptr)
 		{
 		}
+
+		//Destructor
+		~CommCtrlGroupBoxBackend();
 
 		//Methods
 		_stdxx_::WidgetContainerBackend * CreateContentAreaBackend(StdXX::UI::CompositeWidget & widget) override;
@@ -47,7 +52,6 @@ namespace _stdxx_
 		void SetTitle(const StdXX::String &title) override;
 
 		//not implemented
-		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
@@ -58,8 +62,9 @@ namespace _stdxx_
 		//Members
 		StdXX::UI::GroupBox *groupBox;
 		HFONT hFont;
+		HTHEME hTheme;
 
 		//Methods
-		void Paint();
+		void Paint(HDC hDC);
 	};
 }

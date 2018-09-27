@@ -18,6 +18,8 @@
 */
 //Class header
 #include "CommCtrlContainerBackend.hpp"
+//Local
+#include "WindowsMessageQueueEventSource.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX::Math;
@@ -50,14 +52,59 @@ const Widget &CommCtrlContainerBackend::GetWidget() const
 	return *this->container;
 }
 
+void CommCtrlContainerBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		BeginPaint(event.hWnd, &ps);
+
+		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
+		FillRect(ps.hdc, &ps.rcPaint, hBrush);
+
+		EndPaint(event.hWnd, &ps);
+
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	case WM_NOTIFY:
+	{
+		const NMHDR* nmHeader = (NMHDR *)event.lParam;
+		CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend(nmHeader->hwndFrom);
+		backend->OnMessage(event); //forward message
+
+		if(!event.consumed)
+			CommCtrlWidgetBackend::OnMessage(event);
+	}
+	break;
+	case WM_COMMAND:
+	{
+		if (event.lParam) //control-event
+		{
+			CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
+			if (backend)
+				backend->OnMessage(event);
+		}
+	}
+	break;
+	case WM_HSCROLL: //for track bar
+	{
+		CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
+		if (backend)
+			backend->OnMessage(event);
+	}
+	break;
+	default:
+		CommCtrlWidgetBackend::OnMessage(event);
+	}
+}
+
 void CommCtrlContainerBackend::IgnoreEvent()
 {
 	//do nothing
-}
-
-void _stdxx_::CommCtrlContainerBackend::Repaint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::CommCtrlContainerBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
@@ -66,11 +113,6 @@ void _stdxx_::CommCtrlContainerBackend::Select(StdXX::UI::ControllerIndex & cont
 }
 
 void _stdxx_::CommCtrlContainerBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::SetEnabled(bool enable)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

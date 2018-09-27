@@ -38,35 +38,9 @@ namespace StdXX
 					button.onActivatedHandler();
 			}
 
-			inline void DispatchMouseButtonPressed(Widget &widget, const Events::MouseClickEvent &event)
-			{
-				widget.OnMouseButtonPressed(event);
-			}
-
-			inline void DispatchMouseButtonReleased(Widget &widget, const Events::MouseClickEvent &event)
-			{
-				widget.OnMouseButtonReleased(event);
-			}
-
-			inline void DispatchMouseMovedEvent(Widget &widget, const Math::PointD &pos)
-			{
-				widget.OnMouseMoved(pos);
-			}
-
-			inline void DispatchMouseWheelEvent(Widget &widget, int16 delta)
-			{
-				widget.OnMouseWheelTurned(delta);
-			}
-
 			inline void DispatchSelectionChangedEvent(View &view)
 			{
 				view.OnSelectionChanged();
-			}
-
-			inline void DispatchToggledEvent(CheckBox &checkBox)
-			{
-				if (checkBox.onToggledHandler.IsBound())
-					checkBox.onToggledHandler();
 			}
 		};
 	}

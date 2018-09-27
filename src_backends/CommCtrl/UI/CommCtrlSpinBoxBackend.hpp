@@ -40,11 +40,11 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::Math::SizeD GetSizeHint() const override;
-		int32 GetValue() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
-		void Reparent(Win32Window *newParent);
+		void OnMessage(WinMessageEvent& event) override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
+		void SetEnabled(bool enable) override;
 		void SetRange(int32 min, int32 max) override;
 		void SetValue(int32 value) override;
 		void Show(bool visible) override;
@@ -53,7 +53,6 @@ namespace _stdxx_
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
 		void ResetView() const override;

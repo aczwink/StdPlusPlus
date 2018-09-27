@@ -74,15 +74,6 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 	Widget &widget = backend.GetWidget();
 	switch(notificationCode)
 	{
-		case BN_CLICKED:
-		{
-			if (IS_INSTANCE_OF(&widget, CheckBox))
-			{
-				CheckBox &checkBox = dynamic_cast<CheckBox &>(widget);
-				this->DispatchToggledEvent(checkBox);
-			}
-		}
-		break;
 		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
 		{
 			View &view = (View &)widget;
@@ -93,20 +84,13 @@ void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend 
 	}
 }
 
-void WindowsMessageQueueEventSource::DispatchInputEvent(HWND hWnd, Widget &widget, HRAWINPUT hRawInput)
-{
-	/*
-	source:
-	http://blog.molecular-matters.com/2011/09/05/properly-handling-keyboard-input/
-	*/
+	//if(input.header.dwType == RIM_TYPEKEYBOARD)
+	//{
+		/*
+		source:
+		http://blog.molecular-matters.com/2011/09/05/properly-handling-keyboard-input/
+		*/
 
-	RAWINPUT input;
-	UINT size = sizeof(input);
-	GetRawInputData(hRawInput, RID_INPUT, &input, &size, sizeof(RAWINPUTHEADER));
-
-	if(input.header.dwType == RIM_TYPEKEYBOARD)
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
 		/*
 		bool isE0, isE1, keyUp;
 		UINT virtualKey;
@@ -139,122 +123,7 @@ void WindowsMessageQueueEventSource::DispatchInputEvent(HWND hWnd, Widget &widge
 			g_keyStates[(uint8)keyCode] = true;
 			CEventQueue::DispatchKeyPressedEvent(*AWindow::GetFocusedWindow(), keyEvent);
 		}*/
-	}
-	else if(input.header.dwType == RIM_TYPEMOUSE)
-	{
-		extern bool g_mouseButtonStates[1];
-
-		//keyboard modifiers
-		Events::KeyboardModifiers keyboardModifiers;
-
-		keyboardModifiers.ctrl = GetKeyState(VK_CONTROL) & 0x8000; //TODO: update this from above
-
-		//get cursor pos
-		POINT cursorPos;
-		::GetCursorPos(&cursorPos);
-		static POINT lastCursorPos = cursorPos;
-
-		//get the widget
-		/*
-		HWND hWnd = WindowFromPoint(cursorPos);
-		CommCtrlWidgetBackend *backend = WindowsMessageQueueEventSource::GetAttachedBackend(hWnd);
-		CommCtrlRenderTargetWidgetBackend *renderTargetWidgetBackend = dynamic_cast<CommCtrlRenderTargetWidgetBackend *>(backend);
-		if (renderTargetWidgetBackend == nullptr)
-			return;
-
-		Widget &widget = backend->GetWidget();
-		*/
-
-		//convert cursor pos
-		POINT clientCursorPos = cursorPos;
-		ScreenToClient(hWnd, &clientCursorPos);
-		RECT rcClient;
-		GetClientRect(hWnd, &rcClient);
-		PointD transformed = PointD(clientCursorPos.x, rcClient.bottom - clientCursorPos.y);
-		bool cursorInWindow = PtInRect(&rcClient, clientCursorPos) != 0;
-
-		//did cursor move?		
-		bool cursorMoved = (lastCursorPos.x != cursorPos.x) || (lastCursorPos.y != cursorPos.y);
-		if (cursorMoved && cursorInWindow)
-			this->DispatchMouseMovedEvent(widget, transformed);
-
-		//was mouse wheel used?
-		if ((input.data.mouse.usButtonFlags & RI_MOUSE_WHEEL) && cursorInWindow)
-			this->DispatchMouseWheelEvent(widget, (int16)input.data.mouse.usButtonData / WHEEL_DELTA);
-
-		Events::MouseClickEvent eventl(MouseButton::Left, transformed, keyboardModifiers);
-		if ((input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN))
-		{
-			//left mouse state changed to down
-			this->DispatchMouseButtonPressed(widget, eventl);
-		}
-		else if ((input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP))
-		{
-			//left mouse state changed to up
-			this->DispatchMouseButtonReleased(widget, eventl);
-		}
-
-		Events::MouseClickEvent eventr(MouseButton::Right, transformed, keyboardModifiers);
-		if ((input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN))
-		{
-			//right mouse state changed to down
-			this->DispatchMouseButtonPressed(widget, eventr);
-		}
-		else if ((input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP))
-		{
-			//right mouse state changed to up
-			this->DispatchMouseButtonReleased(widget, eventr);
-		}
-		
-		/*
-		if(dynamic_cast<APopupWindow *>(pWnd))
-		{
-			uint32 packedCoord;
-			LRESULT hitTestRes;
-
-			packedCoord = MAKE32(cursorPos.x, cursorPos.y);
-
-			hitTestRes = SendMessage(hWnd, WM_NCHITTEST, 0, packedCoord);
-			if(hitTestRes != HTCLIENT)
-			{
-				WPARAM wParam;
-				POINTS pts;
-
-				wParam = 0; //TODO: set extended key modifiers
-
-				pts.x = (SHORT)cursorPos.x;
-				pts.y = (SHORT)cursorPos.y;
-
-				if(mouseMoved)
-					//PostMessage(hWnd, WM_MOUSEMOVE, wParam, packedCoord);
-					PostMessage(hWnd, WM_NCMOUSEMOVE, hitTestRes, (LPARAM)&pts);
-				//left mouse button
-				if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
-					PostMessage(hWnd, WM_NCLBUTTONDOWN, hitTestRes, (LPARAM)&pts);
-				if(input.data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
-					PostMessage(hWnd, WM_NCLBUTTONUP, hitTestRes, (LPARAM)&pts);
-				//right mouse button
-				if(input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN)
-					PostMessage(hWnd, WM_NCRBUTTONDOWN, hitTestRes, (LPARAM)&pts);
-				if(input.data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_UP)
-					PostMessage(hWnd, WM_NCRBUTTONUP, hitTestRes, (LPARAM)&pts);
-
-				goto endMouse;
-			}
-		}
-
-		if(dynamic_cast<AWindowContainer *>(pWnd))
-			pWnd = &((AWindowContainer *)pWnd)->Find(matchedX, matchedY);
-		}*/
-
-		//update state
-		lastCursorPos = cursorPos;
-	}
-	else
-	{
-		g_ignoreMessage = true;
-	}
-}
+	//}
 
 /*bool WindowsMessageQueueEventSource::DispatchMessageEvent(CommCtrlWidgetBackend &backend, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -265,27 +134,6 @@ void WindowsMessageQueueEventSource::DispatchInputEvent(HWND hWnd, Widget &widge
 	
 	switch(message)
 	{
-	case WM_PAINT:
-	{
-		if(backend.PrePaint())
-			this->DispatchPaintEvent(widget);
-		l_messageResult = 0;
-	}
-	break;
-	case WM_NOTIFY:
-	{
-			const NMHDR *const& refpNmHdr = (NMHDR *)lParam;
-			Widget &refWidget = *(Widget *)GetWindowLongPtr((HWND)refpNmHdr->hwndFrom, GWLP_USERDATA);
-
-			this->DispatchNotificationEvent(refWidget, *refpNmHdr);
-		}
-			break;
-		case WM_INPUT:
-		{
-			this->DispatchInputEvent(hWnd, widget, (HRAWINPUT)lParam);
-			l_messageResult = 0;
-		}
-			break;
 	case WM_MENUCOMMAND:
 	{
 		MENUITEMINFOW menuItemInfo;

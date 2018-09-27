@@ -17,36 +17,36 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "Event.hpp"
 
 namespace StdXX
 {
 	namespace UI
 	{
-		namespace Events
+		struct KeyboardModifiers
 		{
-			struct KeyboardModifiers
+			bool ctrl;
+		};
+
+		class InputEvent : public Event
+		{
+		public:
+			//Constructor
+			inline InputEvent(EventType eventType, const KeyboardModifiers &keyboardModifiers) : Event(eventType),
+				keyboardModifiers(keyboardModifiers)
 			{
-				bool ctrl;
-			};
+			}
 
-			class InputEvent
+			//Inline
+			inline const KeyboardModifiers &GetKeyboardModifiers() const
 			{
-			public:
-				//Constructor
-				inline InputEvent(const KeyboardModifiers &keyboardModifiers) : keyboardModifiers(keyboardModifiers)
-				{
-				}
+				return this->keyboardModifiers;
+			}
 
-				//Inline
-				inline const KeyboardModifiers &GetKeyboardModifiers() const
-				{
-					return this->keyboardModifiers;
-				}
-
-			private:
-				//Members
-				KeyboardModifiers keyboardModifiers;
-			};
-		}
+		private:
+			//Members
+			KeyboardModifiers keyboardModifiers;
+		};
 	}
 }

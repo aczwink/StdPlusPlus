@@ -43,5 +43,9 @@ namespace _stdxx_
 	private:
 		//Methods
 		StdXX::UI::RenderTargetWidget *renderTargetWidget;
+		bool mouseButtonStates[1];
+
+		//Methods
+		void DispatchMouseEvents(HWND hWnd, RAWINPUT& input);
 	};
 }

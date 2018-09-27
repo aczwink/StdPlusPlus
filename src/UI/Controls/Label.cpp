@@ -27,8 +27,15 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Private methods
-void Label::OnRealized()
+void Label::RealizeSelf()
 {
 	_stdxx_::LabelBackend* labelBackend = this->_GetUIBackend()->CreateLabelBackend(this);
 	this->_SetBackend(labelBackend);
+}
+
+//Event handlers
+void Label::OnRealized()
+{
+	Widget::OnRealized();
+	this->labelBackend->SetText(this->text);
 }

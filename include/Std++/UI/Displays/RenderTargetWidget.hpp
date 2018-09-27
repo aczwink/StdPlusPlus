@@ -44,14 +44,14 @@ namespace StdXX
             Rendering::DeviceContext *deviceContext;
 
             //Eventhandlers
-            virtual void OnResized();
+            virtual void OnResized() override;
 
         private:
 			//Methods
 			void RealizeSelf() override;
 
             //Eventhandlers
-            virtual void OnPaint();
+            virtual void OnPaint(UI::Event& event) override;
         };
     }
 }

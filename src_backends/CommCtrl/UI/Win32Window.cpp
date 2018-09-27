@@ -157,7 +157,7 @@ void Win32Window::CreateHWND() const
 
 	//create HWND
 	HINSTANCE hInstance = GetModuleHandle(NULL);
-	this->hWnd = CreateWindowExW(dwExStyle, lpClassName, nullptr, dwStyle, x, 0, width, 0, hParent, NULL, hInstance, (LPVOID)&backend);
+	this->hWnd = CreateWindowExW(dwExStyle, lpClassName, nullptr, dwStyle, x, 0, width, 0, hParent, NULL, hInstance, nullptr); //(LPVOID)&backend
 
 	ASSERT(this->hWnd, u8"Realization failed");
 

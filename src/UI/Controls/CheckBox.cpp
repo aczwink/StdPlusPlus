@@ -38,3 +38,10 @@ void CheckBox::RealizeSelf()
 	_stdxx_::CheckBoxBackend* checkBoxBackend = this->_GetUIBackend()->CreateCheckBoxBackend(this);
 	this->_SetBackend(checkBoxBackend);
 }
+
+//Event handlers
+void CheckBox::OnRealized()
+{
+	Widget::OnRealized();
+	this->checkBoxBackend->SetText(this->text);
+}

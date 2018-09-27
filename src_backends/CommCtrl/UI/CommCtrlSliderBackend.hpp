@@ -41,6 +41,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
+		void OnMessage(WinMessageEvent& event) override;
 		void SetPosition(uint32 pos) override;
 		void SetRange(uint32 min, uint32 max) override;
 
@@ -50,11 +51,16 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) const override;
 		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		uint32 GetPosition() const override;
 		void ResetView() const override;
 
 	private:
 		//Members
 		StdXX::UI::Slider *slider;
+
+		//Inline
+		inline uint32 GetPosition() const
+		{
+			return this->SendMessage(TBM_GETPOS, 0, 0);
+		}
 	};
 }

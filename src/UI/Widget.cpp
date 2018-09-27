@@ -41,9 +41,20 @@ void Widget::Event(UI::Event& e)
 {
 	switch (e.GetType())
 	{
+	case EventType::MouseButtonPressed:
+		this->OnMouseButtonPressed(static_cast<MouseClickEvent&>(e));
+		break;
+	case EventType::MouseButtonReleased:
+		this->OnMouseButtonReleased(static_cast<MouseClickEvent&>(e));
+		break;
+	case EventType::MouseMoved:
+		this->OnMouseMoved(static_cast<MouseEvent&>(e));
+		break;
+	case EventType::MouseWheelRolled:
+		this->OnMouseWheelRolled(static_cast<MouseWheelEvent&>(e));
+		break;
 	case EventType::WidgetShouldBePainted:
-		this->OnPaint();
-		e.Accept();
+		this->OnPaint(e);
 		break;
 	case EventType::WindowWasResized:
 	{
@@ -138,24 +149,20 @@ void Widget::RealizeSelf()
 }
 
 //Eventhandlers
-void Widget::OnMouseButtonPressed(const Events::MouseClickEvent &event)
+void Widget::OnMouseButtonPressed(MouseClickEvent &event)
 {
-	this->IgnoreEvent();
 }
 
-void Widget::OnMouseButtonReleased(const Events::MouseClickEvent &event)
+void Widget::OnMouseButtonReleased(MouseClickEvent &event)
 {
-	this->IgnoreEvent();
 }
 
-void Widget::OnMouseMoved(const Math::PointD &pos)
+void Widget::OnMouseMoved(MouseEvent& event)
 {
-	this->IgnoreEvent();
 }
 
-void Widget::OnMouseWheelTurned(int16 delta)
+void Widget::OnMouseWheelRolled(MouseWheelEvent& event)
 {
-	this->IgnoreEvent();
 }
 
 void Widget::OnMoved()
@@ -163,14 +170,17 @@ void Widget::OnMoved()
 	this->IgnoreEvent();
 }
 
-void Widget::OnPaint()
+void Widget::OnPaint(UI::Event& event)
 {
-	this->IgnoreEvent();
 }
 
 void Widget::OnRealized()
 {
-	this->Show(this->visible);
+	if (this->backend)
+	{
+		this->backend->SetEnabled(this->enabled);
+		this->backend->Show(this->visible);
+	}
 }
 
 void Widget::OnResized()

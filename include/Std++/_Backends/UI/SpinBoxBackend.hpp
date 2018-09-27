@@ -40,7 +40,6 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual int32 GetValue() const = 0;
 		virtual void SetRange(int32 min, int32 max) = 0;
 		virtual void SetValue(int32 value) = 0;
 	};

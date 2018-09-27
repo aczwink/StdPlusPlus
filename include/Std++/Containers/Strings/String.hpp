@@ -218,6 +218,7 @@ namespace StdXX
 		 */
 		String SubString(uint32 startPos, uint32 length = Natural<uint32>::Max()) const;
 		float64 ToFloat() const;
+		int64 ToInt() const;
 		String ToLowercase() const;
 		uint64 ToUInt() const;
 		/**
@@ -294,10 +295,9 @@ namespace StdXX
 			return static_cast<float32>(this->ToFloat());
 		}
 
-		inline int64 ToInt() const
+		inline int32 ToInt32() const
 		{
-			NOT_IMPLEMENTED_ERROR;
-			return -1;
+			return (int32)this->ToInt();
 		}
 
 		inline uint32 ToUInt32() const

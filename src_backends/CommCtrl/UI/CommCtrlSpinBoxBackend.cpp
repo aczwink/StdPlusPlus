@@ -20,6 +20,7 @@
 #include "CommCtrlSpinBoxBackend.hpp"
 //Local
 #include <Std++/UI/Controls/SpinBox.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -35,15 +36,6 @@ SizeD CommCtrlSpinBoxBackend::GetSizeHint() const
 	return SizeD(40, 26);
 }
 
-int32 CommCtrlSpinBoxBackend::GetValue() const
-{
-	BOOL valid;
-	int32 value = this->upDownControl.SendMessage(UDM_GETPOS32, 0, (LPARAM)&valid);
-	if (valid != 0)
-		return 0;
-	return value;
-}
-
 Widget &CommCtrlSpinBoxBackend::GetWidget()
 {
 	return *this->spinBox;
@@ -54,10 +46,32 @@ const Widget &CommCtrlSpinBoxBackend::GetWidget() const
 	return *this->spinBox;
 }
 
-void CommCtrlSpinBoxBackend::Reparent(Win32Window *newParent)
+void CommCtrlSpinBoxBackend::OnMessage(WinMessageEvent& event)
 {
-	this->editControl.SetParent(newParent);
-	this->upDownControl.SetParent(newParent);
+	switch (event.message)
+	{
+	case WM_COMMAND:
+	{
+		switch (HIWORD(event.wParam))
+		{
+		case EN_CHANGE:
+		{
+			Variant value;
+			value.i32 = this->editControl.GetText().ToInt32();
+
+			this->spinBox->Event(ValueChangedEvent(value));
+			event.consumed = true;
+			event.result = 0;
+		}
+		break;
+		default:
+			CommCtrlWidgetBackend::OnMessage(event);
+		}
+	}
+	break;
+	default:
+		CommCtrlWidgetBackend::OnMessage(event);
+	}
 }
 
 void CommCtrlSpinBoxBackend::SetBounds(const RectD &bounds)
@@ -74,11 +88,17 @@ void CommCtrlSpinBoxBackend::SetBounds(const RectD &bounds)
 	this->upDownControl.SetRect(this->ToWinAPIBounds(upDownBounds));
 }
 
+void CommCtrlSpinBoxBackend::SetEnabled(bool enable)
+{
+	this->editControl.SetEnabled(enable);
+	this->upDownControl.SetEnabled(enable);
+}
+
 void CommCtrlSpinBoxBackend::SetRange(int32 min, int32 max)
 {
 	this->upDownControl.SendMessage(UDM_SETRANGE32, min, max);
 	//update pos always because of redraw
-	this->SetValue(this->GetValue());
+	this->SetValue(this->spinBox->GetValue());
 }
 
 void CommCtrlSpinBoxBackend::SetValue(int32 value)
@@ -108,11 +128,6 @@ void _stdxx_::CommCtrlSpinBoxBackend::Select(StdXX::UI::ControllerIndex & contro
 }
 
 void _stdxx_::CommCtrlSpinBoxBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSpinBoxBackend::SetEnabled(bool enable)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -5,7 +5,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Event.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputEvent.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/KeyEvent.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/MouseClickEvent.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MouseEvents.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ValueChangedEvent.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WindowResizedEvent.hpp
 
 	PARENT_SCOPE)

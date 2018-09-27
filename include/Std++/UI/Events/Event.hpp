@@ -23,6 +23,11 @@ namespace StdXX
 	{
 		enum class EventType
 		{
+			MouseButtonPressed,
+			MouseButtonReleased,
+			MouseMoved,
+			MouseWheelRolled,
+			ValueChanged,
 			WidgetShouldBePainted,
 			WindowShouldBeClosed,
 			WindowWasResized,
@@ -45,6 +50,11 @@ namespace StdXX
 			inline EventType GetType() const
 			{
 				return this->type;
+			}
+
+			inline bool WasAccepted() const
+			{
+				return this->accepted;
 			}
 
 		private:

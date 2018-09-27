@@ -52,6 +52,9 @@ namespace StdXX
 			String text;
 			_stdxx_::CheckBoxBackend *checkBoxBackend;
 
+			//Event handlers
+			virtual void OnRealized() override;
+
 			//Methods
 			void RealizeSelf() override;
 

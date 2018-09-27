@@ -34,10 +34,13 @@ namespace StdXX
             //Constructor
             Slider();
 
+			//Methods
+			void Event(UI::Event& e) override;
+
 			//Inline
 			inline uint32 GetPosition() const
 			{
-				return this->sliderBackend->GetPosition();
+				return this->pos;
 			}
 
 			inline void SetPosition(uint32 pos)
@@ -61,6 +64,9 @@ namespace StdXX
 			uint32 max;
 			uint32 pos;
         	_stdxx_::SliderBackend *sliderBackend;
+
+			//Event handlers
+			virtual void OnRealized() override;
 
 			//Methods
 			void RealizeSelf() override;

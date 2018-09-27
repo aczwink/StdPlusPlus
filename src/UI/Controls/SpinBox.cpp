@@ -21,16 +21,38 @@
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 #include <Std++/Integer.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max()), spinBoxBackend(nullptr)
+SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max()), value(0), spinBoxBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
+
+//Public methods
+void SpinBox::Event(UI::Event& event)
+{
+	switch (event.GetType())
+	{
+	case EventType::ValueChanged:
+	{
+		ValueChangedEvent& vce = static_cast<ValueChangedEvent&>(event);
+
+		this->value = vce.GetNewValue().i32;
+		if (this->onValueChangedHandler.IsBound())
+			this->onValueChangedHandler();
+
+		event.Accept();
+	}
+	break;
+	default:
+		Widget::Event(event);
+	}
 }
 
 //Private methods
@@ -38,4 +60,13 @@ void SpinBox::RealizeSelf()
 {
 	_stdxx_::SpinBoxBackend* spinBoxBackend = this->_GetUIBackend()->CreateSpinBoxBackend(this);
 	this->_SetBackend(spinBoxBackend);
+}
+
+//Event handlers
+void SpinBox::OnRealized()
+{
+	Widget::OnRealized();
+
+	this->spinBoxBackend->SetRange(this->min, this->max);
+	this->spinBoxBackend->SetValue(this->value);
 }

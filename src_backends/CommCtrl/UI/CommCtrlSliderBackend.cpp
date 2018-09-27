@@ -20,8 +20,10 @@
 #include "CommCtrlSliderBackend.hpp"
 //Local
 #include <Std++/UI/Controls/Slider.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
 
@@ -42,6 +44,23 @@ Widget &CommCtrlSliderBackend::GetWidget()
 const Widget &CommCtrlSliderBackend::GetWidget() const
 {
 	return *this->slider;
+}
+
+void CommCtrlSliderBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_HSCROLL:
+	{
+		Variant value;
+		value.u32 = this->GetPosition();
+
+		this->slider->Event(ValueChangedEvent(value));
+	}
+	break;
+	default:
+		CommCtrlWidgetBackend::OnMessage(event);
+	}
 }
 
 void CommCtrlSliderBackend::SetPosition(uint32 pos)
@@ -83,12 +102,6 @@ void _stdxx_::CommCtrlSliderBackend::SetHint(const StdXX::String & text) const
 void _stdxx_::CommCtrlSliderBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-uint32 _stdxx_::CommCtrlSliderBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return uint32();
 }
 
 void _stdxx_::CommCtrlSliderBackend::ResetView() const

@@ -70,11 +70,6 @@ void _stdxx_::CommCtrlLabelBackend::SetHint(const StdXX::String & text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlLabelBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlLabelBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

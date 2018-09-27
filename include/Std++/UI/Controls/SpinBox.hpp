@@ -28,13 +28,19 @@ namespace StdXX
 		class STDPLUSPLUS_API SpinBox : public Widget
 		{
 		public:
+			//Dynamic event handlers
+			Function<void()> onValueChangedHandler;
+
 			//Constructor
 			SpinBox();
+
+			//Methods
+			void Event(UI::Event& e) override;
 
 			//Inline
 			inline int32 GetValue() const
 			{
-				return this->spinBoxBackend->GetValue();
+				return this->value;
 			}
 
 			inline void SetRange(int32 min, int32 max)
@@ -47,14 +53,19 @@ namespace StdXX
 			
 			inline void SetValue(int32 value)
 			{
-				this->spinBoxBackend->SetValue(Math::Clamp(value, this->min, this->max));
+				this->value = Math::Clamp(value, this->min, this->max);
+				this->spinBoxBackend->SetValue(this->value);
 			}
 
 		private:
 			//Members
 			int32 min;
 			int32 max;
+			int32 value;
 			_stdxx_::SpinBoxBackend *spinBoxBackend;
+
+			//Event handlers
+			virtual void OnRealized() override;
 
 			//Methods
 			void RealizeSelf() override;

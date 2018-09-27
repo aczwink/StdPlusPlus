@@ -172,20 +172,6 @@ void CommCtrlWindowBackend::OnMessage(WinMessageEvent& event)
 		event.result = 0;
 	}
 	break;
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		BeginPaint(this->GetHWND(), &ps);
-
-		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
-		FillRect(ps.hdc, &ps.rcPaint, hBrush);
-
-		EndPaint(this->GetHWND(), &ps);
-
-		event.consumed = true;
-		event.result = 0;
-	}
-	break;
 	case WM_CLOSE:
 	{
 		Event e(EventType::WindowShouldBeClosed);
@@ -194,16 +180,19 @@ void CommCtrlWindowBackend::OnMessage(WinMessageEvent& event)
 		event.result = 0;
 	}
 	break;
-	case WM_COMMAND:
+	case WM_PRINTCLIENT:
 	{
-		if (event.lParam) //control-event
-		{
-			CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
-			if (backend)
-				backend->OnMessage(event);
-		}
+		RECT rcClient;
+		::GetClientRect(this->GetHWND(), &rcClient);
+		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
+		FillRect((HDC)event.wParam, &rcClient, hBrush);
+
+		event.consumed = true;
+		event.result = 0; //msdn says nothing about return value
 	}
 	break;
+	default:
+		CommCtrlContainerBackend::OnMessage(event);
 	}
 }
 

@@ -19,7 +19,6 @@
 //Class header
 #include "CommCtrlGroupBoxBackend.hpp"
 //Global
-#include <Uxtheme.h>
 #include <vsstyle.h>
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
@@ -30,6 +29,13 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
+
+//Destructor
+CommCtrlGroupBoxBackend::~CommCtrlGroupBoxBackend()
+{
+	if (this->hTheme)
+		CloseThemeData(this->hTheme);
+}
 
 //Public methods
 WidgetContainerBackend * CommCtrlGroupBoxBackend::CreateContentAreaBackend(CompositeWidget & widget)
@@ -71,10 +77,16 @@ void CommCtrlGroupBoxBackend::OnMessage(WinMessageEvent& event)
 	switch (event.message)
 	{
 	case WM_PAINT:
-		this->Paint();
+	{
+		PAINTSTRUCT ps;
+		HDC hDC = BeginPaint(this->GetHWND(), &ps);
+		this->Paint(hDC);
+		EndPaint(this->GetHWND(), &ps);
+
 		event.consumed = true;
 		event.result = 0;
-		break;
+	}
+	break;
 	case WM_SETFONT:
 		event.consumed = true;
 		event.result = 0;
@@ -84,16 +96,24 @@ void CommCtrlGroupBoxBackend::OnMessage(WinMessageEvent& event)
 		event.consumed = true;
 		event.result = (LRESULT)this->hFont;
 		break;
-	case WM_COMMAND:
+	case WM_PRINTCLIENT:
 	{
-		if (event.lParam) //control-event
-		{
-			CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend((HWND)event.lParam);
-			if (backend)
-				backend->OnMessage(event);
-		}
+		this->Paint((HDC)event.wParam);
+
+		event.consumed = true;
+		event.result = 0;
 	}
 	break;
+	case WM_THEMECHANGED:
+	{
+		if (this->hTheme)
+			CloseThemeData(this->hTheme);
+		this->hTheme = OpenThemeData(this->GetHWND(), WC_BUTTONW);
+		this->groupBox->Repaint();
+	}
+	break;
+	default:
+		CommCtrlContainerBackend::OnMessage(event);
 	}
 }
 
@@ -108,15 +128,11 @@ void CommCtrlGroupBoxBackend::SetTitle(const String &title)
 }
 
 //Private methods
-void CommCtrlGroupBoxBackend::Paint()
+void CommCtrlGroupBoxBackend::Paint(HDC hDC)
 {
-	PAINTSTRUCT ps;
 	HWND hWnd = this->GetHWND();
-	HTHEME hTheme = GetWindowTheme(hWnd);
-	if (hTheme == nullptr)
-		hTheme = OpenThemeData(hWnd, WC_BUTTONW);
-
-	HDC hDC = BeginPaint(hWnd, &ps);
+	if (this->hTheme == nullptr)
+		this->hTheme = OpenThemeData(hWnd, WC_BUTTONW);
 
 	GROUPBOXSTATES state = GBS_DISABLED;
 	if (IsWindowEnabled(hWnd))
@@ -128,6 +144,15 @@ void CommCtrlGroupBoxBackend::Paint()
 	//compute rects
 	RECT clientRect;
 	::GetClientRect(hWnd, &clientRect);
+
+#if WINVER == _WIN32_WINNT_WIN7
+	/*
+	on windows 7 we need to manually paint the background, as WS_CLIPCHILDREN in the parent
+	will prevent that the parent actually paints the background.
+	*/
+	HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
+	FillRect(hDC, &clientRect, hBrush);
+#endif
 
 	RECT textRect;
 	auto textExtent = this->GetTextExtents();
@@ -146,7 +171,7 @@ void CommCtrlGroupBoxBackend::Paint()
 
 	//draw
 	if (IsThemeBackgroundPartiallyTransparent(hTheme, BP_GROUPBOX, state))
-		DrawThemeParentBackground(hWnd, hDC, nullptr);
+		DrawThemeParentBackground(hWnd, hDC, nullptr); //sends WM_PRINTCLIENT to parent
 	DrawThemeBackground(hTheme, hDC, BP_GROUPBOX, state, &backgroundRect, nullptr);
 
 	SelectClipRgn(hDC, nullptr);
@@ -155,10 +180,6 @@ void CommCtrlGroupBoxBackend::Paint()
 	textRect.left += 2;
 	textRect.right -= 2;
 	DrawThemeText(hTheme, hDC, BP_GROUPBOX, state, (LPCWSTR)text.ToUTF16().GetRawZeroTerminatedData(), text.GetLength(), 0, 0, &textRect);
-
-	EndPaint(hWnd, &ps);
-
-	CloseThemeData(hTheme);
 }
 
 
@@ -173,12 +194,6 @@ void CommCtrlGroupBoxBackend::Paint()
 
 
 //TODO:
-
-void _stdxx_::CommCtrlGroupBoxBackend::Repaint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

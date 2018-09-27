@@ -50,6 +50,28 @@ bool CommCtrlCheckBoxBackend::IsChecked() const
 	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
+void CommCtrlCheckBoxBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_COMMAND:
+	{
+		switch (HIWORD(event.wParam))
+		{
+		case BN_CLICKED:
+		{
+			if (this->checkBox->onToggledHandler.IsBound())
+				this->checkBox->onToggledHandler();
+			event.consumed = true;
+			event.result = 0;
+		}
+		break;
+		}
+	}
+	break;
+	}
+}
+
 void CommCtrlCheckBoxBackend::SetText(const String & text)
 {
 	Win32Window::SetText(text);
@@ -75,11 +97,6 @@ void _stdxx_::CommCtrlCheckBoxBackend::SetEditable(bool enable) const
 }
 
 void _stdxx_::CommCtrlCheckBoxBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlCheckBoxBackend::Show(bool visible)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

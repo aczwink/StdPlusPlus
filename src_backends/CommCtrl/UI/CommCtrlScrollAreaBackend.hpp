@@ -31,7 +31,7 @@ namespace _stdxx_
 		//Constructor
 		inline CommCtrlScrollAreaBackend(StdXX::UIBackend *uiBackend, StdXX::UI::ScrollArea *scrollArea)
 			: ContentAreaWidgetBackend(uiBackend), CommCtrlContainerBackend(uiBackend, scrollArea), WidgetContainerBackend(uiBackend),
-			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN | WS_BORDER),
+			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN),
 			scrollArea(scrollArea)
 		{
 		}
@@ -46,7 +46,6 @@ namespace _stdxx_
 		//NOt implemented:
 		void Repaint() override;
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String & text) const override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
@@ -57,6 +56,12 @@ namespace _stdxx_
 		StdXX::UI::ScrollArea *scrollArea;
 
 		//Methods
-		void Scroll(int32 dx, int32 dy);
+		void ScrollY(int32 dy);
+
+		//Inline
+		inline void ScrollYLines(int32 nLines)
+		{
+			this->ScrollY(nLines * 10);
+		}
 	};
 }

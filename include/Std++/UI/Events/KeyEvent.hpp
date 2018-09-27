@@ -27,6 +27,7 @@ namespace StdXX
     {
         namespace Events
         {
+			/*
             class KeyEvent : public InputEvent
             {
             public:
@@ -45,7 +46,7 @@ namespace StdXX
             private:
                 //Members
                 KeyCode keyCode;
-            };
+            };*/
         }
     }
 }

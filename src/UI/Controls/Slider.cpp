@@ -21,6 +21,7 @@
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -36,9 +37,39 @@ Slider::Slider() : sliderBackend(nullptr)
 	this->pos = 50;
 }
 
+//Public methods
+void Slider::Event(UI::Event& event)
+{
+	switch (event.GetType())
+	{
+	case EventType::ValueChanged:
+	{
+		ValueChangedEvent& vce = static_cast<ValueChangedEvent&>(event);
+
+		this->pos = vce.GetNewValue().u32;
+		if (this->onValueChangedHandler.IsBound())
+			this->onValueChangedHandler();
+
+		event.Accept();
+	}
+	break;
+	default:
+		Widget::Event(event);
+	}
+}
+
 //Private methods
 void Slider::RealizeSelf()
 {
 	_stdxx_::SliderBackend* sliderBackend = this->_GetUIBackend()->CreateSliderBackend(this);
 	this->_SetBackend(sliderBackend);
+}
+
+//Event handlers
+void Slider::OnRealized()
+{
+	Widget::OnRealized();
+
+	this->sliderBackend->SetRange(this->min, this->max);
+	this->sliderBackend->SetPosition(this->pos);
 }

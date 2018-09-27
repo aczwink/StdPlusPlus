@@ -51,24 +51,53 @@ void CommCtrlScrollAreaBackend::OnMessage(WinMessageEvent& event)
 {
 	switch (event.message)
 	{
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		BeginPaint(this->GetHWND(), &ps);
-
-		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
-		FillRect(ps.hdc, &ps.rcPaint, hBrush);
-
-		EndPaint(this->GetHWND(), &ps);
-
-		event.consumed = true;
-		event.result = 0;
-	}
-	break;
 	case WM_VSCROLL:
 	{
 		switch (LOWORD(event.wParam))
 		{
+		case SB_BOTTOM:
+		{
+			SCROLLINFO scrollInfo;
+			scrollInfo.cbSize = sizeof(scrollInfo);
+			scrollInfo.fMask = SIF_RANGE | SIF_POS;
+			GetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo);
+
+			this->ScrollY(scrollInfo.nMax - scrollInfo.nPos);
+		}
+		break;
+		case SB_LINEDOWN:
+			this->ScrollYLines(1);
+			break;
+		case SB_LINEUP:
+			this->ScrollYLines(-1);
+			break;
+		case SB_PAGEDOWN:
+			this->ScrollYLines(10);
+			break;
+		case SB_PAGEUP:
+			this->ScrollYLines(-10);
+			break;
+		case SB_THUMBPOSITION:
+		case SB_THUMBTRACK:
+		{
+			SCROLLINFO scrollInfo;
+			scrollInfo.cbSize = sizeof(scrollInfo);
+			scrollInfo.fMask = SIF_POS | SIF_TRACKPOS;
+			GetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo);
+
+			this->ScrollY(scrollInfo.nTrackPos - scrollInfo.nPos);
+		}
+		break;
+		case SB_TOP:
+		{
+			SCROLLINFO scrollInfo;
+			scrollInfo.cbSize = sizeof(scrollInfo);
+			scrollInfo.fMask = SIF_RANGE | SIF_POS;
+			GetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo);
+
+			this->ScrollY(scrollInfo.nMin - scrollInfo.nPos);
+		}
+		break;
 		}
 	}
 	break;
@@ -78,13 +107,27 @@ void CommCtrlScrollAreaBackend::OnMessage(WinMessageEvent& event)
 		SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &nLines, 0);
 
 		int16 dy = GET_WHEEL_DELTA_WPARAM(event.wParam) / WHEEL_DELTA;
-		dy *= nLines * 10;
-		this->Scroll(0, -dy);
+		dy *= nLines;
+		this->ScrollYLines(-dy);
 
 		event.consumed = true;
 		event.result = 0;
 	}
 	break;
+	case WM_PRINTCLIENT:
+	{
+		RECT rcClient;
+		::GetClientRect(this->GetHWND(), &rcClient);
+
+		HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
+		FillRect((HDC)event.wParam, &rcClient, hBrush);
+		
+		event.consumed = true;
+		event.result = 0;
+	}
+	break;
+	default:
+		CommCtrlContainerBackend::OnMessage(event);
 	}
 }
 
@@ -114,14 +157,11 @@ void CommCtrlScrollAreaBackend::SetBounds(const RectD &bounds)
 }
 
 //Private methods
-void CommCtrlScrollAreaBackend::Scroll(int32 dx, int32 dy)
+void CommCtrlScrollAreaBackend::ScrollY(int32 dy)
 {
 	SCROLLINFO scrollInfo;
 	scrollInfo.cbSize = sizeof(scrollInfo);
 	scrollInfo.fMask = SIF_POS;
-	GetScrollInfo(this->GetHWND(), SB_HORZ, &scrollInfo);
-	int32 oldX = scrollInfo.nPos;
-
 	GetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo);
 	int32 oldY = scrollInfo.nPos;
 
@@ -131,15 +171,12 @@ void CommCtrlScrollAreaBackend::Scroll(int32 dx, int32 dy)
 		SetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo, TRUE);
 	}
 
-	GetScrollInfo(this->GetHWND(), SB_HORZ, &scrollInfo);
-	int32 newX = scrollInfo.nPos;
-
 	GetScrollInfo(this->GetHWND(), SB_VERT, &scrollInfo);
 	int32 newY = scrollInfo.nPos;
 	dy = -(newY - oldY);
 
-	if(dx || dy)
-		ScrollWindowEx(this->GetHWND(), newX - oldX, dy, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE | SW_SCROLLCHILDREN);
+	if(dy)
+		ScrollWindowEx(this->GetHWND(), 0, dy, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE | SW_SCROLLCHILDREN);
 }
 
 
@@ -168,11 +205,6 @@ void _stdxx_::CommCtrlScrollAreaBackend::Repaint()
 }
 
 void _stdxx_::CommCtrlScrollAreaBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::SetEnabled(bool enable)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }

@@ -51,8 +51,11 @@ namespace StdXX
 			String text;
         	_stdxx_::LabelBackend *labelBackend;
 
+			//Event handlers
+			virtual void OnRealized() override;
+
 			//Methods
-			void OnRealized() override;
+			void RealizeSelf() override;
 
 			//Inline
 			inline void _SetBackend(_stdxx_::LabelBackend* labelBackend)

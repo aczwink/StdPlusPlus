@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/UI/Events/MouseClickEvent.hpp>
+#include <Std++/UI/Events/MouseEvents.hpp>
 #include "Std++/_Backends/UI/WidgetBackend.hpp"
 #include "../Function.hpp"
 #include "../Containers/Strings/OldString.hpp"
@@ -224,12 +224,12 @@ namespace StdXX
 			virtual void RealizeSelf();
 
 			//Eventhandlers
-			virtual void OnMouseButtonPressed(const Events::MouseClickEvent &event);
-			virtual void OnMouseButtonReleased(const Events::MouseClickEvent &event);
-			virtual void OnMouseMoved(const Math::PointD &pos);
-			virtual void OnMouseWheelTurned(int16 delta);
+			virtual void OnMouseButtonPressed(MouseClickEvent &event);
+			virtual void OnMouseButtonReleased(MouseClickEvent &event);
+			virtual void OnMouseMoved(MouseEvent& event);
+			virtual void OnMouseWheelRolled(MouseWheelEvent& event);
 			virtual void OnMoved();
-			virtual void OnPaint();
+			virtual void OnPaint(UI::Event& event);
 			virtual void OnResized();
         };
     }
