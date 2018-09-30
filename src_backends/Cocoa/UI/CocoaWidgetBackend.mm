@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 //Local
 #import <Std++/_Backends/UI/UIBackend.hpp>
 #import "CocoaEventSource.hh"
@@ -25,13 +25,21 @@
 using namespace _stdxx_;
 
 //Public methods
-void CocoaView::IgnoreEvent()
+void CocoaWidgetBackend::IgnoreEvent()
 {
 }
 
-void CocoaView::SetBounds(const StdXX::Math::RectD &area)
+void CocoaWidgetBackend::SetBounds(const StdXX::Math::RectD &area)
 {
-	CocoaEventSource::EmitResizingEvent(this->GetWidget(), area);
 	[this->GetView() setFrame:NSMakeRect(area.origin.x, area.origin.y, area.width(), area.height())];
-	CocoaEventSource::EmitResizedEvent(this->GetWidget());
+}
+
+void CocoaWidgetBackend::SetEnabled(bool enable)
+{
+	//TODO: implement me
+}
+
+void CocoaWidgetBackend::Show(bool visible)
+{
+	[this->GetView() setHidden:!visible];
 }

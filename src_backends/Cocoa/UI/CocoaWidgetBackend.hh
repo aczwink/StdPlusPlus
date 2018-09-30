@@ -23,20 +23,21 @@
 
 namespace _stdxx_
 {
-	class CocoaView : virtual public WidgetBackend
+	class CocoaWidgetBackend : virtual public WidgetBackend
 	{
 	public:
 		//Constructor
-		inline CocoaView(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline CocoaWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 
 		//Abstract
 		virtual NSView *GetView() = 0;
-		virtual StdXX::UI::Widget &GetWidget() = 0;
 
 		//Methods
 		void IgnoreEvent() override;
 		virtual void SetBounds(const StdXX::Math::RectD &area) override;
+		virtual void SetEnabled(bool enable) override;
+		virtual void Show(bool visible) override;
 	};
 }

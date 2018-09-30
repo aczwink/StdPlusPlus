@@ -20,10 +20,14 @@
 #include "CocoaSpinBoxBackend.hh"
 #import "CocoaEventSource.hh"
 #include <Std++/UI/Controls/SpinBox.hpp>
+//Local
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::UI;
 
-//Objective-C class
+//Objective-C classes
 @implementation IntegerValueFormatter
 
 - (BOOL)isPartialStringValid:(NSString*)partialString newEditingString:(NSString**)newString errorDescription:(NSString**)error
@@ -61,20 +65,66 @@ using namespace _stdxx_;
 }
 @end
 
+@implementation TextFieldDelegate
+{
+	_stdxx_::CocoaSpinBoxBackend *backend;
+}
+
+- (id)initWithBackend:(_stdxx_::CocoaSpinBoxBackend *)cocoaWindowBackend
+{
+	self = [super init];
+	if(!self)
+		return nil;
+	self->backend = cocoaWindowBackend;
+	return self;
+}
+
+- (void)controlTextDidChange:(NSNotification *)notification
+{
+	self->backend->OnTextChanged();
+}
+@end
+
+@implementation CocoaStepper
+{
+	CocoaSpinBoxBackend *backend;
+}
+
+- (id)initWithBackend:(CocoaSpinBoxBackend *)spinBoxBackend
+{
+	self = [super init];
+	if(!self)
+		return nil;
+	self->backend = spinBoxBackend;
+	return self;
+}
+
+- (void)OnValueChanged:(NSStepper *)sender
+{
+	self->backend->OnStepperClicked();
+}
+@end
+
 //Constructor
 CocoaSpinBoxBackend::CocoaSpinBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::SpinBox *spinBox)
 		: SpinBoxBackend(uiBackend), WidgetBackend(uiBackend), spinBox(spinBox)
 {
 	this->textField = [[NSTextField alloc] init];
-	this->stepper = [[NSStepper alloc] init];
+	this->textFieldDelegate = [[TextFieldDelegate alloc] initWithBackend:this];
+	[this->textField setDelegate:this->textFieldDelegate];
 	this->integerValueFormatter = [[IntegerValueFormatter alloc] init];
 	[this->textField setFormatter:this->integerValueFormatter];
+
+	this->stepper = [[CocoaStepper alloc] initWithBackend:this];
+	[this->stepper setTarget:this->stepper];
+	[this->stepper setAction:@selector(OnValueChanged:)];
 }
 
 //Destructor
 CocoaSpinBoxBackend::~CocoaSpinBoxBackend()
 {
 	[this->textField release];
+	[this->textFieldDelegate release];
 	[this->stepper release];
 	[this->integerValueFormatter release];
 }
@@ -84,15 +134,6 @@ StdXX::Math::SizeD CocoaSpinBoxBackend::GetSizeHint() const
 {
 	NSSize s = [this->stepper intrinsicContentSize];
 	return StdXX::Math::SizeD([this->textField intrinsicContentSize].width + 1.2f * s.width, s.height);
-}
-
-int32 CocoaSpinBoxBackend::GetValue() const
-{
-	NSScanner* scanner = [NSScanner scannerWithString:[this->textField stringValue]];
-	int32 value;
-	[scanner scanInt:&value];
-	[scanner release];
-	return value;
 }
 
 StdXX::UI::Widget &CocoaSpinBoxBackend::GetWidget()
@@ -111,8 +152,6 @@ void CocoaSpinBoxBackend::IgnoreEvent()
 
 void CocoaSpinBoxBackend::SetBounds(const StdXX::Math::RectD &area)
 {
-	CocoaEventSource::EmitResizingEvent(*this->spinBox, area);
-
 	NSSize s = [this->stepper intrinsicContentSize];
 	StdXX::Math::RectD textFieldRect, stepperRect;
 	textFieldRect = area;
@@ -122,23 +161,52 @@ void CocoaSpinBoxBackend::SetBounds(const StdXX::Math::RectD &area)
 	stepperRect.width() = s.width;
 	[this->textField setFrame:NSMakeRect(textFieldRect.origin.x, textFieldRect.origin.y, textFieldRect.width(), textFieldRect.height())];
 	[this->stepper setFrame:NSMakeRect(stepperRect.origin.x, stepperRect.origin.y, stepperRect.width(), stepperRect.height())];
+}
 
-	CocoaEventSource::EmitResizedEvent(*this->spinBox);
+void CocoaSpinBoxBackend::SetEnabled(bool enable)
+{
+	[this->textField setEnabled:enable];
+	[this->stepper setEnabled:enable];
 }
 
 void CocoaSpinBoxBackend::SetRange(int32 min, int32 max)
 {
-	int32 oldValue = this->GetValue();
 	[this->integerValueFormatter setRange:min max:max];
-	if(oldValue < min)
-		this->SetValue(min);
-	else if(oldValue > max)
-		this->SetValue(max);
 }
 
 void CocoaSpinBoxBackend::SetValue(int32 value)
 {
 	[this->textField setStringValue:[NSString stringWithFormat: @"%d", value]];
+	[this->stepper takeIntValueFrom:this->textField];
+}
+
+void CocoaSpinBoxBackend::Show(bool visible)
+{
+	[this->textField setHidden:!visible];
+	[this->stepper setHidden:!visible];
+}
+
+//Event handlers
+void CocoaSpinBoxBackend::OnStepperClicked()
+{
+	[this->textField takeIntValueFrom:this->stepper];
+
+	Variant value;
+	value.i32 = [this->stepper intValue];
+
+	ValueChangedEvent event(value);
+	this->spinBox->Event(event);
+}
+
+void CocoaSpinBoxBackend::OnTextChanged()
+{
+	[this->stepper takeIntValueFrom:this->textField];
+
+	Variant value;
+	value.i32 = this->GetValue();
+
+	ValueChangedEvent event(value);
+	this->spinBox->Event(event);
 }
 
 
@@ -173,22 +241,7 @@ void CocoaSpinBoxBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaSpinBoxBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSpinBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSpinBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSpinBoxBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -198,18 +251,22 @@ void CocoaSpinBoxBackend::UpdateSelection(StdXX::UI::SelectionController &select
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 CocoaSpinBoxBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaSpinBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaSpinBoxBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
+
+
+
+
+
+//Private methods
+int32 CocoaSpinBoxBackend::GetValue() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	NSScanner* scanner = [NSScanner scannerWithString:[this->textField stringValue]];
+	int32 value;
+	[scanner scanInt:&value];
+	[scanner release];
+	return value;
 }

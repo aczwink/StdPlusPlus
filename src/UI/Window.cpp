@@ -73,6 +73,13 @@ void Window::OnDrop(const ITransfer &refTransfer)
 {
 }
 
+void Window::OnRealized()
+{
+	WidgetContainer::OnRealized();
+
+	this->windowBackend->SetTitle(this->title);
+}
+
 //Public methods
 void Window::Event(UI::Event& e)
 {

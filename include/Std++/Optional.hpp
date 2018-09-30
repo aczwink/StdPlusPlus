@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "Memory.hpp"
 #include "Utility.hpp"
 
 namespace _stdxx_

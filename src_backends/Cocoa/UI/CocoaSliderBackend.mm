@@ -47,7 +47,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaSliderBackend::CocoaSliderBackend(UIBackend *uiBackend, Slider *slider) : SliderBackend(uiBackend), CocoaView(uiBackend), WidgetBackend(uiBackend), slider(slider)
+CocoaSliderBackend::CocoaSliderBackend(UIBackend *uiBackend, Slider *slider) : SliderBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), slider(slider)
 {
 	this->cocoaSlider = [[CocoaSlider alloc] initWithBackend:this];
 	[this->cocoaSlider setTarget:this->cocoaSlider];
@@ -81,6 +81,11 @@ Widget &CocoaSliderBackend::GetWidget()
 const Widget &CocoaSliderBackend::GetWidget() const
 {
 	return *this->slider;
+}
+
+void CocoaSliderBackend::SetEnabled(bool enable)
+{
+	[this->cocoaSlider setEnabled:enable];
 }
 
 void CocoaSliderBackend::SetPosition(uint32 pos)
@@ -124,22 +129,7 @@ void CocoaSliderBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaSliderBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSliderBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -149,18 +139,7 @@ void CocoaSliderBackend::UpdateSelection(StdXX::UI::SelectionController &selecti
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 CocoaSliderBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaSliderBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

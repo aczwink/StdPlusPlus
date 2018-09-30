@@ -29,6 +29,7 @@
 #import "UI/CocoaGroupBoxBackend.hh"
 #import "UI/CocoaPushButtonBackend.hh"
 #import "UI/CocoaLabelBackend.hh"
+#import "UI/CocoaScrollAreaBackend.hh"
 #import "UI/CocoaSliderBackend.hh"
 #import "UI/CocoaSpinBoxBackend.hh"
 //Namespaces
@@ -82,6 +83,11 @@ PushButtonBackend *CocoaBackend::CreatePushButtonBackend(UI::PushButton *pushBut
 WidgetBackend *CocoaBackend::CreateRenderTargetWidgetBackend(RenderTargetWidget *renderTargetWidget)
 {
 	return new CocoaRenderTargetWidgetBackend(this, renderTargetWidget);
+}
+
+ContentAreaWidgetBackend *CocoaBackend::CreateScrollAreaBackend(UI::ScrollArea *scrollArea)
+{
+	return new CocoaScrollAreaBackend(this, *scrollArea);
 }
 
 SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider *slider)

@@ -47,9 +47,9 @@ using namespace StdXX::UI;
 	return Math::PointD(p.x, p.y);
 }
 
-- (Events::KeyboardModifiers)GetKeyboardModifiers:(NSEvent *)event
+- (KeyboardModifiers)GetKeyboardModifiers:(NSEvent *)event
 {
-	Events::KeyboardModifiers keyboardModifiers;
+	KeyboardModifiers keyboardModifiers;
 
 	keyboardModifiers.ctrl = [event modifierFlags] & NSEventModifierFlagControl;
 
@@ -66,7 +66,8 @@ using namespace StdXX::UI;
 {
 	[super drawRect:dirtyRect];
 
-	CocoaEventSource::EmitPaintEvent(self->backend->GetWidget());
+	Event e(EventType::WidgetShouldBePainted);
+	self->backend->GetWidget().Event(e);
 }
 
 - (void)mouseDragged:(NSEvent *)event
@@ -74,14 +75,15 @@ using namespace StdXX::UI;
 	NSPoint at = [self convertPoint:[event locationInWindow] fromView:nil];
 	if(NSPointInRect(at, [self frame]))
 	{
-		CocoaEventSource::EmitMouseMovedEvent(self->backend->GetWidget(), at);
+		MouseEvent mouseEvent(EventType::MouseMoved, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+		self->backend->GetWidget().Event(mouseEvent);
 	}
 }
 
 - (void) mouseDown: (NSEvent*) event
 {
-	Events::MouseClickEvent mouseClickEvent(MouseButton::Left, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
-	CocoaEventSource::EmitMousePressedEvent(self->backend->GetWidget(), mouseClickEvent);
+	MouseClickEvent mouseClickEvent(MouseButton::Left, true, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	self->backend->GetWidget().Event(mouseClickEvent);
 }
 
 - (void)mouseMoved:(NSEvent *)event
@@ -89,37 +91,39 @@ using namespace StdXX::UI;
 	NSPoint at = [self convertPoint:[event locationInWindow] fromView:nil];
 	if(NSPointInRect(at, [self frame]))
 	{
-		CocoaEventSource::EmitMouseMovedEvent(self->backend->GetWidget(), at);
+		MouseEvent mouseEvent(EventType::MouseMoved, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+		self->backend->GetWidget().Event(mouseEvent);
 	}
 }
 
 - (void) mouseUp: (NSEvent*) event
 {
-	Events::MouseClickEvent mouseClickEvent(MouseButton::Left, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
-	CocoaEventSource::EmitMouseReleasedEvent(self->backend->GetWidget(), mouseClickEvent);
+	MouseClickEvent mouseClickEvent(MouseButton::Left, false, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	self->backend->GetWidget().Event(mouseClickEvent);
 }
 
 - (void)rightMouseDown:(NSEvent *)event
 {
-	Events::MouseClickEvent mouseClickEvent(MouseButton::Right, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
-	CocoaEventSource::EmitMousePressedEvent(self->backend->GetWidget(), mouseClickEvent);
+	MouseClickEvent mouseClickEvent(MouseButton::Right, true, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	self->backend->GetWidget().Event(mouseClickEvent);
 }
 
 - (void)rightMouseUp:(NSEvent *)event
 {
-	Events::MouseClickEvent mouseClickEvent(MouseButton::Right, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
-	CocoaEventSource::EmitMouseReleasedEvent(self->backend->GetWidget(), mouseClickEvent);
+	MouseClickEvent mouseClickEvent(MouseButton::Right, false, [self GetClickLocation:event], [self GetKeyboardModifiers:event]);
+	self->backend->GetWidget().Event(mouseClickEvent);
 }
 
 - (void)scrollWheel:(NSEvent *)event
 {
-	CocoaEventSource::EmitMouseWheelEvent(self->backend->GetWidget(), [event scrollingDeltaY]);
+	MouseWheelEvent mouseWheelEvent([event scrollingDeltaY], [self GetKeyboardModifiers:event]);
+	self->backend->GetWidget().Event(mouseWheelEvent);
 }
 
 @end
 
 //Constructor
-CocoaRenderTargetWidgetBackend::CocoaRenderTargetWidgetBackend(UIBackend *uiBackend, Widget *widget) : CocoaView(uiBackend), WidgetBackend(uiBackend), widget(widget)
+CocoaRenderTargetWidgetBackend::CocoaRenderTargetWidgetBackend(UIBackend *uiBackend, Widget *widget) : CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), widget(widget)
 {
 	this->openGLView = [[OpenGLView alloc] initWithBackend:this];
 }
@@ -173,22 +177,7 @@ void CocoaRenderTargetWidgetBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaRenderTargetWidgetBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaRenderTargetWidgetBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -198,23 +187,7 @@ void CocoaRenderTargetWidgetBackend::UpdateSelection(StdXX::UI::SelectionControl
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaRenderTargetWidgetBackend::IgnoreEvent()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-uint32 CocoaRenderTargetWidgetBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaRenderTargetWidgetBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

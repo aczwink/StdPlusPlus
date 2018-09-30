@@ -49,13 +49,15 @@ namespace _stdxx_
 
 		//Methods
 		void AddChild(StdXX::UI::Widget *widget) override;
-		StdXX::UI::CompositeWidget *CreateContentArea() override;
+		WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
 		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
+		void SetBounds(const StdXX::Math::RectD &area) override;
+		void SetEnabled(bool enable) override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;
 		void Show(bool visible) override;
@@ -69,18 +71,16 @@ namespace _stdxx_
 
 
 		//OLD STUFF
-		uint32 GetPosition() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() const;
 		void Repaint() override;
 		void ResetView() const override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
-		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
 		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
+		void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
 		//END OLD STUFF
 
 	private:
@@ -92,6 +92,5 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::Math::SizeD ComputeTextSize(NSString *string, NSFont *font) const;
-		NSView *GetChildrenAreaView() const;
 	};
 }

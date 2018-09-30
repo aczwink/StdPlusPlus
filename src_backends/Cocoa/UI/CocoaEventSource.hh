@@ -28,22 +28,9 @@ namespace _stdxx_
 	class CocoaEventSource : public StdXX::UI::UIEventSource
 	{
 	public:
-		//Constructor
-		CocoaEventSource();
-
 		//Methods
 		void DispatchPendingEvents() override;
 		uint64 GetMaxTimeout() const override;
 		void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) const override;
-
-		//Class function
-		static void EmitCloseEvent(StdXX::UI::Window &window);
-		static void EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint point);
-		static void EmitMousePressedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event);
-		static void EmitMouseReleasedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event);
-		static void EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta);
-		static void EmitPaintEvent(StdXX::UI::Widget &widget);
-		static void EmitResizedEvent(StdXX::UI::Widget &widget);
-		static void EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds);
 	};
 }

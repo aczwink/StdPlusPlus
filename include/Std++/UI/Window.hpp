@@ -101,6 +101,9 @@ namespace StdXX
 			}
 
 		protected:
+			//Eventhandlers
+			virtual void OnRealized() override;
+
 			//Inline
 			inline void _SetBackend(_stdxx_::WindowBackend *windowBackend)
 			{

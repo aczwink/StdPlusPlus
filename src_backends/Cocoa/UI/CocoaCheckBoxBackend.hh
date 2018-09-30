@@ -21,7 +21,7 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #include <Std++/_Backends/UI/CheckBoxBackend.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 //Forward delcarations
 namespace _stdxx_
@@ -37,7 +37,7 @@ namespace _stdxx_
 
 namespace _stdxx_
 {
-	class CocoaCheckBoxBackend : public CheckBoxBackend, public CocoaView
+	class CocoaCheckBoxBackend : public CheckBoxBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
@@ -53,7 +53,7 @@ namespace _stdxx_
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		bool IsChecked() const override;
-		void SetEnabled(bool enable) const override;
+		void SetEnabled(bool enable) override;
 		void SetText(const StdXX::String &text) override;
 
 
@@ -66,12 +66,8 @@ namespace _stdxx_
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		//end old stuff
 
 	private:

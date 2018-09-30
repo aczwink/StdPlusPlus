@@ -21,12 +21,12 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #include <Std++/_Backends/UI/GroupBoxBackend.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 
 namespace _stdxx_
 {
-	class CocoaGroupBoxBackend : public GroupBoxBackend, public CocoaView
+	class CocoaGroupBoxBackend : public GroupBoxBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
@@ -37,7 +37,7 @@ namespace _stdxx_
 
 		//Methods
 		void AddChild(StdXX::UI::Widget *widget) override;
-		StdXX::UI::CompositeWidget *CreateContentArea() override;
+		WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		//using WidgetBackend::GetUIBackend;
@@ -54,23 +54,9 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-
-		void IgnoreEvent() override;
-
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
-
 		const StdXX::UI::Widget &GetWidget() const override;
 		//END OF OLD STUFF
 

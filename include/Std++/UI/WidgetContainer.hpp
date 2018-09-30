@@ -44,7 +44,7 @@ namespace StdXX
 			_stdxx_::WidgetContainerBackend *widgetContainerBackend;
 
 			//Eventhandlers
-			virtual void OnRealized();
+			virtual void OnRealized() override;
 
 			//Inline
 			inline void _SetBackend(_stdxx_::WidgetContainerBackend *widgetContainerBackend)

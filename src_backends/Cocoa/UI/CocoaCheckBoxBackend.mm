@@ -49,7 +49,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaCheckBoxBackend::CocoaCheckBoxBackend(UIBackend *uiBackend, CheckBox *checkBox) : CheckBoxBackend(uiBackend, checkBox), CocoaView(uiBackend), WidgetBackend(uiBackend), checkBox(checkBox)
+CocoaCheckBoxBackend::CocoaCheckBoxBackend(UIBackend *uiBackend, CheckBox *checkBox) : CheckBoxBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), checkBox(checkBox)
 {
 	this->cocoaCheckBox = [[CocoaCheckBox alloc] initWithBackend:this];
 	[this->cocoaCheckBox setButtonType:NSSwitchButton];
@@ -96,7 +96,7 @@ bool CocoaCheckBoxBackend::IsChecked() const
 	return [this->cocoaCheckBox state] == NSControlStateValueOn;
 }
 
-void CocoaCheckBoxBackend::SetEnabled(bool enable) const
+void CocoaCheckBoxBackend::SetEnabled(bool enable)
 {
 	[this->cocoaCheckBox setEnabled:enable];
 }
@@ -138,33 +138,12 @@ void CocoaCheckBoxBackend::SetHint(const StdXX::String &text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaCheckBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaCheckBoxBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaCheckBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 CocoaCheckBoxBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaCheckBoxBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaCheckBoxBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

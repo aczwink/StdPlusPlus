@@ -26,7 +26,7 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CocoaLabelBackend::CocoaLabelBackend(UIBackend *uiBackend, Label *label) : LabelBackend(uiBackend), CocoaView(uiBackend), WidgetBackend(uiBackend), label(label)
+CocoaLabelBackend::CocoaLabelBackend(UIBackend *uiBackend, Label *label) : LabelBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), label(label)
 {
 	this->textField = [[NSTextField alloc] init];
 	[this->textField setBezeled:NO];
@@ -60,6 +60,11 @@ const Widget &CocoaLabelBackend::GetWidget() const
 NSView *CocoaLabelBackend::GetView()
 {
 	return this->textField;
+}
+
+void CocoaLabelBackend::SetEnabled(bool enable)
+{
+	[this->textField setEnabled:enable];
 }
 
 void CocoaLabelBackend::SetText(const StdXX::String &text)
@@ -97,22 +102,7 @@ void CocoaLabelBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaLabelBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaLabelBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -122,18 +112,7 @@ void CocoaLabelBackend::UpdateSelection(StdXX::UI::SelectionController &selectio
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 CocoaLabelBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaLabelBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

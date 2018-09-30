@@ -21,7 +21,7 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #import <Std++/_Backends/UI/SliderBackend.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 //Forward delcarations
 namespace _stdxx_
@@ -37,7 +37,7 @@ namespace _stdxx_
 
 namespace _stdxx_
 {
-	class CocoaSliderBackend : public SliderBackend, public CocoaView
+	class CocoaSliderBackend : public SliderBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
@@ -51,6 +51,7 @@ namespace _stdxx_
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
+		void SetEnabled(bool enable) override;
 		void SetPosition(uint32 pos) override;
 		void SetRange(uint32 min, uint32 max) override;
 		void ValueChanged();
@@ -66,20 +67,9 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		//END OLD STUFF
 
 	private:

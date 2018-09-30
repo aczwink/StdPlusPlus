@@ -20,7 +20,7 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #include <Std++/_Backends/UI/WidgetBackend.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 //Forward declarations
 namespace _stdxx_
@@ -38,7 +38,7 @@ namespace _stdxx_
 
 namespace _stdxx_
 {
-	class CocoaRenderTargetWidgetBackend : public CocoaView
+	class CocoaRenderTargetWidgetBackend : public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
@@ -68,22 +68,9 @@ namespace _stdxx_
 		//OLD STUFF:
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-
-		void IgnoreEvent() override;
-
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		//END OF OLD STUFF
 
 	private:

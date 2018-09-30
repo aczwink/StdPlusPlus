@@ -19,8 +19,9 @@
 //Class header
 #include "CocoaWindowBackend.hh"
 //Local
+#import <Std++/UI/Events/WindowResizedEvent.hpp>
 #import "CocoaEventSource.hh"
-#import "CocoaCompositeView.hh"
+#import "CocoaContainerBackend.hh"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -45,22 +46,23 @@ using namespace StdXX::UI;
 {
 	NSWindow *window = [notification object];
 	NSRect r = [window frame];
-	self->backend->GetWidget().Resize(StdXX::Math::SizeD(r.size.width, r.size.height));
-	//CocoaEventSource::EmitResizedEvent( self->backend->GetWindow() );
+	WindowResizedEvent e(StdXX::Math::SizeD(r.size.width, r.size.height));
+	self->backend->GetWidget().Event(e);
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	CocoaEventSource::EmitCloseEvent( self->backend->GetWindow() );
+	Event e(EventType::WindowShouldBeClosed);
+	self->backend->GetWindow().Event(e);
 }
 
-- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+/*- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
 	//NSRect r = [sender frame];
 	//CocoaEventSource::EmitResizingEvent( self->backend->GetWindow(), StdXX::Math::RectD(r.origin.x, r.origin.y, frameSize.width, frameSize.height));
 
 	return frameSize;
-}
+}*/
 @end
 
 //Constructor
@@ -86,13 +88,13 @@ CocoaWindowBackend::~CocoaWindowBackend()
 //Public methods
 void CocoaWindowBackend::AddChild(StdXX::UI::Widget *widget)
 {
-	CocoaView *cocoaView = dynamic_cast<CocoaView *>(widget->_GetBackend());
+	CocoaWidgetBackend *cocoaView = dynamic_cast<CocoaWidgetBackend *>(widget->_GetBackend());
 	[this->cocoaWindow setContentView:cocoaView->GetView()];
 }
 
-CompositeWidget *CocoaWindowBackend::CreateContentArea()
+WidgetContainerBackend *CocoaWindowBackend::CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget)
 {
-	return new CocoaCompositeView(this->GetUIBackend(), [this->cocoaWindow contentView]);
+	return new CocoaContainerBackend(this->GetUIBackend(), widget, [this->cocoaWindow contentView]);
 }
 
 Math::RectD CocoaWindowBackend::GetContentAreaBounds() const
@@ -149,6 +151,16 @@ Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Func
 	return resultStr;
 }
 
+void CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
+{
+	[this->cocoaWindow setFrame:NSMakeRect(area.origin.x, area.origin.y, area.width(), area.height()) display:YES];
+}
+
+void CocoaWindowBackend::SetEnabled(bool enable)
+{
+	//TODO: implement me
+}
+
 void CocoaWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	//TODO: implement me
@@ -174,12 +186,6 @@ void CocoaWindowBackend::Show(bool visible)
 
 
 //OLD STUFF:
-uint32 CocoaWindowBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 StdXX::Math::SizeD CocoaWindowBackend::GetSizeHint() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -207,17 +213,7 @@ void CocoaWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) con
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaWindowBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaWindowBackend::SetEnabled(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -243,19 +239,7 @@ StdXX::Math::SizeD CocoaWindowBackend::ComputeTextSize(NSString *string, NSFont 
 	return StdXX::Math::SizeD();
 }
 
-NSView *CocoaWindowBackend::GetChildrenAreaView() const
+void CocoaWindowBackend::ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nil;
 }
-
-
-/*
-void _stdxx_::CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
-{
-	if(this->type == WindowBackendType::Window)
-	{
-		[this->window setFrame:NSMakeRect(area.origin.x, area.origin.y, area.width(), area.height()) display:YES];
-	}
-}
-*/

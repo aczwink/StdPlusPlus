@@ -22,14 +22,6 @@
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
-//Local variables
-static CocoaEventSource *l_eventSource = nullptr;
-
-//Constructor
-CocoaEventSource::CocoaEventSource()
-{
-	l_eventSource = this;
-}
 
 //Public methods
 void CocoaEventSource::DispatchPendingEvents()
@@ -55,45 +47,4 @@ uint64 CocoaEventSource::GetMaxTimeout() const
 void CocoaEventSource::VisitWaitObjects(const StdXX::Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const
 {
 	//none...
-}
-
-//Class functions
-void CocoaEventSource::EmitCloseEvent(StdXX::UI::Window &window)
-{
-	l_eventSource->DispatchCloseEvent(window);
-}
-
-void CocoaEventSource::EmitMouseMovedEvent(StdXX::UI::Widget &widget, NSPoint point)
-{
-	l_eventSource->DispatchMouseMovedEvent(widget, Math::PointD(point.x, point.y));
-}
-
-void CocoaEventSource::EmitMousePressedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event)
-{
-	l_eventSource->DispatchMouseButtonPressed(widget, event);
-}
-
-void CocoaEventSource::EmitMouseReleasedEvent(StdXX::UI::Widget &widget, const StdXX::UI::Events::MouseClickEvent &event)
-{
-	l_eventSource->DispatchMouseButtonReleased(widget, event);
-}
-
-void CocoaEventSource::EmitMouseWheelEvent(StdXX::UI::Widget &widget, float64 delta)
-{
-	l_eventSource->DispatchMouseWheelEvent(widget, delta);
-}
-
-void CocoaEventSource::EmitPaintEvent(StdXX::UI::Widget &widget)
-{
-	l_eventSource->DispatchPaintEvent(widget);
-}
-
-void CocoaEventSource::EmitResizedEvent(StdXX::UI::Widget &widget)
-{
-	//l_eventSource->DispatchResizedEvent(widget);
-}
-
-void CocoaEventSource::EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds)
-{
-	//l_eventSource->DispatchResizingEvent(widget, newBounds);
 }

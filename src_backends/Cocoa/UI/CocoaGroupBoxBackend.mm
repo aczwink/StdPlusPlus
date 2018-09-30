@@ -20,19 +20,19 @@
 #include "CocoaGroupBoxBackend.hh"
 //Local
 #include <Std++/UI/Containers/GroupBox.hpp>
-#import "CocoaCompositeView.hh"
+#import "CocoaContainerBackend.hh"
 #import "CocoaEventSource.hh"
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend *uiBackend, GroupBox *groupBox) : CocoaView(uiBackend), GroupBoxBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
+CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend *uiBackend, GroupBox *groupBox) : CocoaWidgetBackend(uiBackend), GroupBoxBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
 {
 	this->cocoaGroupBox = [[NSBox alloc] init];
-	[this->cocoaGroupBox setTitle:@""];
+	[this->cocoaGroupBox setTitle:[NSString new]];
 }
 
 //Destructor
@@ -44,13 +44,13 @@ CocoaGroupBoxBackend::~CocoaGroupBoxBackend()
 //Public methods
 void CocoaGroupBoxBackend::AddChild(StdXX::UI::Widget *widget)
 {
-	CocoaView *cocoaView = dynamic_cast<CocoaView *>(widget->_GetBackend());
+	CocoaWidgetBackend *cocoaView = dynamic_cast<CocoaWidgetBackend *>(widget->_GetBackend());
 	[this->cocoaGroupBox setContentView:cocoaView->GetView()];
 }
 
-CompositeWidget *CocoaGroupBoxBackend::CreateContentArea()
+WidgetContainerBackend *CocoaGroupBoxBackend::CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget)
 {
-	return new CocoaCompositeView(this->GetUIBackend(), [this->cocoaGroupBox contentView]);
+	return new CocoaContainerBackend(this->GetUIBackend(), widget, [this->cocoaGroupBox contentView]);
 }
 
 Math::RectD CocoaGroupBoxBackend::GetContentAreaBounds() const
@@ -106,9 +106,16 @@ const Widget &CocoaGroupBoxBackend::GetWidget() const
 
 void CocoaGroupBoxBackend::SetTitle(const StdXX::String &title)
 {
-	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(title.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
-	[this->cocoaGroupBox setTitle:tmp];
-	[tmp release];
+	if(title.IsEmpty())
+	{
+		[this->cocoaGroupBox setTitle:[NSString new]];
+	}
+	else
+	{
+		NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(title.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+		[this->cocoaGroupBox setTitle:tmp];
+		[tmp release];
+	}
 }
 
 //Private methods
@@ -117,7 +124,7 @@ StdXX::Math::SizeD CocoaGroupBoxBackend::ComputeTextSize(NSString *string, NSFon
 	NSDictionary *attributes = @{NSFontAttributeName: font};
 	NSSize s = [string sizeWithAttributes:attributes];
 
-	[attributes release];
+	//[attributes release];
 
 	return StdXX::Math::SizeD(s.width, s.height);
 }
@@ -146,22 +153,7 @@ void CocoaGroupBoxBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaGroupBoxBackend::SetEnabled(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaGroupBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -171,23 +163,7 @@ void CocoaGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selec
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaGroupBoxBackend::IgnoreEvent()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-uint32 CocoaGroupBoxBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaGroupBoxBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

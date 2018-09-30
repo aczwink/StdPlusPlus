@@ -22,13 +22,30 @@
 //Local
 #import <Std++/_Backends/UI/SpinBoxBackend.hpp>
 
-//Objective-C class
+//Forward declarations
+namespace _stdxx_
+{
+	class CocoaSpinBoxBackend;
+}
+
+//Objective-C classes
 @interface IntegerValueFormatter : NSNumberFormatter
 {
 	int32_t min;
 	int32_t max;
 };
 -(void)setRange:(int32_t)min max:(int32_t)max;
+@end
+
+@interface TextFieldDelegate : NSObject <NSTextFieldDelegate>
+{
+};
+-(id)initWithBackend:(_stdxx_::CocoaSpinBoxBackend *)backend;
+@end
+
+@interface CocoaStepper : NSStepper
+-(id)initWithBackend:(_stdxx_::CocoaSpinBoxBackend *)backend;
+- (void)OnValueChanged:(NSStepper *)sender;
 @end
 
 
@@ -43,15 +60,20 @@ namespace _stdxx_
 		//Destructor
 		~CocoaSpinBoxBackend();
 
+		//Event handlers
+		void OnStepperClicked();
+		void OnTextChanged();
+
 		//Methods
 		StdXX::Math::SizeD GetSizeHint() const override;
-		int32 GetValue() const override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
+		void SetEnabled(bool enable) override;
 		void SetRange(int32 min, int32 max) override;
 		void SetValue(int32 value) override;
+		void Show(bool visible) override;
 
 		//Inline
 		inline NSStepper *GetStepper()
@@ -75,28 +97,20 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		//END OF OLD STUFF
 
 	private:
 		//Members
 		StdXX::UI::SpinBox *spinBox;
 		NSTextField *textField;
-		NSStepper *stepper;
+		TextFieldDelegate* textFieldDelegate;
+		CocoaStepper *stepper;
 		IntegerValueFormatter *integerValueFormatter;
+
+		//Methods
+		int32 GetValue() const;
 	};
 }

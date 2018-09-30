@@ -21,11 +21,11 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #include <Std++/_Backends/UI/LabelBackend.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 namespace _stdxx_
 {
-	class CocoaLabelBackend : public LabelBackend, public CocoaView
+	class CocoaLabelBackend : public LabelBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
@@ -39,7 +39,8 @@ namespace _stdxx_
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		NSView *GetView() override;
-		//using CocoaView::SetBounds;
+		//using CocoaWidgetBackend::SetBounds;
+		void SetEnabled(bool enable) override;
 		void SetText(const StdXX::String &text) override;
 
 
@@ -57,19 +58,9 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		//END OLD STUFF
 
 	private:

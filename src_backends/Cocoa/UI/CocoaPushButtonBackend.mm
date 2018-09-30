@@ -46,7 +46,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaPushButtonBackend::CocoaPushButtonBackend(UIBackend *uiBackend, PushButton *pushButton) : PushButtonBackend(uiBackend), CocoaView(uiBackend), WidgetBackend(uiBackend), pushButton(pushButton)
+CocoaPushButtonBackend::CocoaPushButtonBackend(UIBackend *uiBackend, PushButton *pushButton) : PushButtonBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), pushButton(pushButton)
 {
 	this->cocoaButton = [[CocoaPushButton alloc] initWithBackend:this];
 	[this->cocoaButton setBezelStyle:NSRoundedBezelStyle];
@@ -88,7 +88,7 @@ const Widget &CocoaPushButtonBackend::GetWidget() const
 	return *this->pushButton;
 }
 
-void CocoaPushButtonBackend::SetEnabled(bool enable) const
+void CocoaPushButtonBackend::SetEnabled(bool enable)
 {
 	[this->cocoaButton setEnabled:enable];
 }
@@ -130,33 +130,12 @@ void CocoaPushButtonBackend::SetHint(const StdXX::String &text) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaPushButtonBackend::Show(bool visible)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaPushButtonBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaPushButtonBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 CocoaPushButtonBackend::GetPosition() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 void CocoaPushButtonBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaPushButtonBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

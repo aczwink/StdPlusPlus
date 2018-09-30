@@ -16,71 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#undef new
-#include <Cocoa/Cocoa.h>
 //Local
-#include <Std++/_Backends/UI/PushButtonBackend.hpp>
-#import "CocoaWidgetBackend.hh"
-
-//Forward delcarations
-namespace _stdxx_
-{
-	class CocoaPushButtonBackend;
-}
-
-//Objective-C class
-@interface CocoaPushButton : NSButton
--(id)initWithBackend:(_stdxx_::CocoaPushButtonBackend *)backend;
-- (void)OnClick:(id)OnClick;
-@end
+#include <Std++/_Backends/UI/ContentAreaWidgetBackend.hpp>
+#import <Std++/UI/Containers/ScrollArea.hpp>
+#include "CocoaWidgetBackend.hh"
 
 namespace _stdxx_
 {
-	class CocoaPushButtonBackend : public PushButtonBackend, public CocoaWidgetBackend
+	class CocoaScrollAreaBackend : public ContentAreaWidgetBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
-		CocoaPushButtonBackend(StdXX::UIBackend *uiBackend, StdXX::UI::PushButton *pushButton);
-
-		//Destructor
-		~CocoaPushButtonBackend();
+		inline CocoaScrollAreaBackend(StdXX::UIBackend *uiBackend, StdXX::UI::ScrollArea& scrollArea)
+				: ContentAreaWidgetBackend(uiBackend), WidgetContainerBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend),
+				  scrollArea(scrollArea)
+		{
+			this->cocoaScrollView = [NSScrollView new];
+			[this->cocoaScrollView setDrawsBackground:NO];
+		}
 
 		//Methods
-		void Clicked();
+		void AddChild(StdXX::UI::Widget *widget) override;
+		WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
+		StdXX::Math::RectD GetContentAreaBounds() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
-		void SetEnabled(bool enable) override;
-		void SetText(const StdXX::String &text) override;
 
 
 
-
-
-
-
-
-
-
-
-
-
-		//OLD STUFF
+		//NOT IMPLEMENTED
 		void Repaint() override;
 
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
+
 		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
+
 		void ResetView() const override;
 
-		//END OLD STUFF
+		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
+
+		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
+		//END OF NOT IMPLEMENTED
 
 	private:
 		//Members
-		StdXX::UI::PushButton *pushButton;
-		CocoaPushButton *cocoaButton;
+		StdXX::UI::ScrollArea& scrollArea;
+		NSScrollView* cocoaScrollView;
 	};
 }

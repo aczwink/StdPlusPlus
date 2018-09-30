@@ -31,14 +31,16 @@ if(${BACKEND_COCOA})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaPushButtonBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaRenderTargetWidgetBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaRenderTargetWidgetBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaScrollAreaBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaScrollAreaBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSliderBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSliderBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSpinBoxBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaSpinBoxBackend.mm
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaView.hh
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaView.mm
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCompositeView.hh
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaCompositeView.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWidgetBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWidgetBackend.mm
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaContainerBackend.hh
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaContainerBackend.mm
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.hh
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CocoaWindowBackend.mm
 

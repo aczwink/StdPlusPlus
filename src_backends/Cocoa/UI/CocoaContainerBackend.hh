@@ -21,28 +21,29 @@
 #include <Cocoa/Cocoa.h>
 //Local
 #import <Std++/UI/Containers/CompositeWidget.hpp>
-#import "CocoaView.hh"
+#import "CocoaWidgetBackend.hh"
 
 namespace _stdxx_
 {
-	class CocoaCompositeView : public StdXX::UI::CompositeWidget, public WidgetContainerBackend, public CocoaView
+	/**
+	 * A wrapper around NSView.
+	 */
+	class CocoaContainerBackend : public WidgetContainerBackend, public CocoaWidgetBackend
 	{
 	public:
 		//Constructor
-		inline CocoaCompositeView(StdXX::UIBackend *uiBackend, NSView *view) : WidgetContainerBackend(uiBackend), CocoaView(uiBackend), WidgetBackend(uiBackend), view(view)
+		inline CocoaContainerBackend(StdXX::UIBackend *uiBackend, StdXX::UI::WidgetContainer& widgetContainer, NSView *view)
+				: WidgetContainerBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend),
+				  widgetContainer(widgetContainer), view(view)
 		{
-			this->widgetContainerBackend = this;
-			this->backend = this;
 		}
-
-		//Destructor
-		~CocoaCompositeView();
 
 		//Methods
 		void AddChild(StdXX::UI::Widget *widget) override;
-		StdXX::Math::SizeD GetSizeHint() const override;
-		Widget &GetWidget() override;
+		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
+		void SetEnabled(bool enable) override;
 
 		//Inline
 		inline NSView *GetView()
@@ -59,30 +60,15 @@ namespace _stdxx_
 
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-
-		void SetEnabled(bool enable) const override;
-
 		void SetHint(const StdXX::String &text) const override;
-		void Show(bool visible) override;
-
-		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-
 		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-
-		void IgnoreEvent() override;
-
-		uint32 GetPosition() const override;
 		void ResetView() const override;
-
-		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
-
-		void RemoveChild(Widget *child) override;
-
-		const Widget &GetWidget() const override;
+		StdXX::Math::SizeD GetSizeHint() const override;
 		//END OF OLD STUFF
 
 	private:
 		//Members
+		StdXX::UI::WidgetContainer& widgetContainer;
 		NSView *view;
 	};
 }
