@@ -51,6 +51,7 @@ namespace StdXX
 		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton * pushButton) override;
 		_stdxx_::WidgetBackend * CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget) override;
 		_stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea * scrollArea) override;
+		_stdxx_::ViewBackend * CreateSelectBoxBackend(UI::SelectBox & selectBox) override;
 		_stdxx_::SliderBackend * CreateSliderBackend(UI::Slider * slider) override;
 		_stdxx_::SpinBoxBackend * CreateSpinBoxBackend(UI::SpinBox * spinBox) override;
 		_stdxx_::WindowBackend * CreateWindowBackend(UI::Window * window) override;

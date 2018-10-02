@@ -66,6 +66,11 @@ void CommCtrlWidgetBackend::SetEnabled(bool enable)
 	thisWnd->SetEnabled(enable);
 }
 
+void CommCtrlWidgetBackend::SetHint(const StdXX::String & text)
+{
+	//TODO: implement me using a tool tip
+}
+
 void CommCtrlWidgetBackend::Show(bool visible)
 {
 	Win32Window *thisWnd = dynamic_cast<Win32Window *>(this);

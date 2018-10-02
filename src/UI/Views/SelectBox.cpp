@@ -16,28 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/UI/Views/SelectBox.hpp>
 //Local
-#include "../Controllers/TreeController.hpp"
-#include "View.hpp"
+#include <Std++/_Backends/UI/UIBackend.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::UI;
 
-namespace StdXX
+//Constructor
+SelectBox::SelectBox()
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API ComboBox : public View
-        {
-            friend class EventQueue;
-        public:
-            //Constructor
-            ComboBox();
+	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
 
-			//Inline
-			inline void Select(uint32 index)
-			{
-				ControllerIndex controllerIndex = this->GetController()->GetChildIndex(index, 0, ControllerIndex());
-				this->_GetBackend()->Select(controllerIndex);
-			}
-        };
-    }
+//Private methods
+void SelectBox::RealizeSelf()
+{
+	_stdxx_::ViewBackend* viewBackend = this->_GetUIBackend()->CreateSelectBoxBackend(*this);
+	this->_SetBackend(viewBackend);
 }

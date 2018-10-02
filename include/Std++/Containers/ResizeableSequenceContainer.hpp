@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
 #include <Std++/Utility.hpp>
-#include "../Type.hpp"
+#include <Std++/Type.hpp>
 #include "Container.hpp"
 
 namespace StdXX

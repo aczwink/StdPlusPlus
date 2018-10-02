@@ -50,7 +50,7 @@ void VideoWidget::UpdatePicture(Packet *videoPacket, Math::Size<uint16> frameSiz
 }
 
 //Eventhandlers
-void VideoWidget::OnPaint()
+void VideoWidget::OnPaint(UI::Event& event)
 {
 	//upload new frame if necessary
 	this->frameLock.Lock();
@@ -86,7 +86,6 @@ void VideoWidget::OnPaint()
 	frameRect.origin.y = (this->GetSize().height - frameRect.size.height) / 2;
 
 	//render
-	this->deviceContext->EnableDepthTest(false); //#TODO: gtk3 bug that GtkGlArea always does glEnable(GL_DEPTH_TEST);
 	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
 	
 	this->renderer->Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
@@ -95,6 +94,8 @@ void VideoWidget::OnPaint()
 
 	this->renderer->Sync();
 	this->deviceContext->SwapBuffers();
+
+	event.Accept();
 }
 
 void VideoWidget::OnRealized()

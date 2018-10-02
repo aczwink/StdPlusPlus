@@ -55,27 +55,12 @@ void _stdxx_::CommCtrlLabelBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlLabelBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlLabelBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlLabelBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlLabelBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlLabelBackend::ResetView() const
+void CommCtrlLabelBackend::SetHint(const StdXX::String & text)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -44,7 +44,7 @@ namespace StdXX
 
 		protected:
 			//Event handlers
-			void OnRealized();
+			void OnRealized() override;
 
 		private:
 			//Members
@@ -54,7 +54,7 @@ namespace StdXX
 			Mutex frameLock;
 
 			//Eventhandlers
-			void OnPaint();
+			void OnPaint(UI::Event& event) override;
 		};
 	}
 }

@@ -36,7 +36,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline ContentAreaWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetContainerBackend(uiBackend)
+		inline ContentAreaWidgetBackend(StdXX::UIBackend& uiBackend) : WidgetContainerBackend(uiBackend)
 		{
 		}
 

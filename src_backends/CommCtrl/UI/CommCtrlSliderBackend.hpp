@@ -31,7 +31,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlSliderBackend(StdXX::UIBackend *uiBackend, StdXX::UI::Slider *slider)
+		inline CommCtrlSliderBackend(::StdXX::UIBackend& uiBackend, StdXX::UI::Slider *slider)
 			: SliderBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, TRACKBAR_CLASSW, TBS_HORZ | TBS_TRANSPARENTBKGND),
 			slider(slider)
 		{
@@ -47,11 +47,7 @@ namespace _stdxx_
 
 		//not implemeneted
 		void Repaint() override;
-		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String & text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void ResetView() const override;
 
 	private:
 		//Members

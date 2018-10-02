@@ -72,6 +72,7 @@ void libavcodec_Backend::LoadPatentedCodingFormatIdMap()
 
 void libavcodec_Backend::LoadPixelFormatMap()
 {
+	this->libavPixelFormatMap.Insert(NamedPixelFormat::BGR_24, AV_PIX_FMT_BGR24);
 	this->libavPixelFormatMap.Insert(NamedPixelFormat::RGB_24, AV_PIX_FMT_RGB24);
 	this->libavPixelFormatMap.Insert(NamedPixelFormat::YCbCr_420_P, AV_PIX_FMT_YUV420P);
 }

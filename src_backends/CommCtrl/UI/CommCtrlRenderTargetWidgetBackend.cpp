@@ -25,7 +25,7 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Constructor
-CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
+CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend& uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget)
 		: CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS), renderTargetWidget(renderTargetWidget)
 {
 	//register keyboard input
@@ -108,27 +108,7 @@ void CommCtrlRenderTargetWidgetBackend::OnMessage(WinMessageEvent& event)
 	}
 }
 
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlRenderTargetWidgetBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

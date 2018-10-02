@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
 //Local
+#include <Std++/Devices/DeviceEnumerator.hpp>
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Namespaces
 using namespace StdXX;
@@ -78,8 +79,6 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 				{
 					//audio playback is only possible if really all info is available
 					this->audioStreams.Insert(i, audioStream);
-					if(this->audioStreamIndex == Natural<uint32>::Max())
-						this->audioStreamIndex = i;
 				}
 			}
 			break;
@@ -97,18 +96,21 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 				if(videoStream->GetDecoderContext())
 				{
 					this->videoStreams.Insert(i, videoStream);
-					if(this->videoStreamIndex == Natural<uint32>::Max())
-						this->videoStreamIndex = i;
 				}
 			}
 			break;
 		}
 	}
 
+	//get audio device context
+	DeviceEnumerator deviceEnumerator(DeviceType::Audio);
+	this->audioDevice = deviceEnumerator.GetNextDevice().Cast<AudioDevice>();
+	if (!this->audioDevice.IsNull())
+	{
+		this->audioDeviceContext = this->audioDevice->CreateDeviceContext();
+	}
+
 	this->demuxerThread.Connect(&this->audioDecodeThread, &this->videoDecodeThread);
-	this->demuxerThread.SetStreamIndices(this->videoStreamIndex, this->audioStreamIndex);
-	this->audioDecodeThread.SetStreamIndex(this->audioStreamIndex);
-	this->videoDecodeThread.SetStreamIndex(this->videoStreamIndex);
 
 	//start threads
 	this->demuxerThread.Start();
@@ -121,16 +123,17 @@ MediaPlayer::~MediaPlayer()
 {
 	this->HaltPlayback();
 
-	if(this->demuxer)
-		delete this->demuxer;
-
-	if(this->nextVideoPacket)
-		delete this->nextVideoPacket;
-
 	//wait for threads to terminate
-	this->demuxerThread.Shutdown();
-	this->audioDecodeThread.Shutdown();
-	this->videoDecodeThread.Shutdown();
+	while (this->demuxerThread.Join_ms(1))
+		this->ShutdownThreads();
+	while (this->audioDecodeThread.Join_ms(1))
+		this->ShutdownThreads();
+	while (this->videoDecodeThread.Join_ms(1))
+		this->ShutdownThreads();
+
+	//
+	delete this->demuxer;
+	delete this->nextVideoPacket;
 }
 
 //Eventhandlers
@@ -186,6 +189,13 @@ void MediaPlayer::HaltPlayback()
 	if(this->pAudioVoice)
 		this->pAudioVoice->Stop();
 	 */
+}
+
+void MediaPlayer::ShutdownThreads()
+{
+	this->demuxerThread.Shutdown();
+	this->audioDecodeThread.Shutdown();
+	this->videoDecodeThread.Shutdown();
 }
 
 //Public methods

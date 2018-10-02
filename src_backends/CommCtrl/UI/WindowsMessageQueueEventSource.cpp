@@ -23,7 +23,7 @@
 #include <Std++/UI/Controls/PushButton.hpp>
 #include <Std++/UI/Action.hpp>
 #include <Std++/UI/Menu/Menu.hpp>
-#include <Std++/UI/Views/ComboBox.hpp>
+#include <Std++/UI/Views/SelectBox.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
 #include "CommCtrlWindowBackend.hpp"
 #include "CommCtrlRenderTargetWidgetBackend.hpp"

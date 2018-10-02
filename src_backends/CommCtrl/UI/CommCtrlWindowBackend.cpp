@@ -201,11 +201,6 @@ void CommCtrlWindowBackend::Repaint()
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlWindowBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 /*void CommCtrlWindowBackend::ResetView() const
 {
 	TreeController *controller = ((View *)this->widget)->GetController();
@@ -236,11 +231,6 @@ void _stdxx_::CommCtrlWindowBackend::ResetView() const
 	}
 }*/
 
-void CommCtrlWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 Path CommCtrlWindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -256,11 +246,6 @@ void CommCtrlWindowBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me next line
 	//SendMessageA(this->hWnd, EM_SETREADONLY, !enable, 0);
-}
-
-void CommCtrlWindowBackend::SetHint(const StdXX::String &text) const
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void CommCtrlWindowBackend::SetMenuBar(MenuBar *menuBar, MenuBarBackend *menuBarBackend)
@@ -316,11 +301,6 @@ void CommCtrlWindowBackend::ShowErrorBox(const String & title, const String & me
 }
 
 void CommCtrlWindowBackend::ShowInformationBox(const StdXX::String & title, const StdXX::String & message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlWindowBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -41,8 +41,6 @@ ComputePixmapResampler::ComputePixmapResampler(const Math::Size<uint16> &sourceS
 	this->commandQueue = this->dc->CreateCommandQueue();
 }
 
-//#include <Std++/Streams/StdOut.hpp>
-
 //Public methods
 Pixmap *ComputePixmapResampler::Run(const Pixmap &sourcePixmap)
 {
@@ -57,7 +55,7 @@ Pixmap *ComputePixmapResampler::Run(const Pixmap &sourcePixmap)
 		const auto &plane = this->targetPixelFormat->planes[i];
 		//we can only write multiples of 32bit (without byte-addressing-store extensions)
 		uint8 currentBlockSize = this->targetPixelFormat->ComputeBlockSize(i);
-		uint8 current = ComputeLeastCommonMultiple(4, currentBlockSize) * plane.horzSampleFactor * plane.vertSampleFactor;
+		uint8 current = ComputeLeastCommonMultiple(4, currentBlockSize) / currentBlockSize;
 		nPixelsPerWorker = Math::Max(nPixelsPerWorker, current);
 	}
 
@@ -105,6 +103,8 @@ Pixmap *ComputePixmapResampler::Run(const Pixmap &sourcePixmap)
 
 	return targetPixmap;
 }
+
+//#include <Std++/Streams/StdOut.hpp>
 
 //Private methods
 void ComputePixmapResampler::CompileProgram(uint8 nPixelsPerWorker)
@@ -259,7 +259,7 @@ String ComputePixmapResampler::GenerateReadPixelFunctionCode(uint8 nPixelsPerWor
 			+ String::Number(cc.shift / 8) + u8"]; \r\n";
 		
 		//read and scale input
-		programCode += u8"result.s" + String::Number(i) + u8" = + (((float)(*in_c" + String::Number(i) + u8"_ptr)) - " + String::Number(cc.min.u8) + u8".0f) / " + String::Number(cc.max.u8) + u8".0f;\r\n";
+		programCode += u8"result.s" + String::Number(i) + u8" = (((float)(*in_c" + String::Number(i) + u8"_ptr)) - " + String::Number(cc.min.u8) + u8".0f) / " + String::Number(cc.max.u8 - cc.min.u8) + u8".0f;\r\n";
 	}
 
 	programCode += u8"return result;\r\n";
@@ -278,37 +278,40 @@ String ComputePixmapResampler::GenerateWritePixelsFunctionCode(uint8 nPixelsPerW
 	programCode += u8"uint y, uint x)\r\n";
 	programCode += u8"{\r\n";
 	programCode += u8"uchar4 block;\r\n";
+	programCode += u8"uint baseAddress;\r\n";
 	programCode += u8"__global uchar* blockPtr;\r\n";
 	
 	//always write 4 consecutive bytes to each plane
 	for (uint8 i = 0; i < this->targetPixelFormat->nPlanes; i++)
 	{
 		const uint8 blockSize = this->targetPixelFormat->ComputeBlockSize(i);
-		const uint8 nBlocks = nPixelsPerWorker / 4;
+		const uint8 nBlocks = nPixelsPerWorker * blockSize / 4;
 		for (uint8 j = 0; j < nBlocks; j++)
 		{
 			const uint8 firstPixelIndex = j * 4 / blockSize;
 			const uint8 nPixels = (4 / blockSize) + ((4 % blockSize) ? 1 : 0);
 
-			const uint8 firstBitIndex = j * 32;
+			const uint16 firstBitIndex = j * 32;
 			const uint8 nBitsForBlock = 32;
-			const uint8 lastBitIndex = firstBitIndex + nBitsForBlock;
+			const uint16 lastBitIndex = firstBitIndex + nBitsForBlock;
 
 			for (uint8 k = 0; k < nPixels; k++)
 			{
 				for (uint8 l = 0; l < this->targetPixelFormat->GetNumberOfColorComponents(); l++)
 				{
 					const auto &cc = this->targetPixelFormat->colorComponents[l];
-					const uint8 bitIndex = (firstPixelIndex + k) * blockSize * 8 + cc.shift;
+					const uint16 bitIndex = (firstPixelIndex + k) * blockSize * 8 + cc.shift;
 					const uint8 byteIndex = (bitIndex / 8) % 4;
 					if ((bitIndex >= firstBitIndex) && (bitIndex < lastBitIndex))
 					{
-						programCode += u8"block.s" + String::Number(byteIndex) + u8" = (uchar)((pixels[" + String::Number(firstPixelIndex + k) + u8"].s" + String::Number(l) + u8")*" + String::Number(cc.max.u8 - cc.min.u8) + u8"+" + String::Number(cc.min.u8) + u8");\r\n";
+						programCode += u8"block.s" + String::Number(byteIndex) + u8" = (uchar)clamp((pixels[" + String::Number(firstPixelIndex + k) + u8"].s" + String::Number(l) + u8")*" + String::Number(cc.max.u8 - cc.min.u8) + u8".0f + " + String::Number(cc.min.u8) + u8".0f, " + String::Number(cc.min.u8) + u8".0f, " + String::Number(cc.max.u8) + u8".0f);\r\n";
 					}
 				}
 			}
-			
-			programCode += u8"blockPtr = &out" + String::Number(i) + u8"[y*" + String::Number(this->targetPixelFormat->ComputeLineSize(i, this->sourceSize.width)) + u8"+x*" + String::Number(blockSize) + u8"];\r\n";
+
+			uint32 lineSize = this->targetPixelFormat->ComputeLineSize(i, this->sourceSize.width);
+			programCode += u8"baseAddress = (y + ((x + " + String::Number(j) + u8") / " + String::Number(this->sourceSize.width) + u8"))*" + String::Number(lineSize) + u8" + ((x*" + String::Number(blockSize) + u8")+(" + String::Number(j) + u8"*4)) % " + String::Number(lineSize) + u8";\r\n";
+			programCode += u8"blockPtr = &out" + String::Number(i) + u8"[baseAddress];\r\n";
 			programCode += u8"*(__global uchar4*)blockPtr = block;\r\n";
 		}
 	}
@@ -338,18 +341,19 @@ String ComputePixmapResampler::GetPixelFormatConversionFunctionCode() const
 		{
 		case ColorSpace::RGB:
 			//using BT.601 here... how to know which one is correct?!
+			//cb and cr are defined in range [-1, 1]
 			functionCode += u8R"(
 const float K_R = 0.299f;
 const float K_G = 0.587f;
 const float K_B = 0.114f;
 
 const float y = in.x;
-const float cb = in.y;
-const float cr = in.z;
+const float cb = 2.0f * (in.y - 0.5f);
+const float cr = 2.0f * (in.z - 0.5f);
 
-float r = y + 0.5f * (1.0f - K_R) * cr;
-float g = y - 0.5f * (1.0f - K_B) * (K_B / K_G) * cb - 0.5f * (1.0f - K_R) * (K_R / K_G) * cr;
-float b = y + 0.5f * (1.0f - K_B) * cb;
+float r = clamp(y + (1.0f - K_R) * cr, 0.0f, 1.0f);
+float g = clamp(y - (1.0f - K_B) * (K_B / K_G) * cb - (1.0f - K_R) * (K_R / K_G) * cr, 0.0f, 1.0f);
+float b = clamp(y + (1.0f - K_B) * cb, 0.0f, 1.0f);
 
 return (float4)(r, g, b, 0);
 			)";

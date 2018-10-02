@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/SliderBackend.hpp>
-#include "../Widget.hpp"
+#include <Std++/UI/Widget.hpp>
 
 namespace StdXX
 {
@@ -35,7 +35,7 @@ namespace StdXX
             Slider();
 
 			//Methods
-			void Event(UI::Event& e) override;
+			void Event(::StdXX::UI::Event& e) override;
 
 			//Inline
 			inline uint32 GetPosition() const

@@ -107,27 +107,7 @@ void CommCtrlContainerBackend::IgnoreEvent()
 	//do nothing
 }
 
-void _stdxx_::CommCtrlContainerBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlContainerBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlContainerBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

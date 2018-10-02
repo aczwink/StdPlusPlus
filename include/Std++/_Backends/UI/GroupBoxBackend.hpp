@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline GroupBoxBackend(StdXX::UIBackend *uiBackend) : ContentAreaWidgetBackend(uiBackend)
+		inline GroupBoxBackend(StdXX::UIBackend& uiBackend) : ContentAreaWidgetBackend(uiBackend)
 		{
 		}
 

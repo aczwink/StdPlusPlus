@@ -55,9 +55,12 @@ Thread::~Thread()
 }
 
 //Public methods
-void Thread::Join()
+bool Thread::Join(uint64 duration)
 {
-	WaitForSingleObject(this->systemHandle, INFINITE);
+	DWORD ms = duration / 1000 / 1000;
+	if ((ms == 0) && (duration != 0))
+		ms = 1;
+	return WaitForSingleObject(this->systemHandle, ms) == WAIT_TIMEOUT;
 }
 
 void Thread::Start()

@@ -84,27 +84,7 @@ void _stdxx_::CommCtrlSliderBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlSliderBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlSliderBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSliderBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSliderBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSliderBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

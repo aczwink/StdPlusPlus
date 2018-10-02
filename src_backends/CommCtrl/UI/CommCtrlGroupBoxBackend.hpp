@@ -30,10 +30,10 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlGroupBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::GroupBox *groupBox)
+		inline CommCtrlGroupBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::GroupBox *groupBox)
 			: GroupBoxBackend(uiBackend), CommCtrlContainerBackend(uiBackend, groupBox), WidgetContainerBackend(uiBackend),
 			CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
-			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN),
+			Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_CLIPCHILDREN, WS_EX_COMPOSITED),
 			groupBox(groupBox), hFont(nullptr), hTheme(nullptr)
 		{
 		}
@@ -52,11 +52,7 @@ namespace _stdxx_
 		void SetTitle(const StdXX::String &title) override;
 
 		//not implemented
-		void ResetView() const override;
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
 	private:
 		//Members

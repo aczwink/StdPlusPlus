@@ -112,7 +112,7 @@ Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const 
 UIBackend* Widget::_GetUIBackend()
 {
 	if (this->backend)
-		return this->backend->GetUIBackend();
+		return &this->backend->GetUIBackend();
 	return this->parent->_GetUIBackend();
 }
 
@@ -179,6 +179,7 @@ void Widget::OnRealized()
 	if (this->backend)
 	{
 		this->backend->SetEnabled(this->enabled);
+		this->backend->SetHint(this->hint);
 		this->backend->Show(this->visible);
 	}
 }

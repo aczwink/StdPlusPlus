@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline SpinBoxBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline SpinBoxBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 

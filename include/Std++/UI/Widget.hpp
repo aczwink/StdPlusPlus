@@ -19,10 +19,8 @@
 #pragma once
 //Local
 #include <Std++/UI/Events/MouseEvents.hpp>
-#include "Std++/_Backends/UI/WidgetBackend.hpp"
-#include "../Function.hpp"
-#include "../Containers/Strings/OldString.hpp"
-#include "../Containers/Strings/UTF-8/UTF8String.hpp"
+#include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include <Std++/Function.hpp>
 #include "../Definitions.h"
 #include "../Math/Geometry/Rect.hpp"
 #include "../Math/Size.hpp"
@@ -166,7 +164,9 @@ namespace StdXX
 
 			inline void SetHint(const String &text)
 			{
-				this->backend->SetHint(text);
+				this->hint = text;
+				if(this->backend)
+					this->backend->SetHint(text);
 			}
 
 			inline void Show(bool visible = true)
@@ -212,6 +212,7 @@ namespace StdXX
 			bool enabled;
 			_stdxx_::WidgetBackend *backend;
 			bool isRealized;
+			String hint;
 
 			//Methods
 			/**

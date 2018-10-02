@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
-#include "../../Definitions.h"
-#include "../../Natural.hpp"
+#include <Std++/Definitions.h>
+#include <Std++/Natural.hpp>
 
 namespace StdXX
 {

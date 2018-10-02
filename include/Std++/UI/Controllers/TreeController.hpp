@@ -73,6 +73,7 @@ namespace StdXX
 		private:
 			//Eventhandlers
 			virtual void OnSelectionChanged() const {}
+			virtual void OnViewChanged() {}
         };
     }
 }

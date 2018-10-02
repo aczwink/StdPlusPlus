@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Devices/AudioDevice.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Multitasking/ConditionVariable.hpp"
@@ -57,15 +58,25 @@ namespace _stdxx_
 		void FlushInputQueue();
 		void FlushOutputQueue();
 		void SetStreamIndex(uint32 streamIndex);
+		void Shutdown();
 		StdXX::Multimedia::Packet *TryGetNextOutputPacket();
 
 		//Inline
 		inline void AddInputPacket(StdXX::Multimedia::Packet *packet)
 		{
 			this->inputPacketQueueLock.Lock();
+			while (this->inputPacketQueue.GetNumberOfElements() >= 100)
+			{
+				if (this->shutdown)
+					break;
+				if (!this->work)
+					break;
+
+				this->inputPacketQueueSignal.Wait(this->inputPacketQueueLock);
+			}
 			this->inputPacketQueue.InsertTail(packet);
-			this->inputPacketQueueLock.Unlock();
 			this->inputPacketQueueSignal.Signal();
+			this->inputPacketQueueLock.Unlock();
 		}
 
 		inline void Run()
@@ -74,19 +85,6 @@ namespace _stdxx_
 			this->workLock.Lock();
 			this->workSignal.Signal();
 			this->workLock.Unlock();
-		}
-
-		inline void Shutdown()
-		{
-			this->shutdown = true;
-			this->work = false;
-
-			this->workLock.Lock();
-			this->workSignal.Signal();
-			this->workLock.Unlock();
-
-			this->inputPacketQueueSignal.Signal();
-			this->Join();
 		}
 
 		inline void Stop()
@@ -114,6 +112,7 @@ namespace _stdxx_
 		StdXX::ConditionVariable inputPacketQueueSignal;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> outputPacketQueue;
 		StdXX::Mutex outputPacketQueueLock;
+		StdXX::ConditionVariable outputPacketQueueSignal;
 
 		//Methods
 		StdXX::Multimedia::Packet *GetNextInputPacket();
@@ -124,7 +123,17 @@ namespace _stdxx_
 		inline void AddOutputPacket(StdXX::Multimedia::Packet *packet)
 		{
 			this->outputPacketQueueLock.Lock();
+			while (this->outputPacketQueue.GetNumberOfElements() >= 100)
+			{
+				if (this->shutdown)
+					break;
+				if (!this->work)
+					break;
+
+				this->outputPacketQueueSignal.Wait(this->outputPacketQueueLock);
+			}
 			this->outputPacketQueue.InsertTail(packet);
+			this->outputPacketQueueSignal.Signal();
 			this->outputPacketQueueLock.Unlock();
 		}
 	};
@@ -164,7 +173,6 @@ namespace _stdxx_
 			this->workLock.Lock();
 			this->workSignal.Signal();
 			this->workLock.Unlock();
-			this->Join();
 		}
 
 	private:
@@ -215,14 +223,38 @@ namespace StdXX
 				return this->demuxer;
 			}
 
+			inline const Map<uint32, AudioStream*>& GetAudioStreams() const
+			{
+				return this->audioStreams;
+			}
+
+			inline const Map<uint32, VideoStream*>& GetVideoStreams() const
+			{
+				return this->videoStreams;
+			}
+
 			inline bool IsPlaying() const
 			{
 				return this->isPlaying;
 			}
 
+			inline void SetAudioStreamIndex(uint32 streamIndex)
+			{
+				this->audioStreamIndex = streamIndex;
+				this->demuxerThread.SetStreamIndices(this->videoStreamIndex, this->audioStreamIndex);
+				this->audioDecodeThread.SetStreamIndex(this->audioStreamIndex);
+			}
+
 			inline void SetVideoOutput(UI::VideoWidget *videoWidget)
 			{
 				this->videoWidget = videoWidget;
+			}
+
+			inline void SetVideoStreamIndex(uint32 streamIndex)
+			{
+				this->videoStreamIndex = streamIndex;
+				this->demuxerThread.SetStreamIndices(this->videoStreamIndex, this->audioStreamIndex);
+				this->videoDecodeThread.SetStreamIndex(this->videoStreamIndex);
 			}
 
 		private:
@@ -249,6 +281,8 @@ namespace StdXX
 			 */
 			int64 videoFrameDelay;
 			UI::VideoWidget *videoWidget;
+			AutoPointer<AudioDevice> audioDevice;
+			UniquePointer<Audio::DeviceContext> audioDeviceContext;
 
 			_stdxx_::DemuxerThread demuxerThread;
 			_stdxx_::DecoderThread audioDecodeThread;
@@ -259,6 +293,7 @@ namespace StdXX
 
 			//Methods
 			void HaltPlayback();
+			void ShutdownThreads();
 		};
 	}
 }

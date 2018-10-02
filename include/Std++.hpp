@@ -215,7 +215,7 @@
 #include <Std++/UI/Controllers/TreeController.hpp>
 //Controls
 #include <Std++/UI/Controls/CheckBox.hpp>
-#include <Std++/UI/Views/ComboBox.hpp>
+#include <Std++/UI/Views/SelectBox.hpp>
 #include <Std++/UI/Controls/Label.hpp>
 #include <Std++/UI/Controls/LineEdit.hpp>
 #include <Std++/UI/Controls/ProgressBar.hpp>

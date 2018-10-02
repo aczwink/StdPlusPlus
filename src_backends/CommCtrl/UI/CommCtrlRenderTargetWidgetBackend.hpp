@@ -27,18 +27,14 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend *uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget);
+		CommCtrlRenderTargetWidgetBackend(StdXX::UIBackend& uiBackend, StdXX::UI::RenderTargetWidget *renderTargetWidget);
 
 		//Methods
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
 		void OnMessage(WinMessageEvent& event) override;
-		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String & text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void ResetView() const override;
 
 	private:
 		//Methods

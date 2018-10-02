@@ -86,27 +86,12 @@ void _stdxx_::CommCtrlCheckBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlCheckBoxBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlCheckBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlCheckBoxBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlCheckBoxBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlCheckBoxBackend::ResetView() const
+void _stdxx_::CommCtrlCheckBoxBackend::SetHint(const StdXX::String & text)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

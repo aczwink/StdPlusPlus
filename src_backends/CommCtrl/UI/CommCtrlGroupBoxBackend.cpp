@@ -76,6 +76,9 @@ void CommCtrlGroupBoxBackend::OnMessage(WinMessageEvent& event)
 {
 	switch (event.message)
 	{
+	case WM_SIZE:
+		this->groupBox->Repaint();
+		break;
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -141,19 +144,14 @@ void CommCtrlGroupBoxBackend::Paint(HDC hDC)
 	HFONT hFont = (HFONT)this->SendMessage(WM_GETFONT, 0, 0);
 	SelectObject(hDC, hFont);
 
-	//compute rects
 	RECT clientRect;
 	::GetClientRect(hWnd, &clientRect);
 
-#if WINVER == _WIN32_WINNT_WIN7
-	/*
-	on windows 7 we need to manually paint the background, as WS_CLIPCHILDREN in the parent
-	will prevent that the parent actually paints the background.
-	*/
+	//erase background
 	HBRUSH hBrush = GetSysColorBrush(COLOR_WINDOW);
 	FillRect(hDC, &clientRect, hBrush);
-#endif
-
+	
+	//compute rects
 	RECT textRect;
 	auto textExtent = this->GetTextExtents();
 	textRect.left = clientRect.left + 10;
@@ -172,6 +170,7 @@ void CommCtrlGroupBoxBackend::Paint(HDC hDC)
 	//draw
 	if (IsThemeBackgroundPartiallyTransparent(hTheme, BP_GROUPBOX, state))
 		DrawThemeParentBackground(hWnd, hDC, nullptr); //sends WM_PRINTCLIENT to parent
+
 	DrawThemeBackground(hTheme, hDC, BP_GROUPBOX, state, &backgroundRect, nullptr);
 
 	SelectClipRgn(hDC, nullptr);
@@ -194,27 +193,7 @@ void CommCtrlGroupBoxBackend::Paint(HDC hDC)
 
 
 //TODO:
-void _stdxx_::CommCtrlGroupBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlGroupBoxBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlGroupBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlGroupBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

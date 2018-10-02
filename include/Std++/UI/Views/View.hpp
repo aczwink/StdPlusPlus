@@ -18,8 +18,10 @@
  */
 #pragma once
 //Local
-#include "../Widget.hpp"
-#include "../Controllers/SelectionController.hpp"
+#include <Std++/_Backends/UI/ViewBackend.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/UI/Widget.hpp>
+#include <Std++/UI/Controllers/SelectionController.hpp>
 
 namespace StdXX
 {
@@ -37,22 +39,22 @@ namespace StdXX
 			friend class UIEventSource;
 		public:
 			//Constructor
-			inline View() : controller(nullptr)
+			inline View() : viewBackend(nullptr)
 			{
 			}
 
 			//Methods
-			void SetController(TreeController &controller);
+			void SetController(UniquePointer<TreeController>&& controller);
 
 			//Inline
 			inline TreeController *GetController()
 			{
-				return this->controller;
+				return this->controller.operator->();
 			}
 
 			inline const TreeController *GetController() const
 			{
-				return this->controller;
+				return this->controller.operator->();
 			}
 
 			inline const SelectionController &GetSelectionController() const
@@ -60,19 +62,39 @@ namespace StdXX
 				return this->selectionController;
 			}
 
+			inline void Select(const ControllerIndex& index)
+			{
+				this->selectionController.Select(index);
+				this->OnSelectionChanged();
+			}
+
 		protected:
 			//Members
-			TreeController *controller;
-			SelectionController selectionController;
+			UniquePointer<TreeController> controller;
+
+			//Event handlers
+			virtual void OnRealized() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::ViewBackend* viewBackend)
+			{
+				Widget::_SetBackend(viewBackend);
+				this->viewBackend = viewBackend;
+			}
 
 		private:
+			//Members
+			_stdxx_::ViewBackend* viewBackend;
+			SelectionController selectionController;
+
 			//Event handlers
 			void OnSelectionChanged();
 
 			//Inline
 			inline void OnModelChanged()
 			{
-				this->_GetBackend()->ResetView();
+				if(this->viewBackend)
+					this->viewBackend->ControllerChanged();
 			}
 		};
 	}

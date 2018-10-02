@@ -209,22 +209,7 @@ void _stdxx_::CommCtrlScrollAreaBackend::SetEditable(bool enable) const
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
 
-void _stdxx_::CommCtrlScrollAreaBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}
-
-void _stdxx_::CommCtrlScrollAreaBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
+void _stdxx_::CommCtrlScrollAreaBackend::SetHint(const StdXX::String & text)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }

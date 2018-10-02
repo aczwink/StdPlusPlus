@@ -18,8 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/Strings/String.hpp"
-#include "../Time/Time.hpp"
+#include <Std++/Containers/Strings/String.hpp>
 
 namespace StdXX
 {
@@ -109,7 +108,6 @@ namespace StdXX
 
         //Methods
         String GetFileExtension() const;
-        Time GetLastModifiedTime() const;
 		/**
 		 * Returns the name of the file or directory that the path refers to.
 		 * Examples:

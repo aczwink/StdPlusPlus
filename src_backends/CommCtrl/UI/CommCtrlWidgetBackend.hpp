@@ -44,7 +44,7 @@ namespace _stdxx_
 		WNDPROC origWndProc;
 
 		//Constructor
-		inline CommCtrlWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend),
+		inline CommCtrlWidgetBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend),
 			origWndProc(nullptr)
 		{
 		}
@@ -59,6 +59,7 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 		void Repaint() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
+		void SetHint(const StdXX::String & text) override;
 
 		//Inline
 		inline const Win32Window* GetFirstWindow() const

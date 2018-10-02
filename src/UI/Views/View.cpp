@@ -25,18 +25,26 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Public methods
-void View::SetController(TreeController &controller)
+void View::SetController(UniquePointer<TreeController>&& controller)
 {
-	this->controller = &controller;
+	this->controller = StdXX::Move(controller);
 	this->controller->view = this;
 
-	this->OnModelChanged();
+	this->OnModelChanged();	
+	this->controller->OnViewChanged();
 }
 
 //Eventhandlers
+void View::OnRealized()
+{
+	Widget::OnRealized();
+
+	if(!this->controller.IsNull())
+		this->viewBackend->ControllerChanged();
+}
+
 void View::OnSelectionChanged()
 {
-	this->_GetBackend()->UpdateSelection(this->selectionController);
-
+	this->viewBackend->UpdateSelection();
 	this->controller->OnSelectionChanged();
 }

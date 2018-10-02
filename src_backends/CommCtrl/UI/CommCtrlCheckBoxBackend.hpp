@@ -31,7 +31,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlCheckBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::CheckBox *checkBox)
+		inline CommCtrlCheckBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::CheckBox *checkBox)
 			: CheckBoxBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, WC_BUTTONW, BS_AUTOCHECKBOX),
 			checkBox(checkBox)
 		{
@@ -47,11 +47,8 @@ namespace _stdxx_
 
 		//not implemented
 		void Repaint() override;
-		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String & text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void ResetView() const override;
+		void SetHint(const StdXX::String & text) override;
 
 	private:
 		//Members

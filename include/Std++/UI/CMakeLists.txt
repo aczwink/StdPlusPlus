@@ -40,8 +40,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.hpp
 
 	#Views
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/ComboBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Views/SelectBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.hpp

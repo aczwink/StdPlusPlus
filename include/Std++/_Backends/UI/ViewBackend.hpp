@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,37 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include <Std++/Containers/LinkedList/LinkedList.hpp>
-#include <Std++/Definitions.h>
-#include "ControllerIndex.hpp"
+//Class header
+#include "WidgetBackend.hpp"
 
-namespace StdXX
+namespace _stdxx_
 {
-	namespace UI
+	class ViewBackend : virtual public WidgetBackend
 	{
-		class SelectionController
+	public:
+		//Constructor
+		inline ViewBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
-		public:
-			//Inline
-			inline void ClearSelection()
-			{
-				this->selectedIndexes.Release();
-			}
+		}
 
-			inline const LinkedList<ControllerIndex> &GetSelectedIndexes() const
-			{
-				return this->selectedIndexes;
-			}
-
-			inline void Select(const ControllerIndex &index)
-			{
-				this->selectedIndexes.InsertTail(index);
-			}
-
-		private:
-			//Members
-			LinkedList<ControllerIndex> selectedIndexes;
-		};
-	}
+		//Abstract
+		virtual void ControllerChanged() = 0;
+		virtual void UpdateSelection() const = 0;
+	};
 }

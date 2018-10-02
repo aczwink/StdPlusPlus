@@ -32,7 +32,7 @@ namespace _stdxx_
     {
     public:
         //Constructor
-		inline CommCtrlWindowBackend(UIBackend *uiBackend, Window *window)
+		inline CommCtrlWindowBackend(UIBackend& uiBackend, Window *window)
 			: WindowBackend(uiBackend), WidgetContainerBackend(uiBackend), CommCtrlContainerBackend(uiBackend, window),
 			CommCtrlWidgetBackend(uiBackend), Win32Window(*this, STDPLUSPLUS_WIN_WNDCLASS, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN),
 			WidgetBackend(uiBackend),
@@ -50,18 +50,14 @@ namespace _stdxx_
 		void Maximize() override;
 		void OnMessage(WinMessageEvent& event) override;
         void Repaint() override;
-		void ResetView() const override;
-        void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
         Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
         void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
-        void SetHint(const StdXX::String &text) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String & title) override;
         void Show(bool visible) override;
 		void ShowErrorBox(const StdXX::String & title, const StdXX::String & message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-        void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 
     private:
         //Members

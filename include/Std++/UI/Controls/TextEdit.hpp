@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Widget.hpp"
+#include <Std++/UI/Widget.hpp>
 
 namespace StdXX
 {
@@ -31,7 +31,7 @@ namespace StdXX
             TextEdit();
 
             //Methods
-            OldString GetText() const;
+            String GetText() const;
 
             //Inline
 			inline void SetEditable(bool editable)

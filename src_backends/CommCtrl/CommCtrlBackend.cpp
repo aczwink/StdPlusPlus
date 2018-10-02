@@ -24,6 +24,7 @@
 #include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
 #include "UI/CommCtrlScrollAreaBackend.hpp"
+#include "UI/CommCtrlSelectBoxBackend.hpp"
 #include "UI/CommCtrlSliderBackend.hpp"
 #include "UI/CommCtrlSpinBoxBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
@@ -45,7 +46,7 @@ CommCtrlBackend::CommCtrlBackend()
 //Public methods
 CheckBoxBackend *CommCtrlBackend::CreateCheckBoxBackend(UI::CheckBox *checkBox)
 {
-	return new CommCtrlCheckBoxBackend(this, checkBox);
+	return new CommCtrlCheckBoxBackend(*this, checkBox);
 }
 
 EventSource *CommCtrlBackend::CreateEventSource()
@@ -55,12 +56,12 @@ EventSource *CommCtrlBackend::CreateEventSource()
 
 GroupBoxBackend *CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
 {
-	return new CommCtrlGroupBoxBackend(this, groupBox);
+	return new CommCtrlGroupBoxBackend(*this, groupBox);
 }
 
 LabelBackend *CommCtrlBackend::CreateLabelBackend(UI::Label *label)
 {
-	return new CommCtrlLabelBackend(this, label);
+	return new CommCtrlLabelBackend(*this, label);
 }
 
 MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
@@ -70,32 +71,37 @@ MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 
 PushButtonBackend *CommCtrlBackend::CreatePushButtonBackend(UI::PushButton * pushButton)
 {
-	return new CommCtrlPushButtonBackend(this, pushButton);
+	return new CommCtrlPushButtonBackend(*this, pushButton);
 }
 
 WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget)
 {
-	return new CommCtrlRenderTargetWidgetBackend(this, renderTargetWidget);
+	return new CommCtrlRenderTargetWidgetBackend(*this, renderTargetWidget);
 }
 
 SliderBackend *CommCtrlBackend::CreateSliderBackend(UI::Slider *slider)
 {
-	return new CommCtrlSliderBackend(this, slider);
+	return new CommCtrlSliderBackend(*this, slider);
 }
 
 SpinBoxBackend *CommCtrlBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
 {
-	return new CommCtrlSpinBoxBackend(this, spinBox);
+	return new CommCtrlSpinBoxBackend(*this, spinBox);
 }
 
 ContentAreaWidgetBackend* CommCtrlBackend::CreateScrollAreaBackend(UI::ScrollArea * scrollArea)
 {
-	return new CommCtrlScrollAreaBackend(this, scrollArea);
+	return new CommCtrlScrollAreaBackend(*this, scrollArea);
+}
+
+ViewBackend * CommCtrlBackend::CreateSelectBoxBackend(UI::SelectBox & selectBox)
+{
+	return new CommCtrlSelectBoxBackend(*this, selectBox);
 }
 
 WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
 {
-	return new CommCtrlWindowBackend(this, window);
+	return new CommCtrlWindowBackend(*this, window);
 }
 
 void CommCtrlBackend::Load()

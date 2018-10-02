@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline SliderBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline SliderBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 

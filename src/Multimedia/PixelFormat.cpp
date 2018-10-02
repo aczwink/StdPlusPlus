@@ -31,6 +31,31 @@ PixelFormat::PixelFormat(NamedPixelFormat namedPixelFormat)
 {
 	switch(namedPixelFormat)
 	{
+	case NamedPixelFormat::BGR_24:
+	{
+		this->colorSpace = ColorSpace::RGB;
+		this->nPlanes = 1;
+
+		uint8 shift = 16;
+		for (uint8 i = 0; i < 3; i++)
+		{
+			auto &cc = this->colorComponents[i];
+
+			cc.planeIndex = 0;
+			cc.nBits = 8;
+			cc.shift = shift;
+			cc.isFloat = false;
+			cc.min.u8 = 0;
+			cc.max.u8 = Natural<uint8>::Max();
+
+			shift -= 8;
+		}
+
+		auto &plane = this->planes[0];
+		plane.horzSampleFactor = 1;
+		plane.vertSampleFactor = 1;
+	}
+	break;
 		case NamedPixelFormat::RGB_24:
 			{
 				this->colorSpace = ColorSpace::RGB;
@@ -135,7 +160,7 @@ uint32 PixelFormat::ComputeNumberOfLines(uint8 planeIndex, uint16 height) const
 
 bool PixelFormat::GetNameIfExisting(NamedPixelFormat &namedPixelFormat) const
 {
-	FixedArray<NamedPixelFormat> names({NamedPixelFormat::RGB_24, NamedPixelFormat::YCbCr_420_P});
+	FixedArray<NamedPixelFormat> names({ NamedPixelFormat::BGR_24, NamedPixelFormat::RGB_24, NamedPixelFormat::YCbCr_420_P});
 
 	for(NamedPixelFormat name : names)
 	{

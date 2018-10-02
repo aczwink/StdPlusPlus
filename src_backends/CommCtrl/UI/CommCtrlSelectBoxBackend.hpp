@@ -17,40 +17,44 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/_Backends/UI/LabelBackend.hpp>
-#include <Std++/UI/Controls/Label.hpp>
-#include "CommCtrlWidgetBackend.hpp"
+#include <Std++/_Backends/UI/ViewBackend.hpp>
+#include <Std++/UI/Views/SelectBox.hpp>
 #include "Win32Window.hpp"
 
 namespace _stdxx_
 {
 	/*
-	WinAPI Documentation:
-	Label: https://msdn.microsoft.com/en-us/library/windows/desktop/bb760769(v=vs.85).aspx
+	https://docs.microsoft.com/en-us/windows/desktop/controls/combo-boxes
 	*/
-	class CommCtrlLabelBackend : public LabelBackend, public CommCtrlWidgetBackend, public Win32Window
+	class CommCtrlSelectBoxBackend : public ViewBackend, public CommCtrlWidgetBackend, public Win32Window
 	{
 	public:
 		//Constructor
-		inline CommCtrlLabelBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Label *label)
-			: LabelBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, WC_STATICW),
-			label(label)
+		inline CommCtrlSelectBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::SelectBox& selectBox) : ViewBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend), Win32Window(*this, WC_COMBOBOXW, CBS_DROPDOWNLIST),
+			selectBox(selectBox)
 		{
 		}
 
 		//Methods
+		void ControllerChanged() override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
-		void SetText(const StdXX::String & text) override;
-
-		//not implemented:
-		void Repaint() override;
-		void SetEditable(bool enable) const override;
 		void SetHint(const StdXX::String & text) override;
+		void UpdateSelection() const override;
+
+		//NOT IMPLEMENTED:
+		void SetEditable(bool enable) const override;
+		//END OF NOT IMPLEMENTED
 
 	private:
 		//Members
-		StdXX::UI::Label *label;
+		StdXX::UI::SelectBox& selectBox;
+
+		//Inline
+		inline void AddItem(const StdXX::String& text)
+		{
+			this->SendMessage(CB_ADDSTRING, 0, (LPARAM)text.ToUTF16().GetRawZeroTerminatedData());
+		}
 	};
 }

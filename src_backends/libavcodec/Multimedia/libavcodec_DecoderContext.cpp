@@ -201,7 +201,8 @@ void libavcodec_DecoderContext::MapVideoFrame()
 	{
 		for (uint32 line = 0; line < pixmap->GetNumberOfLines(i); line++)
 		{
-			uint32 libav_lineIndex = (pixmap->GetNumberOfLines(i) - line - 1) * this->frame->linesize[i];
+			//uint32 libav_lineIndex = (pixmap->GetNumberOfLines(i) - line - 1) * this->frame->linesize[i];
+			uint32 libav_lineIndex = (line) * this->frame->linesize[i];
 			void *dst = ((byte *)pixmap->GetPlane(i)) + line * pixmap->GetLineSize(i);
 			MemCopy(dst, &this->frame->data[i][libav_lineIndex], Math::Min((uint32)this->frame->linesize[i], pixmap->GetLineSize(i))); //min size because of alignment
 		}

@@ -64,6 +64,7 @@ Packet *DecoderThread::GetNextInputPacket()
 		}
 	}
 	pPacket = this->inputPacketQueue.PopFront();
+	this->inputPacketQueueSignal.Signal();
 	this->inputPacketQueueLock.Unlock();
 
 	return pPacket;
@@ -237,13 +238,34 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 	this->encoderContext = CodingFormat::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
 }
 
+void DecoderThread::Shutdown()
+{
+	this->shutdown = true;
+	this->work = false;
+
+	this->workLock.Lock();
+	this->workSignal.Signal();
+	this->workLock.Unlock();
+
+	this->inputPacketQueueLock.Lock();
+	this->inputPacketQueueSignal.Signal();
+	this->inputPacketQueueLock.Unlock();
+
+	this->outputPacketQueueLock.Lock();
+	this->outputPacketQueueSignal.Signal();
+	this->outputPacketQueueLock.Unlock();
+}
+
 Packet *DecoderThread::TryGetNextOutputPacket()
 {
 	Packet *packet = nullptr;
 
 	this->outputPacketQueueLock.Lock();
-	if(!this->outputPacketQueue.IsEmpty())
+	if (!this->outputPacketQueue.IsEmpty())
+	{
 		packet = this->outputPacketQueue.PopFront();
+		this->outputPacketQueueSignal.Signal();
+	}
 	this->outputPacketQueueLock.Unlock();
 
 	return packet;

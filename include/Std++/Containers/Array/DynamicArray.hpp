@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../Natural.hpp"
+#include <Std++/Natural.hpp>
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
 #include <Std++/Utility.hpp>
 #include "ArrayIterator.hpp"

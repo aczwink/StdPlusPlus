@@ -19,10 +19,10 @@
 #pragma once
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
-#include <Std++/Debug.hpp>
-#include "../../Definitions.h"
-#include "../../Natural.hpp"
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
+#include <Std++/Debug.hpp>
+#include <Std++/Definitions.h>
+#include <Std++/Natural.hpp>
 #include <Std++/Utility.hpp>
 
 namespace StdXX

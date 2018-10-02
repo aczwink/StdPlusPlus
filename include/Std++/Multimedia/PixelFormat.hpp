@@ -27,6 +27,7 @@ namespace StdXX
     {
 		enum class NamedPixelFormat
 		{
+			BGR_24, //packed uint8 RGB ordered B G R
 			RGB_24, //packed uint8 RGB
 			YCbCr_420_P //planar uint8 YCbCr, Cb & Cr are subsampled by factor of 2 horizontally and vertically
 		};

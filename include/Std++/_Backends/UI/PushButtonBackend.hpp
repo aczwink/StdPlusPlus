@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline PushButtonBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline PushButtonBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 

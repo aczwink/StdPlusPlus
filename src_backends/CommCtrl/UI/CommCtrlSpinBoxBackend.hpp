@@ -31,7 +31,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlSpinBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::SpinBox *spinBox)
+		inline CommCtrlSpinBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::SpinBox *spinBox)
 			: SpinBoxBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), WidgetBackend(uiBackend),
 			spinBox(spinBox), editControl(*this, WC_EDITW, ES_NUMBER | ES_RIGHT, WS_EX_CLIENTEDGE), upDownControl(*this, UPDOWN_CLASSW, UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_HOTTRACK | UDS_SETBUDDYINT)
 		{
@@ -51,11 +51,8 @@ namespace _stdxx_
 
 		// not implemented
 		void Repaint() override;
-		void Select(StdXX::UI::ControllerIndex & controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String & text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController & selectionController) const override;
-		void ResetView() const override;
+		void SetHint(const StdXX::String & text) override;
 
 	private:
 		//Members

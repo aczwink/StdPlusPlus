@@ -122,27 +122,12 @@ void _stdxx_::CommCtrlSpinBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlSpinBoxBackend::Select(StdXX::UI::ControllerIndex & controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::CommCtrlSpinBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::CommCtrlSpinBoxBackend::SetHint(const StdXX::String & text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSpinBoxBackend::UpdateSelection(StdXX::UI::SelectionController & selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::CommCtrlSpinBoxBackend::ResetView() const
+void _stdxx_::CommCtrlSpinBoxBackend::SetHint(const StdXX::String & text)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

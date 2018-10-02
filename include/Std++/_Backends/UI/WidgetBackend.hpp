@@ -18,12 +18,10 @@
  */
 #pragma once
 //Local
-#include "Std++/Containers/Strings/String.hpp"
-#include "Std++/Filesystem/Path.hpp"
-#include "Std++/Math/Geometry/Rect.hpp"
-#include "Std++/Math/Size.hpp"
-#include "Std++/UI/Controllers/SelectionController.hpp"
-#include "Std++/Function.hpp"
+#include <Std++/Filesystem/Path.hpp>
+#include <Std++/Math/Geometry/Rect.hpp>
+#include <Std++/Math/Size.hpp>
+#include <Std++/Function.hpp>
 
 //Forward declarations
 namespace StdXX
@@ -46,7 +44,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline WidgetBackend(StdXX::UIBackend *uiBackend)
+		inline WidgetBackend(StdXX::UIBackend& uiBackend)
 			: uiBackend(uiBackend)
 		{
 		}
@@ -65,22 +63,17 @@ namespace _stdxx_
 		virtual void SetBounds(const StdXX::Math::RectD &bounds) = 0;
 		virtual void SetEditable(bool enable) const = 0;
 		virtual void SetEnabled(bool enable) = 0;
-		virtual void SetHint(const StdXX::String &text) const = 0;
+		virtual void SetHint(const StdXX::String &text) = 0;
 		virtual void Show(bool visible) = 0;
 
-		//Abstract, for View
-		virtual void ResetView() const = 0;
-		virtual void Select(StdXX::UI::ControllerIndex &controllerIndex) const = 0;
-		virtual void UpdateSelection(StdXX::UI::SelectionController &selectionController) const = 0;
-
 		//Inline
-		inline StdXX::UIBackend *GetUIBackend() const
+		inline StdXX::UIBackend& GetUIBackend() const
 		{
 			return this->uiBackend;
 		}
 
 	private:
 		//Members
-		StdXX::UIBackend * uiBackend;
+		StdXX::UIBackend& uiBackend;
 	};
 }

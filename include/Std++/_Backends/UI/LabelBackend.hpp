@@ -35,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline LabelBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline LabelBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 

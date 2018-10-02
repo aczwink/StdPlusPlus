@@ -16,17 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Views/ComboBox.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::UI;
+#pragma once
+//Local
 
-//Constructor
-ComboBox::ComboBox()
+#include "View.hpp"
+
+namespace StdXX
 {
-	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+    namespace UI
+    {
+        class STDPLUSPLUS_API SelectBox : public View
+        {
+            friend class EventQueue;
+        public:
+            //Constructor
+			SelectBox();
 
-	NOT_IMPLEMENTED_ERROR;
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::ComboBox, this);
+		private:
+			//Methods
+			void RealizeSelf() override;
+        };
+    }
 }

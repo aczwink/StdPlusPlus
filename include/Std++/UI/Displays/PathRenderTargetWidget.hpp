@@ -33,11 +33,11 @@ namespace StdXX
 			UniquePointer<Rendering::DevicePathRenderer> renderer;
 
 			//Eventhandlers
-			void OnRealized();
+			void OnRealized() override;
 
 		private:
 			//Eventhandlers
-			void OnResized();
+			void OnResized() override;
         };
     }
 }

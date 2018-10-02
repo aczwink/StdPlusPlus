@@ -20,6 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../Function.hpp"
+#include <Std++/Natural.hpp>
 
 namespace StdXX
 {
@@ -61,8 +62,19 @@ namespace StdXX
         virtual ~Thread();
 
         //Methods
-        void Join();
+		/*
+		 * Waits for this thread at least 'duration' nanoseconds to terminate.
+		 * Returns true if the thread still lives after that duration i.e. timeout elapsed before the thread terminated.
+		 * Returns false if the thread terminated before the timeout.
+		*/
+        bool Join(uint64 duration = Natural<uint64>::Max());
 		void Start();
+
+		//Inline
+		inline bool Join_ms(uint64 ms)
+		{
+			return this->Join(ms * 1000 * 1000);
+		}
 
     private:
         //Members
