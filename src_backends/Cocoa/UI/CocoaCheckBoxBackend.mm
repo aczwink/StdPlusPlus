@@ -49,7 +49,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaCheckBoxBackend::CocoaCheckBoxBackend(UIBackend *uiBackend, CheckBox *checkBox) : CheckBoxBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), checkBox(checkBox)
+CocoaCheckBoxBackend::CocoaCheckBoxBackend(UIBackend& uiBackend, CheckBox *checkBox) : CheckBoxBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), checkBox(checkBox)
 {
 	this->cocoaCheckBox = [[CocoaCheckBox alloc] initWithBackend:this];
 	[this->cocoaCheckBox setButtonType:NSSwitchButton];
@@ -123,27 +123,7 @@ void CocoaCheckBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaCheckBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaCheckBoxBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaCheckBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaCheckBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaCheckBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

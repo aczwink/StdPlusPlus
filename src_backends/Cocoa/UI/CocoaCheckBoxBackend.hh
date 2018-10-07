@@ -41,7 +41,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CocoaCheckBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::CheckBox *checkBox);
+		CocoaCheckBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::CheckBox *checkBox);
 
 		//Destructor
 		~CocoaCheckBoxBackend();
@@ -63,11 +63,7 @@ namespace _stdxx_
 
 		//old stuff
 		void Repaint() override;
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		void ResetView() const override;
 		//end old stuff
 
 	private:

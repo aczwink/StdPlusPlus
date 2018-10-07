@@ -66,7 +66,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaWindowBackend::CocoaWindowBackend(UIBackend *uiBackend, Window *window) : WindowBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), window(window)
+CocoaWindowBackend::CocoaWindowBackend(UIBackend& uiBackend, Window *window) : WindowBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), window(window)
 {
 	NSWindowStyleMask windowStyleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSWindowStyleMaskUnifiedTitleAndToolbar;
 	this->cocoaWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, 1, 1) styleMask:windowStyleMask
@@ -161,6 +161,16 @@ void CocoaWindowBackend::SetEnabled(bool enable)
 	//TODO: implement me
 }
 
+void CocoaWindowBackend::SetHint(const StdXX::String &text)
+{
+	NSString* tmp;
+	if(text.IsEmpty())
+		tmp = [[NSString new] autorelease];
+	else
+		tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	[[this->cocoaWindow contentView] setToolTip:tmp];
+}
+
 void CocoaWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 	//TODO: implement me
@@ -203,32 +213,12 @@ void CocoaWindowBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaWindowBackend::ResetView() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaWindowBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaWindowBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaWindowBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaWindowBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaWindowBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

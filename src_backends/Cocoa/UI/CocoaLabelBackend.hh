@@ -29,7 +29,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CocoaLabelBackend(StdXX::UIBackend *uiBackend, StdXX::UI::Label *label);
+		CocoaLabelBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Label *label);
 
 		//Destructor
 		~CocoaLabelBackend();
@@ -55,12 +55,7 @@ namespace _stdxx_
 
 		//OLD STUFF
 		void Repaint() override;
-
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		void ResetView() const override;
 		//END OLD STUFF
 
 	private:

@@ -18,10 +18,10 @@
  */
 //Class header
 #include "CocoaSpinBoxBackend.hh"
-#import "CocoaEventSource.hh"
-#include <Std++/UI/Controls/SpinBox.hpp>
 //Local
 #include <Std++/UI/Events/ValueChangedEvent.hpp>
+#import "CocoaEventSource.hh"
+#include <Std++/UI/Controls/SpinBox.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -106,7 +106,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaSpinBoxBackend::CocoaSpinBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::SpinBox *spinBox)
+CocoaSpinBoxBackend::CocoaSpinBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::SpinBox *spinBox)
 		: SpinBoxBackend(uiBackend), WidgetBackend(uiBackend), spinBox(spinBox)
 {
 	this->textField = [[NSTextField alloc] init];
@@ -167,6 +167,17 @@ void CocoaSpinBoxBackend::SetEnabled(bool enable)
 {
 	[this->textField setEnabled:enable];
 	[this->stepper setEnabled:enable];
+}
+
+void CocoaSpinBoxBackend::SetHint(const StdXX::String &text)
+{
+	NSString* tmp;
+	if(text.IsEmpty())
+		tmp = [[NSString new] autorelease];
+	else
+		tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	[this->textField setToolTip:tmp];
+	[this->stepper setToolTip:tmp];
 }
 
 void CocoaSpinBoxBackend::SetRange(int32 min, int32 max)
@@ -231,27 +242,7 @@ void CocoaSpinBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaSpinBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSpinBoxBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSpinBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSpinBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSpinBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

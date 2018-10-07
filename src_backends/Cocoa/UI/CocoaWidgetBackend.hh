@@ -27,7 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CocoaWidgetBackend(StdXX::UIBackend *uiBackend) : WidgetBackend(uiBackend)
+		inline CocoaWidgetBackend(StdXX::UIBackend& uiBackend) : WidgetBackend(uiBackend)
 		{
 		}
 
@@ -38,6 +38,7 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 		virtual void SetBounds(const StdXX::Math::RectD &area) override;
 		virtual void SetEnabled(bool enable) override;
+		virtual void SetHint(const StdXX::String &text) override;
 		virtual void Show(bool visible) override;
 	};
 }

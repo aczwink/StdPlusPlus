@@ -18,6 +18,7 @@
  */
 //Class header
 #include "CocoaPushButtonBackend.hh"
+//Local
 #import "CocoaEventSource.hh"
 //Namespaces
 using namespace _stdxx_;
@@ -46,7 +47,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaPushButtonBackend::CocoaPushButtonBackend(UIBackend *uiBackend, PushButton *pushButton) : PushButtonBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), pushButton(pushButton)
+CocoaPushButtonBackend::CocoaPushButtonBackend(UIBackend& uiBackend, PushButton *pushButton) : PushButtonBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), pushButton(pushButton)
 {
 	this->cocoaButton = [[CocoaPushButton alloc] initWithBackend:this];
 	[this->cocoaButton setBezelStyle:NSRoundedBezelStyle];
@@ -115,27 +116,7 @@ void CocoaPushButtonBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaPushButtonBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaPushButtonBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaPushButtonBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaPushButtonBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaPushButtonBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

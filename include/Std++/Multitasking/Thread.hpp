@@ -39,23 +39,16 @@ namespace StdXX
     {
     public:
         //Constructors
-        inline Thread()
+        inline Thread() : systemHandle(nullptr), isAlive(false), function(nullptr)
 		{
-			this->systemHandle = nullptr;
-			this->function = nullptr;
 		}
 
-        inline Thread(ThreadFunction func)
+        inline Thread(ThreadFunction func) : systemHandle(nullptr), isAlive(false), function(func)
 		{
-			this->systemHandle = nullptr;
-			this->function = func;
 		}
 
-		inline Thread(const Function<int32()> &function)
+		inline Thread(const Function<int32()> &function) : systemHandle(nullptr), isAlive(false), function(nullptr), functor(function)
 		{
-			this->systemHandle = nullptr;
-			this->function = nullptr;
-			this->functor = function;
 		}
 
         //Destructor
@@ -64,25 +57,38 @@ namespace StdXX
         //Methods
 		/*
 		 * Waits for this thread at least 'duration' nanoseconds to terminate.
-		 * Returns true if the thread still lives after that duration i.e. timeout elapsed before the thread terminated.
-		 * Returns false if the thread terminated before the timeout.
+		 * This call blocks until the thread terminated or the timeout elapsed.
 		*/
-        bool Join(uint64 duration = Natural<uint64>::Max());
+        void Join(uint64 duration = Natural<uint64>::Max());
 		void Start();
 
 		//Inline
-		inline bool Join_ms(uint64 ms)
+		inline void Join_ms(uint64 ms)
 		{
-			return this->Join(ms * 1000 * 1000);
+			this->Join(ms * 1000 * 1000);
 		}
 
-    private:
+		/**
+		 * Returns true if the thread has been started and has not yet terminated.
+		 * Returns false otherwise.
+		 * @return
+		 */
+		inline bool IsAlive() const
+		{
+			return this->isAlive;
+		}
+
+	private:
         //Members
         void *systemHandle;
+		bool isAlive;
 		ThreadFunction function;
 		Function<int32()> functor;
 
-        //Overrideable
-        virtual int32 ThreadMain();
+		//Overrideable
+		virtual void Run();
+
+        //Methods
+        int32 ThreadMain();
     };
 }

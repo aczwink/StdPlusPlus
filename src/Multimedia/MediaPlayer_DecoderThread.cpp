@@ -70,7 +70,7 @@ Packet *DecoderThread::GetNextInputPacket()
 	return pPacket;
 }
 
-int32 DecoderThread::ThreadMain()
+void DecoderThread::Run()
 {
 	while(true)
 	{
@@ -150,8 +150,6 @@ int32 DecoderThread::ThreadMain()
 	}
 
 	this->working = false;
-
-	return EXIT_SUCCESS;
 }
 
 bool DecoderThread::WaitForWork()

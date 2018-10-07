@@ -22,7 +22,7 @@
 #include <time.h>
 
 //Namespace functions
-void StdPlusPlus::Sleep(uint64 duration)
+void StdXX::Sleep(uint64 duration)
 {
 	timespec request;
 

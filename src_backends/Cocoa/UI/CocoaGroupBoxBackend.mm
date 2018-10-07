@@ -29,7 +29,7 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend *uiBackend, GroupBox *groupBox) : CocoaWidgetBackend(uiBackend), GroupBoxBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
+CocoaGroupBoxBackend::CocoaGroupBoxBackend(UIBackend& uiBackend, GroupBox *groupBox) : CocoaWidgetBackend(uiBackend), GroupBoxBackend(uiBackend), WidgetContainerBackend(uiBackend), WidgetBackend(uiBackend), groupBox(groupBox)
 {
 	this->cocoaGroupBox = [[NSBox alloc] init];
 	[this->cocoaGroupBox setTitle:[NSString new]];
@@ -143,27 +143,7 @@ void CocoaGroupBoxBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaGroupBoxBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaGroupBoxBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaGroupBoxBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

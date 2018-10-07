@@ -124,12 +124,21 @@ MediaPlayer::~MediaPlayer()
 	this->HaltPlayback();
 
 	//wait for threads to terminate
-	while (this->demuxerThread.Join_ms(1))
+	while (this->demuxerThread.IsAlive())
+	{
 		this->ShutdownThreads();
-	while (this->audioDecodeThread.Join_ms(1))
+		this->demuxerThread.Join_ms(1);
+	}
+	while (this->audioDecodeThread.IsAlive())
+	{
 		this->ShutdownThreads();
-	while (this->videoDecodeThread.Join_ms(1))
+		this->audioDecodeThread.Join_ms(1);
+	}
+	while (this->videoDecodeThread.IsAlive())
+	{
 		this->ShutdownThreads();
+		this->videoDecodeThread.Join_ms(1);
+	}
 
 	//
 	delete this->demuxer;
@@ -213,9 +222,9 @@ void MediaPlayer::Play()
 	{
 		this->isPlaying = true;
 
-		this->demuxerThread.Run();
-		this->audioDecodeThread.Run();
-		this->videoDecodeThread.Run();
+		this->demuxerThread.Work();
+		this->audioDecodeThread.Work();
+		this->videoDecodeThread.Work();
 
 		this->clock.Start();
 		this->masterClockTimer.OneShot(1);

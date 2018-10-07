@@ -79,7 +79,7 @@ namespace _stdxx_
 			this->inputPacketQueueLock.Unlock();
 		}
 
-		inline void Run()
+		inline void Work()
 		{
 			this->work = true;
 			this->workLock.Lock();
@@ -116,7 +116,7 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::Multimedia::Packet *GetNextInputPacket();
-		int32 ThreadMain();
+		void Run() override;
 		bool WaitForWork();
 
 		//Inline
@@ -151,7 +151,7 @@ namespace _stdxx_
 			this->videoDecodeThread = videoDecodeThread;
 		}
 
-		inline void Run()
+		inline void Work()
 		{
 			this->work = true;
 			this->workLock.Lock();
@@ -190,7 +190,7 @@ namespace _stdxx_
 		DecoderThread *videoDecodeThread;
 
 		//Methods
-		int32 ThreadMain();
+		void Run() override;
 	};
 }
 

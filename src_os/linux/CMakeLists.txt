@@ -11,7 +11,4 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.cpp
 
-	#Time
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
-
 	PARENT_SCOPE)

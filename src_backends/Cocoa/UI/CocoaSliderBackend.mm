@@ -47,7 +47,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaSliderBackend::CocoaSliderBackend(UIBackend *uiBackend, Slider *slider) : SliderBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), slider(slider)
+CocoaSliderBackend::CocoaSliderBackend(UIBackend& uiBackend, Slider *slider) : SliderBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), slider(slider)
 {
 	this->cocoaSlider = [[CocoaSlider alloc] initWithBackend:this];
 	[this->cocoaSlider setTarget:this->cocoaSlider];
@@ -119,27 +119,7 @@ void CocoaSliderBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaSliderBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaSliderBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaSliderBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

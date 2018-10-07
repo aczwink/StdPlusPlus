@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,23 +18,32 @@
  */
 //Class header
 #include <Std++/Multitasking/Thread.hpp>
+//Global
+#include <pthread.h>
+//Local
+#include <Std++/Mathematics.hpp>
+#include <Std++/Time/Clock.hpp>
+#include <Std++/Time/TimeMisc.hpp>
 //Namespaces
 using namespace StdXX;
 
-//Private methods
-void Thread::Run()
+//Public methods
+void Thread::Join(uint64 duration)
 {
-	if(this->function)
-		this->function();
-	else if(this->functor.IsBound())
-		this->functor();
-}
+	Clock c;
 
-int32 Thread::ThreadMain()
-{
-	this->isAlive = true;
-	this->Run();
-	this->isAlive = false;
+	c.Start();
+	while(this->IsAlive() && (duration != 0))
+	{
+		uint64 sleepDur = Math::Min(uint64(1000), duration); //sleep for max one micro sec
+		Sleep(sleepDur);
 
-	return EXIT_SUCCESS;
+		uint64 timeSlept = c.GetElapsedNanoseconds();
+		if(timeSlept > duration)
+			duration = 0;
+		else
+			duration -= timeSlept;
+		c.Start();
+	}
+	//pthread_join((pthread_t) this->systemHandle, nullptr);
 }

@@ -27,7 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CocoaScrollAreaBackend(StdXX::UIBackend *uiBackend, StdXX::UI::ScrollArea& scrollArea)
+		inline CocoaScrollAreaBackend(StdXX::UIBackend& uiBackend, StdXX::UI::ScrollArea& scrollArea)
 				: ContentAreaWidgetBackend(uiBackend), WidgetContainerBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend),
 				  scrollArea(scrollArea)
 		{
@@ -50,14 +50,6 @@ namespace _stdxx_
 		void Repaint() override;
 
 		void SetEditable(bool enable) const override;
-
-		void SetHint(const StdXX::String &text) const override;
-
-		void ResetView() const override;
-
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
-
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 		//END OF NOT IMPLEMENTED
 
 	private:

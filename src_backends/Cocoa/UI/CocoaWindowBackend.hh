@@ -42,7 +42,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CocoaWindowBackend(StdXX::UIBackend *uiBackend, StdXX::UI::Window *window);
+		CocoaWindowBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Window *window);
 
 		//Destructor
 		~CocoaWindowBackend();
@@ -58,6 +58,7 @@ namespace _stdxx_
 		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEnabled(bool enable) override;
+		void SetHint(const StdXX::String &text) override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void SetTitle(const StdXX::String &title) override;
 		void Show(bool visible) override;
@@ -74,12 +75,8 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		NSView *GetView() const;
 		void Repaint() override;
-		void ResetView() const override;
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
 		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
 		void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
 		//END OLD STUFF
 

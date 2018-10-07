@@ -22,6 +22,7 @@ set(SOURCE_FILES
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.cpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp

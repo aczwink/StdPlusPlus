@@ -43,3 +43,13 @@ void CocoaWidgetBackend::Show(bool visible)
 {
 	[this->GetView() setHidden:!visible];
 }
+
+void CocoaWidgetBackend::SetHint(const StdXX::String &text)
+{
+	NSString* tmp;
+	if(text.IsEmpty())
+		tmp = [[NSString new] autorelease];
+	else
+		tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	[this->GetView() setToolTip:tmp];
+}

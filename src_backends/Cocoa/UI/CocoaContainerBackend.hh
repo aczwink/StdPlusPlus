@@ -32,7 +32,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CocoaContainerBackend(StdXX::UIBackend *uiBackend, StdXX::UI::WidgetContainer& widgetContainer, NSView *view)
+		inline CocoaContainerBackend(StdXX::UIBackend& uiBackend, StdXX::UI::WidgetContainer& widgetContainer, NSView *view)
 				: WidgetContainerBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend),
 				  widgetContainer(widgetContainer), view(view)
 		{
@@ -57,12 +57,7 @@ namespace _stdxx_
 
 		//OLD STUFF:
 		void Repaint() override;
-
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		void ResetView() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		//END OF OLD STUFF
 

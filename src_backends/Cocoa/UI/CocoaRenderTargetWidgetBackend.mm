@@ -123,7 +123,7 @@ using namespace StdXX::UI;
 @end
 
 //Constructor
-CocoaRenderTargetWidgetBackend::CocoaRenderTargetWidgetBackend(UIBackend *uiBackend, Widget *widget) : CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), widget(widget)
+CocoaRenderTargetWidgetBackend::CocoaRenderTargetWidgetBackend(UIBackend& uiBackend, Widget *widget) : CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), widget(widget)
 {
 	this->openGLView = [[OpenGLView alloc] initWithBackend:this];
 }
@@ -167,27 +167,7 @@ void CocoaRenderTargetWidgetBackend::Repaint()
 
 
 //OLD STUFF:
-void CocoaRenderTargetWidgetBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaRenderTargetWidgetBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaRenderTargetWidgetBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

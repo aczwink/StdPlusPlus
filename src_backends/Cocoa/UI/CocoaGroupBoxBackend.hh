@@ -30,7 +30,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CocoaGroupBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::GroupBox *groupBox);
+		CocoaGroupBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::GroupBox *groupBox);
 
 		//Destructor
 		~CocoaGroupBoxBackend();
@@ -43,6 +43,7 @@ namespace _stdxx_
 		//using WidgetBackend::GetUIBackend;
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
 		void SetTitle(const StdXX::String &title) override;
 
 
@@ -51,13 +52,7 @@ namespace _stdxx_
 
 		//OLD STUFF
 		void Repaint() override;
-
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		void ResetView() const override;
-		const StdXX::UI::Widget &GetWidget() const override;
 		//END OF OLD STUFF
 
 	private:

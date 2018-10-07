@@ -26,7 +26,7 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CocoaLabelBackend::CocoaLabelBackend(UIBackend *uiBackend, Label *label) : LabelBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), label(label)
+CocoaLabelBackend::CocoaLabelBackend(UIBackend& uiBackend, Label *label) : LabelBackend(uiBackend), CocoaWidgetBackend(uiBackend), WidgetBackend(uiBackend), label(label)
 {
 	this->textField = [[NSTextField alloc] init];
 	[this->textField setBezeled:NO];
@@ -92,27 +92,7 @@ void CocoaLabelBackend::Repaint()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void CocoaLabelBackend::Select(StdXX::UI::ControllerIndex &controllerIndex) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void CocoaLabelBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::SetHint(const StdXX::String &text) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::UpdateSelection(StdXX::UI::SelectionController &selectionController) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void CocoaLabelBackend::ResetView() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -46,7 +46,7 @@ NSAutoreleasePool *g_autoreleasePool;
 //Public methods
 CheckBoxBackend *StdXX::CocoaBackend::CreateCheckBoxBackend(CheckBox *checkBox)
 {
-	return new CocoaCheckBoxBackend(this, checkBox);
+	return new CocoaCheckBoxBackend(*this, checkBox);
 }
 
 StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
@@ -56,12 +56,12 @@ StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
 
 GroupBoxBackend *CocoaBackend::CreateGroupBoxBackend(GroupBox * groupBox)
 {
-	return new CocoaGroupBoxBackend(this, groupBox);
+	return new CocoaGroupBoxBackend(*this, groupBox);
 }
 
 LabelBackend *CocoaBackend::CreateLabelBackend(UI::Label *label)
 {
-	return new CocoaLabelBackend(this, label);
+	return new CocoaLabelBackend(*this, label);
 }
 
 MenuBackend *StdXX::CocoaBackend::CreateMenuBackend(StdXX::UI::Menu *menu)
@@ -77,32 +77,38 @@ MenuBarBackend *StdXX::CocoaBackend::CreateMenuBarBackend(StdXX::UI::MenuBar *me
 
 PushButtonBackend *CocoaBackend::CreatePushButtonBackend(UI::PushButton *pushButton)
 {
-	return new CocoaPushButtonBackend(this, pushButton);
+	return new CocoaPushButtonBackend(*this, pushButton);
 }
 
 WidgetBackend *CocoaBackend::CreateRenderTargetWidgetBackend(RenderTargetWidget *renderTargetWidget)
 {
-	return new CocoaRenderTargetWidgetBackend(this, renderTargetWidget);
+	return new CocoaRenderTargetWidgetBackend(*this, renderTargetWidget);
 }
 
 ContentAreaWidgetBackend *CocoaBackend::CreateScrollAreaBackend(UI::ScrollArea *scrollArea)
 {
-	return new CocoaScrollAreaBackend(this, *scrollArea);
+	return new CocoaScrollAreaBackend(*this, *scrollArea);
+}
+
+ViewBackend *CocoaBackend::CreateSelectBoxBackend(UI::SelectBox &selectBox)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
 }
 
 SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider *slider)
 {
-	return new CocoaSliderBackend(this, slider);
+	return new CocoaSliderBackend(*this, slider);
 }
 
 SpinBoxBackend *CocoaBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
 {
-	return new CocoaSpinBoxBackend(this, spinBox);
+	return new CocoaSpinBoxBackend(*this, spinBox);
 }
 
 WindowBackend *StdXX::CocoaBackend::CreateWindowBackend(Window *window)
 {
-	return new CocoaWindowBackend(this, window);
+	return new CocoaWindowBackend(*this, window);
 }
 
 void StdXX::CocoaBackend::Load()

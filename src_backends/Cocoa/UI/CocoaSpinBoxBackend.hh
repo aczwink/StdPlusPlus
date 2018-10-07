@@ -55,7 +55,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		CocoaSpinBoxBackend(StdXX::UIBackend *uiBackend, StdXX::UI::SpinBox *spinBox);
+		CocoaSpinBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::SpinBox *spinBox);
 
 		//Destructor
 		~CocoaSpinBoxBackend();
@@ -71,6 +71,7 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEnabled(bool enable) override;
+		void SetHint(const StdXX::String &text) override;
 		void SetRange(int32 min, int32 max) override;
 		void SetValue(int32 value) override;
 		void Show(bool visible) override;
@@ -94,12 +95,7 @@ namespace _stdxx_
 
 		//OLD STUFF
 		void Repaint() override;
-
-		void Select(StdXX::UI::ControllerIndex &controllerIndex) const override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String &text) const override;
-		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const override;
-		void ResetView() const override;
 		//END OF OLD STUFF
 
 	private:

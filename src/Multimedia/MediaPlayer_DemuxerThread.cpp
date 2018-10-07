@@ -37,7 +37,7 @@ DemuxerThread::DemuxerThread(MediaPlayer *player)
 }
 
 //Private methods
-int32 DemuxerThread::ThreadMain()
+void DemuxerThread::Run()
 {
 	this->demuxer = this->player->GetDemuxer();
 
@@ -83,6 +83,4 @@ int32 DemuxerThread::ThreadMain()
 	}
 
 	this->working = false;
-
-	return EXIT_SUCCESS;
 }
