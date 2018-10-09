@@ -26,19 +26,6 @@
 using namespace StdXX;
 
 //Local functions
-static DWORD WINAPI RunThreadByFuncPointer(LPVOID pFuncPtr)
-{
-	return ((ThreadFunction)pFuncPtr)();
-}
-
-static DWORD WINAPI RunThreadByFunctor(LPVOID pFunction)
-{
-	Function<int32()> *pFunctionTyped = (Function<int32()> *)pFunction;
-	int32 exitCode = (*pFunctionTyped)();
-	
-	return exitCode;
-}
-
 static DWORD WINAPI RunThreadByClassMethod(LPVOID pFunction)
 {
 	Function<int32()> *pFunctionTyped = (Function<int32()> *)pFunction;
@@ -55,12 +42,12 @@ Thread::~Thread()
 }
 
 //Public methods
-bool Thread::Join(uint64 duration)
+void Thread::Join(uint64 duration)
 {
 	DWORD ms = duration / 1000 / 1000;
 	if ((ms == 0) && (duration != 0))
 		ms = 1;
-	return WaitForSingleObject(this->systemHandle, ms) == WAIT_TIMEOUT;
+	WaitForSingleObject(this->systemHandle, ms);
 }
 
 void Thread::Start()
@@ -68,15 +55,7 @@ void Thread::Start()
 	ASSERT(this->systemHandle == nullptr, "Can't start an already started thread");
 	
 	DWORD threadId;
-	if (this->function)
-		this->systemHandle = CreateThread(nullptr, 0, RunThreadByFuncPointer, this->function, 0, &threadId);
-	else if (this->functor.IsBound())
-	{
-		this->systemHandle = CreateThread(nullptr, 0, RunThreadByFunctor, (void *)&this->functor, 0, &threadId);
-	}
-	else
-	{
-		Function<int32()> *pFunction = new Function<int32()>(&Thread::ThreadMain, this);
-		this->systemHandle = CreateThread(nullptr, 0, RunThreadByClassMethod, pFunction, 0, &threadId);
-	}
+	
+	Function<int32()> *pFunction = new Function<int32()>(&Thread::ThreadMain, this);
+	this->systemHandle = CreateThread(nullptr, 0, RunThreadByClassMethod, pFunction, 0, &threadId);
 }

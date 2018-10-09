@@ -206,6 +206,7 @@ namespace StdXX
 	{
 		class STDPLUSPLUS_API MediaPlayer
 		{
+			static const uint8 c_nAudioBuffers = 3;
 		public:
 			//Constructor
 			MediaPlayer(SeekableInputStream &inputStream);
@@ -226,6 +227,11 @@ namespace StdXX
 			inline const Map<uint32, AudioStream*>& GetAudioStreams() const
 			{
 				return this->audioStreams;
+			}
+
+			inline const Map<uint32, SubtitleStream*>& GetSubtitleStreams() const
+			{
+				return this->subtitleStreams;
 			}
 
 			inline const Map<uint32, VideoStream*>& GetVideoStreams() const
@@ -281,8 +287,8 @@ namespace StdXX
 			 */
 			int64 videoFrameDelay;
 			UI::VideoWidget *videoWidget;
-			AutoPointer<AudioDevice> audioDevice;
 			UniquePointer<Audio::DeviceContext> audioDeviceContext;
+			UniquePointer<Audio::Buffer> audioBuffers[c_nAudioBuffers];
 
 			_stdxx_::DemuxerThread demuxerThread;
 			_stdxx_::DecoderThread audioDecodeThread;

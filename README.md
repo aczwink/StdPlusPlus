@@ -28,6 +28,7 @@ Like this, code is more reusable.
 
 The following Audio-backends are currently implemented:
 * OpenAL Soft
+* XAudio2
 
 The following Codec-backends are currently implemented:
 * libavcodec (ffmpeg)

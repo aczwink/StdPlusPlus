@@ -24,6 +24,7 @@
 #include "gtk3/Gtk3Backend.hpp"
 #include "OpenCL1/OpenCL1Backend.hpp"
 #include "OpenALSoft/OpenALSoftBackend.hpp"
+#include "XAudio2/XAudio2Backend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -42,6 +43,14 @@ void RegisterAudioBackends()
 		ADD_BACKEND(backend, PRIORITY_NORMAL);
 	}
 #endif
+
+#ifdef _STDXX_BACKEND_XAUDIO2
+	{
+		XAudio2Backend* backend = new XAudio2Backend;
+		ADD_BACKEND(backend, PRIORITY_NORMAL);
+	}
+#endif
+
 #undef ADD_BACKEND
 }
 

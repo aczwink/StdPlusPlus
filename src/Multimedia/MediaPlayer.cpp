@@ -103,11 +103,19 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	}
 
 	//get audio device context
-	DeviceEnumerator deviceEnumerator(DeviceType::Audio);
-	this->audioDevice = deviceEnumerator.GetNextDevice().Cast<AudioDevice>();
-	if (!this->audioDevice.IsNull())
+	if (!this->audioStreams.IsEmpty())
 	{
-		this->audioDeviceContext = this->audioDevice->CreateDeviceContext();
+		DeviceEnumerator deviceEnumerator(DeviceType::Audio);
+		AutoPointer<Device> audioDevice = deviceEnumerator.GetNextDevice();
+		if (!audioDevice.IsNull())
+		{
+			this->audioDeviceContext = audioDevice.Cast<AudioDevice>()->CreateDeviceContext();
+
+			for (uint8 i = 0; i < c_nAudioBuffers; i++)
+			{
+				this->audioBuffers[i] = this->audioDeviceContext->CreateBuffer();
+			}
+		}
 	}
 
 	this->demuxerThread.Connect(&this->audioDecodeThread, &this->videoDecodeThread);

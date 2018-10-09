@@ -2,6 +2,7 @@ add_subdirectory(libavcodec)
 add_subdirectory(OpenALSoft)
 add_subdirectory(OpenCL1)
 add_subdirectory(OpenGL3Core)
+add_subdirectory(XAudio2)
 
 add_subdirectory(Cocoa)
 add_subdirectory(CommCtrl)
