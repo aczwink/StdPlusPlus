@@ -27,7 +27,6 @@ namespace StdXX
 		enum class SpeakerPosition
 		{
 			Unknown,
-			Front_Center,
 			Front_Left,
 			Front_Right,
 		};
@@ -75,12 +74,12 @@ namespace StdXX
 			//Operators
 			inline bool operator==(const AudioSampleFormat &other) const
 			{
-				return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->channels == other.channels);
+				return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->sampleType == other.sampleType) && (this->channels == other.channels);
 			}
 
 			inline bool operator!=(const AudioSampleFormat& other) const
 			{
-				return (*this == other);
+				return !(*this == other);
 			}
 
 			//Methods

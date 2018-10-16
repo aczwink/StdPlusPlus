@@ -17,24 +17,45 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Global
+#include <XAudio2.h>
 //Local
-#include <Std++/Definitions.h>
+#include <Std++/Audio/Buffer.hpp>
 
-namespace StdXX
+class XAudio2Buffer : public StdXX::Audio::Buffer
 {
-	namespace Audio
+public:
+	//Constructor
+	inline XAudio2Buffer() : audioBuffer({}), data(nullptr)
 	{
-		class Buffer
-		{
-		public:
-			//Destructor
-			virtual ~Buffer(){}
-
-			//Abstract
-			/*
-			 * Fills the buffer with 16-bit signed PCM samples.
-			 */
-			virtual void SetData(void *data, uint32 size, uint32 sampleRate, uint8 nChannels) = 0;
-		};
 	}
-}
+
+	//Destructor
+	~XAudio2Buffer();
+
+	//Methods
+	void SetData(void * data, uint32 size, uint32 sampleRate, uint8 nChannels) override;
+
+	//Inline
+	inline const XAUDIO2_BUFFER& GetNativeBuffer() const
+	{
+		return this->audioBuffer;
+	}
+
+	inline uint8 GetNumberOfChannels() const
+	{
+		return this->nChannels;
+	}
+
+	inline uint32 GetSampleRate() const
+	{
+		return this->sampleRate;
+	}
+
+private:
+	//Members
+	XAUDIO2_BUFFER audioBuffer;
+	void* data;
+	uint32 sampleRate;
+	uint8 nChannels;
+};

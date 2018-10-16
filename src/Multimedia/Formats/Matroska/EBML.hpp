@@ -48,6 +48,7 @@ namespace StdXX
 			uint64 dataSize;
 			uint8 headerSize;
 			DataType dataType;
+			uint32 crc32;
 
 			struct
 			{
@@ -66,6 +67,7 @@ namespace StdXX
 			EBML_ID_DOCTYPE = 0x4282,
 			EBML_ID_DOCTYPEVERSION = 0x4287,
 			EBML_ID_DOCTYPEREADVERSION = 0x4285,
+			EBML_ID_CRC32 = 0xBF,
 		};
 
 		struct Header

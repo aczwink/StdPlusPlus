@@ -58,4 +58,15 @@ namespace StdXX
             return ((int32)-2147483648);
         }
     };
+
+	template<>
+	class Integer<int64>
+	{
+	public:
+		//Expressions
+		static constexpr int64 Max()
+		{
+			return int64(0x7FFFFFFFFFFFFFFF);
+		}
+	};
 }

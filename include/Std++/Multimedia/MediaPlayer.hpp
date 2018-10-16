@@ -226,7 +226,7 @@ namespace StdXX
 
 			inline const Map<uint32, AudioStream*>& GetAudioStreams() const
 			{
-				return this->audioStreams;
+				return this->audio.streams;
 			}
 
 			inline const Map<uint32, SubtitleStream*>& GetSubtitleStreams() const
@@ -236,7 +236,7 @@ namespace StdXX
 
 			inline const Map<uint32, VideoStream*>& GetVideoStreams() const
 			{
-				return this->videoStreams;
+				return this->video.streams;
 			}
 
 			inline bool IsPlaying() const
@@ -246,21 +246,21 @@ namespace StdXX
 
 			inline void SetAudioStreamIndex(uint32 streamIndex)
 			{
-				this->audioStreamIndex = streamIndex;
-				this->demuxerThread.SetStreamIndices(this->videoStreamIndex, this->audioStreamIndex);
-				this->audioDecodeThread.SetStreamIndex(this->audioStreamIndex);
+				this->audio.activeStreamIndex = streamIndex;
+				this->demuxerThread.SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
+				this->audio.decodeThread->SetStreamIndex(this->audio.activeStreamIndex);
 			}
 
 			inline void SetVideoOutput(UI::VideoWidget *videoWidget)
 			{
-				this->videoWidget = videoWidget;
+				this->video.outputWidget = videoWidget;
 			}
 
 			inline void SetVideoStreamIndex(uint32 streamIndex)
 			{
-				this->videoStreamIndex = streamIndex;
-				this->demuxerThread.SetStreamIndices(this->videoStreamIndex, this->audioStreamIndex);
-				this->videoDecodeThread.SetStreamIndex(this->videoStreamIndex);
+				this->video.activeStreamIndex = streamIndex;
+				this->demuxerThread.SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
+				this->video.decodeThread->SetStreamIndex(this->video.activeStreamIndex);
 			}
 
 		private:
@@ -268,11 +268,35 @@ namespace StdXX
 			SeekableInputStream &inputStream;
 			const Format *format;
 			Demuxer *demuxer;
-			Map<uint32, AudioStream *> audioStreams;
-			uint32 audioStreamIndex;
+			struct
+			{
+				Map<uint32, AudioStream *> streams;
+				uint32 activeStreamIndex;
+				Packet *nextPacket;
+
+				UniquePointer<Audio::DeviceContext> deviceContext;
+				UniquePointer<Audio::Source> source;
+				UniquePointer<Audio::Buffer> buffers[c_nAudioBuffers];
+				uint64 bufferDurations[c_nAudioBuffers];
+				uint8 nextBufferIndex;
+				uint64 lastPTS;
+				UniquePointer<_stdxx_::DecoderThread> decodeThread;
+			} audio;
 			Map<uint32, SubtitleStream *> subtitleStreams;
-			Map<uint32, VideoStream *> videoStreams;
-			uint32 videoStreamIndex;
+			struct
+			{
+				Map<uint32, VideoStream *> streams;
+				uint32 activeStreamIndex;
+				Packet *nextPacket;
+				/**
+				 * In microseconds.
+				 * Time until nextPacket should be presented.
+				 */
+				int64 frameDelay;
+
+				UI::VideoWidget *outputWidget;
+				UniquePointer<_stdxx_::DecoderThread> decodeThread;
+			} video;
 			bool isPlaying;
 			StdXX::Clock clock;
 			/**
@@ -280,19 +304,8 @@ namespace StdXX
 			 */
 			uint64 masterClock;
 			Timer masterClockTimer;
-			Packet *nextVideoPacket;
-			/**
-			 * In microseconds.
-			 * Time until nextVideoPacket should be presented.
-			 */
-			int64 videoFrameDelay;
-			UI::VideoWidget *videoWidget;
-			UniquePointer<Audio::DeviceContext> audioDeviceContext;
-			UniquePointer<Audio::Buffer> audioBuffers[c_nAudioBuffers];
 
 			_stdxx_::DemuxerThread demuxerThread;
-			_stdxx_::DecoderThread audioDecodeThread;
-			_stdxx_::DecoderThread videoDecodeThread;
 
 			//Eventhandlers
 			void OnMasterClockTriggered();

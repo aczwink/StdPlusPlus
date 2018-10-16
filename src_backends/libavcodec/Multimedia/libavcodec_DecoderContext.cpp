@@ -147,7 +147,11 @@ void libavcodec_DecoderContext::MapAudioFrame()
 	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *audioStream.sampleFormat);
 	for (uint8 i = 0; i < audioStream.sampleFormat->nPlanes; i++)
 	{
-		MemCopy(audioBuffer->GetPlane(i), this->frame->data[i], Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
+		auto libav_lineSize = this->frame->linesize[i];
+		if (libav_lineSize == 0) //The official doc tells us "For audio, only linesize[0] may be set. For planar audio, each channel plane must be the same size.". How is this ugly....
+			libav_lineSize = this->frame->linesize[0];
+
+		MemCopy(audioBuffer->GetPlane(i), this->frame->data[i], Math::Min((uint32)libav_lineSize, audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}
 
 	AudioFrame *audioFrame = new AudioFrame(audioBuffer);

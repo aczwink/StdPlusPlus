@@ -34,14 +34,16 @@ namespace StdXX
 			virtual ~Source(){}
 
 			//Abstract
+			virtual void EnqueueBuffer(const Buffer& buffer) = 0;
+			virtual uint32 GetNumberOfQueuedBuffers() const = 0;
 			virtual bool IsPlaying() const = 0;
 			virtual void Play() = 0;
-			virtual void SetBuffer(const Buffer *buffer) = 0;
 			virtual void SetGain(float32 gain) = 0;
 			virtual void SetLooping(bool loop) = 0;
 			virtual void SetPitch(float32 pitch) = 0;
 			virtual void SetPosition(const Math::Vector3s &pos) = 0;
 			virtual void SetVelocity(const Math::Vector3s &vel) = 0;
+			virtual void Stop() = 0;
 		};
 	}
 }

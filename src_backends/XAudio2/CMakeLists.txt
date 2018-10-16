@@ -16,8 +16,12 @@ if(${BACKEND_XAUDIO2})
 		${SOURCE_FILES}
 
 		#Audio
+		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2Buffer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2Buffer.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2DeviceContext.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2DeviceContext.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2Source.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Audio/XAudio2Source.hpp
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/XAudio2Backend.hpp

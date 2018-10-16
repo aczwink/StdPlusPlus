@@ -18,6 +18,9 @@
  */
 //Class header
 #include "XAudio2DeviceContext.hpp"
+//Local
+#include "XAudio2Buffer.hpp"
+#include "XAudio2Source.hpp"
 
 //Constructor
 XAudio2DeviceContext::XAudio2DeviceContext(IXAudio2* pXAudio2, LPWSTR deviceId) : pXAudio2(pXAudio2)
@@ -31,20 +34,18 @@ XAudio2DeviceContext::XAudio2DeviceContext(IXAudio2* pXAudio2, LPWSTR deviceId) 
 //Destructor
 XAudio2DeviceContext::~XAudio2DeviceContext()
 {
-	delete this->pXAudio2MasteringVoice;
+	this->pXAudio2MasteringVoice->DestroyVoice();
 }
 
 //Public methods
 Buffer * XAudio2DeviceContext::CreateBuffer()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new XAudio2Buffer();
 }
 
 Source * XAudio2DeviceContext::CreateSource()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new XAudio2Source(this->pXAudio2);
 }
 
 void XAudio2DeviceContext::SetListenerOrientation(const Math::Vector3s & at, const Math::Vector3s & up)

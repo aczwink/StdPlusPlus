@@ -77,6 +77,22 @@ void EBML::ParseElementHeader(Element &element, SeekableInputStream &inputStream
 	element.dataOffset = inputStream.GetCurrentOffset();
 
 	element.dataType = DataType::Unknown;
+	element.crc32 = Natural<uint32>::Max();
+
+	//special elements
+	switch (element.id)
+	{
+	case EBML_ID_CRC32:
+	{
+		DataReader reader(false, inputStream); //the crc32 is stored little endian
+		uint32 crc32 = reader.ReadUInt32();
+		uint32 crc32ElementSize = element.headerSize + element.dataSize;
+		ParseElementHeader(element, inputStream);
+		element.crc32 = crc32;
+		element.headerSize += crc32ElementSize;
+	}
+	break;
+	}
 }
 
 bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
