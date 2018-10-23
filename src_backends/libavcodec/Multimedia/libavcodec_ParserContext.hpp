@@ -30,7 +30,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_ParserContext(AVCodecID libavCodecId);
+		libavcodec_ParserContext(AVCodecID libavCodecId, StdXX::Multimedia::Stream& stream);
 
 		//Destructor
 		~libavcodec_ParserContext();

@@ -40,11 +40,13 @@ namespace StdXX
 			Unknown = -1,
 
 			//Audio codecs
+			AAC = 0xFF, //https://docs.microsoft.com/en-us/windows/desktop/medfound/audio-subtype-guids
 			MP3 = 0x55,
 			PCM_S16LE = 1,
 
 			//Video codecs
 			RawVideo = 0,
+			H264 = FOURCC(u8"H264"),
 			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
 			PNG = FOURCC(u8"png ")
 		};

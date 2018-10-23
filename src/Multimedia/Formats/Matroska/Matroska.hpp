@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Containers/Strings/String.hpp>
-#include <Std++/Containers/FIFOBuffer.hpp>
+#include <Std++/Containers/Array/DynamicArray.hpp>
 #include <Std++/Multimedia/TimeIndex.hpp>
 #include "../../CodingFormatIdMap.hpp"
 #include "EBML.hpp"
@@ -59,8 +59,11 @@ namespace Matroska
 		//Cluster
 			MATROSKA_ID_CLUSTER = 0x1F43B675,
 		MATROSKA_ID_TIMECODE = 0xE7,
+		MATROSKA_ID_BLOCKGROUP = 0xA0,
 		MATROSKA_ID_BLOCK = 0xA1,
 		MATROSKA_ID_SIMPLEBLOCK = 0xA3,
+		MATROSKA_ID_BLOCKDURATION = 0x9B,
+		MATROSKA_ID_REFERENCEBLOCK = 0xFB,
 		//Track
 			MATROSKA_ID_TRACKS = 0x1654AE6B,
 		MATROSKA_ID_TRACKENTRY = 0xAE,
@@ -122,7 +125,17 @@ namespace Matroska
 		uint64 number;
 		uint8 type;
 		String codecId;
-		FIFOBuffer codecPrivate;
+		DynamicArray<byte> codecPrivate;
+		struct
+		{
+			float64 sampleRate = 8000;
+			uint8 nChannels = 1;
+		} audio;
+		struct
+		{
+			uint16 width = 0;
+			uint16 height = 0;
+		} video;
 	};
 
 	//Functions

@@ -16,34 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-#include "Type.hpp"
+//Local
+#include <Std++/Hasher.hpp>
 
-namespace StdXX
+namespace _stdxx_
 {
-	//Functions
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type& arg) noexcept
+	class CRC32Hasher : public StdXX::Hasher
 	{
-		return static_cast<T&&>(arg);
-	}
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type&& arg) noexcept
-	{
-		return static_cast<T&&>(arg);
-	}
+	public:
+		//Constructor
+		CRC32Hasher();
+		
+		//Methods
+		uint32 GetChecksumSize() const override;
+		void Finish() override;
+		void StoreChecksum(void * target) const override;
+		void Update(const byte * buffer, uint32 size) override;
 
-	template <typename T>
-	constexpr T &&Move(T &reference)
-	{
-		return (T &&)reference;
-	}
-
-	template<typename T>
-	void Swap(T &v1, T&v2)
-	{
-		T tmp(Move(v1));
-		v1 = Move(v2);
-		v2 = Move(tmp);
-	}
+	private:
+		//Members
+		uint32 crc;
+	};
 }

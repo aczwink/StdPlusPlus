@@ -35,7 +35,7 @@ void EventQueue::System_CollectWaitObjects()
 		THIS->Push(waitObjHandle.handle);
 	};
 
-	for (const EventSource *const& source : this->sources)
+	for (EventSource *const& source : this->sources)
 	{
 		source->VisitWaitObjects(collector);
 	}

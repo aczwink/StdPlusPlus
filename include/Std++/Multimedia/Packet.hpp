@@ -32,6 +32,7 @@ namespace StdXX
 			//Members
 			uint32 streamIndex;
 			uint64 pts; //the presentation time stamp
+			uint64 duration;
 			bool containsKeyframe;
 
 			//Constructors
@@ -56,6 +57,7 @@ namespace StdXX
 
 			//Methods
 			void Allocate(uint32 size);
+			void CopyAttributesFrom(const Packet& p);
 
 			//Inline
 			inline void AllocateAdditional(uint32 size)

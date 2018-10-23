@@ -31,7 +31,10 @@ Packet::Packet()
 	this->data = nullptr;
 	this->size = 0;
 	this->capacity = 0;
+
+	this->streamIndex = Natural<uint32>::Max();
 	this->pts = Natural<uint64>::Max();
+	this->duration = Natural<uint64>::Max();;
 	this->containsKeyframe = false;
 }
 
@@ -48,10 +51,8 @@ Packet &Packet::operator=(const Packet &source)
 	this->Allocate(source.GetSize());
 	MemCopy(this->GetData(), source.GetData(), this->GetSize());
 
-	this->streamIndex = source.streamIndex;
-	this->pts = source.pts;
-	this->containsKeyframe = source.containsKeyframe;
-
+	this->CopyAttributesFrom(source);
+	
 	return *this;
 }
 
@@ -68,12 +69,9 @@ Packet &Packet::operator=(Packet &&source)
 	this->size = source.size;
 	this->capacity = source.capacity;
 	source.size = source.capacity = 0;
-
-	//copy misc info
-	this->streamIndex = source.streamIndex;
-	this->pts = source.pts;
-	this->containsKeyframe = source.containsKeyframe;
-
+	
+	this->CopyAttributesFrom(source);
+	
 	return *this;
 }
 
@@ -87,4 +85,12 @@ void Packet::Allocate(uint32 size)
 	}
 
 	this->size = size;
+}
+
+void Packet::CopyAttributesFrom(const Packet& p)
+{
+	this->streamIndex = p.streamIndex;
+	this->pts = p.pts;
+	this->duration = p.duration;
+	this->containsKeyframe = p.containsKeyframe;
 }

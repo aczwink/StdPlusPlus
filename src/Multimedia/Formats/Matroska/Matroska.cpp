@@ -18,6 +18,9 @@
  */
 //Main header
 #include "Matroska.hpp"
+//Local
+#include <Std++/Streams/HashingInputStream.hpp>
+#include "EBMLMasterReader.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX::Multimedia;
@@ -35,12 +38,10 @@ static void LoadMap()
 		loaded = true;
 
 		//Audio codecs
-		g_matroskaCodecStringMap.Insert(u8"A_AAC", CodecId::AAC);
 		g_matroskaCodecStringMap.Insert(u8"A_MPEG/L2", CodecId::MP2);
 
 		//Video codecs
 		g_matroskaCodecStringMap.Insert(u8"V_MPEG1", CodecId::MPEG1Video);
-		g_matroskaCodecStringMap.Insert(u8"V_MPEG4/ISO/AVC", CodecId::H264);
 	}
 }
 
@@ -71,7 +72,11 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 	CodingFormatIdMap<String> matroskaCodecMap;
 
 	//Audio coding formats
+	matroskaCodecMap.Insert(u8"A_AAC", CodingFormatId::AAC);
 	matroskaCodecMap.Insert(u8"A_MPEG/L3", CodingFormatId::MP3);
+
+	//Video coding formats
+	matroskaCodecMap.Insert(u8"V_MPEG4/ISO/AVC", CodingFormatId::H264);
 
 	/*
 	//audio codecs
@@ -93,18 +98,20 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 
 void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint> &index, SeekableInputStream &inputStream)
 {
-	for (uint64 childrenSize = cuesElement.dataSize; childrenSize != 0;)
+	EBML::MasterReader cuesReader(cuesElement, inputStream);
+	while(cuesReader.HasMore())
 	{
 		EBML::Element cuePoint;
-		EBML::ParseElementHeader(cuePoint, inputStream);
+		cuesReader.ReadNextChildHeader(cuePoint);
 		ASSERT(cuePoint.id == MATROSKA_ID_CUEPOINT, u8"Expected CuePoint element.");
 
 		CuePoint entry;
-		for (uint64 cuePointSize = cuePoint.dataSize; cuePointSize != 0;)
+		EBML::MasterReader cuePointReader(cuePoint, cuesReader.GetInUseInputStream());
+		while(cuePointReader.HasMore())
 		{
 			EBML::Element child;
-			EBML::ParseElementHeader(child, inputStream);
-
+			cuePointReader.ReadNextChildHeader(child);
+			
 			//set type
 			switch (child.id)
 			{
@@ -118,8 +125,8 @@ void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint
 			}
 
 			if (child.dataType != EBML::DataType::Master) //we read positions manually
-				EBML::ReadElementData(child, inputStream);
-
+				cuePointReader.ReadCurrentChildData(child);
+			
 			//set attributes
 			switch (child.id)
 			{
@@ -129,11 +136,12 @@ void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint
 			case MATROSKA_ID_CUETRACKPOSITIONS:
 			{
 				CuePointPosition pos;
-				for (uint64 posSize = child.dataSize; posSize != 0;)
+				EBML::MasterReader cuePointPosReader(child, cuePointReader.GetInUseInputStream());
+				while(cuePointPosReader.HasMore())
 				{
 					EBML::Element posChild;
-					EBML::ParseElementHeader(posChild, inputStream);
-
+					cuePointPosReader.ReadNextChildHeader(posChild);
+					
 					//set type
 					switch (posChild.id)
 					{
@@ -143,8 +151,8 @@ void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint
 						break;
 					}
 
-					EBML::ReadElementData(posChild, inputStream);
-
+					cuePointPosReader.ReadCurrentChildData(posChild);
+					
 					//set attributes
 					switch (posChild.id)
 					{
@@ -155,68 +163,72 @@ void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint
 						pos.clusterPos = posChild.data.ui;
 						break;
 					}
-
-					posSize -= posChild.headerSize + posChild.dataSize;
 				}
+				cuePointPosReader.Verify();
 				entry.streamsInfo.Push(pos);
+
+				cuePointReader.RawBytesReadFromStream(child.dataSize);
 			}
 			break;
 			}
-			
-			cuePointSize -= child.headerSize + child.dataSize;
 		}
+		cuePointReader.Verify();
 		index.AddEntry(entry);
 
-		childrenSize -= cuePoint.headerSize + cuePoint.dataSize;
+		cuesReader.RawBytesReadFromStream(cuePoint.dataSize);
 	}
+	cuesReader.Verify();
 }
 
 void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream)
 {
-	for(uint64 childrenSize = seekHead.dataSize; childrenSize != 0;)
+	EBML::MasterReader seekHeadReader(seekHead, inputStream);
+	while (seekHeadReader.HasMore())
 	{
 		EBML::Element seek;
-		EBML::ParseElementHeader(seek, inputStream);
-		
+		seekHeadReader.ReadNextChildHeader(seek);
 		ASSERT(seek.id == MATROSKA_ID_SEEK, u8"Expected seek element.");
 
 		uint64 id = Natural<uint64>::Max(), offset = Natural<uint64>::Max();
-		for (uint64 seekSize = seek.dataSize; seekSize != 0;)
+		EBML::MasterReader seekReader(seek, seekHeadReader.GetInUseInputStream());
+		while(seekReader.HasMore())
 		{
 			EBML::Element child;
-			EBML::ParseElementHeader(child, inputStream);
-
+			seekReader.ReadNextChildHeader(child);
+			
 			switch (child.id)
 			{
 			case MATROSKA_ID_SEEKID: //it is defined as binary, but using UInt reading works perfectly in this case
 				child.dataType = EBML::DataType::UInt;
-				EBML::ReadElementData(child, inputStream);
+				seekReader.ReadCurrentChildData(child);
 				id = child.data.ui;
 			break;
 			case MATROSKA_ID_SEEKPOSITION:
 				child.dataType = EBML::DataType::UInt;
-				EBML::ReadElementData(child, inputStream);
+				seekReader.ReadCurrentChildData(child);
 				offset = child.data.ui;
 				break;
 			default:
-				inputStream.Skip(child.dataSize);
+				seekReader.SkipCurrentChildData(child);
 			}
-			seekSize -= child.headerSize + child.dataSize;
 		}
+		seekReader.Verify();
 		if ((id != Natural<uint64>::Max()) && (offset != Natural<uint64>::Max())) //only insert valid seeks
 			idOffsetMap[id] = segmentOffset + offset;
 		
-		childrenSize -= seek.headerSize + seek.dataSize;
+		seekHeadReader.RawBytesReadFromStream(seek.dataSize);
 	}
+	seekHeadReader.Verify();
 }
 
 void Matroska::ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segmentInfo, SeekableInputStream &inputStream)
 {
-	for (uint64 infoSize = info.dataSize; infoSize != 0;) //read it flattened
+	EBML::MasterReader reader(info, inputStream);
+	while(reader.HasMore())
 	{
 		EBML::Element child;
-		EBML::ParseElementHeader(child, inputStream);
-
+		reader.ReadNextChildHeader(child);
+		
 		//set type
 		switch (child.id)
 		{
@@ -228,8 +240,8 @@ void Matroska::ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segme
 			break;
 		}
 
-		EBML::ReadElementData(child, inputStream);
-
+		reader.ReadCurrentChildData(child);
+		
 		//set attributes
 		switch (child.id)
 		{
@@ -240,54 +252,80 @@ void Matroska::ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segme
 			segmentInfo.timeCodeScale = child.data.ui;
 			break;
 		}
-
-		if (child.dataType != EBML::DataType::Master) //flattened
-			infoSize -= child.headerSize + child.dataSize;
 	}
+	reader.Verify();
 }
 
 void Matroska::ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Track> &tracks, SeekableInputStream &inputStream)
 {
-	for (uint64 tracksSize = tracksElement.dataSize; tracksSize != 0;)
+	EBML::MasterReader reader(tracksElement, inputStream);
+	while(reader.HasMore())
 	{
 		EBML::Element trackEntry;
-		EBML::ParseElementHeader(trackEntry, inputStream);
-		
+		reader.ReadNextChildHeader(trackEntry);
 		ASSERT(trackEntry.id == MATROSKA_ID_TRACKENTRY, u8"Expected track entry.");
 
 		Track track;
-		for (uint64 trackEntrySize = trackEntry.dataSize; trackEntrySize != 0;)
+		EBML::MasterReader trackReader(trackEntry, reader.GetInUseInputStream());
+		while(trackReader.HasMore())
 		{
-			//we read each track entry flattened
 			EBML::Element child;
-			EBML::ParseElementHeader(child, inputStream);
+			trackReader.ReadNextChildHeader(child);
 
 			//set type
 			switch (child.id)
 			{
+			case MATROSKA_ID_AUDIO:
+			case MATROSKA_ID_VIDEO:
+				child.dataType = EBML::DataType::Master;
+				break;
 			case MATROSKA_ID_CODECID:
 				child.dataType = EBML::DataType::ASCII_String;
 				break;
 			case MATROSKA_ID_CODECPRIVATE:
 				child.dataType = EBML::DataType::Binary;
 				break;
+			case MATROSKA_ID_SAMPLINGFREQUENCY:
+				child.dataType = EBML::DataType::Float;
+				break;
+			case MATROSKA_ID_CHANNELS:
+			case MATROSKA_ID_PIXELHEIGHT:
+			case MATROSKA_ID_PIXELWIDTH:
 			case MATROSKA_ID_TRACKNUMBER:
 			case MATROSKA_ID_TRACKTYPE:
 				child.dataType = EBML::DataType::UInt;
 				break;
 			}
 
-			if(child.dataType != EBML::DataType::Binary) //handle binary ourselves here
-				EBML::ReadElementData(child, inputStream);
+			if ((child.dataType != EBML::DataType::Binary) //handle binary ourselves here
+				&& (child.dataType != EBML::DataType::Master) //we read each track entry flattened
+				)
+			{
+				trackReader.ReadCurrentChildData(child);
+			}
 
 			//set attributes
 			switch (child.id)
 			{
+			case MATROSKA_ID_CHANNELS:
+				track.audio.nChannels = child.data.ui;
+				break;
 			case MATROSKA_ID_CODECID:
 				track.codecId = child.data.string;
 				break;
 			case MATROSKA_ID_CODECPRIVATE:
-				inputStream.FlushTo(track.codecPrivate, child.dataSize);
+				track.codecPrivate.Resize(child.dataSize);
+				trackReader.GetInUseInputStream().ReadBytes(&track.codecPrivate[0], child.dataSize);
+				trackReader.RawBytesReadFromStream(child.dataSize);
+				break;
+			case MATROSKA_ID_PIXELHEIGHT:
+				track.video.height = child.data.ui;
+				break;
+			case MATROSKA_ID_PIXELWIDTH:
+				track.video.width = child.data.ui;
+				break;
+			case MATROSKA_ID_SAMPLINGFREQUENCY:
+				track.audio.sampleRate = child.data.f;
 				break;
 			case MATROSKA_ID_TRACKNUMBER:
 				track.number = child.data.ui;
@@ -296,11 +334,11 @@ void Matroska::ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Tr
 				track.type = child.data.ui;
 				break;
 			}
-
-			trackEntrySize -= child.headerSize + child.dataSize;
 		}
+		trackReader.Verify();
 		tracks.Push(track);
-		
-		tracksSize -= trackEntry.headerSize + trackEntry.dataSize;
+
+		reader.RawBytesReadFromStream(trackEntry.dataSize);
 	}
+	reader.Verify();
 }

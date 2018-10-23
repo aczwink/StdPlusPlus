@@ -48,6 +48,7 @@ namespace _stdxx_
 		AVCodecContext *codecContext;
 		AVPacket *packet;
 		AVFrame *frame;
+		byte* extradata;
 
 		//Methods
 		uint64 GetBestFramePTS() const;

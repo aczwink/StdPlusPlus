@@ -20,15 +20,7 @@
 //Local
 #include <Std++/Definitions.h>
 #include <Std++/Function.hpp>
-
-namespace _stdxx_
-{
-	union WaitObjHandle
-	{
-		void *handle;
-		int fd;
-	};
-}
+#include "EventWaiter.hpp"
 
 namespace StdXX
 {
@@ -49,6 +41,6 @@ namespace StdXX
 		 */
 		virtual uint64 GetMaxTimeout() const = 0;
 
-		virtual void VisitWaitObjects(const Function<void (_stdxx_::WaitObjHandle, bool)> &visitFunc) const = 0;
+		virtual void VisitWaitObjects(const Function<void (_stdxx_::WaitObjHandle, bool)> &visitFunc) = 0;
 	};
 }

@@ -46,19 +46,16 @@ void libavcodec_Backend::Load()
 		this->RegisterEncoderIfAvailable(kv.value, kv.key);
 		this->RegisterParserIfAvailable(kv.value, kv.key);
 	}
-
-
-	/*
-	//video
-	g_libavcodec_codec_map.Insert(CodecId::H264, AV_CODEC_ID_H264);
-	*/
 }
 
 //Private methods
 void libavcodec_Backend::LoadCodingFormatIdMap()
 {
+	//audio
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
+
+	//video
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PNG, CodingFormatId::PNG);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_RAWVIDEO, CodingFormatId::RawVideo);
 }
@@ -66,6 +63,11 @@ void libavcodec_Backend::LoadCodingFormatIdMap()
 #ifdef _STDXX_EXTENSION_LIBAVCODEC_ENABLE_PATENDED
 void libavcodec_Backend::LoadPatentedCodingFormatIdMap()
 {
+	//audio
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_AAC, CodingFormatId::AAC);
+
+	//video
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_H264, CodingFormatId::H264);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MSMPEG4V2, CodingFormatId::MS_MPEG4Part2V2);
 }
 #endif

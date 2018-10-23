@@ -46,6 +46,7 @@ namespace StdXX
 		inline void AddOneShotTimer(uint64 timeOut, Timer *timer)
 		{
 			this->oneShotTimerQueue.Insert(this->clock.GetCurrentValue() + timeOut, timer);
+			this->eventTriggerer.Signal();
 		}
 
 		inline void RemoveTimer(Timer *timer)
@@ -53,10 +54,11 @@ namespace StdXX
 			this->oneShotTimerQueue.Remove(timer);
 		}
 
-		void VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const override;
+		void VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) override;
 
 	private:
 		//Members
+		EventWaiter eventTriggerer;
 		Clock clock;
 		PriorityQueue<Timer *, uint64> oneShotTimerQueue;
 	};

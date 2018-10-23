@@ -29,6 +29,9 @@ Stream::Stream()
 	this->parserContext = nullptr;
 	this->encoderContext = nullptr;
 
+	this->parserFlags.requiresParsing = true;
+	this->parserFlags.repack = true;
+
 	this->startTime = Natural<uint64>::Max();
 	this->duration = Natural<uint64>::Max();
 	this->vbr = false;

@@ -18,13 +18,15 @@
 */
 //Class header
 #include "libavcodec_ParserContext.hpp"
+//Local
+#include <Std++/Multimedia/Stream.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_ParserContext::libavcodec_ParserContext(AVCodecID libavCodecId)
+libavcodec_ParserContext::libavcodec_ParserContext(AVCodecID libavCodecId, Stream& stream) : ParserContext(stream)
 {
 	this->codecContext = avcodec_alloc_context3(avcodec_find_decoder(libavCodecId));
 	this->parserContext = av_parser_init(libavCodecId);
@@ -55,8 +57,8 @@ void libavcodec_ParserContext::Parse(const Packet &packet)
 
 		data += ret;
 		leftSize -= ret;
-
-		if (this->packet->size)
+		
+		if (this->ShouldRepack() && this->packet->size)
 			this->MapPacket(packet);
 	}
 }

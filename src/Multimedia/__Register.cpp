@@ -18,7 +18,6 @@
  */
 /*
 //Video codecs
-#include "Codecs/MPEG/H264_Codec.hpp"
 #include "Codecs/RGB24/RGB24_Codec.hpp"
 #include "Codecs/Images/PNG_CodingFormat.hpp"
 
@@ -35,11 +34,13 @@ void MultimediaRegisterCodecsAndFormats()
 */
 
 //Audio coding formats
+#include "Codecs/MPEG/AAC_CodingFormat.hpp"
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
 #include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
 
 //Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
+#include "Codecs/MPEG/H264_CodingFormat.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
 #include "Codecs/RawVideo/RawVideo_CodingFormat.hpp"
 
@@ -54,11 +55,13 @@ using namespace _stdxx_;
 void MultimediaRegisterCodecsAndFormats()
 {
 	//Audio coding formats
+	CodingFormat::Register(new AAC_CodingFormat);
 	CodingFormat::Register(new MP3_CodingFormat);
 	CodingFormat::Register(new PCM_S16LE_CodingFormat);
 
 
 	//Video coding formats
+	CodingFormat::Register(new H264_CodingFormat);
 	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
 	CodingFormat::Register(new PNG_CodingFormat);
 	CodingFormat::Register(new RawVideo_CodingFormat);

@@ -16,9 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+namespace _stdxx_
+{
+	union WaitObjHandle
+	{
+		void *handle;
+		int fd;
+	};
+}
+
 namespace StdXX
 {
 	class EventWaiter
 	{
+	public:
+		//Constructors
+		/**
+		 * Constructs new waiter.
+		 */
+		EventWaiter();
+		/**
+		 * Shallow copies handle. It will not be freed when this is destructed.
+		 */
+		EventWaiter(_stdxx_::WaitObjHandle handle);
+
+		//Destructor
+		~EventWaiter();
+
+		//Methods
+		void Signal();
+
+		//Inline
+		inline _stdxx_::WaitObjHandle& GetNativeHandle()
+		{
+			return this->nativeHandle;
+		}
+
+	private:
+		//Members
+		bool owned;
+		_stdxx_::WaitObjHandle nativeHandle;
 	};
 }

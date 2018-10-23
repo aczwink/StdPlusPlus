@@ -33,25 +33,33 @@ using namespace StdXX::Multimedia;
 //Constructor
 libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec, const BijectiveMap<NamedPixelFormat, AVPixelFormat> &libavPixelFormatMap)
 	: DecoderContext(decoder, stream),
-	libavPixelFormatMap(libavPixelFormatMap)
+	libavPixelFormatMap(libavPixelFormatMap), extradata(nullptr)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
 	this->frame = av_frame_alloc();
 
+	//set what some codecs don't have in its encoded data
 	switch (stream.GetType())
 	{
 	case DataType::Video:
 	{
 		VideoStream &videoStream = (VideoStream &)stream;
 
-		//some codecs don't have this info in its encoded data
 		if (videoStream.size.width)
 			this->codecContext->width = videoStream.size.width;
 		if (videoStream.size.height)
 			this->codecContext->height = videoStream.size.height;
 	}
 	break;
+	}
+	
+	if (stream.codecPrivateData.HasValue())
+	{
+		this->codecContext->extradata_size = stream.codecPrivateData->GetNumberOfElements();
+		this->extradata = (byte*)MemAlloc(this->codecContext->extradata_size + AV_INPUT_BUFFER_PADDING_SIZE);
+		MemCopy(this->extradata, &(*stream.codecPrivateData)[0], this->codecContext->extradata_size);
+		this->codecContext->extradata = this->extradata;
 	}
 
 	int ret = avcodec_open2(this->codecContext, codec, nullptr);
@@ -64,6 +72,7 @@ libavcodec_DecoderContext::~libavcodec_DecoderContext()
 	av_frame_free(&this->frame);
 	av_packet_free(&this->packet);
 	avcodec_free_context(&this->codecContext);
+	MemFree(this->extradata);
 }
 
 //Public methods

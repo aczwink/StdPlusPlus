@@ -51,6 +51,16 @@ struct STrackInfo
 
 class MatroskaDemuxer : public Demuxer
 {
+	struct IncomingPacket
+	{
+		Packet packet;
+		uint64 size;
+
+		inline bool IsBuffered() const
+		{
+			return this->size == 0;
+		}
+	};
 public:
 	//Constructor
 	MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput);
@@ -67,12 +77,14 @@ private:
 	struct
 	{
 		uint64 clusterTimecode;
-		uint32 blockStreamIndex;
-		LinkedList<uint64> lacedFrameSizes;
+		LinkedList<IncomingPacket> packetQueue;
 	} demuxerState;
 
 	//Methods
 	void AddStream(Matroska::Track &track);
+	void BufferPackets();
+	uint8 ReadBlockHeader(bool simple, uint32 blockSize);
 	void ReadSegment(uint64 segmentOffset);
 	void ReadSection(const EBML::Element &element);
+	void Reset();
 };

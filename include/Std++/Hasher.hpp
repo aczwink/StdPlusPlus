@@ -17,33 +17,26 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "Type.hpp"
+ //Local
+#include "Definitions.h"
 
 namespace StdXX
 {
-	//Functions
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type& arg) noexcept
+	enum HashAlgorithm
 	{
-		return static_cast<T&&>(arg);
-	}
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type&& arg) noexcept
-	{
-		return static_cast<T&&>(arg);
-	}
+		CRC32
+	};
 
-	template <typename T>
-	constexpr T &&Move(T &reference)
+	class Hasher
 	{
-		return (T &&)reference;
-	}
+	public:
+		//Abstract
+		virtual uint32 GetChecksumSize() const = 0;
+		virtual void Finish() = 0;
+		virtual void StoreChecksum(void* target) const = 0;
+		virtual void Update(const byte* buffer, uint32 size) = 0;
 
-	template<typename T>
-	void Swap(T &v1, T&v2)
-	{
-		T tmp(Move(v1));
-		v1 = Move(v2);
-		v2 = Move(tmp);
-	}
+		//Functions
+		static Hasher* CreateInstance(HashAlgorithm algorithm);
+	};
 }

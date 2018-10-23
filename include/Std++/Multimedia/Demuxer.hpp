@@ -58,6 +58,16 @@ namespace StdXX
 			//Members
 			SeekableInputStream & inputStream;
 
+			//Overrideable
+			/**
+			 * Flushes the state that the demuxer has about the current input situation.
+			 * This does not include stream or codec information but everything that it identifies with the current input stream position
+			 * (cached packets that would arrive sequentially now etc.).
+			 * After this operation, the demuxer should have no idea where he is in the stream.
+			 * However, if the demuxer does not support byte-seeking, it can assume that it will be at a valid point in the stream (not in the middle of a data packet or so).
+			 */
+			virtual void Reset();
+
 		private:
 			//Members
 			uint32 bitRate;

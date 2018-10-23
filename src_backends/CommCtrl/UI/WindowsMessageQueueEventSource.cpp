@@ -64,7 +64,7 @@ uint64 WindowsMessageQueueEventSource::GetMaxTimeout() const
 	return Natural<uint64>::Max();
 }
 
-void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)>& visitFunc) const
+void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)>& visitFunc)
 {
 }
 

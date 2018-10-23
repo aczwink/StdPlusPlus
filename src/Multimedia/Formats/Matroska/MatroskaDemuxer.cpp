@@ -23,6 +23,7 @@
 #include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include "EBML.hpp"
+#include "EBMLMasterReader.hpp"
 #include "Matroska.hpp"
 #include "../BMP/BMP.hpp"
 //Namespaces
@@ -40,50 +41,12 @@ bool MatroskaDemuxer::GetElementInfo(uint64 id, SElemInfo &refElemInfo)
 {
 	switch (id)
 	{
-	case MATROSKA_ID_BLOCK:
-	case MATROSKA_ID_SIMPLEBLOCK:
-		refElemInfo.type = EMatroskaType::Binary;
-		return true;
-	case MATROSKA_ID_SAMPLINGFREQUENCY:
-		refElemInfo.type = EMatroskaType::Float;
-		return true;
-	case MATROSKA_ID_AUDIO:
-		refElemInfo.type = EMatroskaType::Master;
-		return true;
 	case MATROSKA_ID_BITDEPTH:
-	case MATROSKA_ID_CHANNELS:
-	case MATROSKA_ID_TIMECODE:
 		refElemInfo.type = EMatroskaType::UInt;
 		return true;
 	}
 
 	return false;
-}
-
-void MatroskaDemuxer::ParseBinary(uint64 id, uint64 size)
-{
-	switch(id)
-	{
-		case MATROSKA_ID_BLOCK:
-		case MATROSKA_ID_SIMPLEBLOCK:
-		{
-			this->parserState.currentCluster.offsets.Push(this->inputStream.GetCurrentOffset());
-			this->parserState.currentCluster.sizes.Push(size);
-
-			this->inputStream.Skip(size);
-		}
-			break;
-	}
-}
-
-void MatroskaDemuxer::ParseFloat(uint64 id, float64 value)
-{
-	switch(id)
-	{
-		case MATROSKA_ID_SAMPLINGFREQUENCY:
-			this->parserState.currentTrack.audio.samplingFrequency = value;
-			break;
-	}
 }
 
 void MatroskaDemuxer::ParseUInt(uint64 id, uint64 value)
@@ -92,12 +55,6 @@ void MatroskaDemuxer::ParseUInt(uint64 id, uint64 value)
 	{
 		case MATROSKA_ID_BITDEPTH:
 			this->parserState.currentTrack.audio.bitDepth = (uint8)value;
-			break;
-		case MATROSKA_ID_CHANNELS:
-			this->parserState.currentTrack.audio.nChannels = (uint8)value;
-			break;
-		case MATROSKA_ID_TIMECODE:
-			this->parserState.currentCluster.timeCode = value;
 			break;
 	}
 }*/
@@ -130,109 +87,98 @@ void MatroskaDemuxer::ReadHeader()
 
 bool MatroskaDemuxer::ReadPacket(Packet &packet)
 {
-	DataReader reader(true, this->inputStream);
-
-	if (this->demuxerState.lacedFrameSizes.IsEmpty())
+	while (this->demuxerState.packetQueue.IsEmpty())
 	{
 		//read new cluster or block
-		bool foundBlock = false;
-		uint32 blockSize;
-		while (!foundBlock)
+		EBML::Element element;
+		EBML::ParseElementHeader(element, this->inputStream);
+
+		if (this->inputStream.IsAtEnd())
+			return false; //no more data
+		
+		switch (element.id)
 		{
-			EBML::Element element;
-			EBML::ParseElementHeader(element, this->inputStream);
-
-			if (this->inputStream.IsAtEnd())
-				return false; //no more data
-
-			switch (element.id)
+		case MATROSKA_ID_CLUSTER:
+			//do nothing
+			break;
+		case MATROSKA_ID_TIMECODE:
+			element.dataType = EBML::DataType::UInt;
+			EBML::ReadElementData(element, this->inputStream);
+			this->demuxerState.clusterTimecode = element.data.ui;
+			break;
+		case MATROSKA_ID_BLOCKGROUP:
+		{
+			EBML::MasterReader reader(element, this->inputStream);
+			Optional<uint64> duration;
+			bool isKeyframe = true;
+			while (reader.HasMore())
 			{
-			case MATROSKA_ID_CLUSTER:
-				//do nothing
+				EBML::Element child;
+				reader.ReadNextChildHeader(child);
+
+				switch (child.id)
+				{
+				case MATROSKA_ID_BLOCK:
+				{
+					uint8 blockHeaderSize = this->ReadBlockHeader(false, child.dataSize);
+					reader.RawBytesReadFromStream(blockHeaderSize);
+					uint32 blockDataSize = child.dataSize - blockHeaderSize;
+					if (reader.GetRemainingBytes() > blockDataSize)
+					{
+						this->BufferPackets();
+						reader.RawBytesReadFromStream(blockDataSize);
+					}
+					else
+					{
+						//no need to buffer packets...
+						reader.RawBytesReadFromStream(reader.GetRemainingBytes()); //we fool the reader and tell him as if we consumed the whole block data
+						//though stream is actually at beginning of block payload
+					}
+				}
 				break;
-			case MATROSKA_ID_TIMECODE:
-				element.dataType = EBML::DataType::UInt;
-				EBML::ReadElementData(element, this->inputStream);
-				this->demuxerState.clusterTimecode = element.data.ui;
-				break;
-			case MATROSKA_ID_SIMPLEBLOCK:
-				foundBlock = true;
-				blockSize = element.dataSize;
-				break;
-			default:
-				this->inputStream.Skip(element.dataSize);
+				case MATROSKA_ID_BLOCKDURATION:
+					child.dataType = EBML::DataType::UInt;
+					reader.ReadCurrentChildData(child);
+					duration = child.data.ui;
+					break;
+				case MATROSKA_ID_REFERENCEBLOCK:
+					isKeyframe = false;
+					reader.SkipCurrentChildData(child);
+					break;
+				default:
+					reader.SkipCurrentChildData(child);
+				}
 			}
-		}
-
-		//read block header
-		uint8 length;
-		uint64 trackNumber = EBML::DecodeVariableLengthInteger(length, this->inputStream);
-		int16 timeCode = reader.ReadInt16();
-		uint8 flags = reader.ReadByte();
-		uint32 blockHeaderSize = length + 2 + 1;
-
-		this->demuxerState.blockStreamIndex = this->trackToStreamMap[trackNumber];
-		switch ((flags >> 1) & 3)
-		{
-		case 0: //no lacing
-		{
-			packet.Allocate(blockSize - blockHeaderSize);
-			this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
-
-			packet.streamIndex = this->demuxerState.blockStreamIndex;
-			packet.pts = this->demuxerState.clusterTimecode + timeCode;
-			packet.containsKeyframe = (flags & 0x80) != 0; //TODO: this assumes that this is a SimpleBlock. It will fail for standard blocks as this will always be 0
-
-			return true;
-		}
-		break;
-		case 2: //fixed-size lacing
-		{
-			uint8 nFrames = reader.ReadByte() + 1;
-			blockHeaderSize++;
-
-			uint32 frameSize = (blockSize - blockHeaderSize) / nFrames;
-			for (uint8 i = 0; i < nFrames; i++)
-				this->demuxerState.lacedFrameSizes.InsertTail(frameSize);
-		}
-		break;
-		case 3: //EBML lacing
-		{
-			uint8 nEncodedLaceSizes = reader.ReadByte();
-			blockHeaderSize++;
-			uint64 laceSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
-			blockHeaderSize += length;
-
-			this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
-			nEncodedLaceSizes--;
-
-			uint64 sum = laceSize;
-			for (uint8 i = 0; i < nEncodedLaceSizes; i++)
+			reader.Verify();
+			
+			if (duration.HasValue())
 			{
-				uint64 codedSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
-				blockHeaderSize += length;
-				int64 rangeShift = (1 << (length * 8 - length - 1)) - 1;
-				laceSize += int64(codedSize) - rangeShift;
-				this->demuxerState.lacedFrameSizes.InsertTail(laceSize);
-
-				sum += laceSize;
+				for (IncomingPacket& ip : this->demuxerState.packetQueue)
+					ip.packet.duration = *duration;
 			}
-
-			this->demuxerState.lacedFrameSizes.InsertTail(blockSize - blockHeaderSize - sum);
+			for (IncomingPacket& ip : this->demuxerState.packetQueue)
+				ip.packet.containsKeyframe = isKeyframe;
 		}
 		break;
+		case MATROSKA_ID_SIMPLEBLOCK:
+			this->ReadBlockHeader(true, element.dataSize);
+			break;
 		default:
-			NOT_IMPLEMENTED_ERROR;
+			this->inputStream.Skip(element.dataSize);
 		}
 	}
-	
-	//read next frame from lace
-	uint64 frameSize = this->demuxerState.lacedFrameSizes.PopFront();
-	packet.Allocate(frameSize);
-	this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
-	
-	packet.streamIndex = this->demuxerState.blockStreamIndex;
 
+	//get next packet from packetqueue
+	IncomingPacket p = this->demuxerState.packetQueue.PopFront();
+	if(p.IsBuffered())
+		packet = Move(p.packet);
+	else
+	{
+		packet.Allocate(p.size);
+		this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());
+		packet.CopyAttributesFrom(p.packet);
+	}
+	
 	return true;
 }
 
@@ -263,18 +209,33 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	
 	uint32 index = Demuxer::AddStream(pStream);
 	this->trackToStreamMap[track.number] = index;
+
+	if (!track.codecPrivate.IsEmpty())
+	{
+		pStream->codecPrivateData = FixedArray<byte>(track.codecPrivate.GetSize());
+		MemCopy((void*)&(*pStream->codecPrivateData)[0], &track.codecPrivate[0], track.codecPrivate.GetSize());
+	}
 	
 	//stream specific
 	switch(track.type)
 	{
 	case TRACK_TYPE_AUDIO:
 	{
-		AudioStream *const& refpAudioStream = (AudioStream *)pStream;
+		AudioStream *const& audioStream = (AudioStream *)pStream;
+		
+		audioStream->sampleRate = (uint32)track.audio.sampleRate;
+		//audioStream->sampleFormatHints.nChannels = track.audio.nChannels;
 
-		/*		
-		refpAudioStream->nChannels = this->parserState.currentTrack.audio.nChannels;
-		refpAudioStream->sampleRate = (uint32)this->parserState.currentTrack.audio.samplingFrequency;
-		*/
+		if (audioStream->GetCodingFormat())
+		{
+			switch (audioStream->GetCodingFormat()->GetId())
+			{
+			case CodingFormatId::AAC:
+				pStream->parserFlags.requiresParsing = false;
+				//ADTS is removed and frames are muxed on frame boundaries
+				break;
+			}
+		}
 		
 		/*
 		//check for PCM
@@ -293,17 +254,121 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	break;
 	case TRACK_TYPE_VIDEO:
 	{
-		VideoStream *const& refpVideoStream = (VideoStream *)pStream;
+		VideoStream *const& videoStream = (VideoStream *)pStream;
+
+		videoStream->size.width = track.video.width;
+		videoStream->size.height = track.video.height;
 
 		//check for microsoft BMP header
 		if (codingFormatId == CodingFormatId::Unknown && track.codecId == codecId_ms_fourcc)
 		{
 			bool isBottomUp;
-			_stdxx_::ReadBMPHeader(isBottomUp, track.codecPrivate, *refpVideoStream);
+			_stdxx_::ReadBMPHeader(isBottomUp, BufferInputStream(&track.codecPrivate[0], track.codecPrivate.GetSize()), *videoStream);
+		}
+
+		if (videoStream->GetCodingFormat())
+		{
+			switch (videoStream->GetCodingFormat()->GetId())
+			{
+			case CodingFormatId::H264:
+				//only look at packets
+				pStream->parserFlags.requiresParsing = true;
+				pStream->parserFlags.repack = false;
+				break;
+			}
 		}
 	}
 	break;
 	}
+}
+
+void MatroskaDemuxer::BufferPackets()
+{
+	for (IncomingPacket& ip : this->demuxerState.packetQueue)
+	{
+		ASSERT(!ip.IsBuffered(), u8"??? can't be. Report please!");
+		ip.packet.Allocate(ip.size);
+		this->inputStream.ReadBytes(ip.packet.GetData(), ip.packet.GetSize());
+		ip.size = 0; //the packet is now bufferd
+	}
+}
+
+uint8 MatroskaDemuxer::ReadBlockHeader(bool simple, uint32 blockSize)
+{
+	DataReader reader(true, this->inputStream);
+	
+	uint8 length;
+	uint64 trackNumber = EBML::DecodeVariableLengthInteger(length, this->inputStream);
+	int16 timeCode = reader.ReadInt16();
+	uint8 flags = reader.ReadByte();
+	uint8 blockHeaderSize = length + 2 + 1;
+	
+	Packet attribs;
+	attribs.streamIndex = this->trackToStreamMap[trackNumber];
+	attribs.pts = this->demuxerState.clusterTimecode + timeCode;
+	attribs.containsKeyframe = simple && ((flags & 0x80) != 0);
+
+	switch ((flags >> 1) & 3)
+	{
+	case 0: //no lacing
+	{
+		IncomingPacket nextPacket;
+		nextPacket.size = blockSize - blockHeaderSize;
+		nextPacket.packet.CopyAttributesFrom(attribs);
+		this->demuxerState.packetQueue.InsertTail(nextPacket);
+	}
+	break;
+	case 2: //fixed-size lacing
+	{
+		uint8 nFrames = reader.ReadByte() + 1;
+		blockHeaderSize++;
+
+		uint32 frameSize = (blockSize - blockHeaderSize) / nFrames;
+		for (uint8 i = 0; i < nFrames; i++)
+		{
+			IncomingPacket nextPacket;
+			nextPacket.size = frameSize;
+			nextPacket.packet.CopyAttributesFrom(attribs);
+			this->demuxerState.packetQueue.InsertTail(nextPacket);
+		}
+	}
+	break;
+	case 3: //EBML lacing
+	{
+		uint8 nEncodedLaceSizes = reader.ReadByte();
+		blockHeaderSize++;
+		uint64 laceSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
+		blockHeaderSize += length;
+
+		IncomingPacket nextPacket;
+		nextPacket.size = laceSize;
+		nextPacket.packet.CopyAttributesFrom(attribs);
+		this->demuxerState.packetQueue.InsertTail(nextPacket);
+		nEncodedLaceSizes--;
+
+		uint64 sum = laceSize;
+		for (uint8 i = 0; i < nEncodedLaceSizes; i++)
+		{
+			uint64 codedSize = EBML::DecodeVariableLengthInteger(length, this->inputStream);
+			blockHeaderSize += length;
+			int64 rangeShift = (1 << (length * 8 - length - 1)) - 1;
+			laceSize += int64(codedSize) - rangeShift;
+
+			nextPacket.size = laceSize;
+			this->demuxerState.packetQueue.InsertTail(nextPacket);
+
+			sum += laceSize;
+		}
+
+		nextPacket.size = blockSize - blockHeaderSize - sum;
+		this->demuxerState.packetQueue.InsertTail(nextPacket);
+	}
+	break;
+	default:
+		NOT_IMPLEMENTED_ERROR;
+	}
+
+	return blockHeaderSize;
 }
 
 void MatroskaDemuxer::ReadSegment(uint64 segmentOffset)
@@ -360,6 +425,9 @@ void MatroskaDemuxer::ReadSection(const EBML::Element &element)
 {
 	switch (element.id)
 	{
+	case MATROSKA_ID_CLUSTER:
+		//dont read it
+		break;
 	case MATROSKA_ID_CUES:
 	{
 		Matroska::ReadCuesData(element, this->cues, this->inputStream);
@@ -390,4 +458,11 @@ void MatroskaDemuxer::ReadSection(const EBML::Element &element)
 	default:
 		this->inputStream.Skip(element.dataSize);
 	}
+}
+
+void MatroskaDemuxer::Reset()
+{
+	Demuxer::Reset();
+
+	this->demuxerState.packetQueue.Release();
 }

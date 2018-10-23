@@ -48,7 +48,6 @@ namespace StdXX
 			uint64 dataSize;
 			uint8 headerSize;
 			DataType dataType;
-			uint32 crc32;
 
 			struct
 			{
@@ -81,8 +80,8 @@ namespace StdXX
 
 		//Functions
 		uint64 DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream);
-		void ParseElementHeader(Element &element, SeekableInputStream &inputStream);
+		void ParseElementHeader(Element &element, InputStream &inputStream);
 		bool ParseHeader(Header &header, SeekableInputStream &inputStream);
-		void ReadElementData(Element &element, SeekableInputStream &inputStream);
+		void ReadElementData(Element &element, InputStream &inputStream);
 	}
 }

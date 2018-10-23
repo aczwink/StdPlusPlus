@@ -25,9 +25,15 @@ namespace StdXX
 {
     namespace Multimedia
     {
+		//Forward declarations
+		class Stream;
+
         class STDPLUSPLUS_API ParserContext
         {
 		public:
+			//Constructor
+			ParserContext(Stream& stream);
+			
 			//Destructor
 			virtual ~ParserContext();
 
@@ -51,8 +57,14 @@ namespace StdXX
 				return !this->parsedFrames.IsEmpty();
 			}
 
+			inline bool ShouldRepack() const
+			{
+				return this->repack;
+			}
+
         protected:
             //Members
+			Stream& stream;
             Packet frameBuffer;
 
             //Methods
@@ -75,6 +87,7 @@ namespace StdXX
 
 		private:
 			//Members
+			bool repack;
 			LinkedList<Packet> parsedFrames;
         };
     }

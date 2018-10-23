@@ -16,34 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-#include "Type.hpp"
+ //Local
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX
+class H264_CodingFormat : public CodingFormat
 {
-	//Functions
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type& arg) noexcept
+public:
+	//Methods
+	CodingFormatId GetId() const override
 	{
-		return static_cast<T&&>(arg);
-	}
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type&& arg) noexcept
-	{
-		return static_cast<T&&>(arg);
+		return CodingFormatId::H264;
 	}
 
-	template <typename T>
-	constexpr T &&Move(T &reference)
+	String GetName() const override
 	{
-		return (T &&)reference;
+		return u8"H.264 / Advanced Video Coding (AVC) / MPEG-4 Part 10";
 	}
-
-	template<typename T>
-	void Swap(T &v1, T&v2)
-	{
-		T tmp(Move(v1));
-		v1 = Move(v2);
-		v2 = Move(tmp);
-	}
-}
+};

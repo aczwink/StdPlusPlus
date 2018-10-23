@@ -40,7 +40,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		StdXX::Multimedia::ParserContext * CreateContext() const override;
+		StdXX::Multimedia::ParserContext * CreateContext(StdXX::Multimedia::Stream& stream) const override;
 		StdXX::FixedArray<StdXX::Multimedia::CodingFormatId> GetCodingFormatIds() const override;
 
 	private:

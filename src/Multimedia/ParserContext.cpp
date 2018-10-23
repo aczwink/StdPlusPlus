@@ -19,10 +19,16 @@
 //Class header
 #include <Std++/Multimedia/ParserContext.hpp>
 //Local
+#include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Natural.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
+
+//Constructor
+ParserContext::ParserContext(Stream& stream) : stream(stream), repack(stream.parserFlags.repack)
+{
+}
 
 //Destructor
 ParserContext::~ParserContext()

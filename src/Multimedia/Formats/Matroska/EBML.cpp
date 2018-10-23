@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
+#include "EBMLMasterReader.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -62,7 +63,7 @@ uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream
 	return result;
 }
 
-void EBML::ParseElementHeader(Element &element, SeekableInputStream &inputStream)
+void EBML::ParseElementHeader(Element &element, InputStream &inputStream)
 {
 	//read id
 	uint8 length;
@@ -74,39 +75,29 @@ void EBML::ParseElementHeader(Element &element, SeekableInputStream &inputStream
 	element.dataSize = DecodeVariableLengthInteger(length, inputStream);
 	element.headerSize += length;
 
-	element.dataOffset = inputStream.GetCurrentOffset();
+	//check if we can know an offset
+	SeekableInputStream* seekableInputStream = dynamic_cast<SeekableInputStream*>(&inputStream);
+	if (seekableInputStream)
+		element.dataOffset = seekableInputStream->GetCurrentOffset();
+	else
+		element.dataOffset = Natural<uint64>::Max();
 
 	element.dataType = DataType::Unknown;
-	element.crc32 = Natural<uint32>::Max();
-
-	//special elements
-	switch (element.id)
-	{
-	case EBML_ID_CRC32:
-	{
-		DataReader reader(false, inputStream); //the crc32 is stored little endian
-		uint32 crc32 = reader.ReadUInt32();
-		uint32 crc32ElementSize = element.headerSize + element.dataSize;
-		ParseElementHeader(element, inputStream);
-		element.crc32 = crc32;
-		element.headerSize += crc32ElementSize;
-	}
-	break;
-	}
 }
 
 bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
 {
 	Element ebmlElement;
 	ParseElementHeader(ebmlElement, inputStream);
-	if(ebmlElement.id != EBML_ID_EBML)
+	if (ebmlElement.id != EBML_ID_EBML)
 		return false;
-
-	for(uint64 childrenSize = ebmlElement.dataSize; childrenSize != 0;)
+	
+	MasterReader reader(ebmlElement, inputStream);
+	while (reader.HasMore())
 	{
 		Element child;
-		ParseElementHeader(child, inputStream);
-
+		reader.ReadNextChildHeader(child);
+		
 		//set type
 		switch(child.id)
 		{
@@ -119,7 +110,7 @@ bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
 			break;
 		}
 
-		ReadElementData(child, inputStream);
+		reader.ReadCurrentChildData(child);
 
 		//set attributes
 		switch (child.id)
@@ -133,20 +124,24 @@ bool EBML::ParseHeader(Header &header, SeekableInputStream &inputStream)
 		case EBML_ID_DOCTYPEVERSION: //not interesting for reading
 			break;
 		}
-
-		//update size
-		uint64 childSize = child.headerSize + child.dataSize;
-		if (childSize > childrenSize)
-			return false;
-		childrenSize -= childSize;
 	}
-
+	reader.Verify();
+	
 	return true;
 }
 
-void EBML::ReadElementData(Element &element, SeekableInputStream &inputStream)
+void EBML::ReadElementData(Element &element, InputStream &inputStream)
 {
-	inputStream.SetCurrentOffset(element.dataOffset);
+	switch (element.id)
+	{
+	case EBML_ID_CRC32:
+	{
+		DataReader reader(false, inputStream); //the crc32 is stored little endian
+		element.data.ui = reader.ReadUInt32();
+		return;
+	}
+	break;
+	}
 
 	switch(element.dataType)
 	{

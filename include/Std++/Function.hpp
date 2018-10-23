@@ -20,8 +20,9 @@
 //Local
 #include "Debug.hpp"
 #include "Memory.hpp"
+#include "Utility.hpp"
 
-namespace _Intern
+namespace _stdxx_
 {
     template<typename ReturnType, typename... ArgumentTypes>
     class ICallable
@@ -47,7 +48,7 @@ namespace _Intern
         //Methods
         ReturnType Call(ArgumentTypes&&... args)
         {
-            return this->pFunc(args...);
+            return this->pFunc(Forward<ArgumentTypes>(args)...);
         }
     };
 
@@ -152,9 +153,9 @@ namespace _Intern
         }
 
         //Inline operators
-        inline ReturnType operator()(ArgumentTypes&&... args) const
+        inline ReturnType operator()(ArgumentTypes... args) const
         {
-            return this->pCallObj->Call((ArgumentTypes&&)args...);
+            return this->pCallObj->Call(StdXX::Forward<ArgumentTypes>(args)...);
         }
 
         //Inline
@@ -178,7 +179,7 @@ namespace _Intern
 namespace StdXX
 {
     template<typename FunctionType>
-    class Function : public _Intern::ExtractedFunctionBaseClass<FunctionType>::type
+    class Function : public _stdxx_::ExtractedFunctionBaseClass<FunctionType>::type
     {
     public:
         //Constructors

@@ -12,6 +12,7 @@ set(SOURCE_FILES
 	#Matroska
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBML.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBML.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/EBMLMasterReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/Matroska.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/Matroska.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaDemuxer.cpp

@@ -164,7 +164,7 @@ bool Demuxer::FindStreamInfo()
 	//initialize parsers
 	for (Stream *& stream : this->streams)
 	{
-		if (stream->GetCodingFormat() != nullptr)
+		if ((stream->GetCodingFormat() != nullptr) && (stream->parserFlags.requiresParsing))
 		{
 			ParserContext *parserContext = stream->GetParserContext();
 			if (parserContext == nullptr)
@@ -173,7 +173,7 @@ bool Demuxer::FindStreamInfo()
 				const Parser *parser = stream->GetCodingFormat()->GetBestMatchingParser();
 				if (parser)
 				{
-					parserContext = parser->CreateContext();
+					parserContext = parser->CreateContext(*stream);
 					stream->SetParserContext(parserContext);
 				}
 			}
@@ -207,6 +207,7 @@ bool Demuxer::FindStreamInfo()
 
 	//reset state
 	this->inputStream.SetCurrentOffset(currentOffset);
+	this->Reset();
 	for(uint32 i = 0; i < this->streams.GetNumberOfElements(); i++)
 	{
 		if(this->streams[i]->GetParserContext())
@@ -245,10 +246,17 @@ bool Demuxer::ReadFrame(Packet &packet)
 		if(ParserContext *parserContext = this->GetStream(packet.streamIndex)->GetParserContext())
 		{
 			parserContext->Parse(packet);
-
-			if(parserContext->IsFrameReady())
+			if (parserContext->ShouldRepack())
 			{
-				parserContext->GetParsedFrame(packet);
+				if (parserContext->IsFrameReady())
+				{
+					parserContext->GetParsedFrame(packet);
+					break;
+				}
+			}
+			else
+			{
+				//the parser should parse the packet but not repack it. Therefore we return it
 				break;
 			}
 		}
@@ -260,4 +268,9 @@ bool Demuxer::ReadFrame(Packet &packet)
 	}
 
 	return true;
+}
+
+//Protected methods
+void Demuxer::Reset()
+{
 }

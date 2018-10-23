@@ -37,7 +37,7 @@ public:
 	//Methods
 	void DispatchPendingEvents() override;
 	uint64 GetMaxTimeout() const override;
-	void VisitWaitObjects(const StdXX::Function<void (_stdxx_::WaitObjHandle, bool)>& visitFunc) const override;
+	void VisitWaitObjects(const StdXX::Function<void (_stdxx_::WaitObjHandle, bool)>& visitFunc) override;
 
 	//Functions
 	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackend(HWND hWnd);

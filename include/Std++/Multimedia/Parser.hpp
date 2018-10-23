@@ -28,6 +28,7 @@ namespace StdXX
 	{
 		//Forward declarations
 		class ParserContext;
+		class Stream;
 
 		class Parser
 		{
@@ -36,7 +37,7 @@ namespace StdXX
 			virtual ~Parser() {}
 
 			//Abstract
-			virtual ParserContext *CreateContext() const = 0;
+			virtual ParserContext *CreateContext(Stream& stream) const = 0;
 			virtual FixedArray<CodingFormatId> GetCodingFormatIds() const = 0;
 
 			//Functions

@@ -18,6 +18,8 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/Optional.hpp>
 #include "../Definitions.h"
 #include "../Math/Fraction.hpp"
 #include "ParserContext.hpp"
@@ -39,6 +41,22 @@ namespace StdXX
             uint64 duration;
             bool vbr;
             uint32 bitRate; //if vbr then this is the average bitrate
+			Optional<FixedArray<byte>> codecPrivateData;
+			struct
+			{
+				/**
+				 * Sometimes streams are correctly muxed on frame boundaries and don't need parsing.
+				 * We can in that case skip this process and thus increase performance
+				 */
+				bool requiresParsing;
+				/**
+				 * Whether the parser should repack the packets or not.
+				 * If true, parsers will repack packages so that they are friendly for the decoder (packed to frame boundaries), which will cause an overhead on performance.
+				 * If false, the parser will look at the packets and extract info from them but do not repack them. This is faster than decoding and might still gives info like timestamps etc..
+				 * This is especially useful if no decoder is available.
+				 */
+				bool repack;
+			} parserFlags;
 
             //Constructor
             Stream();

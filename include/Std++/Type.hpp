@@ -51,4 +51,22 @@ namespace StdXX
 	template <typename T>
 	struct IsTrivial : public BoolConstant<__is_trivial(T)>{};
 #endif
+
+	//RemoveReference
+	template<typename T>
+	struct RemoveReference
+	{
+		using type = T;
+	};
+	template <typename T>
+	struct RemoveReference<T&>
+	{
+		using type = T;
+	};
+	
+	template <typename T>
+	struct RemoveReference<T&&>
+	{
+		using type = T;
+	};
 }

@@ -16,34 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-#include "Type.hpp"
+ //Class header
+#include <Std++/Eventhandling/EventWaiter.hpp>
+//Global
+#include <Windows.h>
+//Namespaces
+using namespace StdXX;
 
-namespace StdXX
+//Constructor
+EventWaiter::EventWaiter() : owned(true)
 {
-	//Functions
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type& arg) noexcept
-	{
-		return static_cast<T&&>(arg);
-	}
-	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type&& arg) noexcept
-	{
-		return static_cast<T&&>(arg);
-	}
+	this->nativeHandle.handle = CreateEventA(nullptr, FALSE, FALSE, nullptr);
+}
 
-	template <typename T>
-	constexpr T &&Move(T &reference)
-	{
-		return (T &&)reference;
-	}
+//Destructor
+EventWaiter::~EventWaiter()
+{
+	if (this->owned)
+		CloseHandle(this->nativeHandle.handle);
+}
 
-	template<typename T>
-	void Swap(T &v1, T&v2)
-	{
-		T tmp(Move(v1));
-		v1 = Move(v2);
-		v2 = Move(tmp);
-	}
+//Public methods
+void EventWaiter::Signal()
+{
+	SetEvent(this->nativeHandle.handle);
 }

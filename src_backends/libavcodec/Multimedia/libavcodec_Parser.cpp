@@ -25,9 +25,9 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-ParserContext * libavcodec_Parser::CreateContext() const
+ParserContext * libavcodec_Parser::CreateContext(Stream& stream) const
 {
-	return new libavcodec_ParserContext(this->libavCodecId);
+	return new libavcodec_ParserContext(this->libavCodecId, stream);
 }
 
 FixedArray<CodingFormatId> libavcodec_Parser::GetCodingFormatIds() const

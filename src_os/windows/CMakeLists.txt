@@ -3,6 +3,7 @@ set(SOURCE_FILES
 
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.cpp
 
 		#Filesystem
 		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp

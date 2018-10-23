@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../ExternalVideoCodec.hpp"
+//Class header
+#include <Std++/Hasher.hpp>
+//Local
+#include "CRC32Hasher.hpp"
+//Namespaces
+using namespace StdXX;
 
-class H264_Codec : public ExternalVideoCodec
+//Class functions
+Hasher* Hasher::CreateInstance(HashAlgorithm algorithm)
 {
-public:
-	//Methods
-	CodecId GetId() const
+	switch (algorithm)
 	{
-		return CodecId::H264;
+	case HashAlgorithm::CRC32:
+		return new _stdxx_::CRC32Hasher;
 	}
 
-	String GetName() const
-	{
-		return u8"H.264 / MPEG-4 Part 10, Advanced Video Coding (MPEG-4 AVC)";
-	}
-};
+	return nullptr;
+}
