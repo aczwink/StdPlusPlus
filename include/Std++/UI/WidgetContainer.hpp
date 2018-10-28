@@ -65,8 +65,20 @@ namespace StdXX
 				widget->parent = this;
 				if (widget->CanRealize())
 					widget->Realize();
+				this->InformBackendAboutWidgetOwnershipTransfer(widget);
+			}
+
+		private:
+			//Inline
+			inline void InformBackendAboutWidgetOwnershipTransfer(Widget* widget)
+			{
 				if(this->widgetContainerBackend != nullptr)
 					this->widgetContainerBackend->AddChild(widget);
+				else
+				{
+					if(this->parent)
+						this->parent->InformBackendAboutWidgetOwnershipTransfer(widget);
+				}
 			}
 		};
 	}

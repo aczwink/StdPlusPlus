@@ -69,9 +69,12 @@ void CocoaLabelBackend::SetEnabled(bool enable)
 
 void CocoaLabelBackend::SetText(const StdXX::String &text)
 {
-	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
-	[this->textField setStringValue:tmp];
-	[tmp release];
+	NSString* str;
+	if(text.IsEmpty())
+		str = [[NSString new] autorelease];
+	else
+		str = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	[this->textField setStringValue:str];
 }
 
 

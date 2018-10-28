@@ -385,36 +385,34 @@ namespace StdXX
 
 		void Remove(Node *node)
 		{
-			if(node)
-			{
-				if(node == this->head && node == this->tail)
-				{
-					this->head = NULL;
-					this->tail = NULL;
-				}
-				else if(node == this->head)
-				{
-					this->head = this->head->next;
-				}
-				else if(node == this->tail)
-				{
-					this->tail = this->tail->prev;
-					this->tail->next = nullptr;
-				}
-				else
-				{
-					node->prev->next = node->next;
-					node->next->prev = node->prev;
-				}
+			ASSERT(node, u8"Precondition for this method: node exists.");
 
-				this->nElements--;
-				delete node;
+			if(node == this->head && node == this->tail)
+			{
+				this->head = nullptr;
+				this->tail = nullptr;
+			}
+			else if(node == this->head)
+			{
+				this->head = this->head->next;
+				if(this->head)
+					this->head->prev = nullptr;
+			}
+			else if(node == this->tail)
+			{
+				this->tail = this->tail->prev;
+				if(this->tail)
+					this->tail->next = nullptr;
 			}
 			else
 			{
-				//throw exception
-				NOT_IMPLEMENTED_ERROR;
+				//prev and next must exist, else node would be either head or tail
+				node->prev->next = node->next;
+				node->next->prev = node->prev;
 			}
+
+			this->nElements--;
+			delete node;
 		}
     };
 }

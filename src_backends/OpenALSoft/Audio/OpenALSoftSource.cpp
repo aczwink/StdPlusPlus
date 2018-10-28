@@ -36,6 +36,21 @@ OpenALSoftSource::~OpenALSoftSource()
 }
 
 //Public methods
+void OpenALSoftSource::EnqueueBuffer(const Buffer& buffer)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: re-IMPLEMENT ME
+	const OpenALSoftBuffer *openALSoftBuffer = (OpenALSoftBuffer *)&buffer;
+
+	this->deviceContext.Bind();
+	alSourcei(this->id, AL_BUFFER, openALSoftBuffer->GetId());
+}
+
+uint32 OpenALSoftSource::GetNumberOfQueuedBuffers() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
+	return 0;
+}
+
 bool OpenALSoftSource::IsPlaying() const
 {
 	this->deviceContext.Bind();
@@ -48,14 +63,6 @@ void OpenALSoftSource::Play()
 {
 	this->deviceContext.Bind();
 	alSourcePlay(this->id);
-}
-
-void OpenALSoftSource::SetBuffer(const Buffer *buffer)
-{
-	const OpenALSoftBuffer *openALSoftBuffer = (OpenALSoftBuffer *) buffer;
-
-	this->deviceContext.Bind();
-	alSourcei(this->id, AL_BUFFER, openALSoftBuffer->GetId());
 }
 
 void OpenALSoftSource::SetGain(float32 gain)
@@ -86,4 +93,9 @@ void OpenALSoftSource::SetVelocity(const Math::Vector3s &vel)
 {
 	this->deviceContext.Bind();
 	alSourcefv(this->id, AL_VELOCITY, &vel.x);
+}
+
+void OpenALSoftSource::Stop()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
 }

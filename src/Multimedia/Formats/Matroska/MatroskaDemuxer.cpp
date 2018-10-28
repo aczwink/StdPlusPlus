@@ -263,7 +263,8 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 		if (codingFormatId == CodingFormatId::Unknown && track.codecId == codecId_ms_fourcc)
 		{
 			bool isBottomUp;
-			_stdxx_::ReadBMPHeader(isBottomUp, BufferInputStream(&track.codecPrivate[0], track.codecPrivate.GetSize()), *videoStream);
+			BufferInputStream codecPrivateData(&track.codecPrivate[0], track.codecPrivate.GetSize());
+			_stdxx_::ReadBMPHeader(isBottomUp, codecPrivateData, *videoStream);
 		}
 
 		if (videoStream->GetCodingFormat())

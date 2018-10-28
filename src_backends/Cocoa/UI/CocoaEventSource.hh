@@ -31,6 +31,6 @@ namespace _stdxx_
 		//Methods
 		void DispatchPendingEvents() override;
 		uint64 GetMaxTimeout() const override;
-		void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) const override;
+		void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) override;
 	};
 }

@@ -38,6 +38,10 @@ elseif(WIN32)
 	target_link_libraries(Std++ PRIVATE ws2_32.lib)
 	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 endif()
+
+if(APPLE)
+	add_subdirectory(src_os/bsd)
+endif()
 target_sources(Std++ PRIVATE ${SOURCE_FILES})
 
 

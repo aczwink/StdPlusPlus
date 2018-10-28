@@ -93,6 +93,17 @@ namespace StdXX
 			return this->pointer;
 		}
 
+		//Logical operators
+		inline bool operator==(const UniquePointer<ValueType>& other) const
+		{
+			return this->pointer == other.pointer;
+		}
+
+		inline bool operator!=(const UniquePointer<ValueType>& other) const
+		{
+			return this->pointer != other.pointer;
+		}
+
 		//Inline
 		inline bool IsNull() const
 		{

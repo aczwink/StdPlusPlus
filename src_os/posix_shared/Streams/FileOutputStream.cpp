@@ -24,6 +24,7 @@
 #include <unistd.h>
 //Local
 #include <Std++/Errorhandling/FileAlreadyExistsException.hpp>
+#include <Std++/Errorhandling/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -38,6 +39,13 @@ FileOutputStream::FileOutputStream(const Path &path, bool overwrite) : filePath(
 	{
 		switch(errno)
 		{
+			case ENOENT:
+			{
+				if(path.GetTitle().IsEmpty())
+					NOT_IMPLEMENTED_ERROR; //TODO: inform user that he is stupid
+				throw ErrorHandling::FileNotFoundException(path.GetParent());
+			}
+			break;
 			case EEXIST:
 				throw ErrorHandling::FileAlreadyExistsException(path);
 			default:

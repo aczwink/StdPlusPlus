@@ -38,7 +38,8 @@ void CocoaContainerBackend::AddChild(StdXX::UI::Widget *widget)
 	}
 
 	CocoaWidgetBackend *cocoaView = dynamic_cast<CocoaWidgetBackend *>(widget->_GetBackend());
-	[this->view addSubview:cocoaView->GetView()];
+	if(cocoaView) //some widgets don't need a backend
+		[this->view addSubview:cocoaView->GetView()];
 }
 
 UI::Widget &CocoaContainerBackend::GetWidget()

@@ -17,31 +17,24 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "OpenALSoftBuffer.hpp"
+#include <Std++/Eventhandling/EventWaiter.hpp>
+//Namespaces
+using namespace StdXX;
 
 //Constructor
-OpenALSoftBuffer::OpenALSoftBuffer(OpenALSoftDeviceContext &deviceContext) : deviceContext(deviceContext)
+EventWaiter::EventWaiter() : owned(true)
 {
-	this->deviceContext.Bind();
-	alGenBuffers(1, &this->id);
+	//TODO: implement me
 }
 
 //Destructor
-OpenALSoftBuffer::~OpenALSoftBuffer()
+EventWaiter::~EventWaiter()
 {
-	this->deviceContext.Bind();
-	alDeleteBuffers(1, &this->id);
+	//TODO: implement me
 }
 
 //Public methods
-void OpenALSoftBuffer::SetData(void *data, uint32 size, uint32 sampleRate, uint8 nChannels)
+void EventWaiter::Signal()
 {
-	ALenum format;
-	if(nChannels == 2)
-		format = AL_FORMAT_STEREO16;
-	else
-		format = AL_FORMAT_MONO16;
-
-	this->deviceContext.Bind();
-	alBufferData(this->id, format, data, size, sampleRate);
+	//TODO: implement me
 }

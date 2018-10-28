@@ -44,7 +44,7 @@ uint64 CocoaEventSource::GetMaxTimeout() const
 	return 1000 * 1000;
 }
 
-void CocoaEventSource::VisitWaitObjects(const StdXX::Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) const
+void CocoaEventSource::VisitWaitObjects(const StdXX::Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc)
 {
 	//none...
 }

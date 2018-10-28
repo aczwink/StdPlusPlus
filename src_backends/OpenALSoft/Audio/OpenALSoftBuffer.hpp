@@ -33,7 +33,7 @@ public:
 	~OpenALSoftBuffer();
 
 	//Methods
-	void SetData(bool stereo, bool samples16bit, void *data, uint32 size, uint32 sampleRate) override;
+	void SetData(void *data, uint32 size, uint32 sampleRate, uint8 nChannels) override;
 
 	//Inline
 	inline ALuint GetId() const

@@ -40,7 +40,7 @@ void EventQueue::System_CollectWaitObjects()
 		THIS->Push(pfd);
 	};
 
-	for(const EventSource *const& source : this->sources)
+	for(EventSource *const& source : this->sources)
 	{
 		source->VisitWaitObjects(collector);
 	}

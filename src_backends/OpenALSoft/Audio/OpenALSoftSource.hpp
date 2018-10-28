@@ -39,14 +39,16 @@ public:
 	~OpenALSoftSource();
 
 	//Methods
+	void EnqueueBuffer(const Buffer& buffer) override;
+	uint32 GetNumberOfQueuedBuffers() const override;
 	bool IsPlaying() const override;
 	void Play() override;
-	void SetBuffer(const Buffer *buffer) override;
 	void SetGain(float32 gain) override;
 	void SetLooping(bool loop) override;
 	void SetPitch(float32 pitch) override;
 	void SetPosition(const Math::Vector3s &pos) override;
 	void SetVelocity(const Math::Vector3s &vel) override;
+	void Stop() override;
 
 private:
 	//Members

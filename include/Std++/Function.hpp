@@ -48,7 +48,7 @@ namespace _stdxx_
         //Methods
         ReturnType Call(ArgumentTypes&&... args)
         {
-            return this->pFunc(Forward<ArgumentTypes>(args)...);
+            return this->pFunc(StdXX::Forward<ArgumentTypes>(args)...);
         }
     };
 

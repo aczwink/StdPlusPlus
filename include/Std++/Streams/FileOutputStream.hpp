@@ -32,6 +32,9 @@ namespace StdXX
 		 * If it exists and overwrite is true, it is truncated.
 		 * If it exists and overwrite is false, an error occurs.
 		 *
+		 * If a file could not be created because its parent path does not exist, a FileNotFoundException with the
+		 * parent path is thrown.
+		 *
 		 * @param path
 		 * @param overwrite
 		 */
