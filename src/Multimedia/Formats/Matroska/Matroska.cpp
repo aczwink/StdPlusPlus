@@ -24,11 +24,58 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX::Multimedia;
-/*
-//Global variables
-Map<String, CodecId> g_matroskaCodecStringMap;
+using namespace Matroska;
 
 //Local functions
+static void ReadContentEncoding(const EBML::Element& contentEncodingElement, InputStream& inputStream, TrackEncoding& trackEncoding)
+{
+	EBML::MasterReader reader(contentEncodingElement, inputStream);
+	while (reader.HasMore())
+	{
+		EBML::Element child;
+		reader.ReadNextChildHeader(child);
+
+		//set type
+		switch (child.id)
+		{
+		case MATROSKA_ID_CONTENTCOMPRESSION:
+			child.dataType = EBML::DataType::Master;
+			break;
+		case MATROSKA_ID_CONTENTCOMPRESSION_ALGORITHM:
+			child.dataType = EBML::DataType::UInt;
+			break;
+		case MATROSKA_ID_CONTENTCOMPRESSION_SETTINGS:
+			child.dataType = EBML::DataType::Binary;
+			break;
+		}
+
+		//set attributes
+		if ((child.dataType != EBML::DataType::Binary) //handle binary ourselves here
+			&& (child.dataType != EBML::DataType::Master) //we read each track entry flattened
+			)
+		{
+			reader.ReadCurrentChildData(child);
+		}
+
+		//set attributes
+		switch (child.id)
+		{
+		case MATROSKA_ID_CONTENTCOMPRESSION_ALGORITHM:
+			trackEncoding.compression.algorithm = (TrackCompressionAlgorithm)child.data.ui;
+			break;
+		case MATROSKA_ID_CONTENTCOMPRESSION_SETTINGS:
+		{
+			trackEncoding.compression.settings.Resize(child.dataSize);
+			reader.GetInUseInputStream().ReadBytes(&trackEncoding.compression.settings[0], child.dataSize);
+			reader.RawBytesReadFromStream(child.dataSize);
+		}
+		break;
+		}
+	}
+	reader.Verify();
+}
+
+/*
 static void LoadMap()
 {
 	static bool loaded = false;
@@ -74,9 +121,11 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 	//Audio coding formats
 	matroskaCodecMap.Insert(u8"A_AAC", CodingFormatId::AAC);
 	matroskaCodecMap.Insert(u8"A_MPEG/L3", CodingFormatId::MP3);
+	matroskaCodecMap.Insert(u8"A_VORBIS", CodingFormatId::Vorbis);
 
 	//Video coding formats
 	matroskaCodecMap.Insert(u8"V_MPEG4/ISO/AVC", CodingFormatId::H264);
+	matroskaCodecMap.Insert(u8"V_THEORA", CodingFormatId::Theora);
 
 	/*
 	//audio codecs
@@ -276,6 +325,8 @@ void Matroska::ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Tr
 			switch (child.id)
 			{
 			case MATROSKA_ID_AUDIO:
+			case MATROSKA_ID_CONTENTENCODING:
+			case MATROSKA_ID_CONTENTENCODINGS:
 			case MATROSKA_ID_VIDEO:
 				child.dataType = EBML::DataType::Master;
 				break;
@@ -318,6 +369,15 @@ void Matroska::ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Tr
 				trackReader.GetInUseInputStream().ReadBytes(&track.codecPrivate[0], child.dataSize);
 				trackReader.RawBytesReadFromStream(child.dataSize);
 				break;
+			case MATROSKA_ID_CONTENTENCODING:
+			{
+				TrackEncoding encoding;
+				ReadContentEncoding(child, trackReader.GetInUseInputStream(), encoding);
+				track.encodings.Push(encoding);
+
+				trackReader.RawBytesReadFromStream(child.dataSize);
+			}
+			break;
 			case MATROSKA_ID_PIXELHEIGHT:
 				track.video.height = child.data.ui;
 				break;

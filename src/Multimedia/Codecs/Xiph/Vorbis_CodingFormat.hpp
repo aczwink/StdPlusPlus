@@ -16,27 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Streams/TextCodec.hpp>
-//Codecs
-#include "Textcodecs/ASCIITextCodec.hpp"
-#include "Textcodecs/UTF16_LE_TextCodec.hpp"
-#include "Textcodecs/UTF8TextCodec.hpp"
+ //Local
+#include <Std++/Multimedia/CodingFormat.hpp>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-//Class functions
-TextCodec *TextCodec::GetCodec(TextCodecType codecType)
+class Vorbis_CodingFormat : public CodingFormat
 {
-	switch(codecType)
+public:
+	//Methods
+	CodingFormatId GetId() const override
 	{
-		case TextCodecType::ASCII:
-			return new ASCIITextCodec;
-		case TextCodecType::UTF16_LE:
-			return new UTF16_LE_TextCodec;
-		case TextCodecType::UTF8:
-			return new UTF8TextCodec;
+		return CodingFormatId::Vorbis;
 	}
 
-	return nullptr;
-}
+	String GetName() const override
+	{
+		return u8"Vorbis";
+	}
+};

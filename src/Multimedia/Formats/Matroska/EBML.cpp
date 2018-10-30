@@ -32,7 +32,7 @@ inline uint64 PutLength(uint64 uncoded, uint8 length)
 }
 
 //Namespace functions
-uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream)
+uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream, bool isElementSize)
 {
 	byte first, mask;
 	uint64 result;
@@ -45,6 +45,9 @@ uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream
 	first = reader.ReadByte();
 	while (mask)
 	{
+		if (isElementSize && (first == Natural<byte>::Max()))
+			return Natural<uint64>::Max(); //live recording
+
 		if (first & mask)
 		{
 			uint8 firstBitLength = 8 - length;
@@ -72,7 +75,7 @@ void EBML::ParseElementHeader(Element &element, InputStream &inputStream)
 	element.headerSize = length;
 
 	//read size
-	element.dataSize = DecodeVariableLengthInteger(length, inputStream);
+	element.dataSize = DecodeVariableLengthInteger(length, inputStream, true);
 	element.headerSize += length;
 
 	//check if we can know an offset

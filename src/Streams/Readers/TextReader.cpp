@@ -96,87 +96,18 @@ ByteString TextReader::ReadASCII_Line()
     return buffer;
 }
 
-ByteString TextReader::ReadASCII_ZeroTerminated()
+String TextReader::ReadZeroTerminatedString()
 {
-    char c;
-    ByteString buffer;
+	String result;
+	while (!this->inputStream.IsAtEnd())
+	{
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		if (codePoint == 0)
+			break;
+		result += codePoint;
+	}
 
-    while(!this->inputStream.IsAtEnd())
-    {
-		this->dataReader >> c;
-        if(c == 0)
-            break;
-        buffer += c;
-    }
-
-    return buffer;
-}
-
-uint32 TextReader::ReadUTF8()
-{
-    byte b[4];
-    uint32 codePoint;
-
-	this->dataReader >> b[0];
-	if(b[0] & 0x80)
-    {
-        //more than one byte
-        ASSERT(b[0] & 0x40, "If you see this, report to StdXX"); //this is always set for more than one byte
-
-        if(b[0] & 0x20)
-        {
-            if(b[0] & 0x10)
-            {
-				//4 byte
-				this->inputStream.ReadBytes(&b[1], 3);
-                codePoint = (uint32) ((b[0] & 0xF) << 18);
-                codePoint |= (b[1] & 0x3F) << 12;
-                codePoint |= (b[2] & 0x3F) << 6;
-                codePoint |= b[3] & 0x3F;
-            }
-            else
-            {
-                //3 byte
-				this->inputStream.ReadBytes(&b[1], 2);
-                codePoint = (uint32) ((b[0] & 0xF) << 12);
-                codePoint |= (b[1] & 0x3F) << 6;
-                codePoint |= b[2] & 0x3F;
-            }
-        }
-        else
-        {
-            //2 bytes
-			this->dataReader >> b[1];
-            codePoint = (uint32) ((b[0] & 0x1F) << 6);
-            codePoint |= b[1] & 0x3F;
-        }
-    }
-    else
-    {
-        //ascii
-        codePoint = b[0];
-    }
-
-    return codePoint;
-}
-
-UTF8String TextReader::ReadUTF8Line()
-{
-    uint32 c;
-    UTF8String result;
-
-    while(true)
-    {
-        c = this->ReadUTF8();
-        if(this->inputStream.IsAtEnd() || c == '\n')
-            break;
-        if(c == '\r')
-            continue;
-
-        result += c;
-    }
-
-    return result;
+	return result;
 }
 
 //Private methods

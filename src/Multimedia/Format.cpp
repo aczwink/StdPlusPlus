@@ -25,8 +25,8 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 //Definitions
-#define DETECTIONBUFFER_MINSIZE 32
-#define DETECTIONBUFFER_MAXSIZE 32u
+#define DETECTIONBUFFER_MINSIZE 64
+#define DETECTIONBUFFER_MAXSIZE 64u
 
 //Global variables
 DynamicArray<const Format *> g_formats;

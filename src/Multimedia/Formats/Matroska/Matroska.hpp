@@ -59,6 +59,7 @@ namespace Matroska
 		//Cluster
 			MATROSKA_ID_CLUSTER = 0x1F43B675,
 		MATROSKA_ID_TIMECODE = 0xE7,
+		MATROSKA_ID_PREVSIZE = 0xAB,
 		MATROSKA_ID_BLOCKGROUP = 0xA0,
 		MATROSKA_ID_BLOCK = 0xA1,
 		MATROSKA_ID_SIMPLEBLOCK = 0xA3,
@@ -73,6 +74,12 @@ namespace Matroska
 		MATROSKA_ID_DEFAULTDURATION = 0x23E383,
 		MATROSKA_ID_CODECID = 0x86,
 		MATROSKA_ID_CODECPRIVATE = 0x63A2,
+		//Track -> Content encoding
+		MATROSKA_ID_CONTENTENCODINGS = 0x6D80,
+		MATROSKA_ID_CONTENTENCODING = 0x6240,
+		MATROSKA_ID_CONTENTCOMPRESSION = 0x5034,
+		MATROSKA_ID_CONTENTCOMPRESSION_ALGORITHM = 0x4254,
+		MATROSKA_ID_CONTENTCOMPRESSION_SETTINGS = 0x4255,
 		//Track -> Audio
 			MATROSKA_ID_AUDIO = 0xE1,
 		MATROSKA_ID_SAMPLINGFREQUENCY = 0xB5,
@@ -97,6 +104,32 @@ namespace Matroska
 		TRACK_TYPE_VIDEO = 1,
 		TRACK_TYPE_AUDIO = 2,
 		TRACK_TYPE_SUBTITLE = 0x11,
+	};
+
+	//Track encoding
+	enum class TrackEncodingScope
+	{
+		AllFrameContent = 1
+	};
+	enum class TrackEncodingType
+	{
+		Compression = 0,
+	};
+	enum class TrackCompressionAlgorithm
+	{
+		zlib = 0,
+		HeaderStripping = 3
+	};
+	struct TrackEncoding
+	{
+		uint8 order = 0;
+		TrackEncodingScope scope = TrackEncodingScope::AllFrameContent;
+		TrackEncodingType type = TrackEncodingType::Compression;
+		struct
+		{
+			TrackCompressionAlgorithm algorithm = TrackCompressionAlgorithm::zlib;
+			DynamicArray<byte> settings;
+		} compression;
 	};
 
 	//Specific codecs
@@ -126,6 +159,7 @@ namespace Matroska
 		uint8 type;
 		String codecId;
 		DynamicArray<byte> codecPrivate;
+		DynamicArray<TrackEncoding> encodings;
 		struct
 		{
 			float64 sampleRate = 8000;

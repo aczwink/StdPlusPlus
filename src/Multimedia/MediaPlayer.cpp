@@ -34,7 +34,6 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 {
 	this->demuxer = nullptr;
 	this->isPlaying = false;
-	this->masterClock = 0;
 
 	this->audio.activeStreamIndex = Natural<uint32>::Max();
 	this->audio.lastPTS = 0;
@@ -129,6 +128,8 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 			}
 		}
 	}
+
+	this->masterClock = this->demuxer->GetStartTime() * 1000000 * this->demuxer->GetTimeScale();
 	
 	//start threads
 	this->audio.decodeThread = new _stdxx_::DecoderThread(this);

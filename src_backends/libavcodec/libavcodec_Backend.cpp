@@ -54,10 +54,12 @@ void libavcodec_Backend::LoadCodingFormatIdMap()
 	//audio
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_VORBIS, CodingFormatId::Vorbis);
 
 	//video
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PNG, CodingFormatId::PNG);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_RAWVIDEO, CodingFormatId::RawVideo);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_THEORA, CodingFormatId::Theora);
 }
 
 #ifdef _STDXX_EXTENSION_LIBAVCODEC_ENABLE_PATENDED

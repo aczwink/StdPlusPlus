@@ -16,27 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
+ //Class header
 #include <Std++/Streams/TextCodec.hpp>
-//Codecs
-#include "Textcodecs/ASCIITextCodec.hpp"
-#include "Textcodecs/UTF16_LE_TextCodec.hpp"
-#include "Textcodecs/UTF8TextCodec.hpp"
+//Local
+#include <Std++/Debug.hpp>
+#include <Std++/Streams/Readers/DataReader.hpp>
 //Namespaces
 using namespace StdXX;
 
-//Class functions
-TextCodec *TextCodec::GetCodec(TextCodecType codecType)
+class UTF16_LE_TextCodec : public TextCodec
 {
-	switch(codecType)
+public:
+	//Methods
+	uint32 ReadCodePoint(InputStream &inputStream) const override
 	{
-		case TextCodecType::ASCII:
-			return new ASCIITextCodec;
-		case TextCodecType::UTF16_LE:
-			return new UTF16_LE_TextCodec;
-		case TextCodecType::UTF8:
-			return new UTF8TextCodec;
+		DataReader reader(false, inputStream);
+
+		uint16 codePoint = reader.ReadUInt16();
+		if (codePoint > 0xD800)
+		{
+			NOT_IMPLEMENTED_ERROR; //surrogate-pair
+		}
+
+		return codePoint;
 	}
 
-	return nullptr;
-}
+	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+};

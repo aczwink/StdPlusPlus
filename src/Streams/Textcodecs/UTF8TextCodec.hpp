@@ -47,6 +47,29 @@ public:
 		return b1;
 	}
 
+	/*
+	if(b[0] & 0x20)
+		{
+			if(b[0] & 0x10)
+			{
+				//4 byte
+				this->inputStream.ReadBytes(&b[1], 3);
+				codePoint = (uint32) ((b[0] & 0xF) << 18);
+				codePoint |= (b[1] & 0x3F) << 12;
+				codePoint |= (b[2] & 0x3F) << 6;
+				codePoint |= b[3] & 0x3F;
+			}
+			else
+			{
+				//3 byte
+				this->inputStream.ReadBytes(&b[1], 2);
+				codePoint = (uint32) ((b[0] & 0xF) << 12);
+				codePoint |= (b[1] & 0x3F) << 6;
+				codePoint |= b[2] & 0x3F;
+			}
+		}
+		*/
+
 	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
 	{
 		DataWriter dataWriter(true, outputStream);

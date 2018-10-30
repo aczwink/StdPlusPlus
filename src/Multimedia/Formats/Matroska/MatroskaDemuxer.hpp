@@ -29,30 +29,11 @@ using namespace StdXX::Multimedia;
 Sources:
 https://www.matroska.org/technical/specs/index.html
 */
-
-struct STrackInfo
-{
-	CodingFormatId codingFormatId;
-
-	struct
-	{
-		uint8 bitDepth;
-		uint8 nChannels;
-		float64 samplingFrequency;
-	} audio;
-
-	struct
-	{
-		bool isMS_BMPHeader;
-		bool isIntegerPCM;
-		bool isFloatPCM;
-	} codecPrivate;
-};
-
 class MatroskaDemuxer : public Demuxer
 {
 	struct IncomingPacket
 	{
+		uint64 trackNumber;
 		Packet packet;
 		uint64 size;
 
@@ -60,6 +41,12 @@ class MatroskaDemuxer : public Demuxer
 		{
 			return this->size == 0;
 		}
+	};
+
+	struct TrackInfo
+	{
+		uint32 streamIndex;
+		DynamicArray<byte> strippedHeader;
 	};
 public:
 	//Constructor
@@ -72,7 +59,7 @@ public:
 private:
 	//Members
 	_stdxx_::CodingFormatIdMap<String> codecIdMap;
-	Map<uint64, uint32> trackToStreamMap;
+	Map<uint64, TrackInfo> tracks;
 	TimeIndex<Matroska::CuePoint> cues;
 	struct
 	{
@@ -84,7 +71,12 @@ private:
 	void AddStream(Matroska::Track &track);
 	void BufferPackets();
 	uint8 ReadBlockHeader(bool simple, uint32 blockSize);
-	void ReadSegment(uint64 segmentOffset);
+	void ReadSegment(uint64 segmentOffset, bool isLive);
 	void ReadSection(const EBML::Element &element);
 	void Reset();
+	/*
+	 * We currently only support resyncing on the segment element. Everything else (appart from clusters) should have no unknown size and therefore no need to resync.
+	 * Currently, the stream is required to be seekable here, which is stupid of course.
+	 */
+	void Resync();
 };

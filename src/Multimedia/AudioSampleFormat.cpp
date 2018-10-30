@@ -33,6 +33,10 @@ AudioSampleFormat::AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType
 		this->nPlanes = this->nChannels;
 		switch (this->nChannels)
 		{
+		case 1:
+			this->channels[0].offset = 0;
+			this->channels[0].planeIndex = 0;
+			break;
 		case 2:
 			this->channels[0].offset = 0;
 			this->channels[0].planeIndex = 0;
@@ -62,6 +66,9 @@ AudioSampleFormat::AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType
 	//speaker positions
 	switch (this->nChannels)
 	{
+	case 1: //mono
+		this->channels[0].speaker = SpeakerPosition::Front_Center;
+		break;
 	case 2: //stereo
 		this->channels[0].speaker = SpeakerPosition::Front_Left;
 		this->channels[1].speaker = SpeakerPosition::Front_Right;

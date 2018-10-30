@@ -37,6 +37,10 @@ using namespace StdXX;
 void InitStdPlusPlus_Platform();
 void MultimediaRegisterCodecsAndFormats();
 void ShutdownStdPlusPlus_Platform();
+namespace _stdxx_
+{
+	void RegisterFileSystemFormats();
+}
 
 //Global functions
 void InitStdPlusPlus()
@@ -47,6 +51,8 @@ void InitStdPlusPlus()
 	RegisterComputeBackends();
 	void RegisterUIBackends();
 	RegisterUIBackends();
+
+	_stdxx_::RegisterFileSystemFormats();
 
 	MultimediaRegisterCodecsAndFormats();
 

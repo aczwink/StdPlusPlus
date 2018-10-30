@@ -172,6 +172,12 @@ namespace StdXX
 			return this->ReadUInt64LE();
 		}
 
+		//Inline
+		inline uint32 Skip(uint32 nBytes)
+		{
+			return this->inputStream.Skip(nBytes);
+		}
+
     private:
         //Members
         bool readBigEndian;

@@ -16,33 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*
-//Video codecs
-#include "Codecs/RGB24/RGB24_Codec.hpp"
-#include "Codecs/Images/PNG_CodingFormat.hpp"
-
-void MultimediaRegisterCodecsAndFormats()
-{
-	//Codecs
-	//Audio codecs
-	Codec::Register(new PCM_S16LE_Codec);
-
-	//Video codecs
-	Codec::Register(new H264_Codec);
-	Codec::Register(new RGB24_Codec);
-}
-*/
-
 //Audio coding formats
 #include "Codecs/MPEG/AAC_CodingFormat.hpp"
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
 #include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
+#include "Codecs/Xiph/Vorbis_CodingFormat.hpp"
 
 //Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
 #include "Codecs/MPEG/H264_CodingFormat.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
 #include "Codecs/RawVideo/RawVideo_CodingFormat.hpp"
+#include "Codecs/Xiph/Theora_CodingFormat.hpp"
 
 //Container formats
 #include "Formats/BMP/BMP_Format.hpp"
@@ -58,6 +43,7 @@ void MultimediaRegisterCodecsAndFormats()
 	CodingFormat::Register(new AAC_CodingFormat);
 	CodingFormat::Register(new MP3_CodingFormat);
 	CodingFormat::Register(new PCM_S16LE_CodingFormat);
+	CodingFormat::Register(new Vorbis_CodingFormat);
 
 
 	//Video coding formats
@@ -65,6 +51,7 @@ void MultimediaRegisterCodecsAndFormats()
 	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
 	CodingFormat::Register(new PNG_CodingFormat);
 	CodingFormat::Register(new RawVideo_CodingFormat);
+	CodingFormat::Register(new Theora_CodingFormat);
 
 
 	//Container formats

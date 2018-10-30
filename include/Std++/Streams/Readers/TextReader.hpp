@@ -55,9 +55,7 @@ namespace StdXX
 		 */
         String ReadString(uint32 length);
         ByteString ReadASCII_Line();
-        ByteString ReadASCII_ZeroTerminated();
-        uint32 ReadUTF8();
-        UTF8String ReadUTF8Line();
+		String ReadZeroTerminatedString();
 
 		//Inline
 		inline bool IsAtEnd() const

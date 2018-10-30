@@ -1,6 +1,7 @@
 add_subdirectory(CommonFileFormats)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
 add_subdirectory(Devices)
+add_subdirectory(Filesystem)
 add_subdirectory(Hashing)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
@@ -16,18 +17,6 @@ set(SOURCE_FILES
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.cpp
-
-	#Filesystem
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerDirectory.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFile.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileInputStream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/ContainerFileSystem.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Directory.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/DirectoryWalker.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystem.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemFormat.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/Path.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/URL.cpp
 
 	#Multimedia
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.cpp
