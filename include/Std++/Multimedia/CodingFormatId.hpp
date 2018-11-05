@@ -45,6 +45,9 @@ namespace StdXX
 			PCM_S16LE = 1,
 			Vorbis = 0x566F, //"Vo"
 
+			//Subtitle codecs (we use fourcc here though that isn't standard of course)
+			SubRip = FOURCC(u8"SRT "),
+
 			//Video codecs
 			RawVideo = 0,
 			H264 = FOURCC(u8"H264"),

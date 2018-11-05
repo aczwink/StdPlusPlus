@@ -25,6 +25,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.hpp
 
+	#SubRip
+	${CMAKE_CURRENT_SOURCE_DIR}/SubRip/SubRip_CodingFormat.hpp
+
 	#Xiph
 	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Theora_CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Vorbis_CodingFormat.hpp

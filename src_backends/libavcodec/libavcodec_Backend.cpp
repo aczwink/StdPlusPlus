@@ -56,6 +56,9 @@ void libavcodec_Backend::LoadCodingFormatIdMap()
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_VORBIS, CodingFormatId::Vorbis);
 
+	//subtitle
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_SUBRIP, CodingFormatId::SubRip);
+
 	//video
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PNG, CodingFormatId::PNG);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_RAWVIDEO, CodingFormatId::RawVideo);

@@ -123,6 +123,9 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 	matroskaCodecMap.Insert(u8"A_MPEG/L3", CodingFormatId::MP3);
 	matroskaCodecMap.Insert(u8"A_VORBIS", CodingFormatId::Vorbis);
 
+	//Subtitle coding formats
+	matroskaCodecMap.Insert(u8"S_TEXT/UTF8", CodingFormatId::SubRip);
+
 	//Video coding formats
 	matroskaCodecMap.Insert(u8"V_MPEG4/ISO/AVC", CodingFormatId::H264);
 	matroskaCodecMap.Insert(u8"V_THEORA", CodingFormatId::Theora);
