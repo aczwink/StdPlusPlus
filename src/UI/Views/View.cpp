@@ -25,6 +25,26 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Public methods
+void View::Event(UI::Event& event)
+{
+	switch (event.GetType())
+	{
+	case EventType::SelectionChanged:
+		this->OnSelectionChanged(static_cast<SelectionChangedEvent&>(event));
+		event.Accept();
+		break;
+	default:
+		Widget::Event(event);
+	}
+}
+
+void View::Select(const ControllerIndex& index)
+{
+	this->selectionController.Select(index);
+	this->viewBackend->UpdateSelection(); //inform ui
+	this->controller->OnSelectionChanged(); //inform controller
+}
+
 void View::SetController(UniquePointer<TreeController>&& controller)
 {
 	this->controller = StdXX::Move(controller);
@@ -43,8 +63,15 @@ void View::OnRealized()
 		this->viewBackend->ControllerChanged();
 }
 
-void View::OnSelectionChanged()
+void View::OnSelectionChanged(SelectionChangedEvent& event)
 {
-	this->viewBackend->UpdateSelection();
+	if (event.DescribesDifference())
+	{
+		NOT_IMPLEMENTED_ERROR;
+	}
+	else
+		this->selectionController.SetSelection(event.Selected());
+	
+	//inform controller
 	this->controller->OnSelectionChanged();
 }

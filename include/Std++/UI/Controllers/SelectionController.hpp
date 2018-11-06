@@ -45,6 +45,11 @@ namespace StdXX
 				this->selectedIndexes.InsertTail(index);
 			}
 
+			inline void SetSelection(const LinkedList<ControllerIndex>& selection)
+			{
+				this->selectedIndexes = selection;
+			}
+
 		private:
 			//Members
 			LinkedList<ControllerIndex> selectedIndexes;

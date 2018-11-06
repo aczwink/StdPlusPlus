@@ -37,11 +37,6 @@ namespace StdXX
 				if (button.onActivatedHandler.IsBound())
 					button.onActivatedHandler();
 			}
-
-			inline void DispatchSelectionChangedEvent(View &view)
-			{
-				view.OnSelectionChanged();
-			}
 		};
 	}
 }

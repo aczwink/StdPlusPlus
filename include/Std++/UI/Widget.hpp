@@ -65,7 +65,7 @@ namespace StdXX
 			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
-			virtual void Event(Event& e);
+			virtual void Event(Event& event);
             virtual Math::SizeD GetSizeHint() const;
 
             //Inline

@@ -20,8 +20,9 @@
 //Local
 #include <Std++/_Backends/UI/ViewBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/UI/Widget.hpp>
 #include <Std++/UI/Controllers/SelectionController.hpp>
+#include <Std++/UI/Events/SelectionChangedEvent.hpp>
+#include <Std++/UI/Widget.hpp>
 
 namespace StdXX
 {
@@ -44,7 +45,11 @@ namespace StdXX
 			}
 
 			//Methods
+			void Select(const ControllerIndex& index);
 			void SetController(UniquePointer<TreeController>&& controller);
+
+			//Overrideable
+			virtual void Event(UI::Event& event) override;
 
 			//Inline
 			inline TreeController *GetController()
@@ -60,12 +65,6 @@ namespace StdXX
 			inline const SelectionController &GetSelectionController() const
 			{
 				return this->selectionController;
-			}
-
-			inline void Select(const ControllerIndex& index)
-			{
-				this->selectionController.Select(index);
-				this->OnSelectionChanged();
 			}
 
 		protected:
@@ -88,7 +87,7 @@ namespace StdXX
 			SelectionController selectionController;
 
 			//Event handlers
-			void OnSelectionChanged();
+			void OnSelectionChanged(SelectionChangedEvent& event);
 
 			//Inline
 			inline void OnModelChanged()

@@ -60,6 +60,11 @@ namespace StdXX
 			} data;
 
 			//Inline
+			inline uint64 Size() const
+			{
+				return this->headerSize + this->dataSize;
+			}
+
 			inline bool SizeUnknown() const
 			{
 				return this->dataSize == Natural<uint64>::Max();

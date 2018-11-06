@@ -20,8 +20,10 @@
 #include "CommCtrlSelectBoxBackend.hpp"
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Events/SelectionChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
 
@@ -79,6 +81,38 @@ Widget & CommCtrlSelectBoxBackend::GetWidget()
 const Widget & CommCtrlSelectBoxBackend::GetWidget() const
 {
 	return this->selectBox;
+}
+
+void CommCtrlSelectBoxBackend::OnMessage(WinMessageEvent& event)
+{
+	switch (event.message)
+	{
+	case WM_COMMAND:
+	{
+		switch (HIWORD(event.wParam))
+		{
+		case CBN_SELCHANGE:
+		{
+			TreeController* controller = this->selectBox.GetController();
+			if (controller)
+			{
+				uint32 row = this->SendMessage(CB_GETCURSEL, 0, 0);
+				ControllerIndex index = controller->GetChildIndex(row, 0);
+
+				LinkedList<ControllerIndex> selection;
+				selection.InsertTail(index);
+
+				SelectionChangedEvent e(Move(selection));
+				this->selectBox.Event(e);
+			}
+			event.consumed = true;
+			event.result = 0;
+		}
+		break;
+		}
+	}
+	break;
+	}
 }
 
 void CommCtrlSelectBoxBackend::SetHint(const StdXX::String & text)

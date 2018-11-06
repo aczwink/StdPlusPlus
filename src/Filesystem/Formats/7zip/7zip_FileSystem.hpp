@@ -17,11 +17,13 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
+#include <Std++/Compression/CompressionAlgorithm.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
+#include <Std++/Optional.hpp>
 
 namespace _stdxx_
 {
-	enum class PropertyId
+	enum class PropertyId : byte
 	{
 		kEnd = 0x00,
 		kHeader = 0x01,
@@ -44,6 +46,33 @@ namespace _stdxx_
 
 	class SevenZip_FileSystem : public StdXX::ContainerFileSystem
 	{
+		struct Folder
+		{
+			StdXX::DynamicArray<StdXX::CompressionAlgorithm> coders;
+		};
+
+		struct CodersInfo
+		{
+			struct FolderInfo
+			{
+				Folder folder;
+				uint64 uncompressedSize;
+			};
+
+			StdXX::DynamicArray<FolderInfo> folderInfos;
+		};
+
+		struct PackInfo
+		{
+			struct PackedStreamInfo
+			{
+				uint64 compressedSize;
+				StdXX::Optional<uint32> crc32;
+			};
+
+			uint64 offset;
+			StdXX::DynamicArray<PackedStreamInfo> packedStreams;
+		};
 	public:
 		//Constructor
 		inline SevenZip_FileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path &fileSystemPath) : StdXX::ContainerFileSystem(format, fileSystemPath)
@@ -64,14 +93,15 @@ namespace _stdxx_
 		uint64 baseOffset;
 
 		//Methods
+		StdXX::CompressionAlgorithm MapCodecId(byte(&codecId)[16], uint8 codecIdSize) const;
 		uint8 ReadArchiveProperties();
-		void ReadCodersInfo();
+		void ReadCodersInfo(CodersInfo& codersInfo);
 		void ReadDigests(uint64 nStreams);
 		void ReadFilesInfo();
-		void ReadFolder();
+		void ReadFolder(Folder& folder);
 		void ReadHeader(uint64 offset, uint64 size);
 		void ReadFileSystemHeader();
-		void ReadPackInfo();
+		void ReadPackInfo(PackInfo& packInfo);
 		void ReadStreamsInfo();
 		void ReadSubStreamsInfo();
 		uint64 ReadVariableLengthUInt();

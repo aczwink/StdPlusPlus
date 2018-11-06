@@ -23,7 +23,7 @@
 #include "Codecs/Xiph/Vorbis_CodingFormat.hpp"
 
 //Subtitle coding formats
-#include "Codecs/SubRip/SubRip_CodingFormat.hpp"
+#include "Codecs/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp"
 
 //Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
@@ -50,7 +50,7 @@ void MultimediaRegisterCodecsAndFormats()
 
 
 	//Subtitle coding formats
-	CodingFormat::Register(new SubRip_CodingFormat);
+	CodingFormat::Register(new UTF8PlainText_CodingFormat);
 
 
 	//Video coding formats

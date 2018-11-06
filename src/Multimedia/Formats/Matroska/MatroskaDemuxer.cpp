@@ -107,12 +107,15 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 		switch (element.id)
 		{
 		case MATROSKA_ID_CLUSTER:
+			this->demuxerState.leftClusterSize = element.dataSize;
 			//do nothing
 			break;
 		case MATROSKA_ID_TIMECODE:
 			element.dataType = EBML::DataType::UInt;
 			EBML::ReadElementData(element, this->inputStream);
 			this->demuxerState.clusterTimecode = element.data.ui;
+
+			this->demuxerState.leftClusterSize -= element.Size();
 			break;
 		case MATROSKA_ID_BLOCKGROUP:
 		{
@@ -123,6 +126,8 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			{
 				EBML::Element child;
 				reader.ReadNextChildHeader(child);
+
+				this->demuxerState.leftClusterSize -= child.headerSize;
 
 				switch (child.id)
 				{
@@ -142,19 +147,27 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 						reader.RawBytesReadFromStream(reader.GetRemainingBytes()); //we fool the reader and tell him as if we consumed the whole block data
 						//though stream is actually at beginning of block payload
 					}
+
+					this->demuxerState.leftClusterSize -= blockHeaderSize + blockDataSize;
 				}
 				break;
 				case MATROSKA_ID_BLOCKDURATION:
 					child.dataType = EBML::DataType::UInt;
 					reader.ReadCurrentChildData(child);
 					duration = child.data.ui;
+
+					this->demuxerState.leftClusterSize -= child.dataSize;
 					break;
 				case MATROSKA_ID_REFERENCEBLOCK:
 					isKeyframe = false;
 					reader.SkipCurrentChildData(child);
+
+					this->demuxerState.leftClusterSize -= child.dataSize;
 					break;
 				default:
 					reader.SkipCurrentChildData(child);
+
+					this->demuxerState.leftClusterSize -= child.dataSize;
 				}
 			}
 			reader.Verify();
@@ -170,12 +183,26 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 		break;
 		case MATROSKA_ID_SIMPLEBLOCK:
 			this->ReadBlockHeader(true, element.dataSize);
+			this->demuxerState.leftClusterSize -= element.dataSize;
 			break;
+			//skip elements that we don't need
+		case MATROSKA_ID_POSITION:
 		case MATROSKA_ID_PREVSIZE:
+			//skip anything that might come after clusters (like indexes and so on)
+		case MATROSKA_ID_CUES:
+		case MATROSKA_ID_TAGS:
 			this->inputStream.Skip(element.dataSize);
+			this->demuxerState.leftClusterSize -= element.dataSize;
 			break;
 		default:
-			this->inputStream.Skip(element.dataSize);
+			if (element.dataSize < this->demuxerState.leftClusterSize)
+			{
+				//we try it
+				this->inputStream.Skip(element.dataSize);
+				this->demuxerState.leftClusterSize -= element.dataSize;
+			}
+			else
+				this->Resync();
 		}
 	}
 
@@ -192,6 +219,8 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 			MemCopy(packet.GetData(), &trackInfo.strippedHeader[0], trackInfo.strippedHeader.GetSize());
 		this->inputStream.ReadBytes(packet.GetData() + trackInfo.strippedHeader.GetSize(), p.size);
 		packet.CopyAttributesFrom(p.packet);
+
+		this->demuxerState.leftClusterSize -= p.size;
 	}
 	
 	return true;
@@ -461,21 +490,21 @@ void MatroskaDemuxer::ReadSegment(uint64 segmentOffset, bool isLive)
 			readSections.Insert(element.id);
 			break;
 		case MATROSKA_ID_CLUSTER:
+			this->demuxerState.leftClusterSize = element.dataSize;
 			foundCluster = true;
 			break; //we are at the clusters.... break from here
 		case EBML::ClassId::EBML_ID_VOID:
+		case MATROSKA_ID_TAGS:
 			//just skip these
 			readSections.Insert(element.id);
 			this->inputStream.Skip(element.dataSize);
 			break;
 		default: //unknown... skip
+			readSections.Insert(element.id);
 			if (isLive) //could any time be any weird data that is not ebml. unfortunately this is allowed when ebml is used for live streaming-.-
 				this->Resync();
 			else
-			{
-				readSections.Insert(element.id);
 				this->inputStream.Skip(element.dataSize);
-			}
 		}
 	}
 
@@ -502,6 +531,7 @@ void MatroskaDemuxer::ReadSection(const EBML::Element &element)
 	switch (element.id)
 	{
 	case MATROSKA_ID_CLUSTER:
+		this->demuxerState.leftClusterSize = element.dataSize;
 		//dont read it
 		break;
 	case MATROSKA_ID_CUES:
@@ -556,6 +586,7 @@ void MatroskaDemuxer::Resync()
 		switch (id)
 		{
 		case MATROSKA_ID_INFO:
+		case MATROSKA_ID_CLUSTER:
 			found = true;
 			break;
 		default:

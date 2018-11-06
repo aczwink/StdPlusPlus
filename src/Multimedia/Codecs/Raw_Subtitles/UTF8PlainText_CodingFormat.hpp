@@ -22,17 +22,17 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class SubRip_CodingFormat : public CodingFormat
+class UTF8PlainText_CodingFormat : public CodingFormat
 {
 public:
 	//Methods
 	CodingFormatId GetId() const override
 	{
-		return CodingFormatId::SubRip;
+		return CodingFormatId::UTF8PlainText;
 	}
 
 	String GetName() const override
 	{
-		return u8"SubRip";
+		return u8"UTF-8 Plain text";
 	}
 };

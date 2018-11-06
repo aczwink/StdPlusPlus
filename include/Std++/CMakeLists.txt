@@ -1,6 +1,7 @@
 add_subdirectory(_Backends)
 add_subdirectory(Audio)
 add_subdirectory(CommonFileFormats)
+add_subdirectory(Compression)
 add_subdirectory(Containers)
 add_subdirectory(Devices)
 add_subdirectory(Errorhandling)

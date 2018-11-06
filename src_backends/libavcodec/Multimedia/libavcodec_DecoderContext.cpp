@@ -81,10 +81,17 @@ void libavcodec_DecoderContext::Decode(const Packet & packet)
 	this->MapPacket(packet);
 
 	int ret = avcodec_send_packet(this->codecContext, this->packet);
-	ASSERT(ret == 0, u8"TODO: implement error handling");
-	/*if (ret < 0)
-		return; //an error occured... skip packet*/
-
+	switch (ret)
+	{
+	case 0:
+		//ok
+		break;
+	case AVERROR_INVALIDDATA:
+		return; //well nothing we can do... data is corrupt
+	default:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+	
 	while (ret >= 0)
 	{
 		ret = avcodec_receive_frame(this->codecContext, this->frame);

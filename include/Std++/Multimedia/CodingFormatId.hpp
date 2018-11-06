@@ -46,7 +46,7 @@ namespace StdXX
 			Vorbis = 0x566F, //"Vo"
 
 			//Subtitle codecs (we use fourcc here though that isn't standard of course)
-			SubRip = FOURCC(u8"SRT "),
+			UTF8PlainText = FOURCC(u8"UTF8"),
 
 			//Video codecs
 			RawVideo = 0,

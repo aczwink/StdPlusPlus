@@ -38,6 +38,34 @@ bool SevenZip_FileSystem::IsDirectory(const Path & path) const
 }
 
 //Private methods
+CompressionAlgorithm SevenZip_FileSystem::MapCodecId(byte(&codecId)[16], uint8 codecIdSize) const
+{
+	ASSERT(codecIdSize >= 1, u8"Report this please!");
+
+	switch (codecId[0])
+	{
+	case 3: //7z
+	{
+		switch (codecId[1])
+		{
+		case 1:
+		{
+			ASSERT(codecIdSize == 3, u8"Report this please!");
+			ASSERT(codecId[2] == 1, u8"Report this please!");
+			
+			return CompressionAlgorithm::LZMA;
+		}
+		break;
+		default:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	}
+	break;
+	default:
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+}
+
 uint8 SevenZip_FileSystem::ReadArchiveProperties()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: this method was never tested
@@ -59,7 +87,7 @@ uint8 SevenZip_FileSystem::ReadArchiveProperties()
 	return -1;
 }
 
-void SevenZip_FileSystem::ReadCodersInfo()
+void SevenZip_FileSystem::ReadCodersInfo(CodersInfo& codersInfo)
 {
 	DataReader reader(false, *this->containerInputStream); //7z is little endian
 
@@ -67,6 +95,7 @@ void SevenZip_FileSystem::ReadCodersInfo()
 	ASSERT(id == (byte)PropertyId::kFolder, u8"Report this please!");
 
 	uint64 nFolders = this->ReadVariableLengthUInt();
+	codersInfo.folderInfos.Resize(nFolders);
 	bool external = reader.ReadByte() != 0;
 	if (external)
 	{
@@ -77,28 +106,24 @@ void SevenZip_FileSystem::ReadCodersInfo()
 	else
 	{
 		for (uint64 i = 0; i < nFolders; i++)
-			this->ReadFolder();
+			this->ReadFolder(codersInfo.folderInfos[i].folder);
 	}
 
 	id = reader.ReadByte();
 	ASSERT(id == (byte)PropertyId::kCodersUnPackSize, u8"Report this please!");
 	for (uint64 i = 0; i < nFolders; i++)
 	{
-		this->ReadVariableLengthUInt(); //UnPackSize
+		codersInfo.folderInfos[i].uncompressedSize = this->ReadVariableLengthUInt();
 	}
 
 	id = reader.ReadByte();
-	switch ((PropertyId)id)
+	if (id == (byte)PropertyId::kCRC)
 	{
-	case PropertyId::kEnd:
-		//ok
-		break;
-	case PropertyId::kCRC:
 		this->ReadDigests(nFolders);
-		break;
-	default:
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		id = reader.ReadByte();
 	}
+
+	ASSERT(id == (byte)PropertyId::kEnd, u8"Report this please!");
 }
 
 void SevenZip_FileSystem::ReadDigests(uint64 nStreams)
@@ -190,26 +215,29 @@ void SevenZip_FileSystem::ReadFilesInfo()
 	}
 }
 
-void SevenZip_FileSystem::ReadFolder()
+void SevenZip_FileSystem::ReadFolder(Folder& folder)
 {
 	DataReader reader(false, *this->containerInputStream); //7z is little endian
 
 	uint64 nCoders = this->ReadVariableLengthUInt();
+	folder.coders.Resize(nCoders);
 	for (uint64 i = 0; i < nCoders; i++)
 	{
 		byte flags = reader.ReadByte();
 		uint8 codecIdSize = flags & 0xF;
-		reader.Skip(codecIdSize); //codecId
-		if (flags & 0x1E)
+		byte codecId[16];
+		reader.ReadBytes(codecId, codecIdSize);
+		folder.coders[i] = this->MapCodecId(codecId, codecIdSize);
+		if (flags & 0x10)
 		{
 			//complex
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 
-		if (flags & 0x3C)
+		if (flags & 0x20)
 		{
-			//attributes
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			uint64 propertiesSize = this->ReadVariableLengthUInt();
+			reader.Skip(propertiesSize);
 		}
 	}
 }
@@ -226,6 +254,9 @@ void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 	case PropertyId::kEncodedHeader:
 	{
 		this->ReadStreamsInfo();
+		uint64 _cur = this->containerInputStream->GetRemainingBytes();
+		_cur++;
+		_cur--;
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
 	break;
@@ -268,34 +299,31 @@ void SevenZip_FileSystem::ReadFileSystemHeader()
 	this->ReadHeader(nextHeaderOffset, nextHeaderSize);
 }
 
-void SevenZip_FileSystem::ReadPackInfo()
+void SevenZip_FileSystem::ReadPackInfo(PackInfo& packInfo)
 {
-	uint64 packPos = this->ReadVariableLengthUInt();
+	packInfo.offset = this->ReadVariableLengthUInt();
 	uint64 numPackStreams = this->ReadVariableLengthUInt();
 
 	DataReader reader(false, *this->containerInputStream); //7z is little endian
 
-	bool foundEnd = false;
-	while (!foundEnd)
-	{
-		PropertyId id = (PropertyId)reader.ReadByte();
+	packInfo.packedStreams.Resize(numPackStreams);
 
-		switch (id)
-		{
-		case PropertyId::kEnd:
-			foundEnd = true;
-			break;
-		case PropertyId::kSize:
-		{
-			this->ReadVariableLengthUInt(); //packSize
-		}
-		break;
-		case PropertyId::kCRC:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		}
+	byte id = reader.ReadByte();
+	if (id == (byte)PropertyId::kSize)
+	{
+		for(uint64 i = 0; i < numPackStreams; i++)
+			packInfo.packedStreams[i].compressedSize = this->ReadVariableLengthUInt();
+		id = reader.ReadByte();
 	}
+
+	if (id == (byte)PropertyId::kCRC)
+	{
+		for (uint64 i = 0; i < numPackStreams; i++)
+			packInfo.packedStreams[i].crc32 = reader.ReadUInt32();
+		id = reader.ReadByte();
+	}
+
+	ASSERT(id == (byte)PropertyId::kEnd, u8"Report this please!");
 }
 
 void SevenZip_FileSystem::ReadStreamsInfo()
@@ -305,22 +333,24 @@ void SevenZip_FileSystem::ReadStreamsInfo()
 	byte id = reader.ReadByte();
 	if (id == (byte)PropertyId::kPackInfo)
 	{
-		this->ReadPackInfo();
+		PackInfo packInfo;
+		this->ReadPackInfo(packInfo);
+		id = reader.ReadByte();
 	}
 
-	id = reader.ReadByte();
 	if (id == (byte)PropertyId::kUnPackInfo)
 	{
-		this->ReadCodersInfo();
+		CodersInfo codersInfo;
+		this->ReadCodersInfo(codersInfo);
+		id = reader.ReadByte();
 	}
 
-	id = reader.ReadByte();
 	if (id == (byte)PropertyId::kSubStreamsInfo)
 	{
 		this->ReadSubStreamsInfo();
+		id = reader.ReadByte();
 	}
 
-	id = reader.ReadByte();
 	ASSERT(id == (byte)PropertyId::kEnd, u8"Report this please!");
 }
 

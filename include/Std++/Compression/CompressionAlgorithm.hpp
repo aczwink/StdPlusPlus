@@ -20,12 +20,10 @@
 
 namespace StdXX
 {
-    namespace Compression
-    {
-        enum class ECompressionAlgorithm
-        {
-            DEFLATE,
-            ZLIB
-        };
-    }
+	enum class CompressionAlgorithm
+	{
+		DEFLATE,
+		LZMA,
+		ZLIB
+	};
 }

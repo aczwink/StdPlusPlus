@@ -20,7 +20,7 @@
 //Local
 #include "Std++/Containers/FIFOBuffer.hpp"
 #include "../Definitions.h"
-#include "ECompressionAlgorithm.h"
+#include "CompressionAlgorithm.hpp"
 
 namespace StdXX
 {
@@ -56,7 +56,7 @@ namespace StdXX
             void Decompress(AOutputStream &refOutput, uint32 size = Natural<uint32>::Max());
 
             //Functions
-            static ADecompressor *Create(ECompressionAlgorithm algorithm, InputStream &refInput);
+            static ADecompressor *Create(CompressionAlgorithm algorithm, InputStream &refInput);
         };
     }
 }

@@ -63,6 +63,7 @@ private:
 	TimeIndex<Matroska::CuePoint> cues;
 	struct
 	{
+		int64 leftClusterSize; //signed so that we can accomodate for the case where size is unknown
 		uint64 clusterTimecode;
 		LinkedList<IncomingPacket> packetQueue;
 	} demuxerState;

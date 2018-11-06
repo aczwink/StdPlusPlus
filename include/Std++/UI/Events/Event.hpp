@@ -27,6 +27,7 @@ namespace StdXX
 			MouseButtonReleased,
 			MouseMoved,
 			MouseWheelRolled,
+			SelectionChanged,
 			ValueChanged,
 			WidgetShouldBePainted,
 			WindowShouldBeClosed,

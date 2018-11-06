@@ -96,7 +96,8 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 			{
 				SubtitleStream *const& subtitleStream = (SubtitleStream *)stream;
 
-				this->subtitleStreams.Insert(i, subtitleStream);
+				if(subtitleStream->GetDecoderContext())
+					this->subtitleStreams.Insert(i, subtitleStream);
 			}
 			break;
 			case DataType::Video:

@@ -77,6 +77,11 @@ namespace StdXX
 			return b;
 		}
 
+		inline uint32 ReadBytes(void* destination, uint32 nBytes)
+		{
+			return this->inputStream.ReadBytes(destination, nBytes);
+		}
+
 		inline float32 ReadFloat32()
 		{
 			float32 v;
