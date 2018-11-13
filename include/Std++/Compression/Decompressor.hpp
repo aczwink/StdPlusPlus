@@ -18,25 +18,30 @@
  */
 #pragma once
 //Local
-#include "../Streams/ASeekableOutputStream.h"
-#include "CCatalog.h"
+#include <Std++/Streams/InputStream.hpp>
+#include "CompressionAlgorithm.hpp"
 
 namespace StdXX
 {
-    namespace PDF
-    {
-        class STDPLUSPLUS_API CDocument
-        {
-        private:
-            //Members
-            CCatalog catalog;
+	class STDPLUSPLUS_API Decompressor : public InputStream
+	{
+	public:
+		//Constructor
+		inline Decompressor(InputStream &inputStream) : inputStream(inputStream)
+		{
+		}
 
-            //Methods
-            void WriteHeader(OutputStream &refOutput);
+		//Destructor
+		virtual ~Decompressor()
+		{
+		}
 
-        public:
-            //Methods
-            void Write(ASeekableOutputStream &refOutput);
-        };
-    }
+		//Functions
+		static Decompressor *Create(CompressionAlgorithm algorithm, InputStream &inputStream);
+		static Decompressor *CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize);
+
+	protected:
+		//Members
+		InputStream& inputStream;
+	};
 }

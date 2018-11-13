@@ -63,7 +63,6 @@ namespace StdXX
         //Members
         byte *pCurrentFront;
         byte *pCurrentTail;
-        bool atEnd;
 
         //Methods
         void EnsureStorage(uint32 requiredAdditionalSize);

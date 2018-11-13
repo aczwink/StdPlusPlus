@@ -24,6 +24,7 @@ namespace StdXX
 	{
 		DEFLATE,
 		LZMA,
+		LZMA2,
 		ZLIB
 	};
 }

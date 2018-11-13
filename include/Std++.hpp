@@ -104,7 +104,7 @@
 
 //Compression
 #include <Std++/Compression/CHuffmanDecoder.h>
-#include <Std++/Compression/ADecompressor.h>
+#include <Std++/Compression/Decompressor.hpp>
 
 //Debugging
 #include <Std++/Debugging/CHook.h>

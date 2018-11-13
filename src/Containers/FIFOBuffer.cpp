@@ -28,7 +28,6 @@ FIFOBuffer::FIFOBuffer()
 {
 	this->pCurrentFront = NULL;
 	this->pCurrentTail = NULL;
-	this->atEnd = true;
 	this->SetAllocationInterval(1024);
 }
 
@@ -39,7 +38,6 @@ FIFOBuffer &FIFOBuffer::operator=(const FIFOBuffer &rhs)
 
 	this->pCurrentFront = this->data + (rhs.pCurrentFront - rhs.data);
 	this->pCurrentTail = this->data + (rhs.pCurrentTail - rhs.data);
-	this->atEnd = rhs.atEnd;
 	
 	return *this;
 }
@@ -52,8 +50,6 @@ FIFOBuffer &FIFOBuffer::operator=(FIFOBuffer &&rhs)
 	rhs.pCurrentFront = nullptr;
 	this->pCurrentTail = rhs.pCurrentTail;
 	rhs.pCurrentTail = nullptr;
-	this->atEnd = rhs.atEnd;
-	rhs.atEnd = true;
 
 	return *this;
 }
@@ -75,8 +71,7 @@ void FIFOBuffer::EnsureCapacity(uint32 requiredNumberOfElements)
 
 bool FIFOBuffer::IsAtEnd() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
+	return this->pCurrentFront == this->pCurrentTail;
 }
 
 uint32 FIFOBuffer::PeekBytes(void *destination, uint32 offset, uint32 count) const
@@ -95,8 +90,6 @@ uint32 FIFOBuffer::ReadBytes(void *destination, uint32 count)
 	count = this->PeekBytes(destination, 0, count);
 	this->pCurrentFront += count;
 	this->nElements -= count;
-	if(this->pCurrentFront == this->pCurrentTail)
-		this->atEnd = true;
 
 	return count;
 }
@@ -107,7 +100,6 @@ void FIFOBuffer::Release()
 
 	this->pCurrentFront = nullptr;
 	this->pCurrentTail = nullptr;
-	this->atEnd = true;
 }
 
 uint32 FIFOBuffer::Skip(uint32 nBytes)
@@ -115,8 +107,6 @@ uint32 FIFOBuffer::Skip(uint32 nBytes)
 	nBytes = Math::Min(nBytes, uint32(this->pCurrentTail - this->pCurrentFront));
 	this->pCurrentFront += nBytes;
 	this->nElements -= nBytes;
-	if (this->pCurrentFront == this->pCurrentTail)
-		this->atEnd = true;
 
 	return nBytes;
 }
@@ -130,8 +120,6 @@ uint32 FIFOBuffer::WriteBytes(const void *pSource, uint32 count)
 	MemCopy(this->pCurrentTail, pSource, count);
 	this->pCurrentTail += count;
 	this->nElements += count;
-	if (count)
-		this->atEnd = false;
 
 	return count;
 }

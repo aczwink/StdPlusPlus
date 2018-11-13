@@ -16,6 +16,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/HashingInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdIn.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TextCodec.cpp
