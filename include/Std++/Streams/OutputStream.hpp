@@ -75,7 +75,7 @@ namespace StdXX
             return *this;
         }
 
-		inline OutputStream &operator<<(const char *string)
+		virtual inline OutputStream &operator<<(const char *string)
 		{
 			*this << String(string);
 			return *this;

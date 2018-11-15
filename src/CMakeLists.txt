@@ -1,5 +1,6 @@
 add_subdirectory(CommonFileFormats)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Containers)
+add_subdirectory(Containers)
+add_subdirectory(Debugging)
 add_subdirectory(Devices)
 add_subdirectory(Hashing)
 add_subdirectory(Math)

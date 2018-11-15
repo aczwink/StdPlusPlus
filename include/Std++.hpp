@@ -46,6 +46,9 @@
 //Tables
 #include <Std++/Containers/Table/FixedTable.hpp>
 
+//Debugging
+#include <Std++/Debugging/DebugOutputStreams.hpp>
+
 //Devices
 #include <Std++/Devices/AudioDevice.hpp>
 #include <Std++/Devices/ComputeDevice.hpp>

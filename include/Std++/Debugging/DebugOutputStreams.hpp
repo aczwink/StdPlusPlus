@@ -18,46 +18,39 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <Std++/Streams/StdOut.hpp>
 
 namespace StdXX
 {
-	namespace Math
+	class DebugOut
 	{
-		class STDPLUSPLUS_API RandomNumberGenerator
+	public:
+		//Inline
+		inline DebugOut &operator<<(float64 f)
 		{
-		public:
-			//Constructors
-			RandomNumberGenerator();
-			RandomNumberGenerator(uint32 seed);
+#ifdef _DEBUG
+			stdOut << f;
+#endif
+			return *this;
+		}
 
-			//Methods
-			uint32 Max() const;
-			/**
-			 * Returns the next random number in range [Min(), Max()]
-			 * @return
-			 */
-			uint32 Next();
+		inline DebugOut &operator<<(const char* string)
+		{
+#ifdef _DEBUG
+			stdOut << string;
+#endif
+			return *this;
+		}
 
-			//Inline
-			inline uint32 Min() const
-			{
-				return 0;
-			}
+		inline DebugOut &operator<<(const LineBreak &refLineBreak)
+		{
+#ifdef _DEBUG
+			stdOut << endl;
+#endif
+			return *this;
+		}
+	};
 
-			inline uint32 Next(uint32 min, uint32 max)
-			{
-				return min + (this->Next() % max);
-			}
-
-			/**
-			 * Returns the next random floating point number in range[0, 1]
-			 * @return
-			 */
-			inline float64 NextFloat()
-			{
-				return (this->Next() - this->Min()) / float64(this->Max());
-			}
-		};
-	}
+	//Global instances
+	extern DebugOut STDPLUSPLUS_API dbgOut;
 }
