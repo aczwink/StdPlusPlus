@@ -58,6 +58,17 @@ namespace StdXX
 				};
 				String string;
 			} data;
+
+			//Inline
+			inline uint64 Size() const
+			{
+				return this->headerSize + this->dataSize;
+			}
+
+			inline bool SizeUnknown() const
+			{
+				return this->dataSize == Natural<uint64>::Max();
+			}
 		};
 
 		enum ClassId
@@ -66,6 +77,7 @@ namespace StdXX
 			EBML_ID_DOCTYPE = 0x4282,
 			EBML_ID_DOCTYPEVERSION = 0x4287,
 			EBML_ID_DOCTYPEREADVERSION = 0x4285,
+			EBML_ID_VOID = 0xEC,
 			EBML_ID_CRC32 = 0xBF,
 		};
 
@@ -79,7 +91,7 @@ namespace StdXX
 		};
 
 		//Functions
-		uint64 DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream);
+		uint64 DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream, bool isElementSize = false);
 		void ParseElementHeader(Element &element, InputStream &inputStream);
 		bool ParseHeader(Header &header, SeekableInputStream &inputStream);
 		void ReadElementData(Element &element, InputStream &inputStream);

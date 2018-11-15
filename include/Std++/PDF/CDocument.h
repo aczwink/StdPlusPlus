@@ -32,7 +32,7 @@ namespace StdXX
             CCatalog catalog;
 
             //Methods
-            void WriteHeader(AOutputStream &refOutput);
+            void WriteHeader(OutputStream &refOutput);
 
         public:
             //Methods

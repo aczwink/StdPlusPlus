@@ -55,12 +55,21 @@ namespace _stdxx_
 	public:
 		//Methods
 		template <typename U>
-		void Assign(U&& rhs)
+		void Assign(const U& rhs)
 		{
 			if (this->isInitialized)
-				this->value = StdXX::Move(rhs);
+				this->value = rhs;
 			else
-				this->Construct(StdXX::Move(rhs));
+				this->Construct(rhs);
+		}
+
+		template <typename U>
+		void AssignMove(U&& rhs)
+		{
+			if (this->isInitialized)
+				this->value = StdXX::Forward<U>(rhs);
+			else
+				this->Construct(StdXX::Forward<U>(rhs));
 		}
 
 		template <typename... Types>
@@ -79,16 +88,33 @@ namespace StdXX
 	class Optional : private _stdxx_::OptionalBase<T>
 	{
 	public:
-		//Constructor
+		//Constructors
 		constexpr Optional() noexcept : _stdxx_::OptionalBase<T>()
 		{
 		}
 
+		constexpr Optional(const Optional& other) noexcept : _stdxx_::OptionalBase<T>()
+		{
+			*this = other;
+		}
+
 		//Operators
+		constexpr Optional<T>& operator=(const Optional<T>& other)
+		{
+			this->Assign(other.Value());
+			return *this;
+		}
+
+		constexpr Optional<T>& operator=(Optional<T>&& other)
+		{
+			this->AssignMove(other.Value());
+			return *this;
+		}
+
 		template <typename U = T>
 		Optional &operator=(U&& rhs)
 		{
-			this->Assign(Move(rhs));
+			this->AssignMove(StdXX::Forward<U>(rhs));
 			return *this;
 		}
 

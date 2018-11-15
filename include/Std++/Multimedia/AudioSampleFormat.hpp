@@ -29,6 +29,7 @@ namespace StdXX
 			Unknown,
 			Front_Left,
 			Front_Right,
+			Front_Center,
 		};
 
 		enum class AudioSampleType

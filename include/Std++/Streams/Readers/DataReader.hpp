@@ -77,6 +77,11 @@ namespace StdXX
 			return b;
 		}
 
+		inline uint32 ReadBytes(void* destination, uint32 nBytes)
+		{
+			return this->inputStream.ReadBytes(destination, nBytes);
+		}
+
 		inline float32 ReadFloat32()
 		{
 			float32 v;
@@ -170,6 +175,12 @@ namespace StdXX
 			if(this->readBigEndian)
 				return this->ReadUInt64BE();
 			return this->ReadUInt64LE();
+		}
+
+		//Inline
+		inline uint32 Skip(uint32 nBytes)
+		{
+			return this->inputStream.Skip(nBytes);
 		}
 
     private:

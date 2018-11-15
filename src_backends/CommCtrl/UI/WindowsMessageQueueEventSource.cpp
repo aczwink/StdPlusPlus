@@ -69,21 +69,6 @@ void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx
 }
 
 //Private methods
-void WindowsMessageQueueEventSource::DispatchControlEvent(CommCtrlWidgetBackend &backend, UINT notificationCode)
-{
-	Widget &widget = backend.GetWidget();
-	switch(notificationCode)
-	{
-		case CBN_SELCHANGE: //this is equal to LBN_SELCHANGE
-		{
-			View &view = (View &)widget;
-
-			this->DispatchSelectionChangedEvent(view);
-		}
-		break;
-	}
-}
-
 	//if(input.header.dwType == RIM_TYPEKEYBOARD)
 	//{
 		/*
@@ -164,7 +149,7 @@ void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget
 	{
 		TreeView &refTreeView = (TreeView &)refWidget;
 
-		this->DispatchSelectionChangedEvent(refTreeView);
+		//this->DispatchSelectionChangedEvent(refTreeView);
 	}
 	break;
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,16 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+ //Local
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX
+class Vorbis_CodingFormat : public CodingFormat
 {
-    namespace Compression
-    {
-        enum class ECompressionAlgorithm
-        {
-            DEFLATE,
-            ZLIB
-        };
-    }
-}
+public:
+	//Methods
+	CodingFormatId GetId() const override
+	{
+		return CodingFormatId::Vorbis;
+	}
+
+	String GetName() const override
+	{
+		return u8"Vorbis";
+	}
+};

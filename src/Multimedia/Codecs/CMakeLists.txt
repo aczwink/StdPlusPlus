@@ -15,6 +15,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16LE/PCM_S16LE_EncoderContext.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16LE/PCM_S16LE_EncoderContext.hpp
 
+	#Raw_Subtitles
+	${CMAKE_CURRENT_SOURCE_DIR}/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp
+
 	#RawVideo
 	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideo_CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/BGR24_Encoder.cpp
@@ -24,5 +27,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Codec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.hpp
+
+	#Xiph
+	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Theora_CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Vorbis_CodingFormat.hpp
 
 	PARENT_SCOPE)

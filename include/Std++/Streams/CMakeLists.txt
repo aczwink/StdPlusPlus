@@ -21,6 +21,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/HashingInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/OutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SeekableInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdIn.hpp

@@ -27,7 +27,8 @@ namespace StdXX
 	enum class TextCodecType
 	{
 		ASCII,
-		UTF8
+		UTF8,
+		UTF16_LE,
 	};
 
 	class TextCodec

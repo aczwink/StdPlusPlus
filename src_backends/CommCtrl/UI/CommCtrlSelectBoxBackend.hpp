@@ -40,6 +40,7 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
+		void OnMessage(WinMessageEvent& event) override;
 		void SetHint(const StdXX::String & text) override;
 		void UpdateSelection() const override;
 

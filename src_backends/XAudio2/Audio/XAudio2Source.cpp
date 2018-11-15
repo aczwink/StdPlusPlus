@@ -112,7 +112,8 @@ void XAudio2Source::SetVelocity(const Math::Vector3s & vel)
 void XAudio2Source::Stop()
 {
 	this->isPlaying = false;
-	this->activeVoice->pXAudio2SourceVoice->Stop();
+	if(this->activeVoice)
+		this->activeVoice->pXAudio2SourceVoice->Stop();
 }
 
 //Private methods
