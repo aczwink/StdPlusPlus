@@ -20,6 +20,7 @@
 #import "CocoaSliderBackend.hh"
 //Local
 #include <Std++/UI/Controls/Slider.hpp>
+#import <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -90,7 +91,7 @@ void CocoaSliderBackend::SetEnabled(bool enable)
 
 void CocoaSliderBackend::SetPosition(uint32 pos)
 {
-	[this->cocoaSlider setDoubleValue:pos];
+	[this->cocoaSlider setIntValue:pos];
 }
 
 void CocoaSliderBackend::SetRange(uint32 min, uint32 max)
@@ -101,8 +102,11 @@ void CocoaSliderBackend::SetRange(uint32 min, uint32 max)
 
 void CocoaSliderBackend::ValueChanged()
 {
-	if(this->slider->onValueChangedHandler.IsBound())
-		this->slider->onValueChangedHandler();
+	Variant value;
+	value.i32 = [this->cocoaSlider intValue];
+
+	ValueChangedEvent event(value);
+	this->slider->Event(event);
 }
 
 

@@ -24,6 +24,7 @@ namespace StdXX
 {
 	union Variant
 	{
+		bool b;
 		int32 i32;
 		uint32 u32;
 		void *ptr;

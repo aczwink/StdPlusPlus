@@ -52,9 +52,9 @@ namespace _stdxx_
 		NSView *GetView() override;
 		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
-		bool IsChecked() const override;
 		void SetEnabled(bool enable) override;
 		void SetText(const StdXX::String &text) override;
+		void UpdateCheckState() override;
 
 
 

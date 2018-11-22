@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Tuple.hpp>
 #include "../Containers/PriorityQueue.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../__InitAndShutdown.h"
@@ -50,7 +51,7 @@ namespace StdXX
 
 		inline void RegisterBackend(BackendClassType *backend, uint32 priority)
 		{
-			this->backends.Insert(priority, backend);
+			this->backends.Insert({priority, backend});
 		}
 
 		inline void SetActiveBackend(BackendClassType *backend)
@@ -71,13 +72,13 @@ namespace StdXX
 
 	private:
 		//Members
-		PriorityQueue<BackendClassType *> backends;
+		PriorityQueue<Tuple<uint32, BackendClassType *>> backends;
 		BackendClassType *activeBackend;
 
 		//Inline
 		inline BackendClassType *GetPreferredBackend() const
 		{
-			return this->backends.GetFirst();
+			return this->backends.GetFirst().template Get<1>();
 		}
 
 		inline void ReleaseAll()
@@ -87,7 +88,7 @@ namespace StdXX
 			this->activeBackend = nullptr;
 
 			while(!this->backends.IsEmpty())
-				delete this->backends.PopFirst();
+				delete this->backends.PopFirst().template Get<1>();
 			this->backends.Release();
 		}
 	};

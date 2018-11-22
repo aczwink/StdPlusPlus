@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/PriorityQueue.hpp>
+#include <Std++/Tuple.hpp>
 #include "CodingFormatId.hpp"
 
 namespace StdXX
@@ -55,9 +56,9 @@ namespace StdXX
 
 		private:
 			//Members
-			PriorityQueue<Decoder *, float32> decoders;
-			PriorityQueue<Encoder *, float32> encoders;
-			PriorityQueue<Parser *, float32> parsers;
+			PriorityQueue<Tuple<float32, Decoder *>> decoders;
+			PriorityQueue<Tuple<float32, Encoder *>> encoders;
+			PriorityQueue<Tuple<float32, Parser *>> parsers;
 		};
 	}
 }

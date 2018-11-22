@@ -34,10 +34,20 @@ namespace StdXX
             //Constructor
             CheckBox();
 
+			//Methods
+			void Event(UI::Event& e) override;
+
 			//Inline
 			inline bool IsChecked() const
 			{
-				return this->checkBoxBackend->IsChecked();
+				return this->isChecked;
+			}
+
+			inline void SetChecked(bool isChecked)
+			{
+				this->isChecked = isChecked;
+				if(this->checkBoxBackend)
+					this->checkBoxBackend->UpdateCheckState();
 			}
 
 			inline void SetText(const String &text)
@@ -49,6 +59,7 @@ namespace StdXX
 
 		private:
 			//Members
+        	bool isChecked;
 			String text;
 			_stdxx_::CheckBoxBackend *checkBoxBackend;
 
