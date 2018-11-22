@@ -31,12 +31,12 @@ DecoderContext::~DecoderContext()
 //Protected methods
 void DecoderContext::AddFrame(Frame *pFrame, uint32 frameNumber)
 {
-	this->unorderedFrames.Insert(frameNumber, pFrame);
+	this->unorderedFrames.Insert({frameNumber, pFrame});
 
 	//Flush the ready frames
-	while(!this->unorderedFrames.IsEmpty() && this->unorderedFrames.GetFirstPriority() <= this->frameCounter)
+	while(!this->unorderedFrames.IsEmpty() && this->unorderedFrames.GetFirst().Get<0>() <= this->frameCounter)
 	{
-		this->orderedFrames.InsertTail(this->unorderedFrames.PopFirst());
+		this->orderedFrames.InsertTail(this->unorderedFrames.PopFirst().Get<1>());
 		this->frameCounter++;
 	}
 }
@@ -45,7 +45,7 @@ void DecoderContext::AddFrame(Frame *pFrame, uint32 frameNumber)
 void DecoderContext::Reset()
 {
 	while(!this->unorderedFrames.IsEmpty())
-		delete this->unorderedFrames.PopFirst();
+		delete this->unorderedFrames.PopFirst().Get<1>();
 
 	for(const Frame *const& refpFrame : this->orderedFrames)
 		delete refpFrame;

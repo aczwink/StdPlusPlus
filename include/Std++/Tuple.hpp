@@ -19,87 +19,177 @@
 #pragma once
 //Local
 #include "Definitions.h"
+#include "Type.hpp"
+#include "Utility.hpp"
 
 namespace StdXX
 {
-    //Move declarations
+    //Forward declarations
     template<typename... ElementTypes>
     class Tuple;
 }
 
-namespace _ACIntern
+namespace _stdxx_
 {
-    //Tuple element type evaluator
-    template <uint32 idx, typename Tuple>
-    struct TupleElementType;
+	template<typename FirstType, typename... RestTypes>
+	class TupleBase : private TupleBase<RestTypes...>
+	{
+	public:
+		//Constructors
+		inline TupleBase()
+		{
+		}
 
-    template<typename FirstType, typename... RestTypes>
-    struct TupleElementType<0, StdXX::Tuple<FirstType, RestTypes...>>
-    {
-        typedef FirstType ValueType;
-        typedef StdXX::Tuple<FirstType, RestTypes...> TupleType;
-    };
+		inline TupleBase(const FirstType& first, const RestTypes&... rest) : TupleBase<RestTypes...>(rest...), value(first)
+		{
+		}
 
-    template<uint32 index, typename FirstType, typename... RestTypes>
-    struct TupleElementType<index, StdXX::Tuple<FirstType, RestTypes...>> : public TupleElementType<index - 1, StdXX::Tuple<RestTypes...>>
-    {
-    };
+		inline TupleBase(FirstType&& first, RestTypes&&... rest) : TupleBase<RestTypes...>(StdXX::Forward<RestTypes>(rest)...), value(first)
+		{
+		}
+
+		//Operators
+		inline bool operator<(const TupleBase& other) const
+		{
+			if(value < other.value)
+				return true;
+			if(value > other.value)
+				return false;
+			return TupleBase<RestTypes...>::operator<(other);
+		}
+		inline bool operator<=(const TupleBase& other) const
+		{
+			if(value < other.value)
+				return true;
+			if(value > other.value)
+				return false;
+			return TupleBase<RestTypes...>::operator<=(other);
+		}
+		inline bool operator==(const TupleBase& other) const
+		{
+			if(value == other.value)
+				return TupleBase<RestTypes...>::operator<=(other);
+			return false;
+		}
+
+		//Inline
+		template<uint32 index>
+		inline const auto& GetValue(typename StdXX::EnableIf<(index > 0), int>::type dummy = 0) const
+		{
+			return TupleBase<RestTypes...>::template GetValue<index - 1>();
+		}
+		template<uint32 index>
+		inline const typename StdXX::EnableIf<index == 0, FirstType>::type& GetValue() const
+		{
+			return this->value;
+		}
+
+	private:
+		//Members
+		FirstType value;
+	};
+
+	template <typename LastType>
+	class TupleBase<LastType>
+	{
+	public:
+		//Constructors
+		inline TupleBase()
+		{
+		}
+
+		inline TupleBase(const LastType& last) : value(last)
+		{
+		}
+
+		inline TupleBase(LastType&& last) : value(last)
+		{
+		}
+
+		//Operators
+		inline bool operator<(const TupleBase& other) const
+		{
+			return value < other.value;
+		}
+		inline bool operator<=(const TupleBase& other) const
+		{
+			return value <= other.value;
+		}
+		inline bool operator==(const TupleBase& other) const
+		{
+			return value == other.value;
+		}
+
+		//Inline
+		template<uint32 index>
+		inline const typename StdXX::EnableIf<index == 0, LastType>::type& GetValue() const
+		{
+			return this->value;
+		}
+
+	private:
+		//Members
+		LastType value;
+	};
 }
 
 namespace StdXX
 {
-    template<>
-    class Tuple<> //empty tuple
-    {
-    protected:
-        //Constructor
-        inline Tuple() //forbid empty tuple
-        {
-        }
-
-        //Inline
-        inline void Set()
-        {
-        }
-    };
-
-    template<typename FirstType, typename... RestTypes>
-    class Tuple<FirstType, RestTypes...> : private Tuple<RestTypes...>
-    {
+	template<typename... ElementTypes>
+	class Tuple : private _stdxx_::TupleBase<ElementTypes...>
+	{
 	public:
-		//Members
-		FirstType element;
+		//Constructors
+		inline Tuple()
+		{
+		}
 
-        //Constructors
-        inline Tuple()
-        {
-        }
+		inline Tuple(const ElementTypes&... values) : _stdxx_::TupleBase<ElementTypes...>(values...)
+		{
+		}
 
-        inline Tuple(const FirstType &refFirst, const RestTypes &... refRest) : Tuple<RestTypes...>(static_cast<const RestTypes &>(refRest)...), element(refFirst)
-        {
-        }
+		template<typename... InitTypes>
+		inline Tuple(InitTypes&&... values) : _stdxx_::TupleBase<ElementTypes...>(Forward<InitTypes>(values)...)
+		{
+		}
 
-        inline Tuple(FirstType &&refFirst, RestTypes &&... refRest) : Tuple<RestTypes...>(static_cast<RestTypes &&>(refRest)...), element(refFirst)
-        {
-        }
+		Tuple( const Tuple& ) = default;
+		Tuple( Tuple&& ) = default;
 
-        //Inline
-        template < uint32 idx>
-        inline const typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::ValueType &Get() const
-        {
-            return static_cast<const typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::TupleType *>(this)->element;
-        }
+		//Operators
+		Tuple& operator=( const Tuple& other ) = default;
 
-        template<uint32 idx>
-        inline void Set(const typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::ValueType &&refNewValue)
-        {
-            static_cast<typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::TupleType *>(this)->element = refNewValue;
-        }
+		inline bool operator<(const Tuple& other) const
+		{
+			return _stdxx_::TupleBase<ElementTypes...>::operator<(other);
+		}
+		inline bool operator<=(const Tuple& other) const
+		{
+			return _stdxx_::TupleBase<ElementTypes...>::operator<=(other);
+		}
+		inline bool operator>(const Tuple& other) const
+		{
+			return other < *this;
+		}
+		inline bool operator==(const Tuple& other) const
+		{
+			return _stdxx_::TupleBase<ElementTypes...>::operator==(other);
+		}
 
-        inline void Set(const FirstType &refFirst, const RestTypes &... refRest)
-        {
-            this->element = refFirst;
-            Tuple<RestTypes...>::Set(static_cast<RestTypes &&>(refRest)...);
-        }
-    };
+		//Inline
+		template<uint32 index>
+		inline const auto& Get() const
+		{
+			return this->template GetValue<index>();
+		}
+	};
+
+	template<>
+	class Tuple<> //empty tuple
+	{
+	};
+
+	//Deduction guides
+	template<typename... ElementTypes>
+	Tuple(ElementTypes...) -> Tuple<ElementTypes...>;
 }

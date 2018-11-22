@@ -35,9 +35,9 @@ void TimerEventSource::DispatchPendingEvents()
 	uint64 currentClock = this->clock.GetCurrentValue();
 	while(!this->oneShotTimerQueue.IsEmpty())
 	{
-		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
+		if(currentClock >= this->oneShotTimerQueue.GetFirst().Get<0>())
 		{
-			this->oneShotTimerQueue.PopFirst()->timedOutCallback();
+			this->oneShotTimerQueue.PopFirst().Get<1>()->timedOutCallback();
 		}
 		else
 		{
@@ -51,9 +51,9 @@ uint64 TimerEventSource::GetMaxTimeout() const
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{
 		uint64 currentClock = this->clock.GetCurrentValue();
-		if(currentClock >= this->oneShotTimerQueue.GetFirstPriority())
+		if(currentClock >= this->oneShotTimerQueue.GetFirst().Get<0>())
 			return 0;
-		return (currentClock - this->oneShotTimerQueue.GetFirstPriority()) / 1000;
+		return (currentClock - this->oneShotTimerQueue.GetFirst().Get<0>()) / 1000;
 	}
 
 	return Natural<uint64>::Max();

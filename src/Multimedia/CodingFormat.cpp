@@ -30,38 +30,38 @@ Map<CodingFormatId, CodingFormat *> g_codingFormats;
 //Public methods
 void CodingFormat::AddDecoder(Decoder *decoder, float32 quality)
 {
-	this->decoders.Insert(1 - quality, decoder);
+	this->decoders.Insert({1 - quality, decoder});
 }
 
 void CodingFormat::AddEncoder(Encoder *encoder, float32 quality)
 {
-	this->encoders.Insert(1 - quality, encoder);
+	this->encoders.Insert({1 - quality, encoder});
 }
 
 void CodingFormat::AddParser(Parser *parser, float32 quality)
 {
-	this->parsers.Insert(1 - quality, parser);
+	this->parsers.Insert({1 - quality, parser});
 }
 
 const Decoder *CodingFormat::GetBestMatchingDecoder() const
 {
 	if (this->decoders.IsEmpty())
 		return nullptr;
-	return this->decoders.GetFirst();
+	return this->decoders.GetFirst().Get<1>();
 }
 
 const Encoder *CodingFormat::GetBestMatchingEncoder() const
 {
 	if (this->encoders.IsEmpty())
 		return nullptr;
-	return this->encoders.GetFirst();
+	return this->encoders.GetFirst().Get<1>();
 }
 
 const Parser *CodingFormat::GetBestMatchingParser() const
 {
 	if (this->parsers.IsEmpty())
 		return nullptr;
-	return this->parsers.GetFirst();
+	return this->parsers.GetFirst().Get<1>();
 }
 
 //Class functions

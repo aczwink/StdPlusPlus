@@ -26,15 +26,13 @@ namespace StdXX
 	/**
 	 * A min-priority queue implementation e.g. the highest priority has the smallest priority value according to <.
 	 * @tparam DataType
-	 * @tparam PriorityType
 	 */
-    template<typename DataType, typename PriorityType = uint32>
+    template<typename DataType>
     class PriorityQueue : public Container
     {
         struct Node
         {
-			PriorityType priority;
-            DataType data;
+        	DataType data;
             Node *next;
         };
 
@@ -59,12 +57,7 @@ namespace StdXX
             return this->head->data;
         }
 
-		PriorityType GetFirstPriority() const
-        {
-            return this->head->priority;
-        }
-
-        void Insert(PriorityType priority, const DataType &refValue)
+        void Insert(const DataType &value)
         {
             Node *pNode, *pNode2;
 
@@ -73,17 +66,15 @@ namespace StdXX
             if(!this->head)
             {
                 this->head = (Node *)MemAlloc(sizeof(*this->head));
-                this->head->priority = priority;
-                this->head->data = refValue;
+                this->head->data = value;
                 this->head->next = NULL;
 
                 return;
             }
-            if(priority <= this->head->priority)
+            if(value <= this->head->data)
             {
                 pNode = (Node *)MemAlloc(sizeof(*pNode));
-                pNode->priority = priority;
-                pNode->data = refValue;
+                pNode->data = value;
                 pNode->next = this->head;
                 this->head = pNode;
 
@@ -91,12 +82,11 @@ namespace StdXX
             }
 
             pNode = this->head;
-            while(pNode->next && pNode->next->priority < priority)
+            while(pNode->next && pNode->next->data < value)
                 pNode = pNode->next;
 
             pNode2 = (Node *)MemAlloc(sizeof(*pNode2));
-            pNode2->priority = priority;
-            pNode2->data = refValue;
+            pNode2->data = value;
             pNode2->next = pNode->next;
             pNode->next = pNode2;
         }
