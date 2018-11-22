@@ -126,8 +126,3 @@ void _stdxx_::CommCtrlSpinBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
-
-void _stdxx_::CommCtrlSpinBoxBackend::SetHint(const StdXX::String & text)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}

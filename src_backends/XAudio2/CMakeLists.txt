@@ -4,7 +4,7 @@ option(BACKEND_XAUDIO2 "XAudio2 Audio-backend" OFF)
 
 if(${BACKENDS_AUTO_AVAILABLE})
 	if (WIN32)
-        set(BACKEND_XAUDIO2 ON)
+        set(BACKEND_XAUDIO2 OFF) #TODO: native since windows 8, before it needs dx sdk
     endif ()
 endif ()
 
