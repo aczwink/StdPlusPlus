@@ -208,8 +208,3 @@ void _stdxx_::CommCtrlScrollAreaBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implementme
 }
-
-void _stdxx_::CommCtrlScrollAreaBackend::SetHint(const StdXX::String & text)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implementme
-}

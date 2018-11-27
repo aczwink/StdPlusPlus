@@ -18,6 +18,7 @@
 */
 #pragma once
 //Local
+#include <Std++/Tuple.hpp>
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Containers/PriorityQueue.hpp"
 #include "Frame.hpp"
@@ -82,7 +83,7 @@ namespace StdXX
 			//Members
 			const Decoder &decoder;
 			uint32 frameCounter;
-			PriorityQueue<Frame *> unorderedFrames;
+			PriorityQueue<Tuple<uint32, Frame *>> unorderedFrames;
 			LinkedList<Frame *> orderedFrames;
 		};
 	}

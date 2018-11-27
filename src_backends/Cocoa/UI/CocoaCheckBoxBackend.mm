@@ -20,6 +20,7 @@
 #include "CocoaCheckBoxBackend.hh"
 //Local
 #import <Std++/UI/Controls/CheckBox.hpp>
+#import <Std++/UI/Events/ValueChangedEvent.hpp>
 #import "CocoaEventSource.hh"
 //Namespaces
 using namespace _stdxx_;
@@ -66,8 +67,11 @@ CocoaCheckBoxBackend::~CocoaCheckBoxBackend()
 //Public methods
 void CocoaCheckBoxBackend::Clicked()
 {
-	if(this->checkBox->onToggledHandler.IsBound())
-		this->checkBox->onToggledHandler();
+	Variant value;
+	value.b = [this->cocoaCheckBox state] == NSControlStateValueOn;
+
+	ValueChangedEvent event(value);
+	this->checkBox->Event(event);
 }
 
 SizeD CocoaCheckBoxBackend::GetSizeHint() const
@@ -91,10 +95,7 @@ const Widget &CocoaCheckBoxBackend::GetWidget() const
 	return *this->checkBox;
 }
 
-bool CocoaCheckBoxBackend::IsChecked() const
-{
-	return [this->cocoaCheckBox state] == NSControlStateValueOn;
-}
+	//return [this->cocoaCheckBox state] == NSControlStateValueOn;
 
 void CocoaCheckBoxBackend::SetEnabled(bool enable)
 {
@@ -106,6 +107,12 @@ void CocoaCheckBoxBackend::SetText(const String &text)
 	NSString *tmp = [NSString stringWithCString:reinterpret_cast<const char *>(text.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
 	[this->cocoaCheckBox setTitle:tmp];
 	[tmp release];
+}
+
+void CocoaCheckBoxBackend::UpdateCheckState()
+{
+	NSControlStateValue value = this->checkBox->IsChecked() ? NSControlStateValueOn : NSControlStateValueOff;
+	[this->cocoaCheckBox setState:value];
 }
 
 

@@ -21,15 +21,37 @@
 //Local
 #include <Std++/_Backends/UI/CheckBoxBackend.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-CheckBox::CheckBox() : checkBoxBackend(nullptr)
+CheckBox::CheckBox() : checkBoxBackend(nullptr), isChecked(false)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
+
+//Public methods
+void CheckBox::Event(UI::Event& event)
+{
+	switch (event.GetType())
+	{
+		case EventType::ValueChanged:
+		{
+			ValueChangedEvent& vce = static_cast<ValueChangedEvent&>(event);
+
+			this->isChecked = vce.GetNewValue().b;
+			if (this->onToggledHandler.IsBound())
+				this->onToggledHandler();
+
+			event.Accept();
+		}
+			break;
+		default:
+			Widget::Event(event);
+	}
 }
 
 //Private methods
@@ -43,5 +65,7 @@ void CheckBox::RealizeSelf()
 void CheckBox::OnRealized()
 {
 	Widget::OnRealized();
+
+	this->checkBoxBackend->UpdateCheckState();
 	this->checkBoxBackend->SetText(this->text);
 }

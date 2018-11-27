@@ -48,7 +48,6 @@ namespace _stdxx_
 		//not implemented
 		void Repaint() override;
 		void SetEditable(bool enable) const override;
-		void SetHint(const StdXX::String & text) override;
 
 	private:
 		//Members

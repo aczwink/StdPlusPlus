@@ -90,8 +90,3 @@ void _stdxx_::CommCtrlCheckBoxBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
-
-void _stdxx_::CommCtrlCheckBoxBackend::SetHint(const StdXX::String & text)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}

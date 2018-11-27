@@ -59,8 +59,3 @@ void _stdxx_::CommCtrlLabelBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
-
-void CommCtrlLabelBackend::SetHint(const StdXX::String & text)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}

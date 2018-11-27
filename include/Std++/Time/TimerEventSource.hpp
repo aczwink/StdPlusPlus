@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Eventhandling/EventSource.hpp>
 #include <Std++/Containers/PriorityQueue.hpp>
+#include <Std++/Tuple.hpp>
 #include "Clock.hpp"
 
 namespace StdXX
@@ -45,13 +46,14 @@ namespace StdXX
 		 */
 		inline void AddOneShotTimer(uint64 timeOut, Timer *timer)
 		{
-			this->oneShotTimerQueue.Insert(this->clock.GetCurrentValue() + timeOut, timer);
+			this->oneShotTimerQueue.Insert({this->clock.GetCurrentValue() + timeOut, timer});
 			this->eventTriggerer.Signal();
 		}
 
 		inline void RemoveTimer(Timer *timer)
 		{
-			this->oneShotTimerQueue.Remove(timer);
+			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+			//this->oneShotTimerQueue.Remove(timer);
 		}
 
 		void VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) override;
@@ -60,6 +62,6 @@ namespace StdXX
 		//Members
 		EventWaiter eventTriggerer;
 		Clock clock;
-		PriorityQueue<Timer *, uint64> oneShotTimerQueue;
+		PriorityQueue<Tuple<uint64, Timer *>> oneShotTimerQueue;
 	};
 }
