@@ -74,6 +74,25 @@ namespace StdXX
             return this->data[index];
         }
 
+		//Logical operators
+		inline bool operator==(const DynamicArray<DataType>& other) const
+		{
+			if (this->nElements != other.nElements)
+				return false;
+			
+			for (uint32 i = 0; i < this->nElements; i++)
+			{
+				if (this->data[i] != other.data[i])
+					return false;
+			}
+			return true;
+		}
+
+		inline bool operator!=(const DynamicArray<DataType>& other) const
+		{
+			return !(*this == other);
+		}
+
         //Methods
         template<typename OutType>
         DynamicArray<OutType> Cast() const

@@ -80,7 +80,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MemoryOperators.cpp
 

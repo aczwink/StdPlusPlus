@@ -89,6 +89,11 @@ namespace StdXX
         {
             return static_cast<const typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::TupleType *>(this)->element;
         }
+		template <uint32 idx>
+		inline typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::ValueType&& Get()
+		{
+			return Move(static_cast<typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::TupleType *>(this)->element);
+		}
 
         template<uint32 idx>
         inline void Set(const typename _ACIntern::TupleElementType<idx, Tuple<FirstType, RestTypes...>>::ValueType &&refNewValue)
