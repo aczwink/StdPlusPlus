@@ -217,6 +217,28 @@ String String::Replace(const String &from, const String &to) const
 	return result;
 }
 
+String String::Reversed() const
+{
+	String tmp;
+	
+	tmp.sharedResource = new Resource;
+	tmp.sharedResource->isUTF8 = this->IsUTF8();
+	tmp.sharedResource->EnsureCapacity(this->size);
+
+	auto it = --this->end();
+	for(uint64 i = 0; i < this->length; i++)
+	{
+		tmp.sharedResource->nElements += tmp.Encode(*it, &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+		--it;
+	}
+
+	tmp.data = tmp.sharedResource->data;
+	tmp.length = this->length;
+	tmp.size = tmp.sharedResource->nElements;
+
+	return tmp;
+}
+
 DynamicArray<String> String::Split(const String &seperator) const
 {
 	DynamicArray<String> result;

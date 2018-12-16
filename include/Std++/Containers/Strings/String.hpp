@@ -206,6 +206,7 @@ namespace StdXX
 		 */
 		uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 length = Natural<uint32>::Max()) const;
 		String Replace(const String &from, const String &to) const;
+		String Reversed() const;
 		DynamicArray<String> Split(const String &seperator) const;
 		bool StartsWith(const String &string) const;
 		/**

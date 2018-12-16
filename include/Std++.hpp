@@ -71,6 +71,8 @@
 
 //Mathematics
 #include <Std++/Math/Degree.hpp>
+#include <Std++/Math/Integer.hpp>
+#include <Std++/Math/Natural.hpp>
 #include <Std++/Math/RandomNumberGenerator.hpp>
 #include <Std++/Math/Radian.hpp>
 #include <Std++/Math/Size.hpp>
@@ -255,6 +257,7 @@
 
 //.
 #include <Std++/__InitAndShutdown.h>
+#include <Std++/Char.hpp>
 #include <Std++/Function.hpp>
 #include <Std++/ConfigurationFile.hpp>
 #include <Std++/Tuple.hpp>

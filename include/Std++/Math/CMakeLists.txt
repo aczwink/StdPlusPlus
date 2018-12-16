@@ -17,16 +17,19 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4Base_scalar.inl
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector4/Vector4Base_SSE.inl
 
-	#.
+	#Geometry
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/AxisAlignedBox.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/ObjectIntersection.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/Rect.hpp
 
+	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/Degree.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Fraction.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Integer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matrix2x2.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matrix3x3.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matrix4x4.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Natural.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Point.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Radian.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RandomNumberGenerator.hpp

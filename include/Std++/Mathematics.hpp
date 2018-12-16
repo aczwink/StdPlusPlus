@@ -74,6 +74,14 @@ namespace StdXX
 			return ((a) < (b)) ? (a) : (b);
 		}
 
-		uint64 STDPLUSPLUS_API Power(uint64 base, uint64 exponent);
+		template<typename T>
+		constexpr T Power(const T& base, const T& exponent)
+		{
+			ASSERT(exponent >= 0, u8"This method does only work for integers. This infers exponent > 0.");
+			T result = 1;
+			for (T i = 0; i < exponent; ++i)
+				result *= base;
+			return result;
+		}
 	}
 }
