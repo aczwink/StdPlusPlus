@@ -20,6 +20,7 @@
 #include "CommCtrlCheckBoxBackend.hpp"
 //Local
 #include <Std++/UI/Controls/CheckBox.hpp>
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -45,11 +46,6 @@ const Widget & CommCtrlCheckBoxBackend::GetWidget() const
 	return *this->checkBox;
 }
 
-bool CommCtrlCheckBoxBackend::IsChecked() const
-{
-	return this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
-}
-
 void CommCtrlCheckBoxBackend::OnMessage(WinMessageEvent& event)
 {
 	switch (event.message)
@@ -60,8 +56,12 @@ void CommCtrlCheckBoxBackend::OnMessage(WinMessageEvent& event)
 		{
 		case BN_CLICKED:
 		{
-			if (this->checkBox->onToggledHandler.IsBound())
-				this->checkBox->onToggledHandler();
+			Variant value;
+			value.b = this->SendMessage(BM_GETCHECK, 0, 0) == BST_CHECKED;
+
+			ValueChangedEvent evt(value);
+			this->checkBox->Event(evt);
+
 			event.consumed = true;
 			event.result = 0;
 		}
@@ -75,6 +75,11 @@ void CommCtrlCheckBoxBackend::OnMessage(WinMessageEvent& event)
 void CommCtrlCheckBoxBackend::SetText(const String & text)
 {
 	Win32Window::SetText(text);
+}
+
+void CommCtrlCheckBoxBackend::UpdateCheckState()
+{
+	this->SendMessage(BM_SETCHECK, this->checkBox->IsChecked() ? BST_CHECKED : BST_UNCHECKED, 0);
 }
 
 

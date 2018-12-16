@@ -41,9 +41,9 @@ namespace _stdxx_
 		StdXX::Math::SizeD GetSizeHint() const override;
 		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
-		bool IsChecked() const override;
 		void OnMessage(WinMessageEvent& event) override;
 		void SetText(const StdXX::String & text) override;
+		void UpdateCheckState() override;
 
 		//not implemented
 		void Repaint() override;
