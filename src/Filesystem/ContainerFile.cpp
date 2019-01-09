@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Filesystem/ContainerFile.hpp>
 //Local
+#include <Std++/Compression/Decompressor.hpp>
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 #include <Std++/Filesystem/ContainerFileInputStream.hpp>
 //Namespaces
@@ -58,12 +59,18 @@ uint64 ContainerFile::GetSize() const
 		return this->buffer->GetSize();
 	}
 
-	return this->size;
+	return this->header.uncompressedSize;
 }
 
 UniquePointer<InputStream> ContainerFile::OpenForReading() const
 {
-	return new ContainerFileInputStream(*this);
+	InputStream* input = new ContainerFileInputStream(*this);
+	if (this->header.compression.HasValue())
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: this currently will lack the above InputStream "input". When we return the decompressor, we need to free the above instance at the time the destructor of the decompressor is called
+		return Decompressor::Create(*this->header.compression, *input);
+	}
+	return input;
 }
 
 UniquePointer<OutputStream> ContainerFile::OpenForWriting()

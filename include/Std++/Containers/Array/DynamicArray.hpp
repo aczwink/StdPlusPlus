@@ -161,6 +161,14 @@ namespace StdXX
             return this->nElements++;
         }
 
+		uint32 Push(DataType&& value)
+		{
+			this->EnsureAdditionalCapacity(1);
+			this->data[this->nElements] = Forward<DataType>(value);
+
+			return this->nElements++;
+		}
+
         inline void Resize(uint32 nElements)
         {
             this->EnsureCapacity(nElements);

@@ -189,10 +189,9 @@ DirectoryIterator ContainerDirectory::end() const
 }
 
 //Private methods
-void ContainerDirectory::AddSourceFile(String fileName, uint64 offset, uint64 size)
+void ContainerDirectory::AddSourceFile(String fileName, const ContainerFileHeader& header)
 {
 	ContainerFile *file = new ContainerFile(fileName, this);
-	file->offset = offset;
-	file->size = size;
+	file->header = header;
 	this->files[fileName] = file;
 }

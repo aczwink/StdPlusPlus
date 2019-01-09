@@ -74,9 +74,10 @@ void CommCtrlContainerBackend::OnMessage(WinMessageEvent& event)
 	{
 		const NMHDR* nmHeader = (NMHDR *)event.lParam;
 		CommCtrlWidgetBackend* backend = WindowsMessageQueueEventSource::GetAttachedBackend(nmHeader->hwndFrom);
-		backend->OnMessage(event); //forward message
-
-		if(!event.consumed)
+		if (backend)
+			backend->OnMessage(event); //forward message
+		
+		if (!event.consumed)
 			CommCtrlWidgetBackend::OnMessage(event);
 	}
 	break;

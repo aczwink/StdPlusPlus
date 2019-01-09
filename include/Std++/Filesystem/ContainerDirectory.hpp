@@ -69,6 +69,6 @@ namespace StdXX
 		Map<String, AutoPointer<ContainerDirectory>> subDirectories;
 
 		//Methods
-		void AddSourceFile(String fileName, uint64 offset, uint64 size);
+		void AddSourceFile(String fileName, const ContainerFileHeader& header);
 	};
 }

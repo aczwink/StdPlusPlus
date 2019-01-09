@@ -58,6 +58,7 @@ UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
 	for(const FileSystemFormat *const& fileSystemFormat : g_fsFormats)
 	{
 		float32 matchScore = fileSystemFormat->Matches(*file);
+		file->SetCurrentOffset(0);
 
 		//check unusual cases
 		if(matchScore == 1)
@@ -74,7 +75,6 @@ UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
 
 	if(bestFormat)
 	{
-		file->SetCurrentOffset(0);
 		file = nullptr; //free the file
 		return bestFormat->CreateFileSystem(p);
 	}

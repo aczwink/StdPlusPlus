@@ -62,6 +62,11 @@ namespace StdXX
 				return this->controller.operator->();
 			}
 
+			inline bool HasController() const
+			{
+				return !this->controller.IsNull();
+			}
+
 			inline const SelectionController &GetSelectionController() const
 			{
 				return this->selectionController;

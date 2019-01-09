@@ -110,6 +110,21 @@ String TextReader::ReadZeroTerminatedString()
 	return result;
 }
 
+String TextReader::ReadZeroTerminatedString(uint32 length)
+{
+	String result;
+	while (!this->inputStream.IsAtEnd() && length--)
+	{
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		if (codePoint == 0)
+			break;
+		result += codePoint;
+	}
+	this->inputStream.Skip(length); //skip the remaining bytes
+
+	return result;
+}
+
 //Private methods
 uint32 TextReader::SkipWhitespaces()
 {

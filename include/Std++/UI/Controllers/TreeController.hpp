@@ -65,7 +65,7 @@ namespace StdXX
             View *view;
 
 			//Inline
-			inline ControllerIndex CreateIndex(uint32 row, uint32 column, void *modelNode) const
+			inline ControllerIndex CreateIndex(uint32 row, uint32 column, const void *modelNode) const
 			{
 				return ControllerIndex(row, column, modelNode, this);
 			}

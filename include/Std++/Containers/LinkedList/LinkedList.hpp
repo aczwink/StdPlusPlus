@@ -298,9 +298,9 @@ namespace StdXX
 			this->InsertNodeAtTail(new Node(data));
 		}
 
-		inline void InsertTail(DataType &&data)
+		inline void InsertTail(DataType&& data)
 		{
-			this->InsertNodeAtTail(new Node(Move(data)));
+			this->InsertNodeAtTail(new Node(Forward<DataType>(data)));
 		}
 
 		//For range-based loops

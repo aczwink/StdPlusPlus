@@ -111,68 +111,20 @@ namespace StdXX
         }
 
         //Methods
-        void Insert(const KeyType &refKey, const ValueType &refValue)
-        {
-            Node *pNode, *pInsertedNode;
+		inline void Insert(const KeyType& key, const ValueType& value)
+		{
+			this->InsertNode(KeyValuePair<KeyType, ValueType>(key, value));
+		}
 
-            pInsertedNode = NULL;
+		inline void Insert(const KeyType& key, ValueType&& value)
+		{
+			this->InsertNode(KeyValuePair<KeyType, ValueType>(key, Forward<ValueType>(value)));
+		}
 
-            //insert root
-            if(this->root == NULL)
-            {
-                this->root = new Node(refKey, refValue, true, NULL);
-                this->nElements = 1;
-                return;
-            }
-
-            //binary-search tree insertion
-            pNode = this->root;
-            while(pNode)
-            {
-                if(pNode->keyValuePair.key < refKey) //insert in right subtree
-                {
-                    if(pNode->pRight) //continue in right subtree
-                    {
-                        pNode = (Node *)pNode->pRight;
-                    }
-                    else
-                    {
-                        //insert (key,value) as leaf
-                        pNode->pRight = new Node(refKey, refValue, false, pNode);
-                        pInsertedNode = (Node *)pNode->pRight;
-                        break;
-                    }
-                }
-                else if(pNode->keyValuePair.key > refKey) //insert in left subtree
-                {
-                    if(pNode->pLeft) //continue in left subtree
-                    {
-                        pNode = (Node *)pNode->pLeft;
-                    }
-                    else
-                    {
-                        //insert (key,value) as leaf
-                        pNode->pLeft = new Node(refKey, refValue, false, pNode);
-                        pInsertedNode = (Node *)pNode->pLeft;
-                        break;
-                    }
-                }
-                else //overwrite old node and return it, no need to rebalance
-                {
-                    pNode->keyValuePair.value = refValue;
-                    return;
-                }
-            }
-
-            this->nElements++;
-
-            //recolor the tree
-            this->Recolorize(pInsertedNode);
-
-            if(this->root->pParent)
-                this->root = (Node *)this->root->pParent;
-            this->root->isBlack = true;
-        }
+		inline void Insert(KeyType&& key, ValueType&& value)
+		{
+			this->InsertNode(KeyValuePair<KeyType, ValueType>(Forward<KeyType>(key), Forward<ValueType>(value)));
+		}
 
         void Release()
         {
@@ -247,6 +199,69 @@ namespace StdXX
 
             return pNode;
         }
+
+		void InsertNode(KeyValuePair<KeyType, ValueType>&& kv)
+		{
+			Node *pNode, *pInsertedNode;
+
+			pInsertedNode = NULL;
+
+			//insert root
+			if (this->root == NULL)
+			{
+				this->root = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), true, NULL);
+				this->nElements = 1;
+				return;
+			}
+
+			//binary-search tree insertion
+			pNode = this->root;
+			while (pNode)
+			{
+				if (pNode->keyValuePair.key < kv.key) //insert in right subtree
+				{
+					if (pNode->pRight) //continue in right subtree
+					{
+						pNode = (Node *)pNode->pRight;
+					}
+					else
+					{
+						//insert (key,value) as leaf
+						pNode->pRight = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
+						pInsertedNode = (Node *)pNode->pRight;
+						break;
+					}
+				}
+				else if (pNode->keyValuePair.key > kv.key) //insert in left subtree
+				{
+					if (pNode->pLeft) //continue in left subtree
+					{
+						pNode = (Node *)pNode->pLeft;
+					}
+					else
+					{
+						//insert (key,value) as leaf
+						pNode->pLeft = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
+						pInsertedNode = (Node *)pNode->pLeft;
+						break;
+					}
+				}
+				else //overwrite old node and return it, no need to rebalance
+				{
+					pNode->keyValuePair.value = Forward<ValueType>(kv.value);
+					return;
+				}
+			}
+
+			this->nElements++;
+
+			//recolor the tree
+			this->Recolorize(pInsertedNode);
+
+			if (this->root->pParent)
+				this->root = (Node *)this->root->pParent;
+			this->root->isBlack = true;
+		}
 
         /*
          * The implementation of this method is a modified version of a piece of code of the following work,

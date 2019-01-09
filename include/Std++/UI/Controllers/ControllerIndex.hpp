@@ -60,6 +60,11 @@ namespace StdXX
 				return this->column;
 			}
 
+			inline const void* GetNode() const
+			{
+				return this->modelNode;
+			}
+
 			inline uint32 GetRow() const
 			{
 				return this->row;
@@ -77,11 +82,11 @@ namespace StdXX
 			/**
 			 * The node from the real data model tree.
 			 */
-			void *modelNode;
+			const void *modelNode;
 			const TreeController *treeController;
 
 			//Constructor
-			inline ControllerIndex(uint32 row, uint32 column, void *modelNode, const TreeController *treeController) : treeController(treeController)
+			inline ControllerIndex(uint32 row, uint32 column, const void *modelNode, const TreeController *treeController) : treeController(treeController)
 			{
 				this->row = row;
 				this->column = column;

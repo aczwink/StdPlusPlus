@@ -76,8 +76,14 @@ uint64 ContainerFileSystem::GetSize() const
 	return this->root->GetSize();
 }
 
+bool ContainerFileSystem::IsDirectory(const Path & path) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return false;
+}
+
 //Protected methods
-void ContainerFileSystem::AddSourceFile(const Path &filePath, uint64 offset, uint64 size)
+void ContainerFileSystem::AddSourceFile(const Path &filePath, const ContainerFileHeader& header)
 {
 	bool flushStatus = this->isFlushed;
 
@@ -86,7 +92,7 @@ void ContainerFileSystem::AddSourceFile(const Path &filePath, uint64 offset, uin
 	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
 	AutoPointer<ContainerDirectory> containerDirectory = dir.Cast<ContainerDirectory>();
 
-	containerDirectory->AddSourceFile(filePath.GetName(), offset, size);
+	containerDirectory->AddSourceFile(filePath.GetName(), header);
 
 	this->isFlushed = flushStatus; //the flushed status is not affected by source files
 }

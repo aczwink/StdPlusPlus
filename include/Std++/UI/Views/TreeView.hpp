@@ -34,6 +34,10 @@ namespace StdXX
         public:
             //Constructor
             TreeView();
+
+		private:
+			//Methods
+			void RealizeSelf() override;
         };
     }
 }

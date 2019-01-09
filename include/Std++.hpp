@@ -45,6 +45,7 @@
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 //Tables
 #include <Std++/Containers/Table/FixedTable.hpp>
+#include <Std++/Containers/FIFOBuffer.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>

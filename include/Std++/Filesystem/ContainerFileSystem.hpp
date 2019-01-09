@@ -22,10 +22,11 @@
 #include <Std++/Streams/FileOutputStream.hpp>
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
+#include "ContainerFile.hpp"
 
 namespace StdXX
 {
-	class ContainerFileSystem : public FileSystem
+	class STDPLUSPLUS_API ContainerFileSystem : public FileSystem
 	{
 		friend class ContainerDirectory;
 		friend class ContainerFileInputStream;
@@ -39,6 +40,7 @@ namespace StdXX
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override;
 		AutoPointer<Directory> GetRoot() override;
 		uint64 GetSize() const override;
+		bool IsDirectory(const Path & path) const override;
 		void Move(const Path &from, const Path &to) override;
 
 	protected:
@@ -49,8 +51,18 @@ namespace StdXX
 		bool isFlushed;
 
 		//Methods
-		void AddSourceFile(const Path &path, uint64 offset, uint64 size);
+		void AddSourceFile(const Path &path, const ContainerFileHeader& header);
 		UniquePointer<FileOutputStream> OpenTempContainer();
 		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
+
+		//Inline
+		inline void AddSourceFile(const Path &path, uint64 offset, uint64 size)
+		{
+			ContainerFileHeader header;
+			header.offset = offset;
+			header.uncompressedSize = size;
+			header.compressedSize = size;
+			this->AddSourceFile(path, header);
+		}
 	};
 }

@@ -35,7 +35,6 @@ using namespace StdXX::Math;
 /*
 WinAPI Documentation:
 	ListView: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775146(v=vs.85).aspx
-	TextEdit: https://msdn.microsoft.com/en-us/library/windows/desktop/bb775458(v=vs.85).aspx
 
 	this->hWndReal = nullptr;
 

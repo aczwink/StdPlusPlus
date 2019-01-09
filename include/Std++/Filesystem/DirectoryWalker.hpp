@@ -24,7 +24,7 @@
 
 namespace StdXX
 {
-	class DirectoryWalker
+	class STDPLUSPLUS_API DirectoryWalker
 	{
 		struct WalkerState
 		{
@@ -41,24 +41,26 @@ namespace StdXX
 				this->iterator = Move(iterator);
 			}
 
+			WalkerState(const WalkerState&) = default;
+
 			inline WalkerState(WalkerState &&rhs)
 			{
 				this->directory = Move(rhs.directory);
 				this->iterator = Move(rhs.iterator);
 			}
 
-			inline WalkerState &operator=(WalkerState &&rhs)
-			{
-				this->directory = Move(rhs.directory);
-				this->iterator = Move(rhs.iterator);
-
-				return *this;
-			}
-
 			inline WalkerState &operator=(const WalkerState &rhs)
 			{
 				this->directory = rhs.directory;
 				this->iterator = rhs.iterator;
+
+				return *this;
+			}
+
+			inline WalkerState &operator=(WalkerState &&rhs)
+			{
+				this->directory = Move(rhs.directory);
+				this->iterator = Move(rhs.iterator);
 
 				return *this;
 			}

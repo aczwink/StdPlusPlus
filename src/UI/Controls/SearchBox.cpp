@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/UI/Controls/SearchBox.hpp>
+//Local
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -27,7 +29,10 @@ SearchBox::SearchBox()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+}
 
-	NOT_IMPLEMENTED_ERROR;
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::SearchBox, this);
+//Private methods
+void SearchBox::RealizeSelf()
+{
+	this->_SetBackend(this->_GetUIBackend()->CreateSearchBoxBackend(*this));
 }

@@ -33,6 +33,6 @@ namespace StdXX
 		virtual float32 Matches(SeekableInputStream &inputStream) const = 0;
 
 		//Functions
-		static void Register(const FileSystemFormat *fileSystemFormat);
+		static STDPLUSPLUS_API void Register(const FileSystemFormat *fileSystemFormat);
 	};
 }

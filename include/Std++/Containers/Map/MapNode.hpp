@@ -37,17 +37,17 @@ namespace StdXX
         Node *pLeft;
         Node *pRight;
         Node *pParent;
-        StdXX::KeyValuePair<KeyType, ValueType> keyValuePair;
+        KeyValuePair<KeyType, ValueType> keyValuePair;
         bool isBlack;
 
-        //Constructor
-        MapNode(const KeyType &refKey, const ValueType &refValue, bool isBlack, Node *pParent) : keyValuePair(refKey, refValue)
-        {
-            this->pLeft = NULL;
-            this->pRight = NULL;
-            this->pParent = pParent;
-            this->isBlack = isBlack;
-        }
+        //Constructors
+		MapNode(KeyValuePair<KeyType, ValueType>&& kv, bool isBlack, Node *pParent) : keyValuePair(Forward<KeyValuePair<KeyType, ValueType>>(kv))
+		{
+			this->pLeft = nullptr;
+			this->pRight = nullptr;
+			this->pParent = pParent;
+			this->isBlack = isBlack;
+		}
 
         //Destructor
         ~MapNode()

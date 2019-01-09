@@ -28,7 +28,7 @@ using namespace StdXX;
 //Constructor
 ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : file(file)
 {
-	this->currentOffset = file.offset;
+	this->currentOffset = file.header.offset;
 }
 
 //Public methods
@@ -61,7 +61,7 @@ uint32 ContainerFileInputStream::ReadBytes(void *destination, uint32 count)
 	//validate that count is in range
 	uint64 endOffset;
 	if(this->file.buffer.IsNull())
-		endOffset = this->file.offset + this->file.size;
+		endOffset = this->file.header.offset + this->file.header.compressedSize;
 	else
 		endOffset = this->file.buffer->GetNumberOfElements();
 

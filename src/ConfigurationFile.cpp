@@ -19,6 +19,7 @@
 //Class Header
 #include <Std++/ConfigurationFile.hpp>
 //Local
+#include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
@@ -26,28 +27,26 @@
 using namespace StdXX;
 
 //Constructor
-ConfigurationFile::ConfigurationFile(const Path &refPath, bool readOnly)
+ConfigurationFile::ConfigurationFile(const Path &path, bool readOnly)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: new file system implementation
-	//if(!refPath.Exists())
+	if (!OSFileSystem::GetInstance().Exists(path) && !readOnly)
 	{
-		FileOutputStream file(refPath);
+		FileOutputStream file(path);
 	}
 
-	FileInputStream input(refPath);
+	FileInputStream input(path); //throw CException(SJCLIBE_STREAMNOTOPEN, "File \"" + filename + "\" couldn't be opened.");
 
 	this->readOnly = readOnly;
-	this->path = refPath;
-
-	//throw CException(SJCLIBE_STREAMNOTOPEN, "File \"" + filename + "\" couldn't be opened.");
+	this->path = path;
 
 	while(true)
 	{
 		if(input.IsAtEnd())
 			break;
 
-		NOT_IMPLEMENTED_ERROR; //TODO: reimplement next line
-		//if(input.ReadByte() == u8'[')
+		byte b;
+		input.ReadBytes(&b, 1);
+		if(b == u8'[')
 		{
 			String name;
 

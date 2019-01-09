@@ -37,7 +37,7 @@ namespace StdXX
             this->next = NULL;
         }
 
-        LinkedListNode(T &&data) : data(Move(data))
+        LinkedListNode(T&& data) : data(Forward<T>(data))
 		{
 			this->prev = nullptr;
 			this->next = nullptr;

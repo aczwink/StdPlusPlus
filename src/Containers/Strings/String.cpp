@@ -408,10 +408,16 @@ String String::ToLowercase() const
 	String tmp;
 
 	tmp.sharedResource = new Resource;
-	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes
-	for(uint32 codePoint : *this)
+	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes or is a surrogate
+	if(tmp.sharedResource->isUTF8)
 	{
-		tmp.sharedResource->nElements += this->EncodeUTF8(StdXX::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+		for(uint32 codePoint : *this)
+			tmp.sharedResource->nElements += this->EncodeUTF8(StdXX::ToLowercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+	}
+	else
+	{
+		for (uint32 codePoint : *this)
+			tmp.sharedResource->nElements += 2 + 2 * this->EncodeUTF16(StdXX::ToLowercase(codePoint), (uint16 *)&tmp.sharedResource->data[tmp.sharedResource->nElements]);
 	}
 	tmp.data = tmp.sharedResource->data;
 	tmp.length = this->length;

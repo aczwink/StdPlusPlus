@@ -18,14 +18,28 @@
  */
 #pragma once
 //Local
+#include <Std++/Compression/CompressionAlgorithm.hpp>
 #include "Std++/Containers/FIFOBuffer.hpp"
+#include <Std++/Optional.hpp>
 #include "../Definitions.h"
 #include "File.hpp"
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class ContainerDirectory;
+
+	struct ContainerFileHeader
+	{
+		Optional<CompressionAlgorithm> compression;
+		uint64 offset;
+		uint64 uncompressedSize;
+		uint64 compressedSize;
+
+		inline ContainerFileHeader() : offset(0), uncompressedSize(0), compressedSize(0)
+		{
+		}
+	};
 
 	class ContainerFile : public File
 	{
@@ -33,7 +47,7 @@ namespace StdXX
 		friend class ContainerFileInputStream;
 	public:
 		//Constructor
-		inline ContainerFile(const String &name, ContainerDirectory *parent) : name(name), parent(parent), offset(0), size(0)
+		inline ContainerFile(const String &name, ContainerDirectory *parent) : name(name), parent(parent)
 		{
 		}
 
@@ -51,8 +65,7 @@ namespace StdXX
 		//Members
 		String name;
 		ContainerDirectory *parent;
-		uint64 offset;
-		uint64 size;
+		ContainerFileHeader header;
 		/**
 		 * Data written to the file but not yet flushed to the output container.
 		 */

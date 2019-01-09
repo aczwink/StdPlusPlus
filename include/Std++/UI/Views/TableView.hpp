@@ -29,6 +29,10 @@ namespace StdXX
         public:
             //Constructor
             TableView();
+
+		private:
+			//Methods
+			void RealizeSelf() override;
         };
     }
 }

@@ -29,6 +29,10 @@ namespace StdXX
 		public:
 			//Constructor
 			SearchBox();
+
+		private:
+			//Methods
+			void RealizeSelf() override;
 		};
 	}
 }

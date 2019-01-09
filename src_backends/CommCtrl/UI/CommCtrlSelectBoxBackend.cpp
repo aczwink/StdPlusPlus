@@ -52,18 +52,20 @@ SizeD CommCtrlSelectBoxBackend::GetSizeHint() const
 
 	uint16 x = 50; //minimum
 	uint32 n = 0;
-	TreeController* controller = this->selectBox.GetController();
-	if(controller)
-		n = controller->GetNumberOfChildren(); //number of items
-	for (uint32 i = 0; i < n; i++)
+	if (this->selectBox.HasController())
 	{
-		wchar_t buffer[2048];
-		this->SendMessage(CB_GETLBTEXT, i, (LPARAM)buffer);
-		uint32 nChars = this->SendMessage(CB_GETLBTEXTLEN, i, 0);
-		SIZE size;
-		GetTextExtentPoint32W(hDC, buffer, nChars, &size);
-		if (size.cx > x)
-			x = (uint16)size.cx;
+		TreeController* controller = this->selectBox.GetController();
+		n = controller->GetNumberOfChildren(); //number of items
+		for (uint32 i = 0; i < n; i++)
+		{
+			wchar_t buffer[2048];
+			this->SendMessage(CB_GETLBTEXT, i, (LPARAM)buffer);
+			uint32 nChars = this->SendMessage(CB_GETLBTEXTLEN, i, 0);
+			SIZE size;
+			GetTextExtentPoint32W(hDC, buffer, nChars, &size);
+			if (size.cx > x)
+				x = (uint16)size.cx;
+		}
 	}
 
 	ReleaseDC(this->GetHWND(), hDC);

@@ -75,14 +75,13 @@ String Win32Window::GetText() const
 	return String::CopyRawString(buffer);
 }
 
-Size<uint16> Win32Window::GetTextExtents() const
+Size<uint16> Win32Window::GetTextExtents(const String& string) const
 {
 	HDC hDC = GetDC(this->GetHWND());
 	HGDIOBJ oldFont = SelectObject(hDC, this->GetFont());
 
-	String str = this->GetText();
 	SIZE size;
-	GetTextExtentPoint32W(hDC, (LPCWSTR)str.GetRawData(), str.GetLength(), &size);
+	GetTextExtentPoint32W(hDC, (LPCWSTR)string.GetRawData(), string.GetLength(), &size);
 
 	SelectObject(hDC, oldFont);
 	ReleaseDC(this->hWnd, hDC);
@@ -159,6 +158,7 @@ void Win32Window::CreateHWND() const
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	this->hWnd = CreateWindowExW(dwExStyle, lpClassName, nullptr, dwStyle, x, 0, width, 0, hParent, NULL, hInstance, nullptr); //(LPVOID)&backend
 
+	DWORD err = GetLastError();
 	ASSERT(this->hWnd, u8"Realization failed");
 
 	//set stuff on HWND

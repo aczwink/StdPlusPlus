@@ -29,7 +29,7 @@ namespace StdXX
 	//Move declarations
 	class DirectoryWalkerWrapper;
 
-	class Directory : public FileSystemNode
+	class STDPLUSPLUS_API Directory : public FileSystemNode
 	{
 	public:
 		//Destructor

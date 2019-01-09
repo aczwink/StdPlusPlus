@@ -56,6 +56,14 @@ namespace StdXX
         String ReadString(uint32 length);
         ByteString ReadASCII_Line();
 		String ReadZeroTerminatedString();
+		/**
+		 * Read 'length' characters and return them as string.
+		 * Zeroes at the end of the resulting string are skipped.
+		 *
+		 * @param length
+		 * @return
+		 */
+		String ReadZeroTerminatedString(uint32 length);
 
 		//Inline
 		inline bool IsAtEnd() const

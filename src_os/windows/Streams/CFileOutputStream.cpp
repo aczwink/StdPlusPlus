@@ -22,13 +22,25 @@
 #include <Windows.h>
 //Local
 #include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <Std++/Filesystem/OSFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &refPath, bool overwrite)
+FileOutputStream::FileOutputStream(const Path& path, bool overwrite)
 {
-	this->pFileHandle = CreateFileW((LPCWSTR)refPath.GetString().ToUTF16().GetRawZeroTerminatedData(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, overwrite ? CREATE_ALWAYS : CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+	String nativePath = OSFileSystem::GetInstance().ToNativePath(path);
+	OutputDebugStringW((LPCWSTR)nativePath.ToUTF16().GetRawZeroTerminatedData());
+	this->pFileHandle = CreateFileW((LPCWSTR)nativePath.ToUTF16().GetRawZeroTerminatedData(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, overwrite ? CREATE_ALWAYS : CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (this->pFileHandle == INVALID_HANDLE_VALUE)
+	{
+		DWORD dwErr = GetLastError();
+		switch (dwErr)
+		{
+		default:
+			NOT_IMPLEMENTED_ERROR;
+		}
+	}
 }
 
 //Destructor

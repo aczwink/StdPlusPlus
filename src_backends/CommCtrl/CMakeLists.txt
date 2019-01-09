@@ -33,12 +33,18 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlRenderTargetWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlScrollAreaBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlScrollAreaBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSearchBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSearchBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSelectBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSelectBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSliderBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSliderBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSpinBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlSpinBoxBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlTableViewBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlTableViewBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlTreeViewBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlTreeViewBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp

@@ -53,9 +53,12 @@ namespace StdXX
 		class MenuBar;
 		class PushButton;
 		class ScrollArea;
+		class SearchBox;
 		class SelectBox;
 		class Slider;
 		class SpinBox;
+		class TableView;
+		class TreeView;
 		class Widget;
 		class Window;
 	}
@@ -76,9 +79,12 @@ namespace StdXX
 		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton *pushButton) = 0;
 		virtual _stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget *renderTargetWidget) = 0;
 		virtual _stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea *scrollArea) = 0;
+		virtual _stdxx_::WidgetBackend* CreateSearchBoxBackend(UI::SearchBox& searchBox) = 0;
 		virtual _stdxx_::ViewBackend* CreateSelectBoxBackend(UI::SelectBox& selectBox) = 0;
 		virtual _stdxx_::SliderBackend *CreateSliderBackend(UI::Slider *slider) = 0;
 		virtual _stdxx_::SpinBoxBackend *CreateSpinBoxBackend(UI::SpinBox *spinBox) = 0;
+		virtual _stdxx_::ViewBackend* CreateTableViewBackend(UI::TableView& treeView) = 0;
+		virtual _stdxx_::ViewBackend* CreateTreeViewBackend(UI::TreeView& treeView) = 0;
 		virtual _stdxx_::WindowBackend *CreateWindowBackend(UI::Window *window) = 0;
 
 		//Methods

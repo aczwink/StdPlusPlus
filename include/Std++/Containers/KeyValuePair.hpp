@@ -29,9 +29,17 @@ namespace StdXX
         KeyType key;
         ValueType value;
 
-        //Constructor
+        //Constructors
         KeyValuePair(const KeyType &refKey, const ValueType &refValue) : key(refKey), value(refValue)
         {
         }
+
+		KeyValuePair(const KeyType& key, ValueType&& value) : key(key), value(Forward<ValueType>(value))
+		{
+		}
+
+		KeyValuePair(KeyType&& key, ValueType&& value) : key(Forward<KeyType>(key)), value(Forward<ValueType>(value))
+		{
+		}
     };
 }

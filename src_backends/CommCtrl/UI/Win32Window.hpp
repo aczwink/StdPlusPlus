@@ -38,7 +38,7 @@ namespace _stdxx_
 		//Methods
 		StdXX::Math::RectD GetClientRect() const;
 		StdXX::String GetText() const;
-		StdXX::Math::Size<uint16> GetTextExtents() const;
+		StdXX::Math::Size<uint16> GetTextExtents(const StdXX::String& string) const;
 		void SetParent(Win32Window *parent);
 
 		//Inline
@@ -54,6 +54,11 @@ namespace _stdxx_
 			if (this->hWnd == nullptr)
 				this->CreateHWND();
 			return this->hWnd;
+		}
+
+		inline StdXX::Math::Size<uint16> GetTextExtents() const
+		{
+			return this->GetTextExtents(this->GetText());
 		}
 
 		inline void SetEnabled(bool enable) 

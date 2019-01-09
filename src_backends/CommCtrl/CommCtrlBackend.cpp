@@ -24,9 +24,12 @@
 #include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
 #include "UI/CommCtrlScrollAreaBackend.hpp"
+#include "UI/CommCtrlSearchBoxBackend.hpp"
 #include "UI/CommCtrlSelectBoxBackend.hpp"
 #include "UI/CommCtrlSliderBackend.hpp"
 #include "UI/CommCtrlSpinBoxBackend.hpp"
+#include "UI/CommCtrlTableViewBackend.hpp"
+#include "UI/CommCtrlTreeViewBackend.hpp"
 #include "UI/CommCtrlWindowBackend.hpp"
 #include "UI/WindowsMessageQueueEventSource.hpp"
 #include "CommCtrlOpenGL3CoreBackend.hpp"
@@ -94,9 +97,24 @@ ContentAreaWidgetBackend* CommCtrlBackend::CreateScrollAreaBackend(UI::ScrollAre
 	return new CommCtrlScrollAreaBackend(*this, scrollArea);
 }
 
+WidgetBackend * CommCtrlBackend::CreateSearchBoxBackend(UI::SearchBox & searchBox)
+{
+	return new CommCtrlSearchBoxBackend(*this, searchBox);
+}
+
 ViewBackend * CommCtrlBackend::CreateSelectBoxBackend(UI::SelectBox & selectBox)
 {
 	return new CommCtrlSelectBoxBackend(*this, selectBox);
+}
+
+ViewBackend * CommCtrlBackend::CreateTableViewBackend(UI::TableView & tableView)
+{
+	return new CommCtrlTableViewBackend(*this, tableView);
+}
+
+ViewBackend * CommCtrlBackend::CreateTreeViewBackend(UI::TreeView & treeView)
+{
+	return new CommCtrlTreeViewBackend(*this, treeView);
 }
 
 WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
