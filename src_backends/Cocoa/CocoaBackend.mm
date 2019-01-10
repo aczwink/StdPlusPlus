@@ -90,6 +90,11 @@ ContentAreaWidgetBackend *CocoaBackend::CreateScrollAreaBackend(UI::ScrollArea *
 	return new CocoaScrollAreaBackend(*this, *scrollArea);
 }
 
+WidgetBackend *CocoaBackend::CreateSearchBoxBackend(UI::SearchBox &searchBox)
+{
+	return nullptr;
+}
+
 ViewBackend *CocoaBackend::CreateSelectBoxBackend(UI::SelectBox &selectBox)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -104,6 +109,16 @@ SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider *slider)
 SpinBoxBackend *CocoaBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
 {
 	return new CocoaSpinBoxBackend(*this, spinBox);
+}
+
+ViewBackend *CocoaBackend::CreateTableViewBackend(UI::TableView &treeView)
+{
+	return nullptr;
+}
+
+ViewBackend *CocoaBackend::CreateTreeViewBackend(UI::TreeView &treeView)
+{
+	return nullptr;
 }
 
 WindowBackend *StdXX::CocoaBackend::CreateWindowBackend(Window *window)

@@ -286,6 +286,17 @@ String String::SubString(uint32 startPos, uint32 length) const
 
 float64 String::ToFloat() const
 {
+	char *currentLocale = setlocale(LC_NUMERIC, "C");
+	float64 result = strtod((const char*)this->ToUTF8().GetRawZeroTerminatedData(), nullptr);
+	setlocale(LC_NUMERIC, currentLocale);
+
+	return result;
+	/*
+	 * TODO: the below code does not work correctly for many constellations (see tests).
+	 * The code has to be fixed before being able to be used.
+	 * Check for instance this: https://www.exploringbinary.com/how-glibc-strtod-works/
+	 */
+
 	if(this->data == nullptr || *this->data == 0)
 		return 0; //filter out empty strings
 

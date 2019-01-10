@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,141 +18,117 @@
  */
 //Class header
 #include <Std++/Multitasking/StaticThreadPool.hpp>
-//Local
-#include <Std++/Multitasking/Multitasking.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Worker Thread
-class StaticThreadPool::CWorkerThread : public Thread
+class StaticThreadPool::WorkerThread : public Thread
 {
+	friend class StaticThreadPool;
 public:
-	//Members
-	volatile bool shutdown;
-
 	//Constructor
-	inline CWorkerThread(StaticThreadPool *pOwner)
+	WorkerThread(StaticThreadPool* owner) : shutdown(false), working(false), owner(owner)
 	{
-		this->pOwner = pOwner;
-		this->shutdown = false;
 	}
 
 private:
 	//Members
-	StaticThreadPool *pOwner;
-
-	//Event handlers
-	int32 ThreadMain()
-	{
-		bool working;
-		Function<void()> currentTask;
-
-		working = false;
-
-		while(!this->shutdown)
-		{
-			this->GetNextTask(currentTask, working);
-			if(this->shutdown)
-				break;
-
-			this->SetWorking(working);
-
-			//execute task
-			currentTask();
-		}
-
-		this->SetNotWorking(working);
-
-		return EXIT_SUCCESS;
-	}
+	volatile bool shutdown;
+	bool working;
+	StaticThreadPool* owner;
 
 	//Methods
-	void GetNextTask(Function<void()> &refTask, bool &refWorking)
+	Function<void()> GetNextTask()
 	{
-		this->pOwner->taskQueueLock.Lock();
-		while(this->pOwner->taskQueue.IsEmpty())
+		this->owner->taskQueueLock.Lock();
+		while(this->owner->taskQueue.IsEmpty())
 		{
-			this->SetNotWorking(refWorking);
-			this->pOwner->taskQueueSignal.Wait(this->pOwner->taskQueueLock);
+			this->SetNotWorking();
+			this->owner->taskQueueSignal.Wait(this->owner->taskQueueLock);
 
 			//check if kill thread
 			if(this->shutdown)
 			{
-				this->pOwner->taskQueueLock.Unlock();
-				return;
+				this->owner->taskQueueLock.Unlock();
+				return [](){};
 			}
 		}
 
-		refTask = this->pOwner->taskQueue.PopFront();
-		this->pOwner->taskQueueLock.Unlock();
+		this->SetWorking();
+
+		Function<void()> task = this->owner->taskQueue.PopFront();
+		//this->owner->taskQueueSignal.Signal();
+		this->owner->taskQueueLock.Unlock();
+
+		return task;
+	}
+
+	void Run() override
+	{
+		while(!this->shutdown)
+		{
+			Function<void()> currentTask = this->GetNextTask();
+			if(this->shutdown)
+				break;
+			currentTask(); //execute task
+		}
+
+		this->SetNotWorking();
 	}
 
 	//Inline
-	inline void SetNotWorking(bool &refWorking)
+	inline void SetNotWorking()
 	{
-		if(refWorking)
+		if(this->working)
 		{
-			this->pOwner->activeThreadsLock.Lock();
-			this->pOwner->nActiveThreads--;
-			this->pOwner->activeThreadsSignal.Signal();
-			this->pOwner->activeThreadsLock.Unlock();
-
-			refWorking = false;
+			this->owner->activeThreadsLock.Lock();
+			this->owner->nActiveThreads--;
+			this->working = false;
+			this->owner->activeThreadsSignal.Signal();
+			this->owner->activeThreadsLock.Unlock();
 		}
 	}
 
-	inline void SetWorking(bool &refWorking)
+	inline void SetWorking()
 	{
-		if(!refWorking)
+		if(!this->working)
 		{
-			this->pOwner->activeThreadsLock.Lock();
-			this->pOwner->nActiveThreads++;
-			this->pOwner->activeThreadsSignal.Signal();
-			this->pOwner->activeThreadsLock.Unlock();
-
-			refWorking = true;
+			this->owner->activeThreadsLock.Lock();
+			this->owner->nActiveThreads++;
+			this->working = true;
+			this->owner->activeThreadsSignal.Signal();
+			this->owner->activeThreadsLock.Unlock();
 		}
 	}
 };
 
-
-
-
-
-
-//Constructors
-StaticThreadPool::StaticThreadPool()
+//Constructor
+StaticThreadPool::StaticThreadPool(uint32 nThreads) : workers(nThreads), nActiveThreads(0)
 {
-	this->nThreads = GetHardwareConcurrency();
-	this->nActiveThreads = 0;
-
-	this->ppThreads = (StaticThreadPool::CWorkerThread **)MemAlloc(this->nThreads * sizeof(*this->ppThreads));
-	for(uint32 i = 0; i < this->nThreads; i++)
+	for(uint32 i = 0; i < nThreads; i++)
 	{
-		this->ppThreads[i] = new StaticThreadPool::CWorkerThread(this);
-		this->ppThreads[i]->Start();
+		this->workers[i] = new WorkerThread(this);
+		this->workers[i]->Start();
 	}
 }
 
 //Destructor
 StaticThreadPool::~StaticThreadPool()
 {
-	uint32 i;
-
 	//ask all threads to terminate
-	for(i = 0; i < this->nThreads; i++)
-		this->ppThreads[i]->shutdown = true;
+	for(auto& w : this->workers)
+		w->shutdown = true;
 
+	this->taskQueueLock.Lock();
 	this->taskQueueSignal.Broadcast();
+	this->taskQueueLock.Unlock();
 
 	//wait for all threads to terminate
-	for(i = 0; i < this->nThreads; i++)
+	for(auto& w : this->workers)
 	{
-		this->ppThreads[i]->Join();
-		delete this->ppThreads[i];
+		while(w->IsAlive())
+			w->Join();
 	}
-
-	MemFree(this->ppThreads);
 }
 
 //Public methods
@@ -162,4 +138,41 @@ void StaticThreadPool::EnqueueTask(const Function<void()> &refTask)
 	this->taskQueue.InsertTail(refTask);
 	this->taskQueueSignal.Signal();
 	this->taskQueueLock.Unlock();
+}
+
+void StaticThreadPool::WaitForAllTasksToComplete()
+{
+	bool running = true;
+	while(running)
+	{
+		//wait until all threads stopped working
+		this->activeThreadsLock.Lock();
+		while(this->nActiveThreads > 0)
+			this->activeThreadsSignal.Wait(this->activeThreadsLock);
+		this->activeThreadsLock.Unlock();
+
+		//now check if the task queue is empty
+		this->taskQueueLock.Lock();
+		running = !this->taskQueue.IsEmpty();
+		/* important!: usually we would wait now on taskQueueSignal.
+		 * However, when a task is gathered from the task queue by a worker it does a signal i.e. wake up SOME
+		 * thread - not necessarily us. If its another worker he will check the queue and go to sleep in case there are
+		 * no further tasks. This would require a broadcast then instead of a signal, which would be a waste of threads
+		 * cycles. If the task queue is not empty,
+		 * then threads will be working on it, thus we can wait on that signal instead (above).
+		 * */
+		this->taskQueueLock.Unlock();
+
+		/*
+		 * we have to double check this, since a thread can become active right after we checked for active threads.
+		 * it may take the last task from the queue and we will think that all tasks are completed.
+		 * */
+		this->activeThreadsLock.Lock();
+		while(this->nActiveThreads > 0)
+		{
+			this->activeThreadsSignal.Wait(this->activeThreadsLock);
+			running = true; //in case the just mentioned situation happend, it is better to recheck
+		}
+		this->activeThreadsLock.Unlock();
+	}
 }

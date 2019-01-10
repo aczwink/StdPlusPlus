@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,9 +18,12 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Function.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "ConditionVariable.hpp"
+#include "Multitasking.hpp"
 #include "Mutex.hpp"
 #include "Thread.hpp"
 
@@ -28,50 +31,35 @@ namespace StdXX
 {
     class STDPLUSPLUS_API StaticThreadPool
     {
-        class CWorkerThread;
-        friend class CWorkerThread;
+        class WorkerThread;
+        friend class WorkerThread;
     public:
-        //Constructors
-        StaticThreadPool();
+        //Constructor
+		explicit StaticThreadPool(uint32 nThreads = GetHardwareConcurrency());
 
         //Destructor
         ~StaticThreadPool();
 
         //Methods
-        void EnqueueTask(const Function<void()> &refTask);
+        void EnqueueTask(const Function<void()>& task);
+		void WaitForAllTasksToComplete();
 
         //Inline
         inline uint32 GetNumberOfActiveThreads()
         {
-            uint32 result;
+        	AutoLock lock(this->activeThreadsLock);
 
-            this->activeThreadsLock.Lock();
-            result = this->nActiveThreads;
-            this->activeThreadsLock.Unlock();
-
-            return result;
+        	return this->nActiveThreads;
         }
 
         inline uint32 GetNumberOfThreads() const
         {
-            return this->nThreads;
-        }
-
-        inline void WaitForAllTasksToComplete()
-        {
-            //wait until all threads stop working
-            this->activeThreadsLock.Lock();
-
-            while(this->nActiveThreads > 0)
-                this->activeThreadsSignal.Wait(this->activeThreadsLock);
-
-            this->activeThreadsLock.Unlock();
+            return this->workers.GetNumberOfElements();
         }
 
     private:
         //Members
-        uint32 nThreads;
-        CWorkerThread **ppThreads;
+    	FixedArray<UniquePointer<WorkerThread>> workers;
 
         uint32 nActiveThreads;
         Mutex activeThreadsLock;

@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
+#include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Tuple.hpp>
 
 namespace StdXX

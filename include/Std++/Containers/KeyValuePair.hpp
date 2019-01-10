@@ -18,6 +18,8 @@
  */
 
 #pragma once
+//Local
+#include <Std++/Utility.hpp>
 
 namespace StdXX
 {

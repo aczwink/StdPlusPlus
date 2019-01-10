@@ -95,8 +95,6 @@ const Widget &CocoaCheckBoxBackend::GetWidget() const
 	return *this->checkBox;
 }
 
-	//return [this->cocoaCheckBox state] == NSControlStateValueOn;
-
 void CocoaCheckBoxBackend::SetEnabled(bool enable)
 {
 	[this->cocoaCheckBox setEnabled:enable];

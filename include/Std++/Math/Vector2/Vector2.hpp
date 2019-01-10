@@ -68,6 +68,12 @@ namespace StdXX
 				return Vector2(-this->x, -this->y);
 			}
 			inline Vector2 operator+(const Vector2 &refRight) const;
+			inline Vector2& operator+=(const Vector2& rhs)
+			{
+				*this = *this + rhs;
+				return *this;
+			}
+
 			inline Vector2 operator-(const Vector2 &refRight) const;
 
 			inline Vector2 operator*(ScalarType right) const
