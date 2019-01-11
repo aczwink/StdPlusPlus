@@ -63,7 +63,7 @@ void MediaObject::UpdateTimingInfo()
 		if(pStream->timeScale == Fraction())
 			continue; //no time scale for this stream
 
-		if(pStream->startTime != Natural<uint64>::Max())
+		if(pStream->startTime != Unsigned<uint64>::Max())
 		{
 			startTime = pStream->startTime / this->timeScale * pStream->timeScale; //keep order because of integer division
 			if(startTime < this->startTime)
@@ -78,11 +78,11 @@ void MediaObject::UpdateTimingInfo()
 
 		if(pStream->timeScale == Fraction())
 			continue; //no time scale for this stream
-		if(pStream->startTime == Natural<uint64>::Max() || pStream->duration == Natural<uint64>::Max())
+		if(pStream->startTime == Unsigned<uint64>::Max() || pStream->duration == Unsigned<uint64>::Max())
 			continue; //no start time or duration
 
 		endTime = (pStream->startTime + pStream->duration) / this->timeScale * pStream->timeScale;
-		if(endTime - this->startTime > this->duration || this->duration == Natural<uint64>::Max())
+		if(endTime - this->startTime > this->duration || this->duration == Unsigned<uint64>::Max())
 			this->duration = endTime - this->startTime;
 	}
 }

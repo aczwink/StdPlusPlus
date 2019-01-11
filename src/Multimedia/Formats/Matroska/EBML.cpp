@@ -45,8 +45,8 @@ uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream
 	first = reader.ReadByte();
 	while (mask)
 	{
-		if (isElementSize && (first == Natural<byte>::Max()))
-			return Natural<uint64>::Max(); //live recording
+		if (isElementSize && (first == Unsigned<byte>::Max()))
+			return Unsigned<uint64>::Max(); //live recording
 
 		if (first & mask)
 		{
@@ -83,7 +83,7 @@ void EBML::ParseElementHeader(Element &element, InputStream &inputStream)
 	if (seekableInputStream)
 		element.dataOffset = seekableInputStream->GetCurrentOffset();
 	else
-		element.dataOffset = Natural<uint64>::Max();
+		element.dataOffset = Unsigned<uint64>::Max();
 
 	element.dataType = DataType::Unknown;
 }

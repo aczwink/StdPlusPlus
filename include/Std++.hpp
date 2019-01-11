@@ -263,6 +263,6 @@
 #include <Std++/ConfigurationFile.hpp>
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/Optional.hpp>

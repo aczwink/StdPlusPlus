@@ -400,7 +400,7 @@ uint8 MatroskaDemuxer::ReadBlockHeader(bool simple, uint32 blockSize)
 				uint8 delta = reader.ReadByte();
 				blockHeaderSize++;
 				frameSize += delta;
-				if (delta != Natural<uint8>::Max())
+				if (delta != Unsigned<uint8>::Max())
 					break;
 			}
 			sum += frameSize;

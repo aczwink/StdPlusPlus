@@ -266,13 +266,13 @@ uint32 UTF16String::Find(uint16 c, uint32 startPos) const
             return i;
     }
 
-    return Natural<uint32>::Max();
+    return Unsigned<uint32>::Max();
 }
 
 uint32 UTF16String::FindReverse(uint16 c, uint32 startPos) const
 {
     if((startPos == 0) || (this->GetLength() == 0))
-        return Natural<uint32>::Max();
+        return Unsigned<uint32>::Max();
 
     if(startPos > this->GetLength())
         startPos = this->GetLength() - 1;
@@ -283,7 +283,7 @@ uint32 UTF16String::FindReverse(uint16 c, uint32 startPos) const
             return i;
     }
 
-    return Natural<uint32>::Max();
+    return Unsigned<uint32>::Max();
 }
 
 UTF16String UTF16String::ToLowercase() const

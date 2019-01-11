@@ -51,7 +51,7 @@ namespace _stdxx_
 
 		inline bool IsUncompressedSizeKnown() const
 		{
-			return this->uncompressedSize != StdXX::Natural<uint64>::Max();
+			return this->uncompressedSize != StdXX::Unsigned<uint64>::Max();
 		}
 	};
 }

@@ -21,7 +21,7 @@
 //Class header
 #include <Std++/Time/TimerEventSource.hpp>
 //Local
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
 using namespace StdXX;
@@ -56,7 +56,7 @@ uint64 TimerEventSource::GetMaxTimeout() const
 		return (currentClock - this->oneShotTimerQueue.GetFirst().Get<0>()) / 1000;
 	}
 
-	return Natural<uint64>::Max();
+	return Unsigned<uint64>::Max();
 }
 
 void TimerEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc)

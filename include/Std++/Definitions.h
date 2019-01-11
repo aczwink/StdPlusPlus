@@ -41,7 +41,7 @@
 #define MAKE32(lo16, hi16) ( (lo16 & 0xFFFF) | ((hi16 & 0xFFFF) << 16) )
 #define MAKE32_FROM4(msb, upperMiddle, lowerMiddle, lsb) (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb))
 
-#define MAKE64(lo32, hi32) ( (uint64)((lo32) & Natural<uint32>::Max()) | ((uint64)((hi32) & Natural<uint32>::Max()) << 32) )
+#define MAKE64(lo32, hi32) ( (uint64)((lo32) & Unsigned<uint32>::Max()) | ((uint64)((hi32) & Unsigned<uint32>::Max()) << 32) )
 
 //Binary prefixes
 #define KiB (1024)

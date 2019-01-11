@@ -96,7 +96,7 @@ namespace StdXX
 			 * @param startIndex
 			 * @param nTriangles
 			 */
-			virtual void DrawTrianglesIndexed(uint32 startIndex = 0, uint32 nTriangles = Natural<uint32>::Max()) = 0;
+			virtual void DrawTrianglesIndexed(uint32 startIndex = 0, uint32 nTriangles = Unsigned<uint32>::Max()) = 0;
 			virtual void DrawTriangleStrip(uint32 startVertexIndex, uint32 nVertices) = 0;
 			virtual void EnableBlending(bool enabled = true) = 0;
 			virtual void EnableColorBufferWriting(bool writeRed, bool writeGreen, bool writeBlue, bool writeAlpha) = 0;

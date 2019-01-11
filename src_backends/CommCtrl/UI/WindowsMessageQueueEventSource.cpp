@@ -55,13 +55,14 @@ void WindowsMessageQueueEventSource::DispatchPendingEvents()
 		if(msg.message == WM_QUIT)
 			break;
 
+		TranslateMessage(&msg); //TODO: this is needed when not managing the whole keyboard with RegisterRawInputDevices
 		DispatchMessage(&msg);
 	}
 }
 
 uint64 WindowsMessageQueueEventSource::GetMaxTimeout() const
 {
-	return Natural<uint64>::Max();
+	return Unsigned<uint64>::Max();
 }
 
 void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)>& visitFunc)

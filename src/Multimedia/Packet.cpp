@@ -20,7 +20,7 @@
 #include <Std++/Multimedia/Packet.hpp>
 //Local
 #include <Std++/Memory.hpp>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -32,9 +32,9 @@ Packet::Packet()
 	this->size = 0;
 	this->capacity = 0;
 
-	this->streamIndex = Natural<uint32>::Max();
-	this->pts = Natural<uint64>::Max();
-	this->duration = Natural<uint64>::Max();;
+	this->streamIndex = Unsigned<uint32>::Max();
+	this->pts = Unsigned<uint64>::Max();
+	this->duration = Unsigned<uint64>::Max();;
 	this->containsKeyframe = false;
 }
 

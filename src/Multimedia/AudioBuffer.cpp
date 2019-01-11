@@ -20,7 +20,7 @@
 #include <Std++/Multimedia/AudioBuffer.hpp>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/Memory.hpp>
 //Namespaces
@@ -58,7 +58,7 @@ AudioBuffer *AudioBuffer::Resample(const AudioSampleFormat &fromFormat, const Au
 			dst += i * result->GetPlaneBlockSize(destChannel.planeIndex) + destChannel.offset;
 
 			int16* dst_typed = (int16*)dst;
-			*dst_typed = Math::Clamp(int16(src_sample * Integer<int16>::Max()), Integer<int16>::Min(), Integer<int16>::Max());
+			*dst_typed = Math::Clamp(int16(src_sample * Signed<int16>::Max()), Signed<int16>::Min(), Signed<int16>::Max());
 		}
 	}
 

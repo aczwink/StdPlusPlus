@@ -93,7 +93,7 @@ namespace StdXX
 
 				pFileTransfer = new CFileTransfer;
 
-				nFiles = DragQueryFileW(hDrop, Natural<uint32>::Max(), nullptr, 0);
+				nFiles = DragQueryFileW(hDrop, Unsigned<uint32>::Max(), nullptr, 0);
 				for(uint32 i = 0; i < nFiles; i++)
 				{
 					DragQueryFileW(hDrop, i, buffer, sizeof(buffer) / sizeof(buffer[0]));

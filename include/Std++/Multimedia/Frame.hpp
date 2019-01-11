@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Natural.hpp"
+#include "../Unsigned.hpp"
 #include "EnumTypes.hpp"
 
 namespace StdXX
@@ -35,7 +35,7 @@ namespace StdXX
             //Constructor
             inline Frame()
             {
-                this->pts = Natural<uint64>::Max();
+                this->pts = Unsigned<uint64>::Max();
             }
 
             //Destructor

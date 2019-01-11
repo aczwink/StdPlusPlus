@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
 //Local
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -32,8 +32,8 @@ DemuxerThread::DemuxerThread(MediaPlayer *player)
 	this->shutdown = false;
 	this->work = false;
 	this->working = false;
-	this->audioStreamIndex = Natural<uint32>::Max();
-	this->videoStreamIndex = Natural<uint32>::Max();
+	this->audioStreamIndex = Unsigned<uint32>::Max();
+	this->videoStreamIndex = Unsigned<uint32>::Max();
 }
 
 //Private methods

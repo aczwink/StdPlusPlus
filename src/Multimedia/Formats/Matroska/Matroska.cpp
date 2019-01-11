@@ -241,7 +241,7 @@ void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint6
 		seekHeadReader.ReadNextChildHeader(seek);
 		ASSERT(seek.id == MATROSKA_ID_SEEK, u8"Expected seek element.");
 
-		uint64 id = Natural<uint64>::Max(), offset = Natural<uint64>::Max();
+		uint64 id = Unsigned<uint64>::Max(), offset = Unsigned<uint64>::Max();
 		EBML::MasterReader seekReader(seek, seekHeadReader.GetInUseInputStream());
 		while(seekReader.HasMore())
 		{
@@ -265,7 +265,7 @@ void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint6
 			}
 		}
 		seekReader.Verify();
-		if ((id != Natural<uint64>::Max()) && (offset != Natural<uint64>::Max())) //only insert valid seeks
+		if ((id != Unsigned<uint64>::Max()) && (offset != Unsigned<uint64>::Max())) //only insert valid seeks
 			idOffsetMap[id] = segmentOffset + offset;
 		
 		seekHeadReader.RawBytesReadFromStream(seek.dataSize);

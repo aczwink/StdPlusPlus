@@ -53,8 +53,8 @@ namespace StdXX
                 //Time base for all timestamps in this context (NOT for the stream timestamps)
                 //this->timeScale = Fraction(1, 1000000); //the smaller the value, the better... it's more precise like that
 
-                this->startTime = Natural<uint64>::Max();
-                this->duration = Natural<uint64>::Max();
+                this->startTime = Unsigned<uint64>::Max();
+                this->duration = Unsigned<uint64>::Max();
 
                 this->metaInfo.trackNumber = 0;
                 this->metaInfo.year = 0;

@@ -30,12 +30,14 @@ CommCtrlRenderTargetWidgetBackend::CommCtrlRenderTargetWidgetBackend(StdXX::UIBa
 {
 	//register keyboard input
 	RAWINPUTDEVICE inputDev;
-	inputDev.dwFlags = RIDEV_NOLEGACY;
+	inputDev.dwFlags = 0;
+	//inputDev.dwFlags = RIDEV_NOLEGACY; //TODO: this does only work when we manage the whole window, since this will somehow affect ALL windows this widget participates in (even parents-.-)
+	//commctrl widgets won't receive any key events then
 	inputDev.hwndTarget = this->GetHWND();
 	inputDev.usUsagePage = 1; //'generic desktop' from USB HID usage table
 	inputDev.usUsage = 6; //keyboard
 
-	RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));
+	//RegisterRawInputDevices(&inputDev, 1, sizeof(RAWINPUTDEVICE));
 
 	//register mouse input
 	inputDev.dwFlags = 0; //TODO: unfortunately we need legacy messages for windows. If ever windows are custom drawn this can be changed
@@ -98,7 +100,7 @@ void CommCtrlRenderTargetWidgetBackend::OnMessage(WinMessageEvent& event)
 		event.result = 0;
 
 		if (input.header.dwType == RIM_TYPEKEYBOARD)
-			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+			;//TODO: reimplement me
 		else if (input.header.dwType == RIM_TYPEMOUSE)
 			this->DispatchMouseEvents(event.hWnd, input);
 		else

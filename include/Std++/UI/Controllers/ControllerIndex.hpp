@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 
 namespace StdXX
 {
@@ -35,8 +35,8 @@ namespace StdXX
 			//Constructor
 			inline ControllerIndex() : treeController(nullptr)
 			{
-				this->row = Natural<uint32>::Max();
-				this->column = Natural<uint32>::Max();
+				this->row = Unsigned<uint32>::Max();
+				this->column = Unsigned<uint32>::Max();
 				this->modelNode = nullptr;
 			}
 

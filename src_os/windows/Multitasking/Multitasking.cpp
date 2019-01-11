@@ -19,12 +19,14 @@
 //Corresponding header
 #include <Std++/Multitasking/Multitasking.hpp>
 //Global
+#include <Windows.h>
 //Local
 #include <Std++/Debug.hpp>
 
 //Global functions
 uint32 StdXX::GetHardwareConcurrency()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	SYSTEM_INFO sysInfo;
+	GetSystemInfo(&sysInfo);
+	return sysInfo.dwNumberOfProcessors;
 }

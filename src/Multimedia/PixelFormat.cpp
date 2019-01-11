@@ -20,7 +20,7 @@
 #include <Std++/Multimedia/PixelFormat.hpp>
 //Local
 #include <Std++/Mathematics.hpp>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 //Namespaces
 using namespace StdXX;
@@ -46,7 +46,7 @@ PixelFormat::PixelFormat(NamedPixelFormat namedPixelFormat)
 			cc.shift = shift;
 			cc.isFloat = false;
 			cc.min.u8 = 0;
-			cc.max.u8 = Natural<uint8>::Max();
+			cc.max.u8 = Unsigned<uint8>::Max();
 
 			shift -= 8;
 		}
@@ -71,7 +71,7 @@ PixelFormat::PixelFormat(NamedPixelFormat namedPixelFormat)
 					cc.shift = shift;
 					cc.isFloat = false;
 					cc.min.u8 = 0;
-					cc.max.u8 = Natural<uint8>::Max();
+					cc.max.u8 = Unsigned<uint8>::Max();
 
 					shift += 8;
 				}

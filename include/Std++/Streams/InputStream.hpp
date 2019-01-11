@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Natural.hpp"
+#include "../Unsigned.hpp"
 
 namespace StdXX
 {
@@ -46,6 +46,6 @@ namespace StdXX
         virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods
-        uint32 FlushTo(OutputStream &refOutput, uint32 size = Natural<uint32>::Max());
+        uint32 FlushTo(OutputStream &refOutput, uint32 size = Unsigned<uint32>::Max());
     };
 }

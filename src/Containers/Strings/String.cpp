@@ -137,7 +137,7 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 			length--;
 
 			if(!length)
-				return Natural<uint32>::Max();
+				return Unsigned<uint32>::Max();
 		}
 
 		//found first code point, check for rest
@@ -152,7 +152,7 @@ uint32 String::Find(const String &string, uint32 startPos, uint32 length) const
 		length--;
 	}
 
-	return Natural<uint32>::Max();
+	return Unsigned<uint32>::Max();
 }
 
 uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length) const
@@ -172,7 +172,7 @@ uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length)
 			length--;
 
 			if(!length)
-				return Natural<uint32>::Max();
+				return Unsigned<uint32>::Max();
 		}
 
 		//found last code point, check for rest
@@ -187,7 +187,7 @@ uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length)
 		length--;
 	}
 
-	return Natural<uint32>::Max();
+	return Unsigned<uint32>::Max();
 }
 
 String String::Replace(const String &from, const String &to) const
@@ -245,7 +245,7 @@ DynamicArray<String> String::Split(const String &seperator) const
 
 	int32 pos;
 	uint32 oldPos = 0;
-	while((pos = this->Find(seperator, oldPos)) != Natural<uint32>::Max())
+	while((pos = this->Find(seperator, oldPos)) != Unsigned<uint32>::Max())
 	{
 		result.Push(this->SubString(oldPos, pos - oldPos));
 		oldPos = pos + seperator.GetLength();

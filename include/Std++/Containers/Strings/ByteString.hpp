@@ -89,7 +89,7 @@ namespace StdXX
         using FixedCharLengthString<char>::Find;
         int32 Find(const ByteString &refSearch, uint32 startPos = 0) const;
         using FixedCharLengthString<char>::FindReverse;
-        int32 FindReverse(const ByteString &refSearch, uint32 startPos = Natural<uint32>::Max()) const;
+        int32 FindReverse(const ByteString &refSearch, uint32 startPos = Unsigned<uint32>::Max()) const;
         void Resize(uint32 newLength);
         ByteString SubString(uint32 beginOffset, uint32 length) const;
         ByteString ToLowercase() const;

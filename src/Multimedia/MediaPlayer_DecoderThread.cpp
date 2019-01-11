@@ -29,7 +29,7 @@ using namespace StdXX::Multimedia;
 
 //Constructors
 DecoderThread::DecoderThread(StdXX::Multimedia::MediaPlayer *player)
-	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), encoderContext(nullptr), streamIndex(Natural<uint32>::Max())
+	: player(player), shutdown(false), work(false), working(false), decoderContext(nullptr), encoderContext(nullptr), streamIndex(Unsigned<uint32>::Max())
 {
 }
 
@@ -163,7 +163,7 @@ bool DecoderThread::WaitForWork()
 		this->workLock.Unlock();
 		if(this->work)
 		{
-			if(this->streamIndex != Natural<uint32>::Max())
+			if(this->streamIndex != Unsigned<uint32>::Max())
 				this->decoderContext = this->player->GetDemuxer()->GetStream(this->streamIndex)->GetDecoderContext();
 		}
 

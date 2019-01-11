@@ -23,7 +23,7 @@
 #include <Std++/Audio/Source.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 #include <Std++/UI/Displays/VideoWidget.hpp>
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;
@@ -35,12 +35,12 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	this->demuxer = nullptr;
 	this->isPlaying = false;
 
-	this->audio.activeStreamIndex = Natural<uint32>::Max();
+	this->audio.activeStreamIndex = Unsigned<uint32>::Max();
 	this->audio.lastPTS = 0;
 	this->audio.nextBufferIndex = 0;
 	this->audio.nextPacket = nullptr;
 
-	this->video.activeStreamIndex = Natural<uint32>::Max();
+	this->video.activeStreamIndex = Unsigned<uint32>::Max();
 	this->video.nextPacket = nullptr;
 	this->video.outputWidget = nullptr;
 
@@ -180,7 +180,7 @@ void MediaPlayer::OnMasterClockTriggered()
 	this->masterClock += elapsed;
 
 	//check video
-	if(this->video.activeStreamIndex != Natural<uint32>::Max())
+	if(this->video.activeStreamIndex != Unsigned<uint32>::Max())
 	{
 		VideoStream *videoStream = this->video.streams[this->video.activeStreamIndex];
 
@@ -198,7 +198,7 @@ void MediaPlayer::OnMasterClockTriggered()
 			this->video.nextPacket = this->video.decodeThread->TryGetNextOutputPacket();
 			if(this->video.nextPacket)
 			{
-				if(this->video.nextPacket->pts == Natural<uint64>::Max())
+				if(this->video.nextPacket->pts == Unsigned<uint64>::Max())
 					this->video.frameDelay = 20 * 1000; //next frame in 20ms hence 50FPS
 				else
 					this->video.frameDelay = (this->video.nextPacket->pts * videoStream->timeScale.numerator * 1000000 / videoStream->timeScale.denominator) - this->masterClock;
@@ -207,8 +207,8 @@ void MediaPlayer::OnMasterClockTriggered()
 	}
 
 	//check audio
-	int64 audioFrameDelay = Integer<int64>::Max();
-	if (this->audio.activeStreamIndex != Natural<uint32>::Max())
+	int64 audioFrameDelay = Signed<int64>::Max();
+	if (this->audio.activeStreamIndex != Unsigned<uint32>::Max())
 	{
 		AudioStream *audioStream = this->audio.streams[this->audio.activeStreamIndex];
 

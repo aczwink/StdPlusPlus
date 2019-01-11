@@ -22,13 +22,13 @@
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Events/ValueChangedEvent.hpp>
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-SpinBox::SpinBox() : min(Integer<int32>::Min()), max(Integer<int32>::Max()), value(0), spinBoxBackend(nullptr)
+SpinBox::SpinBox() : min(Signed<int32>::Min()), max(Signed<int32>::Max()), value(0), spinBoxBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Minimum);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);

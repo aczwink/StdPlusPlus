@@ -130,7 +130,8 @@ void CommCtrlBackend::Load()
 	iccex.dwSize = sizeof(iccex);
 	iccex.dwICC = ICC_LISTVIEW_CLASSES | ICC_TREEVIEW_CLASSES | ICC_BAR_CLASSES | ICC_TAB_CLASSES | ICC_UPDOWN_CLASS | ICC_LINK_CLASS | ICC_STANDARD_CLASSES;
 
-	ASSERT(InitCommonControlsEx(&iccex), u8"Could not initialize common controls library.");
+	BOOL result = InitCommonControlsEx(&iccex);
+	ASSERT(result == TRUE, u8"Could not initialize common controls library.");
 
 	//register window class
 	WNDCLASSEXW wcex = { 0 };
@@ -140,5 +141,6 @@ void CommCtrlBackend::Load()
 	wcex.lpfnWndProc = WindowsMessageQueueEventSource::WndProc;
 	wcex.lpszClassName = STDPLUSPLUS_WIN_WNDCLASS;
 
-	ASSERT(RegisterClassExW(&wcex), u8"Could not register window class");
+	ATOM classAtom = RegisterClassExW(&wcex);
+	ASSERT(classAtom != 0, u8"Could not register window class");
 }

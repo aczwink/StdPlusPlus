@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/Memory.hpp>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;

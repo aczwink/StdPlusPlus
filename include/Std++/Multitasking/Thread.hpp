@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../Function.hpp"
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 
 namespace StdXX
 {
@@ -59,7 +59,7 @@ namespace StdXX
 		 * Waits for this thread at least 'duration' nanoseconds to terminate.
 		 * This call blocks until the thread terminated or the timeout elapsed.
 		*/
-        void Join(uint64 duration = Natural<uint64>::Max());
+        void Join(uint64 duration = Unsigned<uint64>::Max());
 		void Start();
 
 		//Inline

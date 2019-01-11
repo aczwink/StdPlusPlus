@@ -33,28 +33,6 @@ namespace StdXX
         typedef FiniteSet<DataType> Set;
         typedef FiniteSetNode<DataType> Node;
         typedef CConstFiniteSetIterator<DataType> ConstIterator;
-    private:
-        //Members
-        Node *pRoot;
-
-        //Methods
-        Node *FindNode(const DataType &refValue) const
-        {
-            Node *pNode;
-
-            pNode = this->pRoot;
-            while(pNode)
-            {
-                if(refValue < pNode->value)
-                    pNode = (Node *)pNode->pLeft;
-                else if(refValue > pNode->value)
-                    pNode = (Node *)pNode->pRight;
-                else
-                    break;
-            }
-
-            return pNode;
-        }
     public:
         //Constructors
         FiniteSet()
@@ -69,11 +47,11 @@ namespace StdXX
             *this = refSet;
         }
 
-        FiniteSet(Set &&refSet)
+        FiniteSet(Set&& set)
         {
             this->pRoot = nullptr;
 
-            *this = (Set &&)refSet;
+            *this = Forward<Set>(set);
         }
 
         //Destructor
@@ -95,12 +73,15 @@ namespace StdXX
             return *this;
         }
 
-        Set &operator=(Set &&refSet)
+        Set &operator=(Set&& other)
         {
             this->Release();
 
-            this->pRoot = refSet.pRoot;
-            refSet.pRoot = nullptr;
+            this->pRoot = other.pRoot;
+			other.pRoot = nullptr;
+
+			this->nElements = other.nElements;
+			other.nElements = 0;
 
             return *this;
         }
@@ -510,6 +491,29 @@ namespace StdXX
         {
             return ConstIterator(*this, nullptr);
         }
+
+		private:
+			//Members
+			Node *pRoot;
+
+			//Methods
+			Node *FindNode(const DataType &refValue) const
+			{
+				Node *pNode;
+
+				pNode = this->pRoot;
+				while (pNode)
+				{
+					if (refValue < pNode->value)
+						pNode = (Node *)pNode->pLeft;
+					else if (refValue > pNode->value)
+						pNode = (Node *)pNode->pRight;
+					else
+						break;
+				}
+
+				return pNode;
+			}
     };
 }
 

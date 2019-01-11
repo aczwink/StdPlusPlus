@@ -67,7 +67,7 @@ namespace StdXX
 
 			inline bool SizeUnknown() const
 			{
-				return this->dataSize == Natural<uint64>::Max();
+				return this->dataSize == Unsigned<uint64>::Max();
 			}
 		};
 

@@ -22,51 +22,41 @@
 
 namespace StdXX
 {
-    template<typename T>
-    class Integer
-    {
-    };
-
-    template<>
-    class Integer<int16>
-    {
-    public:
-        //Expressions
-        static constexpr int16 Max()
-        {
-            return ((int16)32767);
-        }
-
-        static constexpr int16 Min()
-        {
-            return ((int16)-32768);
-        }
-    };
-
-    template<>
-    class Integer<int32>
-    {
-    public:
-        //Expressions
-        static constexpr int32 Max()
-        {
-            return ((int32)0x7FFFFFFF);
-        }
-
-        static constexpr int32 Min()
-        {
-            return ((int32)-2147483648);
-        }
-    };
+	template<typename T>
+	class Unsigned
+	{
+	};
 
 	template<>
-	class Integer<int64>
+	class Unsigned<uint8>
 	{
 	public:
 		//Expressions
-		static constexpr int64 Max()
+		static constexpr uint8 Max()
 		{
-			return int64(0x7FFFFFFFFFFFFFFF);
+			return ((uint8)0xFF);
+		}
+	};
+
+	template<>
+	class Unsigned<uint32>
+	{
+	public:
+		//Expressions
+		static constexpr uint32 Max()
+		{
+			return ((uint32)0xFFFFFFFF);
+		}
+	};
+
+	template<>
+	class Unsigned<uint64>
+	{
+	public:
+		//Expressions
+		static constexpr uint64 Max()
+		{
+			return ((uint64)0xFFFFFFFFFFFFFFFF);
 		}
 	};
 }

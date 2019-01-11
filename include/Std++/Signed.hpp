@@ -22,41 +22,51 @@
 
 namespace StdXX
 {
-	template<typename T>
-	class Natural
-	{
-	};
+    template<typename T>
+    class Signed
+    {
+    };
+
+    template<>
+    class Signed<int16>
+    {
+    public:
+        //Expressions
+        static constexpr int16 Max()
+        {
+            return ((int16)32767);
+        }
+
+        static constexpr int16 Min()
+        {
+            return ((int16)-32768);
+        }
+    };
+
+    template<>
+    class Signed<int32>
+    {
+    public:
+        //Expressions
+        static constexpr int32 Max()
+        {
+            return ((int32)0x7FFFFFFF);
+        }
+
+        static constexpr int32 Min()
+        {
+            return ((int32)-2147483648);
+        }
+    };
 
 	template<>
-	class Natural<uint8>
+	class Signed<int64>
 	{
 	public:
 		//Expressions
-		static constexpr uint8 Max()
+		static constexpr int64 Max()
 		{
-			return ((uint8)0xFF);
-		}
-	};
-
-	template<>
-	class Natural<uint32>
-	{
-	public:
-		//Expressions
-		static constexpr uint32 Max()
-		{
-			return ((uint32)0xFFFFFFFF);
-		}
-	};
-
-	template<>
-	class Natural<uint64>
-	{
-	public:
-		//Expressions
-		static constexpr uint64 Max()
-		{
-			return ((uint64)0xFFFFFFFFFFFFFFFF);
+			return int64(0x7FFFFFFFFFFFFFFF);
 		}
 	};
 }

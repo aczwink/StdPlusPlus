@@ -20,7 +20,7 @@
 #include <Std++/Multimedia/ParserContext.hpp>
 //Local
 #include <Std++/Multimedia/Stream.hpp>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -48,7 +48,7 @@ void ParserContext::AddToFrameBuffer(const Packet &refPacket)
 	this->AddToFrameBuffer(refPacket.GetData(), refPacket.GetSize());
 
 	this->frameBuffer.streamIndex = refPacket.streamIndex;
-	if (this->frameBuffer.pts == Natural<uint64>::Max() && refPacket.pts != Natural<uint64>::Max())
+	if (this->frameBuffer.pts == Unsigned<uint64>::Max() && refPacket.pts != Unsigned<uint64>::Max())
 		this->frameBuffer.pts = refPacket.pts;
 	if (refPacket.containsKeyframe)
 		this->frameBuffer.containsKeyframe = true;

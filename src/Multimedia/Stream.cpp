@@ -32,8 +32,8 @@ Stream::Stream()
 	this->parserFlags.requiresParsing = true;
 	this->parserFlags.repack = true;
 
-	this->startTime = Natural<uint64>::Max();
-	this->duration = Natural<uint64>::Max();
+	this->startTime = Unsigned<uint64>::Max();
+	this->duration = Unsigned<uint64>::Max();
 	this->vbr = false;
 	this->bitRate = 0;
 }

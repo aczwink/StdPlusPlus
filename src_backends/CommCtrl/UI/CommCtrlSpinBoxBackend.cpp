@@ -56,8 +56,12 @@ void CommCtrlSpinBoxBackend::OnMessage(WinMessageEvent& event)
 		{
 		case EN_CHANGE:
 		{
+			//remove the thousands seperator from text
+			String text = this->editControl.GetText();
+			text = text.Replace(u8".", u8""); //TODO: can this be another char based on locale?!
+
 			Variant value;
-			value.i32 = this->editControl.GetText().ToInt32();
+			value.i32 = text.ToInt32();
 
 			this->spinBox->Event(ValueChangedEvent(value));
 			event.consumed = true;

@@ -37,8 +37,13 @@ namespace StdXX
         //Constructor
 		explicit StaticThreadPool(uint32 nThreads = GetHardwareConcurrency());
 
+		StaticThreadPool(const StaticThreadPool&) = delete;
+
         //Destructor
         ~StaticThreadPool();
+
+		//Operators
+		StaticThreadPool& operator=(const StaticThreadPool&) = delete;
 
         //Methods
         void EnqueueTask(const Function<void()>& task);

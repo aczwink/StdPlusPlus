@@ -44,12 +44,12 @@ void CSVWriter::WriteCell(const String &string)
 	if(this->writeSeparator)
 		writer.WriteString(this->dialect.separator);
 
-	if(string.Find(this->dialect.separator) != Natural<uint32>::Max())
+	if(string.Find(this->dialect.separator) != Unsigned<uint32>::Max())
 	{
 		stdErr << string;
 	}
 
-	ASSERT(string.Find(this->dialect.separator) == Natural<uint32>::Max(), u8"TODO: escape cell");
+	ASSERT(string.Find(this->dialect.separator) == Unsigned<uint32>::Max(), u8"TODO: escape cell");
 	writer.WriteString(string);
 	this->writeSeparator = true;
 }

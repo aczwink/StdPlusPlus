@@ -85,8 +85,8 @@ private:
 
 	inline uint64 TransformPTS(uint64 pts, uint32 streamIndex) const
 	{
-		if(pts == Natural<uint64>::Max())
-			return Natural<uint64>::Max();
+		if(pts == Unsigned<uint64>::Max())
+			return Unsigned<uint64>::Max();
 
 		return pts / this->timeScale * this->GetStream(streamIndex)->timeScale;
 	}

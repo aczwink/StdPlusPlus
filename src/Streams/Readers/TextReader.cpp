@@ -47,7 +47,7 @@ TextReader &TextReader::operator>>(String &target)
 	target = String();
 
 	uint32 codePoint = this->SkipWhitespaces();
-	if(codePoint == Natural<uint32>::Max())
+	if(codePoint == Unsigned<uint32>::Max())
 		return *this;
 	target += codePoint;
 
@@ -132,7 +132,7 @@ uint32 TextReader::SkipWhitespaces()
 	while(true)
 	{
 		if(this->inputStream.IsAtEnd())
-			return Natural<uint32>::Max();
+			return Unsigned<uint32>::Max();
 		codePoint = this->codec->ReadCodePoint(this->inputStream);
 		if(!IsWhiteSpaceChar(codePoint))
 			break;

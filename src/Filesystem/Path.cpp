@@ -30,7 +30,7 @@ String Path::GetFileExtension() const
 
 	pos = this->pathString.FindReverse(u8".");
 
-	if(pos == Natural<uint32>::Max())
+	if(pos == Unsigned<uint32>::Max())
 		return String();
 
 	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1).ToLowercase();
@@ -42,7 +42,7 @@ String Path::GetName() const
 
 	pos = this->pathString.FindReverse(u8"/");
 
-	if(pos == Natural<uint32>::Max())
+	if(pos == Unsigned<uint32>::Max())
 		return this->pathString;
 
 	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1);
@@ -53,7 +53,7 @@ Path Path::GetParent() const
 	uint32 pos;
 
 	pos = this->pathString.FindReverse(u8"/");
-	if(pos == Natural<uint32>::Max())
+	if(pos == Unsigned<uint32>::Max())
 		return Path();
 
 	return Path(this->pathString.SubString(0, pos));
@@ -66,13 +66,13 @@ String Path::GetTitle() const
 	posDot = this->pathString.FindReverse(u8".");
 	posSlash = this->pathString.FindReverse(u8"/", posDot);
 
-	if(posSlash == Natural<uint32>::Max())
+	if(posSlash == Unsigned<uint32>::Max())
 	{
-		if(posDot == Natural<uint32>::Max())
+		if(posDot == Unsigned<uint32>::Max())
 			return this->pathString;
 		return this->pathString.SubString(0, posDot);
 	}
-	if(posDot == Natural<uint32>::Max())
+	if(posDot == Unsigned<uint32>::Max())
 		return this->pathString.SubString(posSlash + 1, this->pathString.GetLength() - posSlash - 1);
 	if(posSlash > posDot)
 		return String();
@@ -83,7 +83,7 @@ String Path::GetTitle() const
 String Path::SplitOutmostPathPart(Path &subPath) const
 {
 	uint32 posSlash = this->pathString.Find(u8"/");
-	if(posSlash == Natural<uint32>::Max())
+	if(posSlash == Unsigned<uint32>::Max())
 	{
 		subPath = u8"";
 		return this->pathString;

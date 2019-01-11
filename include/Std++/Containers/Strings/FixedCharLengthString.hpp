@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../../Natural.hpp"
+#include "../../Unsigned.hpp"
 #include "ResizeableString.hpp"
 
 namespace StdXX
@@ -40,7 +40,7 @@ namespace StdXX
         //Inline methods
         inline bool Contains(CharType c) const
         {
-            return this->Find(c) != Natural<uint32>::Max();
+            return this->Find(c) != Unsigned<uint32>::Max();
         }
 
         //Inline Operators

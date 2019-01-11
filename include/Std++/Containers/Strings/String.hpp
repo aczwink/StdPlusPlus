@@ -22,7 +22,7 @@
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
 #include <Std++/Debug.hpp>
 #include <Std++/Definitions.h>
-#include <Std++/Natural.hpp>
+#include <Std++/Unsigned.hpp>
 #include <Std++/Utility.hpp>
 
 namespace StdXX
@@ -194,7 +194,7 @@ namespace StdXX
 		 * @param endPos
 		 * @return
 		 */
-		uint32 Find(const String &string, uint32 startPos = 0, uint32 length = Natural<uint32>::Max()) const;
+		uint32 Find(const String &string, uint32 startPos = 0, uint32 length = Unsigned<uint32>::Max()) const;
 		/**
 		 * The same as Find but traverses the string in reversed order. The operation starts at 'startPos' (from the beginning of the string),
 		 * and iterates at most 'length' characters backwards.
@@ -204,7 +204,7 @@ namespace StdXX
 		 * @param length
 		 * @return
 		 */
-		uint32 FindReverse(const String &string, uint32 startPos = Natural<uint32>::Max(), uint32 length = Natural<uint32>::Max()) const;
+		uint32 FindReverse(const String &string, uint32 startPos = Unsigned<uint32>::Max(), uint32 length = Unsigned<uint32>::Max()) const;
 		String Replace(const String &from, const String &to) const;
 		String Reversed() const;
 		DynamicArray<String> Split(const String &seperator) const;
@@ -217,7 +217,7 @@ namespace StdXX
 		 * @param length
 		 * @return
 		 */
-		String SubString(uint32 startPos, uint32 length = Natural<uint32>::Max()) const;
+		String SubString(uint32 startPos, uint32 length = Unsigned<uint32>::Max()) const;
 		float64 ToFloat() const;
 		int64 ToInt() const;
 		String ToLowercase() const;

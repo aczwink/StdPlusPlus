@@ -55,7 +55,7 @@ int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
     if(refSearch.GetLength() == 0)
         return startPos;
 
-    while((pos = this->Find(refSearch[0], pos)) != Natural<uint32>::Max())
+    while((pos = this->Find(refSearch[0], pos)) != Unsigned<uint32>::Max())
     {
         ptr = this->data + pos;
 
@@ -65,7 +65,7 @@ int32 ByteString::Find(const ByteString &refSearch, uint32 startPos) const
             pos++;
     }
 
-    return Natural<uint32>::Max();
+    return Unsigned<uint32>::Max();
 }
 
 int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) const
@@ -75,14 +75,14 @@ int32 ByteString::FindReverse(const ByteString &refSearch, uint32 startPos) cons
     if(refSearch.GetLength() == 0)
         return startPos;
 
-    while((pos = this->FindReverse((char)refSearch[0], pos)) != Natural<uint32>::Max())
+    while((pos = this->FindReverse((char)refSearch[0], pos)) != Unsigned<uint32>::Max())
     {
         if(this->SubString(pos, refSearch.GetLength()) == refSearch)
             return pos;
         pos--;
     }
 
-    return Natural<uint32>::Max();
+    return Unsigned<uint32>::Max();
 }
 
 void ByteString::Resize(uint32 newLength)

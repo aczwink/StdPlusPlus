@@ -19,7 +19,7 @@
 //Class header
 #include "MatroskaMuxer.hpp"
 //Local
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include "../BMP/BMP.hpp"
@@ -48,7 +48,7 @@ void MatroskaMuxer::ComputeTimeScales()
 	ASSERT(this->timeScale.numerator == 1, "If you see this, report to StdXX"); //TODO: what happens if not?
 
 	//make sure time scale is precise enough
-	while(this->MapSeconds(30) > Integer<int16>::Max())
+	while(this->MapSeconds(30) > Signed<int16>::Max())
 	{
 		this->timeScale.denominator /= 2;
 		this->duration /= 2;
@@ -448,7 +448,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 		this->BeginElement(MATROSKA_ID_CLUSTER);
 		this->currentCluster.isClusterOpen = true;
 		this->currentCluster.size = 0;
-		if(transformedPTS != Natural<uint64>::Max())
+		if(transformedPTS != Unsigned<uint64>::Max())
 			this->currentCluster.basePTS = transformedPTS;
 		else
 			this->currentCluster.basePTS = this->currentCluster.pts;
@@ -467,7 +467,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	As of here https://www.matroska.org/technical/diagram/index.html
 	it is sufficient to index video keyframes
 	*/
-	if(packet.containsKeyframe && transformedPTS != Natural<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
+	if(packet.containsKeyframe && transformedPTS != Unsigned<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
 	{
 		CueEntry &cueEntry = this->cues[transformedPTS];
 
@@ -477,7 +477,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	}
 
 	//update current pts
-	if(transformedPTS != Natural<uint64>::Max() && transformedPTS > this->currentCluster.pts)
+	if(transformedPTS != Unsigned<uint64>::Max() && transformedPTS > this->currentCluster.pts)
 		this->currentCluster.pts = transformedPTS;
 
 	//write packet header

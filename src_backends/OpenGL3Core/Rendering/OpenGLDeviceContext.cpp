@@ -33,7 +33,7 @@ using namespace StdXX::Rendering;
 using namespace _stdxx_;
 
 //Global variables
-uint32 g_currentTextureId = Natural<uint32>::Max();
+uint32 g_currentTextureId = Unsigned<uint32>::Max();
 
 //Class fields
 thread_local OpenGLState OpenGLDeviceContext::state;
@@ -191,7 +191,7 @@ void OpenGLDeviceContext::DrawTrianglesIndexed(uint32 startIndex, uint32 nTriang
 	openGLIndexBuffer->Bind();
 
 	uint32 nIndices;
-	if(nTriangles == Natural<uint32>::Max())
+	if(nTriangles == Unsigned<uint32>::Max())
 		nIndices = openGLIndexBuffer->GetNumberOfIndices() - startIndex;
 	else
 		nIndices = nTriangles * 3;

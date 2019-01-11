@@ -77,7 +77,7 @@ void EventQueue::DispatchPendingEvents()
 
 void EventQueue::WaitForEvents()
 {
-	uint64 minWaitTime = Natural<uint64>::Max();
+	uint64 minWaitTime = Unsigned<uint64>::Max();
 
 	for(const EventSource *const& source : this->sources)
 	{
