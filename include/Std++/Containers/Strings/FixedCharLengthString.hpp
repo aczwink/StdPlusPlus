@@ -35,7 +35,7 @@ namespace StdXX
     public:
         //Methods
         uint32 Find(CharType c, uint32 startPos = 0) const;
-        int32 FindReverse(CharType c, uint32 startPos = Natural<uint32>::Max()) const;
+        int32 FindReverse(CharType c, uint32 startPos = Unsigned<uint32>::Max()) const;
 
         //Inline methods
         inline bool Contains(CharType c) const
