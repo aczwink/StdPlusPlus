@@ -122,12 +122,12 @@ namespace StdXX
                 if(this->data[i] == refValue)
                     return i;
             }
-            return Natural<uint32>::Max();
+            return Unsigned<uint32>::Max();
         }
 
         inline bool IsInArray(const DataType &refValue) const
         {
-            return this->Find(refValue) != Natural<uint32>::Max();
+            return this->Find(refValue) != Unsigned<uint32>::Max();
         }
 
 		inline DataType &Last()

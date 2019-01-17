@@ -192,7 +192,7 @@ void libavcodec_EncoderContext::MapPacket()
 
 	//meta
 	if (this->packet->pts == AV_NOPTS_VALUE)
-		packet->pts = Natural<uint64>::Max();
+		packet->pts = Unsigned<uint64>::Max();
 	else
 		packet->pts = this->packet->pts;
 	packet->containsKeyframe = (this->packet->flags & AV_PKT_FLAG_KEY) != 0;

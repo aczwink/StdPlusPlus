@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Utility.hpp>
 #include "../Container.hpp"
 #include "FiniteSetNode.hpp"
 #include "FiniteSetIterator.hpp"

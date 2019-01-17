@@ -153,7 +153,7 @@ uint64 libavcodec_DecoderContext::GetBestFramePTS() const
 		pts = av_frame_get_best_effort_timestamp(this->frame);
 
 	if (pts == AV_NOPTS_VALUE)
-		return Natural<uint64>::Max();
+		return Unsigned<uint64>::Max();
 	return pts;
 }
 
@@ -194,7 +194,7 @@ void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packe
 	this->packet->data = (uint8_t *)packet.GetData();
 	this->packet->size = packet.GetSize();
 
-	if (packet.pts == Natural<uint64>::Max())
+	if (packet.pts == Unsigned<uint64>::Max())
 		this->packet->pts = AV_NOPTS_VALUE;
 	else
 		this->packet->pts = packet.pts;
