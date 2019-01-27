@@ -107,7 +107,10 @@ namespace StdXX
 
 		constexpr Optional<T>& operator=(Optional<T>&& other)
 		{
-			this->AssignMove(other.Value());
+			if (other.isInitialized)
+				this->AssignMove(other.Value());
+			else
+				this->isInitialized = false;
 			return *this;
 		}
 

@@ -68,7 +68,7 @@ namespace StdXX
 		template <>
 		inline Vector4<float32> Vector4<float32>::Normalized() const
 		{
-			return _mm_div_pd(this->mmValue, this->_Norm_SSE());
+			return _mm_div_ps(this->mmValue, this->_Norm_SSE());
 		}
 	}
 }

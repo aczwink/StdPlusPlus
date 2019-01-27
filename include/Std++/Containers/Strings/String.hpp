@@ -315,7 +315,15 @@ namespace StdXX
 		 * @return
 		 */
 		static String CopyRawString(const char *utf8);
-		static String CopyRawString(const uint16 *utf16);
+		/**
+		 * Assumes that the parameter is UTF-16 (host endian order) encoded;
+		 * Further if nChars equals Unsigned<uint32>::Max(), then the function will assume the input to be zero-terminated.
+		 * The function will in this case copy chars until it finds a null character.
+		 * Otherwise it copies exactly nChars characters.
+		 * Does a deep-copy of the source string.
+		 *
+		 */
+		static String CopyRawString(const uint16 *utf16, uint32 nChars = Unsigned<uint32>::Max());
 
 		/**
 		 * Formats a value using binary prefixes.
@@ -415,6 +423,19 @@ namespace StdXX
 			}
 
 			return length;
+		}
+
+		inline uint32 CountUTF16Size(const uint16* src, uint32 nChars) const
+		{
+			uint32 nBytes = 0;
+			bool isSurrogate;
+			while ((nChars--) && this->DecodeUTF16(src, isSurrogate))
+			{
+				nBytes += 2 * (1 + isSurrogate);
+				src += 1 + isSurrogate;
+			}
+
+			return nBytes;
 		}
 
 		inline uint32 Decode(const byte *src, uint8 &nBytes) const

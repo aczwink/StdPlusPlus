@@ -703,14 +703,20 @@ String String::CopyRawString(const char *utf8)
 	return str;
 }
 
-String String::CopyRawString(const uint16 *utf16)
+String String::CopyRawString(const uint16 *utf16, uint32 nChars)
 {
 	String str;
 
 	str.sharedResource = new Resource;
 	str.sharedResource->isUTF8 = false;
 
-	str.length = str.CountUTF16Length(utf16, str.size);
+	if (nChars == Unsigned<uint32>::Max())
+		str.length = str.CountUTF16Length(utf16, str.size);
+	else
+	{
+		str.length = nChars;
+		str.size = str.CountUTF16Size(utf16, nChars);
+	}
 	str.ResizeAdditional(str.size);
 
 	MemCopy(str.sharedResource->data, utf16, str.size);
