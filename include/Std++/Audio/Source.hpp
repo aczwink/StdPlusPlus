@@ -41,8 +41,8 @@ namespace StdXX
 			virtual void SetGain(float32 gain) = 0;
 			virtual void SetLooping(bool loop) = 0;
 			virtual void SetPitch(float32 pitch) = 0;
-			virtual void SetPosition(const Math::Vector3s &pos) = 0;
-			virtual void SetVelocity(const Math::Vector3s &vel) = 0;
+			virtual void SetPosition(const Math::Vector3S &pos) = 0;
+			virtual void SetVelocity(const Math::Vector3S &vel) = 0;
 			virtual void Stop() = 0;
 		};
 	}

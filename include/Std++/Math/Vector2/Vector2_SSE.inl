@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -90,7 +90,6 @@ namespace StdXX
 			return _mm_cvtsd_f64(this->_Dot_SSE(refRight.mmValue));
 		}
 
-		//Inline
 		template <>
 		inline float64 Vector2<float64>::Length() const
 		{

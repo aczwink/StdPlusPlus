@@ -97,7 +97,7 @@ namespace StdXX
 			}
 		};
 
-		typedef Size<float32> SizeF;
+		typedef Size<float32> SizeS;
 		typedef Size<float64> SizeD;
 	}
 }

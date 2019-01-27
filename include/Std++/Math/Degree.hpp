@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,7 +33,7 @@ namespace StdXX
         {
         public:
             //Members
-            float64 value;
+            ScalarType value;
 
             //Constructors
             inline Degree()
@@ -41,7 +41,7 @@ namespace StdXX
                 this->value = 0;
             }
 
-            inline Degree(float64 value)
+            inline Degree(ScalarType value)
             {
                 this->value = value;
             }

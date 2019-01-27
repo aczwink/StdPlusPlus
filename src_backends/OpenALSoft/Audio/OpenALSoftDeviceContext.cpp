@@ -49,20 +49,20 @@ Source *OpenALSoftDeviceContext::CreateSource()
 	return new OpenALSoftSource(*this);
 }
 
-void OpenALSoftDeviceContext::SetListenerOrientation(const Math::Vector3s &at, const Math::Vector3s &up)
+void OpenALSoftDeviceContext::SetListenerOrientation(const Math::Vector3S &at, const Math::Vector3S &up)
 {
 	this->Bind();
-	Math::Vector3s orientation[2] = {at, up};
+	Math::Vector3S orientation[2] = {at, up};
 	alListenerfv(AL_ORIENTATION, &orientation[0].x);
 }
 
-void OpenALSoftDeviceContext::SetListenerPosition(const Math::Vector3s &pos)
+void OpenALSoftDeviceContext::SetListenerPosition(const Math::Vector3S &pos)
 {
 	this->Bind();
 	alListenerfv(AL_POSITION, &pos.x);
 }
 
-void OpenALSoftDeviceContext::SetListenerVelocity(const Math::Vector3s &vel)
+void OpenALSoftDeviceContext::SetListenerVelocity(const Math::Vector3S &vel)
 {
 	this->Bind();
 	alListenerfv(AL_VELOCITY, &vel.x);

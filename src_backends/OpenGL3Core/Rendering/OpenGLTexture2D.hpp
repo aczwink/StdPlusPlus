@@ -48,7 +48,7 @@ public:
     void GenerateMipMaps();
     ETextureType GetType() const;
     void SetMaximumMipMapLevel(uint16 level);
-    void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Vector3s *pColorData);
+    void UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, uint16 height, const Vector3S *pColorData);
 
     //Inline
     inline uint32 GetId() const

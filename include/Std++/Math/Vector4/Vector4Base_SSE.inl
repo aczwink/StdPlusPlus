@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -48,10 +48,26 @@ namespace _stdxx_
 		inline __m128 _Dot_SSE(__m128 right) const
 		{
 #ifdef XPC_FEATURE_SSE4_1
-			return _mm_dp_ps(this->mmValue, right, 0xFF);
+			return _mm_dp_ps(this->mmValue, right, 0xF1);
 #else
 #error "TODO: implement non-sse4.1 version"
+			/*
+			 * //dot
+            norm = _mm_mul_ps(this->mmValue, this->mmValue);
+            norm = _mm_hadd_ps(norm, norm);
+            norm = _mm_hadd_ps(norm, norm);
+			 */
 #endif
+		}
+
+		inline __m128 _Norm_SSE() const
+		{
+			return _mm_sqrt_ss(this->_NormSquared_SSE());
+		}
+
+		inline __m128 _NormSquared_SSE() const
+		{
+			return this->_Dot_SSE(this->mmValue);
 		}
 	};
 }

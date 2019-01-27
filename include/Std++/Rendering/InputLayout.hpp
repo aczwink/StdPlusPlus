@@ -73,7 +73,7 @@ namespace StdXX
                 this->inputAttributes[this->currentAttributeIndex].offset = this->offset;
 
                 this->currentAttributeIndex++;
-                this->offset += sizeof(Math::Vector3s);
+                this->offset += sizeof(Math::Vector3S);
             }
 
             inline const SInputAttribute &GetAttribute(uint8 index) const

@@ -37,9 +37,9 @@ namespace StdXX
 			//Abstract
 			virtual Buffer *CreateBuffer() = 0;
 			virtual Source *CreateSource() = 0;
-			virtual void SetListenerOrientation(const Math::Vector3s &at, const Math::Vector3s &up) = 0;
-			virtual void SetListenerPosition(const Math::Vector3s &pos) = 0;
-			virtual void SetListenerVelocity(const Math::Vector3s &vel) = 0;
+			virtual void SetListenerOrientation(const Math::Vector3S &at, const Math::Vector3S &up) = 0;
+			virtual void SetListenerPosition(const Math::Vector3S &pos) = 0;
+			virtual void SetListenerVelocity(const Math::Vector3S &vel) = 0;
 		};
 	}
 }

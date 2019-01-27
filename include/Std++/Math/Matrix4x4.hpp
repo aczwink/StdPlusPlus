@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -118,6 +118,6 @@ namespace StdXX
             vec4 columns[4];
         };
 
-		typedef Matrix4x4<float32> Matrix4s;
+		typedef Matrix4x4<float32> Matrix4S;
     }
 }

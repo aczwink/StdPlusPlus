@@ -85,7 +85,7 @@ void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Math::Vector2S &re
     this->glFuncs.glUniform2fv(varId, 1, refVector.e);
 }
 
-void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Vector3s &refVector)
+void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Vector3S &refVector)
 {
     this->Use();
 
@@ -106,14 +106,14 @@ void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix2s &refMatri
     this->glFuncs.glUniformMatrix2fv(varId, 1, false, &refMatrix(0, 0));
 }
 
-void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix3s &refMatrix)
+void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix3S &refMatrix)
 {
     this->Use();
 
     this->glFuncs.glUniformMatrix3fv(varId, 1, false, &refMatrix(0, 0));
 }
 
-void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix4s &refMatrix)
+void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix4S &refMatrix)
 {
     this->Use();
 

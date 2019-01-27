@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,19 @@ namespace StdXX
 {
 	namespace Math
 	{
+		//Operators
+		template<>
+		inline Vector4<float32> Vector4<float32>::operator*(float32 scalar) const
+		{
+			return _mm_mul_ps(this->mmValue, _mm_set_ps1(scalar));
+		}
+
+		template<>
+		inline Vector4<float32> Vector4<float32>::operator/(float32 scalar) const
+		{
+			return _mm_div_ps(this->mmValue, _mm_set_ps1(scalar));
+		}
+
 		//Inline
 		template<>
 		inline Vector4<float32> Vector4<float32>::Cross(const Vector4<float32> &rhs) const
@@ -44,6 +57,18 @@ namespace StdXX
 		inline float32 Vector4<float32>::Dot(const Vector4<float32> &rhs) const
 		{
 			return _mm_cvtss_f32(this->_Dot_SSE(rhs.mmValue));
+		}
+
+		template <>
+		inline float32 Vector4<float32>::Length() const
+		{
+			return _mm_cvtss_f32(this->_Norm_SSE());
+		}
+
+		template <>
+		inline Vector4<float32> Vector4<float32>::Normalized() const
+		{
+			return _mm_div_pd(this->mmValue, this->_Norm_SSE());
 		}
 	}
 }

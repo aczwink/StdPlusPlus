@@ -83,13 +83,13 @@ void OpenALSoftSource::SetPitch(float32 pitch)
 	alSourcef(this->id, AL_PITCH, pitch);
 }
 
-void OpenALSoftSource::SetPosition(const Math::Vector3s &pos)
+void OpenALSoftSource::SetPosition(const Math::Vector3S &pos)
 {
 	this->deviceContext.Bind();
 	alSourcefv(this->id, AL_POSITION, &pos.x);
 }
 
-void OpenALSoftSource::SetVelocity(const Math::Vector3s &vel)
+void OpenALSoftSource::SetVelocity(const Math::Vector3S &vel)
 {
 	this->deviceContext.Bind();
 	alSourcefv(this->id, AL_VELOCITY, &vel.x);

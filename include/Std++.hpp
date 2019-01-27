@@ -82,7 +82,7 @@
 #include <Std++/Math/Vector2/Vector2.hpp>
 #include <Std++/Math/Vector2/Vector2.inl>
 #include <Std++/Math/Vector3.hpp>
-#include <Std++/Math/Vector4/Vector4.hpp>
+#include <Std++/Math/Vector4/Vector4.inl>
 
 //Streams
 #include <Std++/Streams/OutputStream.hpp>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -85,5 +85,7 @@ namespace StdXX
                 return AxisAlignedBox<ScalarType>(vec3(refTransform * vec4(this->min, 1)), vec3(refTransform * vec4(this->max, 1)));
             }
         };
+
+        typedef AxisAlignedBox<float32> AxisAlignedBoxS;
     }
 }

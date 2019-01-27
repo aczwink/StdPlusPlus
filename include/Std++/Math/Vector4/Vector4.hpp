@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,6 +34,7 @@ namespace StdXX
 		template<typename ScalarType>
         class alignas(4*sizeof(ScalarType)) Vector4 : public _stdxx_::Vector4Base<ScalarType>
         {
+			typedef Vector4<ScalarType> vec4;
         public:
             //Constructors
             inline Vector4()
@@ -82,15 +83,25 @@ namespace StdXX
                 return Vector4(this->x + refRight.x, this->y + refRight.y, this->z + refRight.z, this->w + refRight.w);
             }
 
+            inline vec4& operator+=(const vec4& rhs)
+			{
+				*this = (*this) + rhs;
+				return *this;
+			}
+
             inline Vector4 operator-(const Vector4 &refRight) const
             {
                 return Vector4(this->x - refRight.x, this->y - refRight.y, this->z - refRight.z, this->w - refRight.w);
             }
 
+            inline vec4 operator*(ScalarType scalar) const;
+
             inline Vector4 operator*(const Vector4 &refRight) const
             {
                 return Vector4(this->x * refRight.x, this->y * refRight.y, this->z * refRight.z, this->w * refRight.w);
             }
+
+			inline vec4 operator/(ScalarType scalar) const;
 
 			inline Vector4 operator/(const Vector4 &refRight) const
 			{
@@ -110,9 +121,18 @@ namespace StdXX
             //Inline
             inline Vector4<ScalarType> Cross(const Vector4<ScalarType> &rhs) const;
 			inline ScalarType Dot(const Vector4<ScalarType> &rhs) const;
+			inline ScalarType Length() const;
+			inline vec4 Normalized() const;
         };
 
         typedef Vector4<float32> Vector4S;
         typedef Vector4<float64> Vector4D;
+
+        //Right-hand side operators
+		template <typename ScalarType>
+		inline Vector4<ScalarType> operator*(ScalarType lhs, const Vector4<ScalarType>& rhs)
+		{
+			return rhs * lhs;
+		}
     }
 }

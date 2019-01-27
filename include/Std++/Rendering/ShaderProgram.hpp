@@ -48,11 +48,11 @@ namespace StdXX
             virtual void SetUniformValue(uint32 varId, uint32 value) = 0;
             virtual void SetUniformValue(uint32 varId, float32 value) = 0;
             virtual void SetUniformValue(uint32 varId, const Math::Vector2S &refVector) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Vector3s &refVector) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Vector3S &refVector) = 0;
             virtual void SetUniformValue(uint32 varId, const Color &refColor) = 0;
             virtual void SetUniformValue(uint32 varId, const Math::Matrix2s &refMatrix) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix3s &refMatrix) = 0;
-            virtual void SetUniformValue(uint32 varId, const Math::Matrix4s &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix3S &refMatrix) = 0;
+            virtual void SetUniformValue(uint32 varId, const Math::Matrix4S &refMatrix) = 0;
         };
     }
 }

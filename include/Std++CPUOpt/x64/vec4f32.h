@@ -56,30 +56,9 @@ namespace StdXX
         }
 
         //Operators
-        inline float32 &operator[](uint8 index)
-        {
-            ASSERT(index < 4, "Column must be < 4");
-
-            return this->e[index];
-        }
-
-        inline float32 operator[](uint8 index) const
-        {
-            ASSERT(index < 4, "Column must be < 4");
-
-            return this->e[index];
-        }
-
         inline vec4f32 operator+(const vec4f32 &refOther) const
         {
             return _mm_add_ps(this->mmValue, refOther.mmValue);
-        }
-
-        inline vec4f32 &operator+=(const vec4f32 &refOther)
-        {
-            this->mmValue = _mm_add_ps(this->mmValue, refOther.mmValue);
-
-            return *this;
         }
 
         inline vec4f32 operator-(const vec4f32 &refOther) const
@@ -87,19 +66,9 @@ namespace StdXX
             return _mm_sub_ps(this->mmValue, refOther.mmValue);
         }
 
-        inline vec4f32 operator*(float32 right) const
-        {
-            return _mm_mul_ps(this->mmValue, _mm_set_ps1(right));
-        }
-
         inline vec4f32 operator*(const vec4f32 &refRight) const
         {
             return _mm_mul_ps(this->mmValue, refRight.mmValue);
-        }
-
-        inline vec4f32 operator/(float32 right)
-        {
-            return _mm_div_ps(this->mmValue, _mm_set_ps1(right));
         }
 
         inline vec4f32 operator/(const vec4f32 &refRight)
@@ -113,31 +82,5 @@ namespace StdXX
 
             return *this;
         }
-
-        //Methods
-        inline float32 Length() const
-        {
-            return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(this->mmValue, this->mmValue, 0xF1)));
-        }
-
-        inline vec4f32 Normalize() const
-        {
-            __m128 norm;
-
-            //dot
-            norm = _mm_mul_ps(this->mmValue, this->mmValue);
-            norm = _mm_hadd_ps(norm, norm);
-            norm = _mm_hadd_ps(norm, norm);
-            //root
-            norm = _mm_sqrt_ps(norm);
-
-            return _mm_div_ps(this->mmValue, norm);
-        }
     };
-
-    //LHS-Operators
-    inline vec4f32 operator*(float32 left, const vec4f32 &refRight)
-    {
-        return refRight * left;
-    }
 }*/

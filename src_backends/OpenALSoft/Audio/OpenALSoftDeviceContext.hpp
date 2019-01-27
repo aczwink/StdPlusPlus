@@ -43,9 +43,9 @@ public:
 	//Methods
 	Buffer *CreateBuffer() override;
 	Source *CreateSource() override;
-	void SetListenerOrientation(const Math::Vector3s &at, const Math::Vector3s &up) override;
-	void SetListenerPosition(const Math::Vector3s &pos) override;
-	void SetListenerVelocity(const Math::Vector3s &vel) override;
+	void SetListenerOrientation(const Math::Vector3S &at, const Math::Vector3S &up) override;
+	void SetListenerPosition(const Math::Vector3S &pos) override;
+	void SetListenerVelocity(const Math::Vector3S &vel) override;
 
 	//Inline
 	inline void Bind()

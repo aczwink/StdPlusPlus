@@ -190,6 +190,6 @@ namespace StdXX
             return Vector3<ScalarType>(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
         }
 
-		typedef Vector3<float32> Vector3s;
+		typedef Vector3<float32> Vector3S;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,7 +25,7 @@ namespace StdXX
 {
 	namespace Math
 	{
-		//Move declarations
+		//Forward declarations
 		template <typename ScalarType>
 		class Matrix4x4;
 
@@ -38,6 +38,13 @@ namespace StdXX
 			//Constructors
 			inline Matrix3x3()
 			{
+			}
+
+			inline Matrix3x3(const vec3& col1, const vec3& col2, const vec3& col3)
+			{
+				this->columns[0] = col1;
+				this->columns[1] = col2;
+				this->columns[2] = col3;
 			}
 
 			Matrix3x3(const Matrix4x4<ScalarType> &refMat);
@@ -76,11 +83,23 @@ namespace StdXX
 			//Functions
 			static mat3 Rotation(const Radian<ScalarType> &angle, const vec3 &axis);
 
+			//Inline
+			inline ScalarType Determinant() const
+			{
+				return this->columns[0][0] * this->columns[1][1] * this->columns[2][2]
+					   - this->columns[0][0] * this->columns[2][1] * this->columns[1][2]
+					   - this->columns[1][0] * this->columns[0][1] * this->columns[2][2]
+					   + this->columns[1][0] * this->columns[2][1] * this->columns[0][2]
+					   + this->columns[2][0] * this->columns[0][1] * this->columns[1][2]
+					   - this->columns[2][0] * this->columns[1][1] * this->columns[0][2]
+						;
+			}
+
 		private:
 			//Members
 			vec3 columns[3];
 		};
 
-		typedef Matrix3x3<float32> Matrix3s;
+		typedef Matrix3x3<float32> Matrix3S;
 	}
 }
