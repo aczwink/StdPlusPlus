@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Corresponding header
-#include <Std++/Multitasking/Multitasking.hpp>
-//Global
-#include <sched.h>
-#include <unistd.h>
+#pragma once
+//Local
+#include "AtomicFlag.hpp"
+#include "Multitasking.hpp"
 
-//Global functions
-uint32 StdXX::GetHardwareConcurrency()
+namespace StdXX
 {
-	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
-}
+	class SpinLock
+	{
+	public:
+		//Inline
+		inline void Lock()
+		{
+			for(uint32 i = 0; !this->TryLock(); i++)
+			{
+				Thread_Yield(i);
+			}
+		}
 
-void StdXX::Thread_Yield()
-{
-	sched_yield();
+		inline bool TryLock()
+		{
+			return !this->locked.TestAndSet();
+		}
+
+		void Unlock()
+		{
+			this->locked.Clear();
+		}
+
+	private:
+		//Members
+		AtomicFlag locked;
+	};
 }

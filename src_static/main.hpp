@@ -23,5 +23,5 @@
 using namespace StdXX;
 
 //Prototypes
-int32 Main(const String &programName, const FixedArray<String> &args);
+int32 Main(const String& programName, const FixedArray<String>& args);
 int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args);

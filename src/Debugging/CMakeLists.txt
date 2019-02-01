@@ -3,5 +3,6 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/DebugOutputStreams.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FunctionHook.cpp
 
 	PARENT_SCOPE)

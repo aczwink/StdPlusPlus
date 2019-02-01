@@ -1,0 +1,13 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#Instructions
+	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/JMP.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/JMP.hpp
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/OneByteInstructions.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x86_64_Decoder.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x86_64_Decoder.hpp
+
+	PARENT_SCOPE)

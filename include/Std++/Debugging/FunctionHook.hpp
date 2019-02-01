@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Corresponding header
-#include <Std++/Multitasking/Multitasking.hpp>
-//Global
-#include <sched.h>
-#include <unistd.h>
+#pragma once
+//Local
+#include "../Definitions.h"
 
-//Global functions
-uint32 StdXX::GetHardwareConcurrency()
+namespace StdXX
 {
-	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
-}
+    namespace Debugging
+    {
+        class STDPLUSPLUS_API FunctionHook
+        {
+        public:
+            //Constructor
+            inline FunctionHook(void* functionAddress) : functionAddress(functionAddress)
+            {
+            }
 
-void StdXX::Thread_Yield()
-{
-	sched_yield();
+            //Destructor
+            inline ~FunctionHook()
+            {
+                this->UnHook();
+            }
+
+            //Methods
+            bool Hook(void* redirectTargetAddress);
+            void UnHook();
+
+        private:
+            //Members
+			void* functionAddress;
+        };
+    }
 }

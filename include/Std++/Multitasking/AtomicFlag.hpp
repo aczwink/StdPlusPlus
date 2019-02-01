@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,34 +18,32 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <Std++/__Globaldependencies.h>
 
-namespace StdPlusPlus
+namespace StdXX
 {
-    namespace Debugging
-    {
-        class STDPLUSPLUS_API CHook
-        {
-        private:
-            //Members
-            void *pFunctionAddress;
+	class AtomicFlag
+	{
+#ifdef XPC_COMPILER_CLANG
+	public:
+		//Constructor
+		inline AtomicFlag() : native(false)
+		{
+		}
 
-        public:
-            //Constructor
-            inline CHook(void *pFunctionAddress)
-            {
-                this->pFunctionAddress = pFunctionAddress;
-            }
+		//Inline
+		inline void Clear()
+		{
+			__c11_atomic_store(&this->native, false, std::memory_order_release);
+		}
 
-            //Destructor
-            inline ~CHook()
-            {
-                this->UnHook();
-            }
-
-            //Methods
-            void Hook(void *pRedirectTargetAddress);
-            void UnHook();
-        };
-    }
+		inline bool TestAndSet()
+		{
+			return __c11_atomic_exchange(&this->native, true, std::memory_order_acquire);
+		}
+	private:
+		//Members
+		_Atomic(bool) native;
+#endif
+	};
 }

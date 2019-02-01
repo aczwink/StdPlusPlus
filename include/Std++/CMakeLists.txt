@@ -1,5 +1,6 @@
 add_subdirectory(_Backends)
 add_subdirectory(Audio)
+add_subdirectory(CodeAnalysis)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Compression)
 add_subdirectory(Containers)
@@ -9,6 +10,7 @@ add_subdirectory(Errorhandling)
 add_subdirectory(Filesystem)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
+add_subdirectory(Multitasking)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -54,13 +56,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
-
-	#Multitasking
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Mutex.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.hpp
 
 	#Network
 	${CMAKE_CURRENT_SOURCE_DIR}/Network/Datagram.hpp

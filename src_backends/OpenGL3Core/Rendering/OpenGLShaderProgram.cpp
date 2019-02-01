@@ -99,7 +99,7 @@ void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Color &refColor)
     this->glFuncs.glUniform4fv(varId, 1, &refColor.r);
 }
 
-void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix2s &refMatrix)
+void OpenGLShaderProgram::SetUniformValue(uint32 varId, const Matrix2S &refMatrix)
 {
     this->Use();
 

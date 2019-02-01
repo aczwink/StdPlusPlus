@@ -31,6 +31,15 @@ namespace StdXX
 			typedef Vector2<ScalarType> vec2;
 
         public:
+        	//Constructors
+        	Matrix2x2() = default;
+
+        	inline Matrix2x2(const vec2& col1, const vec2& col2)
+			{
+				this->columns[0] = col1;
+				this->columns[1] = col2;
+			}
+
             //Operators
             Matrix2x2 operator*(const Matrix2x2 &refRight) const;
 			vec2 operator*(const vec2 &v) const;
@@ -62,11 +71,23 @@ namespace StdXX
 			static mat2 Rotate(ScalarType angle);
             static Matrix2x2 Scale(float32 scaleX, float32 scaleY);
 
+            //Inline
+			inline ScalarType Determinant() const
+			{
+				/*
+				 * [ a b ]
+				 * [ c d ]
+				 * a*d - b*c
+				 */
+				return this->columns[0].x * this->columns[1].y - this->columns[1].x * this->columns[0].y;
+			}
+
 		private:
 			//Members
 			vec2 columns[2];
         };
 
-		typedef Matrix2x2<float32> Matrix2s;
+		typedef Matrix2x2<float32> Matrix2S;
+		typedef Matrix2x2<float64> Matrix2D;
     }
 }

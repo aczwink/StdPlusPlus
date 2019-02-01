@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/FunctionHook.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DebugOutputStreams.hpp
 
 	PARENT_SCOPE)

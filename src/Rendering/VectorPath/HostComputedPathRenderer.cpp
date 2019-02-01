@@ -29,7 +29,7 @@ HostComputedPathRenderer::HostComputedPathRenderer()
 	this->pCurrentPath = nullptr;
 
 	//init current state
-	this->state.transform = Matrix2s::Identity();
+	this->state.transform = Matrix2S::Identity();
 	this->state.lineCap = ELineCap::Butt;
 	this->state.miterLimit = 10; //TODO: why this value?
 	this->state.strokeColor = Color();

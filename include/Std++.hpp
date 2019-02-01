@@ -106,14 +106,14 @@
 #include <Std++/Streams/Writers/TextWriter.hpp>
 
 //CodeAnalysis
-#include <Std++/CodeAnalysis/CProgram.h>
+#include <Std++/CodeAnalysis/Program.hpp>
 
 //Compression
 #include <Std++/Compression/CHuffmanDecoder.h>
 #include <Std++/Compression/Decompressor.hpp>
 
 //Debugging
-#include <Std++/Debugging/CHook.h>
+#include <Std++/Debugging/FunctionHook.hpp>
 
 //ErrorHandling
 #include <Std++/Errorhandling/Error.hpp>
@@ -166,6 +166,7 @@
 #include <Std++/Multitasking/ConditionVariable.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Multitasking/CProcess.h>
+#include <Std++/Multitasking/SpinLock.hpp>
 #include <Std++/Multitasking/StaticThreadPool.hpp>
 #include <Std++/Multitasking/Thread.hpp>
 #include <Std++/Multitasking/Multitasking.hpp>

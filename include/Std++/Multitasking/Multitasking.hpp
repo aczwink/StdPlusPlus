@@ -17,11 +17,39 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Global
+#ifdef XPC_FEATURE_SSE2
+#include <wmmintrin.h>
+#endif
 //Local
-#include "../Definitions.h"
+#include <Std++/Time/TimeMisc.hpp>
 
 namespace StdXX
 {
     //Functions
     STDPLUSPLUS_API uint32 GetHardwareConcurrency();
+    void Thread_Yield();
+
+    //Inline
+	inline void Thread_Yield(uint32 repeatCount)
+	{
+		//inspired by how boost does it
+		if(repeatCount < 4)
+		{
+		}
+#ifdef XPC_FEATURE_SSE2
+		else if(repeatCount < 16)
+		{
+			_mm_pause();
+		}
+#endif
+		else if((repeatCount < 32) || (repeatCount & 1))
+		{
+			Thread_Yield();
+		}
+		else
+		{
+			Sleep(1000);
+		}
+	}
 }

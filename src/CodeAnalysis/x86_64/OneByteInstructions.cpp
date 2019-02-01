@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Corresponding header
-#include <Std++/Multitasking/Multitasking.hpp>
-//Global
-#include <sched.h>
-#include <unistd.h>
+//Class header
+#include "x86_64_Decoder.hpp"
+//Local
+#include <Std++/Debug.hpp>
+#include "Instructions/JMP.hpp"
 
-//Global functions
-uint32 StdXX::GetHardwareConcurrency()
+//Public methods
+void x86_64_Decoder::DecodeOpcode_1byte(byte opcode, byte opcodeExtension)
 {
-	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
-}
+	switch(opcode)
+	{
+		case 0xE9:
+		{
+			this->DecodeOperands(1, OperandCoding::Imm32);
 
-void StdXX::Thread_Yield()
-{
-	sched_yield();
+			this->instruction = new x86_64::JMP(true, this->operandInfo[0].imm);
+		}
+			break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
+	}
 }

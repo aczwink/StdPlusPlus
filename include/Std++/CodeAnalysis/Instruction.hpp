@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,9 +24,14 @@ namespace StdXX
 {
     namespace CodeAnalysis
     {
-        enum class EArchitecture
+        class Instruction
         {
-            x64 //x86_64
+        public:
+            //Destructor
+            virtual ~Instruction() {}
+
+            //Abstract
+            virtual uint8 GetSize() const = 0;
         };
     }
 }

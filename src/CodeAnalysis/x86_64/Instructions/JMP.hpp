@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Corresponding header
-#include <Std++/Multitasking/Multitasking.hpp>
-//Global
-#include <sched.h>
-#include <unistd.h>
+//Local
+#include <Std++/CodeAnalysis/Instructions/JumpInstruction.hpp>
+//Namespaces
+using namespace StdXX::CodeAnalysis;
 
-//Global functions
-uint32 StdXX::GetHardwareConcurrency()
+namespace x86_64
 {
-	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
-}
+	class JMP : public JumpInstruction
+	{
+	public:
+		//Members
+		bool relative;
+		int64 offset;
 
-void StdXX::Thread_Yield()
-{
-	sched_yield();
+		//Constructor
+		inline JMP(bool relative, int64 offset)
+		{
+			this->relative = relative;
+			this->offset = offset;
+		}
+
+		//Methods
+		uint8 GetSize() const;
+	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,19 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Corresponding header
-#include <Std++/Multitasking/Multitasking.hpp>
-//Global
-#include <sched.h>
-#include <unistd.h>
+#pragma once
+//Local
+#include <Std++/Streams/InputStream.hpp>
+#include "Architecture.hpp"
+#include "Instruction.hpp"
 
-//Global functions
-uint32 StdXX::GetHardwareConcurrency()
+namespace StdXX
 {
-	return static_cast<uint32>(sysconf(_SC_NPROCESSORS_ONLN));
-}
+	namespace CodeAnalysis
+	{
+		class Decoder
+		{
+		public:
+			//Destructor
+			virtual ~Decoder(){}
 
-void StdXX::Thread_Yield()
-{
-	sched_yield();
+			//Abstract
+			virtual Instruction *DecodeInstruction(InputStream& input) = 0;
+
+			//Functions
+			static Decoder* CreateInstance(Architecture architecture);
+		};
+	}
 }

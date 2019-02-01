@@ -1,0 +1,13 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/AtomicFlag.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ConditionVariable.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Mutex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SpinLock.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/StaticThreadPool.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Thread.hpp
+
+	PARENT_SCOPE)

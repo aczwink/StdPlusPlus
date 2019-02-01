@@ -1,5 +1,5 @@
-/*headers
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+/*
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include "JMP.hpp"
 //Local
-#include "../Containers/Array/DynamicArray.hpp"
-#include "../Streams/InputStream.hpp"
-#include "EArchitecture.h"
-#include "IInstruction.h"
+#include <Std++/Debug.hpp>
+//Namespaces
+using namespace x86_64;
 
-namespace StdXX
+//Public methods
+uint8 JMP::GetSize() const
 {
-    namespace CodeAnalysis
-    {
-        class STDPLUSPLUS_API CProgram
-        {
-        private:
-            //Members
-            DynamicArray<IInstruction *> instructions;
+	if(this->relative)
+	{
+		return 5;
+	}
 
-        public:
-            //Constructor
-            CProgram(InputStream &refInput, uint32 programSize, EArchitecture architecture);
-
-            //Destructor
-            ~CProgram();
-        };
-    }
+	NOT_IMPLEMENTED_ERROR;
+	return -1;
 }

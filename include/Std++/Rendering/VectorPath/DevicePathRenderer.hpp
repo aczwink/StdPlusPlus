@@ -64,7 +64,7 @@ namespace StdXX
             //Inline
             inline void Scale(float32 scaleX, float32 scaleY)
             {
-                this->state.transform = Math::Matrix2s::Scale(scaleX, scaleY) * this->state.transform;
+                this->state.transform = Math::Matrix2S::Scale(scaleX, scaleY) * this->state.transform;
             }
 
             inline void SetFillColor(const Color &refFillColor)

@@ -21,3 +21,4 @@
 #include <cmath>
 #include <cfloat>
 #include <new>
+#include <atomic> //needed in AtomicFlag

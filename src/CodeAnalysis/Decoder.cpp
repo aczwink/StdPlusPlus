@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/CodeAnalysis/Decoder.hpp>
 //Local
-#include "../Definitions.h"
+#include <Std++/CodeAnalysis/Architecture.hpp>
+#include "x86_64/x86_64_Decoder.hpp"
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::CodeAnalysis;
 
-namespace StdXX
+//Class functions
+Decoder *Decoder::CreateInstance(Architecture architecture)
 {
-    namespace CodeAnalysis
-    {
-        class IInstruction
-        {
-        public:
-            //Destructor
-            virtual ~IInstruction() {}
+	switch(architecture)
+	{
+		case Architecture::x86_64:
+			return new x86_64_Decoder;
+	}
 
-            //Abstract
-            virtual uint8 GetSize() const = 0;
-        };
-    }
+	return nullptr;
 }

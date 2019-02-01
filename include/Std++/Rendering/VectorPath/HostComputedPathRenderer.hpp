@@ -37,7 +37,7 @@ namespace StdXX
             {
                 float64 miterLimit;
                 ELineCap lineCap;
-                Math::Matrix2s transform;
+                Math::Matrix2S transform;
 
                 Color fillColor;
 
