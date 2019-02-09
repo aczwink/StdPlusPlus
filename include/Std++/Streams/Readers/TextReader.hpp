@@ -48,13 +48,20 @@ namespace StdXX
 
         //Methods
 		/**
+		 * Reads characters until it finds the newline character '\n'.
+		 * The newline character is not part of the result.
+		 * If the carriage return is found directly before the newline character, it is omitted also.
+		 *
+		 * @return
+		 */
+		String ReadLine();
+		/**
 		 * Read 'length' characters and return them as string.
 		 *
 		 * @param length
 		 * @return
 		 */
         String ReadString(uint32 length);
-        ByteString ReadASCII_Line();
 		String ReadZeroTerminatedString();
 		/**
 		 * Read 'length' characters and return them as string.

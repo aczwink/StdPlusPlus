@@ -35,7 +35,7 @@ namespace StdPlusPlusTest
         struct Test
         {
             const char *pName;
-            void (*pTest)();
+            void (*testFunction)();
         };
     private:
         //Members
@@ -53,7 +53,7 @@ namespace StdPlusPlusTest
             Test t;
 
             t.pName = pName;
-            t.pTest = pTest;
+            t.testFunction = pTest;
 
             this->tests.InsertTail(t);
         }
@@ -61,12 +61,26 @@ namespace StdPlusPlusTest
         inline bool RunAllTests()
         {
             StdXX::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << StdXX::endl;
-            for(Test &refTest : this->tests)
-            {
-                StdXX::stdOut << "Running test: " << refTest.pName << "..." << StdXX::endl;
-                refTest.pTest();
-
-                StdXX::stdOut << "\tPassed!" << StdXX::endl;
+            for(Test &test : this->tests)
+			{
+				StdXX::stdOut << "Running test: " << test.pName << "..." << StdXX::endl;
+				try
+				{
+					test.testFunction();
+					StdXX::stdOut << "\tPassed!" << StdXX::endl;
+				}
+				catch(const StdXX::Exception &e)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
+				}
+				catch(const StdXX::Error &e)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
+				}
+				catch (...)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+				}
             }
 
             return true;

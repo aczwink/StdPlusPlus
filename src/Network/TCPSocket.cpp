@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,31 +17,29 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Network/TCPSocket.hpp>
+//Global
+#include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 //Local
-#include "LZMA_dec/LZMADecompressor.hpp"
+#include "TCPSocketInputStream.hpp"
 //Namespaces
 using namespace StdXX;
 
-//Class functions
-Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream)
+//Constructors
+TCPSocket::TCPSocket(const Variant& systemHandle) : systemHandle(systemHandle)
 {
-	switch (algorithm)
-	{
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream);
-	}
-	
-	return nullptr;
+	this->inputStream = new _stdxx_::TCPSocketInputStream(systemHandle);
+
+	//socket may derive blocking state from server socket: switch to blocking mode
+	int flags = fcntl(this->systemHandle.i32, F_GETFL, 0);
+	flags = (flags & ~O_NONBLOCK);
+	fcntl(this->systemHandle.i32, F_SETFL, flags);
 }
 
-Decompressor *Decompressor::CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize)
+//Destructor
+TCPSocket::~TCPSocket()
 {
-	switch (algorithm)
-	{
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream, uncompressedSize, header, headerSize);
-	}
-
-	return nullptr;
+	close(this->systemHandle.i32);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "ASeekableOutputStream.h"
+#include <Std++/Streams/InputStream.hpp>
+#include <Std++/Variant.hpp>
 
-namespace StdXX
+namespace _stdxx_
 {
-    class STDPLUSPLUS_API BufferOutputStream : public ASeekableOutputStream
-    {
-    public:
-        //Constructor
-        BufferOutputStream(void *pBuffer, uint32 size);
+	class TCPSocketInputStream : public StdXX::InputStream
+	{
+	public:
+		//Constructor
+		inline TCPSocketInputStream(const StdXX::Variant &socketSystemHandle) : socketSystemHandle(socketSystemHandle)
+		{
+		}
 
-        //Methods
-		void Flush() override;
-        uint64 GetCurrentOffset() const override;
-        void SetCurrentOffset(uint64 offset) override;
-        uint32 WriteBytes(const void *pSource, uint32 size) override;
+		//Methods
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
 
 	private:
-		//Variables
-		byte *pStart;
-		byte *pCurrent;
-		byte *pEnd;
-		bool hitEnd; //ISN'T SET CORRECTLY
-    };
+		//Members
+		StdXX::Variant socketSystemHandle;
+	};
 }

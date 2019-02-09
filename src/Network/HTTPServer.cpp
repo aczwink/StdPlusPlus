@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,31 +17,32 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Network/HTTPServer.hpp>
 //Local
-#include "LZMA_dec/LZMADecompressor.hpp"
+#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Readers/TextReader.hpp>
+#include <Std++/Streams/BufferedInputStream.hpp>
 //Namespaces
 using namespace StdXX;
 
-//Class functions
-Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream)
+//Public methods
+void HTTPServer::ServeForever()
 {
-	switch (algorithm)
+	while(true)
 	{
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream);
-	}
-	
-	return nullptr;
-}
+		UniquePointer<TCPSocket> client = this->socket.WaitForIncomingConnections(Unsigned<uint64>::Max());
+		BufferedInputStream bufferedInputStream(client->GetInputStream()); //important!
+		TextReader textReader(bufferedInputStream, TextCodecType::ASCII);
 
-Decompressor *Decompressor::CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize)
-{
-	switch (algorithm)
-	{
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream, uncompressedSize, header, headerSize);
-	}
+		//print header
+		while(true)
+		{
+			String line = textReader.ReadLine();
+			stdOut << line << endl;
 
-	return nullptr;
+			//end of headers
+			if(line.IsEmpty())
+				break;
+		}
+	}
 }

@@ -11,6 +11,7 @@ add_subdirectory(Filesystem)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
 add_subdirectory(Multitasking)
+add_subdirectory(Network)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -56,12 +57,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
-
-	#Network
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/Datagram.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/DatagramSocket.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/IPv4Address.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/NetAddress.hpp
 
 	#Rendering
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/DevicePathRenderer.hpp

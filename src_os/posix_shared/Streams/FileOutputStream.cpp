@@ -61,6 +61,11 @@ FileOutputStream::~FileOutputStream()
 }
 
 //Public methods
+void FileOutputStream::Flush()
+{
+	fsync(this->fileHandle);
+}
+
 uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
 {
 	return write(this->fileHandle, pSource, size);

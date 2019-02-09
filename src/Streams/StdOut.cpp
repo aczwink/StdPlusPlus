@@ -24,21 +24,31 @@
 using namespace StdXX;
 
 //Global Variables
-CStdErr STDPLUSPLUS_API StdXX::stdErr;
+StdErr STDPLUSPLUS_API StdXX::stdErr;
 StdOut STDPLUSPLUS_API StdXX::stdOut;
 
-//CStdErr Public methods
-void CStdErr::WriteByte(byte b)
+//StdErr Public methods
+void StdErr::Flush()
+{
+	fflush(stderr);
+}
+
+void StdErr::WriteByte(byte b)
 {
     putc(b, stderr);
 }
 
-uint32 CStdErr::WriteBytes(const void *pSource, uint32 count)
+uint32 StdErr::WriteBytes(const void *pSource, uint32 count)
 {
     return (uint32)fwrite(pSource, 1, count, stderr);
 }
 
 //StdOut Public methods
+void StdOut::Flush()
+{
+	fflush(stdout);
+}
+
 void StdOut::WriteByte(byte b)
 {
     putc(b, stdout);

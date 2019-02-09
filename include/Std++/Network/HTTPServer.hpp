@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,50 +18,23 @@
  */
 #pragma once
 //Local
-#include "Definitions.h"
+#include "TCPServerSocket.hpp"
 
 namespace StdXX
 {
-	template<typename T>
-	class Unsigned
-	{
-	};
-
-	template<>
-	class Unsigned<uint8>
+	class HTTPServer
 	{
 	public:
-		//Expressions
-		static constexpr uint8 Max()
+		//Constructor
+		inline HTTPServer(const NetAddress& netAddress, uint16 port) : socket(netAddress, port)
 		{
-			return ((uint8)0xFF);
-		}
-	};
-
-	template<>
-	class Unsigned<uint32>
-	{
-	public:
-		//Expressions
-		static constexpr uint32 From4UInt8(uint8 msb, uint8 upperMiddle, uint8 lowerMiddle, uint8 lsb)
-		{
-			return (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb));
 		}
 
-		static constexpr uint32 Max()
-		{
-			return ((uint32)0xFFFFFFFF);
-		}
-	};
+		//Methods
+		void ServeForever();
 
-	template<>
-	class Unsigned<uint64>
-	{
-	public:
-		//Expressions
-		static constexpr uint64 Max()
-		{
-			return ((uint64)0xFFFFFFFFFFFFFFFF);
-		}
+	private:
+		//Members
+		TCPServerSocket socket;
 	};
 }

@@ -110,6 +110,7 @@
 
 //Compression
 #include <Std++/Compression/CHuffmanDecoder.h>
+#include <Std++/Compression/Compressor.hpp>
 #include <Std++/Compression/Decompressor.hpp>
 
 //Debugging
@@ -173,7 +174,9 @@
 
 //Network
 #include <Std++/Network/DatagramSocket.hpp>
+#include <Std++/Network/HTTPServer.hpp>
 #include <Std++/Network/IPv4Address.hpp>
+#include <Std++/Network/TCPServerSocket.hpp>
 
 //PDF
 #include <Std++/PDF/CDocument.h>

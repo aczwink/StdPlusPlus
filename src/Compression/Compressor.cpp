@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Compression/Compressor.hpp>
 //Local
-#include "ASeekableOutputStream.h"
+#ifdef _STDXX_EXTENSION_LIBLZMA
+#include "../../src_backends/liblzma/LZMACompressor.hpp"
+#endif
+//Namespaces
+using namespace StdXX;
 
-namespace StdXX
+//Class functions
+Compressor *Compressor::Create(CompressionAlgorithm algorithm, OutputStream &outputStream, Optional<uint8> compressionLevel)
 {
-    class STDPLUSPLUS_API BufferOutputStream : public ASeekableOutputStream
-    {
-    public:
-        //Constructor
-        BufferOutputStream(void *pBuffer, uint32 size);
+	switch (algorithm)
+	{
+#ifdef _STDXX_EXTENSION_LIBLZMA
+		case CompressionAlgorithm::LZMA:
+			return new _stdxx_::LZMACompressor(outputStream, compressionLevel);
+#endif
+	}
 
-        //Methods
-		void Flush() override;
-        uint64 GetCurrentOffset() const override;
-        void SetCurrentOffset(uint64 offset) override;
-        uint32 WriteBytes(const void *pSource, uint32 size) override;
-
-	private:
-		//Variables
-		byte *pStart;
-		byte *pCurrent;
-		byte *pEnd;
-		bool hitEnd; //ISN'T SET CORRECTLY
-    };
+	return nullptr;
 }

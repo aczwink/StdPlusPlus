@@ -125,6 +125,7 @@ namespace StdXX
         }
 
         //Abstract
+		virtual void Flush() = 0;
         virtual uint32 WriteBytes(const void *source, uint32 size) = 0;
 
         //Inline

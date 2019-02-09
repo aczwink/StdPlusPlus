@@ -48,12 +48,14 @@ namespace StdXX
         }
     };
 
-    class CStdErr : public OutputStream
+    class StdErr : public OutputStream
     {
     public:
         //Methods
         void WriteByte(byte b);
         uint32 WriteBytes(const void *pSource, uint32 size);
+
+        void Flush() override;
     };
 
     class StdOut : public OutputStream
@@ -62,9 +64,11 @@ namespace StdXX
         //Methods
         void WriteByte(byte b);
         uint32 WriteBytes(const void *pSource, uint32 size);
+
+        void Flush() override;
     };
 
     //Global Instances
-    extern CStdErr STDPLUSPLUS_API stdErr;
+    extern StdErr STDPLUSPLUS_API stdErr;
     extern StdOut STDPLUSPLUS_API stdOut;
 }

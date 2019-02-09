@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Global
+#include <lzma.h>
 //Local
-#include "ASeekableOutputStream.h"
+#include <Std++/Compression/Compressor.hpp>
 
-namespace StdXX
+namespace _stdxx_
 {
-    class STDPLUSPLUS_API BufferOutputStream : public ASeekableOutputStream
-    {
-    public:
-        //Constructor
-        BufferOutputStream(void *pBuffer, uint32 size);
+	class LZMACompressor : public StdXX::Compressor
+	{
+	public:
+		//Constructor
+		LZMACompressor(OutputStream &outputStream, StdXX::Optional<uint8> compressionLevel);
 
-        //Methods
+		//Destructor
+		~LZMACompressor();
+
+		//Methods
 		void Flush() override;
-        uint64 GetCurrentOffset() const override;
-        void SetCurrentOffset(uint64 offset) override;
-        uint32 WriteBytes(const void *pSource, uint32 size) override;
+		uint32 WriteBytes(const void *source, uint32 size) override;
 
 	private:
-		//Variables
-		byte *pStart;
-		byte *pCurrent;
-		byte *pEnd;
-		bool hitEnd; //ISN'T SET CORRECTLY
-    };
+		//Members
+		lzma_stream lzmaStream;
+		byte outputBuffer[4096];
+
+		//Methods
+		bool CompressBlock(lzma_action action);
+	};
 }

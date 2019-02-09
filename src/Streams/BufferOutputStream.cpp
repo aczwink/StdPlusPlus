@@ -21,7 +21,21 @@
 //Namespaces
 using namespace StdXX;
 
+//Constructor
+BufferOutputStream::BufferOutputStream(void *pBuffer, uint32 size)
+{
+	this->pStart = (byte *)pBuffer;
+	this->pCurrent = this->pStart;
+	this->pEnd = this->pStart + size;
+	this->hitEnd = false;
+}
+
 //Public methods
+void BufferOutputStream::Flush()
+{
+	//this stream always flushes
+}
+
 uint64 BufferOutputStream::GetCurrentOffset() const
 {
 	return this->pCurrent - this->pStart;

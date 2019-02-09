@@ -33,6 +33,9 @@ The following Audio-backends are currently implemented:
 The following Codec-backends are currently implemented:
 * libavcodec (ffmpeg)
 
+The following Compression-backends are currently implemented:
+* liblzma (XZ Utils) - only needed for compression not decompression
+
 The following Compute-backends are currently implemented:
 * OpenCL 1
 
@@ -52,6 +55,8 @@ None.
 
 ### Optional dependencies
 
-* OpenAL Soft for the OpenAL Soft backend
-* OpenCL 1.x ICD loader for the OpenCL 1 backend.
-* GTK 3 and PkgConfig for the GTK 3 backend.
+The following backends/extensions require installation of the corresponding software package. If they are not found, they will be disabled during compilation:
+* liblzma (XZ Utils)
+* OpenAL Soft
+* OpenCL 1.x ICD loader
+* GTK 3 and PkgConfig

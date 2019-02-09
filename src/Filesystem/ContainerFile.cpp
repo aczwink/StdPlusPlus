@@ -90,6 +90,11 @@ UniquePointer<OutputStream> ContainerFile::OpenForWriting()
 		}
 
 		//Methods
+		void Flush() override
+		{
+			this->fileBuffer->Flush();
+		}
+
 		uint32 WriteBytes(const void *source, uint32 size) override
 		{
 			return this->fileBuffer->WriteBytes(source, size);

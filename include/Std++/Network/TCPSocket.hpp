@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,52 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "Definitions.h"
+#include <Std++/Variant.hpp>
+#include <Std++/Streams/InputStream.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 
 namespace StdXX
 {
-	template<typename T>
-	class Unsigned
+	class TCPSocket
 	{
-	};
+		friend class TCPServerSocket;
 
-	template<>
-	class Unsigned<uint8>
-	{
 	public:
-		//Expressions
-		static constexpr uint8 Max()
-		{
-			return ((uint8)0xFF);
-		}
-	};
+		//Destructor
+		~TCPSocket();
 
-	template<>
-	class Unsigned<uint32>
-	{
-	public:
-		//Expressions
-		static constexpr uint32 From4UInt8(uint8 msb, uint8 upperMiddle, uint8 lowerMiddle, uint8 lsb)
+		//Inline
+		inline InputStream& GetInputStream()
 		{
-			return (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb));
+			return *this->inputStream;
 		}
 
-		static constexpr uint32 Max()
-		{
-			return ((uint32)0xFFFFFFFF);
-		}
-	};
+	private:
+		//Constructor
+		TCPSocket(const Variant& systemHandle); //called by TCPServerSocket
 
-	template<>
-	class Unsigned<uint64>
-	{
-	public:
-		//Expressions
-		static constexpr uint64 Max()
-		{
-			return ((uint64)0xFFFFFFFFFFFFFFFF);
-		}
+		//Members
+		Variant systemHandle;
+		UniquePointer<InputStream> inputStream;
 	};
 }

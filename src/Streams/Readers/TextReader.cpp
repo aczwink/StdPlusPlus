@@ -66,6 +66,31 @@ TextReader &TextReader::operator>>(String &target)
 }
 
 //Public methods
+String TextReader::ReadLine()
+{
+	bool nextShouldBeNewline = false;
+	String buffer;
+	while(!this->inputStream.IsAtEnd())
+	{
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		if(codePoint == u8'\n')
+			break;
+		if(codePoint == u8'\r')
+		{
+			nextShouldBeNewline = true;
+			continue;
+		}
+		if(nextShouldBeNewline)
+		{
+			nextShouldBeNewline = false;
+			buffer += u8'\r';
+		}
+		buffer += codePoint;
+	}
+
+	return buffer;
+}
+
 String TextReader::ReadString(uint32 length)
 {
 	String result;
@@ -76,24 +101,6 @@ String TextReader::ReadString(uint32 length)
 	}
 
 	return result;
-}
-
-ByteString TextReader::ReadASCII_Line()
-{
-    char c;
-    ByteString buffer;
-
-    while(!this->inputStream.IsAtEnd())
-    {
-		this->dataReader >> c;
-        if(c == '\n')
-            break;
-        if(c == '\r')
-            continue;
-        buffer += c;
-    }
-
-    return buffer;
 }
 
 String TextReader::ReadZeroTerminatedString()

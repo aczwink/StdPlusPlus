@@ -46,6 +46,7 @@ namespace StdXX
 
         //Methods
         void EnsureCapacity(uint32 requiredNumberOfElements) override;
+		void Flush() override;
         bool IsAtEnd() const override;
         uint32 PeekBytes(void *destination, uint32 offset, uint32 count) const;
         uint32 ReadBytes(void *pDestination, uint32 count) override;
@@ -59,7 +60,7 @@ namespace StdXX
             return (uint32)(this->pCurrentTail - this->pCurrentFront);
         }
 
-    private:
+	private:
         //Members
         byte *pCurrentFront;
         byte *pCurrentTail;

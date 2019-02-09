@@ -37,7 +37,7 @@ DatagramSocket::DatagramSocket(const NetAddress &netAddress, uint16 port)
 			//fill out address structure
 			IPv4Address &v4Addr = (IPv4Address &)netAddress;
 			sockaddr_in address = {0};
-			address.sin_addr.s_addr = htonl(MAKE32_FROM4(v4Addr.rawAddress[0], v4Addr.rawAddress[1], v4Addr.rawAddress[2], v4Addr.rawAddress[3]));
+			address.sin_addr.s_addr = v4Addr.ToUInt32();
 			address.sin_family = AF_INET;
 			address.sin_port = htons(port);
 
