@@ -1,4 +1,4 @@
-option(EXTENSION_LIBLZMA "liblzma (XZ Utils) compression-backend." OFF)
+option(EXTENSION_LIBLZMA "liblzma (XZ Utils) compression-extension." OFF)
 
 
 

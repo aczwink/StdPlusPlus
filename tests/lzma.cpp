@@ -29,7 +29,7 @@ TEST_SUITE(LzmaTest)
 		//first compress
 		BufferOutputStream bufferOutputStream(buffer, sizeof(buffer));
 		UniquePointer<Compressor> compressor = Compressor::Create(CompressionAlgorithm::LZMA, bufferOutputStream);
-		compressor->WriteBytes(data.GetRawZeroTerminatedData(), data.GetSize());
+		compressor->WriteBytes(data.GetRawData(), data.GetSize());
 		compressor->Flush();
 		uint64 compressedSize = bufferOutputStream.GetCurrentOffset();
 

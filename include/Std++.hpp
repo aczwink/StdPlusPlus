@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,6 +46,9 @@
 //Tables
 #include <Std++/Containers/Table/FixedTable.hpp>
 #include <Std++/Containers/FIFOBuffer.hpp>
+
+//Cryptography
+#include <Std++/Cryptography/Cipher.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>
