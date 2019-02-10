@@ -43,6 +43,11 @@ namespace StdXX
 	{
 	public:
 		//Expressions
+		static constexpr uint32 From4UInt8(uint8 msb, uint8 upperMiddle, uint8 lowerMiddle, uint8 lsb)
+		{
+			return (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb));
+		}
+
 		static constexpr uint32 Max()
 		{
 			return ((uint32)0xFFFFFFFF);

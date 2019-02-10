@@ -21,24 +21,26 @@
 //Definitions
 #define _TEST_ADDER_NAME(name, line) name ## line
 #define _TEST_ADDER_NAME2(name, line) _TEST_ADDER_NAME(name, line)
-#define TEST_SUITE(name) namespace __##name
+#define TEST_SUITE(name) namespace {static StdPlusPlusTest::TestSuiteSetter _TEST_ADDER_NAME2(__unique, __LINE__)(#name);} namespace __##name
 #define TEST(name) void name(); namespace {static StdPlusPlusTest::TestAdder _TEST_ADDER_NAME2(__unique, __LINE__)(#name, name);} void name()
 
 //Test classes
 namespace StdPlusPlusTest
 {
-    //Move declarations
+    //Forward declarations
     class TestSuite;
 
     class TestManager
     {
         struct Test
         {
-            const char *pName;
-            void (*pTest)();
+        	const char* testSuiteName;
+            const char *name;
+            void (*testFunction)();
         };
     private:
         //Members
+    	const char* currentTestSuite;
         StdXX::LinkedList<Test> tests;
 
         //Constructor
@@ -52,8 +54,9 @@ namespace StdPlusPlusTest
         {
             Test t;
 
-            t.pName = pName;
-            t.pTest = pTest;
+            t.testSuiteName = this->currentTestSuite;
+            t.name = pName;
+            t.testFunction = pTest;
 
             this->tests.InsertTail(t);
         }
@@ -61,16 +64,35 @@ namespace StdPlusPlusTest
         inline bool RunAllTests()
         {
             StdXX::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << StdXX::endl;
-            for(Test &refTest : this->tests)
-            {
-                StdXX::stdOut << "Running test: " << refTest.pName << "..." << StdXX::endl;
-                refTest.pTest();
-
-                StdXX::stdOut << "\tPassed!" << StdXX::endl;
+            for(Test &test : this->tests)
+			{
+				StdXX::stdOut << "Running test: " << test.testSuiteName << u8"::" << test.name << "..." << StdXX::endl;
+				try
+				{
+					test.testFunction();
+					StdXX::stdOut << "\tPassed!" << StdXX::endl;
+				}
+				catch(const StdXX::Exception &e)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
+				}
+				catch(const StdXX::Error &e)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
+				}
+				catch (...)
+				{
+					StdXX::stdOut << u8"\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+				}
             }
 
             return true;
         }
+
+        inline void SetTestSuiteName(const char* name)
+		{
+			this->currentTestSuite = name;
+		}
 
         //Functions
         static inline TestManager &GetInstance()
@@ -90,4 +112,14 @@ namespace StdPlusPlusTest
             StdPlusPlusTest::TestManager::GetInstance().AddTest(pName, pTest);
         }
     };
+
+    class TestSuiteSetter
+	{
+	public:
+		//Constructor
+		inline TestSuiteSetter(const char *name)
+		{
+			StdPlusPlusTest::TestManager::GetInstance().SetTestSuiteName(name);
+		}
+	};
 }

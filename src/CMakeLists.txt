@@ -2,12 +2,14 @@ add_subdirectory(CodeAnalysis)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Compression)
 add_subdirectory(Containers)
+add_subdirectory(Cryptography)
 add_subdirectory(Debugging)
 add_subdirectory(Devices)
 add_subdirectory(Filesystem)
 add_subdirectory(Hashing)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
+add_subdirectory(Network)
 add_subdirectory(Streams)
 add_subdirectory(UI)
 
@@ -47,13 +49,6 @@ set(SOURCE_FILES
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
-
-	#Network
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/Datagram.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/DatagramSocket.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/IPv4Address.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Network/Shared.hpp
 
 	#Rendering
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/DevicePathRenderer.cpp

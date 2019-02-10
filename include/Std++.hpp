@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,6 +46,10 @@
 //Tables
 #include <Std++/Containers/Table/FixedTable.hpp>
 #include <Std++/Containers/FIFOBuffer.hpp>
+
+//Cryptography
+#include <Std++/Cryptography/BlockCipher.hpp>
+#include <Std++/Cryptography/BlockDecipher.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>
@@ -110,6 +114,7 @@
 
 //Compression
 #include <Std++/Compression/CHuffmanDecoder.h>
+#include <Std++/Compression/Compressor.hpp>
 #include <Std++/Compression/Decompressor.hpp>
 
 //Debugging
@@ -173,7 +178,9 @@
 
 //Network
 #include <Std++/Network/DatagramSocket.hpp>
+#include <Std++/Network/HTTPServer.hpp>
 #include <Std++/Network/IPv4Address.hpp>
+#include <Std++/Network/TCPServerSocket.hpp>
 
 //PDF
 #include <Std++/PDF/CDocument.h>

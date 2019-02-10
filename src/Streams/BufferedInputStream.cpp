@@ -61,8 +61,8 @@ uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)
 	while(count)
 	{
 		this->FillBufferIfEmpty();
-		if(this->current == this->pEnd)
-			return nReadBytes;
+		if(this->current == this->pEnd) //if we are still at the end, after rebuffering
+			return nReadBytes; //no more bytes available
 
 		uint32 size = uint32(this->pEnd - this->current);
 		if(size > count)

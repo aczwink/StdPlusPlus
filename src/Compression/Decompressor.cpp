@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Compression/Decompressor.hpp>
 //Local
-#include "LZMA/LZMADecompressor.hpp"
+#include "LZMA_dec/LZMADecompressor.hpp"
 //Namespaces
 using namespace StdXX;
 

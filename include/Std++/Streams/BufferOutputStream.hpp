@@ -29,6 +29,7 @@ namespace StdXX
         BufferOutputStream(void *pBuffer, uint32 size);
 
         //Methods
+		void Flush() override;
         uint64 GetCurrentOffset() const override;
         void SetCurrentOffset(uint64 offset) override;
         uint32 WriteBytes(const void *pSource, uint32 size) override;

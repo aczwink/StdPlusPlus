@@ -34,8 +34,7 @@ NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port)
 
 			port = ntohs(addrv4->sin_port);
 
-			IPv4Address *result = new IPv4Address;
-			MemCopy(result->rawAddress, &addrv4->sin_addr.s_addr, 4); //s_addr is in network order
+			IPv4Address *result = new IPv4Address(addrv4->sin_addr.s_addr); //s_addr is in network order
 
 			return result;
 		}

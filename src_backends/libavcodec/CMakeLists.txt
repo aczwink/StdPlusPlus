@@ -1,4 +1,4 @@
-option(EXTENSION_LIBAVCODEC "libavcodec (ffmpeg) codec-backend." OFF)
+option(EXTENSION_LIBAVCODEC "libavcodec (ffmpeg) codec-extension." OFF)
 
 #VERY IMPORTANT!
 #!license issues!

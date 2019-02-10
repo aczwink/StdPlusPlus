@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,6 +20,7 @@
 #include <Std++/_Backends/ExtensionManager.hpp>
 //Extensions
 #include "libavcodec/libavcodec_Backend.hpp"
+#include "OpenSSL/OpenSSL_Extension.hpp"
 //Namespaces
 using namespace _stdxx_;
 
@@ -30,6 +31,10 @@ void RegisterExtensions()
 #ifdef _STDXX_EXTENSION_LIBAVCODEC
 	libavcodec_Backend *libavcodec_backend = new libavcodec_Backend;
 	ADD_EXTENSION(libavcodec_backend);
+#endif
+#ifdef _STDXX_EXTENSION_OPENSSL
+	OpenSSL_Extension* openSSLExtension = new OpenSSL_Extension;
+	ADD_EXTENSION(openSSLExtension);
 #endif
 #undef ADD_BACKEND
 }

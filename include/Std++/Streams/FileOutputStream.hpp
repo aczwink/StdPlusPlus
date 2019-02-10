@@ -42,6 +42,7 @@ namespace StdXX
         //FileOutputStream
         ~FileOutputStream();
         //Methods
+		void Flush() override;
         uint64 GetCurrentOffset() const;
         void SetCurrentOffset(uint64 offset);
         uint32 WriteBytes(const void *pSource, uint32 size);
@@ -52,7 +53,7 @@ namespace StdXX
 			return this->filePath;
 		}
 
-    private:
+	private:
         //Members
         union
         {

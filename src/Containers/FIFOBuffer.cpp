@@ -69,6 +69,11 @@ void FIFOBuffer::EnsureCapacity(uint32 requiredNumberOfElements)
 	}
 }
 
+void FIFOBuffer::Flush()
+{
+	//this stream always flushes
+}
+
 bool FIFOBuffer::IsAtEnd() const
 {
 	return this->pCurrentFront == this->pCurrentTail;

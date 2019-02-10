@@ -1,0 +1,9 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockCipher.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockDecipher.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CipherAlgorithm.hpp
+
+	PARENT_SCOPE)

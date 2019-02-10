@@ -30,9 +30,6 @@ The following Audio-backends are currently implemented:
 * OpenAL Soft
 * XAudio2
 
-The following Codec-backends are currently implemented:
-* libavcodec (ffmpeg)
-
 The following Compute-backends are currently implemented:
 * OpenCL 1
 
@@ -44,14 +41,28 @@ The following UI-backends are currently implemented:
 * GTK 3
 * Common Controls Library (Windows)
 
+## Extensions
+Similar to backends, there are extensions. The difference is saddle from the users perspective.
+Extensions extend the possibilities of the library (add cryptographic functions, codecs etc.).
+The library functions without them but offers more possibilities when having them.
+
+The following extensions are currently implemented:
+* libavcodec (ffmpeg) - provides a huge amount of codecs
+* liblzma (XZ Utils) - for compressing using the LZMA algorithm (decompression works without this extension)
+* OpenSSL - for cryptography ciphers and cryptographic hash functions
+
 ## Dependencies
 
 ### Mandatory dependencies
 
 None.
+Std++ was designed to be flexible and does not depend on anything your OS does not provide.
 
 ### Optional dependencies
 
-* OpenAL Soft for the OpenAL Soft backend
-* OpenCL 1.x ICD loader for the OpenCL 1 backend.
-* GTK 3 and PkgConfig for the GTK 3 backend.
+If you want to use any of the following backends, you will need to install them:
+* OpenAL Soft
+* OpenCL 1.x ICD loader
+* GTK 3 and PkgConfig
+
+Extensions are usually not available by default and you have to install the corresponding software package in order to use it.
