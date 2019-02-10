@@ -45,5 +45,29 @@ namespace StdXX
 		//Members
 		_Atomic(bool) native;
 #endif
+#ifdef XPC_COMPILER_MSVC
+	public:
+		//Constructor
+		inline AtomicFlag() : native(0)
+		{
+		}
+
+		//Inline
+		inline void Clear()
+		{
+			_Compiler_barrier();
+			volatile unsigned long* target = (volatile unsigned long*)&this->native;
+			*target = 0;
+		}
+
+		inline bool TestAndSet()
+		{
+			return _interlockedbittestandset(&this->native, 0) != 0;
+		}
+
+	private:
+		//Members
+		long native;
+#endif
 	};
 }

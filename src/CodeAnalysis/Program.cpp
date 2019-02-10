@@ -22,6 +22,7 @@
 #include <Std++/CodeAnalysis/Decoder.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
 //Namespaces
+using namespace StdXX;
 using namespace StdXX::CodeAnalysis;
 
 //Constructor
