@@ -16,35 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Cryptography/BlockCipher.hpp>
 //Local
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include "CipherAlgorithm.hpp"
+#ifdef _STDXX_EXTENSION_OPENSSL
+#include "../../src_backends/OpenSSL/OpenSSL_Extension.hpp"
+#endif
+//Namespaces
+using namespace StdXX;
 
-namespace StdXX
+//Class functions
+UniquePointer<BlockCipher> BlockCipher::Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
 {
-	class Cipher
+	switch(algorithm)
 	{
-	public:
-		//Destructor
-		virtual ~Cipher(){}
+	}
 
-		//Methods
-		virtual void Encrypt(const byte* unencrypted, byte* encrypted) const = 0;
-		/**
-		 *
-		 * @return In bytes
-		 */
-		virtual uint8 GetBlockSize() const = 0;
+#ifdef _STDXX_EXTENSION_OPENSSL
+	return _stdxx_::OpenSSL_Extension::CreateCipher(algorithm, key, keyLength);
+#endif
 
-		//Functions
-		/**
-		 *
-		 * @param algorithm
-		 * @param key
-		 * @param keyLength - In bits
-		 * @return
-		 */
-		static UniquePointer<Cipher> Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
-	};
+	return nullptr;
 }

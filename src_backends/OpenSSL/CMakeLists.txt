@@ -29,8 +29,10 @@ if(${EXTENSION_OPENSSL})
 		${SOURCE_FILES}
 
 		#Cryptography
-		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_Cipher.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_Cipher.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockCipher.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockCipher.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockDecipher.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockDecipher.hpp
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenSSL_Extension.cpp

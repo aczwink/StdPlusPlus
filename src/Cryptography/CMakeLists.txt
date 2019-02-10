@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/Cipher.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockCipher.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockDecipher.cpp
 
 	PARENT_SCOPE)

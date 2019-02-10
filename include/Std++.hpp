@@ -48,7 +48,8 @@
 #include <Std++/Containers/FIFOBuffer.hpp>
 
 //Cryptography
-#include <Std++/Cryptography/Cipher.hpp>
+#include <Std++/Cryptography/BlockCipher.hpp>
+#include <Std++/Cryptography/BlockDecipher.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>

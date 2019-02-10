@@ -17,18 +17,17 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "OpenSSL_Cipher.hpp"
+#include "OpenSSL_BlockDecipher.hpp"
 //Namespaces
 using namespace _stdxx_;
-using namespace StdXX;
 
 //Constructor
-OpenSSL_Cipher::OpenSSL_Cipher(CipherAlgorithm algorithm, const byte* key, uint16 keyLength) : algorithm(algorithm)
+OpenSSL_BlockDecipher::OpenSSL_BlockDecipher(const EVP_CIPHER* cipher, const byte* key, uint8 blockSize) : blockSize(blockSize)
 {
 	this->ctx = EVP_CIPHER_CTX_new();
 	ASSERT(this->ctx, u8"Report this please!");
 
-	int ret = EVP_EncryptInit_ex(this->ctx, this->MapCipherAlgorithm(algorithm, keyLength), nullptr, key, nullptr);
+	int ret = EVP_DecryptInit_ex(this->ctx, cipher, nullptr, key, nullptr);
 	ASSERT(ret == 1, u8"Report this please!");
 
 	ret = EVP_CIPHER_CTX_set_padding(this->ctx, false);
@@ -36,58 +35,26 @@ OpenSSL_Cipher::OpenSSL_Cipher(CipherAlgorithm algorithm, const byte* key, uint1
 }
 
 //Destructor
-OpenSSL_Cipher::~OpenSSL_Cipher()
+OpenSSL_BlockDecipher::~OpenSSL_BlockDecipher()
 {
 	EVP_CIPHER_CTX_free(this->ctx);
 }
 
 //Public methods
-void OpenSSL_Cipher::Encrypt(const byte *unencrypted, byte *encrypted) const
+void OpenSSL_BlockDecipher::Decrypt(const byte *encrypted, byte *unencrypted) const
 {
 	uint8 blockSize = this->GetBlockSize();
 	int len;
-	int ret = EVP_EncryptUpdate(this->ctx, encrypted, &len, unencrypted, blockSize);
+	int ret = EVP_DecryptUpdate(this->ctx, unencrypted, &len, encrypted, blockSize);
 	ASSERT(ret == 1, u8"Report this please!");
 	ASSERT(len == blockSize, u8"Report this please!");
 
-	ret = EVP_EncryptFinal_ex(this->ctx, encrypted + len, &len);
+	ret = EVP_DecryptFinal_ex(this->ctx, unencrypted + len, &len);
 	ASSERT(ret == 1, u8"Report this please!");
 	ASSERT(len == 0, u8"Report this please!");
 }
 
-uint8 OpenSSL_Cipher::GetBlockSize() const
+uint8 OpenSSL_BlockDecipher::GetBlockSize() const
 {
-	switch(algorithm)
-	{
-		case CipherAlgorithm::AES:
-			return 16;
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-	return 0;
-}
-
-//Private methods
-const EVP_CIPHER *OpenSSL_Cipher::MapCipherAlgorithm(CipherAlgorithm algorithm, uint16 keyLength) const
-{
-	switch(algorithm)
-	{
-		case CipherAlgorithm::AES:
-		{
-			switch(keyLength)
-			{
-				case 128:
-					return EVP_aes_128_ecb();
-				case 192:
-					return EVP_aes_192_ecb();
-				case 256:
-					return EVP_aes_256_ecb();
-				default:
-					NOT_IMPLEMENTED_ERROR;
-			}
-		}
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-	return nullptr;
+	return this->blockSize;
 }

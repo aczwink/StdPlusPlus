@@ -29,7 +29,7 @@ TEST_SUITE(AESTest)
 		const String key = String(u8"this is an insecure key!!!!!!!!!").ToUTF8();
 
 		//first encrypt
-		UniquePointer<Cipher> cipher = Cipher::Create(CipherAlgorithm::AES, key.GetRawData(), key.GetSize() * 8);
+		UniquePointer<BlockCipher> cipher = BlockCipher::Create(CipherAlgorithm::AES, key.GetRawData(), key.GetSize() * 8);
 		byte encrypted[16]; //block size of aes is 16 bytes
 		cipher->Encrypt(data.GetRawData(), encrypted);
 
@@ -37,5 +37,12 @@ TEST_SUITE(AESTest)
 		byte encrypted2[16];
 		cipher->Encrypt(data.GetRawData(), encrypted2);
 		ASSERT(MemCmp(encrypted, encrypted2, sizeof(encrypted)) == 0, u8"Encrypting the same block twice should give the same result!");
+
+		//now decrypt
+		UniquePointer<BlockDecipher> decipher = BlockDecipher::Create(CipherAlgorithm::AES, key.GetRawData(), key.GetSize() * 8);
+		byte decrypted[16];
+		decipher->Decrypt(encrypted, decrypted);
+
+		ASSERT(MemCmp(decrypted, data.GetRawData(), data.GetSize()) == 0, u8"Encrypting then decrypting should yield the original data");
 	}
 };

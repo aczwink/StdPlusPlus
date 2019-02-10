@@ -19,25 +19,26 @@
 //Global
 #include <openssl/evp.h>
 //Local
-#include <Std++/_Backends/Extension.hpp>
-#include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
 
 namespace _stdxx_
 {
-	class OpenSSL_Extension : public Extension
+	class OpenSSL_BlockDecipher : public StdXX::BlockDecipher
 	{
 	public:
-		//Methods
-		void Load() override;
-		void Unload() const override;
+		//Constructor
+		OpenSSL_BlockDecipher(const EVP_CIPHER* cipher, const byte* key, uint8 blockSize);
 
-		//Functions
-		static StdXX::UniquePointer<StdXX::BlockCipher> CreateCipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
-		static StdXX::UniquePointer<StdXX::BlockDecipher> CreateDecipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
+		//Destructor
+		~OpenSSL_BlockDecipher();
+
+		void Decrypt(const byte *encrypted, byte *unencrypted) const override;
+
+		uint8 GetBlockSize() const override;
 
 	private:
-		//Methods
-		static const EVP_CIPHER* MapCipherAlgorithm(StdXX::CipherAlgorithm algorithm, uint16 keyLength, uint8& blockSize);
+		//Members
+		uint8 blockSize;
+		EVP_CIPHER_CTX* ctx;
 	};
 }

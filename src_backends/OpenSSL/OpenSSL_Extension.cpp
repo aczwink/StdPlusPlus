@@ -23,7 +23,8 @@
 #include <openssl/evp.h>
 #include <openssl/err.h>
 //Local
-#include "Cryptography/OpenSSL_Cipher.hpp"
+#include "Cryptography/OpenSSL_BlockCipher.hpp"
+#include "Cryptography/OpenSSL_BlockDecipher.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -48,12 +49,43 @@ void OpenSSL_Extension::Unload() const
 }
 
 //Class functions
-UniquePointer<Cipher> OpenSSL_Extension::CreateCipher(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
+UniquePointer<BlockCipher> OpenSSL_Extension::CreateCipher(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
+{
+	uint8 blockSize;
+	const EVP_CIPHER* cipher = OpenSSL_Extension::MapCipherAlgorithm(algorithm, keyLength, blockSize);
+	if(cipher)
+		return new OpenSSL_BlockCipher(cipher, key, blockSize);
+	return nullptr;
+}
+
+UniquePointer<BlockDecipher> OpenSSL_Extension::CreateDecipher(CipherAlgorithm algorithm, const byte *key, uint16 keyLength)
+{
+	uint8 blockSize;
+	const EVP_CIPHER* cipher = OpenSSL_Extension::MapCipherAlgorithm(algorithm, keyLength, blockSize);
+	if(cipher)
+		return new OpenSSL_BlockDecipher(cipher, key, blockSize);
+	return nullptr;
+}
+
+//Private methods
+const EVP_CIPHER* OpenSSL_Extension::MapCipherAlgorithm(StdXX::CipherAlgorithm algorithm, uint16 keyLength, uint8 &blockSize)
 {
 	switch(algorithm)
 	{
 		case CipherAlgorithm::AES:
-			return new OpenSSL_Cipher(algorithm, key, keyLength);
+		{
+			blockSize = 16;
+			switch(keyLength)
+			{
+				case 128:
+					return EVP_aes_128_ecb();
+				case 192:
+					return EVP_aes_192_ecb();
+				case 256:
+					return EVP_aes_256_ecb();
+			}
+		}
 	}
+
 	return nullptr;
 }

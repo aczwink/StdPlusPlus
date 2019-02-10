@@ -16,28 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#include <openssl/evp.h>
+#pragma once
 //Local
-#include <Std++/_Backends/Extension.hpp>
-#include <Std++/Cryptography/BlockCipher.hpp>
-#include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include "CipherAlgorithm.hpp"
 
-namespace _stdxx_
+namespace StdXX
 {
-	class OpenSSL_Extension : public Extension
+	class BlockCipher
 	{
 	public:
+		//Destructor
+		virtual ~BlockCipher(){}
+
 		//Methods
-		void Load() override;
-		void Unload() const override;
+		virtual void Encrypt(const byte* unencrypted, byte* encrypted) const = 0;
+		/**
+		 *
+		 * @return In bytes
+		 */
+		virtual uint8 GetBlockSize() const = 0;
 
 		//Functions
-		static StdXX::UniquePointer<StdXX::BlockCipher> CreateCipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
-		static StdXX::UniquePointer<StdXX::BlockDecipher> CreateDecipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
-
-	private:
-		//Methods
-		static const EVP_CIPHER* MapCipherAlgorithm(StdXX::CipherAlgorithm algorithm, uint16 keyLength, uint8& blockSize);
+		/**
+		 *
+		 * @param algorithm
+		 * @param key
+		 * @param keyLength - In bits
+		 * @return
+		 */
+		static UniquePointer<BlockCipher> Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
 	};
 }

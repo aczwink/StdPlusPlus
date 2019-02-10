@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Cryptography/Cipher.hpp>
+#include <Std++/Cryptography/BlockDecipher.hpp>
 //Local
 #ifdef _STDXX_EXTENSION_OPENSSL
 #include "../../src_backends/OpenSSL/OpenSSL_Extension.hpp"
@@ -26,14 +26,14 @@
 using namespace StdXX;
 
 //Class functions
-UniquePointer<Cipher> Cipher::Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
+UniquePointer<BlockDecipher> BlockDecipher::Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
 {
 	switch(algorithm)
 	{
 	}
 
 #ifdef _STDXX_EXTENSION_OPENSSL
-	return _stdxx_::OpenSSL_Extension::CreateCipher(algorithm, key, keyLength);
+	return _stdxx_::OpenSSL_Extension::CreateDecipher(algorithm, key, keyLength);
 #endif
 
 	return nullptr;
