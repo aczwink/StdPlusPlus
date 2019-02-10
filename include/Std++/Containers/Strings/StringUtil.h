@@ -33,7 +33,6 @@ namespace StdXX
     bool IsStringConvertibleToInteger(const ByteString &refString);
     STDPLUSPLUS_API int64 StringToInt64(const OldString &refString);
     STDPLUSPLUS_API uint64 StringToUInt64(const OldString &refString);
-    STDPLUSPLUS_API OldString ToHexString(uint64 value, uint8 nMinChars = 0, bool addBase = true);
 
     //8-bit functions
     STDPLUSPLUS_API ByteString To8BitString(const OldString &refString);

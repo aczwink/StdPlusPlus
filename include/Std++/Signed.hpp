@@ -27,6 +27,22 @@ namespace StdXX
     {
     };
 
+	template<>
+	class Signed<int8>
+	{
+	public:
+		//Expressions
+		static constexpr int8 Max()
+		{
+			return ((int8)127);
+		}
+
+		static constexpr int8 Min()
+		{
+			return ((int8)-128);
+		}
+	};
+
     template<>
     class Signed<int16>
     {

@@ -33,7 +33,7 @@ namespace StdXX
 			virtual ~Decoder(){}
 
 			//Abstract
-			virtual Instruction *DecodeInstruction(InputStream& input) = 0;
+			virtual Instruction *DecodeInstruction(InputStream& input, uint8& decodedInstructionSize) = 0;
 
 			//Functions
 			static Decoder* CreateInstance(Architecture architecture);

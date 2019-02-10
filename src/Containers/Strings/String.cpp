@@ -748,6 +748,13 @@ String String::FormatBinaryPrefixed(uint64 byteSize, const String &suffix)
 	return result + u8" " + prefixes[i] + suffix;
 }
 
+String String::HexNumber(uint64 value, uint8 nMinChars, bool addBase)
+{
+	if (addBase)
+		return u8"0x" + String::Number(value, 16, nMinChars);
+	return String::Number(value, 16, nMinChars);
+}
+
 String String::Number(uint64 value, uint8 base, uint8 minLength)
 {
 	uint64 rest;

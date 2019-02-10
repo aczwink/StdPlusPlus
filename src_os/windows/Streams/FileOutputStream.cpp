@@ -50,6 +50,11 @@ FileOutputStream::~FileOutputStream()
 }
 
 //Public methods
+void FileOutputStream::Flush()
+{
+	FlushFileBuffers(this->pFileHandle);
+}
+
 uint64 FileOutputStream::GetCurrentOffset() const
 {
 	LARGE_INTEGER offset, result;

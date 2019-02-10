@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <Std++/Memory.hpp>
 
 namespace StdXX
 {
@@ -28,7 +28,7 @@ namespace StdXX
         {
         public:
             //Constructor
-            inline FunctionHook(void* functionAddress) : functionAddress(functionAddress)
+            inline FunctionHook(void* functionAddress) : functionAddress(functionAddress), trampoline(nullptr)
             {
             }
 
@@ -36,15 +36,29 @@ namespace StdXX
             inline ~FunctionHook()
             {
                 this->UnHook();
+				if (this->trampoline)
+					VirtualMemoryFree(this->trampoline, this->trampolineSize);
             }
 
             //Methods
             bool Hook(void* redirectTargetAddress);
             void UnHook();
 
+			//Inline
+			inline void Trampoline()
+			{
+				//TODO: this currently does not work stable! see source code
+				void (*f)() = (void(*)())this->trampoline;
+				f();
+			}
+
         private:
             //Members
 			void* functionAddress;
+			uint8 origBytes;
+			byte origFuncCode[15];
+			void* trampoline;
+			uint32 trampolineSize;
         };
     }
 }

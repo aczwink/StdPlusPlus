@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Definitions.h"
 
 namespace StdXX
@@ -31,7 +32,14 @@ namespace StdXX
             virtual ~Instruction() {}
 
             //Abstract
-            virtual uint8 GetSize() const = 0;
+			virtual String ToString() const = 0;
         };
+
+		struct DecodedInstruction
+		{
+			uint32 offset;
+			uint8 size;
+			UniquePointer<Instruction> instruction;
+		};
     }
 }

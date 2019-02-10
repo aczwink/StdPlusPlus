@@ -78,17 +78,6 @@ uint64 StdXX::StringToUInt64(const OldString &refString)
 	return 0;
 }
 
-OldString StdXX::ToHexString(uint64 value, uint8 nMinChars, bool addBase)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: goes to new string class
-	/*
-	if(addBase)
-		return "0x" + ::ToString(value, 16, nMinChars);
-	return ::ToString(value, 16, nMinChars);
-	 */
-	return OldString();
-}
-
 //8-bit functions
 ByteString StdXX::To8BitString(const OldString &refString)
 {

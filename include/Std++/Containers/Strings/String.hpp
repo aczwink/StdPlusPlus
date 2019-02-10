@@ -333,12 +333,7 @@ namespace StdXX
 		 * @return
 		 */
 		static String FormatBinaryPrefixed(uint64 value, const String &suffix = u8"B");
-
-		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true)
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return String();
-		}
+		static String HexNumber(uint64 value, uint8 nMinChars = 0, bool addBase = true);
 		/**
 		 * Parses a number with base 10 and returns it as a string.
 		 * The result is preceeded by length(unpadded result)-minLength zeros.

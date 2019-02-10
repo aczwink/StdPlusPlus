@@ -20,6 +20,7 @@
 //Local
 #include "../Containers/Array/DynamicArray.hpp"
 #include "../Streams/InputStream.hpp"
+#include "AnalyzedProcedure.hpp"
 #include "Architecture.hpp"
 #include "Instruction.hpp"
 
@@ -33,12 +34,18 @@ namespace StdXX
             //Constructor
             Program(InputStream &refInput, uint32 programSize, Architecture architecture);
 
-            //Destructor
-            ~Program();
+			Program(const Program&) = delete;
+
+			//Operators
+			Program& operator=(const Program&) = delete;
+
+			//Methods
+			AnalyzedProcedure AnalyzeProcedure(uint32 offset) const;
+			String ToString() const;
 
         private:
             //Members
-            DynamicArray<Instruction *> instructions;
+            DynamicArray<DecodedInstruction> instructions;
         };
     }
 }

@@ -2,6 +2,8 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Instructions
+	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/INT3.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/INT3.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/JMP.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Instructions/JMP.hpp
 
