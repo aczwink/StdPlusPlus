@@ -20,7 +20,9 @@
 #include <Std++/_Backends/ExtensionManager.hpp>
 //Extensions
 #include "libavcodec/libavcodec_Backend.hpp"
+#ifdef _STDXX_EXTENSION_OPENSSL
 #include "OpenSSL/OpenSSL_Extension.hpp"
+#endif
 //Namespaces
 using namespace _stdxx_;
 

@@ -21,8 +21,11 @@
 //Global
 #include <errno.h>
 #include <fcntl.h>
+#ifndef XPC_OS_WINDOWS
 #include <unistd.h>
+#endif
 //Local
+#include "Shared.hpp"
 #include "TCPSocketInputStream.hpp"
 //Namespaces
 using namespace StdXX;
@@ -33,13 +36,22 @@ TCPSocket::TCPSocket(const Variant& systemHandle) : systemHandle(systemHandle)
 	this->inputStream = new _stdxx_::TCPSocketInputStream(systemHandle);
 
 	//socket may derive blocking state from server socket: switch to blocking mode
+#ifdef XPC_OS_WINDOWS
+	u_long mode = 0;
+	ioctlsocket(this->systemHandle.u64, FIONBIO, &mode);
+#else
 	int flags = fcntl(this->systemHandle.i32, F_GETFL, 0);
 	flags = (flags & ~O_NONBLOCK);
 	fcntl(this->systemHandle.i32, F_SETFL, flags);
+#endif
 }
 
 //Destructor
 TCPSocket::~TCPSocket()
 {
+#ifdef XPC_OS_WINDOWS
+	closesocket(this->systemHandle.u64);
+#else
 	close(this->systemHandle.i32);
+#endif
 }

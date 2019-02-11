@@ -20,8 +20,10 @@
 #include <Std++/Network/TCPServerSocket.hpp>
 //Global
 #include <fcntl.h>
+#ifndef XPC_OS_WINDOWS
 #include <poll.h>
 #include <unistd.h>
+#endif
 //Local
 #include <Std++/Network/IPv4Address.hpp>
 #include <Std++/Signed.hpp>
@@ -66,9 +68,14 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 	}
 
 	//switch to non-blocking mode
+#ifdef XPC_OS_WINDOWS
+	u_long mode = 0;
+	ioctlsocket(this->systemHandle.u64, FIONBIO, &mode);
+#else
 	int flags = fcntl(this->systemHandle.i32, F_GETFL, 0);
 	flags |= O_NONBLOCK;
 	fcntl(this->systemHandle.i32, F_SETFL, flags);
+#endif
 
 	//enable listening
 	listen(this->systemHandle.i32, 32);
@@ -77,7 +84,11 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 //Destructor
 TCPServerSocket::~TCPServerSocket()
 {
+#ifdef XPC_OS_WINDOWS
+	closesocket(this->systemHandle.u64);
+#else
 	close(this->systemHandle.i32);
+#endif
 }
 
 //Public methods
@@ -110,7 +121,12 @@ UniquePointer<TCPSocket> TCPServerSocket::WaitForIncomingConnections(uint64 time
 
 	while(true)
 	{
+#ifdef XPC_OS_WINDOWS
+		NOT_IMPLEMENTED_ERROR;
+		bool timedOut;
+#else
 		bool timedOut = poll(&fd, 1, timeOut32Bit) == 0;
+#endif
 		if (timedOut)
 			break;
 

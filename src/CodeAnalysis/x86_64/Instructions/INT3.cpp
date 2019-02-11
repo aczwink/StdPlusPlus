@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,18 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include "INT3.hpp"
 //Local
-#include "Definitions.h"
+#include <Std++/Containers/Strings/String.hpp>
+//Namespaces
+using namespace x86_64;
+using namespace StdXX;
 
-namespace StdXX
+//Methods
+String INT3::ToString() const
 {
-	union Variant
-	{
-		bool b;
-		int32 i32;
-		uint32 u32;
-		uint64 u64;
-		void *ptr;
-	};
+	return u8"int3";
 }

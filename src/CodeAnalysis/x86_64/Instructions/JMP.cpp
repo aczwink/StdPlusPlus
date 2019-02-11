@@ -19,18 +19,14 @@
 //Class header
 #include "JMP.hpp"
 //Local
+#include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Debug.hpp>
 //Namespaces
 using namespace x86_64;
+using namespace StdXX;
 
 //Public methods
-uint8 JMP::GetSize() const
+String x86_64::JMP::ToString() const
 {
-	if(this->relative)
-	{
-		return 5;
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-	return -1;
+	return u8"jmp " + String((this->relative && (this->offset >= 0)) ? u8"+" : u8"") + String::HexNumber(this->offset);
 }

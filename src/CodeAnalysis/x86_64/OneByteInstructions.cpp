@@ -20,21 +20,24 @@
 #include "x86_64_Decoder.hpp"
 //Local
 #include <Std++/Debug.hpp>
+#include "Instructions/INT3.hpp"
 #include "Instructions/JMP.hpp"
 
 //Public methods
-void x86_64_Decoder::DecodeOpcode_1byte(byte opcode, byte opcodeExtension)
+void x86_64_Decoder::DecodeOpcode_1byte(byte opcode)
 {
 	switch(opcode)
 	{
-		case 0xE9:
-		{
-			this->DecodeOperands(1, OperandCoding::Imm32);
-
-			this->instruction = new x86_64::JMP(true, this->operandInfo[0].imm);
-		}
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR;
+	case 0xcc:
+		this->instruction = new x86_64::INT3();
+		break;
+	case 0xe9:
+	{
+		this->DecodeOperands(1, OperandCoding::Imm32);
+		this->instruction = new x86_64::JMP(true, this->operandInfo[0].imm);
+	}
+	break;
+	default:
+		NOT_IMPLEMENTED_ERROR;
 	}
 }

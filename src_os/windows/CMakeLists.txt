@@ -23,7 +23,7 @@ set(SOURCE_FILES
 
 		#Streams
 		${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileOutputStream.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.cpp
 
 		#Time
 		${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.cpp

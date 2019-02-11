@@ -38,6 +38,6 @@ namespace x86_64
 		}
 
 		//Methods
-		uint8 GetSize() const;
+		StdXX::String ToString() const override;
 	};
 }

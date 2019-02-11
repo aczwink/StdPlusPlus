@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,18 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "Definitions.h"
+#include "Instruction.hpp"
 
 namespace StdXX
 {
-	union Variant
+	namespace CodeAnalysis
 	{
-		bool b;
-		int32 i32;
-		uint32 u32;
-		uint64 u64;
-		void *ptr;
-	};
+		class STDPLUSPLUS_API AnalyzedProcedure
+		{
+		public:
+			//Inline
+			inline void AddInstruction(const DecodedInstruction& instruction)
+			{
+				this->instructions.Push(&instruction);
+			}
+
+			inline uint32 ComputeSize() const
+			{
+				uint32 size = 0;
+				for (const DecodedInstruction* instr : this->instructions)
+					size += instr->size;
+				return size;
+			}
+
+			inline const DecodedInstruction& GetInstruction(uint32 index) const
+			{
+				return *this->instructions[index];
+			}
+
+		private:
+			//Members
+			DynamicArray<const DecodedInstruction*> instructions;
+		};
+	}
 }

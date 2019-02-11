@@ -45,6 +45,6 @@ namespace StdXX
 		 * @param keyLength - In bits
 		 * @return
 		 */
-		static UniquePointer<BlockCipher> Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
+		STDPLUSPLUS_API static UniquePointer<BlockCipher> Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
 	};
 }

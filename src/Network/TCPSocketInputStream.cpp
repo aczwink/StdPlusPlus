@@ -37,7 +37,7 @@ uint32 TCPSocketInputStream::ReadBytes(void *destination, uint32 count)
 	uint32 bytesReceivedTotal = 0;
 	while(count)
 	{
-		ssize_t bytesReceived = recv(this->socketSystemHandle.i32, (byte*)destination + bytesReceivedTotal, count, 0);
+		ssize_t bytesReceived = recv(this->socketSystemHandle.i32, (char*)((byte*)destination + bytesReceivedTotal), count, 0); //winsock wants char* -.-
 		if(bytesReceived == -1)
 		{
 			switch(errno)
@@ -79,7 +79,7 @@ uint32 TCPSocketInputStream::Skip(uint32 nBytes)
 		byte buffer[4096];
 
 		uint32 recvSize = Math::Min(uint32(sizeof(buffer)), nBytes);
-		ssize_t bytesReceived = recv(this->socketSystemHandle.i32, buffer, recvSize, 0);
+		ssize_t bytesReceived = recv(this->socketSystemHandle.i32, (char*)buffer, recvSize, 0); //winsock wants char* -.-
 		if(bytesReceived == -1)
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: handle error

@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Network/IPv4Address.hpp>
+//Local
+#include "Shared.hpp"
 //Namespaces
 using namespace StdXX;
 

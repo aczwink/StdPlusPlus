@@ -51,20 +51,21 @@ class x86_64_Decoder : public Decoder
 	static const uint32 MAX_OPERANDS = 4;
 public:
 	//Methods
-	Instruction* DecodeInstruction(InputStream &input) override;
+	Instruction* DecodeInstruction(InputStream &input, uint8& decodedInstructionSize) override;
 
 private:
 	//Members
 	InputStream* input;
 	DataReader* reader;
 	Instruction* instruction;
+	uint8 decodedInstructionSize;
 	uint16 operandSize;
 	OperandInfo operandInfo[MAX_OPERANDS];
 
 	//Methods
 	void DecodeModRM(const OperandCoding (&opCoding)[MAX_OPERANDS]);
 	void DecodeOpcode();
-	void DecodeOpcode_1byte(byte opcode, byte opcodeExtension);
+	void DecodeOpcode_1byte(byte opcode);
 	void DecodeOperands(uint8 nOperands, ...);
 	void DecodePrefixes();
 	uint16 GetOperandSize();

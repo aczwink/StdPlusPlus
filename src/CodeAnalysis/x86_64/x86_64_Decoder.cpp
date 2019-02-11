@@ -25,14 +25,21 @@
 #include <Std++/Streams/SeekableInputStream.hpp>
 
 //Public methods
-Instruction* x86_64_Decoder::DecodeInstruction(InputStream& input)
+Instruction* x86_64_Decoder::DecodeInstruction(InputStream& input, uint8& decodedInstructionSize)
 {
+	//set decoder state to initial
 	this->input = &input;
 	DataReader reader(false, input);
 	this->reader = &reader;
 
+	this->decodedInstructionSize = 0;
+
+	//begin decoding
 	this->DecodePrefixes();
 	this->DecodeOpcode();
+
+	//finished decoding
+	decodedInstructionSize = this->decodedInstructionSize;
 
 	return this->instruction;
 }
@@ -45,6 +52,7 @@ void x86_64_Decoder::DecodeModRM(const OperandCoding(&opCoding)[MAX_OPERANDS])
 void x86_64_Decoder::DecodeOpcode()
 {
 	byte opcode = this->reader->ReadByte();
+	this->decodedInstructionSize++;
 	if(opcode == 0xF)
 	{
 		//2 or 3 byte opcode
@@ -52,13 +60,15 @@ void x86_64_Decoder::DecodeOpcode()
 	}
 	else
 	{
+		/*
 		//we need to peek one byte here
 		SeekableInputStream* seekableInputStream = dynamic_cast<SeekableInputStream *>(this->input);
 		byte nextByte = this->reader->ReadByte();
 		seekableInputStream->Rewind(1);
 
 		byte opcodeExtension = static_cast<byte>((nextByte >> 3) & 7); //potentially needed
-		this->DecodeOpcode_1byte(opcode, opcodeExtension);
+		*/
+		this->DecodeOpcode_1byte(opcode);
 	}
 }
 
@@ -123,10 +133,13 @@ int64 x86_64_Decoder::ReadImmediate(uint16 operandSize)
 	switch(operandSize)
 	{
 		case 8:
+			this->decodedInstructionSize++;
 			return this->reader->ReadByte();
 		case 16:
+			this->decodedInstructionSize += 2;
 			return this->reader->ReadUInt16();
 		case 32:
+			this->decodedInstructionSize += 4;
 			return this->reader->ReadUInt32();
 	}
 

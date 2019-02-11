@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "Definitions.h"
+ //Local
+#include <Std++/CodeAnalysis/Instruction.hpp>
+//Namespaces
+using namespace StdXX::CodeAnalysis;
 
-namespace StdXX
+namespace x86_64
 {
-	union Variant
+	class INT3 : public Instruction
 	{
-		bool b;
-		int32 i32;
-		uint32 u32;
-		uint64 u64;
-		void *ptr;
+	public:
+		//Methods
+		StdXX::String ToString() const override;
 	};
 }
