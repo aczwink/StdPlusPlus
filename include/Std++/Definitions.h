@@ -42,6 +42,8 @@
 
 #define MAKE64(lo32, hi32) ( (uint64)((lo32) & Unsigned<uint32>::Max()) | ((uint64)((hi32) & Unsigned<uint32>::Max()) << 32) )
 
+#define XOR ^
+
 //Binary prefixes
 #define KiB (1024)
 #define MiB (1024 * KiB)

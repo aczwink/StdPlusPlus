@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Cryptography/BlockCipher.hpp>
 //Local
+#include "AES/AESCipher.hpp"
 #ifdef _STDXX_EXTENSION_OPENSSL
 #include "../../src_backends/OpenSSL/OpenSSL_Extension.hpp"
 #endif
@@ -28,13 +29,20 @@ using namespace StdXX;
 //Class functions
 UniquePointer<BlockCipher> BlockCipher::Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength)
 {
-	switch(algorithm)
-	{
-	}
-
+	//prefer openssl over anything
 #ifdef _STDXX_EXTENSION_OPENSSL
 	return _stdxx_::OpenSSL_Extension::CreateCipher(algorithm, key, keyLength);
 #endif
+
+	//own implementations
+	switch(algorithm)
+	{
+		/*
+		 TODO: this implementation is buggy
+		case CipherAlgorithm::AES:
+			return new _stdxx_::AESCipher(key, keyLength);
+		 */
+	}
 
 	return nullptr;
 }
