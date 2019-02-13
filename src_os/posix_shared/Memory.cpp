@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,4 +39,19 @@ void *StdXX::MemoryReallocate(void *pMem, uint32 size)
         return MemoryAllocate(size);
 
     return realloc(pMem, size);
+}
+
+void* StdXX::VirtualMemoryAllocate(uint32 size, MemoryProtection protection)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: probably implement using mmap
+}
+
+void StdXX::VirtualMemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: probably implement using mprotect
+}
+
+void StdXX::VirtualMemoryFree(void* addr, uint32 size)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: probably implement using munmap
 }

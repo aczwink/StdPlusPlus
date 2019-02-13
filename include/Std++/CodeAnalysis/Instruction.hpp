@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Strings/String.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Definitions.h"
 

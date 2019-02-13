@@ -31,6 +31,9 @@ namespace StdXX
 	class FileSystemNode
 	{
 	public:
+		//Destructor
+		virtual ~FileSystemNode(){};
+
 		//Abstract
 		virtual FileSystem *GetFileSystem() = 0;
 		virtual const FileSystem *GetFileSystem() const = 0;

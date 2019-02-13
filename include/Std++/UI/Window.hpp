@@ -57,7 +57,7 @@ namespace StdXX
             void SwitchFullscreen(bool state);
 
 			//Overrideable
-			virtual void Event(UI::Event& e);
+			virtual void Event(UI::Event& e) override;
 
             //Inline
             inline MenuBar *GetMenuBar()

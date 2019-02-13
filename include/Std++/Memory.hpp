@@ -69,9 +69,9 @@ namespace StdXX
 #endif
     STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
     STDPLUSPLUS_API void MemoryFree(void *pMem);
-	STDPLUSPLUS_API void MemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection);
     STDPLUSPLUS_API void *MemoryReallocate(void *pMem, uint32 size);
 	STDPLUSPLUS_API void* VirtualMemoryAllocate(uint32 size, MemoryProtection protection);
+	STDPLUSPLUS_API void VirtualMemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection);
 	STDPLUSPLUS_API void VirtualMemoryFree(void* addr, uint32 size);
 
 #ifndef _DEBUG

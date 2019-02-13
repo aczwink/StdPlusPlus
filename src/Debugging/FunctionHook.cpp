@@ -34,7 +34,7 @@ static void WriteJump(void* functionAddress, void* targetAddress, uint8 jmpSize)
 {
 	int64 relativeDistance = int64(targetAddress) - int64(functionAddress) - jmpSize;
 
-	MemoryProtect(functionAddress, jmpSize, MemoryProtection::Execute_Read_Write);
+	VirtualMemoryProtect(functionAddress, jmpSize, MemoryProtection::Execute_Read_Write);
 
 	switch (jmpSize)
 	{
@@ -80,7 +80,7 @@ static void WriteJump(void* functionAddress, void* targetAddress, uint8 jmpSize)
 		NOT_IMPLEMENTED_ERROR;
 	}
 
-	MemoryProtect(functionAddress, jmpSize, MemoryProtection::Execute_Read);
+	VirtualMemoryProtect(functionAddress, jmpSize, MemoryProtection::Execute_Read);
 }
 
 #include <Std++/Streams/StdOut.hpp>
@@ -143,8 +143,8 @@ bool FunctionHook::Hook(void* redirectTargetAddress)
 
 void FunctionHook::UnHook()
 {
-	MemoryProtect(functionAddress, this->origBytes, MemoryProtection::Execute_Read_Write);
+	VirtualMemoryProtect(functionAddress, this->origBytes, MemoryProtection::Execute_Read_Write);
 	MemCopy(this->functionAddress, this->origFuncCode, this->origBytes);
-	MemoryProtect(functionAddress, this->origBytes, MemoryProtection::Execute_Read);
+	VirtualMemoryProtect(functionAddress, this->origBytes, MemoryProtection::Execute_Read);
 }
 #endif
