@@ -1,8 +1,9 @@
+add_subdirectory(Cryptography)
+
 set(TEST_FILES
 	${TEST_FILES}
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/aes.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FloatToString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/lzma.cpp
 

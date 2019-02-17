@@ -74,6 +74,17 @@ namespace _stdxx_
 
 		//Inline
 		template<uint32 index>
+		inline auto& GetValue(typename StdXX::EnableIf<(index > 0), int>::type dummy = 0)
+		{
+			return TupleBase<RestTypes...>::template GetValue<index - 1>();
+		}
+		template<uint32 index>
+		inline typename StdXX::EnableIf<index == 0, FirstType>::type& GetValue()
+		{
+			return this->value;
+		}
+
+		template<uint32 index>
 		inline const auto& GetValue(typename StdXX::EnableIf<(index > 0), int>::type dummy = 0) const
 		{
 			return TupleBase<RestTypes...>::template GetValue<index - 1>();
@@ -102,7 +113,7 @@ namespace _stdxx_
 		{
 		}
 
-		inline TupleBase(LastType&& last) : value(last)
+		inline TupleBase(LastType&& last) : value(StdXX::Move(last))
 		{
 		}
 
@@ -121,6 +132,12 @@ namespace _stdxx_
 		}
 
 		//Inline
+		template<uint32 index>
+		inline typename StdXX::EnableIf<index == 0, LastType>::type& GetValue()
+		{
+			return this->value;
+		}
+
 		template<uint32 index>
 		inline const typename StdXX::EnableIf<index == 0, LastType>::type& GetValue() const
 		{
@@ -177,6 +194,12 @@ namespace StdXX
 		}
 
 		//Inline
+		template<uint32 index>
+		inline auto& Get()
+		{
+			return this->template GetValue<index>();
+		}
+
 		template<uint32 index>
 		inline const auto& Get() const
 		{

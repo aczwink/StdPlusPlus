@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,20 +17,29 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Hasher.hpp>
-//Local
-#include "CRC32Hasher.hpp"
-//Namespaces
-using namespace StdXX;
+#include <Std++/Filesystem/MemoryFile.hpp>
 
-//Class functions
-Hasher* Hasher::CreateInstance(HashAlgorithm algorithm)
+//Public methods
+uint64 StdXX::MemoryFile::GetStoredSize() const
 {
-	switch (algorithm)
-	{
-	case HashAlgorithm::CRC32:
-		return new _stdxx_::CRC32Hasher;
-	}
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
+}
 
-	return nullptr;
+uint64 StdXX::MemoryFile::GetSize() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
+}
+
+StdXX::UniquePointer<StdXX::InputStream> StdXX::MemoryFile::OpenForReading() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return UniquePointer<InputStream>();
+}
+
+StdXX::UniquePointer<StdXX::OutputStream> StdXX::MemoryFile::OpenForWriting()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return UniquePointer<OutputStream>();
 }

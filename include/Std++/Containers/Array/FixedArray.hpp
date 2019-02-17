@@ -110,6 +110,19 @@ namespace StdXX
 			return this->data[index];
 		}
 
+		//Logical operators
+		inline bool operator==(const FixedArray<DataType>& rhs) const
+		{
+			if(this->nElements != rhs.nElements)
+				return false;
+			for(uint32 i = 0; i < this->nElements; i++)
+			{
+				if(this->data[i] != rhs[i])
+					return false;
+			}
+			return true;
+		}
+
 		//Inline
 		inline DataType &Last()
 		{

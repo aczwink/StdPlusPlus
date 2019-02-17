@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Hasher.hpp>
+#include <Std++/ChecksumFunction.hpp>
 
 namespace _stdxx_
 {
-	class CRC32Hasher : public StdXX::Hasher
+	class CRC32Hasher : public StdXX::ChecksumFunction
 	{
 	public:
 		//Constructor
@@ -31,7 +31,7 @@ namespace _stdxx_
 		uint32 GetChecksumSize() const override;
 		void Finish() override;
 		void StoreChecksum(void * target) const override;
-		void Update(const byte * buffer, uint32 size) override;
+		void Update(const void * buffer, uint32 size) override;
 
 	private:
 		//Members

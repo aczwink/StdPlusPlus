@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerDirectory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileInputStream.hpp

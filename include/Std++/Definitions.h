@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
 //Definitions
 #ifdef XPC_OS_WINDOWS
@@ -41,8 +42,6 @@
 #define MAKE32(lo16, hi16) ( (lo16 & 0xFFFF) | ((hi16 & 0xFFFF) << 16) )
 
 #define MAKE64(lo32, hi32) ( (uint64)((lo32) & Unsigned<uint32>::Max()) | ((uint64)((hi32) & Unsigned<uint32>::Max()) << 32) )
-
-#define XOR ^
 
 //Binary prefixes
 #define KiB (1024)

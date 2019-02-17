@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 #include "../SmartPointers/AutoPointer.hpp"
 #include "../SmartPointers/UniquePointer.hpp"
 #include "Directory.hpp"
+#include "File.hpp"
 
 namespace StdXX
 {
@@ -45,6 +46,7 @@ namespace StdXX
 		virtual bool Exists(const Path &path) const = 0;
 		virtual void Flush() = 0;
 		virtual AutoPointer<Directory> GetDirectory(const Path &directoryPath) = 0;
+		virtual AutoPointer<const File> GetFile(const Path& filePath) const = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
 		virtual uint64 GetSize() const = 0;
 		virtual bool IsDirectory(const Path &path) const = 0;

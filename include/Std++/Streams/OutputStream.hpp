@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -135,50 +135,12 @@ namespace StdXX
 			this->WriteBytes(&value, sizeof(value));
 		}
 
-		inline void WriteFloat64BE(float64 value)
-		{
-			union
-			{
-				uint64 i;
-				float64 f;
-			};
-
-			f = value;
-			this->WriteUInt64BE(i);
-		}
-
-		inline void WriteFloat64LE(float64 value)
-		{
-			this->WriteBytes(&value, sizeof(value));
-		}
-
 		inline void WriteInt32LE(int32 value)
 		{
 			this->WriteBytes(&value, sizeof(value));
 		}
 
 		inline void WriteInt64LE(int64 value)
-		{
-			this->WriteBytes(&value, sizeof(value));
-		}
-
-		inline void WriteUInt64BE(uint64 value)
-		{
-			byte b[8];
-
-			b[0] = (uint8)((value >> 56));
-			b[1] = (uint8)((value >> 48) & 0xFF);
-			b[2] = (uint8)((value >> 40) & 0xFF);
-			b[3] = (uint8)((value >> 32) & 0xFF);
-			b[4] = (uint8)((value >> 24) & 0xFF);
-			b[5] = (uint8)((value >> 16) & 0xFF);
-			b[6] = (uint8)((value >> 8) & 0xFF);
-			b[7] = (uint8)(value & 0xFF);
-
-			this->WriteBytes(&b, sizeof(b));
-		}
-
-		inline void WriteUInt64LE(uint64 value)
 		{
 			this->WriteBytes(&value, sizeof(value));
 		}

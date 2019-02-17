@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,40 +26,15 @@
 using namespace StdXX;
 
 //Public methods
-FileSystem *ContainerFile::GetFileSystem()
-{
-	return this->parent->GetFileSystem();
-}
-
-const FileSystem *ContainerFile::GetFileSystem() const
-{
-	return this->parent->GetFileSystem();
-}
-
-String ContainerFile::GetName() const
-{
-	return this->name;
-}
-
-AutoPointer<Directory> ContainerFile::GetParent() const
-{
-	return (Directory *)this->parent;
-}
-
-Path ContainerFile::GetPath() const
-{
-	return this->parent->GetPath() / this->name;
-}
-
 uint64 ContainerFile::GetSize() const
 {
-	if(!this->buffer.IsNull())
-	{
-		//file has been overwritten and not yet flushed
-		return this->buffer->GetSize();
-	}
-
 	return this->header.uncompressedSize;
+}
+
+uint64 ContainerFile::GetStoredSize() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
 }
 
 UniquePointer<InputStream> ContainerFile::OpenForReading() const
@@ -75,35 +50,7 @@ UniquePointer<InputStream> ContainerFile::OpenForReading() const
 
 UniquePointer<OutputStream> ContainerFile::OpenForWriting()
 {
-	if(this->buffer.IsNull())
-	{
-		this->buffer = new FIFOBuffer;
-		this->buffer->SetAllocationInterval(0);
-	}
-
-	class ContainerFileOutputStream : public OutputStream
-	{
-	public:
-		//Constructor
-		ContainerFileOutputStream(UniquePointer<FIFOBuffer> &fileBuffer) : fileBuffer(fileBuffer)
-		{
-		}
-
-		//Methods
-		void Flush() override
-		{
-			this->fileBuffer->Flush();
-		}
-
-		uint32 WriteBytes(const void *source, uint32 size) override
-		{
-			return this->fileBuffer->WriteBytes(source, size);
-		}
-
-	private:
-		//Members
-		UniquePointer<FIFOBuffer> &fileBuffer;
-	};
-
-	return new ContainerFileOutputStream(this->buffer);
+	//can not open read only file for writing
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,27 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
- //Local
-#include "Definitions.h"
+//Class header
+#include <Std++/Cryptography/HashFunction.hpp>
+#ifdef _STDXX_EXTENSION_OPENSSL
+#include "../../src_backends/OpenSSL/OpenSSL_Extension.hpp"
+#endif
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Crypto;
 
-namespace StdXX
+//Class functions
+UniquePointer<HashFunction> HashFunction::CreateInstance(HashAlgorithm algorithm)
 {
-	enum HashAlgorithm
-	{
-		CRC32
-	};
-
-	class Hasher
-	{
-	public:
-		//Abstract
-		virtual uint32 GetChecksumSize() const = 0;
-		virtual void Finish() = 0;
-		virtual void StoreChecksum(void* target) const = 0;
-		virtual void Update(const byte* buffer, uint32 size) = 0;
-
-		//Functions
-		static Hasher* CreateInstance(HashAlgorithm algorithm);
-	};
+	//prefer openssl over anything
+#ifdef _STDXX_EXTENSION_OPENSSL
+	UniquePointer<HashFunction> openSSLHasher = _stdxx_::OpenSSL_Extension::CreateHasher(algorithm);
+	if(!openSSLHasher.IsNull())
+		return openSSLHasher;
+#endif
+	return nullptr;
 }

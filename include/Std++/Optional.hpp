@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "Debug.hpp"
 #include "Memory.hpp"
 #include "Utility.hpp"
 
@@ -91,6 +92,11 @@ namespace StdXX
 		//Constructors
 		constexpr Optional() noexcept : _stdxx_::OptionalBase<T>()
 		{
+		}
+
+		constexpr Optional(const T& value) noexcept : _stdxx_::OptionalBase<T>()
+		{
+			this->Assign(value);
 		}
 
 		constexpr Optional(const Optional& other) noexcept : _stdxx_::OptionalBase<T>()

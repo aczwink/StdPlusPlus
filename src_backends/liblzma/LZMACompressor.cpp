@@ -52,6 +52,8 @@ LZMACompressor::~LZMACompressor()
 void LZMACompressor::Flush()
 {
 	bool continuing = this->CompressBlock(LZMA_FINISH);
+	if(continuing) //might happen if output buffer was full
+		continuing = this->CompressBlock(LZMA_FINISH); //try again
 	ASSERT(continuing == false, u8"Report this please!");
 
 	uint32 size = sizeof(this->outputBuffer) - this->lzmaStream.avail_out;

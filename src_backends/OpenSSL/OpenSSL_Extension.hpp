@@ -22,6 +22,7 @@
 #include <Std++/_Backends/Extension.hpp>
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/HashFunction.hpp>
 
 namespace _stdxx_
 {
@@ -35,9 +36,11 @@ namespace _stdxx_
 		//Functions
 		static StdXX::UniquePointer<StdXX::BlockCipher> CreateCipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
 		static StdXX::UniquePointer<StdXX::BlockDecipher> CreateDecipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
+		static StdXX::UniquePointer<StdXX::Crypto::HashFunction> CreateHasher(StdXX::Crypto::HashAlgorithm algorithm);
 
 	private:
-		//Methods
+		//Functions
 		static const EVP_CIPHER* MapCipherAlgorithm(StdXX::CipherAlgorithm algorithm, uint16 keyLength, uint8& blockSize);
+		static const EVP_MD* MapHashAlgorithm(StdXX::Crypto::HashAlgorithm algorithm);
 	};
 }

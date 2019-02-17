@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -71,6 +71,17 @@ namespace StdXX
 		{
 			return this->AddMilliSeconds(seconds * 1000);
 		}
+
+		inline const Date& GetDate() const
+		{
+			return this->date;
+		}
+
+		inline const Time& GetTime() const
+		{
+			return this->time;
+		}
+
 		/**
 		* Format date and time according to ISO 8601 i.e. "YYYY-MM-DD hh:mm:ss.sss".
 		*/
@@ -79,88 +90,15 @@ namespace StdXX
 			return this->date.ToISOString() + u8" " + this->time.ToISOString();
 		}
 
-		inline uint32 GetYear() const
-		{
-			return this->date.GetYear();
-		}
-
-        /*inline uint8 GetDay() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.day;
-        }
-
-        inline uint8 GetHour() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.hour;
-        }
-
-        inline uint16 GetMilliSeconds() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.milliseconds;
-        }
-
-        inline uint16 GetMinute() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.min;
-        }
-
-        inline uint8 GetMonth() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.month;
-        }
-
-        inline uint8 GetSeconds() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.sec;
-        }
-
-        inline int64 GetTimeStamp() const
-        {
-            return this->timeStamp;
-        }
-
-        inline uint8 GetWeekDay() const
-        {
-            SDateTimeInfo dti;
-
-            this->CalcDateTimeInfo(dti);
-
-            return dti.weekDay;
-        }*/
-
 		//Functions
 		/**
 		* timeStamp is assumed to be in UTC+0
 		*/
 		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
-		/*
-		* Returns the current system time in UTC time-zone.
-		* Note that if the system time is different from the current "real-world" wall-clock time, so is the result.
-		*/
+		/**
+		 * Returns the current system time in UTC+0.
+		 * Note that if the system time is different from the current "real-world" wall-clock time, so is the result.
+		 */
 		static DateTime Now();
 
 	private:

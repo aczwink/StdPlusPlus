@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,12 +22,30 @@
 #include <climits>
 #include <cstdio>
 #include <sys/stat.h>
+#include <unistd.h>
 //Local
-#include <Std++/Filesystem/DirectoryIterator.hpp>
+#include "POSIXDirectory.hpp"
+#include "POSIXFile.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
+Path OSFileSystem::FromNativePath(const String &nativePath) const
+{
+	//no changes needed here
+	return nativePath;
+}
+
+Path OSFileSystem::GetWorkingDirectory() const
+{
+	char buffer[4096];
+	char* ret = getcwd(buffer, sizeof(buffer));
+	ASSERT(ret, u8"REPORT THIS PLEASE!");
+
+	return String::CopyRawString(buffer);
+}
+
 Path OSFileSystem::ToAbsolutePath(const Path &path) const
 {
 	char p[PATH_MAX];
@@ -35,111 +53,6 @@ Path OSFileSystem::ToAbsolutePath(const Path &path) const
 
 	return {String::CopyRawString(p)};
 }
-
-class LinuxDirectory : public Directory
-{
-public:
-	//Constructor
-	inline LinuxDirectory(const Path &path) : path(path)
-	{
-	}
-
-	//Methods
-	bool ContainsFile(const String &name) const override
-	{
-		Path p = this->path / name;
-		struct stat sb{};
-		return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) == 0;
-	}
-
-	bool ContainsSubDirectory(const String &name) const override
-	{
-		Path p = this->path / name;
-		struct stat sb{};
-		return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
-	}
-
-	UniquePointer<OutputStream> CreateFile(const String &name) override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	void CreateSubDirectory(const String &name) override
-	{
-		Path p = this->path / name;
-		bool success = mkdir(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), 0700) == 0;
-	}
-
-	bool Exists(const Path &path) const override
-	{
-		Path p = this->path / path;
-		struct stat sb{};
-		return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
-	}
-
-	FileSystem *GetFileSystem() override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	const FileSystem *GetFileSystem() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	AutoPointer<Directory> GetSubDirectory(const String &name) override
-	{
-		return new LinuxDirectory(this->path / name);
-	}
-
-	AutoPointer<const Directory> GetSubDirectory(const String &name) const override
-	{
-		return new LinuxDirectory(this->path / name);
-	}
-
-	DirectoryIterator begin() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	DirectoryIterator end() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	String GetName() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	AutoPointer<Directory> GetParent() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	Path GetPath() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return Path();
-	}
-
-	uint64 GetSize() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return 0;
-	}
-
-private:
-	//Members
-	Path path;
-};
 
 //Class functions
 OSFileSystem &OSFileSystem::GetInstance()
@@ -167,13 +80,17 @@ OSFileSystem &OSFileSystem::GetInstance()
 
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return nullptr;
+			return new POSIXDirectory(directoryPath);
+		}
+
+		AutoPointer<const File> GetFile(const Path &filePath) const override
+		{
+			return new POSIXFile(filePath);
 		}
 
 		AutoPointer<Directory> GetRoot() override
 		{
-			return new LinuxDirectory(Path(u8"/"));
+			return new POSIXDirectory(Path(u8"/"));
 		}
 
 		uint64 GetSize() const override

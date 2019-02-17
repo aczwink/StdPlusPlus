@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,8 +46,7 @@ namespace _stdxx_
 		StdXX::FIFOBuffer buffer;
 
 		//Methods
-		void DecodeBlock(bool write);
-		void ReadHeader();
+		void Decode(bool write, ELzmaFinishMode finishMode = LZMA_FINISH_ANY);
 
 		inline bool IsUncompressedSizeKnown() const
 		{

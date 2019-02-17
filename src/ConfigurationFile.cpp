@@ -94,6 +94,7 @@ String ConfigurationFile::ReadKey(InputStream &refInput)
 	}
 	//throw CException(SJCLIBE_REACHEDEOF, "Expected '=' after a key");
 	NOT_IMPLEMENTED_ERROR;
+	return String();
 }
 
 String ConfigurationFile::ReadSectionTitle(InputStream &refInput)

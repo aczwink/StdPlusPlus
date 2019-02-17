@@ -31,7 +31,7 @@ Date::Date(int64 year, uint8 month, uint8 day)
 	uint16 monthDays = 0;
 	for (uint8 i = 1; i < month; i++)
 		monthDays += WeakDate::GetNumberOfDaysInMonth(i, year);
-	this->deltaDays = (year - 1970) * 365 + Date::GetNumberOfElapsedLeapYears(year - 1970) + monthDays + day;
+	this->deltaDays = (year - 1970) * 365 + Date::GetNumberOfElapsedLeapYears(year - 1970) + monthDays + (day-1); //day is one-based
 }
 
 //Class functions

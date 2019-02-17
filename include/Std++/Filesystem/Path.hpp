@@ -134,6 +134,7 @@ namespace StdXX
 		 */
         Path GetParent() const;
         String GetTitle() const;
+        Path RelativePath(const Path& relativeTo) const;
 		/**
 		 * Returns the leftmost part of this path and sets the remaining part to the 'subPath' arg.
 		 * Example:
@@ -145,6 +146,11 @@ namespace StdXX
 		String SplitOutmostPathPart(Path &subPath) const;
 
         //Inline
+		inline const String &GetString() const
+		{
+			return this->pathString;
+		}
+
 		inline bool IsAbsolute() const
 		{
 			return this->pathString.StartsWith(u8"/");
@@ -154,11 +160,6 @@ namespace StdXX
 		{
 			return this->pathString.GetLength() == 1 && this->pathString.StartsWith(u8"/");
 		}
-
-        inline const String &GetString() const
-        {
-            return this->pathString;
-        }
 
 	private:
 		//Members

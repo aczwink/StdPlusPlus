@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -48,6 +48,14 @@ namespace StdXX
 			this->outputStream.WriteBytes(&b, 1);
 		}
 
+		inline void WriteFloat64(float64 value)
+		{
+			if(this->writeBigEndian)
+				this->WriteFloat64BE(value);
+			else
+				this->WriteFloat64LE(value);
+		}
+
 		inline void WriteInt16(int16 value)
 		{
 			if(this->writeBigEndian)
@@ -72,6 +80,14 @@ namespace StdXX
 				this->WriteUInt32LE(value);
 		}
 
+		inline void WriteUInt64(uint64 value)
+		{
+			if(this->writeBigEndian)
+				this->WriteUInt64BE(value);
+			else
+				this->WriteUInt64LE(value);
+		}
+
 	private:
 		//Members
 		bool writeBigEndian;
@@ -79,6 +95,23 @@ namespace StdXX
 
 		//Inline
 #ifdef XPC_ENDIANNESS_LITTLE
+		inline void WriteFloat64BE(float64 value)
+		{
+			union
+			{
+				uint64 i;
+				float64 f;
+			};
+
+			f = value;
+			this->WriteUInt64BE(i);
+		}
+
+		inline void WriteFloat64LE(float64 value)
+		{
+			this->outputStream.WriteBytes(&value, sizeof(value));
+		}
+
 		inline void WriteInt16BE(int16 value)
 		{
 			byte b[2];
@@ -117,6 +150,27 @@ namespace StdXX
 		}
 
 		inline void WriteUInt32LE(uint32 value)
+		{
+			this->outputStream.WriteBytes(&value, sizeof(value));
+		}
+
+		inline void WriteUInt64BE(uint64 value)
+		{
+			byte b[8];
+
+			b[0] = (uint8)((value >> 56));
+			b[1] = (uint8)((value >> 48) & 0xFF);
+			b[2] = (uint8)((value >> 40) & 0xFF);
+			b[3] = (uint8)((value >> 32) & 0xFF);
+			b[4] = (uint8)((value >> 24) & 0xFF);
+			b[5] = (uint8)((value >> 16) & 0xFF);
+			b[6] = (uint8)((value >> 8) & 0xFF);
+			b[7] = (uint8)(value & 0xFF);
+
+			this->outputStream.WriteBytes(&b, sizeof(b));
+		}
+
+		inline void WriteUInt64LE(uint64 value)
 		{
 			this->outputStream.WriteBytes(&value, sizeof(value));
 		}

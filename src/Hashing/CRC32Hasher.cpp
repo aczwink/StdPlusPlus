@@ -63,12 +63,13 @@ void CRC32Hasher::StoreChecksum(void * target) const
 	StdXX::MemCopy(target, &this->crc, this->GetChecksumSize());
 }
 
-void CRC32Hasher::Update(const byte * buffer, uint32 size)
+void CRC32Hasher::Update(const void * buffer, uint32 size)
 {
+	const byte* data = (byte *) buffer;
 	for (uint32 i = 0; i < size; i++)
 	{
-		byte data = buffer[i];
-		uint8 lookupIndex = ((this->crc ^ data) & 0xFF);
+		byte currentByte = *data++;
+		uint8 lookupIndex = ((this->crc ^ currentByte) & 0xFF);
 		this->crc = (this->crc >> 8) ^ g_crcTable[lookupIndex];
 	}
 }

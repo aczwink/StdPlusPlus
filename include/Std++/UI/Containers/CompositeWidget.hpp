@@ -41,13 +41,13 @@ namespace StdXX
             virtual ~CompositeWidget();
 
             //Methods
-			Widget *GetChild(uint32 index);
-			const Widget* GetChild(uint32 index) const;
-			uint32 GetNumberOfChildren() const;
+			Widget *GetChild(uint32 index) override;
+			const Widget* GetChild(uint32 index) const override;
+			uint32 GetNumberOfChildren() const override;
             void SetLayout(ILayout *pLayout);
 
             //Overrideable
-            virtual Math::SizeD GetSizeHint() const;
+            virtual Math::SizeD GetSizeHint() const override;
 
             //Inline
 			inline void AddChild(Widget *widget)
@@ -67,7 +67,7 @@ namespace StdXX
 
             //Eventhandlers
             virtual void OnPaint();
-			virtual void OnResized();
+			virtual void OnResized() override;
 
         private:
             //Members
@@ -77,7 +77,7 @@ namespace StdXX
 			void RealizeSelf() override;
 
             //Inline
-            inline void RemoveChild(Widget *child)
+            inline void RemoveChild(Widget *child) override
             {
                 int32 index = this->children.Find(child);
                 if(index != -1)

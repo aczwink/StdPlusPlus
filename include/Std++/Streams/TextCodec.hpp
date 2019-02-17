@@ -34,6 +34,9 @@ namespace StdXX
 	class TextCodec
 	{
 	public:
+		//Destructor
+		virtual ~TextCodec(){}
+
 		//Abstract
 		virtual uint32 ReadCodePoint(InputStream &inputStream) const = 0;
 		virtual void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const = 0;

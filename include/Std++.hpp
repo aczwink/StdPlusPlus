@@ -23,6 +23,7 @@
 
 //CommonFileFormats
 //CommonFileFormats/CSV
+#include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
 
 //Compute
@@ -38,6 +39,7 @@
 //LinkedList
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
 //Map
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 //Strings
 #include <Std++/Containers/Strings/ByteString.hpp>
@@ -50,6 +52,8 @@
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/HMAC.hpp>
+#include <Std++/Cryptography/PBKDF2.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>
@@ -91,11 +95,15 @@
 //Streams
 #include <Std++/Streams/OutputStream.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
+#include <Std++/Streams/BufferedOutputStream.hpp>
 #include <Std++/Streams/BufferInputStream.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>
 #include <Std++/Streams/CConcatenatedInputStream.h>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Streams/HashingInputStream.hpp>
+#include <Std++/Streams/HashingOutputStream.hpp>
+#include <Std++/Streams/LimitedInputStream.hpp>
 #include <Std++/Streams/StdOut.hpp>
 #include <Std++/Streams/StdIn.hpp>
 //Streams/Bitstreams
@@ -267,8 +275,9 @@
 //.
 #include <Std++/__InitAndShutdown.h>
 #include <Std++/Char.hpp>
-#include <Std++/Function.hpp>
 #include <Std++/ConfigurationFile.hpp>
+#include <Std++/Function.hpp>
+#include <Std++/ChecksumFunction.hpp>
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
 #include <Std++/Signed.hpp>

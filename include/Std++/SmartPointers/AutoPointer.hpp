@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -67,7 +67,22 @@ namespace StdXX
 				this->controlBlock->referenceCount++;
 		}
 
+		template<typename OtherValueType>
+		inline AutoPointer(const AutoPointer<OtherValueType>& rhs) : pointer(rhs.pointer), controlBlock(rhs.controlBlock), isOwner(false) //Specific -> base copy ctor
+		{
+			if(this->controlBlock)
+				this->controlBlock->referenceCount++;
+		}
+
 		inline AutoPointer(AutoPointer &&rhs) : pointer(rhs.pointer), controlBlock(rhs.controlBlock), isOwner(rhs.isOwner) //Move ctor
+		{
+			rhs.pointer = nullptr;
+			rhs.controlBlock = nullptr;
+			rhs.isOwner = false;
+		}
+
+		template<typename OtherValueType>
+		inline AutoPointer(AutoPointer<OtherValueType>&& rhs) : pointer(rhs.pointer), controlBlock(rhs.controlBlock), isOwner(false) //Specific -> base move ctor
 		{
 			rhs.pointer = nullptr;
 			rhs.controlBlock = nullptr;
@@ -147,6 +162,21 @@ namespace StdXX
 			result.pointer = dynamic_cast<CastToType *>(this->pointer);
 			result.controlBlock = this->controlBlock;
 			result.controlBlock->referenceCount++;
+
+			return result;
+		}
+
+		template <typename CastToType>
+		inline AutoPointer<CastToType> MoveCast()
+		{
+			AutoPointer<CastToType> result;
+			result.pointer = dynamic_cast<CastToType *>(this->pointer);
+			result.controlBlock = this->controlBlock;
+			result.isOwner = this->isOwner;
+
+			this->pointer = nullptr;
+			this->controlBlock = nullptr;
+			this->isOwner = false;
 
 			return result;
 		}

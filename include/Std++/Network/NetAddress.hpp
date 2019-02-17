@@ -31,6 +31,9 @@ namespace StdXX
 	class NetAddress
 	{
 	public:
+		//Destructor
+		virtual ~NetAddress(){}
+
 		//Abstract
 		virtual NetworkProtocolFamily GetProtocolFamily() const = 0;
 		virtual String ToString() const = 0;

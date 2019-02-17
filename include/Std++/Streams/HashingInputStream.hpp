@@ -19,7 +19,7 @@
 #pragma once
  //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Hasher.hpp>
+#include <Std++/ChecksumFunction.hpp>
 #include <Std++/Utility.hpp>
 #include "InputStream.hpp"
 
@@ -36,9 +36,9 @@ namespace StdXX
 	{
 	public:
 		//Constructor
-		inline HashingInputStream(InputStream& inputStream, HashAlgorithm algorithm) : inputStream(inputStream), algorithm(algorithm)
+		inline HashingInputStream(InputStream& inputStream, ChecksumAlgorithm algorithm) : inputStream(inputStream), algorithm(algorithm)
 		{
-			this->hasher = Hasher::CreateInstance(this->algorithm);
+			this->hasher = ChecksumFunction::CreateInstance(this->algorithm);
 		}
 
 		//Methods
@@ -47,10 +47,10 @@ namespace StdXX
 		uint32 Skip(uint32 nBytes) override;
 
 		//Inline
-		inline UniquePointer<Hasher> Reset()
+		inline UniquePointer<ChecksumFunction> Reset()
 		{
-			UniquePointer<Hasher> tmp = Move(this->hasher);
-			this->hasher = Hasher::CreateInstance(this->algorithm);
+			UniquePointer<ChecksumFunction> tmp = Move(this->hasher);
+			this->hasher = ChecksumFunction::CreateInstance(this->algorithm);
 
 			return tmp;
 		}
@@ -58,7 +58,7 @@ namespace StdXX
 	private:
 		//Members
 		InputStream& inputStream;
-		HashAlgorithm algorithm;
-		UniquePointer<Hasher> hasher;
+		ChecksumAlgorithm algorithm;
+		UniquePointer<ChecksumFunction> hasher;
 	};
 }

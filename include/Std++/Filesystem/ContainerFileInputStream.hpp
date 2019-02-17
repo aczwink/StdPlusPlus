@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class ContainerFile;
 
 	class ContainerFileInputStream : public SeekableInputStream

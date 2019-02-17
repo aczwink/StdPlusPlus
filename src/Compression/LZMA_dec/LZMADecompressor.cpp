@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,6 +45,8 @@ LZMADecompressor::LZMADecompressor(InputStream& inputStream) : Decompressor(inpu
 
 	SRes res = LzmaDec_Allocate(&this->state, header, LZMA_PROPS_SIZE, &g_Alloc);
 	ASSERT(res == SZ_OK, u8"Report this please!");
+
+	LzmaDec_Init(&this->state);
 }
 
 LZMADecompressor::LZMADecompressor(InputStream& inputStream, uint64 uncompressedSize, const byte* header, uint32 headerSize) : Decompressor(inputStream), uncompressedSize(uncompressedSize), leftSize(uncompressedSize)
@@ -54,6 +56,8 @@ LZMADecompressor::LZMADecompressor(InputStream& inputStream, uint64 uncompressed
 	ASSERT(headerSize == 5, u8"Report this please!");
 	SRes res = LzmaDec_Allocate(&this->state, header, LZMA_PROPS_SIZE, &g_Alloc);
 	ASSERT(res == SZ_OK, u8"Report this please!");
+
+	LzmaDec_Init(&this->state);
 }
 
 //Destructor
@@ -75,10 +79,11 @@ uint32 LZMADecompressor::ReadBytes(void * destination, uint32 count)
 	byte* dest = (byte*)destination;
 	while (count)
 	{
-		if (this->buffer.IsEmpty())
-			this->DecodeBlock(true);
 		if (this->IsAtEnd())
 			break;
+
+		if (this->buffer.IsEmpty())
+			this->Decode(true);
 		
 		uint32 nBytesToRead = Math::Min(count, this->buffer.GetRemainingBytes());
 		uint32 nBytesRead = this->buffer.ReadBytes(dest, nBytesToRead);
@@ -96,10 +101,11 @@ uint32 LZMADecompressor::Skip(uint32 nBytes)
 	uint32 total = 0;
 	while (nBytes)
 	{
-		if (this->buffer.IsEmpty())
-			this->DecodeBlock(true);
 		if (this->IsAtEnd())
 			break;
+
+		if (this->buffer.IsEmpty())
+			this->Decode(false);
 
 		uint32 nBytesToSkip = Math::Min(nBytes, this->buffer.GetRemainingBytes());
 		uint32 nBytesSkipped = this->buffer.Skip(nBytesToSkip);
@@ -112,7 +118,7 @@ uint32 LZMADecompressor::Skip(uint32 nBytes)
 }
 
 //Private methods
-void LZMADecompressor::DecodeBlock(bool write)
+void LZMADecompressor::Decode(bool write, ELzmaFinishMode finishMode)
 {
 #define IN_BUF_SIZE (1 << 16)
 #define OUT_BUF_SIZE (1 << 16)
@@ -121,36 +127,34 @@ void LZMADecompressor::DecodeBlock(bool write)
 
 	size_t inPos = 0, outPos = 0;
 
-	LzmaDec_Init(&this->state);
-
 	uint32 inSize = this->inputStream.ReadBytes(inBuf, IN_BUF_SIZE);
 
-	while(inPos != inSize)
+	while((inPos != inSize) || (finishMode != LZMA_FINISH_ANY))
 	{
 		SizeT inProcessed = inSize - inPos;
 		SizeT outProcessed = OUT_BUF_SIZE - outPos;
-		ELzmaFinishMode finishMode = LZMA_FINISH_ANY;
-		ELzmaStatus status;
+
 		if (this->IsUncompressedSizeKnown() && outProcessed > this->leftSize)
 		{
 			outProcessed = (SizeT)this->leftSize;
 			finishMode = LZMA_FINISH_END;
 		}
-		
+
+		ELzmaStatus status;
 		SRes res = LzmaDec_DecodeToBuf(&this->state, outBuf + outPos, &outProcessed, inBuf + inPos, &inProcessed, finishMode, &status);
 		inPos += inProcessed;
 		outPos += outProcessed;
 		this->leftSize -= outProcessed;
-		
+
 		if(write)
 			this->buffer.WriteBytes(outBuf, outPos);
 		outPos = 0;
-		
+
 		if (res != SZ_OK)
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: handle error
 		}
-		
+
 		if (inProcessed == 0 && outProcessed == 0)
 		{
 			if (this->IsUncompressedSizeKnown() || status != LZMA_STATUS_FINISHED_WITH_MARK)

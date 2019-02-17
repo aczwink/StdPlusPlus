@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 #include <Std++/Multimedia/Muxer.hpp>
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
+#include <Std++/Streams/Writers/DataWriter.hpp>
 #include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;
@@ -102,7 +103,8 @@ private:
 	inline void WriteFloatElement(MatroskaId id, float64 value)
 	{
 		this->BeginElement(id);
-		this->outputStream.WriteFloat64BE(value);
+		DataWriter dataWriter(true, this->outputStream);
+		dataWriter.WriteFloat64(value);
 		this->EndElement();
 	}
 

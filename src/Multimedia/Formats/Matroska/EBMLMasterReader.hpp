@@ -75,7 +75,7 @@ namespace StdXX
 					this->ReadCurrentChildData(child);
 					this->readCRC32 = child.data.ui;
 					
-					this->hashingInputStream = new HashingInputStream(this->inputStream, HashAlgorithm::CRC32);
+					this->hashingInputStream = new HashingInputStream(this->inputStream, ChecksumAlgorithm::CRC32);
 					this->inUseInputStream = this->hashingInputStream.operator->();
 
 					this->ReadNextChildHeader(child);
@@ -93,7 +93,7 @@ namespace StdXX
 			{
 				if (!this->hashingInputStream.IsNull())
 				{
-					UniquePointer<Hasher> hasher = this->hashingInputStream->Reset();
+					UniquePointer<ChecksumFunction> hasher = this->hashingInputStream->Reset();
 					hasher->Finish();
 					uint32 computed;
 					hasher->StoreChecksum(&computed);
