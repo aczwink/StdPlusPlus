@@ -33,25 +33,6 @@ void StdXX::MemoryFree(void *pMem)
 	HeapFree(GetProcessHeap(), 0, pMem);
 }
 
-void StdXX::MemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection)
-{
-	DWORD newProtect, oldProtect;
-
-	switch (protection)
-	{
-	case MemoryProtection::Execute_Read:
-		newProtect = PAGE_EXECUTE_READ;
-		break;
-	case MemoryProtection::Execute_Read_Write:
-		newProtect = PAGE_EXECUTE_READWRITE;
-		break;
-	default:
-		NOT_IMPLEMENTED_ERROR;
-	}
-
-	VirtualProtect(pMemoryRegion, size, newProtect, &oldProtect);
-}
-
 void *StdXX::MemoryReallocate(void *pMem, uint32 size)
 {
 	if(!pMem)
@@ -80,4 +61,23 @@ void* StdXX::VirtualMemoryAllocate(uint32 size, MemoryProtection protection)
 void StdXX::VirtualMemoryFree(void* addr, uint32 size)
 {
 	VirtualFree(addr, size, MEM_RELEASE);
+}
+
+void StdXX::VirtualMemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection)
+{
+	DWORD newProtect, oldProtect;
+
+	switch (protection)
+	{
+	case MemoryProtection::Execute_Read:
+		newProtect = PAGE_EXECUTE_READ;
+		break;
+	case MemoryProtection::Execute_Read_Write:
+		newProtect = PAGE_EXECUTE_READWRITE;
+		break;
+	default:
+		NOT_IMPLEMENTED_ERROR;
+	}
+
+	VirtualProtect(pMemoryRegion, size, newProtect, &oldProtect);
 }
