@@ -52,6 +52,8 @@
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/ECBCipher.hpp>
+#include <Std++/Cryptography/ECBDecipher.hpp>
 #include <Std++/Cryptography/HMAC.hpp>
 #include <Std++/Cryptography/PBKDF2.hpp>
 
