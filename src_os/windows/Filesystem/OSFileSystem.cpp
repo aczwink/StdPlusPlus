@@ -98,6 +98,12 @@ public:
 		return false;
 	}
 
+	AutoPointer<const File> GetFile(const String &name) const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return StdXX::AutoPointer<const File>();
+	}
+
 	FileSystem * GetFileSystem() override
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -110,16 +116,10 @@ public:
 		return nullptr;
 	}
 
-	String GetName() const override
+	AutoPointer<const Directory> GetParent() const override
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return String();
-	}
-
-	AutoPointer<Directory> GetParent() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<Directory>();
+		return StdXX::AutoPointer<const Directory>();
 	}
 
 	Path GetPath() const override
@@ -129,6 +129,12 @@ public:
 	}
 
 	uint64 GetSize() const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return uint64();
+	}
+
+	uint64 GetStoredSize() const override
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		return uint64();
@@ -177,18 +183,6 @@ public:
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		return nullptr;
-	}
-
-	String GetName() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return String();
-	}
-
-	AutoPointer<Directory> GetParent() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<Directory>();
 	}
 
 	Path GetPath() const override
@@ -246,6 +240,24 @@ public:
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		return false;
+	}
+
+	AutoPointer<const File> GetFile(const String &name) const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return AutoPointer<const File>();
+	}
+
+	AutoPointer<const Directory> GetParent() const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return AutoPointer<const Directory>();
+	}
+
+	uint64 GetStoredSize() const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return uint64();
 	}
 
 	AutoPointer<Directory> GetSubDirectory(const String & name) override
@@ -338,6 +350,12 @@ OSFileSystem &OSFileSystem::GetInstance()
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath)
 		{
 			return new WindowsDirectory(directoryPath);
+		}
+
+		AutoPointer<const File> GetFile(const Path& filePath) const
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return nullptr;
 		}
 
 		AutoPointer<Directory> GetRoot()
