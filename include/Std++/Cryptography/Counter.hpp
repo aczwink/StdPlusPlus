@@ -18,33 +18,22 @@
  */
 #pragma once
 //Local
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include "CipherAlgorithm.hpp"
+#include <Std++/Definitions.h>
 
 namespace StdXX
 {
-	class BlockCipher
+	namespace Crypto
 	{
-	public:
-		//Destructor
-		virtual ~BlockCipher(){}
+		class Counter
+		{
+		public:
+			//Destructor
+			virtual ~Counter() {}
 
-		//Methods
-		virtual void Encrypt(const void* unencrypted, byte* encrypted) const = 0;
-		/**
-		 *
-		 * @return In bytes
-		 */
-		virtual uint8 GetBlockSize() const = 0;
-
-		//Functions
-		/**
-		 *
-		 * @param algorithm
-		 * @param key
-		 * @param keyLength - In bits
-		 * @return
-		 */
-		STDPLUSPLUS_API static UniquePointer<BlockCipher> Create(CipherAlgorithm algorithm, const byte* key, uint16 keyLength);
-	};
+			//Abstract
+			virtual const void* GetKeyStreamBlock() const = 0;
+			virtual uint8 GetKeyStreamBlockSize() const = 0;
+			virtual void Increment() = 0;
+		};
+	}
 }

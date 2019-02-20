@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Corresponding header
-#include <Std++/Cryptography/PBKDF2.hpp>
+#include <Std++/Cryptography/KeyDerivationFunctions.hpp>
 //Local
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>

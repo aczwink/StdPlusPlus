@@ -52,10 +52,13 @@
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/CTRCipher.hpp>
+#include <Std++/Cryptography/CTRDecipher.hpp>
+#include <Std++/Cryptography/DefaultCounter.hpp>
 #include <Std++/Cryptography/ECBCipher.hpp>
 #include <Std++/Cryptography/ECBDecipher.hpp>
 #include <Std++/Cryptography/HMAC.hpp>
-#include <Std++/Cryptography/PBKDF2.hpp>
+#include <Std++/Cryptography/KeyDerivationFunctions.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>

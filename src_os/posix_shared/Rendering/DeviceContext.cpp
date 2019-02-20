@@ -22,7 +22,7 @@
 //#include <gdk/gdkx.h>
 //#include <GL/glx.h>
 //Local
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 //#include "../UI/Gtk.h"
 //#include "../UI/Displays/_GtkOpenGLWidget.h"

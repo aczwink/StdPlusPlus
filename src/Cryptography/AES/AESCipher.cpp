@@ -94,7 +94,7 @@ AESCipher::AESCipher(const byte *key, uint16 keyLength)
 }
 
 //Public methods
-void AESCipher::Encrypt(const byte *unencrypted, byte *encrypted) const
+void AESCipher::Encrypt(const void *unencrypted, byte *encrypted) const
 {
 	MemCopy(this->state, unencrypted, sizeof(this->state));
 

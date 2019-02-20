@@ -41,11 +41,11 @@ OpenSSL_BlockDecipher::~OpenSSL_BlockDecipher()
 }
 
 //Public methods
-void OpenSSL_BlockDecipher::Decrypt(const byte *encrypted, byte *unencrypted) const
+void OpenSSL_BlockDecipher::Decrypt(const void* encrypted, byte *unencrypted) const
 {
 	uint8 blockSize = this->GetBlockSize();
 	int len;
-	int ret = EVP_DecryptUpdate(this->ctx, unencrypted, &len, encrypted, blockSize);
+	int ret = EVP_DecryptUpdate(this->ctx, unencrypted, &len, (const unsigned char*)encrypted, blockSize);
 	ASSERT(ret == 1, u8"Report this please!");
 	ASSERT(len == blockSize, u8"Report this please!");
 
