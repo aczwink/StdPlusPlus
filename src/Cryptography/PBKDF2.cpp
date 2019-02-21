@@ -26,7 +26,7 @@
 //Namespaces
 using namespace StdXX;
 
-void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint8 saltSize, HashAlgorithm hashAlgorithm, uint32 nIterations, uint8 *key, uint8 keySize)
+void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint16 saltSize, HashAlgorithm hashAlgorithm, uint32 nIterations, uint8 *key, uint16 keySize)
 {
 	UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
 	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
@@ -36,7 +36,7 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint8 salt
 	for(uint32 i = 0; i < blockCount; i++)
 	{
 		//first iteration
-		const uint8 u0Size = saltSize + 4;
+		const uint16 u0Size = saltSize + 4;
 		byte u0[u0Size];
 		MemCopy(u0, salt, saltSize);
 
@@ -60,7 +60,7 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint8 salt
 		}
 
 		//write to output
-		uint8 validBytes = Math::Min(digestSize, keySize);
+		uint16 validBytes = Math::Min(keySize, uint16(digestSize));
 		MemCopy(key, xored, validBytes);
 		key += validBytes;
 		keySize -= validBytes;

@@ -23,7 +23,7 @@
 //Namespaces
 using namespace StdXX;
 
-void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint8 msgSize, HashAlgorithm hashAlgorithm, uint8* out)
+void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out)
 {
 	UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
 	const uint8 blockSize = static_cast<const uint8>(hasher->GetBlockSize());

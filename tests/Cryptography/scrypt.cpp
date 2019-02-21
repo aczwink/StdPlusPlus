@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "HashFunction.hpp"
+#include <Std++Test.hpp>
+using namespace StdXX;
+using namespace StdXX::Crypto;
 
-namespace StdXX
+TEST_SUITE(scrypt)
 {
-	namespace Crypto
+	TEST(comparison_with_other_implementations)
 	{
-		void HMAC(const uint8* key, uint8 keySize, const uint8* msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out);
+		const String password = u8"secret";
+		const String salt = u8"salt";
+		constexpr uint8 keySize = 64;
+		const String expected = u8"05ffaebcca41770af425d4ba9b4e7bcdff532237dca931c192a36d94db7307d4c2df95e606514b4113ccb3ad3c19f7ca648e373a112a6b8290f3a69818aa9b7e";
+
+		const uint8* saltData = salt.ToUTF8().GetRawData();
+		uint8 key[keySize];
+		scrypt(password, saltData, static_cast<uint8>(salt.GetSize()), key, sizeof(key), 14);
+
+		String resultStr;
+		for(uint8 i : key)
+			resultStr += String::HexNumber(i, 2, false).ToLowercase();
+		ASSERT(resultStr == expected, u8"scrypt mismatch!");
 	}
-}
+};
