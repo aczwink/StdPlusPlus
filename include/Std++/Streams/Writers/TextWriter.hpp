@@ -32,6 +32,7 @@ namespace StdXX
         //Constructor
         inline TextWriter(OutputStream &outputStream, TextCodecType codecType) : outputStream(outputStream), codec(TextCodec::GetCodec(codecType))
         {
+        	this->lineSeparator = u8"\r\n";
         }
 
 		//Destructor
@@ -41,6 +42,22 @@ namespace StdXX
 		}
 
 		//Inline
+		inline void SetLineSeparator(const String& lsep)
+		{
+			this->lineSeparator = lsep;
+		}
+
+		inline void WriteLine()
+		{
+			this->WriteString(this->lineSeparator);
+		}
+
+		inline void WriteLine(const String& line)
+		{
+			this->WriteString(line);
+			this->WriteString(this->lineSeparator);
+		}
+
 		inline void WriteString(const String &string)
 		{
 			for(uint32 codePoint : string)
@@ -58,5 +75,6 @@ namespace StdXX
         //Members
         OutputStream &outputStream;
 		TextCodec *codec;
+		String lineSeparator;
     };
 }

@@ -11,6 +11,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/ControllerIndex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/ListController.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/TableController.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/TreeController.cpp
 
 	#Controls
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/CheckBox.cpp

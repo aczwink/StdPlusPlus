@@ -2,4 +2,8 @@ add_subdirectory(CSV)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/JSON.hpp
+
 	PARENT_SCOPE)

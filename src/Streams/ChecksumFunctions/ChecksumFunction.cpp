@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,18 +17,36 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Streams/HashingOutputStream.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
+//Local
+#include <Std++/Constants.hpp>
+#include "CRC32ChecksumFunction.hpp"
 //Namespaces
 using namespace StdXX;
 
 //Public methods
-void HashingOutputStream::Flush()
+uint64 ChecksumFunction::Update(InputStream &inputStream)
 {
-	this->outputStream.Flush();
+	uint64 readSize = 0;
+	while(!inputStream.IsAtEnd())
+	{
+		byte buffer[c_io_blockSize];
+		uint32 bytesRead = inputStream.ReadBytes(buffer, sizeof(buffer));
+		readSize += bytesRead;
+		this->Update(buffer, bytesRead);
+	}
+
+	return readSize;
 }
 
-uint32 HashingOutputStream::WriteBytes(const void *source, uint32 size)
+//Class functions
+UniquePointer<ChecksumFunction> ChecksumFunction::CreateInstance(ChecksumAlgorithm algorithm)
 {
-	this->hasher->Update(source, size);
-	return this->outputStream.WriteBytes(source, size);
+	switch (algorithm)
+	{
+	case ChecksumAlgorithm::CRC32:
+		return new _stdxx_::CRC32ChecksumFunction;
+	}
+
+	return nullptr;
 }

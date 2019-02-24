@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,36 +17,32 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/ChecksumFunction.hpp>
+#include "TCPSocketOutputStream.hpp"
 //Local
-#include <Std++/Constants.hpp>
-#include "CRC32Hasher.hpp"
+#include "Shared.hpp"
 //Namespaces
-using namespace StdXX;
+using namespace _stdxx_;
 
-//Public methods
-uint64 ChecksumFunction::Update(InputStream &inputStream)
+//Destructor
+TCPSocketOutputStream::~TCPSocketOutputStream()
 {
-	uint64 readSize = 0;
-	while(!inputStream.IsAtEnd())
-	{
-		byte buffer[c_io_blockSize];
-		uint32 bytesRead = inputStream.ReadBytes(buffer, sizeof(buffer));
-		readSize += bytesRead;
-		this->Update(buffer, bytesRead);
-	}
-
-	return readSize;
+	shutdown(this->socketSystemHandle.i32, SHUT_WR);
 }
 
-//Class functions
-UniquePointer<ChecksumFunction> ChecksumFunction::CreateInstance(ChecksumAlgorithm algorithm)
+//Public methods
+void TCPSocketOutputStream::Flush()
 {
-	switch (algorithm)
+	//tcp decides itself when to send data over network
+}
+
+uint32 TCPSocketOutputStream::WriteBytes(const void *source, uint32 size)
+{
+	uint32 bytesSent = 0;
+	while(bytesSent < size)
 	{
-	case ChecksumAlgorithm::CRC32:
-		return new _stdxx_::CRC32Hasher;
+		ssize_t result = send(this->socketSystemHandle.i32, static_cast<const uint8 *>(source) + bytesSent, size - bytesSent, 0);
+		bytesSent += result;
 	}
 
-	return nullptr;
+	return bytesSent;
 }

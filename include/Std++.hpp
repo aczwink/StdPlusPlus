@@ -52,6 +52,8 @@
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/CBCCipher.hpp>
+#include <Std++/Cryptography/CBCDecipher.hpp>
 #include <Std++/Cryptography/CTRCipher.hpp>
 #include <Std++/Cryptography/CTRDecipher.hpp>
 #include <Std++/Cryptography/DefaultCounter.hpp>
@@ -106,8 +108,8 @@
 #include <Std++/Streams/CConcatenatedInputStream.h>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Streams/HashingInputStream.hpp>
-#include <Std++/Streams/HashingOutputStream.hpp>
+#include <Std++/Cryptography/HashingInputStream.hpp>
+#include <Std++/Cryptography/HashingOutputStream.hpp>
 #include <Std++/Streams/LimitedInputStream.hpp>
 #include <Std++/Streams/StdOut.hpp>
 #include <Std++/Streams/StdIn.hpp>
@@ -282,7 +284,7 @@
 #include <Std++/Char.hpp>
 #include <Std++/ConfigurationFile.hpp>
 #include <Std++/Function.hpp>
-#include <Std++/ChecksumFunction.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
 #include <Std++/Signed.hpp>

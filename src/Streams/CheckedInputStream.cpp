@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,27 +17,32 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Streams/HashingInputStream.hpp>
-//Lcoal
+#include <Std++/Streams/CheckedInputStream.hpp>
+//Local
 #include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Public methods
-bool HashingInputStream::IsAtEnd() const
+uint32 CheckedInputStream::GetBytesAvailable() const
+{
+	return this->inputStream.GetBytesAvailable();
+}
+
+bool CheckedInputStream::IsAtEnd() const
 {
 	return this->inputStream.IsAtEnd();
 }
 
-uint32 HashingInputStream::ReadBytes(void * destination, uint32 count)
+uint32 CheckedInputStream::ReadBytes(void * destination, uint32 count)
 {
 	uint32 nBytesRead = this->inputStream.ReadBytes(destination, count);
-	this->hasher->Update((byte*)destination, nBytesRead);
-	
+	this->checkFunc->Update((byte*)destination, nBytesRead);
+
 	return nBytesRead;
 }
 
-uint32 HashingInputStream::Skip(uint32 nBytes)
+uint32 CheckedInputStream::Skip(uint32 nBytes)
 {
 	byte buffer[4096];
 
@@ -46,7 +51,7 @@ uint32 HashingInputStream::Skip(uint32 nBytes)
 	{
 		uint32 nBytesToRead = Math::Min(uint32(sizeof(buffer)), nBytes);
 		uint32 nBytesRead = this->inputStream.ReadBytes(buffer, nBytesToRead);
-		this->hasher->Update(buffer, nBytesRead);
+		this->checkFunc->Update(buffer, nBytesRead);
 		nBytes -= nBytesRead;
 		nSkipped += nBytesRead;
 	}

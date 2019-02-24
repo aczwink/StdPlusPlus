@@ -16,44 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/ChecksumFunction.hpp>
-#include "OutputStream.hpp"
+#include "ChecksumFunction.hpp"
+#include "InputStream.hpp"
 
 namespace StdXX
 {
-	/**
-	 * See HashingInputStream. This is basically the same, with the saddle difference that this stream pipes
-	 * to an outputstream.
-	 */
-	class STDPLUSPLUS_API HashingOutputStream : public OutputStream
+	class STDPLUSPLUS_API CheckedInputStream : public InputStream
 	{
 	public:
 		//Constructor
-		inline HashingOutputStream(OutputStream& outputStream, ChecksumAlgorithm algorithm) : outputStream(outputStream), algorithm(algorithm)
+		inline CheckedInputStream(InputStream &inputStream, ChecksumAlgorithm algorithm) : inputStream(inputStream), algorithm(algorithm)
 		{
-			this->hasher = ChecksumFunction::CreateInstance(this->algorithm);
+			this->checkFunc = ChecksumFunction::CreateInstance(this->algorithm);
 		}
 
 		//Methods
-		void Flush() override;
-		uint32 WriteBytes(const void *source, uint32 size) override;
+		uint32 GetBytesAvailable() const override;
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
 
 		//Inline
 		inline UniquePointer<ChecksumFunction> Reset()
 		{
-			UniquePointer<ChecksumFunction> tmp = Move(this->hasher);
-			this->hasher = ChecksumFunction::CreateInstance(this->algorithm);
+			UniquePointer<ChecksumFunction> tmp = Move(this->checkFunc);
+			this->checkFunc = ChecksumFunction::CreateInstance(this->algorithm);
 
 			return tmp;
 		}
 
 	private:
 		//Members
-		OutputStream& outputStream;
+		InputStream &inputStream;
 		ChecksumAlgorithm algorithm;
-		UniquePointer<ChecksumFunction> hasher;
+		UniquePointer<ChecksumFunction> checkFunc;
 	};
 }

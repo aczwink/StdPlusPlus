@@ -17,7 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/Streams/HashingInputStream.hpp>
+#include <Std++/Streams/CheckedInputStream.hpp>
 
 namespace StdXX
 {
@@ -75,8 +75,8 @@ namespace StdXX
 					this->ReadCurrentChildData(child);
 					this->readCRC32 = child.data.ui;
 					
-					this->hashingInputStream = new HashingInputStream(this->inputStream, ChecksumAlgorithm::CRC32);
-					this->inUseInputStream = this->hashingInputStream.operator->();
+					this->checkedInputStream = new CheckedInputStream(this->inputStream, ChecksumAlgorithm::CRC32);
+					this->inUseInputStream = this->checkedInputStream.operator->();
 
 					this->ReadNextChildHeader(child);
 				}
@@ -91,9 +91,9 @@ namespace StdXX
 
 			inline void Verify()
 			{
-				if (!this->hashingInputStream.IsNull())
+				if (!this->checkedInputStream.IsNull())
 				{
-					UniquePointer<ChecksumFunction> hasher = this->hashingInputStream->Reset();
+					UniquePointer<ChecksumFunction> hasher = this->checkedInputStream->Reset();
 					hasher->Finish();
 					uint32 computed;
 					hasher->StoreChecksum(&computed);
@@ -106,7 +106,7 @@ namespace StdXX
 			//Members
 			InputStream& inputStream;
 			InputStream* inUseInputStream;
-			UniquePointer<HashingInputStream> hashingInputStream;
+			UniquePointer<CheckedInputStream> checkedInputStream;
 			const Element& masterElement;
 			uint32 readCRC32;
 			uint64 leftSize;

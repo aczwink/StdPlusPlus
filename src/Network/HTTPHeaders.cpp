@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,25 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Class header
+#include <Std++/Network/HTTPHeaders.hpp>
 //Local
-#include <Std++/ChecksumFunction.hpp>
+#include <Std++/Streams/Writers/TextWriter.hpp>
+//Namespaces
+using namespace StdXX;
 
-namespace _stdxx_
+//Stream operators
+OutputStream& StdXX::operator<<(OutputStream& outputStream, const HTTPHeaders& headers)
 {
-	class CRC32Hasher : public StdXX::ChecksumFunction
-	{
-	public:
-		//Constructor
-		CRC32Hasher();
-		
-		//Methods
-		uint32 GetChecksumSize() const override;
-		void Finish() override;
-		void StoreChecksum(void * target) const override;
-		void Update(const void * buffer, uint32 size) override;
+	TextWriter textWriter(outputStream, TextCodecType::ASCII);
+	textWriter.SetLineSeparator(u8"\r\n");
 
-	private:
-		//Members
-		uint32 crc;
-	};
+	for(const auto& kv : headers.GetFields())
+	{
+		textWriter.WriteString(kv.key);
+		textWriter.WriteString(u8": ");
+		textWriter.WriteString(kv.value);
+		textWriter.WriteLine();
+	}
+
+	return outputStream;
 }

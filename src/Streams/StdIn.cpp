@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,6 +27,11 @@ using namespace StdXX;
 StdIn STDPLUSPLUS_API StdXX::stdIn;
 
 //Public methods
+uint32 StdIn::GetBytesAvailable() const
+{
+	return 0;
+}
+
 bool StdIn::IsAtEnd() const
 {
 	return feof(stdin) != 0;

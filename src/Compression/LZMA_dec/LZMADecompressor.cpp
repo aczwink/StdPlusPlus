@@ -67,6 +67,11 @@ LZMADecompressor::~LZMADecompressor()
 }
 
 //Public methods
+uint32 LZMADecompressor::GetBytesAvailable() const
+{
+	return this->buffer.GetBytesAvailable();
+}
+
 bool LZMADecompressor::IsAtEnd() const
 {
 	return this->buffer.IsAtEnd() && this->inputStream.IsAtEnd();

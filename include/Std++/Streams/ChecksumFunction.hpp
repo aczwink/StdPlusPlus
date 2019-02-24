@@ -22,7 +22,7 @@
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Streams/InputStream.hpp>
-#include "Definitions.h"
+#include "Std++/Definitions.h"
 
 namespace StdXX
 {

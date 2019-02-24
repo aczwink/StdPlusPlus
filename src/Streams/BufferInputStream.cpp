@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,7 +32,12 @@ BufferInputStream::BufferInputStream(const void *pBuffer, uint32 size)
     this->endPos = this->pStart + size;
 }
 
-//Public Functions
+//Public methods
+uint32 BufferInputStream::GetBytesAvailable() const
+{
+	return static_cast<uint32>(this->endPos - this->current);
+}
+
 uint64 BufferInputStream::GetCurrentOffset() const
 {
     return this->current - this->pStart;

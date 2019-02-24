@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,11 @@
 using namespace StdXX;
 
 //Public methods
+uint32 FileInputStream::GetBytesAvailable() const
+{
+	return 0;
+}
+
 bool FileInputStream::IsAtEnd() const
 {
 	return this->GetRemainingBytes() == 0;
