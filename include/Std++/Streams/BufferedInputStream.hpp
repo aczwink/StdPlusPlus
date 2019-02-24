@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,14 +32,15 @@ namespace StdXX
         ~BufferedInputStream();
 
         //Methods
-        bool IsAtEnd() const;
+        uint32 GetBytesAvailable() const override;
+        bool IsAtEnd() const override;
         byte PeekByte();
-        uint32 ReadBytes(void *destination, uint32 count);
-        uint32 Skip(uint32 nBytes);
+        uint32 ReadBytes(void *destination, uint32 count) override;
+        uint32 Skip(uint32 nBytes) override;
 
     private:
         //Members
-        InputStream &refInput;
+        InputStream &inputStream;
         byte *buffer;
         byte *current;
         byte *pEnd;

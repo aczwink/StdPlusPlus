@@ -30,7 +30,8 @@ namespace StdXX
 		enum class HashAlgorithm
 		{
 			MD5,
-			SHA256
+			SHA256,
+			SHA512
 		};
 
 		class HashFunction

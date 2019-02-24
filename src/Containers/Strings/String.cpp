@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -514,6 +514,29 @@ const String &String::ToUTF16() const
 	}
 
 	return *this;
+}
+
+String String::Trim() const
+{
+	auto it = this->begin();
+	auto it2 = this->end();
+
+	//trim from beginning
+	while(IsWhiteSpaceChar(*it))
+		++it;
+
+	//trim from end
+	--it2;
+	while(IsWhiteSpaceChar(*it2))
+		--it2;
+	++it2;
+
+	String result = *this;
+	result.length = it2.position - it.position;
+	result.size = static_cast<uint32>(it2.current - it.current);
+	result.data = it.current;
+
+	return result;
 }
 
 //Private methods

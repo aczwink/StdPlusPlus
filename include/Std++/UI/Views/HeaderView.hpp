@@ -16,19 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Streams/HashingOutputStream.hpp>
-//Namespaces
-using namespace StdXX;
+ //Local
+#include <Std++/_Backends/UI/HeaderViewBackend.hpp>
+#include "View.hpp"
 
-//Public methods
-void HashingOutputStream::Flush()
+namespace StdXX
 {
-	this->outputStream.Flush();
-}
+	namespace UI
+	{
+		class HeaderView : public View
+		{
+		public:
+			//Constructor
+			inline HeaderView()
+			{
+				this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
+				this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
+			}
 
-uint32 HashingOutputStream::WriteBytes(const void *source, uint32 size)
-{
-	this->hasher->Update(source, size);
-	return this->outputStream.WriteBytes(source, size);
+		private:
+			//Members
+			_stdxx_::HeaderViewBackend* headerViewBackend;
+
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::HeaderViewBackend* headerViewBackend)
+			{
+				Widget::_SetBackend(headerViewBackend);
+				this->headerViewBackend = headerViewBackend;
+			}
+		};
+	}
 }

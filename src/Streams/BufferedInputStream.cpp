@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,7 +25,7 @@
 using namespace StdXX;
 
 //Constructor
-BufferedInputStream::BufferedInputStream(InputStream &refInputStream, uint32 bufferSize) : refInput(refInputStream)
+BufferedInputStream::BufferedInputStream(InputStream &refInputStream, uint32 bufferSize) : inputStream(refInputStream)
 {
 	this->buffer = (byte *)MemAlloc(bufferSize);
 	this->pEnd = this->buffer + bufferSize;
@@ -43,15 +43,24 @@ void BufferedInputStream::FillBufferIfEmpty()
 {
 	if(this->current == this->pEnd)
 	{
-		this->pEnd = this->buffer + this->refInput.ReadBytes(this->buffer, uint32(this->pEnd - this->buffer));
+		uint32 bytesToRead = this->inputStream.GetBytesAvailable();
+		if(bytesToRead == 0)
+			bytesToRead = uint32(this->pEnd - this->buffer);
+
+		this->pEnd = this->buffer + this->inputStream.ReadBytes(this->buffer, bytesToRead);
 		this->current = this->buffer;
 	}
 }
 
 //Public methods
+uint32 BufferedInputStream::GetBytesAvailable() const
+{
+	return static_cast<uint32>(this->pEnd - this->current);
+}
+
 bool BufferedInputStream::IsAtEnd() const
 {
-	return this->current == this->pEnd && this->refInput.IsAtEnd();
+	return this->current == this->pEnd && this->inputStream.IsAtEnd();
 }
 
 uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)

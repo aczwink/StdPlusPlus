@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Multitasking/Mutex.hpp>
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 #include "ContainerFile.hpp"
@@ -71,6 +72,7 @@ namespace StdXX
 		//Members
 		AutoPointer<Directory> root;
 		Path fileSystemPath;
+		Mutex containerInputStreamLock;
 		UniquePointer<FileInputStream> containerInputStream;
 		bool isFlushed;
 

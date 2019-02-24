@@ -31,6 +31,7 @@ namespace StdXX
 		ContainerFileInputStream(const ContainerFile &file);
 
 		//Methods
+		uint32 GetBytesAvailable() const override;
 		uint64 GetCurrentOffset() const override;
 		uint64 GetRemainingBytes() const override;
 		uint64 GetSize() const override;

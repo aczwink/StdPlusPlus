@@ -32,6 +32,11 @@ ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : 
 }
 
 //Public methods
+uint32 ContainerFileInputStream::GetBytesAvailable() const
+{
+	return this->file.GetFileSystem()->containerInputStream->GetBytesAvailable();
+}
+
 uint64 ContainerFileInputStream::GetCurrentOffset() const
 {
 	return this->currentOffset;
@@ -57,8 +62,10 @@ uint32 ContainerFileInputStream::ReadBytes(void *destination, uint32 count)
 	count = Math::Min(count, static_cast<const uint32 &>(this->GetRemainingBytes()));
 
 	ContainerFileSystem *fs = (ContainerFileSystem *) this->file.GetFileSystem();
+	fs->containerInputStreamLock.Lock();
 	fs->containerInputStream->SetCurrentOffset(this->file.GetHeader().offset + this->currentOffset);
 	count = fs->containerInputStream->ReadBytes(destination, count);
+	fs->containerInputStreamLock.Unlock();
 
 	this->currentOffset += count;
 

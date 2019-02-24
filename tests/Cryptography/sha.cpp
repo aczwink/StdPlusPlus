@@ -45,4 +45,28 @@ TEST_SUITE(SHATests)
 			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA256 mismatch!");
 		}
 	}
+
+	TEST(wikipedia_hashes_sha512)
+	{
+		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
+		const Tuple<String, String> testdata[] =
+		{
+			{
+				u8"",
+				u8"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e"
+			},
+		};
+
+		for(const Tuple<String, String>& t : testdata)
+		{
+			String input = t.Get<0>().ToUTF8();
+
+			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA512);
+			hasher->Update(input.GetRawData(), input.GetSize());
+			hasher->Finish();
+
+			String expected = t.Get<1>();
+			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA512 mismatch!");
+		}
+	}
 };

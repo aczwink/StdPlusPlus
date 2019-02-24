@@ -25,6 +25,11 @@
 using namespace StdXX::Crypto;
 
 //Public methods
+uint32 CTRDecipher::GetBytesAvailable() const
+{
+	return Math::Min(this->leftBytesInBlock, static_cast<uint8>(this->inputStream.GetBytesAvailable()));
+}
+
 bool CTRDecipher::IsAtEnd() const
 {
 	return this->inputStream.IsAtEnd();

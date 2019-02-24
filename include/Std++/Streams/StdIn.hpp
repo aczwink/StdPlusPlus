@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,6 +26,7 @@ namespace StdXX
 	{
 	public:
 		//Methods
+		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
 		uint32 Skip(uint32 nBytes) override;

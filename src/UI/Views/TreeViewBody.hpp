@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,24 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/ChecksumFunction.hpp>
+#include <Std++/UI/DrawableWidget.hpp>
 
 namespace _stdxx_
 {
-	class CRC32Hasher : public StdXX::ChecksumFunction
+	class TreeViewBody : public StdXX::UI::DrawableWidget
 	{
-	public:
-		//Constructor
-		CRC32Hasher();
-		
-		//Methods
-		uint32 GetChecksumSize() const override;
-		void Finish() override;
-		void StoreChecksum(void * target) const override;
-		void Update(const void * buffer, uint32 size) override;
-
-	private:
-		//Members
-		uint32 crc;
 	};
 }

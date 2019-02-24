@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,15 +20,15 @@
 //Local
 #include "../../Definitions.h"
 #include "../../Containers/Strings/String.hpp"
-#include "../Views/View.hpp"
 #include "ControllerIndex.hpp"
 
 namespace StdXX
 {
     namespace UI
     {
-		//Move declarations
+		//Forward declarations
 		class SelectionController;
+		class View;
 
         class STDPLUSPLUS_API TreeController
         {
@@ -53,12 +53,8 @@ namespace StdXX
 			virtual ControllerIndex GetParentIndex(const ControllerIndex &index) const = 0;
             virtual String GetText(const ControllerIndex &index) const = 0;
 
-            //Inline
-            inline void ModelChanged()
-            {
-                if(this->view)
-                    this->view->OnModelChanged();
-            }
+            //Methods
+			void ModelChanged();
 
         protected:
             //Members

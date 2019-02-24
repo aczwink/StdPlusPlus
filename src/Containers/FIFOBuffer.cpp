@@ -74,6 +74,11 @@ void FIFOBuffer::Flush()
 	//this stream always flushes
 }
 
+uint32 FIFOBuffer::GetBytesAvailable() const
+{
+	return (uint32)(this->pCurrentTail - this->pCurrentFront);
+}
+
 bool FIFOBuffer::IsAtEnd() const
 {
 	return this->pCurrentFront == this->pCurrentTail;

@@ -22,6 +22,7 @@
 #include <Std++/Compression/Decompressor.hpp>
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 #include <Std++/Filesystem/ContainerFileInputStream.hpp>
+#include <Std++/Streams/ChainedInputStream.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -42,8 +43,9 @@ UniquePointer<InputStream> ContainerFile::OpenForReading() const
 	InputStream* input = new ContainerFileInputStream(*this);
 	if (this->header.compression.HasValue())
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: this currently will lack the above InputStream "input". When we return the decompressor, we need to free the above instance at the time the destructor of the decompressor is called
-		return Decompressor::Create(*this->header.compression, *input);
+		ChainedInputStream* chain = new ChainedInputStream(input);
+		chain->Add(Decompressor::Create(*this->header.compression, chain->GetEnd()));
+		return chain;
 	}
 	return input;
 }

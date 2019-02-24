@@ -18,12 +18,29 @@
  */
 //Class header
 #include <Std++/Cryptography/HashFunction.hpp>
+//Local
+#include <Std++/Constants.hpp>
 #ifdef _STDXX_EXTENSION_OPENSSL
 #include "../../src_backends/OpenSSL/OpenSSL_Extension.hpp"
 #endif
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Crypto;
+
+//Public methods
+uint64 HashFunction::Update(InputStream &inputStream)
+{
+	uint64 readSize = 0;
+	while(!inputStream.IsAtEnd())
+	{
+		byte buffer[c_io_blockSize];
+		uint32 bytesRead = inputStream.ReadBytes(buffer, sizeof(buffer));
+		readSize += bytesRead;
+		this->Update(buffer, bytesRead);
+	}
+
+	return readSize;
+}
 
 //Class functions
 UniquePointer<HashFunction> HashFunction::CreateInstance(HashAlgorithm algorithm)

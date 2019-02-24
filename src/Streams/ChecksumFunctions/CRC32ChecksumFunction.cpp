@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "CRC32Hasher.hpp"
+#include "CRC32ChecksumFunction.hpp"
 //Local
 #include <Std++/Memory.hpp>
 //Namespaces
@@ -26,7 +26,7 @@ using namespace _stdxx_;
 uint32 g_crcTable[256];
 
 //Constructor
-CRC32Hasher::CRC32Hasher() : crc(0xFFFFFFFF)
+CRC32ChecksumFunction::CRC32ChecksumFunction() : crc(0xFFFFFFFF)
 {
 	static bool tableComputed = false;
 	if (!tableComputed)
@@ -48,22 +48,22 @@ CRC32Hasher::CRC32Hasher() : crc(0xFFFFFFFF)
 }
 
 //Public methods
-uint32 CRC32Hasher::GetChecksumSize() const
+uint32 CRC32ChecksumFunction::GetChecksumSize() const
 {
 	return 4;
 }
 
-void CRC32Hasher::Finish()
+void CRC32ChecksumFunction::Finish()
 {
 	this->crc = ~this->crc; //invert all bits
 }
 
-void CRC32Hasher::StoreChecksum(void * target) const
+void CRC32ChecksumFunction::StoreChecksum(void * target) const
 {
 	StdXX::MemCopy(target, &this->crc, this->GetChecksumSize());
 }
 
-void CRC32Hasher::Update(const void * buffer, uint32 size)
+void CRC32ChecksumFunction::Update(const void * buffer, uint32 size)
 {
 	const byte* data = (byte *) buffer;
 	for (uint32 i = 0; i < size; i++)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 #include <Std++/_Backends/UI/ViewBackend.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/UI/Controllers/SelectionController.hpp>
+#include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Events/SelectionChangedEvent.hpp>
 #include <Std++/UI/Widget.hpp>
 

@@ -19,7 +19,7 @@
 //Main header
 #include "Matroska.hpp"
 //Local
-#include <Std++/Streams/HashingInputStream.hpp>
+#include <Std++/Cryptography/HashingInputStream.hpp>
 #include "EBMLMasterReader.hpp"
 //Namespaces
 using namespace _stdxx_;

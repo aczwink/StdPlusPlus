@@ -18,6 +18,8 @@
  */
 #pragma once
 //Local
+#include "HTTPHeaders.hpp"
+#include "HTTPResponse.hpp"
 #include "TCPServerSocket.hpp"
 
 namespace StdXX
@@ -26,15 +28,35 @@ namespace StdXX
 	{
 	public:
 		//Constructor
-		inline HTTPServer(const NetAddress& netAddress, uint16 port) : socket(netAddress, port)
+		inline HTTPServer(const NetAddress& netAddress, uint16 port) : socket(netAddress, port), shutdown(false)
 		{
 		}
 
 		//Methods
-		void ServeForever();
+		/**
+		 * Serves HTTP requests until Shutdown is called.
+		 * The function checks each second whether it should shutdown.
+		 */
+		void Serve();
+
+		//Inline
+		inline uint16 GetBoundPort() const
+		{
+			return this->socket.GetBoundPort();
+		}
+
+		inline void Shutdown()
+		{
+			this->shutdown = true;
+		}
+
+	protected:
+		//Event handlers
+		virtual void OnGETRequest(const Path& requestPath, const HTTPHeaders& requestHeaders, HTTPResponse& response);
 
 	private:
 		//Members
+		bool shutdown;
 		TCPServerSocket socket;
 	};
 }
