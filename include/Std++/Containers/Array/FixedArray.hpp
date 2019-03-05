@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Type.hpp>
 #include <Std++/Containers/Container.hpp>
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 

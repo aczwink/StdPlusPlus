@@ -25,6 +25,8 @@ namespace StdXX
 {
 	namespace Crypto
 	{
+		void HKDF(const uint8* ikm, uint8 ikmSize, const uint8* info, uint8 infoSize, HashAlgorithm hashAlgorithm, uint8* key, uint8 keySize);
+		void HKDF(const uint8* ikm, uint8 ikmSize, const uint8* salt, uint8 saltSize, const uint8* info, uint8 infoSize, HashAlgorithm hashAlgorithm, uint8* key, uint8 keySize);
 		void PBKDF2(const String& password, const uint8* salt, uint16 saltSize, HashAlgorithm hashAlgorithm, uint32 nIterations, uint8* key, uint16 keySize);
 		void scrypt(const String& password, const uint8* salt, uint8 saltSize, uint8* key, uint8 keySize, uint8 costFactor, uint8 blockSizeFactor = 8, uint8 parallelizationFactor = 1);
 	}

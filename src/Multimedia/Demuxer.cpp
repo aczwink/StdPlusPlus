@@ -55,7 +55,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 	uint64 currentOffset;
 	Packet packet;
 	Stream *pStream;
-	FiniteSet<uint32> streamsThatRequireDuration;
+	BinaryTreeSet<uint32> streamsThatRequireDuration;
 
 	//TODO: do this only if byte seeking is allowed
 

@@ -31,6 +31,6 @@ public:
 	String GetExtension() const;
 	void GetFormatInfo(FormatInfo &refFormatInfo) const;
 	String GetName() const;
-	//FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const;
+	//BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const;
 	float32 Matches(BufferInputStream &buffer) const;
 };

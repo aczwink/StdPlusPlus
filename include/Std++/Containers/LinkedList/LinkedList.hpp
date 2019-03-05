@@ -281,7 +281,7 @@ namespace StdXX
 
 		void Remove(uint32 index)
 		{
-			this->Remove(this->FindNode(index));
+			this->RemoveNode(this->FindNode(index));
 		}
 
         void Release()
@@ -383,7 +383,7 @@ namespace StdXX
 			this->nElements++;
 		}
 
-		void Remove(Node *node)
+		void RemoveNode(Node *node)
 		{
 			ASSERT(node, u8"Precondition for this method: node exists.");
 

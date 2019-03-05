@@ -24,13 +24,13 @@ namespace StdXX
     template<typename ValueType>
     class FiniteSetNode;
     template<typename ValueType>
-    class FiniteSet;
+    class BinaryTreeSet;
 
     template<typename ValueType>
     class CConstFiniteSetIterator
     {
-        friend class FiniteSet <ValueType >;
-        typedef FiniteSet<ValueType> Set;
+        friend class BinaryTreeSet <ValueType >;
+        typedef BinaryTreeSet<ValueType> Set;
         typedef FiniteSetNode<ValueType> Node;
     private:
         //Members

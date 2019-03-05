@@ -36,6 +36,7 @@ TEST_SUITE(scrypt)
 		String resultStr;
 		for(uint8 i : key)
 			resultStr += String::HexNumber(i, 2, false).ToLowercase();
+		resultStr.ToUTF8();
 		ASSERT(resultStr == expected, u8"scrypt mismatch!");
 	}
 };

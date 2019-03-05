@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,14 +31,14 @@ XML Specification:
 	https://www.w3.org/TR/REC-xml
 */
 
-class CXMLParser
+class XMLParser
 {
 public:
 	//Constructor
-	CXMLParser(InputStream &refInput);
+	XMLParser(InputStream &refInput);
 
 	//Destructor
-	~CXMLParser();
+	~XMLParser();
 
 	//Methods
 	Document *Parse();

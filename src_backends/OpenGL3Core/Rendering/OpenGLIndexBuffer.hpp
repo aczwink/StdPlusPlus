@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,8 +36,8 @@ public:
     ~OpenGLIndexBuffer();
 
     //Methods
-    void Allocate16(uint32 nIndices, const uint16 *pIndices);
-    void Allocate32(uint32 nIndices, const uint32 *pIndices);
+    void Allocate16(uint32 nIndices, const uint16 *pIndices) override;
+    void Allocate32(uint32 nIndices, const uint32 *pIndices) override;
     void Write(uint32 index, uint32 nIndices, const uint32 *data) override;
 
     //Inline

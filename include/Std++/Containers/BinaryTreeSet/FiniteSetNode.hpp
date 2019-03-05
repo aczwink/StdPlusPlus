@@ -24,7 +24,7 @@ namespace StdXX
 {
     //Move declarations
     template<typename DataType>
-    class FiniteSet;
+    class BinaryTreeSet;
     template<typename DataType>
     class CFiniteSetIterator;
 

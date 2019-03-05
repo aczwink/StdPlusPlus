@@ -39,6 +39,18 @@ TEST_SUITE(HMAC)
 				u8"80070713463e7749b90c2dc24911e275"
 			},
 			{
+				HashAlgorithm::SHA1,
+				u8"",
+				u8"",
+				u8"fbdb1d1b18aa6c08324b7d64b71fb76370690e1d"
+			},
+			{
+				HashAlgorithm::SHA1,
+				u8"key",
+				u8"The quick brown fox jumps over the lazy dog",
+				u8"de7c9b85b8b78aa6bc8a7a36f70a90701c9db4d9"
+			},
+			{
 				HashAlgorithm::SHA256,
 				u8"",
 				u8"",
