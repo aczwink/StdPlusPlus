@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,130 +18,100 @@
  */
 #pragma once
 //Local
-#include "Std++/Debug.hpp"
-#include "Container.hpp"
+#include <Std++/Debug.hpp>
+#include "ResizeableSequenceContainer.hpp"
 
 namespace StdXX
 {
 	/**
-	 * A min-priority queue implementation e.g. the highest priority has the smallest priority value according to <.
+	 * Implementation as binary heap.
 	 * @tparam DataType
+	 * @tparam Comparator
 	 */
-    template<typename DataType>
-    class PriorityQueue : public Container
+    template<typename DataType, typename Comparator = LessThan<DataType>>
+    class PriorityQueue : public ResizeableSequenceContainer<DataType>
     {
-        struct Node
-        {
-        	DataType data;
-            Node *next;
-        };
-
     public:
-        //Constructor
-        PriorityQueue()
-        {
-            this->head = nullptr;
-        }
-
-        //Destructor
-        ~PriorityQueue()
-        {
-            this->Release();
-        }
-
         //Methods
-        const DataType &GetFirst() const
-        {
-			ASSERT(this->head, u8"Can't access empty queue.");
-
-            return this->head->data;
-        }
-
-        void Insert(const DataType &value)
-        {
-            Node *pNode, *pNode2;
-
-            this->nElements++;
-
-            if(!this->head)
-            {
-                this->head = (Node *)MemAlloc(sizeof(*this->head));
-                this->head->data = value;
-                this->head->next = NULL;
-
-                return;
-            }
-            if(value <= this->head->data)
-            {
-                pNode = (Node *)MemAlloc(sizeof(*pNode));
-                pNode->data = value;
-                pNode->next = this->head;
-                this->head = pNode;
-
-                return;
-            }
-
-            pNode = this->head;
-            while(pNode->next && pNode->next->data < value)
-                pNode = pNode->next;
-
-            pNode2 = (Node *)MemAlloc(sizeof(*pNode2));
-            pNode2->data = value;
-            pNode2->next = pNode->next;
-            pNode->next = pNode2;
-        }
-
-        DataType PopFirst()
-        {
-            Node *pNode;
-            DataType tmp;
-
-            ASSERT(this->nElements, "Can't pop from empty queue");
-
-            tmp = this->head->data;
-            pNode = this->head;
-            this->head = this->head->next;
-            this->nElements--;
-            MemFree(pNode);
-
-            return tmp;
-        }
-
-        void Release()
-        {
-            while(this->nElements)
-                this->PopFirst();
-        }
-
-		void Remove(const DataType &value)
+    	void Insert(const DataType& value)
 		{
-			if (this->head == nullptr)
-				return;
+			this->EnsureAdditionalCapacity(1);
+			this->data[this->nElements] = value;
 
-			Node *node = this->head;
-			if(this->head->data == value)
-			{
-				this->head = this->head->next;
-				this->nElements--;
-				delete node;
-				return;
-			}
+			this->HeapifyUpwards(this->nElements++);
+		}
 
-			while(node->next)
-			{
-				if(node->next->data == value)
-				{
-					node->next = node->next->next;
-					this->nElements--;
-					delete node->next;
-					return;
-				}
-				node = node->next;
-			}
+        void Insert(DataType&& value)
+        {
+			this->EnsureAdditionalCapacity(1);
+			this->data[this->nElements] = Move(value);
+
+			this->HeapifyUpwards(this->nElements++);
+        }
+
+        DataType PopTop()
+        {
+			ASSERT(!this->IsEmpty(), u8"Can't get top element of empty priority queue.");
+
+			DataType root = Move(this->data[0]);
+			this->data[0] = Move(this->data[--this->nElements]);
+			this->Heapify(0);
+
+			return root;
+        }
+
+        //Inline
+		inline const DataType& Top() const
+		{
+			ASSERT(!this->IsEmpty(), u8"Can't get top element of empty priority queue.");
+			return this->data[0];
 		}
 
 	private:
-		//Members
-		Node *head;
+    	//Members
+    	Comparator comparator;
+
+        //Methods
+		void Heapify(uint32 index)
+		{
+			uint32 largest = index;
+
+			if( (this->LeftChildIndex(index) < this->nElements) and this->comparator(this->data[largest], this->data[this->LeftChildIndex(index)]))
+				largest = this->LeftChildIndex(index);
+			if( (this->RightChildIndex(index) < this->nElements) and this->comparator(this->data[largest], this->data[this->RightChildIndex(index)]))
+				largest = this->RightChildIndex(index);
+
+			if(largest != index)
+			{
+				Swap(this->data[index], this->data[largest]);
+				this->Heapify(largest);
+			}
+		}
+
+		void HeapifyUpwards(uint32 index)
+		{
+			//restore heap property
+			while( (index > 0) and this->comparator(this->data[this->ParentIndex(index)], this->data[index]) )
+			{
+				Swap(this->data[index], this->data[this->ParentIndex(index)]);
+				index = this->ParentIndex(index);
+			}
+		}
+
+        //Inline
+		inline uint32 LeftChildIndex(uint32 idx) const
+		{
+			return 2 * idx + 1;
+		}
+
+		inline uint32 RightChildIndex(uint32 idx) const
+		{
+			return 2 * idx + 2;
+		}
+
+		inline uint32 ParentIndex(uint32 index) const
+		{
+			return (index - 1) / 2;
+		}
     };
 }
