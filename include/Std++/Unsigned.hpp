@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -64,6 +64,21 @@ namespace StdXX
 	{
 	public:
 		//Expressions
+		static constexpr uint64 Concat(uint32 high32, uint32 low32)
+		{
+			return ( uint64(low32) | (uint64(high32) << 32u) );
+		}
+
+		static constexpr uint32 Low32(uint64 v)
+		{
+			return uint32(v & Unsigned<uint32>::Max());
+		}
+
+		static constexpr uint32 High32(uint64 v)
+		{
+			return uint32(v >> 32u);
+		}
+
 		static constexpr uint64 Max()
 		{
 			return ((uint64)0xFFFFFFFFFFFFFFFF);

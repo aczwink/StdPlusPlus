@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -75,12 +75,7 @@ namespace StdXX
 			}
 
 			inline Vector2 operator-(const Vector2 &refRight) const;
-
-			inline Vector2 operator*(ScalarType right) const
-			{
-				return Vector2(this->x * right, this->y * right);
-			}
-
+			inline Vector2 operator*(ScalarType rhs) const;
 			inline Vector2 operator*(const Vector2 &refRight) const;
 			inline Vector2 &operator*=(ScalarType right);
 			inline Vector2 operator/(ScalarType right) const;
@@ -117,9 +112,9 @@ namespace StdXX
 
         //Binary operators
 		template <typename ScalarType>
-        inline Vector2<ScalarType> operator*(ScalarType left, const Vector2<ScalarType> &refRight)
+        inline Vector2<ScalarType> operator*(ScalarType lhs, const Vector2<ScalarType>& rhs)
         {
-            return Vector2<ScalarType>(left * refRight.x, left * refRight.y);
+			return rhs * lhs;
         }
 
 		typedef Vector2<float32> Vector2S;

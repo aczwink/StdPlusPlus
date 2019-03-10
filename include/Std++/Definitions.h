@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,11 +37,7 @@
 #define HIGH16(value) ((uint16)(value >> 16))
 #define MAKE16(lo8, hi8) ( (lo8 & 0xFF) | ((hi8 & 0xFF) << 8) )
 
-#define LOW32(value) ((uint32)value & UINT32_MAX)
-#define HIGH32(value) ((uint32)(value >> 32))
 #define MAKE32(lo16, hi16) ( (lo16 & 0xFFFF) | ((hi16 & 0xFFFF) << 16) )
-
-#define MAKE64(lo32, hi32) ( (uint64)((lo32) & Unsigned<uint32>::Max()) | ((uint64)((hi32) & Unsigned<uint32>::Max()) << 32) )
 
 //Binary prefixes
 #define KiB (1024)
@@ -85,7 +81,6 @@ typedef double float64;
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 
-#ifdef XPC_COMPILER_MSVC
-//-.-
+#ifdef XPC_COMPILER_MSVC //-.-
 #define xor ^
 #endif
