@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -44,8 +44,10 @@ namespace StdXX
 		}
 
 		_stdxx_::CheckBoxBackend * CreateCheckBoxBackend(UI::CheckBox * checkBox) override;
+		_stdxx_::DrawableWidgetBackend * CreateDrawableWidgetBackend(UI::Widget & widget) override;
 		EventSource *CreateEventSource() override;
 		_stdxx_::GroupBoxBackend * CreateGroupBoxBackend(UI::GroupBox * groupBox) override;
+		_stdxx_::HeaderViewBackend * CreateHeaderViewBackend(UI::HeaderView & headerView) override;
 		_stdxx_::LabelBackend * CreateLabelBackend(UI::Label * label) override;
 		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override;
 		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton * pushButton) override;
@@ -60,32 +62,12 @@ namespace StdXX
 		_stdxx_::WindowBackend * CreateWindowBackend(UI::Window * window) override;
 
 		void Load() override;
+		void Unload() const override;
 
-		void Unload() const override
-		{
-            if(!UnregisterClassW(STDPLUSPLUS_WIN_WNDCLASS, GetModuleHandle(NULL)))
-            {
-                DWORD lastErr;
-
-                lastErr = GetLastError();
-                switch(lastErr)
-                {
-                    case ERROR_CLASS_DOES_NOT_EXIST:
-                    {
-                        NOT_IMPLEMENTED_ERROR; //for some weird reason the class is sometimes not registered... i think when the program crashes..
-                        //this should be checked
-                    }
-                        break;
-                    case ERROR_CLASS_HAS_WINDOWS:
-                    {
-                        ASSERT(false, "You didn't close all windows");
-                    }
-                        break;
-                    default:
-                        NOT_IMPLEMENTED_ERROR;
-                }
-            }
-		}
+	private:
+		//Members
+		HANDLE hActCtx;
+		ULONG_PTR ulpActivationCookie;
 	};
 }
 #endif

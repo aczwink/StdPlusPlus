@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "Debug.hpp"
 #include "Definitions.h"
 
 namespace StdXX
@@ -69,4 +70,11 @@ namespace StdXX
 			return ((uint64)0xFFFFFFFFFFFFFFFF);
 		}
 	};
+
+	//Literals
+	inline uint8 operator "" u8(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint8>::Max(), u8"Too large uint8 literal");
+		return static_cast<uint8>(value);
+	}
 }

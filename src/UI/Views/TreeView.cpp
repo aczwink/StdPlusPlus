@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,7 @@
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
+#include "TreeViewBody.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -31,11 +32,49 @@ TreeView::TreeView()
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
+
+	this->headerView = nullptr;
+	this->body = nullptr;
 }
 
 //Private methods
 void TreeView::RealizeSelf()
 {
 	_stdxx_::ViewBackend* viewBackend = this->_GetUIBackend()->CreateTreeViewBackend(*this);
-	this->_SetBackend(viewBackend);
+	if (viewBackend)
+		this->_SetBackend(viewBackend);
+	else
+	{
+		this->headerView = new HeaderView;
+		this->AddChild(this->headerView);
+		this->body = new _stdxx_::TreeViewBody;
+		this->AddChild(this->body);
+	}
 }
+
+//Event handlers
+void TreeView::OnModelChanged()
+{
+	if (this->headerView)
+	{
+		//this->headerView->SetController(this->controller);
+		NOT_IMPLEMENTED_ERROR; //TODO: continue
+	}
+	else
+		View::OnModelChanged();
+}
+
+//Event handlers
+/*
+//Event handlers
+			void OnPaint(UI::Event& event);
+void TreeView::OnPaint(UI::Event& event)
+{
+	UniquePointer<Rendering::VectorPathRenderer> painter = this->drawableBackend->CreatePainter();
+
+	painter->Rectangle({50, 50, 100, 100});
+	painter->SetFillColor({1, 0, 0, 1});
+	painter->Fill();
+	
+	printf("ONPAINT RECEIVED\n");
+}*/

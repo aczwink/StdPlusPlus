@@ -20,7 +20,9 @@
 #include "TCPSocketInputStream.hpp"
 //Global
 #include <errno.h>
+#ifndef XPC_OS_WINDOWS
 #include <sys/ioctl.h>
+#endif
 //Local
 #include <Std++/Mathematics.hpp>
 #include "Shared.hpp"
@@ -30,15 +32,25 @@ using namespace _stdxx_;
 //Destructor
 TCPSocketInputStream::~TCPSocketInputStream()
 {
+#ifdef XPC_OS_WINDOWS
+	shutdown(this->socketSystemHandle.i32, SD_RECEIVE);
+#else
 	shutdown(this->socketSystemHandle.i32, SHUT_RD);
+#endif
 }
 
 //Public methods
 uint32 TCPSocketInputStream::GetBytesAvailable() const
 {
+#ifdef XPC_OS_WINDOWS
+	u_long bytesAvailable;
+	ioctlsocket(this->socketSystemHandle.u64, FIONREAD, &bytesAvailable);
+	return bytesAvailable;
+#else
 	int bytesAvailable;
 	ioctl(this->socketSystemHandle.i32, FIONREAD, &bytesAvailable);
 	return static_cast<uint32>(bytesAvailable);
+#endif
 }
 
 bool TCPSocketInputStream::IsAtEnd() const

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -55,6 +55,12 @@ void View::SetController(UniquePointer<TreeController>&& controller)
 }
 
 //Eventhandlers
+void View::OnModelChanged()
+{
+	if (this->viewBackend)
+		this->viewBackend->ControllerChanged();
+}
+
 void View::OnRealized()
 {
 	Widget::OnRealized();

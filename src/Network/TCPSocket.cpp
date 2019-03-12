@@ -25,10 +25,9 @@
 #include <errno.h>
 #include <poll.h>
 #include <unistd.h>
-#include <Std++/Signed.hpp>
-
 #endif
 //Local
+#include <Std++/Signed.hpp>
 #include "Shared.hpp"
 #include "TCPSocketInputStream.hpp"
 #include "TCPSocketOutputStream.hpp"
@@ -58,11 +57,11 @@ TCPSocket::~TCPSocket()
 	this->inputStream.Reset();
 	this->outputStream.Reset();
 
-	shutdown(this->systemHandle.i32, SHUT_RDWR);
-
 #ifdef XPC_OS_WINDOWS
+	shutdown(this->systemHandle.u64, SD_BOTH);
 	closesocket(this->systemHandle.u64);
 #else
+	shutdown(this->systemHandle.i32, SHUT_RDWR);
 	close(this->systemHandle.i32);
 #endif
 }

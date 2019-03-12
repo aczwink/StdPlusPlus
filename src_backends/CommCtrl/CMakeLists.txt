@@ -21,6 +21,8 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlContainerBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlGroupBoxBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlHeaderViewBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlHeaderViewBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlLabelBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlLabelBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlMenuBackend.cpp
@@ -49,6 +51,10 @@ if(${BACKEND_COMMCTRL})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommCtrlWindowBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32DrawableWidget.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32DrawableWidget.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Painter.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Painter.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Win32Window.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowsMessageQueueEventSource.cpp

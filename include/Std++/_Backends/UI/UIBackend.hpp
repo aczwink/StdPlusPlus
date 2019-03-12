@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,7 +28,9 @@ namespace _stdxx_
 {
 	class CheckBoxBackend;
 	class ContentAreaWidgetBackend;
+	class DrawableWidgetBackend;
 	class GroupBoxBackend;
+	class HeaderViewBackend;
 	class LabelBackend;
 	class MenuBackend;
 	class MenuBarBackend;
@@ -48,6 +50,7 @@ namespace StdXX
 	{
 		class CheckBox;
 		class GroupBox;
+		class HeaderView;
 		class Label;
 		class Menu;
 		class MenuBar;
@@ -71,8 +74,10 @@ namespace StdXX
 
 		//Abstract
 		virtual _stdxx_::CheckBoxBackend *CreateCheckBoxBackend(UI::CheckBox *checkBox) = 0;
+		virtual _stdxx_::DrawableWidgetBackend* CreateDrawableWidgetBackend(UI::Widget& widget) = 0;
 		virtual EventSource *CreateEventSource() = 0;
 		virtual _stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox *groupBox) = 0;
+		virtual _stdxx_::HeaderViewBackend* CreateHeaderViewBackend(UI::HeaderView& headerView) = 0;
 		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) = 0;
 		virtual _stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
 		virtual _stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;

@@ -34,7 +34,7 @@ namespace StdXX
 			SHA512
 		};
 
-		class HashFunction
+		class STDPLUSPLUS_API HashFunction
 		{
 		public:
 			//Destructor

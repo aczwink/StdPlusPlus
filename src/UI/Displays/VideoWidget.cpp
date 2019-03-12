@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -88,7 +88,7 @@ void VideoWidget::OnPaint(UI::Event& event)
 	//render
 	this->deviceContext->ClearColorBuffer(Color(0, 0, 0, 1));
 	
-	this->renderer->Rectangle(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
+	this->renderer->Rectangle(frameRect);
 	this->renderer->SetFillTexture(this->texture);
 	this->renderer->Fill();
 

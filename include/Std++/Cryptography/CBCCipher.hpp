@@ -26,7 +26,7 @@ namespace StdXX
 {
 	namespace Crypto
 	{
-		class CBCCipher : public OutputStream
+		class STDPLUSPLUS_API CBCCipher : public OutputStream
 		{
 		public:
 			//Constructor

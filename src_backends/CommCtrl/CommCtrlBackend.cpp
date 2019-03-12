@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,6 +20,7 @@
 #include "CommCtrlBackend.hpp"
 //Local
 #include "UI/CommCtrlCheckBoxBackend.hpp"
+#include "UI/CommCtrlHeaderViewBackend.hpp"
 #include "UI/CommCtrlLabelBackend.hpp"
 #include "UI/CommCtrlPushButtonBackend.hpp"
 #include "UI/CommCtrlRenderTargetWidgetBackend.hpp"
@@ -34,6 +35,7 @@
 #include "UI/WindowsMessageQueueEventSource.hpp"
 #include "CommCtrlOpenGL3CoreBackend.hpp"
 #include "UI/CommCtrlGroupBoxBackend.hpp"
+#include "UI/Win32DrawableWidget.hpp"
 //Namespaces
 using namespace _stdxx_;
 
@@ -52,6 +54,11 @@ CheckBoxBackend *CommCtrlBackend::CreateCheckBoxBackend(UI::CheckBox *checkBox)
 	return new CommCtrlCheckBoxBackend(*this, checkBox);
 }
 
+DrawableWidgetBackend* CommCtrlBackend::CreateDrawableWidgetBackend(UI::Widget & widget)
+{
+	return new Win32DrawableWidget(*this, widget);
+}
+
 EventSource *CommCtrlBackend::CreateEventSource()
 {
 	return new WindowsMessageQueueEventSource;
@@ -60,6 +67,11 @@ EventSource *CommCtrlBackend::CreateEventSource()
 GroupBoxBackend *CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
 {
 	return new CommCtrlGroupBoxBackend(*this, groupBox);
+}
+
+HeaderViewBackend * CommCtrlBackend::CreateHeaderViewBackend(UI::HeaderView & headerView)
+{
+	return new CommCtrlHeaderViewBackend(*this, headerView);
 }
 
 LabelBackend *CommCtrlBackend::CreateLabelBackend(UI::Label *label)
@@ -114,7 +126,9 @@ ViewBackend * CommCtrlBackend::CreateTableViewBackend(UI::TableView & tableView)
 
 ViewBackend * CommCtrlBackend::CreateTreeViewBackend(UI::TreeView & treeView)
 {
-	return new CommCtrlTreeViewBackend(*this, treeView);
+	//the native tree view control does not support multiple column
+	//return new CommCtrlTreeViewBackend(*this, treeView);
+	return nullptr;
 }
 
 WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
@@ -124,13 +138,28 @@ WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
 
 void CommCtrlBackend::Load()
 {
+	//enable visual styles
+	WCHAR dir[MAX_PATH];
+	ACTCTXW actCtx =
+	{
+		sizeof(actCtx),
+		ACTCTX_FLAG_RESOURCE_NAME_VALID | ACTCTX_FLAG_SET_PROCESS_DEFAULT | ACTCTX_FLAG_ASSEMBLY_DIRECTORY_VALID, L"shell32.dll", 0, 0, dir, (LPCWSTR)124
+	};
+	UINT cch = GetSystemDirectoryW(dir, sizeof(dir) / sizeof(*dir));
+	ASSERT( !(cch >= sizeof(dir) / sizeof(*dir)), u8"REPORT THIS PLEASE!");
+	dir[cch] = 0;
+	this->hActCtx = CreateActCtxW(&actCtx);
+	ActivateActCtx(this->hActCtx, &this->ulpActivationCookie);
+
 	//init control library
 	INITCOMMONCONTROLSEX iccex;
 
 	iccex.dwSize = sizeof(iccex);
 	iccex.dwICC = ICC_LISTVIEW_CLASSES | ICC_TREEVIEW_CLASSES | ICC_BAR_CLASSES | ICC_TAB_CLASSES | ICC_UPDOWN_CLASS | ICC_LINK_CLASS | ICC_STANDARD_CLASSES;
 
+	DWORD err = GetLastError();
 	BOOL result = InitCommonControlsEx(&iccex);
+	err = GetLastError();
 	ASSERT(result == TRUE, u8"Could not initialize common controls library.");
 
 	//register window class
@@ -143,4 +172,35 @@ void CommCtrlBackend::Load()
 
 	ATOM classAtom = RegisterClassExW(&wcex);
 	ASSERT(classAtom != 0, u8"Could not register window class");
+}
+
+void CommCtrlBackend::Unload() const
+{
+	//unregister window class
+	if (!UnregisterClassW(STDPLUSPLUS_WIN_WNDCLASS, GetModuleHandle(NULL)))
+	{
+		DWORD lastErr;
+
+		lastErr = GetLastError();
+		switch (lastErr)
+		{
+		case ERROR_CLASS_DOES_NOT_EXIST:
+		{
+			NOT_IMPLEMENTED_ERROR; //for some weird reason the class is sometimes not registered... i think when the program crashes..
+			//this should be checked
+		}
+		break;
+		case ERROR_CLASS_HAS_WINDOWS:
+		{
+			ASSERT(false, "You didn't close all windows");
+		}
+		break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
+		}
+	}
+
+	//release activation context
+	DeactivateActCtx(0, this->ulpActivationCookie);
+	ReleaseActCtx(this->hActCtx);
 }

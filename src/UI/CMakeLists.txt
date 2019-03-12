@@ -1,3 +1,5 @@
+add_subdirectory(Views)
+
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
@@ -35,13 +37,6 @@ set(SOURCE_FILES
 	#Menu
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
-
-	#Views
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/SelectBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.cpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.cpp

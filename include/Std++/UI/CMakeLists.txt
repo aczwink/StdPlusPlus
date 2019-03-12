@@ -1,4 +1,5 @@
 add_subdirectory(Events)
+add_subdirectory(Views)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -38,13 +39,6 @@ set(SOURCE_FILES
 	#Menu
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.hpp
-
-	#Views
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/SelectBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/Action.hpp

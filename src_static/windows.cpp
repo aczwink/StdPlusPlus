@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef _AC_OS_WINDOWS
+#ifdef XPC_OS_WINDOWS
 #include <Windows.h>
-#include "main.h"
+#include "main.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow)
 {
 	int32 nArgs;
-	LPWSTR *pArgList;
-	CString programName;
-	LinkedList<CString> args;
+	LPWSTR* pArgList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+	String programName = String::CopyRawString((uint16 *)pArgList[0]);
 
-	pArgList = CommandLineToArgvW(GetCommandLineW(), &nArgs);
-	programName = CUTF16String((uint16 *)pArgList[0]);
+	FixedArray<String> args(nArgs-1);
 	for(int32 i = 1; i < nArgs; i++)
 	{
-		args.InsertTail(CUTF16String((uint16 *)pArgList[i]));
+		args[i-1] = String::CopyRawString((uint16 *)pArgList[i]);
 	}
 	LocalFree(pArgList);
 
-	return ACMain(programName, args);
+	return _StdPlusPlusMain(programName, args);
 }
 #endif

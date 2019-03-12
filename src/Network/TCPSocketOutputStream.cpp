@@ -26,7 +26,11 @@ using namespace _stdxx_;
 //Destructor
 TCPSocketOutputStream::~TCPSocketOutputStream()
 {
+#ifdef XPC_OS_WINDOWS
+	shutdown(this->socketSystemHandle.i32, SD_SEND);
+#else
 	shutdown(this->socketSystemHandle.i32, SHUT_WR);
+#endif
 }
 
 //Public methods
@@ -40,7 +44,11 @@ uint32 TCPSocketOutputStream::WriteBytes(const void *source, uint32 size)
 	uint32 bytesSent = 0;
 	while(bytesSent < size)
 	{
+#ifdef XPC_OS_WINDOWS
+		ssize_t result = send(this->socketSystemHandle.u64, (char*)(static_cast<const uint8 *>(source) + bytesSent), size - bytesSent, 0);
+#else
 		ssize_t result = send(this->socketSystemHandle.i32, static_cast<const uint8 *>(source) + bytesSent, size - bytesSent, 0);
+#endif
 		bytesSent += result;
 	}
 

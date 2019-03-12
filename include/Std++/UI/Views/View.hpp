@@ -23,7 +23,7 @@
 #include <Std++/UI/Controllers/SelectionController.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Events/SelectionChangedEvent.hpp>
-#include <Std++/UI/Widget.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 
 namespace StdXX
 {
@@ -35,7 +35,7 @@ namespace StdXX
 		//Forward declarations
 		class TreeController;
 
-		class STDPLUSPLUS_API View : public Widget
+		class STDPLUSPLUS_API View : public CompositeWidget
 		{
 			friend class TreeController;
 			friend class UIEventSource;
@@ -78,6 +78,7 @@ namespace StdXX
 			UniquePointer<TreeController> controller;
 
 			//Event handlers
+			virtual void OnModelChanged();
 			virtual void OnRealized() override;
 
 			//Inline
@@ -94,13 +95,6 @@ namespace StdXX
 
 			//Event handlers
 			void OnSelectionChanged(SelectionChangedEvent& event);
-
-			//Inline
-			inline void OnModelChanged()
-			{
-				if(this->viewBackend)
-					this->viewBackend->ControllerChanged();
-			}
 		};
 	}
 }

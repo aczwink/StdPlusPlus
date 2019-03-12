@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,16 +18,24 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
+#include "HeaderView.hpp"
 #include "View.hpp"
+
+//Forward declarations
+namespace _stdxx_
+{
+	class TreeViewBody;
+}
 
 namespace StdXX
 {
     namespace UI
     {
-        //Move declarations
+        //Forward declarations
         class TreeController;
 
-        class STDPLUSPLUS_API TreeView : public View
+        class TreeView : public View
         {
             friend class TreeController;
             friend class EventQueue;
@@ -36,8 +44,15 @@ namespace StdXX
             TreeView();
 
 		private:
+			//Members
+			HeaderView* headerView;
+			_stdxx_::TreeViewBody* body;
+
 			//Methods
 			void RealizeSelf() override;
+
+			//Event handlers
+			void OnModelChanged();
         };
     }
 }

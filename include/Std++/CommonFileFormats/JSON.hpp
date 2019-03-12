@@ -24,7 +24,7 @@ namespace StdXX
 {
 	namespace CommonFileFormats
 	{
-		class JSONValue
+		class STDPLUSPLUS_API JSONValue
 		{
 			enum class JSONType
 			{
