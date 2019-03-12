@@ -33,7 +33,7 @@ using namespace _stdxx_;
 TCPSocketInputStream::~TCPSocketInputStream()
 {
 #ifdef XPC_OS_WINDOWS
-	shutdown(this->socketSystemHandle.i32, SD_RECEIVE);
+	shutdown(this->socketSystemHandle.u64, SD_RECEIVE);
 #else
 	shutdown(this->socketSystemHandle.i32, SHUT_RD);
 #endif

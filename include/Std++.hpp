@@ -32,8 +32,8 @@
 
 //Containers
 #include <Std++/Containers/Container.hpp>
-//FiniteSet
-#include <Std++/Containers/FiniteSet/FiniteSet.hpp>
+//BinaryTreeSet
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 //FixedArray
 #include <Std++/Containers/Array/FixedArray.hpp>
 //LinkedList

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include "CXMLParser.hpp"
+#include "XMLParser.hpp"
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
@@ -26,7 +26,7 @@
 using namespace StdXX::Math;
 
 //Constructor
-CXMLParser::CXMLParser(InputStream &refInput) : input(refInput)
+XMLParser::XMLParser(InputStream &refInput) : input(refInput)
 {
 	this->pDoc = new Document;
 
@@ -35,14 +35,14 @@ CXMLParser::CXMLParser(InputStream &refInput) : input(refInput)
 }
 
 //Destructor
-CXMLParser::~CXMLParser()
+XMLParser::~XMLParser()
 {
 	if (this->pDoc)
 		delete this->pDoc;
 }
 
 //Private methods
-Element *CXMLParser::ParseElement()
+Element *XMLParser::ParseElement()
 {
 	bool readBody;
 	Node *pChild;
@@ -102,7 +102,7 @@ Element *CXMLParser::ParseElement()
 	return pElement;
 }
 
-String CXMLParser::ParseName()
+String XMLParser::ParseName()
 {
 	String name;
 
@@ -133,9 +133,9 @@ String CXMLParser::ParseName()
 	return name;
 }
 
-TextNode *CXMLParser::ParseText()
+TextNode *XMLParser::ParseText()
 {
-	OldString text;
+	String text;
 
 	while (true)
 	{
@@ -152,7 +152,7 @@ TextNode *CXMLParser::ParseText()
 	return new TextNode(text);
 }
 
-void CXMLParser::ReadAttributes(Map<String, String> &refAttributes)
+void XMLParser::ReadAttributes(Map<String, String> &refAttributes)
 {
 	String key, value;
 
@@ -177,7 +177,7 @@ void CXMLParser::ReadAttributes(Map<String, String> &refAttributes)
 	end:;
 }
 
-String CXMLParser::ReadAttributeValue()
+String XMLParser::ReadAttributeValue()
 {
 	String result;
 
@@ -194,7 +194,7 @@ String CXMLParser::ReadAttributeValue()
 	return result;
 }
 
-void CXMLParser::ReadProlog()
+void XMLParser::ReadProlog()
 {
 	String xmlName;
 	Map<String, String> attributes;
@@ -222,7 +222,7 @@ void CXMLParser::ReadProlog()
 	this->ExpectChar('>');
 }
 
-void CXMLParser::SkipWhitespaces()
+void XMLParser::SkipWhitespaces()
 {
 	restart:;
 	//whitespaces
@@ -256,7 +256,7 @@ void CXMLParser::SkipWhitespaces()
 }
 
 //Public methods
-Document *CXMLParser::Parse()
+Document *XMLParser::Parse()
 {
 	Element *pRoot;
 

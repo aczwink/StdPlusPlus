@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -87,6 +87,7 @@ namespace StdXX
 	namespace Math
 	{
 		//Explicit instantiations
+		template class STDPLUSPLUS_API Matrix3x3<float32>;
 		template class STDPLUSPLUS_API Matrix3x3<float64>;
 	}
 }

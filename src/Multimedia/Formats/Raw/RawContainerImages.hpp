@@ -36,11 +36,11 @@ namespace _stdxx_
 			return u8"png";
 		}
 
-		/*FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const override
+		/*BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const override
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 
-			return FiniteSet<CodecId>();
+			return BinaryTreeSet<CodecId>();
 		}*/
 
 		float32 Matches(BufferInputStream &buffer) const override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,15 +30,5 @@ namespace StdXX
             Left,
             Right
         };
-
-        //Functions
-		STDPLUSPLUS_API bool GetMouseButtonState(MouseButton button);
-        /**
-         * Queries the current mouse pointer position in screen coordinates.
-         *
-         * @param x
-         * @param y - Recap the Std++ coordinate system
-         */
-        STDPLUSPLUS_API void GetMousePointerPos(uint16 &x, uint16 &y);
     }
 }

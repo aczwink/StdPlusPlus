@@ -24,7 +24,7 @@ namespace StdXX
 {
 	namespace Crypto
 	{
-		class STDPLUSPLUS_API CBCDecipher : public BlockDecipherStream
+		class CBCDecipher : public BlockDecipherStream
 		{
 		public:
 			//Constructor

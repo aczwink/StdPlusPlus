@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,26 +29,26 @@ namespace StdXX
 {
     //Implementation as AVL tree
     template<typename DataType>
-    class FiniteSet : public Container
+    class BinaryTreeSet : public Container
     {
-        typedef FiniteSet<DataType> Set;
+        typedef BinaryTreeSet<DataType> Set;
         typedef FiniteSetNode<DataType> Node;
         typedef CConstFiniteSetIterator<DataType> ConstIterator;
     public:
         //Constructors
-        FiniteSet()
+        BinaryTreeSet()
         {
             this->pRoot = nullptr;
         }
 
-        FiniteSet(const Set &refSet)
+        BinaryTreeSet(const Set &refSet)
         {
             this->pRoot = nullptr;
 
             *this = refSet;
         }
 
-        FiniteSet(Set&& set)
+        BinaryTreeSet(Set&& set)
         {
             this->pRoot = nullptr;
 
@@ -56,7 +56,7 @@ namespace StdXX
         }
 
         //Destructor
-        ~FiniteSet()
+        ~BinaryTreeSet()
         {
             this->Release();
         }
@@ -87,7 +87,7 @@ namespace StdXX
             return *this;
         }
 
-        inline bool operator==(const FiniteSet<DataType> &refRight) const
+        inline bool operator==(const BinaryTreeSet<DataType> &refRight) const
         {
             return this->GetNumberOfElements() == refRight.GetNumberOfElements() && this->IsSubsetOf(refRight);
         }

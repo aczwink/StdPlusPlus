@@ -38,7 +38,7 @@ static _stdxx_::CodingFormatIdMap<uint32> LoadMap()
 
 /*
 //Functions
-void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet)
+void AddMS_FourCC_VideoCodecs(BinaryTreeSet<CodecId> &refCodecSet)
 {
 	LoadMap();
 

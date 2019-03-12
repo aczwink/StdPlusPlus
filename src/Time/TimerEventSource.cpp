@@ -1,7 +1,5 @@
-#include <Std++/Definitions.h>
-
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +19,7 @@
 //Class header
 #include <Std++/Time/TimerEventSource.hpp>
 //Local
+#include <Std++/Definitions.h>
 #include <Std++/Unsigned.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
@@ -35,9 +34,9 @@ void TimerEventSource::DispatchPendingEvents()
 	uint64 currentClock = this->clock.GetCurrentValue();
 	while(!this->oneShotTimerQueue.IsEmpty())
 	{
-		if(currentClock >= this->oneShotTimerQueue.GetFirst().Get<0>())
+		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
 		{
-			this->oneShotTimerQueue.PopFirst().Get<1>()->timedOutCallback();
+			this->oneShotTimerQueue.PopTop().Get<1>()->timedOutCallback();
 		}
 		else
 		{
@@ -51,9 +50,9 @@ uint64 TimerEventSource::GetMaxTimeout() const
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{
 		uint64 currentClock = this->clock.GetCurrentValue();
-		if(currentClock >= this->oneShotTimerQueue.GetFirst().Get<0>())
+		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
 			return 0;
-		return (currentClock - this->oneShotTimerQueue.GetFirst().Get<0>()) / 1000;
+		return (currentClock - this->oneShotTimerQueue.Top().Get<0>()) / 1000;
 	}
 
 	return Unsigned<uint64>::Max();

@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/XML/Document.hpp>
 //Local
-#include "CXMLParser.hpp"
+#include "XMLParser.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::XML;
@@ -40,7 +40,7 @@ Document::~Document()
 //Class Functions
 Document *Document::Parse(InputStream &refInput)
 {
-	CXMLParser parser(refInput);
+	XMLParser parser(refInput);
 
 	return parser.Parse();
 }

@@ -25,6 +25,8 @@
 #include <errno.h>
 #include <poll.h>
 #include <unistd.h>
+#include <Std++/Signed.hpp>
+
 #endif
 //Local
 #include <Std++/Signed.hpp>

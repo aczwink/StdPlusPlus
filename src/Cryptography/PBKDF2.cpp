@@ -31,6 +31,8 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint16 sal
 	UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
 	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
 	const uint32 blockCount = Unsigned<uint32>::DivCeil(keySize, digestSize);
+	
+	password.ToUTF8(); //make sure password is utf8 encoded
 
 	FixedArray<uint8> buf1(digestSize);
 	FixedArray<uint8> buf2(digestSize);

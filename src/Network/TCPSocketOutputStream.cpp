@@ -27,7 +27,7 @@ using namespace _stdxx_;
 TCPSocketOutputStream::~TCPSocketOutputStream()
 {
 #ifdef XPC_OS_WINDOWS
-	shutdown(this->socketSystemHandle.i32, SD_SEND);
+	shutdown(this->socketSystemHandle.u64, SD_SEND);
 #else
 	shutdown(this->socketSystemHandle.i32, SHUT_WR);
 #endif

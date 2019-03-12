@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,9 +34,9 @@ void DecoderContext::AddFrame(Frame *pFrame, uint32 frameNumber)
 	this->unorderedFrames.Insert({frameNumber, pFrame});
 
 	//Flush the ready frames
-	while(!this->unorderedFrames.IsEmpty() && this->unorderedFrames.GetFirst().Get<0>() <= this->frameCounter)
+	while(!this->unorderedFrames.IsEmpty() && this->unorderedFrames.Top().Get<0>() <= this->frameCounter)
 	{
-		this->orderedFrames.InsertTail(this->unorderedFrames.PopFirst().Get<1>());
+		this->orderedFrames.InsertTail(this->unorderedFrames.PopTop().Get<1>());
 		this->frameCounter++;
 	}
 }
@@ -45,7 +45,7 @@ void DecoderContext::AddFrame(Frame *pFrame, uint32 frameNumber)
 void DecoderContext::Reset()
 {
 	while(!this->unorderedFrames.IsEmpty())
-		delete this->unorderedFrames.PopFirst().Get<1>();
+		delete this->unorderedFrames.PopTop().Get<1>();
 
 	for(const Frame *const& refpFrame : this->orderedFrames)
 		delete refpFrame;

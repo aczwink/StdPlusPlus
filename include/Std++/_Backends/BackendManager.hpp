@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -78,7 +78,7 @@ namespace StdXX
 		//Inline
 		inline BackendClassType *GetPreferredBackend() const
 		{
-			return this->backends.GetFirst().template Get<1>();
+			return this->backends.Top().template Get<1>();
 		}
 
 		inline void ReleaseAll()
@@ -88,7 +88,7 @@ namespace StdXX
 			this->activeBackend = nullptr;
 
 			while(!this->backends.IsEmpty())
-				delete this->backends.PopFirst().template Get<1>();
+				delete this->backends.PopTop().template Get<1>();
 			this->backends.Release();
 		}
 	};

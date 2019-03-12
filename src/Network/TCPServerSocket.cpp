@@ -95,6 +95,8 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 //Destructor
 TCPServerSocket::~TCPServerSocket()
 {
+	shutdown(this->systemHandle.i32, SHUT_RDWR);
+
 #ifdef XPC_OS_WINDOWS
 	shutdown(this->systemHandle.u64, SD_BOTH);
 	closesocket(this->systemHandle.u64);
