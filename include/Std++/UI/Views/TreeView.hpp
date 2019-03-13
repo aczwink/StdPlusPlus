@@ -52,7 +52,7 @@ namespace StdXX
 			void RealizeSelf() override;
 
 			//Event handlers
-			void OnModelChanged();
+			void OnModelChanged() override;
         };
     }
 }

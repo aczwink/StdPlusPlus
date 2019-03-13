@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,8 +38,10 @@ namespace StdXX
 
 		//Methods
 		_stdxx_::CheckBoxBackend *CreateCheckBoxBackend(UI::CheckBox *checkBox) override;
+		_stdxx_::DrawableWidgetBackend *CreateDrawableWidgetBackend(UI::Widget &widget) override;
 		EventSource *CreateEventSource() override;
 		_stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox *groupBox) override;
+		_stdxx_::HeaderViewBackend *CreateHeaderViewBackend(UI::HeaderView &headerView) override;
 		_stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) override;
 		_stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) override;
 		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override;

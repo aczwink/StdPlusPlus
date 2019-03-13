@@ -87,7 +87,7 @@ namespace StdXX
 	};
 
 	//Literals
-	inline uint8 operator "" u8(unsigned long long value)
+	inline uint8 operator "" _u8(unsigned long long value)
 	{
 		ASSERT(value <= Unsigned<uint8>::Max(), u8"Too large uint8 literal");
 		return static_cast<uint8>(value);
