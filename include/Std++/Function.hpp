@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,15 +25,19 @@
 namespace _stdxx_
 {
     template<typename ReturnType, typename... ArgumentTypes>
-    class ICallable
+    class Callable
     {
     public:
-        //Abstract
+    	//Destructor
+    	virtual ~Callable() = default;
+
+		//Abstract
         virtual ReturnType Call(ArgumentTypes&&... args) = 0;
+        virtual Callable* Move(void* destination) = 0;
     };
 
     template<typename ReturnType, typename... ArgumentTypes>
-    class CCallableFunction : public ICallable<ReturnType, ArgumentTypes...>
+    class CCallableFunction : public Callable<ReturnType, ArgumentTypes...>
     {
     private:
         //Members
@@ -53,116 +57,164 @@ namespace _stdxx_
     };
 
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
-    class CCallableMethod : public ICallable<ReturnType, ArgumentTypes...>
+    class CallableMethod : public Callable<ReturnType, ArgumentTypes...>
     {
-    private:
-        //Members
-        ReturnType(ClassType::* const pMethod)(ArgumentTypes...);
-        ClassType *pObject;
-
     public:
         //Constructor
-        inline CCallableMethod(ReturnType(ClassType::* const pMethod)(ArgumentTypes...), ClassType *pObject) : pMethod(pMethod)
+        inline CallableMethod(ReturnType(ClassType::* const pMethod)(ArgumentTypes...), ClassType *pObject) : method(pMethod)
         {
-            this->pObject = pObject;
+            this->object = pObject;
         }
 
         //Methods
-        ReturnType Call(ArgumentTypes&&... args)
+        ReturnType Call(ArgumentTypes&&... args) override
         {
-            return (pObject->*(this->pMethod))(args...);
+            return (object->*(this->method))(args...);
         }
+
+		CallableMethod* Move(void *destination) override
+		{
+			return pnew (destination)CallableMethod<ReturnType, ClassType, ArgumentTypes...>(this->method, this->object);
+		}
+
+	private:
+		//Members
+		ReturnType(ClassType::* const method)(ArgumentTypes...);
+		ClassType *object;
     };
 
     template<typename LambdaType, typename ReturnType, typename... ArgumentTypes>
-    class CCallableLambda : public ICallable<ReturnType, ArgumentTypes...>
+    class CallableLambda : public Callable<ReturnType, ArgumentTypes...>
     {
-    private:
-        //Members
-        LambdaType lambda;
-
     public:
         //Constructor
-        inline CCallableLambda(LambdaType &&refLambda) : lambda(refLambda)
+        inline CallableLambda(LambdaType&& lambda) : lambda(StdXX::Move(lambda))
         {
         }
 
         //Methods
-        ReturnType Call(ArgumentTypes&&... args)
+        ReturnType Call(ArgumentTypes&&... args) override
         {
             return this->lambda(args...);
         }
+
+		CallableLambda* Move(void *destination) override
+		{
+			return pnew(destination)CallableLambda<LambdaType, ReturnType, ArgumentTypes...>(StdXX::Move(this->lambda));
+		}
+
+	private:
+		//Members
+		LambdaType lambda;
     };
 
     //The functor class (in terms of function signature)
     template<typename ReturnType, typename... ArgumentTypes>
-    class AFunctionClass
+    class FunctionBase
     {
-    private:
-        //Members
-        ICallable<ReturnType, ArgumentTypes...> *pCallObj;
-        int64 storage[8]; //we put the implementation here for small objects, so that there is no need for heap alloc
-
-    protected:
-        //Methods
-        template<typename ReturnTypeInner, typename... ArgumentTypesInner>
-        void Store(ReturnTypeInner(*const pFunc)(ArgumentTypesInner... args))
-        {
-            void *pMem;
-
-            ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
-
-            pMem = (void *)this->storage; //we dont want to create mem on heap...
-            this->pCallObj = new (pMem)CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
-        }
-
-        template<typename ReturnTypeInner, typename ClassType, typename... ArgumentTypesInner>
-        void Store(ReturnTypeInner(ClassType::* const pMethod)(ArgumentTypesInner...), ClassType *pObject)
-        {
-            void *pMem;
-
-            ASSERT(sizeof(CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
-
-            pMem = (void *)this->storage; //we dont want to create mem on heap...
-            this->pCallObj = new (pMem)CCallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>(pMethod, pObject);
-        }
-
-        template<typename LambdaType>
-        void Store(LambdaType &&refLambda)
-        {
-            void *pMem;
-
-            ASSERT(sizeof(CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
-
-            pMem = (void *)this->storage; //we dont want to create mem on heap...
-            this->pCallObj = pnew(pMem) CCallableLambda<LambdaType, ReturnType, ArgumentTypes...>((LambdaType &&)refLambda);
-        }
-
-        //Inline
-        inline void CopyCallObj(const AFunctionClass<ReturnType, ArgumentTypes...> &refOther)
-        {
-            StdXX::MemCopy(this->storage, refOther.storage, sizeof(this->storage));
-            this->pCallObj = (ICallable<ReturnType, ArgumentTypes...> *)this->storage;
-        }
-
     public:
         //Constructor
-        inline AFunctionClass()
+        inline FunctionBase()
         {
-            this->pCallObj = nullptr;
+            this->callObj = nullptr;
         }
+
+        //Destructor
+		~FunctionBase()
+		{
+			this->Release();
+		}
 
         //Inline operators
         inline ReturnType operator()(ArgumentTypes... args) const
         {
-            return this->pCallObj->Call(StdXX::Forward<ArgumentTypes>(args)...);
+            return this->callObj->Call(StdXX::Forward<ArgumentTypes>(args)...);
         }
 
         //Inline
         inline bool IsBound() const
         {
-            return this->pCallObj != nullptr;
+            return this->callObj != nullptr;
         }
+
+	protected:
+		//Methods
+		template<typename ReturnTypeInner, typename... ArgumentTypesInner>
+		void Store(ReturnTypeInner(*const pFunc)(ArgumentTypesInner... args))
+		{
+			void *pMem;
+
+			ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
+
+			pMem = (void *)this->storage; //we dont want to create mem on heap...
+			this->callObj = new (pMem)CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
+		}
+
+		template<typename ReturnTypeInner, typename ClassType, typename... ArgumentTypesInner>
+		void Store(ReturnTypeInner(ClassType::* const pMethod)(ArgumentTypesInner...), ClassType *pObject)
+		{
+			void *pMem;
+
+			ASSERT(sizeof(CallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
+
+			pMem = (void *)this->storage; //we dont want to create mem on heap...
+			this->callObj = new (pMem)CallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>(pMethod, pObject);
+		}
+
+		template<typename LambdaType>
+		void Store(LambdaType&& lambda)
+		{
+			if(sizeof(CallableLambda<LambdaType, ReturnType, ArgumentTypes...>) <= sizeof(this->storage))
+			{
+				void* mem = (void*)this->storage; //we dont want to create mem on heap...
+				this->callObj = pnew(mem) CallableLambda<LambdaType, ReturnType, ArgumentTypes...>(StdXX::Forward<LambdaType>(lambda));
+			}
+			else
+			{
+				this->callObj = new CallableLambda<LambdaType, ReturnType, ArgumentTypes...>(StdXX::Forward<LambdaType>(lambda));
+			}
+		}
+
+		//Inline
+		inline void CopyCallObj(const FunctionBase<ReturnType, ArgumentTypes...> &refOther)
+		{
+			StdXX::MemCopy(this->storage, refOther.storage, sizeof(this->storage));
+			this->callObj = (Callable<ReturnType, ArgumentTypes...> *)this->storage;
+		}
+
+		inline void MoveCallObj(FunctionBase<ReturnType, ArgumentTypes...>&& other)
+		{
+			if(other.HasAllocatedStorage())
+			{
+				this->callObj = other.callObj;
+				other.callObj = nullptr;
+			}
+			else
+			{
+				this->callObj = other.callObj->Move((void*)this->storage);
+				other.Release(); //call destructor
+			}
+		}
+
+    private:
+        //Members
+        Callable<ReturnType, ArgumentTypes...> *callObj;
+        int64 storage[8]; //we put the implementation here for small objects, so that there is no need for heap alloc
+
+		//Inline
+		inline bool HasAllocatedStorage() const
+		{
+			return (void*)this->callObj != (void*)&this->storage;
+		}
+
+		inline void Release()
+		{
+			if(this->HasAllocatedStorage())
+				delete this->callObj;
+			else
+				this->callObj->~Callable();
+			this->callObj = nullptr;
+		}
     };
 
     //evaluates "ret (args)" pattern to ("ret", "args")
@@ -172,7 +224,7 @@ namespace _stdxx_
     class ExtractedFunctionBaseClass<ReturnType(ArgumentTypes...)>
     {
     public:
-        typedef AFunctionClass<ReturnType, ArgumentTypes...> type;
+        typedef FunctionBase<ReturnType, ArgumentTypes...> type;
     };
 }
 
@@ -192,9 +244,9 @@ namespace StdXX
             *this = refOther;
         }
 
-        inline Function(Function<FunctionType> &&refOther) //move ctor
+        inline Function(Function<FunctionType>&& other) //move ctor
         {
-            *this = refOther; //do a copy here
+            *this = Move(other);
         }
 
         template<typename ReturnType, typename... ArgumentTypes>
@@ -229,9 +281,9 @@ namespace StdXX
             return *this;
         }
 
-        Function<FunctionType> &operator=(Function<FunctionType> &&other) //move assign
+        Function<FunctionType> &operator=(Function<FunctionType>&& other) //move assign
 		{
-			*this = other; //do a copy
+			this->MoveCallObj(Move(other));
 
 			return *this;
 		}

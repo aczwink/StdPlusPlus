@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Multitasking/Atomic.hpp>
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
 
@@ -25,7 +26,7 @@ namespace _stdxx_
 {
 	struct AutoPointerControlBlock
 	{
-		uint32 referenceCount;
+		StdXX::Atomic<uint32> referenceCount;
 		bool expired;
 	};
 }

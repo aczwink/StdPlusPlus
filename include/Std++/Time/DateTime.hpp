@@ -55,11 +55,12 @@ namespace StdXX
         //Inline
 		inline DateTime AddMilliSeconds(int64 milliSeconds) const
 		{
+			//we check how many days will overflow
 			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
 			int32 ms = (this->time.GetMilliSecondsSinceStartOfDay() + milliSeconds) % msecsPerDay;
 			int64 deltaDays = (milliSeconds - ms) / msecsPerDay;
 
-			return DateTime(this->date.AddDays(deltaDays), this->time.AddMSecs(ms));
+			return DateTime(this->date.AddDays(deltaDays), this->time.AddMSecs(milliSeconds));
 		}
 
 		inline DateTime AddMinutes(int64 minutes) const

@@ -30,6 +30,7 @@ namespace StdXX
 			{
 				Null,
 				Array,
+				Boolean,
 				Number,
 				Object,
 				String
@@ -39,6 +40,21 @@ namespace StdXX
 			//Constructors
 			inline JSONValue() : type(JSONType::Null)
 			{
+			}
+
+			inline JSONValue(bool b) : type(JSONType::Boolean)
+			{
+				this->value.boolean = b;
+			}
+
+			inline JSONValue(uint32 number) : type(JSONType::Number)
+			{
+				this->value.number = number;
+			}
+
+			inline JSONValue(uint64 number) : type(JSONType::Number)
+			{
+				this->value.number = number;
 			}
 
 			inline JSONValue(float64 number) : type(JSONType::Number)
@@ -105,6 +121,7 @@ namespace StdXX
 			JSONType type;
 			union
 			{
+				bool boolean;
 				float64 number;
 				DynamicArray<JSONValue>* array;
 				Map<String, JSONValue>* object;

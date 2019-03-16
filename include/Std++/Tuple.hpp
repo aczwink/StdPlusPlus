@@ -44,7 +44,7 @@ namespace _stdxx_
 		{
 		}
 
-		inline TupleBase(FirstType&& first, RestTypes&&... rest) : TupleBase<RestTypes...>(StdXX::Forward<RestTypes>(rest)...), value(first)
+		inline TupleBase(FirstType&& first, RestTypes&&... rest) : TupleBase<RestTypes...>(StdXX::Forward<RestTypes>(rest)...), value(StdXX::Move(first))
 		{
 		}
 

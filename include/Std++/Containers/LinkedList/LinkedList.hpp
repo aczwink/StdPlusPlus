@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -207,7 +207,8 @@ namespace StdXX
                 return;
             }
 
-            this->head->prev = new Node(refData, NULL, this->head);
+            this->head->prev = new Node(refData);
+            this->head->prev->next = this->head;
             this->head = this->head->prev;
             this->nElements++;
         }
@@ -293,6 +294,12 @@ namespace StdXX
         }
 
 		//Inline
+		template <typename... ArgTypes>
+		inline void EmplaceTail(ArgTypes&&... args)
+		{
+			this->InsertNodeAtTail(new Node(Forward<ArgTypes>(args)...));
+		}
+
 		inline void InsertTail(const DataType &data)
 		{
 			this->InsertNodeAtTail(new Node(data));

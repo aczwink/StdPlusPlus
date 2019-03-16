@@ -80,6 +80,10 @@ String JSONValue::Dump() const
 			}
 			return u8"[" + tmp + u8"]";
 		}
+		case JSONType ::Boolean:
+			if(this->value.boolean)
+				return u8"true";
+			return u8"false";
 		case JSONType::Null:
 			return u8"null";
 		case JSONType::Number:

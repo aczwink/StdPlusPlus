@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,7 @@ void EventQueue::System_CollectWaitObjects()
 {
 	THIS->Resize(0);
 
-	auto collector = [this](_stdxx_::WaitObjHandle waitObjHandle, bool input)
+	Function<void(_stdxx_::WaitObjHandle, bool)> collector = [this](_stdxx_::WaitObjHandle waitObjHandle, bool input)
 	{
 		pollfd pfd;
 		pfd.fd = waitObjHandle.fd;
