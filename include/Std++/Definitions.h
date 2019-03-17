@@ -44,7 +44,6 @@
 #define MiB (1024 * KiB)
 
 //Limits
-#define UINT16_MAX ((uint32)0xFFFF)
 #define UNICODE_MAX ((uint32)0x10FFFF)
 
 //Math

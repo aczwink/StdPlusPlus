@@ -48,6 +48,11 @@ namespace StdXX
 			this->outputStream.WriteBytes(&b, 1);
 		}
 
+		inline uint32 WriteBytes(const void *source, uint32 size)
+		{
+			return this->outputStream.WriteBytes(source, size);
+		}
+
 		inline void WriteFloat64(float64 value)
 		{
 			if(this->writeBigEndian)

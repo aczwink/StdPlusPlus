@@ -33,7 +33,7 @@ namespace StdXX
 		public:
 			//Constructor
 			inline CTRCipher(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, Counter& counter, OutputStream& outputStream)
-					: cipher(BlockCipher::Create(algorithm, key, keyLength)), counter(counter), outputStream(outputStream),
+					: cipher(BlockCipher::Create(algorithm, key, keyLength * 8_u16)), counter(counter), outputStream(outputStream),
 					  buffer(cipher->GetBlockSize()), leftBytesInBlock(0)
 			{
 				ASSERT(this->counter.GetKeyStreamBlockSize() == this->cipher->GetBlockSize(), u8"Keystream block size must be equal to cipher block size.");

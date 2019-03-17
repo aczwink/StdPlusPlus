@@ -39,6 +39,8 @@ void BufferedOutputStream::Flush()
 {
 	this->outputStream.WriteBytes(this->buffer, this->offset);
 	this->offset = 0;
+
+	this->outputStream.Flush();
 }
 
 uint32 BufferedOutputStream::WriteBytes(const void *source, uint32 size)

@@ -40,6 +40,17 @@ namespace StdXX
 	};
 
 	template<>
+	class Unsigned<uint16>
+	{
+	public:
+		//Expressions
+		static constexpr uint16 Max()
+		{
+			return 0xFFFF;
+		}
+	};
+
+	template<>
 	class Unsigned<uint32>
 	{
 	public:
@@ -91,5 +102,11 @@ namespace StdXX
 	{
 		ASSERT(value <= Unsigned<uint8>::Max(), u8"Too large uint8 literal");
 		return static_cast<uint8>(value);
+	}
+
+	inline uint16 operator "" _u16(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint16>::Max(), u8"Too large uint16 literal");
+		return static_cast<uint16>(value);
 	}
 }

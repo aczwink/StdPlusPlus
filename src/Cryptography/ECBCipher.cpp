@@ -25,6 +25,19 @@
 using namespace StdXX::Crypto;
 
 //Public methods
+void ECBCipher::Finalize()
+{
+	this->Flush();
+
+	//we do pkcs padding
+	uint8 left = this->cipher->GetBlockSize() - this->nBytesInBlock;
+	for(uint8 i = this->nBytesInBlock; i < this->cipher->GetBlockSize(); i++)
+		this->unencrypted[i] = left;
+	this->nBytesInBlock += left;
+
+	this->Flush();
+}
+
 void ECBCipher::Flush()
 {
 	if(this->nBytesInBlock == this->cipher->GetBlockSize()) //check if buffer is full
@@ -33,14 +46,7 @@ void ECBCipher::Flush()
 		this->outputStream.WriteBytes(&this->encrypted[0], this->nBytesInBlock);
 		this->nBytesInBlock = 0;
 	}
-
-	//we do pkcs padding
-	uint8 left = this->cipher->GetBlockSize() - this->nBytesInBlock;
-	for(uint8 i = this->nBytesInBlock; i < this->cipher->GetBlockSize(); i++)
-		this->unencrypted[i] = left;
-
-	this->cipher->Encrypt(&this->unencrypted[0], &this->encrypted[0]);
-	this->outputStream.WriteBytes(&this->encrypted[0], this->cipher->GetBlockSize());
+	this->outputStream.Flush();
 }
 
 uint32 ECBCipher::WriteBytes(const void *source, uint32 size)

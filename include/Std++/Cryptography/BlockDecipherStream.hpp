@@ -31,7 +31,7 @@ namespace StdXX
 		public:
 			//Constructor
 			inline BlockDecipherStream(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, InputStream& inputStream) :
-					decipher(BlockDecipher::Create(algorithm, key, keyLength)), inputStream(inputStream),
+					decipher(BlockDecipher::Create(algorithm, key, static_cast<uint16>(keyLength * 8))), inputStream(inputStream),
 					nBytesInBuffer(0), decrypted(decipher->GetBlockSize())
 			{
 			}

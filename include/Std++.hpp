@@ -107,6 +107,7 @@
 #include <Std++/Streams/BufferInputStream.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>
 #include <Std++/Streams/CConcatenatedInputStream.h>
+#include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Cryptography/HashingInputStream.hpp>

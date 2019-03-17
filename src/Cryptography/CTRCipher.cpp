@@ -27,6 +27,7 @@ using namespace StdXX::Crypto;
 void CTRCipher::Flush()
 {
 	//this stream does not buffer
+	this->outputStream.Flush();
 }
 
 uint32 CTRCipher::WriteBytes(const void *source, uint32 size)
@@ -42,7 +43,7 @@ uint32 CTRCipher::WriteBytes(const void *source, uint32 size)
 			this->leftBytesInBlock = this->counter.GetKeyStreamBlockSize();
 		}
 
-		uint8 nBytesToEnc = Math::Min(this->leftBytesInBlock, static_cast<uint8>(size));
+		uint32 nBytesToEnc = Math::Min(uint32(this->leftBytesInBlock), size);
 		for(uint8 i = 0; i < nBytesToEnc; i++)
 			this->buffer[this->buffer.GetNumberOfElements() - this->leftBytesInBlock + i] = this->buffer[this->buffer.GetNumberOfElements() - this->leftBytesInBlock + i] xor src[i];
 		this->outputStream.WriteBytes(&this->buffer[this->buffer.GetNumberOfElements() - this->leftBytesInBlock], nBytesToEnc);

@@ -45,7 +45,7 @@ uint32 BlockDecipherStream::ReadBytes(void *destination, uint32 count)
 	while(count)
 	{
 		//write decrypted bytes
-		uint8 bytesToCopy = Math::Min(this->nBytesInBuffer, static_cast<uint8>(count));
+		uint32 bytesToCopy = Math::Min((uint32)this->nBytesInBuffer, count);
 		uint8 offset = static_cast<uint8>(this->decrypted.GetNumberOfElements() - this->nBytesInBuffer);
 		MemCopy(dest, &this->decrypted[0]+offset, bytesToCopy);
 		dest += bytesToCopy;
@@ -61,6 +61,7 @@ uint32 BlockDecipherStream::ReadBytes(void *destination, uint32 count)
 			{
 				//this is the last block, remove pkcs padding
 				uint8 nPadding = this->decrypted.Last();
+				ASSERT(nPadding <= static_cast<uint8>(this->decrypted.GetNumberOfElements()), u8"REPORT THIS PLEASE!");
 
 				//check padding
 				for(uint8 i = static_cast<uint8>(this->decrypted.GetNumberOfElements() - nPadding); i < this->decrypted.GetNumberOfElements(); i++)
@@ -70,8 +71,7 @@ uint32 BlockDecipherStream::ReadBytes(void *destination, uint32 count)
 				this->nBytesInBuffer = static_cast<uint8>(this->decrypted.GetNumberOfElements() - nPadding);
 
 				//copy remaining bytes to end
-				for(uint8 i = 0; i < this->nBytesInBuffer; i++)
-					this->decrypted[this->decrypted.GetNumberOfElements() - this->nBytesInBuffer + i] = this->decrypted[i];
+				MemMove(&this->decrypted[0] + this->decrypted.GetNumberOfElements() - this->nBytesInBuffer, &this->decrypted[0], this->nBytesInBuffer);
 			}
 			else
 				this->nBytesInBuffer = static_cast<uint8>(this->decrypted.GetNumberOfElements());

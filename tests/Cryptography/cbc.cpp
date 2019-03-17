@@ -34,14 +34,14 @@ TEST_SUITE(CBC)
 
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
-		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, encryptStream);
+		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
-		cipher.Flush();
+		cipher.Finalize();
 
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
-		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, decryptStream);
+		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadLine();
@@ -60,14 +60,14 @@ TEST_SUITE(CBC)
 
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
-		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, encryptStream);
+		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
-		cipher.Flush();
+		cipher.Finalize();
 
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
-		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, decryptStream);
+		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadLine();
@@ -86,14 +86,14 @@ TEST_SUITE(CBC)
 
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
-		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, encryptStream);
+		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
-		cipher.Flush();
+		cipher.Finalize();
 
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
-		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, decryptStream);
+		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadLine();
@@ -112,14 +112,14 @@ TEST_SUITE(CBC)
 
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
-		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, encryptStream);
+		CBCCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
-		cipher.Flush();
+		cipher.Finalize();
 
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
-		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), iv, decryptStream);
+		CBCDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), iv, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadLine();

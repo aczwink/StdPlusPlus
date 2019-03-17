@@ -31,7 +31,7 @@ namespace StdXX
 		public:
 			//Constructor
 			inline CBCCipher(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, const uint8* initializationVector, OutputStream& outputStream)
-					: cipher(BlockCipher::Create(algorithm, key, keyLength)), outputStream(outputStream), unencrypted(cipher->GetBlockSize()),
+					: cipher(BlockCipher::Create(algorithm, key, keyLength * 8_u16)), outputStream(outputStream), unencrypted(cipher->GetBlockSize()),
 					  encryptedBuf1(cipher->GetBlockSize()), encryptedBuf2(cipher->GetBlockSize()), nBytesInBlock(0)
 			{
 				this->currentBlock = &this->encryptedBuf1[0];
@@ -40,6 +40,7 @@ namespace StdXX
 			}
 
 			//Methods
+			void Finalize();
 			void Flush() override;
 			uint32 WriteBytes(const void *source, uint32 size) override;
 

@@ -24,7 +24,7 @@
 using namespace StdXX::Crypto;
 
 //Public methods
-void CBCCipher::Flush()
+void CBCCipher::Finalize()
 {
 	this->FlushBufferIfFull();
 
@@ -33,7 +33,15 @@ void CBCCipher::Flush()
 	for(uint8 i = this->nBytesInBlock; i < this->cipher->GetBlockSize(); i++)
 		this->unencrypted[i] = left;
 	this->nBytesInBlock = this->cipher->GetBlockSize();
+
+	this->Flush();
+}
+
+void CBCCipher::Flush()
+{
 	this->FlushBufferIfFull();
+
+	this->outputStream.Flush();
 }
 
 uint32 CBCCipher::WriteBytes(const void *source, uint32 size)
@@ -44,7 +52,7 @@ uint32 CBCCipher::WriteBytes(const void *source, uint32 size)
 	{
 		this->FlushBufferIfFull();
 
-		uint8 nBytesToBuffer = Math::Min(static_cast<uint8>(this->cipher->GetBlockSize() - this->nBytesInBlock), static_cast<uint8>(size));
+		uint32 nBytesToBuffer = Math::Min(static_cast<uint32>(this->cipher->GetBlockSize() - this->nBytesInBlock), size);
 		MemCopy(&this->unencrypted[this->nBytesInBlock], src, nBytesToBuffer);
 		this->nBytesInBlock += nBytesToBuffer;
 		src += nBytesToBuffer;

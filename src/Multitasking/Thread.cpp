@@ -18,8 +18,24 @@
  */
 //Class header
 #include <Std++/Multitasking/Thread.hpp>
+//Local
+#include <Std++/Errorhandling/Exception.hpp>
+#include <Std++/Errorhandling/Error.hpp>
+#include <Std++/Streams/StdOut.hpp>
 //Namespaces
 using namespace StdXX;
+
+//Local functions
+static void ReportError(const String &message1, const String &message2)
+{
+	stdErr << message1 << message2 << endl;
+#ifdef XPC_OS_WINDOWS
+	MessageBoxW(NULL, (LPCWSTR)message2.ToUTF16().GetRawZeroTerminatedData(), (LPCWSTR)message1.ToUTF16().GetRawZeroTerminatedData(), MB_ICONERROR | MB_TASKMODAL);
+#endif
+#ifdef XPC_COMPILER_MSVC
+	OutputDebugStringW((LPCWSTR)(message1 + message2).ToUTF16().GetRawZeroTerminatedData());
+#endif
+}
 
 //Private methods
 void Thread::Run()
@@ -33,7 +49,22 @@ void Thread::Run()
 int32 Thread::ThreadMain()
 {
 	this->isAlive = true;
-	this->Run();
+	try
+	{
+		this->Run();
+	}
+	catch(const Exception &e)
+	{
+		ReportError(u8"Uncaught exception: ", e.GetDescription());
+	}
+	catch(const Error &e)
+	{
+		ReportError(u8"ERROR: ", e.GetDescription());
+	}
+	catch(...)
+	{
+		ReportError(u8"Uncaught exception (not StdXX)", String());
+	}
 	this->isAlive = false;
 
 	return EXIT_SUCCESS;

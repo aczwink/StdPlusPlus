@@ -35,7 +35,7 @@ TEST_SUITE(CTR)
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
 		DefaultCounter<12, uint32> encryptCounter(nonce, 0);
-		CTRCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), encryptCounter, encryptStream);
+		CTRCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), encryptCounter, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
 		uint8 zero = 0;
@@ -45,7 +45,7 @@ TEST_SUITE(CTR)
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
 		DefaultCounter<12, uint32> decryptCounter(nonce, 0);
-		CTRDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), decryptCounter, decryptStream);
+		CTRDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), decryptCounter, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadZeroTerminatedString();
@@ -66,7 +66,7 @@ TEST_SUITE(CTR)
 		//encrypt
 		BufferOutputStream encryptStream(encrypted, sizeof(encrypted));
 		DefaultCounter<12, uint32> encryptCounter(nonce, counter_initial);
-		CTRCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), encryptCounter, encryptStream);
+		CTRCipher cipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), encryptCounter, encryptStream);
 
 		cipher.WriteBytes(data.GetRawData(), data.GetSize());
 		uint8 zero = 0;
@@ -76,7 +76,7 @@ TEST_SUITE(CTR)
 		//decrypt
 		BufferInputStream decryptStream(encrypted, sizeof(encrypted));
 		DefaultCounter<12, uint32> decryptCounter(nonce, counter_initial);
-		CTRDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize() * 8), decryptCounter, decryptStream);
+		CTRDecipher decipher(CipherAlgorithm::AES, key.GetRawData(), static_cast<uint16>(key.GetSize()), decryptCounter, decryptStream);
 		TextReader textReader(decipher, TextCodecType::UTF8);
 
 		String decrypted = textReader.ReadZeroTerminatedString();

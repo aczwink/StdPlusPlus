@@ -33,6 +33,7 @@ namespace _stdxx_
 		~LZMACompressor();
 
 		//Methods
+		void Finalize() override;
 		void Flush() override;
 		uint32 WriteBytes(const void *source, uint32 size) override;
 

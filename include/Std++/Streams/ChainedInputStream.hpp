@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
+#include <Std++/Containers/Array/DynamicArray.hpp>
+#include <Std++/Cryptography/Counter.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Utility.hpp>
-#include <Std++/Containers/Array/DynamicArray.hpp>
 #include "InputStream.hpp"
 
 namespace StdXX
@@ -47,6 +49,12 @@ namespace StdXX
 			this->end = this->ownedStreams.Last().operator->();
 		}
 
+		inline Crypto::Counter* AddCounter(UniquePointer<Crypto::Counter>&& counter)
+		{
+			this->ownedCounters.Push(Move(counter));
+			return this->ownedCounters.Last().operator->();
+		}
+
 		inline InputStream& GetEnd()
 		{
 			return *this->end;
@@ -56,5 +64,6 @@ namespace StdXX
 		//Members
 		InputStream* end;
 		DynamicArray<UniquePointer<InputStream>> ownedStreams;
+		DynamicArray<UniquePointer<Crypto::Counter>> ownedCounters;
 	};
 }
