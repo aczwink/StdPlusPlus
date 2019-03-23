@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Cryptography/SecureRandomNumberGenerator.hpp>
+//Global
+#include <fcntl.h>
+#include <unistd.h>
 //Local
-#include <Std++/Containers/Strings/String.hpp>
-#include "InputStream.hpp"
+#include <Std++/Debug.hpp>
+//Namespaces
+using namespace StdXX::Crypto;
 
-namespace StdXX
+//Public methods
+void SecureRandomNumberGenerator::NextBytes(void *destination, uint32 count)
 {
-	class StdIn : public InputStream
-	{
-	public:
-		//Methods
-		uint32 GetBytesAvailable() const override;
-		bool IsAtEnd() const override;
-		uint32 ReadBytes(void *destination, uint32 count) override;
-		String ReadUnechoedLine();
-		uint32 Skip(uint32 nBytes) override;
-	};
+	int fd = open(u8"/dev/urandom", O_RDONLY);
+	ASSERT(fd != -1, u8"REPORT THIS PLEASE!");
 
-	//Global Instances
-	extern StdIn STDPLUSPLUS_API stdIn;
+	byte *dest = static_cast<byte *>(destination);
+	while(count > 0)
+	{
+		ssize_t result = read(fd, dest, count);
+		ASSERT(result != -1, u8"REPORT THIS PLEASE!");
+
+		dest += result;
+		count -= result;
+	}
+
+	close(fd);
 }

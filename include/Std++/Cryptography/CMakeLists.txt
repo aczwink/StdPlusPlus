@@ -19,5 +19,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/HashingOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HMAC.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/KeyDerivationFunctions.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SecureRandomNumberGenerator.hpp
 
 	PARENT_SCOPE)

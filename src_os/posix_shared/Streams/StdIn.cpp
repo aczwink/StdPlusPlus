@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/Streams/StdIn.hpp>
+//Global
+#include <sys/termios.h>
+#include <stdio.h>
 //Local
-#include <Std++/Containers/Strings/String.hpp>
-#include "InputStream.hpp"
+#include <Std++/Streams/Readers/TextReader.hpp>
+//Namespaces
+using namespace StdXX;
 
-namespace StdXX
+String StdIn::ReadUnechoedLine()
 {
-	class StdIn : public InputStream
-	{
-	public:
-		//Methods
-		uint32 GetBytesAvailable() const override;
-		bool IsAtEnd() const override;
-		uint32 ReadBytes(void *destination, uint32 count) override;
-		String ReadUnechoedLine();
-		uint32 Skip(uint32 nBytes) override;
-	};
+	struct termios oflags, nflags;
 
-	//Global Instances
-	extern StdIn STDPLUSPLUS_API stdIn;
+	//disable echo
+	tcgetattr(fileno(stdin), &oflags);
+	nflags = oflags;
+	nflags.c_lflag &= ~ECHO;
+	nflags.c_lflag |= ECHONL;
+
+	tcsetattr(fileno(stdin), TCSANOW, &nflags);
+
+	TextReader textReader(*this, TextCodecType::UTF8);
+	String secret = textReader.ReadLine();
+
+	//restore original mode
+	tcsetattr(fileno(stdin), TCSANOW, &oflags);
+
+	return secret;
 }
