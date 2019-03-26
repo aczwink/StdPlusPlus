@@ -16,16 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Views/HeaderView.hpp>
 //Local
-#include <Std++/_Backends/UI/UIBackend.hpp>
-//Namespaces
-using namespace StdXX::UI;
+#include <Std++/Math/Geometry/Rect.hpp>
+#include "Event.hpp"
 
-//Private methods
-void HeaderView::RealizeSelf()
+namespace StdXX
 {
-	_stdxx_::HeaderViewBackend* headerViewBackend = this->_GetUIBackend()->CreateHeaderViewBackend(*this);
-	this->_SetBackend(headerViewBackend);
+	namespace UI
+	{
+		class PaintEvent : public Event
+		{
+		public:
+			//Constructor
+			inline PaintEvent(const Math::RectD& updateRect) : Event(EventType::WidgetShouldBePainted), updateRect(updateRect)
+			{
+			}
+
+			//Inline
+			inline const Math::RectD& GetUpdateRect() const
+			{
+				return this->updateRect;
+			}
+
+		private:
+			//Members
+			Math::RectD updateRect;
+		};
+	}
 }

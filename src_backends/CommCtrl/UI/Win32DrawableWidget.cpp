@@ -28,7 +28,7 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Public methods
-UniquePointer<Rendering::VectorPathRenderer> Win32DrawableWidget::CreatePainter()
+UniquePointer<Painter> Win32DrawableWidget::CreatePainter()
 {
 	return new Win32Painter(*this);
 }
@@ -44,10 +44,18 @@ void Win32DrawableWidget::OnMessage(WinMessageEvent& event)
 	{
 	case WM_PAINT:
 	{
-		Event e(EventType::WidgetShouldBePainted);
-		this->widget.Event(e);
+		RECT rc;
+		GetUpdateRect(this->GetHWND(), &rc, FALSE);
+		RectD updateRect;
+		updateRect.x() = rc.left;
+		updateRect.width() = rc.right - rc.left;
+		updateRect.height() = rc.bottom - rc.top;
+		updateRect.y() = this->widget.GetSize().height - rc.bottom;
+		
+		PaintEvent paintEvent(updateRect);
+		this->widget.Event(paintEvent);
 
-		event.consumed = e.WasAccepted();
+		event.consumed = paintEvent.WasAccepted();
 		event.result = 0;
 	}
 	break;

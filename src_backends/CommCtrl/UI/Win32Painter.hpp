@@ -17,22 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Rendering/VectorPath/VectorPathRenderer.hpp>
+#include <Std++/UI/Painter.hpp>
 #include "Win32Window.hpp"
 
 namespace _stdxx_
 {
-	class Win32Painter : public StdXX::Rendering::VectorPathRenderer
+	class Win32Painter : public StdXX::UI::Painter
 	{
 	public:
 		//Constructor
-		inline Win32Painter(Win32Window& window)
-		{
-			this->hWnd = window.GetHWND();
-			this->yInverter = window.GetClientRect().height();
-			this->hDC = BeginPaint(this->hWnd, &this->ps);
-			this->currentBrush = nullptr;
-		}
+		Win32Painter(Win32Window& window);
 
 		//Destructor
 		~Win32Painter();
@@ -41,6 +35,8 @@ namespace _stdxx_
 		void BeginPath() override;
 		void BezierTo(const StdXX::Math::Vector2D & refCP0, const StdXX::Math::Vector2D & refCP1, const StdXX::Math::Vector2D & refTo) override;
 		void ClosePath() override;
+		StdXX::Math::SizeD ComputeTextSize(const StdXX::String & text) const override;
+		void DrawText(const StdXX::Math::PointD & p, const StdXX::String & text) override;
 		void Fill() override;
 		void LineTo(const StdXX::Math::Vector2D & refV) override;
 		void MoveTo(const StdXX::Math::Vector2D & refV) override;
@@ -54,10 +50,19 @@ namespace _stdxx_
 		HWND hWnd;
 		HDC hDC;
 		PAINTSTRUCT ps;
+		bool isBrushUpToDate;
+		COLORREF currentFillColor;
 		HBRUSH currentBrush;
+		bool isPenUpToDate;
+		HPEN currentPen;
+		COLORREF currentPenColor;
+		uint32 currentPenWidth;
 		float64 yInverter;
+		uint32 textHeight;
 
 		//Methods
+		void MakeSureBrushIsUpToDate();
+		void MakeSurePenIsUpToDate();
 		COLORREF MapColor(const StdXX::Color& color) const;
 	};
 }

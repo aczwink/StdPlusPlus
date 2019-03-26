@@ -18,8 +18,8 @@
 */
 #pragma once
 //Local
-#include <Std++/Rendering/VectorPath/VectorPathRenderer.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/UI/Painter.hpp>
 #include "WidgetBackend.hpp"
 
 namespace _stdxx_
@@ -33,7 +33,7 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual StdXX::UniquePointer<StdXX::Rendering::VectorPathRenderer> CreatePainter() = 0;
+		virtual StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter() = 0;
 
 		//Methods
 		StdXX::UI::Widget & GetWidget() override;

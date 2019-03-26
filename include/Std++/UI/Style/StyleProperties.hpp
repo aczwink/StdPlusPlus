@@ -16,30 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Local
-#include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
-#include "Widget.hpp"
+#pragma once
+//Local
+#include "StyleValue.hpp"
 
 namespace StdXX
 {
 	namespace UI
 	{
-		class DrawableWidget : public Widget
+		class StyleProperties
 		{
-		protected:
-			//Members
-			_stdxx_::DrawableWidgetBackend* drawableBackend;
+		public:
+			//Properties
+			inline const Color& BackgroundColor() const
+			{
+				return this->properties[u8"background-color"].Color();
+			}
 
-		private:
-			//Methods
-			void RealizeSelf() override;
+			inline const Color& Color() const
+			{
+				return this->properties[u8"color"].Color();
+			}
 
 			//Inline
-			inline void _SetBackend(_stdxx_::DrawableWidgetBackend* drawableBackend)
+			inline void Set(const String& key, const StyleValue& value)
 			{
-				Widget::_SetBackend(drawableBackend);
-				this->drawableBackend = drawableBackend;
+				this->properties[key.ToLowercase()] = value;
 			}
+
+			inline void Set(const String& key, StyleValue&& value)
+			{
+				this->properties[key.ToLowercase()] = Move(value);
+			}
+
+			//For range-based loop
+			inline auto begin() const
+			{
+				return this->properties.begin();
+			}
+
+			inline auto end() const
+			{
+				return this->properties.end();
+			}
+
+		private:
+			//Members
+			Map<String, StyleValue> properties;
 		};
 	}
 }

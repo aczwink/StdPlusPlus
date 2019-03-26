@@ -16,16 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/UI/Views/HeaderView.hpp>
-//Local
-#include <Std++/_Backends/UI/UIBackend.hpp>
-//Namespaces
-using namespace StdXX::UI;
+#pragma once
+ //Local
+#include <Std++/Rendering/VectorPath/VectorPathRenderer.hpp>
 
-//Private methods
-void HeaderView::RealizeSelf()
+namespace StdXX
 {
-	_stdxx_::HeaderViewBackend* headerViewBackend = this->_GetUIBackend()->CreateHeaderViewBackend(*this);
-	this->_SetBackend(headerViewBackend);
+	namespace UI
+	{
+		class Painter : public Rendering::VectorPathRenderer
+		{
+		public:
+			//Abstract
+			virtual Math::SizeD ComputeTextSize(const String& text) const = 0;
+			virtual void DrawText(const Math::PointD& p, const String& text) = 0;
+		};
+	}
 }

@@ -17,7 +17,8 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/_Backends/UI/HeaderViewBackend.hpp>
+#include <Std++/_Backends/UI/ViewBackend.hpp>
+#include <Std++/UI/Views/HeaderView.hpp>
 #include "CommCtrlWidgetBackend.hpp"
 #include "Win32Window.hpp"
 
@@ -30,12 +31,35 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline CommCtrlHeaderViewBackend(StdXX::UIBackend& uiBackend, StdXX::UI::HeaderView& headerView) : WidgetBackend(uiBackend), HeaderViewBackend(uiBackend, headerView), CommCtrlWidgetBackend(uiBackend), Win32Window(*this, WC_HEADERW, HDS_BUTTONS | HDS_DRAGDROP | HDS_FULLDRAG | HDS_HORZ | HDS_HOTTRACK, WS_EX_CLIENTEDGE)
+		inline CommCtrlHeaderViewBackend(StdXX::UIBackend& uiBackend, StdXX::UI::HeaderView& headerView) : HeaderViewBackend(uiBackend), WidgetBackend(uiBackend), ViewBackend(uiBackend), CommCtrlWidgetBackend(uiBackend), Win32Window(*this, WC_HEADERW, HDS_BUTTONS | HDS_DRAGDROP | HDS_FULLDRAG | HDS_HORZ | HDS_HOTTRACK, 0), //WS_EX_CLIENTEDGE
+			headerView(headerView)
 		{
 		}
 
 		//Methods
+		void ControllerChanged() override;
+		StdXX::Math::RectD GetItemRect(uint32 number) const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
+		StdXX::UI::Widget & GetWidget() override;
+		const StdXX::UI::Widget & GetWidget() const override;
+		void SetBounds(const StdXX::Math::RectD &bounds) override;
 		void SetEditable(bool enable) const override;
+
+		//NOT IMPLEMENTED
+		void UpdateSelection() const override;
+		//NOT IMPLEMENTED
+
+	private:
+		//Members
+		StdXX::UI::HeaderView& headerView;
+
+		//Methods
+		void AutoSizeColumns();
+
+		//Inline
+		inline uint32 GetItemCount() const
+		{
+			return this->SendMessage(HDM_GETITEMCOUNT, 0, 0);
+		}
 	};
 }

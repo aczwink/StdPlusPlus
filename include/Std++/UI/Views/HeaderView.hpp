@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
  //Local
 #include <Std++/_Backends/UI/HeaderViewBackend.hpp>
 #include "View.hpp"
@@ -34,6 +35,12 @@ namespace StdXX
 				this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Fixed);
 			}
 
+			//Inline
+			inline Math::RectD GetItemRect(uint32 number) const
+			{
+				return this->headerViewBackend->GetItemRect(number);
+			}
+
 		private:
 			//Members
 			_stdxx_::HeaderViewBackend* headerViewBackend;
@@ -44,7 +51,7 @@ namespace StdXX
 			//Inline
 			inline void _SetBackend(_stdxx_::HeaderViewBackend* headerViewBackend)
 			{
-				Widget::_SetBackend(headerViewBackend);
+				View::_SetBackend(headerViewBackend);
 				this->headerViewBackend = headerViewBackend;
 			}
 		};

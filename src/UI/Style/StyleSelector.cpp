@@ -17,15 +17,20 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Views/HeaderView.hpp>
+#include <Std++/UI/Style/StyleSelector.hpp>
 //Local
-#include <Std++/_Backends/UI/UIBackend.hpp>
+#include <Std++/UI/Widget.hpp>
 //Namespaces
 using namespace StdXX::UI;
 
-//Private methods
-void HeaderView::RealizeSelf()
+//Public methods
+bool StyleSelector::Matches(const Widget & widget) const
 {
-	_stdxx_::HeaderViewBackend* headerViewBackend = this->_GetUIBackend()->CreateHeaderViewBackend(*this);
-	this->_SetBackend(headerViewBackend);
+	switch (this->type)
+	{
+	case StyleSelectorType::Type:
+		return widget.StyleContext().IsOfType(this->string);
+	}
+	NOT_IMPLEMENTED_ERROR;
+	return false;
 }

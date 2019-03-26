@@ -16,30 +16,49 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Local
-#include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
-#include "Widget.hpp"
+#pragma once
+//Local
+#include <Std++/Containers/Map/Map.hpp>
+#include "StyleProperties.hpp"
+#include "StyleSelector.hpp"
 
 namespace StdXX
 {
 	namespace UI
 	{
-		class DrawableWidget : public Widget
+		class StyleRule
 		{
-		protected:
-			//Members
-			_stdxx_::DrawableWidgetBackend* drawableBackend;
+		public:
+			//Constructor
+			inline StyleRule()
+			{
+			}
 
-		private:
-			//Methods
-			void RealizeSelf() override;
+			inline StyleRule(StyleSelector&& selector) : selector(Move(selector))
+			{
+			}
+
+			//Properties
+			inline StyleProperties& Properties()
+			{
+				return this->properties;
+			}
+
+			inline const StyleProperties& Properties() const
+			{
+				return this->properties;
+			}
 
 			//Inline
-			inline void _SetBackend(_stdxx_::DrawableWidgetBackend* drawableBackend)
+			inline bool Matches(const Widget& widget) const
 			{
-				Widget::_SetBackend(drawableBackend);
-				this->drawableBackend = drawableBackend;
+				return this->selector.Matches(widget);
 			}
+
+		private:
+			//Members
+			StyleSelector selector;
+			StyleProperties properties;
 		};
 	}
 }

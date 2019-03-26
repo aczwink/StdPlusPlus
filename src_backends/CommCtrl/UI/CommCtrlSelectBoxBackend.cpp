@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -32,8 +32,8 @@ void CommCtrlSelectBoxBackend::ControllerChanged()
 {
 	this->SendMessage(CB_RESETCONTENT, 0, 0);
 
-	TreeController* controller = this->selectBox.GetController();
-	if (controller)
+	const SharedPointer<TreeController>& controller = this->selectBox.GetController();
+	if (!controller.IsNull())
 	{
 		uint32 n = controller->GetNumberOfChildren();
 		for (uint32 i = 0; i < n; i++)
@@ -54,7 +54,7 @@ SizeD CommCtrlSelectBoxBackend::GetSizeHint() const
 	uint32 n = 0;
 	if (this->selectBox.HasController())
 	{
-		TreeController* controller = this->selectBox.GetController();
+		const SharedPointer<TreeController>& controller = this->selectBox.GetController();
 		n = controller->GetNumberOfChildren(); //number of items
 		for (uint32 i = 0; i < n; i++)
 		{
@@ -95,8 +95,8 @@ void CommCtrlSelectBoxBackend::OnMessage(WinMessageEvent& event)
 		{
 		case CBN_SELCHANGE:
 		{
-			TreeController* controller = this->selectBox.GetController();
-			if (controller)
+			const SharedPointer<TreeController>& controller = this->selectBox.GetController();
+			if (!controller.IsNull())
 			{
 				uint32 row = this->SendMessage(CB_GETCURSEL, 0, 0);
 				ControllerIndex index = controller->GetChildIndex(row, 0);

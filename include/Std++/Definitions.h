@@ -81,5 +81,6 @@ typedef double float64;
 #define EXIT_FAILURE 1
 
 #ifdef XPC_COMPILER_MSVC //-.-
+#define and &&
 #define xor ^
 #endif

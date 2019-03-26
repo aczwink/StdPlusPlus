@@ -21,8 +21,10 @@
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
+#include <Uxtheme.h>
 //Definitions
 #undef AppendMenu
+#undef DrawText
 #undef GetNextWindow
 #undef SendMessage
 

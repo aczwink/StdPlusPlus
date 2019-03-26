@@ -1,4 +1,5 @@
 add_subdirectory(Events)
+add_subdirectory(Style)
 add_subdirectory(Views)
 
 set(SOURCE_FILES
@@ -46,6 +47,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mouse.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Painter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIEventSource.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.hpp

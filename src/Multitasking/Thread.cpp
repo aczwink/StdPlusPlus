@@ -18,6 +18,10 @@
  */
 //Class header
 #include <Std++/Multitasking/Thread.hpp>
+//Global
+#ifdef XPC_OS_WINDOWS
+#include <Windows.h>
+#endif
 //Local
 #include <Std++/Errorhandling/Exception.hpp>
 #include <Std++/Errorhandling/Error.hpp>

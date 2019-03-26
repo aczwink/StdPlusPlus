@@ -50,7 +50,7 @@ void VideoWidget::UpdatePicture(Packet *videoPacket, Math::Size<uint16> frameSiz
 }
 
 //Eventhandlers
-void VideoWidget::OnPaint(UI::Event& event)
+void VideoWidget::OnPaint(PaintEvent& event)
 {
 	//upload new frame if necessary
 	this->frameLock.Lock();

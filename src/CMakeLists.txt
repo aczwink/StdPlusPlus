@@ -17,7 +17,6 @@ set(SOURCE_FILES
 
 	#_Backends
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UI/DrawableWidgetBackend.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UI/HeaderViewBackend.cpp
 
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp

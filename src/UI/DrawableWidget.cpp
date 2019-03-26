@@ -16,30 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Local
-#include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
-#include "Widget.hpp"
+//Class header
+#include <Std++/UI/DrawableWidget.hpp>
+//Local
+#include <Std++/_Backends/UI/UIBackend.hpp>
+//Namespaces
+using namespace StdXX::UI;
 
-namespace StdXX
+//Private methods
+void DrawableWidget::RealizeSelf()
 {
-	namespace UI
-	{
-		class DrawableWidget : public Widget
-		{
-		protected:
-			//Members
-			_stdxx_::DrawableWidgetBackend* drawableBackend;
-
-		private:
-			//Methods
-			void RealizeSelf() override;
-
-			//Inline
-			inline void _SetBackend(_stdxx_::DrawableWidgetBackend* drawableBackend)
-			{
-				Widget::_SetBackend(drawableBackend);
-				this->drawableBackend = drawableBackend;
-			}
-		};
-	}
+	_stdxx_::DrawableWidgetBackend* drawableBackend = this->_GetUIBackend()->CreateDrawableWidgetBackend(*this);
+	this->_SetBackend(drawableBackend);
 }

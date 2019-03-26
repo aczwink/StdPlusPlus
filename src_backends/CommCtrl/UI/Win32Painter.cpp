@@ -24,10 +24,29 @@
 using namespace _stdxx_;
 using namespace StdXX;
 
+//Constructor
+Win32Painter::Win32Painter(Win32Window& window)
+{
+	this->hWnd = window.GetHWND();
+	this->yInverter = window.GetClientRect().height();
+	this->hDC = BeginPaint(this->hWnd, &this->ps);
+	this->currentBrush = nullptr;
+	this->isPenUpToDate = true;
+	this->currentPen = nullptr;
+	this->currentPenColor = 0;
+	this->currentPenWidth = 1;
+
+	SelectObject(this->hDC, GetStockObject(DEFAULT_GUI_FONT));
+	TEXTMETRICW tm;
+	GetTextMetricsW(this->hDC, &tm);
+	this->textHeight = tm.tmHeight;
+}
+
 //Destructor
 Win32Painter::~Win32Painter()
 {
 	DeleteObject(this->currentBrush);
+	DeleteObject(this->currentPen);
 	EndPaint(this->hWnd, &this->ps);
 }
 
@@ -47,8 +66,25 @@ void Win32Painter::ClosePath()
 	EndPath(this->hDC);
 }
 
+Math::SizeD Win32Painter::ComputeTextSize(const String & text) const
+{
+	SIZE size;
+	GetTextExtentPoint32W(this->hDC, (LPCWSTR)text.ToUTF16().GetRawData(), text.ToUTF16().GetLength(), &size);
+
+	return { (float64)size.cx, (float64)size.cy };
+}
+
+void Win32Painter::DrawText(const Math::PointD & p, const String & text)
+{
+	SetBkMode(this->hDC, TRANSPARENT);
+	SetTextColor(this->hDC, this->currentFillColor);
+	TextOutW(this->hDC, p.x, this->yInverter - p.y - this->textHeight, (LPCWSTR)text.ToUTF16().GetRawData(), text.ToUTF16().GetSize() / sizeof(uint16));
+	SetBkMode(this->hDC, OPAQUE);
+}
+
 void Win32Painter::Fill()
 {
+	this->MakeSureBrushIsUpToDate();
 	FillPath(this->hDC);
 }
 
@@ -64,32 +100,61 @@ void Win32Painter::MoveTo(const Math::Vector2D & v)
 
 void Win32Painter::SetFillColor(const Color & color)
 {
-	DeleteObject(this->currentBrush);
-	this->currentBrush = CreateSolidBrush(this->MapColor(color));
-	SelectObject(this->hDC, this->currentBrush);
+	this->currentFillColor = this->MapColor(color);
+	this->isBrushUpToDate = false;
 }
 
-void _stdxx_::Win32Painter::SetStrokeColor(const Color & refStrokeColor)
+void Win32Painter::SetStrokeColor(const Color & color)
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->currentPenColor = this->MapColor(color);
+	this->isPenUpToDate = false;
 }
 
-void _stdxx_::Win32Painter::SetStrokeWidth(float64 strokeWidth)
+void Win32Painter::SetStrokeWidth(float64 strokeWidth)
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->currentPenWidth = strokeWidth;
+	this->isPenUpToDate = false;
 }
 
-void _stdxx_::Win32Painter::Stroke()
+void Win32Painter::Stroke()
 {
-	NOT_IMPLEMENTED_ERROR;
+	this->MakeSurePenIsUpToDate();
+	StrokePath(this->hDC);
 }
 
 //Private methods
+void Win32Painter::MakeSureBrushIsUpToDate()
+{
+	if (!this->isBrushUpToDate)
+	{
+		DeleteObject(this->currentBrush);
+		this->currentBrush = CreateSolidBrush(this->currentFillColor);
+		SelectObject(this->hDC, this->currentBrush);
+
+		this->isBrushUpToDate = true;
+	}
+}
+
+void Win32Painter::MakeSurePenIsUpToDate()
+{
+	if (!this->isPenUpToDate)
+	{
+		DeleteObject(this->currentPen);
+		//this->currentPen = CreatePen(PS_SOLID, this->currentPenWidth, this->currentPenColor);
+		LOGBRUSH brush;
+		brush.lbStyle = BS_SOLID;
+		brush.lbColor = this->currentPenColor;
+		this->currentPen = ExtCreatePen(PS_GEOMETRIC | PS_SOLID | PS_ENDCAP_FLAT | PS_JOIN_MITER, this->currentPenWidth, &brush, 0, nullptr);
+		SelectObject(this->hDC, this->currentPen);
+		this->isPenUpToDate = true;
+	}
+}
+
 COLORREF Win32Painter::MapColor(const StdXX::Color& color) const
 {
-	uint8 r = Math::Clamp(uint8(color.r * Unsigned<uint8>::Max()), 0u8, Unsigned<uint8>::Max());
-	uint8 g = Math::Clamp(uint8(color.g * Unsigned<uint8>::Max()), 0u8, Unsigned<uint8>::Max());
-	uint8 b = Math::Clamp(uint8(color.b * Unsigned<uint8>::Max()), 0u8, Unsigned<uint8>::Max());
+	uint8 r = Math::Clamp(uint8(color.r * Unsigned<uint8>::Max()), 0_u8, Unsigned<uint8>::Max());
+	uint8 g = Math::Clamp(uint8(color.g * Unsigned<uint8>::Max()), 0_u8, Unsigned<uint8>::Max());
+	uint8 b = Math::Clamp(uint8(color.b * Unsigned<uint8>::Max()), 0_u8, Unsigned<uint8>::Max());
 
 	return RGB(r, g, b);
 }

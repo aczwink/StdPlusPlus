@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,8 +37,16 @@ namespace StdXX
             this->r = 0;
             this->g = 0;
             this->b = 0;
-            this->a = 0;
+            this->a = 1;
         }
+
+		inline Color(float32 r, float32 g, float32 b)
+		{
+			this->r = r;
+			this->g = g;
+			this->b = b;
+			this->a = 1;
+		}
 
         inline Color(float32 r, float32 g, float32 b, float32 a)
         {
