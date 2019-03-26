@@ -37,6 +37,11 @@ namespace StdXX
 			return *this;
 		}
 
+		inline T operator*()
+		{
+			return __c11_atomic_load(&this->native, std::memory_order_seq_cst);
+		}
+
 		inline T operator++(int) //Postfix
 		{
 			return this->FetchAdd(1);

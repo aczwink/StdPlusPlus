@@ -1,6 +1,9 @@
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
+	#Cryptography
+	${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/SecureRandomNumberGenerator.cpp
+
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 

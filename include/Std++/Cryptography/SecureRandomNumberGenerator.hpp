@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,22 +18,17 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
-#include "InputStream.hpp"
+#include <Std++/Definitions.h>
 
 namespace StdXX
 {
-	class StdIn : public InputStream
+	namespace Crypto
 	{
-	public:
-		//Methods
-		uint32 GetBytesAvailable() const override;
-		bool IsAtEnd() const override;
-		uint32 ReadBytes(void *destination, uint32 count) override;
-		String ReadUnechoedLine();
-		uint32 Skip(uint32 nBytes) override;
-	};
-
-	//Global Instances
-	extern StdIn STDPLUSPLUS_API stdIn;
+		class SecureRandomNumberGenerator
+		{
+		public:
+			//Methods
+			void NextBytes(void* dest, uint32 count);
+		};
+	}
 }

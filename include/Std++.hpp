@@ -61,6 +61,7 @@
 #include <Std++/Cryptography/ECBDecipher.hpp>
 #include <Std++/Cryptography/HMAC.hpp>
 #include <Std++/Cryptography/KeyDerivationFunctions.hpp>
+#include <Std++/Cryptography/SecureRandomNumberGenerator.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>
