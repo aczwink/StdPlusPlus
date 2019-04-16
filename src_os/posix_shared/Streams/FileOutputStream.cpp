@@ -41,7 +41,7 @@ FileOutputStream::FileOutputStream(const Path &path, bool overwrite) : filePath(
 		{
 			case ENOENT:
 			{
-				if(path.GetTitle().IsEmpty())
+				if(path.GetName().IsEmpty())
 					NOT_IMPLEMENTED_ERROR; //TODO: inform user that he is stupid
 				throw ErrorHandling::FileNotFoundException(path.GetParent());
 			}

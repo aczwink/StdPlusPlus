@@ -140,6 +140,14 @@ void StaticThreadPool::EnqueueTask(const Function<void()> &refTask)
 	this->taskQueueLock.Unlock();
 }
 
+void StaticThreadPool::EnqueueTask(Function<void()>&& task)
+{
+	this->taskQueueLock.Lock();
+	this->taskQueue.InsertTail(Move(task));
+	this->taskQueueSignal.Signal();
+	this->taskQueueLock.Unlock();
+}
+
 void StaticThreadPool::WaitForAllTasksToComplete()
 {
 	bool running = true;

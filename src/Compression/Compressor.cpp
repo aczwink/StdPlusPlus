@@ -25,6 +25,11 @@
 //Namespaces
 using namespace StdXX;
 
+//Public methods
+void Compressor::Finalize()
+{
+}
+
 //Class functions
 Compressor *Compressor::Create(CompressionAlgorithm algorithm, OutputStream &outputStream, Optional<uint8> compressionLevel)
 {

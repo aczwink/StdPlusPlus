@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,10 +19,12 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/ViewBackend.hpp>
+#include <Std++/SmartPointers/SharedPointer.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/UI/Controllers/SelectionController.hpp>
+#include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/UI/Events/SelectionChangedEvent.hpp>
-#include <Std++/UI/Widget.hpp>
+#include <Std++/UI/Containers/CompositeWidget.hpp>
 
 namespace StdXX
 {
@@ -34,7 +36,7 @@ namespace StdXX
 		//Forward declarations
 		class TreeController;
 
-		class STDPLUSPLUS_API View : public Widget
+		class STDPLUSPLUS_API View : public CompositeWidget
 		{
 			friend class TreeController;
 			friend class UIEventSource;
@@ -46,20 +48,15 @@ namespace StdXX
 
 			//Methods
 			void Select(const ControllerIndex& index);
-			void SetController(UniquePointer<TreeController>&& controller);
+			void SetController(SharedPointer<TreeController> controller);
 
 			//Overrideable
 			virtual void Event(UI::Event& event) override;
 
 			//Inline
-			inline TreeController *GetController()
+			inline const SharedPointer<TreeController>& GetController() const
 			{
-				return this->controller.operator->();
-			}
-
-			inline const TreeController *GetController() const
-			{
-				return this->controller.operator->();
+				return this->controller;
 			}
 
 			inline bool HasController() const
@@ -74,9 +71,10 @@ namespace StdXX
 
 		protected:
 			//Members
-			UniquePointer<TreeController> controller;
+			SharedPointer<TreeController> controller;
 
 			//Event handlers
+			virtual void OnModelChanged();
 			virtual void OnRealized() override;
 
 			//Inline
@@ -93,13 +91,6 @@ namespace StdXX
 
 			//Event handlers
 			void OnSelectionChanged(SelectionChangedEvent& event);
-
-			//Inline
-			inline void OnModelChanged()
-			{
-				if(this->viewBackend)
-					this->viewBackend->ControllerChanged();
-			}
 		};
 	}
 }

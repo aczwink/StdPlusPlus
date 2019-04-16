@@ -31,10 +31,24 @@ namespace StdXX
 		//Destructor
 		~TCPSocket();
 
+		//Methods
+		/**
+		 * Wait until data arrives to be read from the socket.
+		 *
+		 * @param timeOut - in Milliseconds
+		 * @return true if data is available, false if the timeout elapsed and no data arrived til then
+		 */
+		bool WaitForData(uint64 timeOut) const;
+
 		//Inline
 		inline InputStream& GetInputStream()
 		{
 			return *this->inputStream;
+		}
+
+		inline OutputStream& GetOutputStream()
+		{
+			return *this->outputStream;
 		}
 
 	private:
@@ -44,5 +58,6 @@ namespace StdXX
 		//Members
 		Variant systemHandle;
 		UniquePointer<InputStream> inputStream;
+		UniquePointer<OutputStream> outputStream;
 	};
 }

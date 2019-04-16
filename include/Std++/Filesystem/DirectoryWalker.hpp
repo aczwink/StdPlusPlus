@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,12 +30,13 @@ namespace StdXX
 		{
 			AutoPointer<const Directory> directory;
 			AutoPointer<DirectoryIterator> iterator;
+			Path path;
 
-			inline WalkerState()
+			/*inline WalkerState()
 			{
-			}
+			}*/
 
-			inline WalkerState(AutoPointer<const Directory> &&directory, AutoPointer<DirectoryIterator> &&iterator)
+			inline WalkerState(AutoPointer<const Directory> &&directory, AutoPointer<DirectoryIterator> &&iterator, const Path& path) : path(path)
 			{
 				this->directory = Move(directory);
 				this->iterator = Move(iterator);
@@ -47,12 +48,14 @@ namespace StdXX
 			{
 				this->directory = Move(rhs.directory);
 				this->iterator = Move(rhs.iterator);
+				this->path = Move(rhs.path);
 			}
 
 			inline WalkerState &operator=(const WalkerState &rhs)
 			{
 				this->directory = rhs.directory;
 				this->iterator = rhs.iterator;
+				this->path = rhs.path;
 
 				return *this;
 			}
@@ -61,6 +64,7 @@ namespace StdXX
 			{
 				this->directory = Move(rhs.directory);
 				this->iterator = Move(rhs.iterator);
+				this->path = Move(rhs.path);
 
 				return *this;
 			}
@@ -74,7 +78,7 @@ namespace StdXX
 		//Constructor
 		inline DirectoryWalker(AutoPointer<const Directory> directory)
 		{
-			this->AddState(directory);
+			this->AddState(directory, String(u8""));
 			this->CorrectIteratorPos();
 		}
 
@@ -94,9 +98,13 @@ namespace StdXX
 			return !(*this == rhs);
 		}
 
-		inline AutoPointer<File> operator*()
+		inline Tuple<Path, AutoPointer<File>> operator*()
 		{
-			return (*(*this->states.Last().iterator)).Cast<File>();
+			WalkerState& topState = this->states.Last();
+			Tuple<String, AutoPointer<FileSystemNode>> t = *(*topState.iterator);
+			if(topState.path.GetString().IsEmpty())
+				return { t.Get<0>(), t.Get<1>().MoveCast<File>() };
+			return { topState.path / t.Get<0>(), t.Get<1>().MoveCast<File>() };
 		}
 
 		inline DirectoryWalker &operator++() //Prefix++
@@ -114,12 +122,12 @@ namespace StdXX
 		void CorrectIteratorPos();
 
 		//Inline
-		inline void AddState(AutoPointer<const Directory> directory)
+		inline void AddState(AutoPointer<const Directory> directory, const Path& path)
 		{
 			if(!directory.IsNull())
 			{
 				DirectoryIterator it = directory->begin();
-				this->states.InsertTail(WalkerState(Move(directory), new DirectoryIterator(Move(it))));
+				this->states.InsertTail(WalkerState(Move(directory), new DirectoryIterator(Move(it)), path));
 			}
 		}
 	};

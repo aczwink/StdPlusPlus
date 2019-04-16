@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,69 +22,53 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Filesystem/ContainerFile.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
-ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : file(file)
+ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : file(file), currentOffset(0)
 {
-	this->currentOffset = file.header.offset;
 }
 
 //Public methods
+uint32 ContainerFileInputStream::GetBytesAvailable() const
+{
+	return this->file.GetFileSystem()->containerInputStream->GetBytesAvailable();
+}
+
 uint64 ContainerFileInputStream::GetCurrentOffset() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return this->currentOffset;
 }
 
 uint64 ContainerFileInputStream::GetRemainingBytes() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return this->GetSize() - this->currentOffset;
 }
 
 uint64 ContainerFileInputStream::GetSize() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return this->file.GetHeader().compressedSize; //we only read the data block
 }
 
 bool ContainerFileInputStream::IsAtEnd() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
+	return this->GetRemainingBytes() == 0;
 }
 
 uint32 ContainerFileInputStream::ReadBytes(void *destination, uint32 count)
 {
-	//validate that count is in range
-	uint64 endOffset;
-	if(this->file.buffer.IsNull())
-		endOffset = this->file.header.offset + this->file.header.compressedSize;
-	else
-		endOffset = this->file.buffer->GetNumberOfElements();
+	count = Math::Min(count, static_cast<const uint32 &>(this->GetRemainingBytes()));
 
-	if (this->currentOffset < endOffset)
-	{
-		uint64 maxBytes = endOffset - this->currentOffset;
-		if (count > maxBytes)
-			count = static_cast<uint32>(maxBytes);
-	}
-	else
-		count = 0;
-
-	//read
-	if(this->file.buffer.IsNull())
-	{
-		ContainerFileSystem *fs = (ContainerFileSystem *) this->file.GetFileSystem();
-		fs->containerInputStream->SetCurrentOffset(this->currentOffset);
-		fs->containerInputStream->ReadBytes(destination, count);
-	}
-	else
-		this->file.buffer->PeekBytes(destination, this->currentOffset, count);
+	ContainerFileSystem *fs = (ContainerFileSystem *) this->file.GetFileSystem();
+	fs->containerInputStreamLock.Lock();
+	fs->containerInputStream->SetCurrentOffset(this->file.GetHeader().offset + this->currentOffset);
+	count = fs->containerInputStream->ReadBytes(destination, count);
+	fs->containerInputStreamLock.Unlock();
 
 	this->currentOffset += count;
+
 	return count;
 }
 

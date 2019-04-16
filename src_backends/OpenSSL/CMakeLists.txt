@@ -33,6 +33,8 @@ if(${EXTENSION_OPENSSL})
 		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockCipher.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockDecipher.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_BlockDecipher.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_Hasher.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/OpenSSL_Hasher.hpp
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/OpenSSL_Extension.cpp

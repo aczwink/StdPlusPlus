@@ -59,9 +59,9 @@ String BMP_Format::GetName() const
 	return u8"BMP Bitmap image";
 }
 
-/*FiniteSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
+/*BinaryTreeSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
 {
-	FiniteSet<CodecId> result;
+	BinaryTreeSet<CodecId> result;
 
 	NOT_IMPLEMENTED_ERROR;
 

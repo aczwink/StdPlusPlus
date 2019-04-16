@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -65,6 +65,22 @@ AutoPointer<Directory> ContainerFileSystem::GetDirectory(const Path &directoryPa
 	return currentDir;
 }
 
+AutoPointer<const File> ContainerFileSystem::GetFile(const Path &filePath) const
+{
+	Path leftPath = filePath;
+	if(leftPath.IsAbsolute()) //skip root slash
+		leftPath = leftPath.GetString().SubString(1);
+	AutoPointer<Directory> currentDir = this->root;
+	while(true)
+	{
+		String name = leftPath.SplitOutmostPathPart(leftPath);
+		if(leftPath.GetString().IsEmpty())
+			return currentDir->GetFile(name);
+		currentDir = currentDir->GetSubDirectory(name);
+	}
+
+	return nullptr;
+}
 
 AutoPointer<Directory> ContainerFileSystem::GetRoot()
 {

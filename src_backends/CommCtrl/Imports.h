@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,8 +21,10 @@
 //Global
 #include <Windows.h>
 #include <CommCtrl.h>
+#include <Uxtheme.h>
 //Definitions
 #undef AppendMenu
+#undef DrawText
 #undef GetNextWindow
 #undef SendMessage
 

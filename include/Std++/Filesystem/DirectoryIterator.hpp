@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Tuple.hpp>
 #include "../_Backends/DirectoryIteratorState.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 #include "FileSystemNode.hpp"
@@ -67,7 +68,7 @@ namespace StdXX
 		}
 
         //Inline operators
-        inline AutoPointer<FileSystemNode> operator*()
+        inline Tuple<String, AutoPointer<FileSystemNode>> operator*()
         {
 			return this->iteratorState->GetCurrent();
         }

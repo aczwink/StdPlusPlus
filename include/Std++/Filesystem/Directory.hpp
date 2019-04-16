@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,7 @@
 #include "../Streams/OutputStream.hpp"
 #include "FileSystemNode.hpp"
 #include "Path.hpp"
+#include "File.hpp"
 
 namespace StdXX
 {
@@ -43,6 +44,11 @@ namespace StdXX
 		virtual UniquePointer<OutputStream> CreateFile(const String &name) = 0;
 		virtual void CreateSubDirectory(const String &name) = 0;
 		virtual bool Exists(const Path &path) const = 0;
+		virtual AutoPointer<const File> GetFile(const String &name) const = 0;
+		virtual FileSystem *GetFileSystem() = 0;
+		virtual const FileSystem *GetFileSystem() const = 0;
+		virtual AutoPointer<const Directory> GetParent() const = 0;
+		virtual Path GetPath() const = 0;
 		virtual AutoPointer<Directory> GetSubDirectory(const String &name) = 0;
 		virtual AutoPointer<const Directory> GetSubDirectory(const String &name) const = 0;
 

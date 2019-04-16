@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -54,7 +54,7 @@ void Widget::Event(UI::Event& e)
 		this->OnMouseWheelRolled(static_cast<MouseWheelEvent&>(e));
 		break;
 	case EventType::WidgetShouldBePainted:
-		this->OnPaint(e);
+		this->OnPaint(static_cast<PaintEvent&>(e));
 		break;
 	case EventType::WindowWasResized:
 	{
@@ -89,7 +89,7 @@ Window *Widget::GetWindow()
 
 const Window *Widget::GetWindow() const
 {
-	if (IS_INSTANCE_OF(this, const Window))
+	if (IS_INSTANCE_OF(this, Window))
 		return dynamic_cast<const Window *>(this);
 	if (this->parent)
 		return this->parent->GetWindow();
@@ -170,7 +170,7 @@ void Widget::OnMoved()
 	this->IgnoreEvent();
 }
 
-void Widget::OnPaint(UI::Event& event)
+void Widget::OnPaint(PaintEvent& event)
 {
 }
 

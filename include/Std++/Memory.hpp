@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -67,6 +67,7 @@ namespace StdXX
 		return p_aligned;
 	}
 #endif
+	void MemMove(void* destination, const void* source, uint32 size);
     STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
     STDPLUSPLUS_API void MemoryFree(void *pMem);
     STDPLUSPLUS_API void *MemoryReallocate(void *pMem, uint32 size);

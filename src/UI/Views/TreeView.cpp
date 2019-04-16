@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,8 @@
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Layouts/GridLayout.hpp>
+#include "TreeViewBody.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -31,11 +33,37 @@ TreeView::TreeView()
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
+
+	this->headerView = nullptr;
+	this->body = nullptr;
 }
 
 //Private methods
 void TreeView::RealizeSelf()
 {
 	_stdxx_::ViewBackend* viewBackend = this->_GetUIBackend()->CreateTreeViewBackend(*this);
-	this->_SetBackend(viewBackend);
+	if (viewBackend)
+		this->_SetBackend(viewBackend);
+	else
+	{
+		this->SetLayout(new VerticalLayout);
+
+		this->headerView = new HeaderView;
+		this->AddChild(this->headerView);
+		this->body = new _stdxx_::TreeViewBody(*this->headerView);
+		this->AddChild(this->body);
+	}
+}
+
+//Event handlers
+void TreeView::OnModelChanged()
+{
+	if (this->headerView)
+	{
+		if(this->headerView->GetController() != this->controller)
+			this->headerView->SetController(this->controller);
+		this->body->SetController(this->controller);
+	}
+	else
+		View::OnModelChanged();
 }

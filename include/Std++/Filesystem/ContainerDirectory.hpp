@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,25 +47,26 @@ namespace StdXX
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
 		bool Exists(const Path &path) const override;
+		AutoPointer<const File> GetFile(const String &name) const override;
 		FileSystem *GetFileSystem() override;
 		const FileSystem *GetFileSystem() const override;
-		String GetName() const override;
-		AutoPointer<Directory> GetParent() const override;
+		AutoPointer<const Directory> GetParent() const override;
 		Path GetPath() const override;
 		uint64 GetSize() const override;
+		uint64 GetStoredSize() const override;
 		AutoPointer<Directory> GetSubDirectory(const String &name) override;
 		AutoPointer<const Directory> GetSubDirectory(const String &name) const override;
 
 		//For range-based loop
-		DirectoryIterator begin() const;
-		DirectoryIterator end() const;
+		DirectoryIterator begin() const override;
+		DirectoryIterator end() const override;
 
 	private:
 		//Members
 		ContainerFileSystem *fileSystem;
 		String name;
 		ContainerDirectory *parent;
-		Map<String, AutoPointer<ContainerFile>> files;
+		Map<String, AutoPointer<File>> files;
 		Map<String, AutoPointer<ContainerDirectory>> subDirectories;
 
 		//Methods

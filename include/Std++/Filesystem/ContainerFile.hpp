@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include <Std++/Compression/CompressionAlgorithm.hpp>
-#include "Std++/Containers/FIFOBuffer.hpp"
 #include <Std++/Optional.hpp>
 #include "../Definitions.h"
 #include "File.hpp"
@@ -27,7 +26,7 @@
 namespace StdXX
 {
 	//Forward declarations
-	class ContainerDirectory;
+	class ContainerFileSystem;
 
 	struct ContainerFileHeader
 	{
@@ -43,32 +42,32 @@ namespace StdXX
 
 	class ContainerFile : public File
 	{
-		friend class ContainerDirectory;
-		friend class ContainerFileInputStream;
 	public:
 		//Constructor
-		inline ContainerFile(const String &name, ContainerDirectory *parent) : name(name), parent(parent)
+		inline ContainerFile(const ContainerFileHeader& header, ContainerFileSystem* fileSystem) : header(header), fileSystem(fileSystem)
 		{
 		}
 
 		//Methods
-		FileSystem *GetFileSystem() override;
-		const FileSystem *GetFileSystem() const override;
-		String GetName() const override;
-		AutoPointer<Directory> GetParent() const override;
-		Path GetPath() const override;
 		uint64 GetSize() const override;
+		uint64 GetStoredSize() const override;
 		UniquePointer<InputStream> OpenForReading() const override;
 		UniquePointer<OutputStream> OpenForWriting() override;
 
+		//Inline
+		inline const ContainerFileHeader& GetHeader() const
+		{
+			return this->header;
+		}
+
+		inline const ContainerFileSystem* GetFileSystem() const
+		{
+			return this->fileSystem;
+		}
+
 	private:
 		//Members
-		String name;
-		ContainerDirectory *parent;
 		ContainerFileHeader header;
-		/**
-		 * Data written to the file but not yet flushed to the output container.
-		 */
-		UniquePointer<FIFOBuffer> buffer;
+		ContainerFileSystem* fileSystem;
 	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 #include <Std++/Filesystem/ContainerFileSystem.hpp>
+#include <Std++/Filesystem/MemoryFile.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -37,7 +38,7 @@ bool ContainerDirectory::ContainsSubDirectory(const String &name) const
 
 UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 {
-	ContainerFile *file = new ContainerFile(name, this);
+	MemoryFile* file = new MemoryFile;
 	this->files[name] = file;
 
 	this->fileSystem->isFlushed = false;
@@ -65,6 +66,11 @@ bool ContainerDirectory::Exists(const Path &path) const
 	return false;
 }
 
+AutoPointer<const File> ContainerDirectory::GetFile(const String &name) const
+{
+	return this->files[name].Cast<const File>();
+}
+
 FileSystem *ContainerDirectory::GetFileSystem()
 {
 	return this->fileSystem;
@@ -75,12 +81,7 @@ const FileSystem *ContainerDirectory::GetFileSystem() const
 	return this->fileSystem;
 }
 
-String ContainerDirectory::GetName() const
-{
-	return this->name;
-}
-
-AutoPointer<Directory> ContainerDirectory::GetParent() const
+AutoPointer<const Directory> ContainerDirectory::GetParent() const
 {
 	return this->parent;
 }
@@ -102,6 +103,12 @@ uint64 ContainerDirectory::GetSize() const
 		sum += kv.value->GetSize();
 
 	return sum;
+}
+
+uint64 ContainerDirectory::GetStoredSize() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
 }
 
 AutoPointer<Directory> ContainerDirectory::GetSubDirectory(const String &name)
@@ -145,11 +152,15 @@ DirectoryIterator ContainerDirectory::begin() const
 			return false;
 		}
 
-		AutoPointer<FileSystemNode> GetCurrent() const override
+		Tuple<String, AutoPointer<FileSystemNode>> GetCurrent() override
 		{
 			if(this->atDirs)
-				return (*this->dirsIterator).value.Cast<FileSystemNode>();
-			return (*this->filesIterator).value.Cast<FileSystemNode>();
+			{
+				const auto& kv = (*this->dirsIterator);
+				return { kv.key, kv.value };
+			}
+			const auto& kv = (*this->filesIterator);
+			return { kv.key, kv.value };
 		}
 
 		void Next() override
@@ -171,7 +182,7 @@ DirectoryIterator ContainerDirectory::begin() const
 		bool atDirs;
 		const ContainerDirectory &dir;
 		ConstMapIterator<String, AutoPointer<ContainerDirectory>> dirsIterator;
-		ConstMapIterator<String, AutoPointer<ContainerFile>> filesIterator;
+		ConstMapIterator<String, AutoPointer<File>> filesIterator;
 
 		//Inline
 		inline bool IsAtEnd() const
@@ -191,7 +202,6 @@ DirectoryIterator ContainerDirectory::end() const
 //Private methods
 void ContainerDirectory::AddSourceFile(String fileName, const ContainerFileHeader& header)
 {
-	ContainerFile *file = new ContainerFile(fileName, this);
-	file->header = header;
+	ContainerFile *file = new ContainerFile(header, this->fileSystem);
 	this->files[fileName] = file;
 }

@@ -1,4 +1,6 @@
 add_subdirectory(Events)
+add_subdirectory(Style)
+add_subdirectory(Views)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -39,19 +41,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.hpp
 
-	#Views
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/SelectBox.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.hpp
-
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/Action.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CommonDialogs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Keyboard.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mouse.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Painter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIEventSource.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.hpp

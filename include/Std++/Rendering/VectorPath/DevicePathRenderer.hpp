@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -54,9 +54,9 @@ namespace StdXX
             ~DevicePathRenderer();
 
             //Methods from parents
-            using A2DPathRenderer::BezierTo;
-            using A2DPathRenderer::MoveTo;
-            using A2DPathRenderer::LineTo;
+            using VectorPathRenderer::BezierTo;
+            using VectorPathRenderer::MoveTo;
+            using VectorPathRenderer::LineTo;
 
             //Methods
             void Sync();
@@ -116,6 +116,6 @@ namespace StdXX
             void InitRendering();
             void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax);
             void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes);
-        };
+		};
     }
 }

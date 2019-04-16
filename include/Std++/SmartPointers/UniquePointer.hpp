@@ -52,8 +52,7 @@ namespace StdXX
 		//Destructor
 		inline ~UniquePointer()
 		{
-			if(this->pointer)
-				delete (this->pointer);
+			delete this->pointer;
 		}
 
 		//Operators
@@ -108,6 +107,12 @@ namespace StdXX
 		inline bool IsNull() const
 		{
 			return this->pointer == nullptr;
+		}
+
+		inline void Reset()
+		{
+			delete (this->pointer);
+			this->pointer = nullptr;
 		}
 
 	private:

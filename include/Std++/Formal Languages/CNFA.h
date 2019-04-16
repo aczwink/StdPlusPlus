@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 //Local
 #include "../Definitions.h"
 #include "../Containers/Array/DynamicArray.hpp"
-#include "../Containers/FiniteSet/FiniteSet.hpp"
+#include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Filesystem/Path.hpp"
@@ -36,7 +36,7 @@ namespace StdXX
     private:
         //Members
         bool isAccepting;
-        Map<uint32, FiniteSet<CNFAState *>> transitions;
+        Map<uint32, BinaryTreeSet<CNFAState *>> transitions;
     public:
         //Constructor
         inline CNFAState()
@@ -45,7 +45,7 @@ namespace StdXX
         }
 
         //Methods
-        void GetEpsilonClosure(FiniteSet<CNFAState *> &refEpsilonClosure) const;
+        void GetEpsilonClosure(BinaryTreeSet<CNFAState *> &refEpsilonClosure) const;
 
         //Inline
         inline void AddTransition(uint32 input, CNFAState *pStateTo)
@@ -53,12 +53,12 @@ namespace StdXX
             this->transitions[input].Insert(pStateTo);
         }
 
-        inline const Map<uint32, FiniteSet<CNFAState *>> &GetTransitions() const
+        inline const Map<uint32, BinaryTreeSet<CNFAState *>> &GetTransitions() const
         {
             return this->transitions;
         }
 
-        inline const FiniteSet<CNFAState *> &GetTransitions(uint32 input) const
+        inline const BinaryTreeSet<CNFAState *> &GetTransitions(uint32 input) const
         {
             return this->transitions[input];
         }
@@ -113,8 +113,8 @@ namespace StdXX
         LinkedList<CNFAState *> states;
 
         //Methods
-        void GetEpsilonClosure(const FiniteSet<CNFAState *> &refInput, FiniteSet<CNFAState *> &refOutput) const;
-        void GetTransitions(uint32 inputSymbol, const FiniteSet<CNFAState *> &refInput, FiniteSet<CNFAState *> &refOutput) const;
+        void GetEpsilonClosure(const BinaryTreeSet<CNFAState *> &refInput, BinaryTreeSet<CNFAState *> &refOutput) const;
+        void GetTransitions(uint32 inputSymbol, const BinaryTreeSet<CNFAState *> &refInput, BinaryTreeSet<CNFAState *> &refOutput) const;
     public:
         //Constructor
         inline CNFA(uint32 nInputSymbols)

@@ -53,7 +53,7 @@ namespace StdXX
     public:
         //Methods
         void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 size);
+        uint32 WriteBytes(const void *pSource, uint32 size) override;
 
         void Flush() override;
     };
@@ -63,7 +63,7 @@ namespace StdXX
     public:
         //Methods
         void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 size);
+        uint32 WriteBytes(const void *pSource, uint32 size) override;
 
         void Flush() override;
     };

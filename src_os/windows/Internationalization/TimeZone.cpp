@@ -70,7 +70,7 @@ DateTime TimeZone::Translate(const DateTime &dt) const
 #if WINVER >= _WIN32_WINNT_WIN8
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 	EnumDynamicTimeZoneInformation((DWORD)this->osHandle, &dtzi);
-	GetTimeZoneInformationForYear(dt.GetYear(), &dtzi, &tzi);
+	GetTimeZoneInformationForYear(dt.GetDate().GetYear(), &dtzi, &tzi);
 #else
 	NOT_IMPLEMENTED_ERROR; //TODO: Time zone from registry key (see above)
 #endif
@@ -80,8 +80,8 @@ DateTime TimeZone::Translate(const DateTime &dt) const
 		//DST is used in that time zone
 		ASSERT(tzi.DaylightDate.wYear == 0, u8"As GetTimeZoneInformationForYear gives an information on one year, this should always be a relative date?!");
 		//relative-date
-		DateTime dst = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.DaylightDate, dt.GetYear());
-		DateTime std = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.StandardDate, dt.GetYear());
+		DateTime dst = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.DaylightDate, dt.GetDate().GetYear());
+		DateTime std = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.StandardDate, dt.GetDate().GetYear());
 		bool isDST = dt >= dst && dt < std; //std should be > then dst
 
 		if (isDST)

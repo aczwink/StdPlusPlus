@@ -24,7 +24,7 @@
 using namespace _stdxx_;
 /*
 //Functions
-void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet)
+void AddMS_TwoCC_AudioCodecs(BinaryTreeSet<CodecId> &refCodecSet)
 {
 	LoadMap();
 

@@ -25,9 +25,11 @@
 //Local
 #include "Cryptography/OpenSSL_BlockCipher.hpp"
 #include "Cryptography/OpenSSL_BlockDecipher.hpp"
+#include "Cryptography/OpenSSL_Hasher.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::Crypto;
 
 //Public methods
 void OpenSSL_Extension::Load()
@@ -67,7 +69,15 @@ UniquePointer<BlockDecipher> OpenSSL_Extension::CreateDecipher(CipherAlgorithm a
 	return nullptr;
 }
 
-//Private methods
+UniquePointer<HashFunction> OpenSSL_Extension::CreateHasher(HashAlgorithm algorithm)
+{
+	const EVP_MD* messageDigest = OpenSSL_Extension::MapHashAlgorithm(algorithm);
+	if(messageDigest)
+		return new OpenSSL_Hasher(messageDigest);
+	return nullptr;
+}
+
+//Internal class functions
 const EVP_CIPHER* OpenSSL_Extension::MapCipherAlgorithm(StdXX::CipherAlgorithm algorithm, uint16 keyLength, uint8 &blockSize)
 {
 	switch(algorithm)
@@ -87,5 +97,21 @@ const EVP_CIPHER* OpenSSL_Extension::MapCipherAlgorithm(StdXX::CipherAlgorithm a
 		}
 	}
 
+	return nullptr;
+}
+
+const EVP_MD *OpenSSL_Extension::MapHashAlgorithm(HashAlgorithm algorithm)
+{
+	switch(algorithm)
+	{
+		case HashAlgorithm::MD5:
+			return EVP_md5();
+		case HashAlgorithm::SHA1:
+			return EVP_sha1();
+		case HashAlgorithm::SHA256:
+			return EVP_sha256();
+		case HashAlgorithm::SHA512:
+			return EVP_sha512();
+	}
 	return nullptr;
 }

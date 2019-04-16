@@ -13,7 +13,9 @@ add_subdirectory(Math)
 add_subdirectory(Multimedia)
 add_subdirectory(Multitasking)
 add_subdirectory(Network)
+add_subdirectory(Rendering)
 add_subdirectory(Streams)
+add_subdirectory(Time)
 add_subdirectory(UI)
 
 set(SOURCE_FILES
@@ -59,33 +61,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
 
-	#Rendering
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/DevicePathRenderer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/FlatVectorPath.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/DeviceContext.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/IndexBuffer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputLayout.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/InputState.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shader.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/ShaderProgram.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Texture2D.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VertexBuffer.hpp
-
 	#Smart Pointers
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/SharedPointer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/UniquePointer.hpp
-
-	#Time
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Clock.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Time.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimeMisc.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Time/WeakDate.hpp
 
 	#XML
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp
@@ -98,13 +77,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Deleters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Float.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Function.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Hasher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mathematics.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Optional.hpp

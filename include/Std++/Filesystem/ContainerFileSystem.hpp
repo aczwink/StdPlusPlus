@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,12 +20,36 @@
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Multitasking/Mutex.hpp>
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 #include "ContainerFile.hpp"
 
 namespace StdXX
 {
+	/**
+	 * A container file system is usually a filesystem stored inside one file (i.e. a zip-file etc.).
+	 * These containers are actually not designed for an in-use filesystem. They are written once and are then used,
+	 * only for data retrieval (read only).
+	 * A typical layout of a container is to write all file headers first and then the data of all files.
+	 * However, when you now want to add a file to the container, you have to create the container again, because you
+	 * need to change the file headers, however, you can not append to them because there is already file data there.
+	 *
+	 * This class manages exactly these containers by using the container file for reading files and when files are
+	 * written to this filesystem, they are buffered in memory and are not flushed to the container.
+	 * As soon as you issue the Flush call, this class will create a temporary file, copy the current filesystem to
+	 * the new container (i.e. copy old still available files from this filesystem and then add the memory files,
+	 * that were written to this filesystem) and then exchanges the two container files.
+	 * On successful exchange, the old filesystem is dropped.
+	 *
+	 * It's important to know these facts, when implementing a ContainerFileSystem. The implications are the following:
+	 * -All files you read, are read from the original container
+	 * -All files you write are written into memory! (This is especially important if a system has no kind of swap storage)
+	 * -The container never gets corrupted. If your application crashes, the container wasn't modified and is thus still
+	 * stable. Only when you flush, a new container is created and the old one is only deleted if exchanging the
+	 * containers was successful.
+	 *
+	 */
 	class STDPLUSPLUS_API ContainerFileSystem : public FileSystem
 	{
 		friend class ContainerDirectory;
@@ -38,6 +62,7 @@ namespace StdXX
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
 		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override;
+		AutoPointer<const File> GetFile(const Path &filePath) const override;
 		AutoPointer<Directory> GetRoot() override;
 		uint64 GetSize() const override;
 		bool IsDirectory(const Path & path) const override;
@@ -47,6 +72,7 @@ namespace StdXX
 		//Members
 		AutoPointer<Directory> root;
 		Path fileSystemPath;
+		Mutex containerInputStreamLock;
 		UniquePointer<FileInputStream> containerInputStream;
 		bool isFlushed;
 
@@ -54,15 +80,5 @@ namespace StdXX
 		void AddSourceFile(const Path &path, const ContainerFileHeader& header);
 		UniquePointer<FileOutputStream> OpenTempContainer();
 		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
-
-		//Inline
-		inline void AddSourceFile(const Path &path, uint64 offset, uint64 size)
-		{
-			ContainerFileHeader header;
-			header.offset = offset;
-			header.uncompressedSize = size;
-			header.compressedSize = size;
-			this->AddSourceFile(path, header);
-		}
 	};
 }

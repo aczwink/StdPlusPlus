@@ -30,7 +30,7 @@ namespace StdXX
 		virtual ~BlockDecipher(){}
 
 		//Methods
-		virtual void Decrypt(const byte* encrypted, byte* unencrypted) const = 0;
+		virtual void Decrypt(const void* encrypted, byte* unencrypted) const = 0;
 		/**
 		 *
 		 * @return In bytes

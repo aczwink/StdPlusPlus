@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,29 +32,49 @@ namespace StdXX
         //Constructor
         inline TextWriter(OutputStream &outputStream, TextCodecType codecType) : outputStream(outputStream), codec(TextCodec::GetCodec(codecType))
         {
+        	this->lineSeparator = u8"\r\n";
         }
 
 		//Destructor
 		inline ~TextWriter()
 		{
-			if(this->codec)
-				delete this->codec;
+			delete this->codec;
 		}
 
-        //Methods
-        void WriteUTF8(uint32 codePoint);
-        void WriteUTF8_ZeroTerminated(const UTF8String &refString);
-
 		//Inline
+		inline void SetLineSeparator(const String& lsep)
+		{
+			this->lineSeparator = lsep;
+		}
+
+		inline void WriteLine()
+		{
+			this->WriteString(this->lineSeparator);
+		}
+
+		inline void WriteLine(const String& line)
+		{
+			this->WriteString(line);
+			this->WriteString(this->lineSeparator);
+		}
+
 		inline void WriteString(const String &string)
 		{
 			for(uint32 codePoint : string)
 				this->codec->WriteCodePoint(codePoint, this->outputStream);
 		}
 
+		inline void WriteStringZeroTerminated(const String& string)
+		{
+			this->WriteString(string);
+			byte zero = 0;
+			this->outputStream.WriteBytes(&zero, 1);
+		}
+
     private:
         //Members
         OutputStream &outputStream;
 		TextCodec *codec;
+		String lineSeparator;
     };
 }

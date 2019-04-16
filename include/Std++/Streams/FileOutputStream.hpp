@@ -43,9 +43,9 @@ namespace StdXX
         ~FileOutputStream();
         //Methods
 		void Flush() override;
-        uint64 GetCurrentOffset() const;
-        void SetCurrentOffset(uint64 offset);
-        uint32 WriteBytes(const void *pSource, uint32 size);
+        uint64 GetCurrentOffset() const override;
+        void SetCurrentOffset(uint64 offset) override;
+        uint32 WriteBytes(const void *pSource, uint32 size) override;
 
 		//Inline
 		inline const Path &GetPath() const

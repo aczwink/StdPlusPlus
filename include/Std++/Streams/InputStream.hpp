@@ -34,6 +34,16 @@ namespace StdXX
 
         //Abstract
 		/**
+		 * Some streams may buffer data in order to counter high i/o latencies.
+		 * This method returns the number of bytes that can be read from the buffer without causing a heavy i/o operation.
+		 * Unbuffered streams should return 0.
+		 * Of course in concurrent scenarios the number of bytes available can change just between a call to GetBytesAvailable
+		 * and ReadBytes.
+		 * However, InputStreams have to guarantee that "GetBytesAvailable"-bytes can be safely read from the stream.
+		 * @return
+		 */
+		virtual uint32 GetBytesAvailable() const = 0;
+		/**
 		 * Returns true as soon as this stream knows that no data is left for reading.
 		 * In any other case this method returns false
 		 * @return
@@ -46,6 +56,6 @@ namespace StdXX
         virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods
-        uint32 FlushTo(OutputStream &refOutput, uint32 size = Unsigned<uint32>::Max());
+        uint32 FlushTo(OutputStream &outputStream, uint32 size = Unsigned<uint32>::Max());
     };
 }

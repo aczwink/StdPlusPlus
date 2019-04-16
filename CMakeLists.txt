@@ -21,6 +21,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #---TARGET: Std++---
 set(STDPLUSPLUS_PRIVATE_LIBRARIES)
 add_library(Std++ SHARED)
+set_target_properties(Std++ PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS 1) #necessary, so that all symbols are exported for windows dlls
+
 
 
 add_subdirectory(include)
@@ -36,7 +38,6 @@ elseif(WIN32)
 	add_subdirectory(src_os/windows)
 	target_link_libraries(Std++ PRIVATE opengl32.lib)
 	target_link_libraries(Std++ PRIVATE ws2_32.lib)
-	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) #necessary, so that all symbols are exported for windows dlls
 endif()
 
 if(APPLE)
@@ -61,9 +62,6 @@ endif()
 
 #---TARGET: Std++Static---
 add_library(Std++Static STATIC src_static/main.cpp src_static/main.hpp src_static/StdPlusPlusMain.cpp src_static/windows.cpp)
-IF(WIN32) #windows defines operator new and delete per module (i.e. dll)
-	target_sources(Std++Static PRIVATE src/MemoryOperators.cpp) #link this into the static lib
-ENDIF()
 target_include_directories(Std++Static PRIVATE "include")
 
 

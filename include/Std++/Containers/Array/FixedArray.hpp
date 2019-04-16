@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,8 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Type.hpp>
 #include <Std++/Containers/Container.hpp>
+#include <Std++/Utility.hpp>
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 
@@ -108,6 +110,19 @@ namespace StdXX
 			ASSERT(index < this->nElements, u8"Index out of bounds");
 
 			return this->data[index];
+		}
+
+		//Logical operators
+		inline bool operator==(const FixedArray<DataType>& rhs) const
+		{
+			if(this->nElements != rhs.nElements)
+				return false;
+			for(uint32 i = 0; i < this->nElements; i++)
+			{
+				if(this->data[i] != rhs[i])
+					return false;
+			}
+			return true;
 		}
 
 		//Inline

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,14 +26,18 @@ using namespace StdXX;
 //Public methods
 String Path::GetFileExtension() const
 {
-	uint32 pos;
+	uint32 posSlash = this->pathString.FindReverse(u8"/");
 
-	pos = this->pathString.FindReverse(u8".");
+	uint32 posDot;
+	if(posSlash == Unsigned<uint32>::Max())
+		posDot = this->pathString.FindReverse(u8".");
+	else
+		posDot = this->pathString.Find(u8".", posSlash);
 
-	if(pos == Unsigned<uint32>::Max())
+	if(posDot == Unsigned<uint32>::Max())
 		return String();
 
-	return this->pathString.SubString(pos + 1, this->pathString.GetLength() - pos - 1).ToLowercase();
+	return this->pathString.SubString(posDot + 1, this->pathString.GetLength() - posDot - 1).ToLowercase();
 }
 
 String Path::GetName() const
@@ -80,14 +84,30 @@ String Path::GetTitle() const
 	return this->pathString.SubString(posSlash + 1, posDot - posSlash - 1);
 }
 
+Path Path::RelativePath(const Path &relativeTo) const
+{
+	ASSERT(this->IsAbsolute() && relativeTo.IsAbsolute(), u8"How can this work if both are not absolute? We have no knowledge of any file system.")
+	Path self = *this;
+	Path relative = relativeTo;
+	while(!relative.GetString().IsEmpty())
+	{
+		String choppedSelf = self.SplitOutmostPathPart(self);
+		String choppedRel = relative.SplitOutmostPathPart(relative);
+		ASSERT(choppedRel == choppedSelf, u8"this correlates with the above assert");
+	}
+	return self;
+}
+
 String Path::SplitOutmostPathPart(Path &subPath) const
 {
 	uint32 posSlash = this->pathString.Find(u8"/");
 	if(posSlash == Unsigned<uint32>::Max())
 	{
+		String outmost = this->pathString; //do this first so that, in case subPath is this
 		subPath = u8"";
-		return this->pathString;
+		return outmost;
 	}
+	String outmost = this->pathString.SubString(0, posSlash); //again handle case where subpath is this
 	subPath = this->pathString.SubString(posSlash+1);
-	return this->pathString.SubString(0, posSlash);
+	return outmost;
 }

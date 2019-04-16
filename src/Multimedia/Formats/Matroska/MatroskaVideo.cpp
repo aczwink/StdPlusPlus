@@ -59,9 +59,9 @@ String MatroskaVideo::GetName() const
 	return u8"Matroska Video";
 }
 
-/*FiniteSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
+/*BinaryTreeSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
 {
-	FiniteSet<CodecId> result;
+	BinaryTreeSet<CodecId> result;
 
 	switch(dataType)
 	{

@@ -32,7 +32,7 @@ static void *RunThreadByCFunction(void *arg)
 	int32 exitCode = (*function)();
 	delete function;
 
-	return (void *)exitCode;
+	return (void *)(int64)exitCode;
 }
 
 //Destructor

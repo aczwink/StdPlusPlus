@@ -42,11 +42,11 @@ OpenSSL_BlockCipher::~OpenSSL_BlockCipher()
 }
 
 //Public methods
-void OpenSSL_BlockCipher::Encrypt(const byte *unencrypted, byte *encrypted) const
+void OpenSSL_BlockCipher::Encrypt(const void *unencrypted, byte *encrypted) const
 {
 	uint8 blockSize = this->GetBlockSize();
 	int len;
-	int ret = EVP_EncryptUpdate(this->ctx, encrypted, &len, unencrypted, blockSize);
+	int ret = EVP_EncryptUpdate(this->ctx, encrypted, &len, (const unsigned char*)unencrypted, blockSize);
 	ASSERT(ret == 1, u8"Report this please!");
 	ASSERT(len == blockSize, u8"Report this please!");
 

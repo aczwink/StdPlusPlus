@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Tuple.hpp>
 #include "../Filesystem/FileSystemNode.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 
@@ -30,7 +31,7 @@ namespace _stdxx_
 		virtual ~DirectoryIteratorState(){}
 		//Abstract
 		virtual bool Equals(DirectoryIteratorState *other) const = 0;
-		virtual StdXX::AutoPointer<StdXX::FileSystemNode> GetCurrent() const = 0;
+		virtual StdXX::Tuple<StdXX::String, StdXX::AutoPointer<StdXX::FileSystemNode>> GetCurrent() = 0;
 		virtual void Next() = 0;
 	};
 }

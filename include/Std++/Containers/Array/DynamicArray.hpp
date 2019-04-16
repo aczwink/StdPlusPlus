@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Unsigned.hpp>
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include <Std++/Containers/ResizeableSequenceContainer.hpp>
 #include <Std++/Utility.hpp>
 #include "ArrayIterator.hpp"
@@ -36,6 +37,14 @@ namespace StdXX
         {
             this->SetAllocationInterval(0);
         }
+
+		inline DynamicArray(const BinaryTreeSet<DataType>& binaryTreeSet)
+		{
+			this->Resize(binaryTreeSet.GetNumberOfElements());
+			uint32 i = 0;
+			for(const DataType& v : binaryTreeSet)
+				this->data[i++] = v;
+		}
 
         inline DynamicArray(const DynamicArray<DataType> &refSource) //copy ctor
         {

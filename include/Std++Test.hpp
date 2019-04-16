@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,14 +34,13 @@ namespace StdPlusPlusTest
     {
         struct Test
         {
-        	const char* testSuiteName;
             const char *name;
             void (*testFunction)();
         };
     private:
         //Members
     	const char* currentTestSuite;
-        StdXX::LinkedList<Test> tests;
+        StdXX::Map<StdXX::String, StdXX::DynamicArray<Test>> tests;
 
         //Constructor
         inline TestManager()
@@ -53,38 +52,43 @@ namespace StdPlusPlusTest
         inline void AddTest(const char *pName, void (*pTest)())
         {
             Test t;
-
-            t.testSuiteName = this->currentTestSuite;
             t.name = pName;
             t.testFunction = pTest;
 
-            this->tests.InsertTail(t);
+            this->tests[this->currentTestSuite].Push(StdXX::Move(t));
         }
 
         inline bool RunAllTests()
         {
-            StdXX::stdOut << u8"Running " << this->tests.GetNumberOfElements() << " tests..." << StdXX::endl;
-            for(Test &test : this->tests)
+        	uint32 nTotal = 0, nSuccessful = 0;
+            for(const auto& kv : this->tests)
 			{
-				StdXX::stdOut << "Running test: " << test.testSuiteName << u8"::" << test.name << "..." << StdXX::endl;
-				try
+				StdXX::stdOut << u8"Running tests for suite: " << kv.key << StdXX::endl;
+				for(const Test& test : kv.value)
 				{
-					test.testFunction();
-					StdXX::stdOut << "\tPassed!" << StdXX::endl;
-				}
-				catch(const StdXX::Exception &e)
-				{
-					StdXX::stdOut << u8"\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
-				}
-				catch(const StdXX::Error &e)
-				{
-					StdXX::stdOut << u8"\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
-				}
-				catch (...)
-				{
-					StdXX::stdOut << u8"\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+					StdXX::stdOut << u8"\tRunning test: " << test.name << u8"..." << StdXX::endl;
+					nTotal++;
+					try
+					{
+						test.testFunction();
+						StdXX::stdOut << "\t\tPassed!" << StdXX::endl;
+						nSuccessful++;
+					}
+					catch (const StdXX::Exception &e)
+					{
+						StdXX::stdOut << u8"\t\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
+					}
+					catch (const StdXX::Error &e)
+					{
+						StdXX::stdOut << u8"\t\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
+					}
+					catch (...)
+					{
+						StdXX::stdOut << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+					}
 				}
             }
+            StdXX::stdOut << u8"Performed " << nTotal << u8" tests. " << nSuccessful << u8" were successful, " << (nTotal - nSuccessful) << u8" failed." << StdXX::endl;
 
             return true;
         }

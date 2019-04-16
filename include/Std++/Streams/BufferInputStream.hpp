@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,13 +32,15 @@ namespace StdXX
     public:
         //Constructor
         BufferInputStream(const void *pBuffer, uint32 size);
-        //Functions
-        uint64 GetCurrentOffset() const;
-        uint64 GetRemainingBytes() const;
-        uint64 GetSize() const;
-        bool IsAtEnd() const;
-        uint32 ReadBytes(void *pDestination, uint32 count);
-        void SetCurrentOffset(uint64 offset);
-        uint32 Skip(uint32 nBytes);
+
+        //Methods
+        uint32 GetBytesAvailable() const override;
+        uint64 GetCurrentOffset() const override;
+        uint64 GetRemainingBytes() const override;
+        uint64 GetSize() const override;
+        bool IsAtEnd() const override;
+        uint32 ReadBytes(void *pDestination, uint32 count) override;
+        void SetCurrentOffset(uint64 offset) override;
+        uint32 Skip(uint32 nBytes) override;
     };
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -329,18 +329,18 @@ void OpenGLDeviceContext::SetDownloadAlignment(uint8 value)
 	this->glFuncs.glPixelStorei(GL_PACK_ALIGNMENT, value);
 }
 
-void OpenGLDeviceContext::SetFrameBuffer(IFrameBuffer *pFrameBuffer)
+void OpenGLDeviceContext::SetFrameBuffer(IFrameBuffer *frameBuffer)
 {
 	this->Bind();
 
-	if(pFrameBuffer == nullptr)
+	if(frameBuffer == nullptr)
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: new implementation
-		//glBindFramebuffer(GL_FRAMEBUFFER, this->screenFrameBufferId);
-		//OpenGLFrameBuffer::currentFBO = this->screenFrameBufferId;
+		uint32 screenFrameBufferId = this->GetScreenFrameBufferId();
+		this->glFuncs.glBindFramebuffer(GL_FRAMEBUFFER, screenFrameBufferId);
+		OpenGLFrameBuffer::currentFBO = screenFrameBufferId;
 	}
 	else
-		((OpenGLFrameBuffer *)pFrameBuffer)->Bind();
+		((OpenGLFrameBuffer *)frameBuffer)->Bind();
 }
 
 void OpenGLDeviceContext::SetInputState(InputState *pInputState)
@@ -438,6 +438,11 @@ void OpenGLDeviceContext::Init(GL_EXT_LOADER extensionLoaderFunction)
 }
 
 //Private methods
+uint32 OpenGLDeviceContext::GetScreenFrameBufferId() const
+{
+	return 0;
+}
+
 void OpenGLDeviceContext::LoadOpenGLExtensions_2_0(GLFunctions_2_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction)
 {
 	glFuncs.glActiveTexture = (PFNGLACTIVETEXTUREPROC)extensionLoaderFunction(u8"glActiveTexture");

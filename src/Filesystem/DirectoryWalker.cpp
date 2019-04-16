@@ -27,19 +27,32 @@ void DirectoryWalker::CorrectIteratorPos()
 	while(!this->states.IsEmpty())
 	{
 		WalkerState &state = this->states.Last();
+		if(*state.iterator == state.directory->end())
+		{
+			this->states.PopTail();
+			continue;
+		}
+
 		while(*state.iterator != state.directory->end())
 		{
-			String childName = state.iterator->operator*()->GetName();
+			String childName = state.iterator->operator*().Get<0>();
 			if (state.directory->ContainsSubDirectory(childName))
 			{
-				this->AddState(state.directory->GetSubDirectory(childName)); //add sub dir
+				AutoPointer<const Directory> subdir = state.directory->GetSubDirectory(childName);
+				Path subPath;
+				if(state.path.GetString().IsEmpty())
+					subPath = childName;
+				else
+					subPath = state.path / childName;
+
 				state.iterator->operator++(); //advance the sub dir on current level
+				if(*state.iterator == state.directory->end())
+					this->states.PopTail();
+
+				this->AddState(Move(subdir), Move(subPath)); //add sub dir
 				break; //check new state
 			} else
 				return; //fine, we have a file
 		}
-
-		if(*state.iterator == state.directory->end())
-			this->states.PopTail();
 	}
 }

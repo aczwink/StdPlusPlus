@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,26 +20,24 @@
 #include <Std++/Streams/InputStream.hpp>
 //Local
 #include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Mathematics.hpp>
+#include <Std++/Constants.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Public methods
-uint32 InputStream::FlushTo(OutputStream &refOutput, uint32 size)
+uint32 InputStream::FlushTo(OutputStream &outputStream, uint32 size)
 {
-	uint32 nReadBytes, nTotalReadBytes, leftSize;
-	byte buffer[4096];
-
-	nTotalReadBytes = 0;
+	byte buffer[c_io_blockSize];
+	uint32 nTotalReadBytes = 0;
 	while(size)
 	{
-		leftSize = size;
-		if(leftSize > sizeof(buffer))
-			leftSize = sizeof(buffer);
+		uint32 leftSize = Math::Min(size, (uint32)sizeof(buffer));
 
-		nReadBytes = this->ReadBytes(buffer, leftSize);
+		uint32 nReadBytes = this->ReadBytes(buffer, leftSize);
 		if(!nReadBytes)
 			break;
-		refOutput.WriteBytes(buffer, nReadBytes);
+		outputStream.WriteBytes(buffer, nReadBytes);
 
 		size -= nReadBytes;
 		nTotalReadBytes += nReadBytes;

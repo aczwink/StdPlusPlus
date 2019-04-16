@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,8 +18,12 @@
  */
 #pragma once
 //Local
-#include <Std++/UI/Events/MouseEvents.hpp>
 #include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include <Std++/UI/Events/MouseEvents.hpp>
+#include <Std++/UI/Events/PaintEvent.hpp>
+#include <Std++/UI/Style/StyleContext.hpp>
+#include <Std++/UI/Style/StyleSheet.hpp>
+#include <Std++/UI/Style/StyleProperties.hpp>
 #include <Std++/Function.hpp>
 #include "../Definitions.h"
 #include "../Math/Geometry/Rect.hpp"
@@ -52,12 +56,18 @@ namespace StdXX
             SizingPolicy sizingPolicy;
 
             //Constructor
-            inline Widget() : parent(nullptr), visible(true), enabled(true), backend(nullptr), isRealized(false)
+            inline Widget() : parent(nullptr), visible(true), enabled(true), backend(nullptr), isRealized(false), isStyleQueryUpToDate(false)
 			{
 			}
 
             //Destructor
             virtual ~Widget();
+
+			//Properties
+			inline const StyleContext& StyleContext() const
+			{
+				return this->styleContext;
+			}
 
             //Methods
 			Window *GetWindow();
@@ -182,6 +192,20 @@ namespace StdXX
 			}
 
 		protected:
+			//Members
+			UI::StyleContext styleContext;
+
+			//Properties
+			inline const StyleProperties& StyleProperties()
+			{
+				if (!this->isStyleQueryUpToDate)
+				{
+					this->styleQuery = StyleSheet::Global().Query(*this);
+					this->isStyleQueryUpToDate = true;
+				}
+				return this->styleQuery;
+			}
+
 			//Event handlers
 			virtual void OnRealized();
 
@@ -202,6 +226,8 @@ namespace StdXX
 
 		private:
 			//Members
+			bool isStyleQueryUpToDate;
+			UI::StyleProperties styleQuery;
 			WidgetContainer *parent;
 			/**
 			 * Defines a rectangular area of this widget within the rectangle of its parent.
@@ -230,7 +256,7 @@ namespace StdXX
 			virtual void OnMouseMoved(MouseEvent& event);
 			virtual void OnMouseWheelRolled(MouseWheelEvent& event);
 			virtual void OnMoved();
-			virtual void OnPaint(UI::Event& event);
+			virtual void OnPaint(PaintEvent& event);
 			virtual void OnResized();
         };
     }

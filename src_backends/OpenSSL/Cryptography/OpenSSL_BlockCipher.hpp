@@ -33,7 +33,7 @@ namespace _stdxx_
 		~OpenSSL_BlockCipher();
 
 		//Methods
-		void Encrypt(const byte *unencrypted, byte *encrypted) const override;
+		void Encrypt(const void *unencrypted, byte *encrypted) const override;
 		uint8 GetBlockSize() const override;
 
 	private:

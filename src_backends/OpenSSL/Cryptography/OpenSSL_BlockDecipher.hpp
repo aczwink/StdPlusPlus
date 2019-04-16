@@ -32,7 +32,7 @@ namespace _stdxx_
 		//Destructor
 		~OpenSSL_BlockDecipher();
 
-		void Decrypt(const byte *encrypted, byte *unencrypted) const override;
+		void Decrypt(const void *encrypted, byte *unencrypted) const override;
 
 		uint8 GetBlockSize() const override;
 

@@ -22,19 +22,23 @@
 #include <errno.h>
 #include <fcntl.h>
 #ifndef XPC_OS_WINDOWS
+#include <errno.h>
+#include <poll.h>
 #include <unistd.h>
+#include <Std++/Signed.hpp>
+
 #endif
 //Local
+#include <Std++/Signed.hpp>
 #include "Shared.hpp"
 #include "TCPSocketInputStream.hpp"
+#include "TCPSocketOutputStream.hpp"
 //Namespaces
 using namespace StdXX;
 
 //Constructors
 TCPSocket::TCPSocket(const Variant& systemHandle) : systemHandle(systemHandle)
 {
-	this->inputStream = new _stdxx_::TCPSocketInputStream(systemHandle);
-
 	//socket may derive blocking state from server socket: switch to blocking mode
 #ifdef XPC_OS_WINDOWS
 	u_long mode = 0;
@@ -44,14 +48,48 @@ TCPSocket::TCPSocket(const Variant& systemHandle) : systemHandle(systemHandle)
 	flags = (flags & ~O_NONBLOCK);
 	fcntl(this->systemHandle.i32, F_SETFL, flags);
 #endif
+
+	this->inputStream = new _stdxx_::TCPSocketInputStream(systemHandle);
+	this->outputStream = new _stdxx_::TCPSocketOutputStream(systemHandle);
 }
 
 //Destructor
 TCPSocket::~TCPSocket()
 {
+	this->inputStream.Reset();
+	this->outputStream.Reset();
+
 #ifdef XPC_OS_WINDOWS
+	shutdown(this->systemHandle.u64, SD_BOTH);
 	closesocket(this->systemHandle.u64);
 #else
+	shutdown(this->systemHandle.i32, SHUT_RDWR);
 	close(this->systemHandle.i32);
 #endif
+}
+
+//Public methods
+bool TCPSocket::WaitForData(uint64 timeOut) const
+{
+	pollfd fd = {};
+	fd.fd = this->systemHandle.i32;
+	fd.events = POLLIN;
+
+	//timeout
+	int timeOut32Bit;
+	if(timeOut == Unsigned<uint64>::Max())
+		timeOut32Bit = -1; //forever
+	else if(timeOut > Signed<int32>::Max())
+		timeOut32Bit = Signed<int32>::Max();
+	else
+		timeOut32Bit = static_cast<int>(timeOut);
+
+	//wait
+#ifdef XPC_OS_WINDOWS
+	NOT_IMPLEMENTED_ERROR;
+	bool timedOut;
+#else
+	bool timedOut = poll(&fd, 1, timeOut32Bit) == 0;
+#endif
+	return !timedOut;
 }

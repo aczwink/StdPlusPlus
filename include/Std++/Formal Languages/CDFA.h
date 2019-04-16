@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Containers/Array/DynamicArray.hpp"
-#include "../Containers/FiniteSet/FiniteSet.hpp"
+#include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Map/Map.hpp"
 #include "../Filesystem/Path.hpp"
 #include "Std++/Debug.hpp"
@@ -82,7 +82,7 @@ namespace StdXX
     {
     private:
         //Members
-        FiniteSet<CDFAState *> states;
+        BinaryTreeSet<CDFAState *> states;
     public:
         //Destructor
         inline ~CDFA()

@@ -60,7 +60,7 @@ namespace StdXX
 		*
 		* There is a special case, where year = 0 and month = 2. In this case the value of 29 is allowed.
 		*/
-		inline bool IsErrornous() const
+		inline void IsErrornous() const
 		{
 			if (this->year == 0 && this->month == 2)
 				ASSERT(this->day <= 29, u8"Errornous date")

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -49,6 +49,11 @@ CheckBoxBackend *StdXX::CocoaBackend::CreateCheckBoxBackend(CheckBox *checkBox)
 	return new CocoaCheckBoxBackend(*this, checkBox);
 }
 
+DrawableWidgetBackend *CocoaBackend::CreateDrawableWidgetBackend(UI::Widget &widget)
+{
+	return nullptr;
+}
+
 StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
 {
 	return new CocoaEventSource;
@@ -57,6 +62,11 @@ StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
 GroupBoxBackend *CocoaBackend::CreateGroupBoxBackend(GroupBox * groupBox)
 {
 	return new CocoaGroupBoxBackend(*this, groupBox);
+}
+
+HeaderViewBackend *CocoaBackend::CreateHeaderViewBackend(UI::HeaderView &headerView)
+{
+	return nullptr;
 }
 
 LabelBackend *CocoaBackend::CreateLabelBackend(UI::Label *label)

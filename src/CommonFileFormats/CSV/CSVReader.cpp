@@ -34,12 +34,9 @@ bool CSVReader::ReadCell(String &cell)
 	auto sepIterator = this->dialect.separator.begin();
 	bool lsepMatch = false;
 	auto lsepIterator = this->dialect.lineSeparator.begin();
-	while (true)
+	while (!this->reader.IsAtEnd())
 	{
 		uint32 codePoint = this->reader.ReadCodePoint();
-		if (this->reader.IsAtEnd())
-			break;
-
 		//check if tmp is still valid
 		if (sepMatch)
 		{
@@ -74,7 +71,7 @@ bool CSVReader::ReadCell(String &cell)
 		if (codePoint == *lsepIterator)
 		{
 			++lsepIterator;
-			if (sepIterator == this->dialect.separator.end())
+			if (lsepIterator == this->dialect.lineSeparator.end())
 				return true;
 			consumed = true;
 		}

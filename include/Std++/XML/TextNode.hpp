@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,8 +18,8 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Strings/String.hpp>
 #include "Node.hpp"
-#include "../Containers/Strings/OldString.hpp"
 
 namespace StdXX
 {
@@ -29,23 +29,23 @@ namespace StdXX
         {
         public:
             //Constructor
-            inline TextNode(const OldString &refText)
+            inline TextNode(const String& text)
             {
-                this->text = refText;
+                this->text = text;
             }
 
             //Methods
             NodeType GetType() const;
 
             //Inline
-            inline const OldString &GetText() const
+            inline const String& GetText() const
             {
                 return this->text;
             }
 
         private:
             //Members
-			OldString text;
+			String text;
         };
     }
 }

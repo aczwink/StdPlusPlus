@@ -23,6 +23,7 @@
 
 //CommonFileFormats
 //CommonFileFormats/CSV
+#include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
 
 //Compute
@@ -31,13 +32,14 @@
 
 //Containers
 #include <Std++/Containers/Container.hpp>
-//FiniteSet
-#include <Std++/Containers/FiniteSet/FiniteSet.hpp>
+//BinaryTreeSet
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 //FixedArray
 #include <Std++/Containers/Array/FixedArray.hpp>
 //LinkedList
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
 //Map
+#include <Std++/Containers/Map/BijectiveMap.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 //Strings
 #include <Std++/Containers/Strings/ByteString.hpp>
@@ -50,6 +52,16 @@
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>
+#include <Std++/Cryptography/CBCCipher.hpp>
+#include <Std++/Cryptography/CBCDecipher.hpp>
+#include <Std++/Cryptography/CTRCipher.hpp>
+#include <Std++/Cryptography/CTRDecipher.hpp>
+#include <Std++/Cryptography/DefaultCounter.hpp>
+#include <Std++/Cryptography/ECBCipher.hpp>
+#include <Std++/Cryptography/ECBDecipher.hpp>
+#include <Std++/Cryptography/HMAC.hpp>
+#include <Std++/Cryptography/KeyDerivationFunctions.hpp>
+#include <Std++/Cryptography/SecureRandomNumberGenerator.hpp>
 
 //Debugging
 #include <Std++/Debugging/DebugOutputStreams.hpp>
@@ -79,6 +91,7 @@
 #include <Std++/Math/Integer.hpp>
 #include <Std++/Math/Natural.hpp>
 #include <Std++/Math/RandomNumberGenerator.hpp>
+#include <Std++/Math/Quaternion.hpp>
 #include <Std++/Math/Radian.hpp>
 #include <Std++/Math/Size.hpp>
 #include <Std++/Math/Matrix3x3.hpp>
@@ -91,11 +104,16 @@
 //Streams
 #include <Std++/Streams/OutputStream.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
+#include <Std++/Streams/BufferedOutputStream.hpp>
 #include <Std++/Streams/BufferInputStream.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>
 #include <Std++/Streams/CConcatenatedInputStream.h>
+#include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Cryptography/HashingInputStream.hpp>
+#include <Std++/Cryptography/HashingOutputStream.hpp>
+#include <Std++/Streams/LimitedInputStream.hpp>
 #include <Std++/Streams/StdOut.hpp>
 #include <Std++/Streams/StdIn.hpp>
 //Streams/Bitstreams
@@ -267,8 +285,9 @@
 //.
 #include <Std++/__InitAndShutdown.h>
 #include <Std++/Char.hpp>
-#include <Std++/Function.hpp>
 #include <Std++/ConfigurationFile.hpp>
+#include <Std++/Function.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
 #include <Std++/Signed.hpp>

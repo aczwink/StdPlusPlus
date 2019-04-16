@@ -94,7 +94,7 @@ AESCipher::AESCipher(const byte *key, uint16 keyLength)
 }
 
 //Public methods
-void AESCipher::Encrypt(const byte *unencrypted, byte *encrypted) const
+void AESCipher::Encrypt(const void *unencrypted, byte *encrypted) const
 {
 	MemCopy(this->state, unencrypted, sizeof(this->state));
 
@@ -127,7 +127,7 @@ void AESCipher::AddRoundKey(uint8 round) const
 	{
 		for(uint8 j = 0; j < 4; j++)
 		{
-			this->state[i][j] = this->state[i][j] XOR this->roundKeys[round * AES_NUMBER_OF_BLOCKS * 4 + i * AES_NUMBER_OF_BLOCKS + j];
+			this->state[i][j] = this->state[i][j] xor this->roundKeys[round * AES_NUMBER_OF_BLOCKS * 4 + i * AES_NUMBER_OF_BLOCKS + j];
 		}
 	}
 }
@@ -150,17 +150,17 @@ void AESCipher::KeyExpansion(const byte* key)
 		{
 			RotWord(tmp);
 			SubWord(tmp);
-			tmp[0] = tmp[0] XOR roundConstantTable[i / this->keyLength];
+			tmp[0] = tmp[0] xor roundConstantTable[i / this->keyLength];
 		}
 		else if(this->keyLength > 6 && (i % this->keyLength) == 4)
 		{
 			SubWord(tmp);
 		}
 
-		this->roundKeys[i * 4] = this->roundKeys[(i - this->keyLength) * 4] XOR tmp[0];
-		this->roundKeys[i * 4 + 1] = this->roundKeys[(i - this->keyLength) * 4 + 1] XOR tmp[1];
-		this->roundKeys[i * 4 + 2] = this->roundKeys[(i - this->keyLength) * 4 + 2] XOR tmp[2];
-		this->roundKeys[i * 4 + 3] = this->roundKeys[(i - this->keyLength) * 4 + 3] XOR tmp[3];
+		this->roundKeys[i * 4] = this->roundKeys[(i - this->keyLength) * 4] xor tmp[0];
+		this->roundKeys[i * 4 + 1] = this->roundKeys[(i - this->keyLength) * 4 + 1] xor tmp[1];
+		this->roundKeys[i * 4 + 2] = this->roundKeys[(i - this->keyLength) * 4 + 2] xor tmp[2];
+		this->roundKeys[i * 4 + 3] = this->roundKeys[(i - this->keyLength) * 4 + 3] xor tmp[3];
 	}
 }
 
@@ -178,13 +178,13 @@ void AESCipher::MixColumns() const
 		{
 			orig[c] = this->state[i][c];
 			mul2[c] = orig[c] << 1; //orig[c] * 2 (in Rijndael's Galois field)
-			mul2[c] = mul2[c] XOR (0x1B & ((int8)orig[c] >> 7)); //something with overflow...
-			mul3[c] = orig[c] XOR mul2[c];
+			mul2[c] = mul2[c] xor (0x1B & ((int8)orig[c] >> 7)); //something with overflow...
+			mul3[c] = orig[c] xor mul2[c];
 		}
-		this->state[i][0] = mul2[0] XOR mul3[1] XOR orig[2] XOR orig[3];
-		this->state[i][1] = orig[0] XOR mul2[1] XOR mul3[2] XOR orig[3];
-		this->state[i][2] = orig[0] XOR orig[1] XOR mul2[2] XOR mul3[3];
-		this->state[i][3] = mul3[0] XOR orig[1] XOR orig[2] XOR mul2[3];
+		this->state[i][0] = mul2[0] xor mul3[1] xor orig[2] xor orig[3];
+		this->state[i][1] = orig[0] xor mul2[1] xor mul3[2] xor orig[3];
+		this->state[i][2] = orig[0] xor orig[1] xor mul2[2] xor mul3[3];
+		this->state[i][3] = mul3[0] xor orig[1] xor orig[2] xor mul2[3];
 	}
 }
 

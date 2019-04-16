@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,7 +24,7 @@
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class Directory;
 	class FileSystem;
 
@@ -35,11 +35,18 @@ namespace StdXX
 		virtual ~FileSystemNode(){};
 
 		//Abstract
-		virtual FileSystem *GetFileSystem() = 0;
-		virtual const FileSystem *GetFileSystem() const = 0;
-		virtual String GetName() const = 0;
-		virtual AutoPointer<Directory> GetParent() const = 0;
-		virtual Path GetPath() const = 0;
+		/**
+		 * Returns the number of bytes that the node occupies on the file system.
+		 * For example a file that is compressed on the filesystem may have a less stored size than its actual size.
+		 * @return
+		 */
+		virtual uint64 GetStoredSize() const = 0;
+
+		/**
+		 * For a file: Returns the size of the file in bytes.
+		 * Else: 0
+		 * @return
+		 */
 		virtual uint64 GetSize() const = 0;
 	};
 }

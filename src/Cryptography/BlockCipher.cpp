@@ -31,7 +31,9 @@ UniquePointer<BlockCipher> BlockCipher::Create(CipherAlgorithm algorithm, const 
 {
 	//prefer openssl over anything
 #ifdef _STDXX_EXTENSION_OPENSSL
-	return _stdxx_::OpenSSL_Extension::CreateCipher(algorithm, key, keyLength);
+	UniquePointer<BlockCipher> openSSLCipher = _stdxx_::OpenSSL_Extension::CreateCipher(algorithm, key, keyLength);
+	if(!openSSLCipher.IsNull())
+		return openSSLCipher;
 #endif
 
 	//own implementations
