@@ -54,6 +54,23 @@ StyleProperties StyleSheet::Query(const Widget& widget)
 	return result;
 }
 
+StyleProperties StyleSheet::QueryVirtual(const StyleContext& context, const Widget& parent)
+{
+	StyleProperties result;
+	for (const StyleRule& rule : this->rules)
+	{
+		if (rule.Matches(context, parent))
+		{
+			for (const auto& kv : rule.Properties())
+			{
+				result.Set(kv.key, kv.value);
+			}
+		}
+	}
+
+	return result;
+}
+
 //Private methods
 void StyleSheet::ParseProperties(StyleRule& rule, StdXXCSSLexer& lexer) const
 {
@@ -62,8 +79,31 @@ void StyleSheet::ParseProperties(StyleRule& rule, StdXXCSSLexer& lexer) const
 		String key = lexer.Expect(Token::String);
 		lexer.Expect(Token::Colon);
 		String value = lexer.Expect(Token::String);
+		while (true)
+		{
+			String tokenValue = lexer.GetTokenValue();
+			if (lexer.Accept(Token::String))
+				value += u8" " + tokenValue;
+			else
+				break;
+		}
 		lexer.Expect(Token::Semicolon);
 
+		key = key.ToLowercase();
+		if (key == u8"padding")
+		{
+			DynamicArray<String> parts = value.Split(u8" ");
+			if (parts.GetNumberOfElements() == 2)
+			{
+				StyleValue vert = this->ParseValue(parts[0]);
+				rule.Properties().Set(u8"padding-top", vert);
+				rule.Properties().Set(u8"padding-bottom", vert);
+
+				StyleValue horz = this->ParseValue(parts[1]);
+				return;
+			}
+		}
+		
 		rule.Properties().Set(Move(key), this->ParseValue(value));
 	}
 }
@@ -81,22 +121,72 @@ StyleRule StyleSheet::ParseRule(StdXXCSSLexer& lexer) const
 
 StyleSelector StyleSheet::ParseSelector(StdXXCSSLexer& lexer) const
 {
-	//check selector type
-	String tokenValue = lexer.GetTokenValue();
-	Token t = lexer.GetCurrentToken();
-	lexer.ConsumeCurrentToken();
+	DynamicArray<StyleSelector> simpleSelectors;
+	DynamicArray<StyleCombinator> combinators;
 
-	//check for end
-	if (lexer.GetCurrentToken() == Token::LeftBrace)
+	bool atEnd = false;
+	while (!atEnd)
 	{
-		switch (t)
+		StyleSelector inner = this->ParseSimpleSelector(lexer);
+		simpleSelectors.Push(Move(inner));
+
+		switch (lexer.GetCurrentToken())
 		{
-		case Token::String: //a type selector
-			return StyleSelector::Type(tokenValue);
+		case Token::LeftBrace:
+			atEnd = true;
+			break;
+		case Token::Whitespace:
+			combinators.Push(StyleCombinator::Descendant);
+			lexer.ConsumeCurrentToken();
+			break;
 		}
 	}
 
-	NOT_IMPLEMENTED_ERROR;
+	for (uint32 i = 1; i < simpleSelectors.GetNumberOfElements(); i++)
+		simpleSelectors[i].CombineWith(Move(simpleSelectors[i - 1]), combinators[i - 1]);
+	return Move(simpleSelectors.Last());
+}
+
+StyleSelector StyleSheet::ParseSimpleSelector(_stdxx_::StdXXCSSLexer& lexer) const
+{
+	String type;
+	DynamicArray<String> pseudoClasses;
+
+	Token t = lexer.GetCurrentToken();
+	bool atEnd = false;
+	while (!atEnd)
+	{
+		String tokenValue = lexer.GetTokenValue();
+
+		//check selector type
+		switch (t)
+		{
+		case Token::Colon: //a pseudo class
+		{
+			lexer.ConsumeCurrentToken(false);
+			ASSERT(lexer.GetCurrentToken() == Token::String, u8"TODO: DO THIS CORRECTLY");
+			pseudoClasses.Push(lexer.GetTokenValue());
+		}
+		break;
+		case Token::String: //a type selector
+			type = tokenValue;
+			break;
+		case Token::LeftBrace:
+		case Token::Whitespace:
+			atEnd = true;
+			break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
+		}
+
+		if (!atEnd)
+		{
+			lexer.ConsumeCurrentToken(false);
+			t = lexer.GetCurrentToken();
+		}
+	}
+
+	return { Move(type), Move(pseudoClasses) };
 }
 
 StyleValue StyleSheet::ParseValue(const String& value) const
@@ -147,6 +237,12 @@ StyleValue StyleSheet::ParseValue(const String& value) const
 
 		if (ok)
 			return c;
+	}
+
+	//check for "rem" length
+	if (value.EndsWith(u8"rem"))
+	{
+		return value.SubString(0, value.GetLength() - 3).ToFloat() * 16; //TODO: 16px default root element font size. this should be of course dependant on root
 	}
 
 	return value;

@@ -64,7 +64,7 @@ namespace StdXX
             virtual ~Widget();
 
 			//Properties
-			inline const StyleContext& StyleContext() const
+			inline const UI::StyleContext& StyleContext() const
 			{
 				return this->styleContext;
 			}
@@ -196,7 +196,7 @@ namespace StdXX
 			UI::StyleContext styleContext;
 
 			//Properties
-			inline const StyleProperties& StyleProperties()
+			inline const UI::StyleProperties& StyleProperties()
 			{
 				if (!this->isStyleQueryUpToDate)
 				{

@@ -56,6 +56,18 @@ namespace StdXX
 		}
 
 		//Operators
+		inline ValueType &operator*()
+		{
+			ASSERT(this->ptr, u8"Can't dereference nullptr");
+			return *this->ptr;
+		}
+
+		inline const ValueType &operator*() const
+		{
+			ASSERT(this->ptr, u8"Can't dereference nullptr");
+			return *this->ptr;
+		}
+
 		inline ValueType* operator->()
 		{
 			ASSERT(this->ptr, u8"Can't access nullptr");

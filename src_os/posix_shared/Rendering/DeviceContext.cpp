@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>
 //#include "../UI/Gtk.h"
 //#include "../UI/Displays/_GtkOpenGLWidget.h"
-#include "../../../src_backends/OpenGL3Core/GL3Functions.hpp"
+//#include "../../../src_backends/OpenGL3Core/GL3Functions.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Rendering;

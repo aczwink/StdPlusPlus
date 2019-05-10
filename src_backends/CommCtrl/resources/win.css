@@ -1,0 +1,19 @@
+u8R"(
+
+TreeViewContent
+{
+    color: $textColor;
+    background-color: $backgroundColor;
+}
+
+TreeView row
+{
+    padding: 0.25rem 0;
+}
+
+TreeView row:selected {
+    color: $selectionTextColor;
+    background-color: $selectionBackgroundColor;
+}
+
+)"

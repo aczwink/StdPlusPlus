@@ -4,9 +4,15 @@ set(SOURCE_FILES
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.cpp
-
-		#Filesystem
-		${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp
+	
+	#Filesystem
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsFile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsRoot.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsRoot.hpp
 
 		#Internationalization
 		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.cpp

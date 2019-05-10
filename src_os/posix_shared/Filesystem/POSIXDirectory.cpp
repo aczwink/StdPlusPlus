@@ -61,6 +61,12 @@ bool POSIXDirectory::Exists(const Path &path) const
 	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 }
 
+AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::AutoPointer<const FileSystemNode>();
+}
+
 AutoPointer<const File> POSIXDirectory::GetFile(const String &name) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

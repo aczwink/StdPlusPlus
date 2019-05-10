@@ -18,7 +18,7 @@
  */
 //Local
 #include "../../OpenGL3Core/Rendering/OpenGLDeviceContext.hpp"
-#include "../UI/GtkWindowBackend.hpp"
+#include "../UI/oldGtkWindowBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus::Rendering;
 using namespace StdPlusPlus::UI;

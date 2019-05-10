@@ -34,6 +34,8 @@ TreeView::TreeView()
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
 
+	this->styleContext.AddType(u8"TreeView");
+
 	this->headerView = nullptr;
 	this->body = nullptr;
 }
@@ -50,7 +52,7 @@ void TreeView::RealizeSelf()
 
 		this->headerView = new HeaderView;
 		this->AddChild(this->headerView);
-		this->body = new _stdxx_::TreeViewBody(*this->headerView);
+		this->body = new _stdxx_::TreeViewBody(*this->headerView, this->GetSelectionController());
 		this->AddChild(this->body);
 	}
 }

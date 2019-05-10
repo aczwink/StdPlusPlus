@@ -44,6 +44,10 @@ namespace StdXX
 			//Methods
 			void Parse(const String& string);
 			StyleProperties Query(const Widget& widget);
+			/**
+			 * Query style properties for a virtual node that is a child of parent.
+			 */
+			StyleProperties QueryVirtual(const StyleContext& context, const Widget& parent);
 
 			//Inline
 			inline void SetVariable(const String& name, const StyleValue& value)
@@ -67,6 +71,7 @@ namespace StdXX
 			void ParseProperties(StyleRule& rule, _stdxx_::StdXXCSSLexer& lexer) const;
 			StyleRule ParseRule(_stdxx_::StdXXCSSLexer& lexer) const;
 			StyleSelector ParseSelector(_stdxx_::StdXXCSSLexer& lexer) const;
+			StyleSelector ParseSimpleSelector(_stdxx_::StdXXCSSLexer& lexer) const;
 			StyleValue ParseValue(const String& value) const;
 		};
 	}

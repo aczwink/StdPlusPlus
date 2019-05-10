@@ -33,24 +33,34 @@ namespace StdXX
 			{
 			}
 
-			inline StyleValue(const Color& color) : color(color)
-			{
-			}
-
 			inline StyleValue(const String& string) : string(string)
 			{
 			}
 
+			inline StyleValue(const Color& color) : color(color)
+			{
+			}
+
+			inline StyleValue(float64 number) : number(number)
+			{
+			}
+
 			//Properties
-			inline const Color& Color() const
+			inline const StdXX::Color& Color() const
 			{
 				return this->color;
 			}
 
+			inline float64 Number() const
+			{
+				return this->number;
+			}
+
 		private:
 			//Members
-			StdXX::Color color;
 			String string;
+			StdXX::Color color;
+			float64 number;
 		};
 	}
 }

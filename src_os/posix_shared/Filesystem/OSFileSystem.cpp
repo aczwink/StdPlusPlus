@@ -88,6 +88,22 @@ OSFileSystem &OSFileSystem::GetInstance()
 			return new POSIXFile(filePath);
 		}
 
+		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override
+		{
+			Path p = this->ToAbsolutePath(path);
+			struct stat sb{};
+			int ret = stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
+			ASSERT(ret == 0, u8"TODO: node does not exist. Throw exception");
+
+			if(S_ISDIR(sb.st_mode))
+				return new POSIXDirectory(p);
+			if(S_ISREG(sb.st_mode))
+				return new POSIXFile(p);
+
+			NOT_IMPLEMENTED_ERROR;
+			return nullptr;
+		}
+
 		AutoPointer<Directory> GetRoot() override
 		{
 			return new POSIXDirectory(Path(u8"/"));
@@ -97,12 +113,6 @@ OSFileSystem &OSFileSystem::GetInstance()
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			return 0;
-		}
-
-		bool IsDirectory(const Path &path) const override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return false;
 		}
 
 		void Move(const Path &from, const Path &to) override

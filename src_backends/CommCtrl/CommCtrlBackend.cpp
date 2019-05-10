@@ -217,11 +217,13 @@ void CommCtrlBackend::LoadStyles() const
 	HTHEME hTheme = OpenThemeData(NULL, L"Window");
 	s.SetVariable(u8"backgroundColor", this->MapCOLORREF(hTheme, COLOR_WINDOW));
 	s.SetVariable(u8"textColor", this->MapCOLORREF(hTheme, COLOR_WINDOWTEXT));
+	s.SetVariable(u8"selectionBackgroundColor", this->MapCOLORREF(hTheme, COLOR_HIGHLIGHT));
+	s.SetVariable(u8"selectionTextColor", this->MapCOLORREF(hTheme, COLOR_HIGHLIGHTTEXT));
 	CloseThemeData(hTheme);
 
 	//load styles
 	const char* c_style = {
-#include "resources/aero7.css"
+#include "resources/win.css"
 	};
 	s.Parse(c_style);
 

@@ -3,6 +3,10 @@ set(SOURCE_FILES
 
 	#Eventhandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.cpp
+
+	#Multitasking
+	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 
 	#Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp

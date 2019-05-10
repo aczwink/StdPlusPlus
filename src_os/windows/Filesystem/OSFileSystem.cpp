@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,12 +20,14 @@
 #include <Std++/Filesystem/OSFileSystem.hpp>
 //Global
 #include <Windows.h>
-//Local
-#include <Std++/Filesystem/DirectoryIterator.hpp>
-//Namespaces
-using namespace StdXX;
 //Definitions
 #undef CreateFile
+//Local
+#include "WindowsDirectory.hpp"
+#include "WindowsRoot.hpp"
+//Namespaces
+using namespace _stdxx_;
+using namespace StdXX;
 
 //Local functions
 static String ToAbsolutePath(const String &path)
@@ -37,254 +39,6 @@ static String ToAbsolutePath(const String &path)
 
 	return u8"/" + String::CopyRawString((uint16 *)buffer);
 }
-
-//Directory classes
-static class WindowsDirectory : public Directory
-{
-public:
-	//Constructor
-	inline WindowsDirectory(const Path &path) : path(path)
-	{
-	}
-
-	//Methods
-	bool ContainsFile(const String & name) const override
-	{
-		String nativePath = OSFileSystem::GetInstance().ToNativePath((this->path / name).GetString());
-		DWORD attribs = GetFileAttributesW((LPCWSTR)nativePath.GetRawZeroTerminatedData());
-		if (attribs == INVALID_FILE_ATTRIBUTES)
-			return false;
-		if (attribs & FILE_ATTRIBUTE_DIRECTORY)
-			return false;
-		return true;
-	}
-
-	bool ContainsSubDirectory(const String & name) const override
-	{
-		String nativePath = OSFileSystem::GetInstance().ToNativePath((this->path / name).GetString());
-		DWORD attribs = GetFileAttributesW((LPCWSTR)nativePath.GetRawZeroTerminatedData());
-		if (attribs == INVALID_FILE_ATTRIBUTES)
-			return false;
-		if (attribs & FILE_ATTRIBUTE_DIRECTORY)
-			return true;
-		return false;
-	}
-
-	UniquePointer<OutputStream> CreateFile(const String & name) override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return UniquePointer<OutputStream>();
-	}
-
-	void CreateSubDirectory(const String & name) override
-	{
-		String nativePath = OSFileSystem::GetInstance().ToNativePath((this->path / name).GetString());
-		OutputDebugStringW((LPCWSTR)nativePath.GetRawZeroTerminatedData());
-		BOOL result = CreateDirectoryW((LPCWSTR)nativePath.GetRawZeroTerminatedData(), NULL);
-		if (result == 0)
-		{
-			DWORD error = GetLastError();
-			switch (error)
-			{
-			default:
-				NOT_IMPLEMENTED_ERROR;
-			}
-		}
-	}
-
-	bool Exists(const Path & path) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return false;
-	}
-
-	AutoPointer<const File> GetFile(const String &name) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return StdXX::AutoPointer<const File>();
-	}
-
-	FileSystem * GetFileSystem() override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	const FileSystem * GetFileSystem() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	AutoPointer<const Directory> GetParent() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return StdXX::AutoPointer<const Directory>();
-	}
-
-	Path GetPath() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return Path();
-	}
-
-	uint64 GetSize() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return uint64();
-	}
-
-	uint64 GetStoredSize() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return uint64();
-	}
-	
-	AutoPointer<Directory> GetSubDirectory(const String & name) override
-	{
-		return new WindowsDirectory(this->path / name);
-	}
-	
-	AutoPointer<const Directory> GetSubDirectory(const String & name) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<const Directory>();
-	}
-
-	//For range-based loop	
-	DirectoryIterator begin() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return DirectoryIterator(nullptr);
-	}
-	
-	DirectoryIterator end() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return DirectoryIterator(nullptr);
-	}
-
-private:
-	//Members
-	Path path;
-};
-
-static class WindowsRoot : public Directory
-{
-public:
-	//Methods
-	FileSystem * GetFileSystem() override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	const FileSystem * GetFileSystem() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	Path GetPath() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return Path();
-	}
-
-	uint64 GetSize() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return uint64();
-	}
-
-	bool ContainsFile(const String & name) const override
-	{
-		//root has no files
-		return false;
-	}
-
-	bool ContainsSubDirectory(const String & name) const override
-	{
-		if (name.GetLength() != 2)
-			return false;
-		if (name.SubString(1, 1) != u8":")
-			return false;
-
-		DWORD driveMask = GetLogicalDrives();
-		for (uint8 i = 0; i < 26; i++)
-		{
-			if (driveMask & (1 << i))
-			{
-				String letter;
-				letter += (u8'A' + i);
-				letter += u8":";
-				if (name == letter)
-					return true;
-			}
-		}
-		return false;
-	}
-
-	UniquePointer<OutputStream> CreateFile(const String & name) override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return UniquePointer<OutputStream>();
-	}
-
-	void CreateSubDirectory(const String & name) override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-
-	bool Exists(const Path & path) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return false;
-	}
-
-	AutoPointer<const File> GetFile(const String &name) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<const File>();
-	}
-
-	AutoPointer<const Directory> GetParent() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<const Directory>();
-	}
-
-	uint64 GetStoredSize() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return uint64();
-	}
-
-	AutoPointer<Directory> GetSubDirectory(const String & name) override
-	{
-		if (this->ContainsSubDirectory(name))
-			return new WindowsDirectory(u8"/" + name);
-		return nullptr;
-	}
-
-	AutoPointer<const Directory> GetSubDirectory(const String & name) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return AutoPointer<const Directory>();
-	}
-
-	DirectoryIterator begin() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return DirectoryIterator(nullptr);
-	}
-
-	DirectoryIterator end() const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return DirectoryIterator(nullptr);
-	}
-};
 
 //Public methods
 Path OSFileSystem::FromNativePath(const String &nativePath) const
@@ -349,6 +103,8 @@ OSFileSystem &OSFileSystem::GetInstance()
 
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath)
 		{
+			if(directoryPath.IsRoot())
+				return new WindowsRoot;
 			return new WindowsDirectory(directoryPath);
 		}
 
@@ -371,6 +127,10 @@ OSFileSystem &OSFileSystem::GetInstance()
 
 		bool IsDirectory(const Path &path) const override
 		{
+			//the root (i.e. disk names list) is a directory
+			if (path.IsRoot())
+				return true;
+
 			String nativePath = this->ToNativePath(path);
 			DWORD result = GetFileAttributesW((LPCWSTR)nativePath.GetRawZeroTerminatedData());
 			ASSERT(result != INVALID_FILE_ATTRIBUTES, u8"TODO: throw exception that path doesn't exist");

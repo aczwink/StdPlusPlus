@@ -65,6 +65,12 @@ AutoPointer<Directory> ContainerFileSystem::GetDirectory(const Path &directoryPa
 	return currentDir;
 }
 
+AutoPointer<const FileSystemNode> ContainerFileSystem::GetNode(const Path &path) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return AutoPointer<const FileSystemNode>();
+}
+
 AutoPointer<const File> ContainerFileSystem::GetFile(const Path &filePath) const
 {
 	Path leftPath = filePath;
@@ -90,12 +96,6 @@ AutoPointer<Directory> ContainerFileSystem::GetRoot()
 uint64 ContainerFileSystem::GetSize() const
 {
 	return this->root->GetSize();
-}
-
-bool ContainerFileSystem::IsDirectory(const Path & path) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
 }
 
 //Protected methods

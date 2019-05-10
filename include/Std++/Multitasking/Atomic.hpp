@@ -19,6 +19,7 @@
 //Local
 #include <Std++/__Globaldependencies.h>
 #include <Std++/Definitions.h>
+#include <Std++/Debug.hpp>
 
 namespace StdXX
 {
@@ -67,6 +68,40 @@ namespace StdXX
 		//Members
 		mutable _Atomic(T) native;
 	};
+#endif
+
+#ifdef XPC_COMPILER_GCC
+    template <typename T>
+    class Atomic
+    {
+    public:
+        //Operators
+        inline Atomic& operator=(T v) noexcept
+        {
+			__atomic_store_n(&this->native, v, std::memory_order_seq_cst);
+            return *this;
+        }
+
+        inline T operator++(int) //Postfix
+        {
+            return this->FetchAdd(1);
+        }
+
+        inline T operator--() //Prefix
+        {
+			return __atomic_sub_fetch(&this->native, 1, std::memory_order_seq_cst);
+        }
+
+		//Inline
+		inline T FetchAdd(T operand)
+		{
+			return __atomic_fetch_add(&this->native, operand, std::memory_order_seq_cst);
+		}
+
+    private:
+    	//Members
+		alignas(sizeof(T)) T native;
+    };
 #endif
 
 #ifdef XPC_COMPILER_MSVC

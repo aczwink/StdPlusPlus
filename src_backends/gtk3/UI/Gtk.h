@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,8 +21,8 @@
 //Global
 #include <gtk/gtk.h>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 struct _AC_Gtk_Menu
 {
@@ -36,19 +36,6 @@ struct _AC_Gtk_WidgetPrivate
     GtkWidget *childAreaWidget; //its child area
 };
 
-class CFullAccessWidget : public Widget
-{
-public:
-	//Constructor
-	inline CFullAccessWidget() : Widget(nullptr){} //to make compiler happy
-
-    //Inline
-    inline void *GetInternal()
-    {
-        return this->backend;
-    }
-};
-
 //Definitions
-#define PRIVATE_DATA(widget) ((_AC_Gtk_WidgetPrivate *)((CFullAccessWidget *)widget)->GetInternal())
+#define PRIVATE_DATA(widget) ((_AC_Gtk_WidgetPrivate *)(widget)->_GetBackend())
 #define WIDGET_FROM_GTK(gtkWidget) ((Widget *)g_object_get_data(G_OBJECT(gtkWidget), u8"Std++"))

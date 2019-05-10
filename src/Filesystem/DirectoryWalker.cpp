@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,7 +35,7 @@ void DirectoryWalker::CorrectIteratorPos()
 
 		while(*state.iterator != state.directory->end())
 		{
-			String childName = state.iterator->operator*().Get<0>();
+			String childName = state.iterator->operator*();
 			if (state.directory->ContainsSubDirectory(childName))
 			{
 				AutoPointer<const Directory> subdir = state.directory->GetSubDirectory(childName);

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
 namespace StdXX
 {
@@ -25,9 +26,29 @@ namespace StdXX
 		{
 		public:
 			//Inline
+			inline void AddPseudoClass(const String& pseudoClass)
+			{
+				this->pseudoClasses.Insert(pseudoClass);
+			}
+
 			inline void AddType(const String& typeName)
 			{
 				this->types.Insert(typeName);
+			}
+
+			inline bool HasPseudoClass(const String& pseudoClass) const
+			{
+				return this->pseudoClasses.Contains(pseudoClass);
+			}
+
+			inline bool HasPseudoClasses(const DynamicArray<String>& pseudoClasses) const
+			{
+				for (const String& pseudoClass : pseudoClasses)
+				{
+					if (!this->HasPseudoClass(pseudoClass))
+						return false;
+				}
+				return true;
 			}
 
 			inline bool IsOfType(const String& typeName) const
@@ -38,6 +59,7 @@ namespace StdXX
 		private:
 			//Members
 			BinaryTreeSet<String> types;
+			BinaryTreeSet<String> pseudoClasses;
 		};
 	}
 }

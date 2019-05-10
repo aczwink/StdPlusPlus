@@ -29,7 +29,8 @@ namespace _stdxx_
 		LeftBrace,
 		RightBrace,
 		Semicolon,
-		String
+		String,
+		Whitespace
 	};
 
 	class StdXXCSSLexer
@@ -42,7 +43,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		Token GetNextToken();
+		Token GetNextToken(bool ignoreWhitespace = true);
 
 		//Inline
 		inline bool Accept(Token t)
@@ -66,9 +67,9 @@ namespace _stdxx_
 			return false;
 		}
 
-		inline void ConsumeCurrentToken()
+		inline void ConsumeCurrentToken(bool ignoreWhitespace = true)
 		{
-			this->currentToken = this->GetNextToken();
+			this->currentToken = this->GetNextToken(ignoreWhitespace);
 		}
 
 		inline StdXX::String Expect(Token t)

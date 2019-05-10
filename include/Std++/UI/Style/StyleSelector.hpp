@@ -19,6 +19,8 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include "StyleContext.hpp"
 
 namespace StdXX
 {
@@ -27,35 +29,48 @@ namespace StdXX
 		//Forward declarations
 		class Widget;
 
-		enum StyleSelectorType
+		enum class StyleCombinator
 		{
-			Type
+			Descendant,
 		};
 
 		class StyleSelector
 		{
 		public:
 			//Constructor
-			inline StyleSelector()
+			inline StyleSelector() : type(u8"*")
 			{
 			}
 
+			inline StyleSelector(String&& type, DynamicArray<String>&& pseudoClasses) : type(Move(type)), pseudoClasses(Move(pseudoClasses))
+			{
+			}
+
+			StyleSelector(StyleSelector&&) = default;
+
+			//Operators
+			StyleSelector& operator=(StyleSelector&&) = default;
+
 			//Methods
 			bool Matches(const Widget& widget) const;
+			bool Matches(const StyleContext& context, const Widget& parent) const;
 
-			//Functions
-			static inline StyleSelector Type(const String& type)
+			//Inline
+			inline void CombineWith(StyleSelector&& other, StyleCombinator combinator)
 			{
-				StyleSelector sel;
-				sel.type = StyleSelectorType::Type;
-				sel.string = type;
-				return sel;
+				this->other = new StyleSelector(Move(other));
+				this->combinator = combinator;
 			}
 
 		private:
 			//Members
-			StyleSelectorType type;
-			String string;
+			String type;
+			DynamicArray<String> pseudoClasses;
+			UniquePointer<StyleSelector> other;
+			StyleCombinator combinator;
+
+			//Methods
+			bool Matches(const StyleContext& context) const;
 		};
 	}
 }

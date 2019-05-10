@@ -10,6 +10,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Directory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryWalker.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/File.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.cpp

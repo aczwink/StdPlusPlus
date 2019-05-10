@@ -58,8 +58,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
-
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/DateTime.cpp

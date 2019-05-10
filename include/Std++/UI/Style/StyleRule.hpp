@@ -55,6 +55,11 @@ namespace StdXX
 				return this->selector.Matches(widget);
 			}
 
+			inline bool Matches(const StyleContext& styleContext, const Widget& parent) const
+			{
+				return this->selector.Matches(styleContext, parent);
+			}
+
 		private:
 			//Members
 			StyleSelector selector;

@@ -28,14 +28,24 @@ namespace StdXX
 		{
 		public:
 			//Properties
-			inline const Color& BackgroundColor() const
+			inline const StdXX::Color& BackgroundColor() const
 			{
 				return this->properties[u8"background-color"].Color();
 			}
 
-			inline const Color& Color() const
+			inline const StdXX::Color& Color() const
 			{
 				return this->properties[u8"color"].Color();
+			}
+
+			inline float64 PaddingBottom() const
+			{
+				return this->properties[u8"padding-bottom"].Number();
+			}
+
+			inline float64 PaddingTop() const
+			{
+				return this->properties[u8"padding-top"].Number();
 			}
 
 			//Inline

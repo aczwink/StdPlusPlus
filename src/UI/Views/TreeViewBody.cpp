@@ -27,7 +27,7 @@ using namespace StdXX::Math;
 using namespace StdXX::UI;
 
 //Constructor
-TreeViewBody::TreeViewBody(const HeaderView& headerView) : headerView(headerView)
+TreeViewBody::TreeViewBody(const HeaderView& headerView, const StdXX::UI::SelectionController& selectionController) : headerView(headerView), selectionController(selectionController)
 {
 	this->styleContext.AddType(u8"TreeViewContent");
 
@@ -42,32 +42,41 @@ TreeViewBody::~TreeViewBody()
 }
 
 //Private methods
-void TreeViewBody::DrawCell(Painter & painter, Cell & cell, const RectD & rect, bool isFirstCol)
+void TreeViewBody::DrawCell(Painter & painter, Cell & cell, const RectD & rect, bool isFirstCol, const StdXX::UI::StyleProperties& rowProps)
 {
-	const UI::StyleProperties& props = this->StyleProperties();
-
-	//draw background
-	painter.Rectangle(rect);
-	painter.SetFillColor(props.BackgroundColor());
-	painter.Fill();
-
 	//draw foreground
-	painter.SetFillColor(props.Color());
+	painter.SetFillColor(rowProps.Color());
 
 	String text = this->controller->GetText(cell.controllerIndex);
+	Rect textRect = rect;
+	textRect.y() += rowProps.PaddingBottom();
+	textRect.height() = rect.height() - rowProps.PaddingTop();
 	painter.DrawText(rect.origin, text);
 }
 
 void TreeViewBody::DrawRow(Painter & painter, Row & row, float64 top)
 {
+	const UI::StyleProperties& rowProps = (this->selectionController.IsSelected(row.controllerIndex)) ? this->selectedRowProps : this->rowProps;
+
+	//draw background
+	RectD rowRect;
+	rowRect.y() = top - row.height;
+	rowRect.height() = row.height;
+	rowRect.width() = this->GetSize().width;
+
+	painter.Rectangle(rowRect);
+	painter.SetFillColor(this->StyleProperties().BackgroundColor());
+	painter.Fill();
+
+	//draw cells
 	uint32 nCols = this->controller->GetNumberOfColumns();
 	for (uint32 i = 0; i < nCols; i++)
 	{
 		RectD cellRect = this->headerView.GetItemRect(i);
-		cellRect.y() = top - row.height;
-		cellRect.height() = row.height;
+		cellRect.y() = rowRect.y();
+		cellRect.height() = rowRect.height();
 
-		this->DrawCell(painter, row.items[i], cellRect, i == 0);
+		this->DrawCell(painter, row.items[i], cellRect, i == 0, rowProps);
 	}
 }
 
@@ -88,13 +97,13 @@ Row* TreeViewBody::NextVisible(Row* row) const
 		return row->firstChild;
 	}
 
-	if ((row->next == nullptr) && (row->controllerIndex.GetRow() < row->parent->nChildren))
+	if ((row->next == nullptr) && (row->controllerIndex.GetRow() < (row->parent->nChildren - 1)))
 	{
 		//buffer next sibling
 		Row* r = new Row;
 		row->next = r;
 		r->parent = row->parent;
-		r->controllerIndex = this->controller->GetChildIndex(row->controllerIndex.GetRow(), 0, row->parent->controllerIndex);
+		r->controllerIndex = this->controller->GetChildIndex(row->controllerIndex.GetRow()+1, 0, row->parent->controllerIndex);
 	}
 	
 	return row->next;
@@ -127,19 +136,42 @@ void TreeViewBody::RequireHeight(Row& row, Painter& painter) const
 		SizeD textSize = painter.ComputeTextSize(text);
 		row.height = Math::Max(row.height, textSize.height);
 	}
+
+	row.height += this->rowProps.PaddingTop() + this->rowProps.PaddingBottom();
 }
 
 //Event handlers
 void TreeViewBody::OnPaint(PaintEvent& event)
 {
+	//query styles
+	UI::StyleContext rowContext;
+	rowContext.AddType(u8"row");
+	this->rowProps = StyleSheet::Global().QueryVirtual(rowContext, *this);
+	
+	rowContext.AddPseudoClass(u8"selected");
+	this->selectedRowProps = StyleSheet::Global().QueryVirtual(rowContext, *this);
+
 	//if we have no root, get it
 	if (this->root == nullptr)
 	{
-		this->root = new Row();
 		if (!this->controller.IsNull())
+		{
+			this->root = new Row();
 			this->root->nChildren = this->controller->GetNumberOfChildren();
-		this->root->isExpanded = true;
-		this->top = this->root;
+			this->root->isExpanded = true;
+			this->top = this->NextVisible(this->root);
+		}
+	}
+
+	if (this->selectionController.GetSelectedIndexes().IsEmpty())
+	{
+		LinkedList<ControllerIndex> sel;
+		Row* row = this->NextVisible(this->root);
+		row = this->NextVisible(row);
+		sel.InsertTail(row->controllerIndex);
+		SelectionChangedEvent e(StdXX::Move(sel));
+
+		this->GetParent()->Event(e);
 	}
 
 	UniquePointer<Painter> painter = this->drawableBackend->CreatePainter();
@@ -161,6 +193,20 @@ void TreeViewBody::OnPaint(PaintEvent& event)
 		this->DrawRow(*painter, *row, top);
 		top -= row->height;
 		row = this->NextVisible(row);
+	}
+
+	//draw leftover background
+	if (top > event.GetUpdateRect().y())
+	{
+		RectD leftover = event.GetUpdateRect();
+		leftover.height() = top - leftover.y();
+
+		const UI::StyleProperties& props = this->StyleProperties();
+
+		//draw background
+		painter->Rectangle(leftover);
+		painter->SetFillColor(props.BackgroundColor());
+		painter->Fill();
 	}
 }
 

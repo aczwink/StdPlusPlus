@@ -70,6 +70,7 @@ namespace StdXX
 			 * @param cellBounds
 			 */
 			void PositionChild(Widget &widget, const Math::RectD &cellBounds);
+			void ShrinkColumns(float64 totalShrinkWidth, DynamicArray<uint16> &columnWidths);
 			void ShrinkRows(float64 totalShrinkHeight, DynamicArray<uint16> &rowHeights);
         };
 

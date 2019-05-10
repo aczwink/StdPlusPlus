@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,16 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../src_backends/OpenGL3Core/Rendering/Shared.hpp"
+//Class header
+#include <Std++/Multitasking/Thread.hpp>
+//Global
+#include <pthread.h>
+//Namespaces
+using namespace StdXX;
 
-//Global functions
-GLenum AllocationPolicyToGL(AllocationPolicy policy)
+//Public methods
+void Thread::Join(uint64 duration)
 {
-	switch(policy)
-	{
-		case AllocationPolicy::Static:
-			return GL_STATIC_DRAW;
-		case AllocationPolicy::Dynamic:
-			return GL_DYNAMIC_DRAW;
-	}
+    if(this->IsAlive())
+    {
+        timespec ts;
+        ts.tv_sec = duration / 1000000000;
+        ts.tv_nsec = duration % 1000000000;
+
+        pthread_timedjoin_np((pthread_t)this->systemHandle, nullptr, &ts);
+    }
 }

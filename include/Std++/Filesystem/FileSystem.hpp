@@ -47,9 +47,15 @@ namespace StdXX
 		virtual void Flush() = 0;
 		virtual AutoPointer<Directory> GetDirectory(const Path &directoryPath) = 0;
 		virtual AutoPointer<const File> GetFile(const Path& filePath) const = 0;
+		/**
+		 * Get the node identified by path or nullptr if not existent.
+		 *
+		 * @param path - If relative, it should be considered relative to the root.
+		 * @return
+		 */
+		virtual AutoPointer<const FileSystemNode> GetNode(const Path& path) const = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
 		virtual uint64 GetSize() const = 0;
-		virtual bool IsDirectory(const Path &path) const = 0;
 		virtual void Move(const Path &from, const Path &to) = 0;
 
 		//Methods
@@ -63,6 +69,11 @@ namespace StdXX
 		inline const FileSystemFormat *GetFormat() const
 		{
 			return this->fileSystemFormat;
+		}
+
+		bool IsDirectory(const Path& path) const
+		{
+			return this->GetNode(path)->GetType() == FileSystemNodeType::Directory;
 		}
 
 	private:

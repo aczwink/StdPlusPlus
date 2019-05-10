@@ -47,6 +47,7 @@ namespace StdXX
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
 		bool Exists(const Path &path) const override;
+		AutoPointer<const FileSystemNode> GetChild(const String &name) const override;
 		AutoPointer<const File> GetFile(const String &name) const override;
 		FileSystem *GetFileSystem() override;
 		const FileSystem *GetFileSystem() const override;

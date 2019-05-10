@@ -45,6 +45,11 @@ void Directory::CreateDirectoryTree(const Path &directoryPath)
 	this->GetSubDirectory(part)->CreateDirectoryTree(subPath);
 }
 
+FileSystemNodeType Directory::GetType() const
+{
+	return FileSystemNodeType::Directory;
+}
+
 DirectoryWalkerWrapper Directory::WalkFiles()
 {
 	return DirectoryWalkerWrapper(AutoPointer<const Directory>(this, false));

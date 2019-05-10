@@ -20,17 +20,54 @@
 #include <Std++/UI/Style/StyleSelector.hpp>
 //Local
 #include <Std++/UI/Widget.hpp>
+#include <Std++/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace StdXX::UI;
 
 //Public methods
 bool StyleSelector::Matches(const Widget & widget) const
 {
-	switch (this->type)
+	const StyleContext& styleContext = widget.StyleContext();
+	return this->Matches(styleContext, *widget.GetParent());
+}
+
+bool StyleSelector::Matches(const StyleContext& context, const Widget& parent) const
+{
+	if (!this->Matches(context))
+		return false;
+
+	if (!this->other.IsNull())
 	{
-	case StyleSelectorType::Type:
-		return widget.StyleContext().IsOfType(this->string);
+		switch (this->combinator)
+		{
+		case StyleCombinator::Descendant:
+		{
+			const Widget* current = &parent;
+			while (current)
+			{
+				if (this->other->Matches(*current))
+					return true;
+				current = current->GetParent();
+			}
+			return false;
+		}
+		break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
+		}
 	}
-	NOT_IMPLEMENTED_ERROR;
-	return false;
+
+	return true;
+}
+
+//Private methods
+bool StyleSelector::Matches(const StyleContext& context) const
+{
+	if (!context.IsOfType(this->type))
+		return false;
+
+	if (!context.HasPseudoClasses(this->pseudoClasses))
+		return false;
+
+	return true;
 }

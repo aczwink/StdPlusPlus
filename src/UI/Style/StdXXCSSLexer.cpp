@@ -25,7 +25,7 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
-Token StdXXCSSLexer::GetNextToken()
+Token StdXXCSSLexer::GetNextToken(bool ignoreWhitespace)
 {
 	while (!this->IsAtEnd())
 	{
@@ -33,7 +33,14 @@ Token StdXXCSSLexer::GetNextToken()
 		if (IsWhiteSpaceChar(*this->it))
 		{
 			++this->it;
-			continue;
+			while (IsWhiteSpaceChar(*this->it))
+				++this->it;
+
+			if(ignoreWhitespace)
+				continue;
+			if(*this->it == u8'{')
+				continue;
+			return Token::Whitespace;
 		}
 
 		//special symbols

@@ -54,13 +54,20 @@ namespace _stdxx_
 			this->firstChild = nullptr;
 			this->next = nullptr;
 		}
+
+		//Destructor
+		~Row()
+		{
+			delete this->firstChild;
+			delete this->next;
+		}
 	};
 
 	class TreeViewBody : public StdXX::UI::DrawableWidget
 	{
 	public:
 		//Constructor
-		TreeViewBody(const StdXX::UI::HeaderView& headerView);
+		TreeViewBody(const StdXX::UI::HeaderView& headerView, const StdXX::UI::SelectionController& selectionController);
 
 		//Destructor
 		~TreeViewBody();
@@ -77,9 +84,12 @@ namespace _stdxx_
 		Row* top;
 		StdXX::SharedPointer<StdXX::UI::TreeController> controller;
 		const StdXX::UI::HeaderView& headerView;
+		const StdXX::UI::SelectionController& selectionController;
+		StdXX::UI::StyleProperties rowProps;
+		StdXX::UI::StyleProperties selectedRowProps;
 
 		//Methods
-		void DrawCell(StdXX::UI::Painter& painter, Cell& cell, const StdXX::Math::RectD& rect, bool isFirstCol);
+		void DrawCell(StdXX::UI::Painter& painter, Cell& cell, const StdXX::Math::RectD& rect, bool isFirstCol, const StdXX::UI::StyleProperties& rowProps);
 		void DrawRow(StdXX::UI::Painter& painter, Row& row, float64 top);
 		Row* NextVisible(Row* row) const;
 		void RequireCellsBuffered(Row& row) const;
