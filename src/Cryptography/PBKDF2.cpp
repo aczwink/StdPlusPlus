@@ -32,25 +32,24 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint16 sal
 	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
 	const uint32 blockCount = Unsigned<uint32>::DivCeil(keySize, digestSize);
 
-	byte buf1[digestSize], buf2[digestSize], xored[digestSize];
+	const uint16 u0Size = saltSize + 4;
+	FixedArray<uint8> buf1(digestSize), buf2(digestSize), xored(digestSize), u0(u0Size);
 	for(uint32 i = 0; i < blockCount; i++)
 	{
 		//first iteration
-		const uint16 u0Size = saltSize + 4;
-		byte u0[u0Size];
-		MemCopy(u0, salt, saltSize);
+		MemCopy(&u0[0], salt, saltSize);
 
-		BufferOutputStream outputStream(u0 + saltSize, 4);
+		BufferOutputStream outputStream(&u0[saltSize], 4);
 		DataWriter dataWriter(true, outputStream);
 
 		dataWriter.WriteUInt32(i+1);
 
-		uint8* last = buf1;
-		HMAC(password.GetRawData(), password.GetSize(), u0, u0Size, hashAlgorithm, last);
-		MemCopy(xored, last, digestSize);
+		uint8* last = &buf1[0];
+		HMAC(password.GetRawData(), password.GetSize(), &u0[0], u0Size, hashAlgorithm, last);
+		MemCopy(&xored[0], last, digestSize);
 
 		//rest iterations
-		uint8* next = buf2;
+		uint8* next = &buf2[0];
 		for(uint32 j = 1; j < nIterations; j++)
 		{
 			HMAC(password.GetRawData(), password.GetSize(), last, digestSize, hashAlgorithm, next);
@@ -61,7 +60,7 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint16 sal
 
 		//write to output
 		uint16 validBytes = Math::Min(keySize, uint16(digestSize));
-		MemCopy(key, xored, validBytes);
+		MemCopy(key, &xored[0], validBytes);
 		key += validBytes;
 		keySize -= validBytes;
 	}

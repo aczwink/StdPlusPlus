@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,6 +27,10 @@ namespace StdXX
 	enum class TextCodecType
 	{
 		ASCII,
+		/**
+		 * ISO 8859-1 supplemented with C0 and C1 conctrol codes from ISO 6429
+		*/
+		Latin1,
 		UTF8,
 		UTF16_LE,
 	};

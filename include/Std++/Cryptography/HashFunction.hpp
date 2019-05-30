@@ -33,7 +33,7 @@ namespace StdXX
 			SHA256
 		};
 
-		class HashFunction
+		class STDPLUSPLUS_API HashFunction
 		{
 		public:
 			//Destructor

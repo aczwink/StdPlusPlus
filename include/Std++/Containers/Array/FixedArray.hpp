@@ -21,6 +21,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Type.hpp>
 #include <Std++/Containers/Container.hpp>
+#include <Std++/Utility.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 

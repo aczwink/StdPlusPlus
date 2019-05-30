@@ -29,25 +29,25 @@ void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint
 	const uint8 blockSize = static_cast<const uint8>(hasher->GetBlockSize());
 	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
 
-	uint8 realKey[blockSize];
+	FixedArray<uint8> realKey(blockSize);
 	if(keySize > blockSize)
 	{
 		hasher->Update(key, keySize);
 		hasher->Finish();
-		hasher->StoreDigest(realKey);
+		hasher->StoreDigest(&realKey[0]);
 		keySize = digestSize;
 	}
 	else
 	{
-		MemCopy(realKey, key, keySize);
+		MemCopy(&realKey[0], key, keySize);
 	}
 
 	if(keySize < blockSize)
-		MemZero(realKey + keySize, blockSize - keySize); //pad with zeros
+		MemZero(&realKey[keySize], blockSize - keySize); //pad with zeros
 
 	//produce inner and outer key
-	uint8 innerKey[blockSize];
-	uint8 outerKey[blockSize];
+	FixedArray<uint8> innerKey(blockSize);
+	FixedArray<uint8> outerKey(blockSize);
 
 	for(uint8 i = 0; i < blockSize; i++)
 	{
@@ -56,18 +56,18 @@ void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint
 	}
 
 	//hash inner
-	uint8 tmp[digestSize];
+	FixedArray<uint8> tmp(digestSize);
 
 	hasher = HashFunction::CreateInstance(hashAlgorithm);
-	hasher->Update(innerKey, blockSize);
+	hasher->Update(&innerKey[0], blockSize);
 	hasher->Update(msg, msgSize);
 	hasher->Finish();
-	hasher->StoreDigest(tmp);
+	hasher->StoreDigest(&tmp[0]);
 
 	//hash outer
 	hasher = HashFunction::CreateInstance(hashAlgorithm);
-	hasher->Update(outerKey, blockSize);
-	hasher->Update(tmp, digestSize);
+	hasher->Update(&outerKey[0], blockSize);
+	hasher->Update(&tmp[0], digestSize);
 	hasher->Finish();
 	hasher->StoreDigest(out);
 }

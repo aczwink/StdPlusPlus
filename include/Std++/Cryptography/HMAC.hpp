@@ -24,6 +24,6 @@ namespace StdXX
 {
 	namespace Crypto
 	{
-		void HMAC(const uint8* key, uint8 keySize, const uint8* msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out);
+		STDPLUSPLUS_API void HMAC(const uint8* key, uint8 keySize, const uint8* msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out);
 	}
 }

@@ -26,7 +26,7 @@ namespace StdXX
 {
 	namespace Crypto
 	{
-		class ECBDecipher : public InputStream
+		class STDPLUSPLUS_API ECBDecipher : public InputStream
 		{
 		public:
 			//Constructor
