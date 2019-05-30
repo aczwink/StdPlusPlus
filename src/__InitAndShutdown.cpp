@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,7 @@
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
+#include <Std++/UI/Style/StyleSheet.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -76,6 +77,9 @@ void ShutdownStdPlusPlus()
 	extern EventQueue *g_globalEventQueue;
 	if(g_globalEventQueue)
 		delete g_globalEventQueue;
+
+	//release memory of global style sheet
+	UI::StyleSheet::Global() = {};
 
 	//release backends
 	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();

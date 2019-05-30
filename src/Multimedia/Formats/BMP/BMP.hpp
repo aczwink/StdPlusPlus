@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Containers/FiniteSet/FiniteSet.hpp>
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/InputStream.hpp>
 //Namespaces
@@ -29,7 +29,7 @@ using namespace StdXX::Multimedia;
 #define BMP_INFOHEADER_SIZE 40
 
 //Prototypes
-//void AddMS_FourCC_VideoCodecs(FiniteSet<CodecId> &refCodecSet);
+//void AddMS_FourCC_VideoCodecs(BinaryTreeSet<CodecId> &refCodecSet);
 namespace _stdxx_
 {
 	void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &stream);

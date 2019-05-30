@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -33,10 +33,10 @@ void SevenZip_FileSystem::Flush()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-bool SevenZip_FileSystem::IsDirectory(const Path & path) const
+AutoPointer<const FileSystemNode> SevenZip_FileSystem::GetNode(const Path &path) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
+	return StdXX::AutoPointer<const StdXX::FileSystemNode>();
 }
 
 //Private methods

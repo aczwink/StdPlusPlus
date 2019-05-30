@@ -35,6 +35,7 @@ namespace _stdxx_
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
 		bool Exists(const StdXX::Path &path) const override;
+		StdXX::AutoPointer<const FileSystemNode> GetChild(const StdXX::String &name) const override;
 		StdXX::AutoPointer<const StdXX::File> GetFile(const StdXX::String &name) const override;
 		StdXX::FileSystem *GetFileSystem() override;
 		const StdXX::FileSystem *GetFileSystem() const override;

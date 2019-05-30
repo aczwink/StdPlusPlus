@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,22 +31,23 @@ namespace StdXX
         Node *next;
 
         //Constructors
-        LinkedListNode(const T &data) : data(data)
+		explicit LinkedListNode(const T &data) : data(data)
         {
             this->prev = NULL;
             this->next = NULL;
         }
 
-        LinkedListNode(T&& data) : data(Forward<T>(data))
+		explicit LinkedListNode(T&& data) : data(Forward<T>(data))
 		{
 			this->prev = nullptr;
 			this->next = nullptr;
 		}
 
-        LinkedListNode(const T &data, Node *pPrevious, Node *pNext) : data(data)
-        {
-            this->prev = pPrevious;
-            this->next = pNext;
-        }
+		template <typename... ArgTypes>
+		explicit LinkedListNode(ArgTypes&&... args) : data(Forward<ArgTypes>(args)...)
+		{
+			this->prev = nullptr;
+			this->next = nullptr;
+		}
     };
 }

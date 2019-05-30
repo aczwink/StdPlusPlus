@@ -22,6 +22,38 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(SHATests)
 {
+	TEST(wikipedia_hashes_sha1)
+	{
+		//from https://en.wikipedia.org/wiki/SHA-1#Example_hashes
+		const Tuple<String, String> testdata[] =
+		{
+			{
+				u8"The quick brown fox jumps over the lazy dog",
+				u8"2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+			},
+			{
+				u8"The quick brown fox jumps over the lazy cog",
+				u8"de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3"
+			},
+			{
+				u8"",
+				u8"da39a3ee5e6b4b0d3255bfef95601890afd80709"
+			},
+		};
+
+		for(const Tuple<String, String>& t : testdata)
+		{
+			String input = t.Get<0>().ToUTF8();
+
+			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA1);
+			hasher->Update(input.GetRawData(), input.GetSize());
+			hasher->Finish();
+
+			String expected = t.Get<1>();
+			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA1 mismatch!");
+		}
+	}
+
 	TEST(wikipedia_hashes_sha256)
 	{
 		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
@@ -43,6 +75,30 @@ TEST_SUITE(SHATests)
 
 			String expected = t.Get<1>();
 			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA256 mismatch!");
+		}
+	}
+
+	TEST(wikipedia_hashes_sha512)
+	{
+		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
+		const Tuple<String, String> testdata[] =
+		{
+			{
+				u8"",
+				u8"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e"
+			},
+		};
+
+		for(const Tuple<String, String>& t : testdata)
+		{
+			String input = t.Get<0>().ToUTF8();
+
+			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA512);
+			hasher->Update(input.GetRawData(), input.GetSize());
+			hasher->Finish();
+
+			String expected = t.Get<1>();
+			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA512 mismatch!");
 		}
 	}
 };

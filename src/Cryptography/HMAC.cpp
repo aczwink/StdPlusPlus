@@ -43,7 +43,7 @@ void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint
 	}
 
 	if(keySize < blockSize)
-		MemZero(&realKey[keySize], blockSize - keySize); //pad with zeros
+		MemZero(&realKey[0] + keySize, blockSize - keySize); //pad with zeros
 
 	//produce inner and outer key
 	FixedArray<uint8> innerKey(blockSize);

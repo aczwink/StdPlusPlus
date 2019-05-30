@@ -31,15 +31,21 @@ void StdXX::Crypto::PBKDF2(const String &password, const uint8 *salt, uint16 sal
 	UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
 	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
 	const uint32 blockCount = Unsigned<uint32>::DivCeil(keySize, digestSize);
+	
+	password.ToUTF8(); //make sure password is utf8 encoded
+
+	FixedArray<uint8> buf1(digestSize);
+	FixedArray<uint8> buf2(digestSize);
+	FixedArray<uint8> xored(digestSize);
 
 	const uint16 u0Size = saltSize + 4;
-	FixedArray<uint8> buf1(digestSize), buf2(digestSize), xored(digestSize), u0(u0Size);
+	FixedArray<uint8> u0(u0Size);
 	for(uint32 i = 0; i < blockCount; i++)
 	{
 		//first iteration
 		MemCopy(&u0[0], salt, saltSize);
 
-		BufferOutputStream outputStream(&u0[saltSize], 4);
+		BufferOutputStream outputStream(&u0[0] + saltSize, 4);
 		DataWriter dataWriter(true, outputStream);
 
 		dataWriter.WriteUInt32(i+1);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/FiniteSet/FiniteSet.hpp"
+#include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "../Streams/BufferInputStream.hpp"
@@ -56,7 +56,7 @@ namespace StdXX
             virtual String GetExtension() const = 0;
             virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = 0;
             virtual String GetName() const = 0;
-            //virtual FiniteSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
+            //virtual BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
             virtual float32 Matches(BufferInputStream &refBuffer) const = 0;
 
             //Functions

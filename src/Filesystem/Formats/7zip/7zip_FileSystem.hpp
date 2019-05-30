@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -98,7 +98,7 @@ namespace _stdxx_
 
 		//Methods
 		void Flush() override;
-		bool IsDirectory(const StdXX::Path & path) const override;
+		StdXX::AutoPointer<const StdXX::FileSystemNode> GetNode(const StdXX::Path &path) const override;
 
 	private:
 		//Members

@@ -25,6 +25,11 @@
 using namespace StdXX::Crypto;
 
 //Public methods
+uint32 CTRDecipher::GetBytesAvailable() const
+{
+	return Math::Min(this->leftBytesInBlock, static_cast<uint8>(this->inputStream.GetBytesAvailable()));
+}
+
 bool CTRDecipher::IsAtEnd() const
 {
 	return this->inputStream.IsAtEnd();
@@ -45,9 +50,11 @@ uint32 CTRDecipher::ReadBytes(void *destination, uint32 count)
 			this->leftBytesInBlock = this->counter.GetKeyStreamBlockSize();
 		}
 
-		uint8 nBytesToDec = Math::Min(this->leftBytesInBlock, static_cast<uint8>(count));
+		uint32 nBytesToDec = Math::Min(uint32(this->leftBytesInBlock), count);
 		uint32 nBytesRead = this->inputStream.ReadBytes(buffer, nBytesToDec);
-		nBytesToDec = Math::Min(nBytesToDec, static_cast<const uint8 &>(nBytesRead));
+		if(nBytesRead == 0)
+			break;
+		nBytesToDec = Math::Min(nBytesToDec, nBytesRead);
 
 		for(uint8 i = 0; i < nBytesToDec; i++)
 			dest[i] = this->buffer[this->buffer.GetNumberOfElements() - this->leftBytesInBlock + i] xor buffer[i];

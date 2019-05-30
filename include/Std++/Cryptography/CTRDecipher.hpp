@@ -32,12 +32,13 @@ namespace StdXX
 		public:
 			//Constructor
 			inline CTRDecipher(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, Counter& counter, InputStream& inputStream) :
-					cipher(BlockCipher::Create(algorithm, key, keyLength)), counter(counter), inputStream(inputStream),
+					cipher(BlockCipher::Create(algorithm, key, keyLength * 8_u16)), counter(counter), inputStream(inputStream),
 			buffer(cipher->GetBlockSize()), leftBytesInBlock(0)
 			{
 			}
 
 			//Methods
+			uint32 GetBytesAvailable() const override;
 			bool IsAtEnd() const override;
 			uint32 ReadBytes(void *destination, uint32 count) override;
 			uint32 Skip(uint32 nBytes) override;

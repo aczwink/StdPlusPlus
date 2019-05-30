@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,21 +47,21 @@ const Decoder *CodingFormat::GetBestMatchingDecoder() const
 {
 	if (this->decoders.IsEmpty())
 		return nullptr;
-	return this->decoders.GetFirst().Get<1>();
+	return this->decoders.Top().Get<1>();
 }
 
 const Encoder *CodingFormat::GetBestMatchingEncoder() const
 {
 	if (this->encoders.IsEmpty())
 		return nullptr;
-	return this->encoders.GetFirst().Get<1>();
+	return this->encoders.Top().Get<1>();
 }
 
 const Parser *CodingFormat::GetBestMatchingParser() const
 {
 	if (this->parsers.IsEmpty())
 		return nullptr;
-	return this->parsers.GetFirst().Get<1>();
+	return this->parsers.Top().Get<1>();
 }
 
 //Class functions

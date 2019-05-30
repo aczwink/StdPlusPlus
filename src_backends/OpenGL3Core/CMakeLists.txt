@@ -2,8 +2,17 @@ option(BACKEND_OPENGL "OpenGL Render-backend" OFF)
 
 
 if(${BACKENDS_AUTO_AVAILABLE})
-	set(BACKEND_OPENGL ON)
-	set(BACKEND_OPENGL ON PARENT_SCOPE)
+	#check for x11
+	find_package(X11)
+	if(X11_FOUND)
+		find_package(PkgConfig)
+		if (PkgConfig_FOUND)
+			pkg_check_modules(PC_GLX QUIET glx)
+			if(${PC_GLX_FOUND})
+				set(BACKEND_OPENGL ON)
+			endif()
+		endif()
+	endif()
 endif ()
 
 
@@ -32,6 +41,7 @@ if(${BACKEND_OPENGL})
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLTexture2D.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/OpenGLVertexBuffer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.hpp
 
 		#.
@@ -76,3 +86,4 @@ if(${BACKEND_OPENGL})
 	set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
 	set(STDPLUSPLUS_PRIVATE_LIBRARIES ${STDPLUSPLUS_PRIVATE_LIBRARIES} PARENT_SCOPE)
 endif ()
+set(BACKEND_OPENGL ${BACKEND_OPENGL} PARENT_SCOPE)

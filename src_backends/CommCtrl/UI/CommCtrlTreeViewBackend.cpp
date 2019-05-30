@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -84,7 +84,7 @@ void CommCtrlTreeViewBackend::OnMessage(WinMessageEvent& event)
 }
 
 //Private methods
-void CommCtrlTreeViewBackend::AddItems(TreeController* controller, const ControllerIndex& nodeIndex, HTREEITEM hNode)
+void CommCtrlTreeViewBackend::AddItems(const SharedPointer<TreeController>& controller, const ControllerIndex& nodeIndex, HTREEITEM hNode)
 {
 	for (uint32 i = 0; i < controller->GetNumberOfChildren(nodeIndex); i++)
 	{

@@ -44,6 +44,7 @@ namespace StdXX
 		virtual UniquePointer<OutputStream> CreateFile(const String &name) = 0;
 		virtual void CreateSubDirectory(const String &name) = 0;
 		virtual bool Exists(const Path &path) const = 0;
+		virtual AutoPointer<const FileSystemNode> GetChild(const String &name) const = 0;
 		virtual AutoPointer<const File> GetFile(const String &name) const = 0;
 		virtual FileSystem *GetFileSystem() = 0;
 		virtual const FileSystem *GetFileSystem() const = 0;
@@ -54,6 +55,7 @@ namespace StdXX
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
+		FileSystemNodeType GetType() const override;
 		DirectoryWalkerWrapper WalkFiles();
 
 		//For range-based loop

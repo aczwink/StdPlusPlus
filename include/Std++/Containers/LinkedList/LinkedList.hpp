@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -130,6 +130,11 @@ namespace StdXX
         }
 
         //Methods
+		bool Contains(const DataType& item) const
+		{
+			return this->Find(item) != -1;
+		}
+
         int32 Find(const DataType &refItem) const
         {
             int32 counter;
@@ -207,7 +212,8 @@ namespace StdXX
                 return;
             }
 
-            this->head->prev = new Node(refData, NULL, this->head);
+            this->head->prev = new Node(refData);
+            this->head->prev->next = this->head;
             this->head = this->head->prev;
             this->nElements++;
         }
@@ -281,7 +287,7 @@ namespace StdXX
 
 		void Remove(uint32 index)
 		{
-			this->Remove(this->FindNode(index));
+			this->RemoveNode(this->FindNode(index));
 		}
 
         void Release()
@@ -293,6 +299,12 @@ namespace StdXX
         }
 
 		//Inline
+		template <typename... ArgTypes>
+		inline void EmplaceTail(ArgTypes&&... args)
+		{
+			this->InsertNodeAtTail(new Node(Forward<ArgTypes>(args)...));
+		}
+
 		inline void InsertTail(const DataType &data)
 		{
 			this->InsertNodeAtTail(new Node(data));
@@ -383,7 +395,7 @@ namespace StdXX
 			this->nElements++;
 		}
 
-		void Remove(Node *node)
+		void RemoveNode(Node *node)
 		{
 			ASSERT(node, u8"Precondition for this method: node exists.");
 

@@ -66,6 +66,12 @@ bool ContainerDirectory::Exists(const Path &path) const
 	return false;
 }
 
+AutoPointer<const FileSystemNode> ContainerDirectory::GetChild(const String &name) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return AutoPointer<const FileSystemNode>();
+}
+
 AutoPointer<const File> ContainerDirectory::GetFile(const String &name) const
 {
 	return this->files[name].Cast<const File>();
@@ -152,15 +158,15 @@ DirectoryIterator ContainerDirectory::begin() const
 			return false;
 		}
 
-		Tuple<String, AutoPointer<FileSystemNode>> GetCurrent() override
+		String GetCurrent() override
 		{
 			if(this->atDirs)
 			{
 				const auto& kv = (*this->dirsIterator);
-				return { kv.key, kv.value };
+				return kv.key;
 			}
 			const auto& kv = (*this->filesIterator);
-			return { kv.key, kv.value };
+			return kv.key;
 		}
 
 		void Next() override

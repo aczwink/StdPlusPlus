@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/FiniteSet/FiniteSet.hpp>
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 //Namespaces
 using namespace StdXX;
@@ -30,5 +30,5 @@ using namespace StdXX;
 #define WAVE_DATACHUNK_CHUNKID FOURCC("data")
 
 //Functions
-//void AddMS_TwoCC_AudioCodecs(FiniteSet<CodecId> &refCodecSet);
+//void AddMS_TwoCC_AudioCodecs(BinaryTreeSet<CodecId> &refCodecSet);
 //uint16 MapToTwoCC(CodingFormatId codingFormatId);

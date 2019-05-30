@@ -31,12 +31,13 @@ namespace StdXX
 		public:
 			//Constructor
 			inline ECBCipher(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, OutputStream& outputStream)
-					: cipher(BlockCipher::Create(algorithm, key, keyLength)), outputStream(outputStream), unencrypted(cipher->GetBlockSize()),
+					: cipher(BlockCipher::Create(algorithm, key, keyLength * 8_u16)), outputStream(outputStream), unencrypted(cipher->GetBlockSize()),
 					  encrypted(cipher->GetBlockSize()), nBytesInBlock(0)
 			{
 			}
 
 			//Methods
+			void Finalize();
 			void Flush() override;
 			uint32 WriteBytes(const void *source, uint32 size) override;
 

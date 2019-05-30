@@ -28,11 +28,18 @@ namespace StdXX
 	class Directory;
 	class FileSystem;
 
+	enum class FileSystemNodeType
+	{
+		Directory,
+		File,
+		Link
+	};
+
 	class FileSystemNode
 	{
 	public:
 		//Destructor
-		virtual ~FileSystemNode(){};
+		virtual ~FileSystemNode() = default;
 
 		//Abstract
 		/**
@@ -48,5 +55,6 @@ namespace StdXX
 		 * @return
 		 */
 		virtual uint64 GetSize() const = 0;
+		virtual FileSystemNodeType GetType() const = 0;
 	};
 }

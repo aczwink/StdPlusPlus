@@ -47,6 +47,7 @@ namespace StdXX
 
         //Methods
         void EnqueueTask(const Function<void()>& task);
+		void EnqueueTask(Function<void()>&& task);
 		void WaitForAllTasksToComplete();
 
         //Inline

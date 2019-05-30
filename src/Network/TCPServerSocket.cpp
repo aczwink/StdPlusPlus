@@ -21,6 +21,7 @@
 //Global
 #include <fcntl.h>
 #ifndef XPC_OS_WINDOWS
+#include <errno.h>
 #include <poll.h>
 #include <unistd.h>
 #endif
@@ -60,9 +61,19 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 			address.sin_family = AF_INET;
 			address.sin_port = htons(port);
 
-			bind(this->systemHandle.i32, (sockaddr *)&address, sizeof(address));
+			int ret = bind(this->systemHandle.i32, (sockaddr *)&address, sizeof(address));
+			if(ret == -1)
+			{
+				switch (errno)
+				{
+					case EADDRINUSE:
+						NOT_IMPLEMENTED_ERROR;
+					default:
+						NOT_IMPLEMENTED_ERROR;
+				}
+			}
 		}
-			break;
+		break;
 		default:
 			NOT_IMPLEMENTED_ERROR;
 	}
@@ -85,8 +96,10 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 TCPServerSocket::~TCPServerSocket()
 {
 #ifdef XPC_OS_WINDOWS
+	shutdown(this->systemHandle.u64, SD_BOTH);
 	closesocket(this->systemHandle.u64);
 #else
+	shutdown(this->systemHandle.i32, SHUT_RDWR);
 	close(this->systemHandle.i32);
 #endif
 }

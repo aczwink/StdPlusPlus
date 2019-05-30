@@ -49,15 +49,21 @@ LZMACompressor::~LZMACompressor()
 }
 
 //Public methods
+void LZMACompressor::Finalize()
+{
+	while(this->CompressBlock(LZMA_FINISH)); //we need to issue this multiple times, since the output buffer might be full
+	this->Flush();
+}
+
 void LZMACompressor::Flush()
 {
-	bool continuing = this->CompressBlock(LZMA_FINISH);
-	if(continuing) //might happen if output buffer was full
-		continuing = this->CompressBlock(LZMA_FINISH); //try again
-	ASSERT(continuing == false, u8"Report this please!");
-
 	uint32 size = sizeof(this->outputBuffer) - this->lzmaStream.avail_out;
 	this->outputStream.WriteBytes(this->outputBuffer, size);
+	this->outputStream.Flush();
+
+	//give it again the full buffer
+	this->lzmaStream.next_out = this->outputBuffer;
+	this->lzmaStream.avail_out = sizeof(this->outputBuffer);
 }
 
 uint32 LZMACompressor::WriteBytes(const void *source, uint32 size)

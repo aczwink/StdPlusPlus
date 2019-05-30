@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include "Debug.hpp"
 #include "Definitions.h"
 
 namespace StdXX
@@ -35,6 +36,17 @@ namespace StdXX
 		static constexpr uint8 Max()
 		{
 			return ((uint8)0xFF);
+		}
+	};
+
+	template<>
+	class Unsigned<uint16>
+	{
+	public:
+		//Expressions
+		static constexpr uint16 Max()
+		{
+			return 0xFFFF;
 		}
 	};
 
@@ -64,9 +76,37 @@ namespace StdXX
 	{
 	public:
 		//Expressions
+		static constexpr uint64 Concat(uint32 high32, uint32 low32)
+		{
+			return ( uint64(low32) | (uint64(high32) << 32u) );
+		}
+
+		static constexpr uint32 Low32(uint64 v)
+		{
+			return uint32(v & Unsigned<uint32>::Max());
+		}
+
+		static constexpr uint32 High32(uint64 v)
+		{
+			return uint32(v >> 32u);
+		}
+
 		static constexpr uint64 Max()
 		{
 			return ((uint64)0xFFFFFFFFFFFFFFFF);
 		}
 	};
+
+	//Literals
+	inline uint8 operator "" _u8(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint8>::Max(), u8"Too large uint8 literal");
+		return static_cast<uint8>(value);
+	}
+
+	inline uint16 operator "" _u16(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint16>::Max(), u8"Too large uint16 literal");
+		return static_cast<uint16>(value);
+	}
 }

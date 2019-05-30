@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,45 +17,55 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Global
+#include <glib.h>
+//Local
+#include <Std++/UI/UIEventSource.hpp>
+
+namespace _stdxx_
+{
+    class GtkEventSource : public StdXX::UI::UIEventSource
+    {
+    public:
+	    //Constructor
+	    GtkEventSource();
+
+        //Methods
+        void DispatchPendingEvents() override;
+        uint64 GetMaxTimeout() const override;
+        void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) override;
+
+    private:
+        //Members
+        GMainContext *context;
+	    mutable StdXX::DynamicArray<GPollFD> pollFds;
+    };
+}
+/*OLD:
+//Global
 #include <gtk/gtk.h>
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
-#include <Std++/UI/UIEventSource.hpp>
 
-class GtkEventSource : public StdPlusPlus::UI::UIEventSource
+class GtkEventSource : public StdXX::UI::UIEventSource
 {
 public:
-	//Constructor
-	GtkEventSource();
-
-	//Methods
-	void DispatchPendingEvents() override;
-	uint64 GetMaxTimeout() const override;
-	void VisitWaitObjects(const StdPlusPlus::Function<void(_stdpp::WaitObjHandle, bool)> &visitFunc) const override;
-
     //Slots:
 	static bool ButtonSlot(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 	static void ChangedSlot(GtkComboBox *comboBox, gpointer user_data);
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
 	static void ClickedSlot(GtkButton *button, gpointer user_data);
-	static bool CloseSlot(GtkWidget *pWidget, GdkEvent *pEvent);
-	static void EmitResizingEvent(StdPlusPlus::UI::Widget &widget, const StdPlusPlus::Rect &newBounds);
+	static void EmitResizingEvent(StdXX::UI::Widget &widget, const StdXX::Math::RectD &newBounds);
 	static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data);
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
 	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);
-	static void SizeAllocateSlot(GtkWidget *widget, GdkRectangle *allocation, gpointer user_data);
 	static void ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data);
 	static void TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data);
 	static void ValueChangedSlot(GtkRange *range, gpointer user_data);
 
 	//Inline
-	inline void OpenGLWidgetRender(StdPlusPlus::UI::Widget *widget)
+	inline void OpenGLWidgetRender(StdXX::UI::Widget *widget)
 	{
-		this->DispatchPaintEvent(*widget);
+	    NOT_IMPLEMENTED_ERROR; //TODO: next line
+		//this->DispatchPaintEvent(*widget);
 	}
-
-private:
-	//Members
-	GMainContext *context;
-	mutable StdPlusPlus::DynamicArray<GPollFD> pollFds;
-};
+};*/

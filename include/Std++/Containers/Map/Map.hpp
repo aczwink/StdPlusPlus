@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -100,12 +100,14 @@ namespace StdXX
             return *this;
         }
 
-        Map &operator=(Map &&refMap) //move assign
+        Map &operator=(Map&& other) //move assign
         {
             this->Release();
 
-            this->root = refMap.root;
-            refMap.root = nullptr;
+            this->root = other.root;
+			other.root = nullptr;
+			this->nElements = other.nElements;
+			other.nElements = 0;
 
             return *this;
         }

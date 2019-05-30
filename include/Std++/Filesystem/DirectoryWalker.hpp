@@ -98,13 +98,13 @@ namespace StdXX
 			return !(*this == rhs);
 		}
 
-		inline Tuple<Path, AutoPointer<File>> operator*()
+		inline Path operator*()
 		{
 			WalkerState& topState = this->states.Last();
-			Tuple<String, AutoPointer<FileSystemNode>> t = *(*topState.iterator);
+			String s = *(*topState.iterator);
 			if(topState.path.GetString().IsEmpty())
-				return { t.Get<0>(), t.Get<1>().MoveCast<File>() };
-			return { topState.path / t.Get<0>(), t.Get<1>().MoveCast<File>() };
+				return s;
+			return topState.path / s;
 		}
 
 		inline DirectoryWalker &operator++() //Prefix++

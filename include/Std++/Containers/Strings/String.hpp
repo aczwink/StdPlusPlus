@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -234,6 +234,11 @@ namespace StdXX
 		* @return *this
 		*/
 		const String &ToUTF16() const;
+		/**
+		 * Returns this string but trimmed from whitespaces from the beginning and the end.
+		 * @return
+		 */
+		String Trim() const;
 
 		//Inline
 		inline uint32 GetLength() const

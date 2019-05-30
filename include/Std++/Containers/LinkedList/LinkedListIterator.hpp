@@ -48,7 +48,7 @@ namespace StdXX
 		{
 			Node *toDelete = this->node;
 			this->node = this->node->next;
-			this->list->Remove(toDelete);
+			this->list->RemoveNode(toDelete);
 		}
 
     private:

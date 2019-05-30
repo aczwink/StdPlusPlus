@@ -6,7 +6,6 @@ add_subdirectory(Cryptography)
 add_subdirectory(Debugging)
 add_subdirectory(Devices)
 add_subdirectory(Filesystem)
-add_subdirectory(Hashing)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
 add_subdirectory(Network)
@@ -15,6 +14,9 @@ add_subdirectory(UI)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
+
+	#_Backends
+	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UI/DrawableWidgetBackend.cpp
 
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
@@ -56,8 +58,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
-
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/DateTime.cpp
@@ -70,8 +70,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/CXMLParser.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/CXMLParser.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/XMLParser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XML/XMLParser.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp

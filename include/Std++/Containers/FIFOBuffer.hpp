@@ -47,6 +47,7 @@ namespace StdXX
         //Methods
         void EnsureCapacity(uint32 requiredNumberOfElements) override;
 		void Flush() override;
+		uint32 GetBytesAvailable() const override;
         bool IsAtEnd() const override;
         uint32 PeekBytes(void *destination, uint32 offset, uint32 count) const;
         uint32 ReadBytes(void *pDestination, uint32 count) override;

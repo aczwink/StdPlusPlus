@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,4 +30,14 @@ template <typename ScalarType>
 Degree<ScalarType>::Degree(const Radian<ScalarType> &refRadian)
 {
 	this->value = refRadian.value * 180.0 / PI;
+}
+
+namespace StdXX
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template class STDPLUSPLUS_API Degree<float32>;
+		template class STDPLUSPLUS_API Degree<float64>;
+	}
 }

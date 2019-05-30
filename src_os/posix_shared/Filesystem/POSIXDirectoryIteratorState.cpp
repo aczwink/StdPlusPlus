@@ -59,17 +59,9 @@ bool POSIXDirectoryIteratorState::Equals(DirectoryIteratorState *other) const
 	return false;
 }
 
-Tuple<String, AutoPointer<FileSystemNode>> POSIXDirectoryIteratorState::GetCurrent()
+String POSIXDirectoryIteratorState::GetCurrent()
 {
-	String name = String::CopyRawString(this->currentEntry->d_name);
-	Path p = this->path / name;
-	struct stat sb{};
-	int ret = stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
-	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
-
-	if(S_ISDIR(sb.st_mode))
-		return {name, new POSIXDirectory(p)};
-	return {Move(name), new POSIXFile(p)};
+	return String::CopyRawString(this->currentEntry->d_name);
 }
 
 void POSIXDirectoryIteratorState::Next()

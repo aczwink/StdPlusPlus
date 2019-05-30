@@ -1,3 +1,6 @@
+add_subdirectory(Style)
+add_subdirectory(Views)
+
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
@@ -11,6 +14,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/ControllerIndex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/ListController.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/TableController.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/TreeController.cpp
 
 	#Controls
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/CheckBox.cpp
@@ -35,14 +39,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/Menu.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
 
-	#Views
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/ListView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/SelectBox.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TableView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/TreeView.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Views/View.cpp
-
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/DrawableWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.cpp

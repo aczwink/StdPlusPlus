@@ -37,6 +37,9 @@ namespace StdXX
 		{
 		}
 
+		//Overrideable
+		virtual void Finalize();
+
 		//Functions
 		/**
 		 *

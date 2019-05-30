@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
+#include <Std++/Multitasking/Mutex.hpp>
 #include "../Streams/SeekableInputStream.hpp"
 #include "FileSystem.hpp"
 #include "ContainerFile.hpp"
@@ -62,15 +63,16 @@ namespace StdXX
 		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override;
 		AutoPointer<const File> GetFile(const Path &filePath) const override;
+		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
 		uint64 GetSize() const override;
-		bool IsDirectory(const Path & path) const override;
 		void Move(const Path &from, const Path &to) override;
 
 	protected:
 		//Members
 		AutoPointer<Directory> root;
 		Path fileSystemPath;
+		Mutex containerInputStreamLock;
 		UniquePointer<FileInputStream> containerInputStream;
 		bool isFlushed;
 

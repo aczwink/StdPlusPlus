@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -76,4 +76,13 @@ float32 AxisAlignedBox<ScalarType>::SquaredDistanceTo(const Vector4S &refPoint) 
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return 0;
+}
+
+namespace StdXX
+{
+	namespace Math
+	{
+		//Explicit instantiations
+		template class STDPLUSPLUS_API AxisAlignedBox<float32>;
+	}
 }

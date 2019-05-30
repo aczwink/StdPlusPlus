@@ -56,9 +56,9 @@ String WAVE_Format::GetName() const
 	return u8"Waveform Audio (WAVE)";
 }
 
-/*FiniteSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
+/*BinaryTreeSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
 {
-	FiniteSet<CodecId> result;
+	BinaryTreeSet<CodecId> result;
 
 	NOT_IMPLEMENTED_ERROR;
 

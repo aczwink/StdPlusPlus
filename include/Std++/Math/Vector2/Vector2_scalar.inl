@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -54,6 +54,12 @@ namespace StdXX
 		inline Vector2<ScalarType> Vector2<ScalarType>::operator-(const Vector2<ScalarType> &refRight) const
 		{
 			return Vector2<ScalarType>(this->x - refRight.x, this->y - refRight.y);
+		}
+
+		template <typename ScalarType>
+		inline Vector2<ScalarType> Vector2<ScalarType>::operator*(ScalarType rhs) const
+		{
+			return Vector2<ScalarType>(this->x * rhs, this->y * rhs);
 		}
 
 		template <typename ScalarType>

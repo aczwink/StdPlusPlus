@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,6 +19,7 @@
 //Local
 #include <Std++/_Backends/UI/ViewBackend.hpp>
 #include <Std++/Containers/Map/Map.hpp>
+#include <Std++/SmartPointers/SharedPointer.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
 #include "Win32Window.hpp"
 
@@ -55,6 +56,6 @@ namespace _stdxx_
 		StdXX::Map<HTREEITEM, StdXX::UI::ControllerIndex> treeItemMap;
 
 		//Methods
-		void AddItems(StdXX::UI::TreeController* controller, const StdXX::UI::ControllerIndex& nodeIndex, HTREEITEM hNode);
+		void AddItems(const StdXX::SharedPointer<StdXX::UI::TreeController>& controller, const StdXX::UI::ControllerIndex& nodeIndex, HTREEITEM hNode);
 	};
 }

@@ -57,6 +57,12 @@ namespace StdXX
 		}
 
 		template <>
+		inline Vector2<float64> Vector2<float64>::operator*(float64 right) const
+		{
+			return _mm_mul_pd(this->mmValue, _mm_set1_pd(right));
+		}
+
+		template <>
 		inline Vector2<float64> &Vector2<float64>::operator*=(float64 right)
 		{
 			this->mmValue = _mm_mul_pd(this->mmValue, _mm_set1_pd(right));

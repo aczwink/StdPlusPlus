@@ -7,10 +7,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/FixedArray.hpp
 
-	#FiniteSet
-	${CMAKE_CURRENT_SOURCE_DIR}/FiniteSet/FiniteSet.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/FiniteSet/FiniteSetIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/FiniteSet/FiniteSetNode.hpp
+	#BinaryTreeSet
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/BinaryTreeSet.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetNode.hpp
 
 	#LinkedList
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedList.hpp

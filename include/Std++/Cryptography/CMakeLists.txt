@@ -4,6 +4,9 @@ set(SOURCE_FILES
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockCipher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockDecipher.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockDecipherStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CBCCipher.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CBCDecipher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CipherAlgorithm.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Counter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CTRCipher.hpp
@@ -12,7 +15,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ECBCipher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ECBDecipher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HashFunction.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/HashingInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/HashingOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HMAC.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/KeyDerivationFunctions.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SecureRandomNumberGenerator.hpp
 
 	PARENT_SCOPE)

@@ -18,36 +18,27 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Array/FixedArray.hpp>
-#include <Std++/Streams/InputStream.hpp>
-#include "BlockDecipher.hpp"
+#include "BlockDecipherStream.hpp"
 
 namespace StdXX
 {
 	namespace Crypto
 	{
-		class STDPLUSPLUS_API ECBDecipher : public InputStream
+		class ECBDecipher : public BlockDecipherStream
 		{
 		public:
 			//Constructor
 			inline ECBDecipher(CipherAlgorithm algorithm, const uint8* key, uint16 keyLength, InputStream& inputStream) :
-					decipher(BlockDecipher::Create(algorithm, key, keyLength)), inputStream(inputStream),
-					encrypted(decipher->GetBlockSize()), decrypted(decipher->GetBlockSize()), nBytesInBuffer(0)
+				BlockDecipherStream(algorithm, key, keyLength, inputStream), encrypted(decipher->GetBlockSize())
 			{
 			}
 
-			//Methods
-			bool IsAtEnd() const override;
-			uint32 ReadBytes(void *destination, uint32 count) override;
-			uint32 Skip(uint32 nBytes) override;
-
 		private:
 			//Members
-			UniquePointer<BlockDecipher> decipher;
-			InputStream& inputStream;
 			FixedArray<uint8> encrypted;
-			FixedArray<uint8> decrypted;
-			uint8 nBytesInBuffer;
+
+			//Methods
+			bool DecryptNextBlock() override;
 		};
 	}
 }

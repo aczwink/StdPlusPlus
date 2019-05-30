@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,31 @@
  */
 //corresponding header
 #include <Std++/Memory.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
+
+//Namespace functions
+void StdXX::MemMove(void *destination, const void *source, uint32 size)
+{
+	const uint8* src = static_cast<const uint8 *>(source);
+	uint8* dest = static_cast<uint8 *>(destination);
+
+	if(Math::IsValueInInterval((const uint8*)dest, src, src+size))
+	{
+		//overlap, copy from end
+		src += size - 1;
+		dest += size - 1;
+		while(size--)
+		{
+			*dest-- = *src--;
+		}
+		return;
+	}
+
+	MemCopy(destination, source, size);
+}
+
+
 #ifdef _DEBUG
 //Global
 #include <stdio.h>
@@ -64,6 +89,7 @@ public:
 };
 #elif defined(XPC_OS_LINUX) || defined(XPC_OS_DARWIN)
 #include <pthread.h>
+
 class InternalMutex
 {
 public:

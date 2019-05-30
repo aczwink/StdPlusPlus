@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,6 +32,26 @@ namespace StdXX
 	{
 		return static_cast<T&&>(arg);
 	}
+
+	template <typename T = void>
+	struct GreaterThan
+	{
+		constexpr inline
+		bool operator()(const T& lhs, const T& rhs) const
+		{
+			return lhs > rhs;
+		}
+	};
+
+	template <typename T = void>
+	struct LessThan
+	{
+		constexpr inline
+		bool operator()(const T& lhs, const T& rhs) const
+		{
+			return lhs < rhs;
+		}
+	};
 
 	template <typename T>
 	constexpr T &&Move(T &reference)

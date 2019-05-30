@@ -31,7 +31,7 @@ namespace _stdxx_
 		virtual ~DirectoryIteratorState(){}
 		//Abstract
 		virtual bool Equals(DirectoryIteratorState *other) const = 0;
-		virtual StdXX::Tuple<StdXX::String, StdXX::AutoPointer<StdXX::FileSystemNode>> GetCurrent() = 0;
+		virtual StdXX::String GetCurrent() = 0;
 		virtual void Next() = 0;
 	};
 }

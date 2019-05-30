@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,55 +17,56 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
-//Global
-#include <gtk/gtk.h>
 //Local
-#include <Std++/_Backends/UIBackend.hpp>
+#include <Std++/_Backends/UI/UIBackend.hpp>
+
+namespace _stdxx_
+{
+    class Gtk3Backend : public StdXX::UIBackend
+    {
+    public:
+        //Constructor
+        Gtk3Backend();
+
+        //Methods
+        StdXX::EventSource *CreateEventSource() override;
+        MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
+        void Load() override;
+        ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
+        WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
+
+        //NOT IMPLEMENTED
+        CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
+        DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
+        GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox *groupBox) override;
+        HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
+        LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
+        MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
+        PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) override;
+        WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget *renderTargetWidget) override;
+        ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
+        WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
+        ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
+        SliderBackend *CreateSliderBackend(StdXX::UI::Slider *slider) override;
+        SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;
+        ViewBackend *CreateTableViewBackend(StdXX::UI::TableView &treeView) override;
+    };
+}
+/*OLD:
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "UI/GtkWindowBackend.hpp"
 #include "Gtk3OpenGLBackend.hpp"
-#include "UI/GtkEventSource.hpp"
 
 namespace StdPlusPlus
 {
 	class Gtk3Backend : public UIBackend
 	{
 	public:
-		//Constructor
-		Gtk3Backend()
-		{
-			//register render backends
-#ifdef _STDPLUSPLUS_BACKEND_OPENGL
-			Gtk3OpenGLBackend *gtkOpenGLBackend = new Gtk3OpenGLBackend;
-			this->renderBackends.RegisterBackend(gtkOpenGLBackend, 0);
-#endif
-		}
-
 		//Methods
-		EventSource *CreateEventSource() override
-		{
-			return new GtkEventSource;
-		}
-
-		_stdpp::MenuBackend *CreateMenuBackend(UI::Menu *menu) override
-		{
-			return nullptr;
-		}
-
-		_stdpp::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override
-		{
-			return nullptr;
-		}
-
 		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget)
 		{
 			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);
 		}
-
-		void Load()
-		{
-			gtk_init(nullptr, nullptr);
-		}
 	};
-}
+}*/
 #endif

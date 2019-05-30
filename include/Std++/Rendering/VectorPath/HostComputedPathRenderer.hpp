@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Math/Matrix2x2.hpp"
-#include "A2DPathRenderer.h"
+#include "VectorPathRenderer.hpp"
 #include "VectorPath.hpp"
 
 namespace StdXX
@@ -31,7 +31,7 @@ namespace StdXX
 		 * while leaving the rendering of them undefined.
 		 * By deriving this class, only the rendering of the precomputed and tesselated areas has to be imnplemented.
 		 */
-        class STDPLUSPLUS_API HostComputedPathRenderer : public A2DPathRenderer
+        class STDPLUSPLUS_API HostComputedPathRenderer : public VectorPathRenderer
         {
             struct SRendererState
             {

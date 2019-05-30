@@ -73,7 +73,7 @@ namespace _stdxx_
 		void ReadDepthBuffer(const StdXX::Math::Rect<uint16> &block, float32 *output) override;
 		void SetDepthTest(StdXX::Rendering::TestFunction function) override;
 		void SetDownloadAlignment(uint8 value) override;
-		void SetFrameBuffer(StdXX::Rendering::IFrameBuffer *pFrameBuffer) override;
+		void SetFrameBuffer(StdXX::Rendering::IFrameBuffer *frameBuffer) override;
 		void SetInputState(StdXX::Rendering::InputState *pInputState) override;
 		void SetPointSize(uint32 size) override;
 		void SetProgram(StdXX::Rendering::ShaderProgram *pProgram) override;
@@ -97,6 +97,9 @@ namespace _stdxx_
 		static thread_local OpenGLState state;
 		//Members
 		OpenGLInputState *currentInputState;
+
+		//Overrideable
+		virtual uint32 GetScreenFrameBufferId() const;
 
 		//Methods
 		void LoadOpenGLExtensions_2_0(GLFunctions_2_0 &glFuncs, GL_EXT_LOADER extensionLoaderFunction);

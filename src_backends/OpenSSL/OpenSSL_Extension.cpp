@@ -106,8 +106,12 @@ const EVP_MD *OpenSSL_Extension::MapHashAlgorithm(HashAlgorithm algorithm)
 	{
 		case HashAlgorithm::MD5:
 			return EVP_md5();
+		case HashAlgorithm::SHA1:
+			return EVP_sha1();
 		case HashAlgorithm::SHA256:
 			return EVP_sha256();
+		case HashAlgorithm::SHA512:
+			return EVP_sha512();
 	}
 	return nullptr;
 }

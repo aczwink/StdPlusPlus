@@ -1,5 +1,5 @@
-#include "_RedirectGtkContainer.h"/*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+/*
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -173,12 +173,13 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 		Widget *widget = WIDGET_FROM_GTK(gtkWidget);
 		if(!widget)
 			continue;
-		Rect bounds = widget->GetLocalBounds();
+		Math::RectD bounds = widget->GetLocalBounds();
 
 		//offset bounds because the parent of the gtk3 widget might not be the parent of the std++ widget
 		bounds.origin = widget->TranslateToAncestorCoords(bounds.origin, thisContainer);
 		//the gtk3 allocation is in coordinates of the widget, not its child i.e. the redirect container
-		bounds.origin = thisContainer->TranslateChildToWidgetCoords(bounds.origin);
+        //NOT_IMPLEMENTED_ERROR; //TODO: next line
+		//bounds.origin = thisContainer->TranslateChildToWidgetCoords(bounds.origin);
 
 		allocation->x = bounds.x();
 		allocation->y = bounds.y();
