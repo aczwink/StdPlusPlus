@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,7 +28,7 @@ namespace StdXX
 	{
 	public:
 		//Abstract
-		virtual UniquePointer<InputStream> OpenForReading() const = 0;
+		virtual UniquePointer<InputStream> OpenForReading(bool verify) const = 0;
 		/*
 		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
 		 * OpenForAppending:
@@ -49,5 +49,8 @@ namespace StdXX
 		 * @return
 		 */
 		virtual UniquePointer<OutputStream> OpenForWriting() = 0;
+
+		//Methods
+		FileSystemNodeType GetType() const override;
 	};
 }

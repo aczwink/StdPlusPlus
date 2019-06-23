@@ -51,7 +51,7 @@ namespace StdXX
 		//Methods
 		uint64 GetSize() const override;
 		uint64 GetStoredSize() const override;
-		UniquePointer<InputStream> OpenForReading() const override;
+		UniquePointer<InputStream> OpenForReading(bool verify) const override;
 		UniquePointer<OutputStream> OpenForWriting() override;
 
 		//Inline

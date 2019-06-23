@@ -68,6 +68,10 @@ namespace StdXX
 		//Members
 		HANDLE hActCtx;
 		ULONG_PTR ulpActivationCookie;
+
+		//Methods
+		void LoadStyles() const;
+		StdXX::Color MapCOLORREF(HTHEME hTheme, int colorId) const;
 	};
 }
 #endif

@@ -45,6 +45,20 @@ namespace StdXX
 		//Members
 		_Atomic(bool) native;
 #endif
+
+#ifdef XPC_COMPILER_GCC
+    public:
+        //Inline
+        inline void Clear()
+        {
+            NOT_IMPLEMENTED_ERROR;
+        }
+
+        inline bool TestAndSet()
+        {
+            NOT_IMPLEMENTED_ERROR;
+        }
+#endif
 #ifdef XPC_COMPILER_MSVC
 	public:
 		//Constructor

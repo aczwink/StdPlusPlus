@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,8 +27,8 @@
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 //Definitions
 #define THIS (PRIVATE_DATA(this)->widget)
 /*

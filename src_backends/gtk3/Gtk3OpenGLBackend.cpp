@@ -20,7 +20,7 @@
 #include "Gtk3OpenGLBackend.hpp"
 //Local
 #include "Rendering/GtkOpenGLDeviceContext.hpp"
-#include "UI/GtkWindowBackend.hpp"
+#include "UI/oldGtkWindowBackend.hpp"
 //Namespaces
 using namespace StdPlusPlus;
 using namespace _stdpp;

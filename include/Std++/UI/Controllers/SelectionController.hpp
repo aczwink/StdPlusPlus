@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,11 @@ namespace StdXX
 			inline const LinkedList<ControllerIndex> &GetSelectedIndexes() const
 			{
 				return this->selectedIndexes;
+			}
+
+			inline bool IsSelected(const ControllerIndex& index) const
+			{
+				return this->selectedIndexes.Contains(index);
 			}
 
 			inline void Select(const ControllerIndex &index)

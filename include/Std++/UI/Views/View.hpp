@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/ViewBackend.hpp>
+#include <Std++/SmartPointers/SharedPointer.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/UI/Controllers/SelectionController.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
@@ -47,20 +48,15 @@ namespace StdXX
 
 			//Methods
 			void Select(const ControllerIndex& index);
-			void SetController(UniquePointer<TreeController>&& controller);
+			void SetController(SharedPointer<TreeController> controller);
 
 			//Overrideable
 			virtual void Event(UI::Event& event) override;
 
 			//Inline
-			inline TreeController *GetController()
+			inline const SharedPointer<TreeController>& GetController() const
 			{
-				return this->controller.operator->();
-			}
-
-			inline const TreeController *GetController() const
-			{
-				return this->controller.operator->();
+				return this->controller;
 			}
 
 			inline bool HasController() const
@@ -75,7 +71,7 @@ namespace StdXX
 
 		protected:
 			//Members
-			UniquePointer<TreeController> controller;
+			SharedPointer<TreeController> controller;
 
 			//Event handlers
 			virtual void OnModelChanged();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,35 +17,30 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Global
-#include <gtk/gtk.h>
 //Local
-#include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/UI/Widget.hpp>
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
-namespace _stdpp
+namespace _stdxx_
 {
-	class GtkWindowBackend : public WindowBackend
+	class oldGtkWindowBackend : public WindowBackend
 	{
 	public:
 		//Constructor
-		GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, const GtkWindowBackend *parentBackend);
+		oldGtkWindowBackend(UIBackend *uiBackend, Widget *widget, const oldGtkWindowBackend *parentBackend);
 
 		//Destructor
-		~GtkWindowBackend();
+		~oldGtkWindowBackend();
 
 		//Methods
-		WindowBackend *CreateChildBackend(_stdpp::WindowBackendType type, StdPlusPlus::UI::Widget *widget) const;
-		Rect GetChildrenRect() const override;
 		uint32 GetPosition() const override;
 		void GetRange(int32 &min, int32 &max) override;
 		StdPlusPlus::Size GetSize() const;
 		StdPlusPlus::Size GetSizeHint() const;
 		int32 GetValue() const override;
-		void IgnoreEvent() override;
 		bool IsChecked() const override;
 		void Maximize() override;
 		void Paint() override;
@@ -55,34 +50,22 @@ namespace _stdpp
 		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;
 		void SetBounds(const StdPlusPlus::Rect &area);
 		void SetEditable(bool enable) const override;
-		void SetEnabled(bool enable) const;
-		void SetHint(const StdPlusPlus::String &text) const;
 		void SetMaximum(uint32 max) override;
 		void SetMinimum(uint32 min) override;
 		void SetPosition(uint32 pos) const override;
 		void SetRange(int32 min, int32 max) override;
 		void SetText(const StdPlusPlus::String &text);
 		void SetValue(int32 value) override;
-		void Show(bool visible);
 		void ShowInformationBox(const String &title, const String &message) const;
 		void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const;
 
 		//Inline
-		inline GtkWidget *GetGtkWidget() const
-		{
-			return this->gtkWidget;
-		}
-
 		void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 
 
 	private:
 		//Members
-		GtkWidget *gtkWidget; //the widget, window whatever itself
 		GtkWidget *childAreaWidget; //its child area
 		GtkWidget *headerBar; //for windows
-
-		//Methods
-		void AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const StdPlusPlus::UI::ControllerIndex &parent, const StdPlusPlus::UI::TreeController &controller) const;
 	};
 }

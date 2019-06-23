@@ -17,11 +17,86 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
+#include <Std++/SmartPointers/SharedPointer.hpp>
+#include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Views/HeaderView.hpp>
 #include <Std++/UI/DrawableWidget.hpp>
 
 namespace _stdxx_
 {
+	class Cell
+	{
+	public:
+		//Members
+		StdXX::UI::ControllerIndex controllerIndex;
+	};
+
+	class Row
+	{
+	public:
+		//Members
+		bool isExpanded;
+		float64 height;
+		StdXX::UI::ControllerIndex controllerIndex;
+		StdXX::DynamicArray<Cell> items;
+		uint32 nChildren;
+		Row* parent;
+		Row* firstChild;
+		Row* next;
+
+		//Constructor
+		inline Row()
+		{
+			this->isExpanded = false;
+			this->height = 0;
+			this->nChildren = 0;
+			this->parent = nullptr;
+			this->firstChild = nullptr;
+			this->next = nullptr;
+		}
+
+		//Destructor
+		~Row()
+		{
+			delete this->firstChild;
+			delete this->next;
+		}
+	};
+
 	class TreeViewBody : public StdXX::UI::DrawableWidget
 	{
+	public:
+		//Constructor
+		TreeViewBody(const StdXX::UI::HeaderView& headerView, const StdXX::UI::SelectionController& selectionController);
+
+		//Destructor
+		~TreeViewBody();
+
+		//Inline
+		inline void SetController(StdXX::SharedPointer<StdXX::UI::TreeController> controller)
+		{
+			this->controller = controller;
+		}
+
+	private:
+		//Members
+		Row* root;
+		Row* top;
+		StdXX::SharedPointer<StdXX::UI::TreeController> controller;
+		const StdXX::UI::HeaderView& headerView;
+		const StdXX::UI::SelectionController& selectionController;
+		StdXX::UI::StyleProperties rowProps;
+		StdXX::UI::StyleProperties selectedRowProps;
+
+		//Methods
+		void DrawCell(StdXX::UI::Painter& painter, Cell& cell, const StdXX::Math::RectD& rect, bool isFirstCol, const StdXX::UI::StyleProperties& rowProps);
+		void DrawRow(StdXX::UI::Painter& painter, Row& row, float64 top);
+		Row* NextVisible(Row* row) const;
+		void RequireCellsBuffered(Row& row) const;
+		void RequireHeight(Row& row, StdXX::UI::Painter& painter) const;
+
+		//Event handlers
+		void OnPaint(StdXX::UI::PaintEvent& event) override;
+		void OnResized() override;
 	};
 }

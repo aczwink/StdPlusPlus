@@ -30,20 +30,17 @@ namespace _stdxx_
 		}
 
 		//Methods
-		bool ContainsFile(const StdXX::String &name) const override;
-		bool ContainsSubDirectory(const StdXX::String &name) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
 		bool Exists(const StdXX::Path &path) const override;
-		StdXX::AutoPointer<const StdXX::File> GetFile(const StdXX::String &name) const override;
+		StdXX::AutoPointer<FileSystemNode> GetChild(const StdXX::String &name) override;
+		StdXX::AutoPointer<const FileSystemNode> GetChild(const StdXX::String &name) const override;
 		StdXX::FileSystem *GetFileSystem() override;
 		const StdXX::FileSystem *GetFileSystem() const override;
 		StdXX::AutoPointer<const Directory> GetParent() const override;
 		StdXX::Path GetPath() const override;
 		uint64 GetSize() const override;
 		uint64 GetStoredSize() const override;
-		StdXX::AutoPointer<Directory> GetSubDirectory(const StdXX::String &name) override;
-		StdXX::AutoPointer<const Directory> GetSubDirectory(const StdXX::String &name) const override;
 
 		//For range-based loop
 		StdXX::DirectoryIterator begin() const override;

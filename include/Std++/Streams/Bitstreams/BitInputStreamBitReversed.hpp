@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,17 +27,6 @@ namespace StdXX
      */
     class STDPLUSPLUS_API BitInputStreamBitReversed
     {
-    private:
-        //Members
-        InputStream &refInput;
-        uint64 buffer;
-        uint8 validBitsInBuffer;
-        bool hitEnd;
-        uint32 nReadBits;
-
-        //Methods
-        void EnsureBufferFilled(uint8 nBits);
-
     public:
         //Constructor
         BitInputStreamBitReversed(InputStream &refInput);
@@ -52,6 +41,11 @@ namespace StdXX
             return this->nReadBits;
         }
 
+        inline bool IsAtEnd() const
+        {
+        	return this->inputStream.IsAtEnd() && (this->validBitsInBuffer == 0);
+        }
+
         inline uint64 Read(uint8 nBits)
         {
             uint64 tmp = this->Get(nBits);
@@ -61,5 +55,15 @@ namespace StdXX
 
             return tmp;
         }
+
+    private:
+        //Members
+        InputStream& inputStream;
+        uint64 buffer;
+        uint8 validBitsInBuffer;
+        uint32 nReadBits;
+
+        //Methods
+        void EnsureBufferFilled(uint8 nBits);
     };
 }

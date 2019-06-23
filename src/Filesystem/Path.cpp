@@ -59,6 +59,8 @@ Path Path::GetParent() const
 	pos = this->pathString.FindReverse(u8"/");
 	if(pos == Unsigned<uint32>::Max())
 		return Path();
+	if(pos == 0)
+		return String(u8"/");
 
 	return Path(this->pathString.SubString(0, pos));
 }

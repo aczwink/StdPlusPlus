@@ -130,6 +130,11 @@ namespace StdXX
         }
 
         //Methods
+		bool Contains(const DataType& item) const
+		{
+			return this->Find(item) != -1;
+		}
+
         int32 Find(const DataType &refItem) const
         {
             int32 counter;

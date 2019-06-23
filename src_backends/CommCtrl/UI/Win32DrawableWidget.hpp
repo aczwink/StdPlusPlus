@@ -32,7 +32,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		StdXX::UniquePointer<StdXX::Rendering::VectorPathRenderer> CreatePainter() override;
+		StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter() override;
 		StdXX::Math::SizeD GetSizeHint() const override;
 		void OnMessage(WinMessageEvent& event) override;
 		void SetEditable(bool enable) const override;

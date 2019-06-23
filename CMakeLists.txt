@@ -31,6 +31,9 @@ add_subdirectory(src_backends)
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	add_subdirectory(src_os/posix_shared)
 	add_subdirectory(src_os/linux)
+
+	find_package(Threads REQUIRED) #pthread is needed
+	target_link_libraries(Std++ PRIVATE Threads::Threads)
 elseif(UNIX)
 	add_subdirectory(src_os/posix_shared)
 	add_subdirectory(src_os/posix)

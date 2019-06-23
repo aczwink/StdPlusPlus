@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "GtkWindowBackend.hpp"
+#include "oldGtkWindowBackend.hpp"
 //Local
 #include <Std++/UI/Controllers/TreeController.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
-#include <Std++/Integer.hpp>
+#include <Std++/Signed.hpp>
 #include "_RedirectGtkContainer.h"
 #include "GtkEventSource.hpp"
 //Namespaces
@@ -172,15 +172,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::TreeView:
 		{
-			this->gtkWidget = gtk_tree_view_new();
-
-			gtk_widget_set_hexpand(this->gtkWidget, TRUE);
-			gtk_widget_set_vexpand(this->gtkWidget, TRUE);
-
-			gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(this->gtkWidget), true);
-
-			gtk_widget_show_all(this->gtkWidget); //default is show
-
 			//signals
 			g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(this->gtkWidget)), u8"changed", G_CALLBACK(GtkEventSource::TreeSelectionSlot), widget);
 		}
@@ -188,8 +179,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		case WindowBackendType::Window:
 		{
 			isContainer = true;
-			this->gtkWidget = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
 			this->headerBar = gtk_header_bar_new();
 			gtk_header_bar_set_has_subtitle(GTK_HEADER_BAR(this->headerBar), false);
 			gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(this->headerBar), true);
@@ -198,24 +187,17 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			gtk_window_set_titlebar(GTK_WINDOW(this->gtkWidget), this->headerBar);
 
 			//g_signal_connect(this->gtkWidget, u8"check-resize", G_CALLBACK(GtkEventSource::CheckResizeSlot), widget);
-			g_signal_connect(this->gtkWidget, u8"delete-event", G_CALLBACK(GtkEventSource::CloseSlot), nullptr);
 
 			gtk_window_set_position(GTK_WINDOW(this->gtkWidget), GTK_WIN_POS_CENTER);
 		}
 		break;
 	}
 
-	g_signal_connect(this->gtkWidget, u8"size-allocate", G_CALLBACK(GtkEventSource::SizeAllocateSlot), widget);
-
 	if(!GTK_IS_WINDOW(this->gtkWidget))
 		gtk_widget_show(this->gtkWidget); //default to show
 
-	g_object_set_data(G_OBJECT(this->gtkWidget), u8"Std++", widget);
-
-	this->childAreaWidget = nullptr;
 	if(isContainer)
 	{
-		this->childAreaWidget = redirect_container_new();
 		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"Std++", widget);
 		gtk_container_add(GTK_CONTAINER(this->gtkWidget), this->childAreaWidget);
 		gtk_widget_show(this->childAreaWidget); //default to show
@@ -232,35 +214,6 @@ GtkWindowBackend::~GtkWindowBackend()
 }
 
 //Public methods
-WindowBackend *GtkWindowBackend::CreateChildBackend(_stdpp::WindowBackendType type, Widget *widget) const
-{
-	GtkWindowBackend *child = new GtkWindowBackend(this->GetUIBackend(), type, widget, this);
-
-	gtk_container_add(GTK_CONTAINER(this->childAreaWidget), child->gtkWidget);
-
-	return child;
-}
-
-Rect GtkWindowBackend::GetChildrenRect() const
-{
-	GtkAllocation alloc;
-
-	gtk_widget_get_allocation(this->childAreaWidget, &alloc);
-
-	return Rect(alloc.x, alloc.y, alloc.width, alloc.height);
-	/*
-	 * Rect rect;
-
-	rect = this->GetBounds();
-
-	//TODO: shit we dont know this correctly...
-	rect.y() += 10;
-	rect.height() -= 10;
-
-	return rect;
-	 */
-}
-
 uint32 GtkWindowBackend::GetPosition() const
 {
 	return (uint32) gtk_range_get_value(GTK_RANGE(this->gtkWidget));
@@ -283,28 +236,9 @@ Size GtkWindowBackend::GetSize() const
 	return Size((uint16)alloc.width, (uint16)alloc.height);
 }
 
-Size GtkWindowBackend::GetSizeHint() const
-{
-	int min1, nat1, min2, nat2;
-
-	if(IS_REDIRECT_CONTAINER(this->childAreaWidget))
-		return Size();
-
-	gtk_widget_get_preferred_width(this->gtkWidget, &min1, &nat1);
-	gtk_widget_get_preferred_height(this->gtkWidget, &min2, &nat2);
-
-	return Size(nat1, nat2);
-}
-
 int32 GtkWindowBackend::GetValue() const
 {
 	return gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(this->gtkWidget));
-}
-
-extern bool g_ignoreEvent;
-void GtkWindowBackend::IgnoreEvent()
-{
-	g_ignoreEvent = true;
 }
 
 bool GtkWindowBackend::IsChecked() const
@@ -325,7 +259,6 @@ void GtkWindowBackend::Paint()
 void GtkWindowBackend::ResetView() const
 {
 	View *view = (View *)this->widget;
-	const TreeController *controller = view->GetController();
 
 	switch(this->type)
 	{
@@ -349,49 +282,6 @@ void GtkWindowBackend::ResetView() const
 				}
 
 				gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), GTK_TREE_MODEL(store));
-			}
-		}
-			break;
-		case WindowBackendType::TreeView:
-		{
-			gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), nullptr);
-
-			//clear all columns
-			while(true)
-			{
-				GtkTreeViewColumn *column = gtk_tree_view_get_column(GTK_TREE_VIEW(this->gtkWidget), 0);
-				if(!column)
-					break;
-
-				gtk_tree_view_remove_column(GTK_TREE_VIEW(this->gtkWidget), column);
-			}
-
-			if(controller)
-			{
-				//add columns
-				uint32 nCols = controller->GetNumberOfColumns();
-				ASSERT(nCols, u8"A TreeView must have at least one column.");
-				GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-				for (uint32 i = 0; i < nCols; i++)
-				{
-					GtkTreeViewColumn *column = gtk_tree_view_column_new();
-					gtk_tree_view_column_set_title(column, (gchar *)controller->GetColumnText(i).ToUTF8().GetRawZeroTerminatedData());
-					gtk_tree_view_column_pack_start(column, renderer, TRUE);
-					gtk_tree_view_column_add_attribute(column, renderer, u8"text", i);
-
-					gtk_tree_view_append_column(GTK_TREE_VIEW(this->gtkWidget), column);
-				}
-
-				//fill model
-				FixedArray<GType> types(nCols);
-				for(uint32 i = 0; i < nCols; i++)
-					types[i] = G_TYPE_STRING;
-
-				GtkTreeStore *store = gtk_tree_store_newv(nCols, &types[0]);
-
-				this->AddNodes(store, nullptr, ControllerIndex(), *controller);
-
-				gtk_tree_view_set_model(GTK_TREE_VIEW(this->gtkWidget), GTK_TREE_MODEL(store));
 			}
 		}
 			break;
@@ -437,7 +327,6 @@ Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Functi
 void GtkWindowBackend::SetBounds(const Rect &area)
 {
 	GtkEventSource::EmitResizingEvent(*this->widget, area);
-	gtk_widget_queue_resize(this->gtkWidget);
 	if(this->childAreaWidget)
 		gtk_container_check_resize(GTK_CONTAINER(this->childAreaWidget));
 
@@ -447,16 +336,6 @@ void GtkWindowBackend::SetBounds(const Rect &area)
 void GtkWindowBackend::SetEditable(bool enable) const
 {
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(this->gtkWidget), enable);
-}
-
-void GtkWindowBackend::SetEnabled(bool enable) const
-{
-	gtk_widget_set_sensitive(this->gtkWidget, enable);
-}
-
-void GtkWindowBackend::SetHint(const String &text) const
-{
-	gtk_widget_set_tooltip_text(this->gtkWidget, reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData()));
 }
 
 void GtkWindowBackend::SetMaximum(uint32 max)
@@ -504,7 +383,6 @@ void GtkWindowBackend::SetText(const String &text)
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
 			break;
 		case WindowBackendType::Window:
-			gtk_window_set_title(GTK_WINDOW(this->gtkWidget), gtkText);
 			gtk_header_bar_set_title(GTK_HEADER_BAR(this->headerBar), gtkText);
 			break;
 	}
@@ -514,27 +392,6 @@ void GtkWindowBackend::SetValue(int32 value)
 {
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(this->gtkWidget), value);
 }
-
-void GtkWindowBackend::Show(bool visible)
-{
-	if(this->type == WindowBackendType::Window)
-	{
-		Size size = this->widget->GetSizeHint();
-
-		//add titlebar
-		int min, nat;
-		gtk_widget_get_preferred_height(this->headerBar, &min, &nat);
-		size.height += Math::Max(min, nat);
-
-		gtk_window_set_default_size(GTK_WINDOW(this->gtkWidget), size.width, size.height);
-	}
-
-	if(visible)
-		gtk_widget_show(this->gtkWidget);
-	else
-		gtk_widget_hide(this->gtkWidget);
-}
-
 void GtkWindowBackend::ShowInformationBox(const String &title, const String &message) const
 {
 	GtkWidget *widget = gtk_message_dialog_new(GTK_WINDOW(this->gtkWidget), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, (const gchar *) message.ToUTF8().GetRawZeroTerminatedData());
@@ -585,25 +442,6 @@ void GtkWindowBackend::UpdateSelection(SelectionController &selectionController)
 }
 
 //Private methods
-void GtkWindowBackend::AddNodes(GtkTreeStore *store, GtkTreeIter *nodeIter, const ControllerIndex &parent, const TreeController &controller) const
-{
-	uint32 nCols = controller.GetNumberOfColumns();
-	uint32 nChildren = controller.GetNumberOfChildren(parent);
-	for(uint32 i = 0; i < nChildren; i++)
-	{
-		GtkTreeIter childIter;
-		gtk_tree_store_append(store, &childIter, nodeIter);
-		for (uint32 j = 0; j < nCols; j++)
-		{
-			ControllerIndex childIndex = controller.GetChildIndex(i, j, parent);
-			gtk_tree_store_set(store, &childIter, j, controller.GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
-		}
-
-		ControllerIndex childIndex = controller.GetChildIndex(i, Natural<uint32>::Max(), parent);
-		this->AddNodes(store, &childIter, childIndex, controller);
-	}
-}
-
 void GtkWindowBackend::SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend)
 {
 }

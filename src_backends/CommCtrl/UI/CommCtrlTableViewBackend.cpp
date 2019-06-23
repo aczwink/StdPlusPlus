@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -41,7 +41,7 @@ void CommCtrlTableViewBackend::ControllerChanged()
 
 	if (this->tableView.HasController())
 	{
-		TreeController* controller = this->tableView.GetController();
+		const SharedPointer<TreeController>& controller = this->tableView.GetController();
 
 		const uint32 nRows = controller->GetNumberOfChildren();
 		const uint32 nCols = controller->GetNumberOfColumns();

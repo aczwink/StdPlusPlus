@@ -22,6 +22,7 @@
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
+#include <Std++/UI/Layouts/GridLayout.hpp>
 #include "TreeViewBody.hpp"
 //Namespaces
 using namespace StdXX;
@@ -32,6 +33,8 @@ TreeView::TreeView()
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
+
+	this->styleContext.AddType(u8"TreeView");
 
 	this->headerView = nullptr;
 	this->body = nullptr;
@@ -45,9 +48,11 @@ void TreeView::RealizeSelf()
 		this->_SetBackend(viewBackend);
 	else
 	{
+		this->SetLayout(new VerticalLayout);
+
 		this->headerView = new HeaderView;
 		this->AddChild(this->headerView);
-		this->body = new _stdxx_::TreeViewBody;
+		this->body = new _stdxx_::TreeViewBody(*this->headerView, this->GetSelectionController());
 		this->AddChild(this->body);
 	}
 }
@@ -57,24 +62,10 @@ void TreeView::OnModelChanged()
 {
 	if (this->headerView)
 	{
-		//this->headerView->SetController(this->controller);
-		NOT_IMPLEMENTED_ERROR; //TODO: continue
+		if(this->headerView->GetController() != this->controller)
+			this->headerView->SetController(this->controller);
+		this->body->SetController(this->controller);
 	}
 	else
 		View::OnModelChanged();
 }
-
-//Event handlers
-/*
-//Event handlers
-			void OnPaint(UI::Event& event);
-void TreeView::OnPaint(UI::Event& event)
-{
-	UniquePointer<Rendering::VectorPathRenderer> painter = this->drawableBackend->CreatePainter();
-
-	painter->Rectangle({50, 50, 100, 100});
-	painter->SetFillColor({1, 0, 0, 1});
-	painter->Fill();
-	
-	printf("ONPAINT RECEIVED\n");
-}*/

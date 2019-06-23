@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 //Global
 #include <poll.h>
 //Namespaces
-using namespace StdPlusPlus;
+using namespace StdXX;
 //Definitions
 #define THIS ((DynamicArray<pollfd> *)this->internal)
 

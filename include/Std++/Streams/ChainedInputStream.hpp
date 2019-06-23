@@ -45,6 +45,7 @@ namespace StdXX
 		//Inline
 		inline void Add(UniquePointer <InputStream> &&inputStream)
 		{
+			ASSERT(!inputStream.IsNull(), u8"Can't add stream that is not initialized.");
 			this->ownedStreams.Push(Move(inputStream));
 			this->end = this->ownedStreams.Last().operator->();
 		}

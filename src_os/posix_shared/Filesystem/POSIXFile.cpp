@@ -42,7 +42,7 @@ uint64 POSIXFile::GetStoredSize() const
 	return 0;
 }
 
-UniquePointer<InputStream> POSIXFile::OpenForReading() const
+UniquePointer<InputStream> POSIXFile::OpenForReading(bool verify) const
 {
 	return new FileInputStream(this->path);
 }

@@ -17,7 +17,6 @@ set(SOURCE_FILES
 
 	#_Backends
 	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UI/DrawableWidgetBackend.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/_Backends/UI/HeaderViewBackend.cpp
 
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
@@ -58,8 +57,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/FlatVectorPath.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/HostComputedPathRenderer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/VectorPath/VectorPath.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Rendering/Shared.cpp
 
 	#Time
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Date.cpp

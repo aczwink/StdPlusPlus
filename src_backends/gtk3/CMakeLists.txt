@@ -21,34 +21,41 @@ if(${BACKEND_GTK3})
 	set(SOURCE_FILES
 		${SOURCE_FILES}
 
-		#Math
-
 		#UI
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.h
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
 
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.h
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WindowBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowBackend.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/UI/oldGtkWindowBackend.hpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Keyboard.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Mouse.cpp
+		#${CMAKE_CURRENT_SOURCE_DIR}/UI/WindowBackend.cpp
 
 		#.
+		${CMAKE_CURRENT_SOURCE_DIR}/Gtk3Backend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Gtk3Backend.hpp
 		)
 

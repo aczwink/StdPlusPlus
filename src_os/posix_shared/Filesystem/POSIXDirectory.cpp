@@ -28,20 +28,6 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
-bool POSIXDirectory::ContainsFile(const String &name) const
-{
-	Path p = this->path / name;
-	struct stat sb{};
-	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) == 0;
-}
-
-bool POSIXDirectory::ContainsSubDirectory(const String &name) const
-{
-	Path p = this->path / name;
-	struct stat sb{};
-	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
-}
-
 UniquePointer<OutputStream> POSIXDirectory::CreateFile(const String &name)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -61,10 +47,16 @@ bool POSIXDirectory::Exists(const Path &path) const
 	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 }
 
-AutoPointer<const File> POSIXDirectory::GetFile(const String &name) const
+AutoPointer<FileSystemNode> POSIXDirectory::GetChild(const String &name)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::AutoPointer<const StdXX::File>();
+	return StdXX::AutoPointer<FileSystemNode>();
+}
+
+AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::AutoPointer<const FileSystemNode>();
 }
 
 FileSystem *POSIXDirectory::GetFileSystem()
@@ -103,16 +95,6 @@ uint64 POSIXDirectory::GetStoredSize() const
 	return 0;
 }
 
-AutoPointer<Directory> POSIXDirectory::GetSubDirectory(const String &name)
-{
-	return new POSIXDirectory(this->path / name);
-}
-
-AutoPointer<const Directory> POSIXDirectory::GetSubDirectory(const String &name) const
-{
-	return new POSIXDirectory(this->path / name);
-}
-
 //For range-based loop
 StdXX::DirectoryIterator _stdxx_::POSIXDirectory::begin() const
 {
@@ -123,3 +105,31 @@ StdXX::DirectoryIterator _stdxx_::POSIXDirectory::end() const
 {
 	return nullptr;
 }
+
+
+
+//OLD:
+/*bool POSIXDirectory::ContainsFile(const String &name) const
+{
+	Path p = this->path / name;
+	struct stat sb{};
+	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) == 0;
+}
+
+bool POSIXDirectory::ContainsSubDirectory(const String &name) const
+{
+	Path p = this->path / name;
+	struct stat sb{};
+	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
+}
+
+ AutoPointer<Directory> POSIXDirectory::GetSubDirectory(const String &name)
+{
+	return new POSIXDirectory(this->path / name);
+}
+
+AutoPointer<const Directory> POSIXDirectory::GetSubDirectory(const String &name) const
+{
+	return new POSIXDirectory(this->path / name);
+}
+ */

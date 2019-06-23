@@ -19,6 +19,7 @@
 //Class header
 #include "CommCtrlBackend.hpp"
 //Local
+#include <Std++/UI/Style/StyleSheet.hpp>
 #include "UI/CommCtrlCheckBoxBackend.hpp"
 #include "UI/CommCtrlHeaderViewBackend.hpp"
 #include "UI/CommCtrlLabelBackend.hpp"
@@ -172,6 +173,8 @@ void CommCtrlBackend::Load()
 
 	ATOM classAtom = RegisterClassExW(&wcex);
 	ASSERT(classAtom != 0, u8"Could not register window class");
+
+	this->LoadStyles();
 }
 
 void CommCtrlBackend::Unload() const
@@ -203,4 +206,38 @@ void CommCtrlBackend::Unload() const
 	//release activation context
 	DeactivateActCtx(0, this->ulpActivationCookie);
 	ReleaseActCtx(this->hActCtx);
+}
+
+//Private methods
+void CommCtrlBackend::LoadStyles() const
+{
+	StyleSheet s;
+
+	//set theme vars
+	HTHEME hTheme = OpenThemeData(NULL, L"Window");
+	s.SetVariable(u8"backgroundColor", this->MapCOLORREF(hTheme, COLOR_WINDOW));
+	s.SetVariable(u8"textColor", this->MapCOLORREF(hTheme, COLOR_WINDOWTEXT));
+	s.SetVariable(u8"selectionBackgroundColor", this->MapCOLORREF(hTheme, COLOR_HIGHLIGHT));
+	s.SetVariable(u8"selectionTextColor", this->MapCOLORREF(hTheme, COLOR_HIGHLIGHTTEXT));
+	CloseThemeData(hTheme);
+
+	//load styles
+	const char* c_style = {
+#include "resources/win.css"
+	};
+	s.Parse(c_style);
+
+	//set global styles
+	StyleSheet::Global() = Move(s);
+}
+
+Color CommCtrlBackend::MapCOLORREF(HTHEME hTheme, int colorId) const
+{
+	COLORREF cr = GetThemeSysColor(hTheme, colorId);
+	Color c;
+	c.r = GetRValue(cr) / 255.0f;
+	c.g = GetGValue(cr) / 255.0f;
+	c.b = GetBValue(cr) / 255.0f;
+
+	return c;
 }

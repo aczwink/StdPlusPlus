@@ -116,6 +116,6 @@ namespace StdXX
             void InitRendering();
             void RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax);
             void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes);
-        };
+		};
     }
 }

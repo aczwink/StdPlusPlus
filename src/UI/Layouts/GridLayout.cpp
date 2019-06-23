@@ -60,7 +60,8 @@ void GridLayout::Layout(CompositeWidget &refContainer)
     rc = this->GetPlacementRect(refContainer);
     minSize = this->ComputeSizingInfo(refContainer, columnWidths, rowHeights);
 
-    //ASSERT(minSize.width <= rc.width(), u8"TODO: Can't do that allocation. Need to shrink widgets");
+	if (minSize.width > rc.width())
+		this->ShrinkColumns(minSize.width - rc.width(), columnWidths);
 	if (minSize.height > rc.height())
 		this->ShrinkRows(minSize.height - rc.height(), rowHeights);
 	
@@ -369,6 +370,16 @@ void GridLayout::PositionChild(Widget &widget, const Math::RectD &cellBounds)
 	}
 
 	widget.SetBounds(widgetBounds);
+}
+
+void GridLayout::ShrinkColumns(float64 totalShrinkWidth, DynamicArray<uint16> &columnWidths)
+{
+	//TODO: try to shrink where widgets allow it
+	float64 shrinkWidthPerCol = totalShrinkWidth / columnWidths.GetNumberOfElements();
+	for (uint16 &columnWidth : columnWidths)
+	{
+		columnWidth -= shrinkWidthPerCol;
+	}
 }
 
 void GridLayout::ShrinkRows(float64 totalShrinkHeight, DynamicArray<uint16> &rowHeights)

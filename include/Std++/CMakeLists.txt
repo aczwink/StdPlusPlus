@@ -63,6 +63,7 @@ set(SOURCE_FILES
 
 	#Smart Pointers
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/SharedPointer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/UniquePointer.hpp
 
 	#XML

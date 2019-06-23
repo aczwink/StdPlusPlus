@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,8 +23,8 @@
 //Local
 #include "../Gtk.h"
 //Namespaces
-using namespace StdPlusPlus;
-using namespace StdPlusPlus::UI;
+using namespace StdXX;
+using namespace StdXX::UI;
 
 //Namespace functions
 Path CommonDialogs::OpenFile(const Window &refParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &filters, const Path &directory)

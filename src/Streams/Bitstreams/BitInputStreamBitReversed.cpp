@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,11 +25,10 @@
 using namespace StdXX;
 
 //Constructor
-BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : refInput(refInput)
+BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : inputStream(refInput)
 {
 	this->buffer = 0;
 	this->validBitsInBuffer = 0;
-	this->hitEnd = false;
 	this->nReadBits = 0;
 }
 
@@ -56,7 +55,7 @@ void BitInputStreamBitReversed::Skip(uint32 nBits)
 
 		nBits -= left;
 
-		if(this->hitEnd)
+		if(this->IsAtEnd())
 			break;
 	}
 }
@@ -75,14 +74,11 @@ void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 	{
 		ASSERT(this->validBitsInBuffer + 8 <= 64, "If you see this, report to StdXX");
 
-		if(this->refInput.IsAtEnd())
-		{
-			this->hitEnd = true;
+		if(this->inputStream.IsAtEnd())
 			break;
-		}
 
 		byte nextByte;
-		this->refInput.ReadBytes(&nextByte, 1);
+		this->inputStream.ReadBytes(&nextByte, 1);
 		this->buffer |= (((uint16)nextByte) << this->validBitsInBuffer);
 		this->validBitsInBuffer += 8;
 	}

@@ -45,7 +45,7 @@ void View::Select(const ControllerIndex& index)
 	this->controller->OnSelectionChanged(); //inform controller
 }
 
-void View::SetController(UniquePointer<TreeController>&& controller)
+void View::SetController(SharedPointer<TreeController> controller)
 {
 	this->controller = StdXX::Move(controller);
 	this->controller->view = this;
@@ -65,8 +65,8 @@ void View::OnRealized()
 {
 	Widget::OnRealized();
 
-	if(!this->controller.IsNull())
-		this->viewBackend->ControllerChanged();
+	if (!this->controller.IsNull())
+		this->OnModelChanged();
 }
 
 void View::OnSelectionChanged(SelectionChangedEvent& event)

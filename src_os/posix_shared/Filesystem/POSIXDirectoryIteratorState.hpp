@@ -34,7 +34,7 @@ namespace _stdxx_
 
 		//Methods
 		bool Equals(DirectoryIteratorState *other) const override;
-		StdXX::Tuple<StdXX::String, StdXX::AutoPointer<StdXX::FileSystemNode>> GetCurrent() override;
+		StdXX::String GetCurrent() override;
 		void Next() override;
 
 	private:

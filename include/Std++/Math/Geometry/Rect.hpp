@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -76,6 +76,14 @@ namespace StdXX
                 this->origin.y -= dy;
                 this->size.Add(2 * dx, 2 * dy);
             }
+
+			inline Point<ScalarType> GetEnd() const
+			{
+				return {
+					this->GetHorizontalEnd(),
+					this->GetVerticalEnd()
+				};
+			}
 
             inline ScalarType GetVerticalEnd() const
             {

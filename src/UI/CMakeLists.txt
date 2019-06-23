@@ -1,3 +1,4 @@
+add_subdirectory(Style)
 add_subdirectory(Views)
 
 set(SOURCE_FILES
@@ -39,6 +40,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/DrawableWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.cpp

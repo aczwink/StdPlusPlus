@@ -20,6 +20,7 @@
 #include <Std++/Streams/TextCodec.hpp>
 //Codecs
 #include "Textcodecs/ASCIITextCodec.hpp"
+#include "Textcodecs/Latin1Codec.hpp"
 #include "Textcodecs/UTF16_LE_TextCodec.hpp"
 #include "Textcodecs/UTF8TextCodec.hpp"
 //Namespaces
@@ -32,6 +33,8 @@ TextCodec *TextCodec::GetCodec(TextCodecType codecType)
 	{
 		case TextCodecType::ASCII:
 			return new ASCIITextCodec;
+		case TextCodecType::Latin1:
+			return new Latin1TextCodec;
 		case TextCodecType::UTF16_LE:
 			return new UTF16_LE_TextCodec;
 		case TextCodecType::UTF8:

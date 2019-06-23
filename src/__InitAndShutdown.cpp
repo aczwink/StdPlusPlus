@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,8 @@
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
+#include <Std++/UI/Style/StyleSheet.hpp>
+#include <Std++/Compression/HuffmanDecoder.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -72,10 +74,20 @@ void ShutdownStdPlusPlus()
 		delete(format);
 	g_fsFormats.Release();
 
+	//free inflater stuff
+	extern HuffmanDecoder* g_fixedLiteralLengthDecoder;
+	extern HuffmanDecoder* g_fixedDistanceDecoder;
+
+	delete g_fixedDistanceDecoder;
+	delete g_fixedLiteralLengthDecoder;
+
 	//shut down global event queue
 	extern EventQueue *g_globalEventQueue;
 	if(g_globalEventQueue)
 		delete g_globalEventQueue;
+
+	//release memory of global style sheet
+	UI::StyleSheet::Global() = {};
 
 	//release backends
 	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();

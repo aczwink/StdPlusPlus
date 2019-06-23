@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -51,7 +51,7 @@ namespace StdXX
 			void RealizeSelf() override;
 
             //Eventhandlers
-            virtual void OnPaint(UI::Event& event) override;
+            virtual void OnPaint(PaintEvent& event) override;
         };
     }
 }

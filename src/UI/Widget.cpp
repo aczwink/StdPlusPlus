@@ -54,7 +54,7 @@ void Widget::Event(UI::Event& e)
 		this->OnMouseWheelRolled(static_cast<MouseWheelEvent&>(e));
 		break;
 	case EventType::WidgetShouldBePainted:
-		this->OnPaint(e);
+		this->OnPaint(static_cast<PaintEvent&>(e));
 		break;
 	case EventType::WindowWasResized:
 	{
@@ -170,7 +170,7 @@ void Widget::OnMoved()
 	this->IgnoreEvent();
 }
 
-void Widget::OnPaint(UI::Event& event)
+void Widget::OnPaint(PaintEvent& event)
 {
 }
 

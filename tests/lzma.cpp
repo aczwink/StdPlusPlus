@@ -35,7 +35,7 @@ TEST_SUITE(LzmaTest)
 
 		//now decompress again
 		BufferInputStream bufferInputStream(buffer, compressedSize);
-		UniquePointer<Decompressor> decompressor = Decompressor::Create(CompressionAlgorithm::LZMA, bufferInputStream);
+		UniquePointer<Decompressor> decompressor = Decompressor::Create(CompressionAlgorithm::LZMA, bufferInputStream, false);
 		TextReader textReader = TextReader(*decompressor, TextCodecType::UTF8);
 		String read = textReader.ReadString(data.GetLength());
 

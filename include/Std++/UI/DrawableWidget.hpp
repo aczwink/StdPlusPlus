@@ -17,6 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
  //Local
+#include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
 #include "Widget.hpp"
 
 namespace StdXX
@@ -25,6 +26,20 @@ namespace StdXX
 	{
 		class DrawableWidget : public Widget
 		{
+		protected:
+			//Members
+			_stdxx_::DrawableWidgetBackend* drawableBackend;
+
+		private:
+			//Methods
+			void RealizeSelf() override;
+
+			//Inline
+			inline void _SetBackend(_stdxx_::DrawableWidgetBackend* drawableBackend)
+			{
+				Widget::_SetBackend(drawableBackend);
+				this->drawableBackend = drawableBackend;
+			}
 		};
 	}
 }

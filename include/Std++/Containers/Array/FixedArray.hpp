@@ -22,7 +22,6 @@
 #include <Std++/Type.hpp>
 #include <Std++/Containers/Container.hpp>
 #include <Std++/Utility.hpp>
-#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 #include "ArrayIterator.hpp"
 #include "ConstArrayIterator.hpp"
 
