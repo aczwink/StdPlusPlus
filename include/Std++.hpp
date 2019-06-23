@@ -36,6 +36,8 @@
 #include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
 //FixedArray
 #include <Std++/Containers/Array/FixedArray.hpp>
+//HashMap
+#include <Std++/Containers/HashMap/HashMap.hpp>
 //LinkedList
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
 //Map

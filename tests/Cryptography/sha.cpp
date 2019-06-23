@@ -45,7 +45,7 @@ TEST_SUITE(SHATests)
 		{
 			String input = t.Get<0>().ToUTF8();
 
-			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA1);
+			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA1);
 			hasher->Update(input.GetRawData(), input.GetSize());
 			hasher->Finish();
 
@@ -69,7 +69,7 @@ TEST_SUITE(SHATests)
 		{
 			String input = t.Get<0>().ToUTF8();
 
-			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA256);
+			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA256);
 			hasher->Update(input.GetRawData(), input.GetSize());
 			hasher->Finish();
 
@@ -93,7 +93,7 @@ TEST_SUITE(SHATests)
 		{
 			String input = t.Get<0>().ToUTF8();
 
-			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::SHA512);
+			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA512);
 			hasher->Update(input.GetRawData(), input.GetSize());
 			hasher->Finish();
 

@@ -44,7 +44,7 @@ TEST_SUITE(MD5Tests)
 		{
 			String input = t.Get<0>().ToUTF8();
 
-			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(HashAlgorithm::MD5);
+			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::MD5);
 			hasher->Update(input.GetRawData(), input.GetSize());
 			hasher->Finish();
 

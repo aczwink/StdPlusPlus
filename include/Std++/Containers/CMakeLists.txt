@@ -12,6 +12,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetNode.hpp
 
+	#HashMap
+	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashMap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashTableEntry.hpp
+
 	#LinkedList
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedList.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedListConstIterator.hpp

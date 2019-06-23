@@ -71,7 +71,7 @@ TEST_SUITE(HMAC)
 			String msg = t.Get<2>().ToUTF8();
 			String expected = t.Get<3>();
 
-			UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
+			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(hashAlgorithm);
 			FixedArray<uint8> result(hasher->GetDigestSize());
 			HMAC(key.GetRawData(), key.GetSize(), msg.GetRawData(), msg.GetSize(), hashAlgorithm, &result[0]);
 
