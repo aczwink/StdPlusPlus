@@ -20,6 +20,7 @@
 //Local
 #include <Std++/UI/Containers/ContentAreaWidget.hpp>
 #include <Std++/_Backends/UI/WindowBackend.hpp>
+#include <Std++/Tuple.hpp>
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Function.hpp"
 #include "Menu/MenuBar.hpp"
@@ -73,6 +74,18 @@ namespace StdXX
 			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = [](const Path &){return true;}) const
 			{
 				return this->windowBackend->SelectExistingDirectory(title, callback);
+			}
+
+			/**
+			 *
+			 * @param title
+			 * @param filters - Tuple of human-readable string and list of file extensions (without dot e.g. pdf). If this list is empty, all files are accepted.
+			 * @param initialDirectory
+			 * @return
+			 */
+			inline Path SelectExistingFile(const String& title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const Path& initialDirectory) const
+			{
+				return this->windowBackend->SelectExistingFile(title, filters, initialDirectory);
 			}
 
 			inline void SetMenuBar(MenuBar *menuBar)

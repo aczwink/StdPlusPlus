@@ -126,29 +126,44 @@ void CocoaWindowBackend::Maximize()
 Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(Path &)> callback) const
 {
 	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
+	[panel setTitle:this->CreateString(title)];
 	[panel setCanChooseFiles:false];
 	[panel setCanChooseDirectories:true];
 	[panel setAllowsMultipleSelection:false];
 
-	String resultStr;
-	if([panel runModal] == NSModalResponseOK)
+	return this->RunOpenPanel(panel);
+}
+
+Path CocoaWindowBackend::SelectExistingFile(const String &title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const Path &initialPath) const
+{
+	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
+	[panel setTitle:this->CreateString(title)];
+	[panel setDirectoryURL: [NSURL URLWithString:this->CreateString(u8"file://" + initialPath.GetString())]];
+	[panel setCanChooseFiles:true];
+	[panel setCanChooseDirectories:false];
+	[panel setAllowsMultipleSelection:false];
+
+	//filters
+	if(!filters.IsEmpty())
 	{
-		NSURL *choice = [panel URLs][0];
+		//count filters
+		uint32 nFilters = 0;
+		for(const auto& t : filters)
+			nFilters += t.Get<1>().GetNumberOfElements();
 
-		NSString *tmp = [NSString stringWithCString:u8"file" encoding:NSUTF8StringEncoding];
-		ASSERT([[choice scheme] isEqualToString:tmp], u8"URLs are currently not supported...");
-		[tmp release];
+		NSMutableArray* fileTypes = [[[NSMutableArray alloc] initWithCapacity:nFilters] autorelease];
 
-		NSString *str = [choice absoluteString];
-		NSString *tmp2 = [str substringFromIndex:7];
+		//fill
+		for(const auto& t : filters)
+		{
+			for(const String& ext : t.Get<1>())
+				[fileTypes addObject:this->CreateString(ext)];
+		}
 
-		const char *result = [tmp2 cStringUsingEncoding:NSUTF8StringEncoding];
-		resultStr = String::CopyRawString(result);
-		[tmp2 release];
+		[panel setAllowedFileTypes:fileTypes];
 	}
-	[panel release];
 
-	return resultStr;
+	return this->RunOpenPanel(panel);
 }
 
 void CocoaWindowBackend::SetBounds(const StdXX::Math::RectD &area)
@@ -186,6 +201,40 @@ void CocoaWindowBackend::Show(bool visible)
 {
 	[this->windowController showWindow:this->windowController];
 	[this->cocoaWindow orderFrontRegardless];
+}
+
+//Private methods
+NSString *CocoaWindowBackend::CreateString(const StdXX::String &string) const
+{
+	NSString* tmp = nil;
+	if(!string.IsEmpty())
+		tmp = [NSString stringWithCString:reinterpret_cast<const char *>(string.ToUTF8().GetRawZeroTerminatedData()) encoding:NSUTF8StringEncoding];
+	return tmp;
+}
+
+StdXX::Path CocoaWindowBackend::RunOpenPanel(NSOpenPanel* panel) const
+{
+	String resultStr;
+	if([panel runModal] == NSModalResponseOK)
+	{
+		NSURL *choice = [panel URLs][0];
+
+		//check url scheme
+		NSString *tmp = [NSString stringWithCString:u8"file" encoding:NSUTF8StringEncoding];
+		ASSERT([[choice scheme] isEqualToString:tmp], u8"URLs are currently not supported...");
+		[tmp release];
+
+		//trim url scheme
+		NSString *str = [choice absoluteString];
+		NSString *tmp2 = [str substringFromIndex:7];
+
+		const char *result = [tmp2 cStringUsingEncoding:NSUTF8StringEncoding];
+		resultStr = String::CopyRawString(result);
+		[tmp2 release];
+	}
+	[panel release];
+
+	return resultStr;
 }
 
 

@@ -19,6 +19,8 @@
 #pragma once
 //Class header
 #include "ContentAreaWidgetBackend.hpp"
+//Local
+#include <Std++/Tuple.hpp>
 
 //Forward declarations
 namespace StdXX
@@ -42,6 +44,7 @@ namespace _stdxx_
 		//Abstract
 		virtual void Maximize() = 0;
 		virtual StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const = 0;
+		virtual StdXX::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::Path& initialPath) const = 0;
 		virtual void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) = 0;
 		virtual void SetTitle(const StdXX::String &title) = 0;
 		virtual void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const = 0;

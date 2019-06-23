@@ -56,6 +56,7 @@ namespace _stdxx_
 		void IgnoreEvent() override;
 		void Maximize() override;
 		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
+		StdXX::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::Path &initialPath) const override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String &text) override;
@@ -89,5 +90,7 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::Math::SizeD ComputeTextSize(NSString *string, NSFont *font) const;
+		NSString* CreateString(const StdXX::String& string) const;
+		StdXX::Path RunOpenPanel(NSOpenPanel* panel) const;
 	};
 }

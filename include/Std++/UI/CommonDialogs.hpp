@@ -30,7 +30,6 @@ namespace StdXX
         namespace CommonDialogs
         {
             //Functions
-            STDPLUSPLUS_API Path OpenFile(const Window &refParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters, const Path &directory = Path());
             STDPLUSPLUS_API Path SaveFile(const Window *pParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters);
         }
     }

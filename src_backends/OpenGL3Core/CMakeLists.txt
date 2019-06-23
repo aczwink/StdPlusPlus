@@ -13,6 +13,11 @@ if(${BACKENDS_AUTO_AVAILABLE})
 			endif()
 		endif()
 	endif()
+
+	#apple has opengl
+	if(APPLE)
+		set(BACKEND_OPENGL ON)
+	endif()
 endif ()
 
 
