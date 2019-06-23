@@ -28,7 +28,7 @@ namespace StdXX
 	{
 	public:
 		//Abstract
-		virtual UniquePointer<InputStream> OpenForReading() const = 0;
+		virtual UniquePointer<InputStream> OpenForReading(bool verify) const = 0;
 		/*
 		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
 		 * OpenForAppending:

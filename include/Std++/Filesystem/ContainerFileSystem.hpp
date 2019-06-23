@@ -61,8 +61,7 @@ namespace StdXX
 		//Methods
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
 		bool Exists(const Path &path) const override;
-		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override;
-		AutoPointer<const File> GetFile(const Path &filePath) const override;
+		AutoPointer<FileSystemNode> GetNode(const Path &path) override;
 		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
 		uint64 GetSize() const override;

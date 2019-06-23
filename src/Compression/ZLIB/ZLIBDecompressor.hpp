@@ -17,26 +17,30 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/File.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
+#include "../DEFLATE/Inflater.hpp"
 
+//Implemented as of RFC 1950
 namespace _stdxx_
 {
-	class POSIXFile : public StdXX::File
+	class ZLIBDecompressor : public StdXX::Decompressor
 	{
+		class ZLIBWrapperInputStream;
 	public:
 		//Constructor
-		inline POSIXFile(const StdXX::Path& path) : path(path)
-		{
-		}
+		ZLIBDecompressor(StdXX::InputStream& inputStream, bool verify);
 
 		//Methods
-		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
-		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
-		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
+		uint32 GetBytesAvailable() const override;
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
 
 	private:
 		//Members
-		StdXX::Path path;
+		StdXX::UniquePointer<ZLIBWrapperInputStream> wrapperInputStream;
+		StdXX::UniquePointer<Decompressor> realDecompressor;
+		StdXX::UniquePointer<StdXX::ChecksumFunction> verifier;
 	};
 }

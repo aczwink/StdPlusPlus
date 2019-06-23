@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,11 +35,11 @@ void Directory::CreateDirectoryTree(const Path &directoryPath)
 	Path subPath;
 	String part = directoryPath.SplitOutmostPathPart(subPath);
 
-	if(this->ContainsFile(part))
+	if(this->HasFile(part))
 	{
 		NOT_IMPLEMENTED_ERROR; //some kind of exeception must be thrown
 	}
-	else if(!this->ContainsSubDirectory(part))
+	else if(!this->HasSubDirectory(part))
 		this->CreateSubDirectory(part);
 
 	this->GetSubDirectory(part)->CreateDirectoryTree(subPath);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,16 +20,21 @@
 #include <Std++/Compression/Decompressor.hpp>
 //Local
 #include "LZMA_dec/LZMADecompressor.hpp"
+#include "ZLIB/ZLIBDecompressor.hpp"
 //Namespaces
 using namespace StdXX;
 
 //Class functions
-Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream)
+Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream, bool verify)
 {
 	switch (algorithm)
 	{
+	case CompressionAlgorithm::DEFLATE:
+		return new _stdxx_::Inflater(inputStream);
 	case CompressionAlgorithm::LZMA:
 		return new _stdxx_::LZMADecompressor(inputStream);
+	case CompressionAlgorithm::ZLIB:
+		return new _stdxx_::ZLIBDecompressor(inputStream, verify);
 	}
 	
 	return nullptr;

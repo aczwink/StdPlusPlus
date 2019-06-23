@@ -44,48 +44,54 @@ bool ContainerFileSystem::Exists(const Path &path) const
 	return this->root->Exists(path);
 }
 
-AutoPointer<Directory> ContainerFileSystem::GetDirectory(const Path &directoryPath)
+AutoPointer<FileSystemNode> ContainerFileSystem::GetNode(const Path &path)
 {
-	if(directoryPath.IsRoot())
+	if(path.IsRoot())
 		return this->root;
 
-	Path leftPath = directoryPath;
+	Path leftPath = path;
 	if(leftPath.IsAbsolute()) //skip root slash
 		leftPath = leftPath.GetString().SubString(1);
-	AutoPointer<Directory> currentDir = this->root;
-	while(!leftPath.GetString().IsEmpty())
+	AutoPointer<FileSystemNode> node = this->root;
+	while(true)
 	{
 		Path remaining;
 		String name = leftPath.SplitOutmostPathPart(remaining);
 		leftPath = remaining;
 
-		currentDir = currentDir->GetSubDirectory(name);
+		ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Only directories can have children");
+		node = node.Cast<Directory>()->GetChild(name);
+
+		if(leftPath.GetString().IsEmpty())
+			break;
 	}
 
-	return currentDir;
+	return node;
 }
 
 AutoPointer<const FileSystemNode> ContainerFileSystem::GetNode(const Path &path) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return AutoPointer<const FileSystemNode>();
-}
+	if(path.IsRoot())
+		return this->root;
 
-AutoPointer<const File> ContainerFileSystem::GetFile(const Path &filePath) const
-{
-	Path leftPath = filePath;
+	Path leftPath = path;
 	if(leftPath.IsAbsolute()) //skip root slash
 		leftPath = leftPath.GetString().SubString(1);
-	AutoPointer<Directory> currentDir = this->root;
+	AutoPointer<const FileSystemNode> node = this->root;
 	while(true)
 	{
-		String name = leftPath.SplitOutmostPathPart(leftPath);
+		Path remaining;
+		String name = leftPath.SplitOutmostPathPart(remaining);
+		leftPath = remaining;
+
+		ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Only directories can have children");
+		node = node.Cast<const Directory>()->GetChild(name);
+
 		if(leftPath.GetString().IsEmpty())
-			return currentDir->GetFile(name);
-		currentDir = currentDir->GetSubDirectory(name);
+			break;
 	}
 
-	return nullptr;
+	return node;
 }
 
 AutoPointer<Directory> ContainerFileSystem::GetRoot()

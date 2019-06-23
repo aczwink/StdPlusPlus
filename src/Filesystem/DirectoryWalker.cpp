@@ -36,7 +36,7 @@ void DirectoryWalker::CorrectIteratorPos()
 		while(*state.iterator != state.directory->end())
 		{
 			String childName = state.iterator->operator*();
-			if (state.directory->ContainsSubDirectory(childName))
+			if (state.directory->HasSubDirectory(childName))
 			{
 				AutoPointer<const Directory> subdir = state.directory->GetSubDirectory(childName);
 				Path subPath;

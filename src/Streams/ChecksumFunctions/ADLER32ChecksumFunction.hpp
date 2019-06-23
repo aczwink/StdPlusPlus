@@ -17,26 +17,27 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/File.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
 
 namespace _stdxx_
 {
-	class POSIXFile : public StdXX::File
+	class ADLER32ChecksumFunction : public StdXX::ChecksumFunction
 	{
 	public:
 		//Constructor
-		inline POSIXFile(const StdXX::Path& path) : path(path)
+		inline ADLER32ChecksumFunction() : a(1), b(0)
 		{
 		}
 
 		//Methods
-		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
-		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
-		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
+		uint32 GetChecksumSize() const override;
+		void Finish() override;
+		void StoreChecksum(void *target) const override;
+		void Update(const void *buffer, uint32 size) override;
 
 	private:
 		//Members
-		StdXX::Path path;
+		uint32 a;
+		uint32 b;
 	};
 }

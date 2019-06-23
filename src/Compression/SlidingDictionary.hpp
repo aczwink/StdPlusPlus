@@ -17,26 +17,35 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/File.hpp>
+#include <Std++/Streams/OutputStream.hpp>
 
 namespace _stdxx_
 {
-	class POSIXFile : public StdXX::File
+	class SlidingDictionary
 	{
 	public:
 		//Constructor
-		inline POSIXFile(const StdXX::Path& path) : path(path)
-		{
-		}
+		SlidingDictionary(uint32 size);
+
+		//Destructor
+		~SlidingDictionary();
 
 		//Methods
-		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
-		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
-		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
+		void Copy(uint16 distance, uint16 length, StdXX::OutputStream &refOutput);
+
+		//Inline
+		inline void Append(byte b)
+		{
+			this->pBuffer[this->index++] = b;
+
+			if(this->index == this->size)
+				this->index = 0;
+		}
 
 	private:
 		//Members
-		StdXX::Path path;
+		uint32 size;
+		byte *pBuffer;
+		uint32 index;
 	};
 }

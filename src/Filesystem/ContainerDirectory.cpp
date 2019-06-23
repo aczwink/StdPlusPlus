@@ -26,20 +26,10 @@
 using namespace StdXX;
 
 //Public methods
-bool ContainerDirectory::ContainsFile(const String &name) const
-{
-	return this->files.Contains(name);
-}
-
-bool ContainerDirectory::ContainsSubDirectory(const String &name) const
-{
-	return this->subDirectories.Contains(name);
-}
-
 UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 {
 	MemoryFile* file = new MemoryFile;
-	this->files[name] = file;
+	this->children[name] = file;
 
 	this->fileSystem->isFlushed = false;
 
@@ -48,7 +38,7 @@ UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 
 void ContainerDirectory::CreateSubDirectory(const String &name)
 {
-	this->subDirectories[name] = new ContainerDirectory(name, this);
+	this->children[name] = new ContainerDirectory(name, this);
 
 	this->fileSystem->isFlushed = false;
 }
@@ -59,22 +49,21 @@ bool ContainerDirectory::Exists(const Path &path) const
 	Path child = path.SplitOutmostPathPart(leftPart);
 	const String &childString = child.GetString();
 	if(leftPart.GetString().IsEmpty())
-		return this->subDirectories.Contains(childString) || this->files.Contains(childString);
+		return this->children.Contains(childString);
 
-	if(this->subDirectories.Contains(childString))
-		return this->subDirectories[childString]->Exists(leftPart);
+	if(this->HasSubDirectory(childString))
+		return this->children[childString].Cast<ContainerDirectory>()->Exists(leftPart);
 	return false;
+}
+
+AutoPointer<FileSystemNode> ContainerDirectory::GetChild(const String &name)
+{
+	return this->children[name];
 }
 
 AutoPointer<const FileSystemNode> ContainerDirectory::GetChild(const String &name) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return AutoPointer<const FileSystemNode>();
-}
-
-AutoPointer<const File> ContainerDirectory::GetFile(const String &name) const
-{
-	return this->files[name].Cast<const File>();
+	return this->children[name];
 }
 
 FileSystem *ContainerDirectory::GetFileSystem()
@@ -103,9 +92,7 @@ Path ContainerDirectory::GetPath() const
 uint64 ContainerDirectory::GetSize() const
 {
 	uint64 sum = 0;
-	for(const auto &kv : this->files)
-		sum += kv.value->GetSize();
-	for(const auto &kv : this->subDirectories)
+	for(const auto &kv : this->children)
 		sum += kv.value->GetSize();
 
 	return sum;
@@ -117,16 +104,6 @@ uint64 ContainerDirectory::GetStoredSize() const
 	return 0;
 }
 
-AutoPointer<Directory> ContainerDirectory::GetSubDirectory(const String &name)
-{
-	return this->subDirectories[name].Cast<Directory>();
-}
-
-AutoPointer<const Directory> ContainerDirectory::GetSubDirectory(const String &name) const
-{
-	return this->subDirectories[name].Cast<const Directory>();
-}
-
 //For range-based loop
 DirectoryIterator ContainerDirectory::begin() const
 {
@@ -135,9 +112,8 @@ DirectoryIterator ContainerDirectory::begin() const
 	public:
 		//Constructor
 		ContainerDirectoryIteratorState(const ContainerDirectory &dir)
-			: dir(dir), dirsIterator(dir.subDirectories.begin()), filesIterator(dir.files.begin())
+			: dir(dir), childrenIterator(dir.children.begin())
 		{
-			this->atDirs = this->dirsIterator != dir.subDirectories.end();
 		}
 
 		//Public methods
@@ -150,9 +126,7 @@ DirectoryIterator ContainerDirectory::begin() const
 			if(otherTyped)
 			{
 				return (&this->dir == &otherTyped->dir) &&
-					(this->atDirs == otherTyped->atDirs) &&
-					(this->dirsIterator == otherTyped->dirsIterator) &&
-					(this->filesIterator == otherTyped->filesIterator);
+					(this->childrenIterator == otherTyped->childrenIterator);
 			}
 
 			return false;
@@ -160,40 +134,24 @@ DirectoryIterator ContainerDirectory::begin() const
 
 		String GetCurrent() override
 		{
-			if(this->atDirs)
-			{
-				const auto& kv = (*this->dirsIterator);
-				return kv.key;
-			}
-			const auto& kv = (*this->filesIterator);
+			const auto& kv = (*this->childrenIterator);
 			return kv.key;
 		}
 
 		void Next() override
 		{
-			if(this->atDirs)
-			{
-				++this->dirsIterator;
-				if(this->dirsIterator == this->dir.subDirectories.end())
-					this->atDirs = false;
-			}
-			else
-			{
-				++this->filesIterator;
-			}
+			++this->childrenIterator;
 		}
 
 	private:
 		//Members
-		bool atDirs;
 		const ContainerDirectory &dir;
-		ConstMapIterator<String, AutoPointer<ContainerDirectory>> dirsIterator;
-		ConstMapIterator<String, AutoPointer<File>> filesIterator;
+		ConstMapIterator<String, AutoPointer<FileSystemNode>> childrenIterator;
 
 		//Inline
 		inline bool IsAtEnd() const
 		{
-			return (this->dirsIterator == this->dir.subDirectories.end()) && (this->filesIterator == this->dir.files.end());
+			return (this->childrenIterator == this->dir.children.end());
 		}
 	};
 
@@ -209,5 +167,5 @@ DirectoryIterator ContainerDirectory::end() const
 void ContainerDirectory::AddSourceFile(String fileName, const ContainerFileHeader& header)
 {
 	ContainerFile *file = new ContainerFile(header, this->fileSystem);
-	this->files[fileName] = file;
+	this->children[fileName] = file;
 }

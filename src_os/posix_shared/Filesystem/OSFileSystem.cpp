@@ -78,14 +78,10 @@ OSFileSystem &OSFileSystem::GetInstance()
 		{
 		}
 
-		AutoPointer<Directory> GetDirectory(const Path &directoryPath) override
+		AutoPointer<FileSystemNode> GetNode(const Path &path) override
 		{
-			return new POSIXDirectory(directoryPath);
-		}
-
-		AutoPointer<const File> GetFile(const Path &filePath) const override
-		{
-			return new POSIXFile(filePath);
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return AutoPointer<FileSystemNode>();
 		}
 
 		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override

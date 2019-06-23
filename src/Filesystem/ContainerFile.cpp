@@ -38,13 +38,13 @@ uint64 ContainerFile::GetStoredSize() const
 	return 0;
 }
 
-UniquePointer<InputStream> ContainerFile::OpenForReading() const
+UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
 {
 	InputStream* input = new ContainerFileInputStream(*this);
 	if (this->header.compression.HasValue())
 	{
 		ChainedInputStream* chain = new ChainedInputStream(input);
-		chain->Add(Decompressor::Create(*this->header.compression, chain->GetEnd()));
+		chain->Add(Decompressor::Create(*this->header.compression, chain->GetEnd(), verify));
 		return chain;
 	}
 	return input;

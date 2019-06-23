@@ -18,30 +18,37 @@
  */
 #pragma once
 //Local
-#include <Std++/Streams/InputStream.hpp>
-#include "CompressionAlgorithm.hpp"
+#include "../Definitions.h"
+#include "Std++/Memory.hpp"
 
 namespace StdXX
 {
-	class STDPLUSPLUS_API Decompressor : public InputStream
-	{
-	public:
-		//Constructor
-		inline Decompressor(InputStream &inputStream) : inputStream(inputStream)
-		{
-		}
+    //Forward declarations
+    class BitInputStreamBitReversed;
 
-		//Destructor
-		virtual ~Decompressor()
-		{
-		}
+    class STDPLUSPLUS_API HuffmanDecoder
+    {
+    public:
+        //Constructor
+        HuffmanDecoder(uint16 nCodeWords);
 
-		//Functions
-		static Decompressor *Create(CompressionAlgorithm algorithm, InputStream &inputStream, bool verify);
-		static Decompressor *CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize);
+        //Destructor
+        inline ~HuffmanDecoder()
+        {
+            MemFree(this->pNodes);
+        }
 
-	protected:
-		//Members
-		InputStream& inputStream;
-	};
+        //Methods
+        void AddSymbol(uint16 symbol, uint16 codeWord, uint8 bitLength);
+        void ConstructCanonical(const uint8 *pBitLengths, uint16 nBitLengths);
+        uint16 Decode(BitInputStreamBitReversed &refBitInput) const;
+
+    private:
+	    //Members
+	    int16 *pNodes;
+	    uint16 nextAllocationIndex;
+
+	    //Methods
+	    uint16 Allocate();
+    };
 }

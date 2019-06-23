@@ -17,38 +17,34 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "POSIXFile.hpp"
-//Global
-#include <sys/stat.h>
-//Local
-#include <Std++/Streams/FileInputStream.hpp>
+#include "ADLER32ChecksumFunction.hpp"
 //Namespaces
 using namespace _stdxx_;
-using namespace StdXX;
 
 //Public methods
-uint64 POSIXFile::GetSize() const
+uint32 _stdxx_::ADLER32ChecksumFunction::GetChecksumSize() const
 {
-	struct stat sb{};
-	int ret = stat(reinterpret_cast<const char *>(this->path.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
-	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
-
-	return static_cast<uint64>(sb.st_size);
+	return 4;
 }
 
-uint64 POSIXFile::GetStoredSize() const
+void ADLER32ChecksumFunction::Finish()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
 }
 
-UniquePointer<InputStream> POSIXFile::OpenForReading(bool verify) const
+void ADLER32ChecksumFunction::StoreChecksum(void *target) const
 {
-	return new FileInputStream(this->path);
+	uint32 checksum = (this->b << 16) | this->a;
+	*(uint32*)target = checksum;
 }
 
-UniquePointer<OutputStream> POSIXFile::OpenForWriting()
+void ADLER32ChecksumFunction::Update(const void *buffer, uint32 size)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	const uint32_t MOD_ADLER = 65521;
+
+	const byte* data = static_cast<const byte *>(buffer);
+	for(uint32 i = 0; i < size; i++)
+	{
+		this->a = (this->a + data[i]) % MOD_ADLER;
+		this->b = (this->b + this->a) % MOD_ADLER;
+	}
 }

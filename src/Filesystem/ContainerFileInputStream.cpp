@@ -79,6 +79,7 @@ void ContainerFileInputStream::SetCurrentOffset(uint64 offset)
 
 uint32 ContainerFileInputStream::Skip(uint32 nBytes)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	nBytes = Math::Min(nBytes, static_cast<uint32>(this->GetRemainingBytes()));
+	this->currentOffset += nBytes;
+	return nBytes;
 }

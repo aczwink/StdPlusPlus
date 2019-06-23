@@ -23,7 +23,7 @@
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class ContainerFileSystem;
 
 	class ContainerDirectory : public Directory
@@ -42,21 +42,17 @@ namespace StdXX
 		}
 
 		//Methods
-		bool ContainsFile(const String &name) const override;
-		bool ContainsSubDirectory(const String &name) const override;
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
 		bool Exists(const Path &path) const override;
+		AutoPointer<FileSystemNode> GetChild(const String &name) override;
 		AutoPointer<const FileSystemNode> GetChild(const String &name) const override;
-		AutoPointer<const File> GetFile(const String &name) const override;
 		FileSystem *GetFileSystem() override;
 		const FileSystem *GetFileSystem() const override;
 		AutoPointer<const Directory> GetParent() const override;
 		Path GetPath() const override;
 		uint64 GetSize() const override;
 		uint64 GetStoredSize() const override;
-		AutoPointer<Directory> GetSubDirectory(const String &name) override;
-		AutoPointer<const Directory> GetSubDirectory(const String &name) const override;
 
 		//For range-based loop
 		DirectoryIterator begin() const override;
@@ -67,8 +63,7 @@ namespace StdXX
 		ContainerFileSystem *fileSystem;
 		String name;
 		ContainerDirectory *parent;
-		Map<String, AutoPointer<File>> files;
-		Map<String, AutoPointer<ContainerDirectory>> subDirectories;
+		Map<String, AutoPointer<FileSystemNode>> children;
 
 		//Methods
 		void AddSourceFile(String fileName, const ContainerFileHeader& header);

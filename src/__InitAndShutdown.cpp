@@ -30,6 +30,7 @@
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
 #include <Std++/UI/Style/StyleSheet.hpp>
+#include <Std++/Compression/HuffmanDecoder.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -72,6 +73,13 @@ void ShutdownStdPlusPlus()
 	for(const FileSystemFormat *format : g_fsFormats)
 		delete(format);
 	g_fsFormats.Release();
+
+	//free inflater stuff
+	extern HuffmanDecoder* g_fixedLiteralLengthDecoder;
+	extern HuffmanDecoder* g_fixedDistanceDecoder;
+
+	delete g_fixedDistanceDecoder;
+	delete g_fixedLiteralLengthDecoder;
 
 	//shut down global event queue
 	extern EventQueue *g_globalEventQueue;

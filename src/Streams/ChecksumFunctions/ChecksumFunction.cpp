@@ -20,6 +20,7 @@
 #include <Std++/Streams/ChecksumFunction.hpp>
 //Local
 #include <Std++/Constants.hpp>
+#include "ADLER32ChecksumFunction.hpp"
 #include "CRC32ChecksumFunction.hpp"
 //Namespaces
 using namespace StdXX;
@@ -44,6 +45,8 @@ UniquePointer<ChecksumFunction> ChecksumFunction::CreateInstance(ChecksumAlgorit
 {
 	switch (algorithm)
 	{
+	case ChecksumAlgorithm::ADLER32:
+		return new _stdxx_::ADLER32ChecksumFunction;
 	case ChecksumAlgorithm::CRC32:
 		return new _stdxx_::CRC32ChecksumFunction;
 	}

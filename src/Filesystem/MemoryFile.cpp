@@ -32,7 +32,7 @@ uint64 StdXX::MemoryFile::GetSize() const
 	return 0;
 }
 
-StdXX::UniquePointer<StdXX::InputStream> StdXX::MemoryFile::OpenForReading() const
+StdXX::UniquePointer<StdXX::InputStream> StdXX::MemoryFile::OpenForReading(bool verify) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return UniquePointer<InputStream>();

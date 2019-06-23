@@ -45,14 +45,13 @@ namespace StdXX
 		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
 		virtual bool Exists(const Path &path) const = 0;
 		virtual void Flush() = 0;
-		virtual AutoPointer<Directory> GetDirectory(const Path &directoryPath) = 0;
-		virtual AutoPointer<const File> GetFile(const Path& filePath) const = 0;
 		/**
 		 * Get the node identified by path or nullptr if not existent.
 		 *
 		 * @param path - If relative, it should be considered relative to the root.
 		 * @return
 		 */
+		virtual AutoPointer<FileSystemNode> GetNode(const Path& path) = 0;
 		virtual AutoPointer<const FileSystemNode> GetNode(const Path& path) const = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
 		virtual uint64 GetSize() const = 0;
@@ -66,12 +65,30 @@ namespace StdXX
 		static UniquePointer<FileSystem> LoadFromFile(const Path &p);
 
 		//Inline
+		inline AutoPointer<Directory> GetDirectory(const Path& path)
+		{
+			AutoPointer<FileSystemNode> node = this->GetNode(path);
+			ASSERT(!node.IsNull(), u8"Node does not exist.");
+			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
+
+			return node.Cast<Directory>();
+		}
+
+		inline AutoPointer<const File> GetFile(const Path& path) const
+		{
+			AutoPointer<const FileSystemNode> node = this->GetNode(path);
+			ASSERT(!node.IsNull(), u8"Node does not exist.");
+			ASSERT(node->GetType() == FileSystemNodeType::File, u8"Node is not a file.");
+
+			return node.Cast<const File>();
+		}
+
 		inline const FileSystemFormat *GetFormat() const
 		{
 			return this->fileSystemFormat;
 		}
 
-		bool IsDirectory(const Path& path) const
+		inline bool IsDirectory(const Path& path) const
 		{
 			return this->GetNode(path)->GetType() == FileSystemNodeType::Directory;
 		}

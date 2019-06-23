@@ -28,6 +28,7 @@ namespace StdXX
 {
 	enum ChecksumAlgorithm
 	{
+		ADLER32,
 		CRC32,
 	};
 
