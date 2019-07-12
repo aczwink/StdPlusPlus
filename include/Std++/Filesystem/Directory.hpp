@@ -70,7 +70,7 @@ namespace StdXX
 			AutoPointer<FileSystemNode> node = this->GetChild(name);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
 			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
-			return node.Cast<Directory>();
+			return node.MoveCast<Directory>();
 		}
 
 		inline AutoPointer<const Directory> GetSubDirectory(const String& name) const

@@ -47,6 +47,7 @@ namespace _stdxx_
         void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
+	    StdXX::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters, const StdXX::Path &initialPath) const override;
 	    //NOT IMPLEMENTED
 
     private:

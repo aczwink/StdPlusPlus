@@ -23,6 +23,7 @@
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 #include <Std++/Filesystem/ContainerFileInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
+#include <Std++/Streams/BufferedInputStream.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -44,6 +45,7 @@ UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
 	if (this->header.compression.HasValue())
 	{
 		ChainedInputStream* chain = new ChainedInputStream(input);
+		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
 		chain->Add(Decompressor::Create(*this->header.compression, chain->GetEnd(), verify));
 		return chain;
 	}

@@ -58,11 +58,15 @@ bool ContainerDirectory::Exists(const Path &path) const
 
 AutoPointer<FileSystemNode> ContainerDirectory::GetChild(const String &name)
 {
+	if(!this->children.Contains(name))
+		return nullptr;
 	return this->children[name];
 }
 
 AutoPointer<const FileSystemNode> ContainerDirectory::GetChild(const String &name) const
 {
+	if(!this->children.Contains(name))
+		return nullptr;
 	return this->children[name];
 }
 

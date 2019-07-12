@@ -19,10 +19,12 @@
 //Class header
 #include "POSIXDirectory.hpp"
 //Global
+#include <cerrno>
 #include <sys/stat.h>
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 #include "POSIXDirectoryIteratorState.hpp"
+#include "POSIXFile.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -49,14 +51,51 @@ bool POSIXDirectory::Exists(const Path &path) const
 
 AutoPointer<FileSystemNode> POSIXDirectory::GetChild(const String &name)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::AutoPointer<FileSystemNode>();
+	Path p = this->path / name;
+	struct stat sb{};
+	ASSERT(stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0, u8"Report this please!");
+	if(S_ISDIR(sb.st_mode))
+		return new POSIXDirectory(p);
+	return new POSIXFile(p);
 }
 
 AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::AutoPointer<const FileSystemNode>();
+	Path p = this->path / name;
+	struct stat sb{};
+
+	int result = stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
+	if(result == -1)
+	{
+		switch(errno)
+		{
+			case EACCES:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ELOOP:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENAMETOOLONG:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOENT:
+				return nullptr;
+			case ENOTDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EOVERFLOW:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			default:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	}
+	else if(result != 0)
+	{
+		//forbidden as of posix
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+
+	if(S_ISDIR(sb.st_mode))
+		return new POSIXDirectory(p);
+	return new POSIXFile(p);
 }
 
 FileSystem *POSIXDirectory::GetFileSystem()
@@ -121,15 +160,5 @@ bool POSIXDirectory::ContainsSubDirectory(const String &name) const
 	Path p = this->path / name;
 	struct stat sb{};
 	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
-}
-
- AutoPointer<Directory> POSIXDirectory::GetSubDirectory(const String &name)
-{
-	return new POSIXDirectory(this->path / name);
-}
-
-AutoPointer<const Directory> POSIXDirectory::GetSubDirectory(const String &name) const
-{
-	return new POSIXDirectory(this->path / name);
 }
  */

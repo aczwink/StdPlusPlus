@@ -157,3 +157,10 @@ void _stdxx_::Gtk3WindowBackend::ShowErrorBox(const StdXX::String &title, const 
 void _stdxx_::Gtk3WindowBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
+
+Path Gtk3WindowBackend::SelectExistingFile(const StdXX::String &title,
+                                           const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters,
+                                           const StdXX::Path &initialPath) const {
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::Path();
+}
