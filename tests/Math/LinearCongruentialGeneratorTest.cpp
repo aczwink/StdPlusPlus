@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,32 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Math/RandomNumberGenerator.hpp>
-//Global
-#include <cstdlib>
-#include <ctime>
-//Namespaces
+#include <Std++Test.hpp>
+using namespace StdXX;
 using namespace StdXX::Math;
 
-//Constructor
-RandomNumberGenerator::RandomNumberGenerator()
+TEST_SUITE(LinearCongruentialGeneratorTest)
 {
-	srand(static_cast<unsigned int>(time(nullptr)));
-}
+	TEST(comparison_with_cpp11_std)
+	{
+		MinStdRand rbg;
 
-RandomNumberGenerator::RandomNumberGenerator(uint32 seed)
-{
-	srand(seed);
-}
-
-//Public methods
-uint32 RandomNumberGenerator::Max() const
-{
-	return RAND_MAX;
-}
-
-uint32 RandomNumberGenerator::Next()
-{
-	return static_cast<uint32>(rand());
-}
+		ASSERT(rbg.Next() == 48271, u8"Wrong random number.");
+		ASSERT(rbg.Next() == 182605794, u8"Wrong random number.");
+		ASSERT(rbg.Next() == 1291394886, u8"Wrong random number.");
+		ASSERT(rbg.Next() == 1914720637, u8"Wrong random number.");
+		ASSERT(rbg.Next() == 2078669041, u8"Wrong random number.");
+		ASSERT(rbg.Next() == 407355683, u8"Wrong random number.");
+	}
+};

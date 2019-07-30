@@ -89,5 +89,10 @@ namespace StdXX
 		{
 			return nan("");
 		}
+
+		static constexpr uint8 NumberOfDigitsInMantissa()
+		{
+			return DBL_MANT_DIG;
+		}
 	};
 }

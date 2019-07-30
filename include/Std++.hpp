@@ -92,7 +92,7 @@
 #include <Std++/Math/Degree.hpp>
 #include <Std++/Math/Integer.hpp>
 #include <Std++/Math/Natural.hpp>
-#include <Std++/Math/RandomNumberGenerator.hpp>
+#include <Std++/Math/RandomBitGenerator.hpp>
 #include <Std++/Math/Quaternion.hpp>
 #include <Std++/Math/Radian.hpp>
 #include <Std++/Math/Size.hpp>
@@ -133,9 +133,13 @@
 #include <Std++/Math/CComplex.h>
 #include <Std++/Math/Fraction.hpp>
 #include <Std++/Math/CMatrix.h>
+//Math/Distributions
+#include <Std++/Math/Distributions/UniformRealDistribution.hpp>
 //Math/Geometry
 #include <Std++/Math/Geometry/AxisAlignedBox.hpp>
 #include <Std++/Math/Geometry/ObjectIntersection.hpp>
+//Math/RandomBitGenerators
+#include <Std++/Math/RandomBitGenerators/LinearCongruentialGenerator.hpp>
 
 //Multimedia
 #include <Std++/Multimedia/AudioBuffer.hpp>

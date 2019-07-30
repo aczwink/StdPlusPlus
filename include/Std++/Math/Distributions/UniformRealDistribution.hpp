@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,46 +18,33 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <Std++/Math/RandomBitGenerator.hpp>
 
 namespace StdXX
 {
 	namespace Math
 	{
-		class STDPLUSPLUS_API RandomNumberGenerator
+		template<typename RealType, typename GeneratorNatType>
+		class UniformRealDistribution
 		{
 		public:
-			//Constructors
-			RandomNumberGenerator();
-			RandomNumberGenerator(uint32 seed);
-
-			//Methods
-			uint32 Max() const;
-			/**
-			 * Returns the next random number in range [Min(), Max()]
-			 * @return
-			 */
-			uint32 Next();
+			//Constructor
+			inline UniformRealDistribution(RandomBitGenerator<GeneratorNatType>& randomBitGenerator, RealType min, RealType max)
+			: randomBitGenerator(randomBitGenerator), min(min), max(max)
+			{
+			}
 
 			//Inline
-			inline uint32 Min() const
+			inline RealType Next() const
 			{
-				return 0;
+				return this->randomBitGenerator.template GenerateCanonicalFloat<RealType, sizeof(RealType)*8>() * (this->max - this->min) + this->min;
 			}
 
-			inline uint32 Next(uint32 min, uint32 max)
-			{
-				return min + (this->Next() % max);
-			}
-
-			/**
-			 * Returns the next random floating point number in range[0, 1]
-			 * @return
-			 */
-			inline float64 NextFloat()
-			{
-				return (this->Next() - this->Min()) / float64(this->Max());
-			}
+		private:
+			//Members
+			RandomBitGenerator<GeneratorNatType>& randomBitGenerator;
+			RealType min;
+			RealType max;
 		};
 	}
 }

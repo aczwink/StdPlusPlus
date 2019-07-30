@@ -1,6 +1,12 @@
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
+	#Distributions
+	${CMAKE_CURRENT_SOURCE_DIR}/Distributions/UniformRealDistribution.hpp
+
+	#RandomBitGenerators
+	${CMAKE_CURRENT_SOURCE_DIR}/RandomBitGenerators/LinearCongruentialGenerator.hpp
+
 	#Vector2
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector2/Vector2.inl
@@ -33,7 +39,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Point.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Quaternion.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Radian.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RandomNumberGenerator.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/RandomBitGenerator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Size.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Vector3.hpp
 

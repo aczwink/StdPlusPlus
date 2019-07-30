@@ -37,16 +37,6 @@ namespace StdPlusPlusTest
             const char *name;
             void (*testFunction)();
         };
-    private:
-        //Members
-    	const char* currentTestSuite;
-        StdXX::Map<StdXX::String, StdXX::DynamicArray<Test>> tests;
-
-        //Constructor
-        inline TestManager()
-        {
-        }
-
     public:
         //Inline
         inline void AddTest(const char *pName, void (*pTest)())
@@ -55,42 +45,49 @@ namespace StdPlusPlusTest
             t.name = pName;
             t.testFunction = pTest;
 
-            this->tests[this->currentTestSuite].Push(StdXX::Move(t));
+            this->testSuites[this->currentTestSuite].Push(StdXX::Move(t));
         }
 
-        inline bool RunAllTests()
+        inline void RunAllTests()
         {
-        	uint32 nTotal = 0, nSuccessful = 0;
-            for(const auto& kv : this->tests)
+            for(const auto& kv : this->testSuites)
 			{
-				StdXX::stdOut << u8"Running tests for suite: " << kv.key << StdXX::endl;
-				for(const Test& test : kv.value)
-				{
-					StdXX::stdOut << u8"\tRunning test: " << test.name << u8"..." << StdXX::endl;
-					nTotal++;
-					try
-					{
-						test.testFunction();
-						StdXX::stdOut << "\t\tPassed!" << StdXX::endl;
-						nSuccessful++;
-					}
-					catch (const StdXX::Exception &e)
-					{
-						StdXX::stdOut << u8"\t\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
-					}
-					catch (const StdXX::Error &e)
-					{
-						StdXX::stdOut << u8"\t\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
-					}
-					catch (...)
-					{
-						StdXX::stdOut << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
-					}
-				}
+				this->ExecuteTestSuite(kv.key);
             }
-            StdXX::stdOut << u8"Performed " << nTotal << u8" tests. " << nSuccessful << u8" were successful, " << (nTotal - nSuccessful) << u8" failed." << StdXX::endl;
+            this->PrintStatistics();
+        }
 
-            return true;
+        inline bool RunTestCase(const StdXX::String& testSuiteName, const StdXX::String& testCaseName)
+        {
+        	if(!this->testSuites.Contains(testSuiteName))
+        		return false;
+
+	        const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName];
+	        bool found = false;
+	        for(const Test& testCase : testCases)
+	        {
+	        	if(StdXX::String(testCase.name) == testCaseName)
+		        {
+		        	found = true;
+		        	this->ExecuteTestCase(testCase);
+		        	break;
+		        }
+	        }
+	        if(!found)
+	        	return false;
+
+	        this->PrintStatistics();
+	        return true;
+        }
+
+        inline bool RunTestSuite(const StdXX::String& testSuiteName)
+        {
+        	if(!this->testSuites.Contains(testSuiteName))
+        		return false;
+
+        	this->ExecuteTestSuite(testSuiteName);
+        	this->PrintStatistics();
+        	return true;
         }
 
         inline void SetTestSuiteName(const char* name)
@@ -105,6 +102,60 @@ namespace StdPlusPlusTest
 
             return mgr;
         }
+
+    private:
+	    //Members
+    	uint32 nTestsTotallyExecuted;
+        uint32 nSuccessfulTests;
+	    const char* currentTestSuite;
+	    StdXX::Map<StdXX::String, StdXX::DynamicArray<Test>> testSuites;
+
+	    //Constructor
+	    inline TestManager()
+	    {
+		    this->nTestsTotallyExecuted = 0;
+		    this->nSuccessfulTests = 0;
+	    }
+
+	    //Inline
+	    inline void ExecuteTestCase(const Test& testCase)
+	    {
+		    StdXX::stdOut << u8"\tRunning test: " << testCase.name << u8"..." << StdXX::endl;
+		    this->nTestsTotallyExecuted++;
+		    try
+		    {
+			    testCase.testFunction();
+			    StdXX::stdOut << "\t\tPassed!" << StdXX::endl;
+			    this->nSuccessfulTests++;
+		    }
+		    catch (const StdXX::Exception &e)
+		    {
+			    StdXX::stdOut << u8"\t\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
+		    }
+		    catch (const StdXX::Error &e)
+		    {
+			    StdXX::stdOut << u8"\t\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
+		    }
+		    catch (...)
+		    {
+			    StdXX::stdOut << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+		    }
+	    }
+
+	    inline void ExecuteTestSuite(const StdXX::String& testSuiteName)
+	    {
+		    StdXX::stdOut << u8"Running tests for suite: " << testSuiteName << StdXX::endl;
+		    const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName];
+		    for(const Test& testCase : testCases)
+		    {
+		    	this->ExecuteTestCase(testCase);
+		    }
+	    }
+
+	    inline void PrintStatistics()
+	    {
+		    StdXX::stdOut << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << (this->nTestsTotallyExecuted - this->nSuccessfulTests) << u8" failed." << StdXX::endl;
+	    }
     };
 
     class TestAdder
