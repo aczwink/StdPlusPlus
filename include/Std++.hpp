@@ -117,6 +117,7 @@
 //ErrorHandling
 #include <Std++/Errorhandling/Error.hpp>
 #include <Std++/Errorhandling/Exception.hpp>
+#include <Std++/Errorhandling/IllegalEncodedCharException.hpp>
 
 //Filesystem
 #include <Std++/Filesystem/Path.hpp>

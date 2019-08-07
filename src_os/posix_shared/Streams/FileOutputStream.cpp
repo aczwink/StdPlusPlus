@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,17 +39,55 @@ FileOutputStream::FileOutputStream(const Path &path, bool overwrite) : filePath(
 	{
 		switch(errno)
 		{
+			case EACCES:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EEXIST:
+				throw ErrorHandling::FileAlreadyExistsException(path);
+			case EINTR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EINVAL:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EISDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ELOOP:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EMFILE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENAMETOOLONG:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENFILE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			case ENOENT:
 			{
 				if(path.GetName().IsEmpty())
 					NOT_IMPLEMENTED_ERROR; //TODO: inform user that he is stupid
 				throw ErrorHandling::FileNotFoundException(path.GetParent());
 			}
-			break;
-			case EEXIST:
-				throw ErrorHandling::FileAlreadyExistsException(path);
-			default:
+			case ENOSR:
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOSPC:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOTDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENXIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EOVERFLOW:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EROFS:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EAGAIN:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOMEM:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ETXTBSY:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			default:
+			{
+				int errno_bkp = errno;
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
 		}
 	}
 }

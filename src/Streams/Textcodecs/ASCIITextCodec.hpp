@@ -20,6 +20,7 @@
 #include <Std++/Streams/TextCodec.hpp>
 //Local
 #include <Std++/Debug.hpp>
+#include <Std++/Errorhandling/IllegalEncodedCharException.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -31,7 +32,8 @@ public:
 	{
 		byte b;
 		inputStream.ReadBytes(&b, 1);
-		ASSERT(b <= 0x7F, u8"Invalid ASCII value");
+		if(b > 0x7F)
+			throw ErrorHandling::IllegalEncodedCharException();
 
 		return b; //ascii directly maps to unicode
 	}

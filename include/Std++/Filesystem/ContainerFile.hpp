@@ -46,6 +46,8 @@ namespace StdXX
 		//Constructor
 		inline ContainerFile(const ContainerFileHeader& header, ContainerFileSystem* fileSystem) : header(header), fileSystem(fileSystem)
 		{
+			if(!this->header.compression.HasValue() && (this->header.compressedSize == 0))
+				this->header.compressedSize = header.uncompressedSize;
 		}
 
 		//Methods
