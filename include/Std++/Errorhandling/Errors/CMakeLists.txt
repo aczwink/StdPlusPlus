@@ -1,0 +1,9 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AssertionError.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/IllegalCodePathError.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/NotImplementedError.hpp
+
+	PARENT_SCOPE)

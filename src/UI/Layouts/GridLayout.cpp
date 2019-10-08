@@ -20,7 +20,7 @@
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Local
 #include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
 using namespace StdXX;

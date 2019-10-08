@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/LinkedList/LinkedList.hpp>
 #include "Directory.hpp"
 #include "DirectoryIterator.hpp"
 #include "File.hpp"

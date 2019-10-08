@@ -76,8 +76,15 @@ namespace StdXX
 		bool isFlushed;
 
 		//Methods
-		void AddSourceFile(const Path &path, const ContainerFileHeader& header);
+		void AddSourceFile(const Path& filePath, ContainerFile* file);
 		UniquePointer<FileOutputStream> OpenTempContainer();
 		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
+
+		//Inline
+		inline void AddSourceFile(const Path& filePath, const ContainerFileHeader& header)
+		{
+			ContainerFile *file = new ContainerFile(header, this);
+			this->AddSourceFile(filePath, file);
+		}
 	};
 }

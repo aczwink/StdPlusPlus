@@ -18,82 +18,24 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../Containers/Strings/OldString.hpp"
-#include "../Containers/Strings/StringUtil.h"
-#include "../Containers/Strings/UTF-8/UTF8String.hpp"
-#include "../Filesystem/Path.hpp"
+#include <Std++/Definitions.h>
 
 namespace StdXX
 {
-    class LineBreak{};
-    static const LineBreak endl;
-
     class STDPLUSPLUS_API OutputStream
     {
     public:
         //Destructor
         virtual ~OutputStream(){};
 
+        /*
         //Inline Operators
-        inline OutputStream &operator<<(uint16 i)
-        {
-            return *this << String::Number(i);
-        }
-
-        inline OutputStream &operator<<(int32 i)
-        {
-			return *this << String::Number(i);
-        }
-
-        inline OutputStream &operator<<(uint32 i)
-        {
-            return *this << String::Number(i);
-        }
-
         inline OutputStream &operator<<(int64 i)
         {
             const OldString &refString = ToString(i);
 
             return *this << refString;
         }
-
-        inline OutputStream &operator<<(uint64 i)
-        {
-			return *this << String::Number(i);
-        }
-
-        inline OutputStream &operator<<(float64 f)
-        {
-            return *this << String::Number(f);
-        }
-
-        inline OutputStream &operator<<(const LineBreak &refLineBreak)
-        {
-            this->WriteBytes("\r\n", 2); //do always CR LF.. ok for windows and linux ignores CR
-
-            return *this;
-        }
-
-		virtual inline OutputStream &operator<<(const char *string)
-		{
-			*this << String(string);
-			return *this;
-		}
-
-        inline OutputStream &operator<<(const String &string)
-        {
-			string.ToUTF8();
-			this->WriteBytes(string.GetRawData(), string.GetSize());
-
-			return *this;
-        }
-
-		inline OutputStream &operator<<(const OldString &string)
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: remove this method after oldstring is totally migrated
-			return *this;
-		}
 
         inline OutputStream &operator<<(const ByteString &refString)
         {
@@ -118,11 +60,7 @@ namespace StdXX
         {
             return *this << UTF8String(refString);
         }
-
-        inline OutputStream &operator<<(const Path &refPath)
-        {
-            return *this << refPath.GetString();
-        }
+         */
 
         //Abstract
 		virtual void Flush() = 0;

@@ -33,12 +33,6 @@ uint64 ContainerFile::GetSize() const
 	return this->header.uncompressedSize;
 }
 
-uint64 ContainerFile::GetStoredSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
 {
 	InputStream* input = new ContainerFileInputStream(*this);
@@ -57,4 +51,10 @@ UniquePointer<OutputStream> ContainerFile::OpenForWriting()
 	//can not open read only file for writing
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
+}
+
+FileSystemNodeInfo ContainerFile::QueryInfo() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return FileSystemNodeInfo();
 }

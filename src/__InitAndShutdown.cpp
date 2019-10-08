@@ -97,7 +97,7 @@ void ShutdownStdPlusPlus()
 	//release extensions
 	ExtensionManager::GetRootInstance().ReleaseAll();
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
     //look for memory leaks
 	DebugDumpMemoryLeaks();
 #endif

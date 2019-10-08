@@ -18,14 +18,16 @@
  */
 #pragma once
 //Local
+#include <Std++/Streams/OutputStream.hpp>
 #include <Std++/Streams/TextCodec.hpp>
-#include "../OutputStream.hpp"
-#include "../../Containers/Strings/ByteString.hpp"
-#include "../../Containers/Strings/ConstStringIterator.hpp"
-#include "../../Containers/Strings/UTF-8/UTF8String.hpp"
+#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Containers/Strings/ConstStringIterator.hpp>
 
 namespace StdXX
 {
+	class LineBreak{};
+	static const LineBreak endl;
+
     class STDPLUSPLUS_API TextWriter
     {
     public:
@@ -40,6 +42,55 @@ namespace StdXX
 		{
 			delete this->codec;
 		}
+
+	    //Inline Operators
+	    inline TextWriter &operator<<(bool b)
+	    {
+	    	return *this << (b ? u8"true" : u8"false");
+	    }
+
+	    inline TextWriter &operator<<(int32 i)
+	    {
+		    return *this << String::Number(i);
+	    }
+
+	    inline TextWriter &operator<<(uint16 i)
+	    {
+		    return *this << String::Number(i);
+	    }
+
+	    inline TextWriter &operator<<(uint32 i)
+	    {
+		    return *this << String::Number(i);
+	    }
+
+	    inline TextWriter &operator<<(uint64 i)
+	    {
+		    return *this << String::Number(i);
+	    }
+
+	    inline TextWriter &operator<<(float64 f)
+	    {
+		    return *this << String::Number(f);
+	    }
+
+	    inline TextWriter &operator<<(const char *string)
+	    {
+		    *this << String(string);
+		    return *this;
+	    }
+
+	    inline TextWriter &operator<<(const String &string)
+	    {
+		    this->WriteString(string);
+		    return *this;
+	    }
+
+	    inline TextWriter &operator<<(const LineBreak&)
+	    {
+	    	this->WriteString(this->lineSeparator);
+		    return *this;
+	    }
 
 		//Inline
 		inline void SetLineSeparator(const String& lsep)
@@ -67,8 +118,13 @@ namespace StdXX
 		inline void WriteStringZeroTerminated(const String& string)
 		{
 			this->WriteString(string);
-			byte zero = 0;
-			this->outputStream.WriteBytes(&zero, 1);
+			this->codec->WriteCodePoint(0, this->outputStream);
+		}
+
+		inline void WriteTabs(uint16 nTabs)
+		{
+			for(uint16 i = 0; i < nTabs; i++)
+				this->codec->WriteCodePoint(u8'\t', this->outputStream);
 		}
 
     private:

@@ -73,6 +73,9 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
+//Errorhandling
+#include <Std++/Errorhandling/Errors/IllegalCodePathError.hpp>
+
 //Eventhandling
 #include <Std++/Eventhandling/StandardEventQueue.hpp>
 
@@ -82,6 +85,7 @@
 #include <Std++/Filesystem/File.hpp>
 #include <Std++/Filesystem/FileSystem.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
+#include <Std++/Filesystem/Link.hpp>
 #include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Filesystem/Path.hpp>
 
@@ -110,6 +114,7 @@
 #include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/Compression/Compressor.hpp>
 #include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Compression/SlidingDictionary.hpp>
 
 //Debugging
 #include <Std++/Debugging/FunctionHook.hpp>
@@ -117,7 +122,7 @@
 //ErrorHandling
 #include <Std++/Errorhandling/Error.hpp>
 #include <Std++/Errorhandling/Exception.hpp>
-#include <Std++/Errorhandling/IllegalEncodedCharException.hpp>
+#include <Std++/Errorhandling/Exceptions/IllegalEncodedCharException.hpp>
 
 //Filesystem
 #include <Std++/Filesystem/Path.hpp>
@@ -215,7 +220,7 @@
 #include <Std++/Cryptography/HashingOutputStream.hpp>
 #include <Std++/Streams/LimitedInputStream.hpp>
 #include <Std++/Streams/NullOutputStream.hpp>
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 #include <Std++/Streams/StdIn.hpp>
 //Streams/Bitstreams
 #include <Std++/Streams/Bitstreams/CBitInputStream.h>

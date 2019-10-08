@@ -51,8 +51,8 @@ namespace StdXX
 		const FileSystem *GetFileSystem() const override;
 		AutoPointer<const Directory> GetParent() const override;
 		Path GetPath() const override;
-		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
+		bool IsEmpty() const override;
+		FileSystemNodeInfo QueryInfo() const override;
 
 		//For range-based loop
 		DirectoryIterator begin() const override;
@@ -65,7 +65,10 @@ namespace StdXX
 		ContainerDirectory *parent;
 		Map<String, AutoPointer<FileSystemNode>> children;
 
-		//Methods
-		void AddSourceFile(String fileName, const ContainerFileHeader& header);
+		//Inline
+		inline void AddSourceFile(const String& fileName, ContainerFile* file)
+		{
+			this->children[fileName] = file;
+		}
 	};
 }

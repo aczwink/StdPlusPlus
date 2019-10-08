@@ -109,4 +109,10 @@ namespace StdXX
 		ASSERT(value <= Unsigned<uint16>::Max(), u8"Too large uint16 literal");
 		return static_cast<uint16>(value);
 	}
+
+	inline uint32 operator "" _u32(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint32>::Max(), u8"Too large uint32 literal");
+		return static_cast<uint32>(value);
+	}
 }

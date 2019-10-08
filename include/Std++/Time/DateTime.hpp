@@ -34,6 +34,16 @@ namespace StdXX
 		}
 
 		//Operators
+		inline bool operator==(const DateTime& other) const
+		{
+        	return (this->date == other.date) && (this->time == other.time);
+		}
+
+		inline bool operator!=(const DateTime& other) const
+		{
+        	return !(*this == other);
+		}
+
 		inline bool operator<(const DateTime &other) const
 		{
 			if (this->date < other.date)
@@ -92,10 +102,20 @@ namespace StdXX
 		}
 
 		//Functions
+	    /**
+		* timeStamp is assumed to be in UTC+0
+		*/
+	    static DateTime FromUnixTimeStamp(int64 timeStamp);
 		/**
 		* timeStamp is assumed to be in UTC+0
 		*/
 		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
+
+		static DateTime MinValue()
+		{
+			return {Date::MinValue(), Time()};
+		}
+
 		/**
 		 * Returns the current system time in UTC+0.
 		 * Note that if the system time is different from the current "real-world" wall-clock time, so is the result.

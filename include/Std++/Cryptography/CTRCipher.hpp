@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Unsigned.hpp>
 #include "CipherAlgorithm.hpp"
 #include "Counter.hpp"
 #include "BlockCipher.hpp"

@@ -17,35 +17,25 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Filesystem/Path.hpp>
+#include <Std++/Filesystem/Link.hpp>
 
 namespace _stdxx_
 {
-	class SlidingDictionary
+	class PosixLink : public StdXX::Link
 	{
 	public:
 		//Constructor
-		SlidingDictionary(uint32 size);
-
-		//Destructor
-		~SlidingDictionary();
+		inline explicit PosixLink(const StdXX::Path& path) : path(path)
+		{
+		}
 
 		//Methods
-		void Copy(uint16 distance, uint16 length, StdXX::OutputStream &refOutput);
-
-		//Inline
-		inline void Append(byte b)
-		{
-			this->pBuffer[this->index++] = b;
-
-			if(this->index == this->size)
-				this->index = 0;
-		}
+		StdXX::FileSystemNodeInfo QueryInfo() const override;
+		StdXX::Path ReadTarget() const override;
 
 	private:
 		//Members
-		uint32 size;
-		byte *pBuffer;
-		uint32 index;
+		StdXX::Path path;
 	};
 }

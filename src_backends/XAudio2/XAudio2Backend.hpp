@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,7 +41,7 @@ namespace StdXX
 #if WINVER < _WIN32_WINNT_WIN8
 			//this unfortunately is needed on windows 7-.-
 			//reason:https://blogs.msdn.microsoft.com/chuckw/2015/10/09/known-issues-xaudio-2-7
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 			this->hXAudioModule = LoadLibraryA("XAudioD2_7.DLL");
 #else
 			this->hXAudioModule = LoadLibraryA("XAudio2_7.DLL");
@@ -51,7 +51,7 @@ namespace StdXX
 			this->hXAudioModule = nullptr;
 #endif
 			DWORD flags = 0;
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 			//flags |= XAUDIO2_DEBUG_ENGINE;
 #endif
 			this->pXAudio2 = nullptr;

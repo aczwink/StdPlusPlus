@@ -21,7 +21,7 @@
 #include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/Containers/FIFOBuffer.hpp>
 #include <Std++/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
-#include "../SlidingDictionary.hpp"
+#include <Std++/Compression/SlidingDictionary.hpp>
 
 //Implemented as of RFC 1951
 namespace _stdxx_
@@ -43,7 +43,7 @@ namespace _stdxx_
 		bool lastBlock;
 		StdXX::FIFOBuffer buffer;
 		StdXX::BitInputStreamBitReversed bitInput;
-		SlidingDictionary dictionary;
+		StdXX::SlidingDictionary dictionary;
 
 		//Methods
 		uint16 DecodeDistance(uint16 distance);

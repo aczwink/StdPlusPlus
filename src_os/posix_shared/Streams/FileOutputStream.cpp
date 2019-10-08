@@ -23,8 +23,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 //Local
-#include <Std++/Errorhandling/FileAlreadyExistsException.hpp>
-#include <Std++/Errorhandling/FileNotFoundException.hpp>
+#include <Std++/Errorhandling/Exceptions/FileAlreadyExistsException.hpp>
+#include <Std++/Errorhandling/Exceptions/FileNotFoundException.hpp>
 //Namespaces
 using namespace StdXX;
 

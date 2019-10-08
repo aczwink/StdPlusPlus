@@ -1,0 +1,9 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/JSON.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/HumanReadableJsonParser.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/HumanReadableJsonParser.hpp
+
+	PARENT_SCOPE)

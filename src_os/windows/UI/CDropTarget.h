@@ -26,7 +26,7 @@
 using namespace StdXX;
 using namespace StdXX::UI;
 
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 
 namespace StdXX
 {

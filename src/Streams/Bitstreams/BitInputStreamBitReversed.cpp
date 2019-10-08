@@ -63,7 +63,7 @@ void BitInputStreamBitReversed::Skip(uint32 nBits)
 //Private methods
 void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 {
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 	if(nBits > 64)
 	{
 		NOT_IMPLEMENTED_ERROR;

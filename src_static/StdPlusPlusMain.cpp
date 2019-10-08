@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,14 +24,15 @@
 #endif
 
 //Prototypes
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 STDPLUSPLUS_API void StartUserMemoryLogging();
 #endif
 
 //Local functions
 static void ReportError(const String &message1, const String &message2)
 {
-	stdErr << message1 << message2 << endl;
+	TextWriter textWriter(stdErr, TextCodecType::UTF8);
+	textWriter << message1 << message2 << endl;
 #ifdef XPC_OS_WINDOWS
 	MessageBoxW(NULL, (LPCWSTR)message2.ToUTF16().GetRawZeroTerminatedData(), (LPCWSTR)message1.ToUTF16().GetRawZeroTerminatedData(), MB_ICONERROR | MB_TASKMODAL);
 #endif
@@ -46,7 +47,7 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     int32 exitCode = -1;
 
     InitStdPlusPlus();
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
     StartUserMemoryLogging();
 #endif
     try
@@ -55,12 +56,16 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     }
     catch(const Exception &e)
     {
-		ReportError(u8"Uncaught exception: ", e.GetDescription());
+		ReportError(u8"Uncaught exception: ", e.ToString());
     }
 	catch(const Error &e)
 	{
-		ReportError(u8"ERROR: ", e.GetDescription());
+		ReportError(u8"ERROR: ", e.ToString());
 	}
+    catch(const BaseException &e)
+    {
+	    ReportError(u8"BaseException: ", e.ToString());
+    }
     catch(...)
     {
 		ReportError(u8"Uncaught exception (not StdXX)", String());

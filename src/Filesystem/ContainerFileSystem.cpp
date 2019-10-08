@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Filesystem/ContainerDirectory.hpp>
 #include <Std++/Filesystem/OSFileSystem.hpp>
+#include <Std++/Filesystem/DirectoryWalker.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -101,11 +102,11 @@ AutoPointer<Directory> ContainerFileSystem::GetRoot()
 
 uint64 ContainerFileSystem::GetSize() const
 {
-	return this->root->GetSize();
+	return this->containerInputStream->GetSize();
 }
 
 //Protected methods
-void ContainerFileSystem::AddSourceFile(const Path &filePath, const ContainerFileHeader& header)
+void ContainerFileSystem::AddSourceFile(const Path& filePath, ContainerFile *file)
 {
 	bool flushStatus = this->isFlushed;
 
@@ -114,7 +115,7 @@ void ContainerFileSystem::AddSourceFile(const Path &filePath, const ContainerFil
 	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
 	AutoPointer<ContainerDirectory> containerDirectory = dir.Cast<ContainerDirectory>();
 
-	containerDirectory->AddSourceFile(filePath.GetName(), header);
+	containerDirectory->AddSourceFile(filePath.GetName(), file);
 
 	this->isFlushed = flushStatus; //the flushed status is not affected by source files
 }

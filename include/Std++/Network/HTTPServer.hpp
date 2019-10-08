@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Filesystem/Path.hpp>
 #include "HTTPHeaders.hpp"
 #include "HTTPResponse.hpp"
 #include "TCPServerSocket.hpp"

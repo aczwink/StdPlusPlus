@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/UI/MainAppWindow.hpp>
 //Local
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 //Namespaces

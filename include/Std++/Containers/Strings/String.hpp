@@ -58,7 +58,7 @@ namespace StdXX
 			//Constructors
 			inline Resource() : referenceCounter(1)
 			{
-#ifdef _STDPP_OS_LINUX
+#ifdef XPC_OS_LINUX
 				this->isUTF8 = true;
 #else
 				this->isUTF8 = false;
@@ -320,6 +320,7 @@ namespace StdXX
 		 * @return
 		 */
 		static String CopyRawString(const char *utf8);
+
 		/**
 		 * Assumes that the parameter is UTF-16 (host endian order) encoded;
 		 * Further if nChars equals Unsigned<uint32>::Max(), then the function will assume the input to be zero-terminated.
@@ -329,6 +330,14 @@ namespace StdXX
 		 *
 		 */
 		static String CopyRawString(const uint16 *utf16, uint32 nChars = Unsigned<uint32>::Max());
+
+		/**
+		 * Deep-copies size bytes of UTF-8 data into string.
+		 * @param utf8
+		 * @param size
+		 * @return
+		 */
+		static String CopyUtf8Bytes(const uint8* utf8, uint32 size);
 
 		/**
 		 * Formats a value using binary prefixes.

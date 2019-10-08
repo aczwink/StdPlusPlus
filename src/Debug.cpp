@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,19 +19,19 @@
 //Main header
 #include <Std++/Debug.hpp>
 //Local
-#include <Std++/Errorhandling/AssertionError.hpp>
-#include <Std++/Errorhandling/NotImplementedError.hpp>
+#include <Std++/Errorhandling/Errors/AssertionError.hpp>
+#include <Std++/Errorhandling/Errors/NotImplementedError.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 void StdXX::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-	throw AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
+	throw ErrorHandling::AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
 }
 
 void StdXX::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-	throw AssertionError(pContext, refMessage, pFileName, lineNumber, pFunctionName);
+	throw ErrorHandling::AssertionError(pContext, refMessage, pFileName, lineNumber, pFunctionName);
 }
 
 void StdXX::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
@@ -42,11 +42,13 @@ void StdXX::AssertionFailed(float64 expect, float64 got, float64 epsilon, const 
 	message += u8"Got: " + String::Number(got) + u8"\n";
 	message += u8"Epsilon: " + String::Number(epsilon) + u8"\n";
 
-	throw AssertionError(u8"Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
+	throw ErrorHandling::AssertionError(u8"Float::AlmostEqual(expect, got, epsilon)", message, fileName, lineNumber, functionName);
 }
+#endif
 
+#ifndef XPC_BUILDTYPE_RELEASE
 void StdXX::RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
 {
-	throw NotImplementedError(fileName, lineNumber, functionName);
+	throw ErrorHandling::NotImplementedError(fileName, lineNumber, functionName);
 }
 #endif

@@ -21,6 +21,7 @@
 #include "../Containers/Strings/String.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 #include "Path.hpp"
+#include "FileSystemNodeInfo.hpp"
 
 namespace StdXX
 {
@@ -42,19 +43,7 @@ namespace StdXX
 		virtual ~FileSystemNode() = default;
 
 		//Abstract
-		/**
-		 * Returns the number of bytes that the node occupies on the file system.
-		 * For example a file that is compressed on the filesystem may have a less stored size than its actual size.
-		 * @return
-		 */
-		virtual uint64 GetStoredSize() const = 0;
-
-		/**
-		 * For a file: Returns the size of the file in bytes.
-		 * Else: 0
-		 * @return
-		 */
-		virtual uint64 GetSize() const = 0;
 		virtual FileSystemNodeType GetType() const = 0;
+		virtual FileSystemNodeInfo QueryInfo() const = 0;
 	};
 }

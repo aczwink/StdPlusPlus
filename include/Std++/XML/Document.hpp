@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Streams/InputStream.hpp"
 #include "Element.hpp"
 
@@ -53,7 +54,7 @@ namespace StdXX
             }
 
             //Functions
-            static Document *Parse(InputStream &refInput);
+            static UniquePointer<Document> Parse(InputStream& inputStream);
         };
     }
 }

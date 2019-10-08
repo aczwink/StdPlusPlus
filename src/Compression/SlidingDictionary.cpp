@@ -17,11 +17,11 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "SlidingDictionary.hpp"
+#include <Std++/Compression/SlidingDictionary.hpp>
 //Local
 #include <Std++/Mathematics.hpp>
+#include <Std++/Memory.hpp>
 //Namespaces
-using namespace _stdxx_;
 using namespace StdXX;
 
 //Constructor

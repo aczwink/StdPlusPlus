@@ -22,7 +22,7 @@
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
 //Local
 #include <Std++/Streams/Writers/TextWriter.hpp>
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
@@ -43,11 +43,6 @@ void CSVWriter::WriteCell(const String &string)
 
 	if(this->writeSeparator)
 		writer.WriteString(this->dialect.separator);
-
-	if(string.Find(this->dialect.separator) != Unsigned<uint32>::Max())
-	{
-		stdErr << string;
-	}
 
 	ASSERT(string.Find(this->dialect.separator) == Unsigned<uint32>::Max(), u8"TODO: escape cell");
 	writer.WriteString(string);

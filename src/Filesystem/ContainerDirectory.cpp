@@ -93,19 +93,15 @@ Path ContainerDirectory::GetPath() const
 	return Path(u8"/");
 }
 
-uint64 ContainerDirectory::GetSize() const
+bool ContainerDirectory::IsEmpty() const
 {
-	uint64 sum = 0;
-	for(const auto &kv : this->children)
-		sum += kv.value->GetSize();
-
-	return sum;
+	return this->children.IsEmpty();
 }
 
-uint64 ContainerDirectory::GetStoredSize() const
+FileSystemNodeInfo ContainerDirectory::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return FileSystemNodeInfo();
 }
 
 //For range-based loop
@@ -165,11 +161,4 @@ DirectoryIterator ContainerDirectory::begin() const
 DirectoryIterator ContainerDirectory::end() const
 {
 	return DirectoryIterator(nullptr);
-}
-
-//Private methods
-void ContainerDirectory::AddSourceFile(String fileName, const ContainerFileHeader& header)
-{
-	ContainerFile *file = new ContainerFile(header, this->fileSystem);
-	this->children[fileName] = file;
 }

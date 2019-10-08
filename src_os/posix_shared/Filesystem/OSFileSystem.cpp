@@ -26,6 +26,7 @@
 //Local
 #include "POSIXDirectory.hpp"
 #include "POSIXFile.hpp"
+#include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -48,10 +49,15 @@ Path OSFileSystem::GetWorkingDirectory() const
 
 Path OSFileSystem::ToAbsolutePath(const Path &path) const
 {
+	//realpath in general works well but unfortunately resolves symlinks
+	/*
 	char p[PATH_MAX];
 	realpath(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), p);
-
 	return {String::CopyRawString(p)};
+	 */
+	if(path.IsAbsolute())
+		return path.Normalized();
+	return (this->GetWorkingDirectory() / path).Normalized();
 }
 
 //Class functions
@@ -80,24 +86,12 @@ OSFileSystem &OSFileSystem::GetInstance()
 
 		AutoPointer<FileSystemNode> GetNode(const Path &path) override
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return AutoPointer<FileSystemNode>();
+			return StatFindNode<FileSystemNode>(this->ToAbsolutePath(path));
 		}
 
 		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override
 		{
-			Path p = this->ToAbsolutePath(path);
-			struct stat sb{};
-			int ret = stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
-			ASSERT(ret == 0, u8"TODO: node does not exist. Throw exception");
-
-			if(S_ISDIR(sb.st_mode))
-				return new POSIXDirectory(p);
-			if(S_ISREG(sb.st_mode))
-				return new POSIXFile(p);
-
-			NOT_IMPLEMENTED_ERROR;
-			return nullptr;
+			return StatFindNode(this->ToAbsolutePath(path));
 		}
 
 		AutoPointer<Directory> GetRoot() override

@@ -20,12 +20,6 @@
 #include <Std++/Filesystem/MemoryFile.hpp>
 
 //Public methods
-uint64 StdXX::MemoryFile::GetStoredSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 uint64 StdXX::MemoryFile::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -42,4 +36,10 @@ StdXX::UniquePointer<StdXX::OutputStream> StdXX::MemoryFile::OpenForWriting()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return UniquePointer<OutputStream>();
+}
+
+StdXX::FileSystemNodeInfo StdXX::MemoryFile::QueryInfo() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return FileSystemNodeInfo();
 }

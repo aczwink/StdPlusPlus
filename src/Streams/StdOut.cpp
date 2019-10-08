@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 //Global
 #include <stdio.h>
 //Namespaces
@@ -33,11 +33,6 @@ void StdErr::Flush()
 	fflush(stderr);
 }
 
-void StdErr::WriteByte(byte b)
-{
-    putc(b, stderr);
-}
-
 uint32 StdErr::WriteBytes(const void *pSource, uint32 count)
 {
     return (uint32)fwrite(pSource, 1, count, stderr);
@@ -47,11 +42,6 @@ uint32 StdErr::WriteBytes(const void *pSource, uint32 count)
 void StdOut::Flush()
 {
 	fflush(stdout);
-}
-
-void StdOut::WriteByte(byte b)
-{
-    putc(b, stdout);
 }
 
 uint32 StdOut::WriteBytes(const void *pSource, uint32 count)

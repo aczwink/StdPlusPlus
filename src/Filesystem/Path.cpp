@@ -23,6 +23,17 @@
 //Namespaces
 using namespace StdXX;
 
+//Operators
+Path Path::operator/(const Path &rhs) const
+{
+	ASSERT(!this->pathString.IsEmpty(), u8"this must be non-empty.");
+	ASSERT(!rhs.IsAbsolute(), u8"rhs must not be absolute.");
+
+	if(this->pathString.EndsWith(u8"/"))
+		return Path(this->pathString + rhs.pathString);
+	return Path(this->pathString + u8"/" + rhs.pathString);
+}
+
 //Public methods
 String Path::GetFileExtension() const
 {
@@ -84,6 +95,47 @@ String Path::GetTitle() const
 		return String();
 
 	return this->pathString.SubString(posSlash + 1, posDot - posSlash - 1);
+}
+
+Path Path::Normalized() const
+{
+	//split into parts first
+	Path tmp = *this;
+	DynamicArray<String> parts;
+
+	if(this->IsAbsolute())
+		parts.Push(u8"/");
+
+	while(!tmp.GetString().IsEmpty())
+	{
+		String part = tmp.SplitOutmostPathPart(tmp);
+
+		//empty string is caused by double slashes
+		if(part.IsEmpty())
+			continue;
+
+		//skip current directory
+		if(part == u8".")
+			continue;
+
+		//resolve parent directory
+		if(part == u8"..")
+		{
+			ASSERT(!parts.IsEmpty(), u8"REPORT THIS PLEASE!");
+			parts.Pop();
+			continue;
+		}
+
+		parts.Push(part);
+	}
+
+	//reconstruct path from parts
+	Path result = parts[0];
+	for(uint32 i = 1; i < parts.GetNumberOfElements(); i++)
+	{
+		result /= parts[i];
+	}
+	return result;
 }
 
 Path Path::RelativePath(const Path &relativeTo) const

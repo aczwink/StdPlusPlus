@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,26 +21,38 @@
 //Local
 #include "Definitions.h"
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 #define ASSERT(expression, message) {if((expression) == 0){StdXX::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
 //extended asserts
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdXX::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
-//Errors
-#define NOT_IMPLEMENTED_ERROR StdXX::RaiseNotImplementedError(__FILE__, __LINE__, __FUNCTION__)
 
 namespace StdXX
 {
-	//Move declarations
+	//Forward declarations
 	class String;
 
-	void STDPLUSPLUS_API AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
-	void STDPLUSPLUS_API AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
-	void STDPLUSPLUS_API AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
-	void STDPLUSPLUS_API RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
+	void AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
+	void AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
 }
 #else
 #define ASSERT(expression, message) {}
 //extended asserts
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon)
-#define NOT_IMPLEMENTED_ERROR
+#endif
+
+#ifdef XPC_BUILDTYPE_RELEASE
+#define NOT_IMPLEMENTED_ERROR #error "Can not build in release mode with NOT_IMPLEMENTED_ERROR-marks."
+#define RAISE(exceptionType) throw exceptionType()
+#define THROW(exceptionType, ...) throw exceptionType(__VA_ARGS__)
+#else
+#define RAISE(exceptionType) throw exceptionType(__FILE__, __LINE__, __FUNCTION__)
+#define THROW(exceptionType, ...) throw exceptionType(__VA_ARGS__, __FILE__, __LINE__, __FUNCTION__)
+//Errors
+#define NOT_IMPLEMENTED_ERROR StdXX::RaiseNotImplementedError(__FILE__, __LINE__, __FUNCTION__)
+
+namespace StdXX
+{
+	void RaiseNotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName);
+}
 #endif

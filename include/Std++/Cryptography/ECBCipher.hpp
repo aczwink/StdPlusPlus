@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Unsigned.hpp>
 #include "BlockCipher.hpp"
 
 namespace StdXX

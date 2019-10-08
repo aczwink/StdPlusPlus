@@ -16,27 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "Exception.hpp"
+//Class header
+#include <Std++/Filesystem/Link.hpp>
+//Namespaces
+using namespace StdXX;
 
-namespace StdXX
+//Public methods
+FileSystemNodeType Link::GetType() const
 {
-	namespace ErrorHandling
-	{
-		class IllegalEncodedCharException : public Exception
-		{
-		public:
-			//Constructor
-			inline IllegalEncodedCharException()
-			{
-			}
-
-			//Inline
-			inline String GetDescription() const
-			{
-				return u8"Illegal byte sequence found while decoding coding-points.";
-			}
-		};
-	}
+	return FileSystemNodeType::Link;
 }

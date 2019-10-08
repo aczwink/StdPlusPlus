@@ -25,6 +25,7 @@
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 #include "POSIXDirectoryIteratorState.hpp"
 #include "POSIXFile.hpp"
+#include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -51,51 +52,12 @@ bool POSIXDirectory::Exists(const Path &path) const
 
 AutoPointer<FileSystemNode> POSIXDirectory::GetChild(const String &name)
 {
-	Path p = this->path / name;
-	struct stat sb{};
-	ASSERT(stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0, u8"Report this please!");
-	if(S_ISDIR(sb.st_mode))
-		return new POSIXDirectory(p);
-	return new POSIXFile(p);
+	return StatFindNode<FileSystemNode>(this->path / name);
 }
 
 AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) const
 {
-	Path p = this->path / name;
-	struct stat sb{};
-
-	int result = stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
-	if(result == -1)
-	{
-		switch(errno)
-		{
-			case EACCES:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			case EIO:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			case ELOOP:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			case ENAMETOOLONG:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			case ENOENT:
-				return nullptr;
-			case ENOTDIR:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			case EOVERFLOW:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			default:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		}
-	}
-	else if(result != 0)
-	{
-		//forbidden as of posix
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-
-	if(S_ISDIR(sb.st_mode))
-		return new POSIXDirectory(p);
-	return new POSIXFile(p);
+	return StatFindNode(this->path / name);
 }
 
 FileSystem *POSIXDirectory::GetFileSystem()
@@ -122,16 +84,17 @@ Path POSIXDirectory::GetPath() const
 	return Path();
 }
 
-uint64 POSIXDirectory::GetSize() const
+bool POSIXDirectory::IsEmpty() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	for(const String& child : *this)
+		return false;
+	return true;
 }
 
-uint64 POSIXDirectory::GetStoredSize() const
+FileSystemNodeInfo POSIXDirectory::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return StdXX::FileSystemNodeInfo();
 }
 
 //For range-based loop

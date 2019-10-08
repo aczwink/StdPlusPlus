@@ -112,6 +112,22 @@ namespace StdXX
             return *this;
         }
 
+	    //Logical operators
+	    bool operator==(const Map& other) const
+	    {
+		    if (this->nElements != other.nElements)
+			    return false;
+
+		    for(const KeyValuePair<KeyType, ValueType>& kv : *this)
+		    {
+		    	if(!other.Contains(kv.key))
+		    		return false;
+		    	if(kv.value != other[kv.key])
+		    		return false;
+		    }
+		    return true;
+	    }
+
         //Methods
 		inline void Insert(const KeyType& key, const ValueType& value)
 		{

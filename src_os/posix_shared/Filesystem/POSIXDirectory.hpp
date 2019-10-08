@@ -39,8 +39,8 @@ namespace _stdxx_
 		const StdXX::FileSystem *GetFileSystem() const override;
 		StdXX::AutoPointer<const Directory> GetParent() const override;
 		StdXX::Path GetPath() const override;
-		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
+		bool IsEmpty() const override;
+		StdXX::FileSystemNodeInfo QueryInfo() const override;
 
 		//For range-based loop
 		StdXX::DirectoryIterator begin() const override;

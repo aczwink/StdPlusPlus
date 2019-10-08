@@ -28,7 +28,7 @@ HTTPResponse::~HTTPResponse()
 }
 
 //Public methods
-void HTTPResponse::JSON(const CommonFileFormats::JSONValue& json)
+void HTTPResponse::JSON(const CommonFileFormats::JsonValue& json)
 {
 	String jsonData = json.Dump().ToUTF8();
 

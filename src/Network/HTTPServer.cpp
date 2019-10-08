@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Network/HTTPServer.hpp>
 //Local
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
 #include <Std++/Time/TimeMisc.hpp>

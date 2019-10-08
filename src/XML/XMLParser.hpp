@@ -22,6 +22,7 @@
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/XML/Document.hpp>
 #include <Std++/XML/TextNode.hpp>
+#include "XmlParseException.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::XML;
@@ -72,7 +73,8 @@ private:
 
 	inline void ExpectChar(uint32 c)
 	{
-		ASSERT(this->lookAhead[0] == c, "If you see this, report to StdXX");
+		if(this->lookAhead[0] != c)
+			throw ErrorHandling::XmlParseException();
 		this->UpdateLookAhead();
 	}
 

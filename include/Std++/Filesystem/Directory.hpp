@@ -54,6 +54,7 @@ namespace StdXX
 		virtual const FileSystem *GetFileSystem() const = 0;
 		virtual AutoPointer<const Directory> GetParent() const = 0;
 		virtual Path GetPath() const = 0;
+		virtual bool IsEmpty() const = 0;
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
@@ -78,7 +79,7 @@ namespace StdXX
 			AutoPointer<const FileSystemNode> node = this->GetChild(name);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
 			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
-			return node.Cast<const Directory>();
+			return node.MoveCast<const Directory>();
 		}
 
 		inline bool HasFile(const String& name) const

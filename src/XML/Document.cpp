@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,9 +38,16 @@ Document::~Document()
 }
 
 //Class Functions
-Document *Document::Parse(InputStream &refInput)
+UniquePointer<Document> Document::Parse(InputStream& inputStream)
 {
-	XMLParser parser(refInput);
+	XMLParser parser(inputStream);
 
-	return parser.Parse();
+	try
+	{
+		return parser.Parse();
+	}
+	catch(ErrorHandling::XmlParseException&)
+	{
+		return nullptr;
+	}
 }

@@ -21,7 +21,7 @@
 //Global
 #include <sys/stat.h>
 //Local
-#include <Std++/Errorhandling/FileNotFoundException.hpp>
+#include <Std++/Errorhandling/Exceptions/FileNotFoundException.hpp>
 #include "POSIXDirectory.hpp"
 #include "POSIXFile.hpp"
 //Namespaces

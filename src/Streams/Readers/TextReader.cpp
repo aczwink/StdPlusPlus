@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 #include <Std++/Streams/Readers/TextReader.hpp>
 //Local
 #include <Std++/Char.hpp>
+#include <Std++/Containers/Strings/String.hpp>
 //Namespaces
 using namespace StdXX;
 

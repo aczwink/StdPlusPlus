@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 
 namespace StdXX
 {
@@ -28,7 +28,7 @@ namespace StdXX
 		//Inline
 		inline DebugOut &operator<<(float64 f)
 		{
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 			stdOut << f;
 #endif
 			return *this;
@@ -36,7 +36,7 @@ namespace StdXX
 
 		inline DebugOut &operator<<(const char* string)
 		{
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 			stdOut << string;
 #endif
 			return *this;
@@ -44,7 +44,7 @@ namespace StdXX
 
 		inline DebugOut &operator<<(const LineBreak &refLineBreak)
 		{
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 			stdOut << endl;
 #endif
 			return *this;

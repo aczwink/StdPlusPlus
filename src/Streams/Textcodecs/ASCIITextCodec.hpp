@@ -20,7 +20,7 @@
 #include <Std++/Streams/TextCodec.hpp>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/Errorhandling/IllegalEncodedCharException.hpp>
+#include <Std++/Errorhandling/Exceptions/IllegalEncodedCharException.hpp>
 //Namespaces
 using namespace StdXX;
 

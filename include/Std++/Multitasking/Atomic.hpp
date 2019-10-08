@@ -75,12 +75,23 @@ namespace StdXX
     class Atomic
     {
     public:
+	    //Constructors
+	    Atomic() = default;
+	    constexpr Atomic(T value) noexcept : native(value)
+	    {
+	    }
+
         //Operators
         inline Atomic& operator=(T v) noexcept
         {
 			__atomic_store_n(&this->native, v, std::memory_order_seq_cst);
             return *this;
         }
+
+	    inline T operator*()
+	    {
+		    return __atomic_load_n(&this->native, std::memory_order_seq_cst);
+	    }
 
         inline T operator++(int) //Postfix
         {

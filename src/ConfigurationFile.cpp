@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,7 @@
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/Streams/Writers/TextWriter.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -62,16 +63,17 @@ ConfigurationFile::~ConfigurationFile()
 	if(!this->readOnly)
 	{
 		FileOutputStream outFile(this->path);
+		TextWriter textWriter(outFile, TextCodecType::UTF8);
 
 		for(const auto &refSection : this->sections)
 		{
-			outFile << '[' << refSection.key << ']' << endl;
+			textWriter << u8"[" << refSection.key << u8"]" << endl;
 
 			for(const auto &refKV : refSection.value)
 			{
-				outFile << refKV.key << '=' << refKV.value << endl;
+				textWriter << refKV.key << u8"=" << refKV.value << endl;
 			}
-			outFile << endl;
+			textWriter << endl;
 		}
 	}
 }

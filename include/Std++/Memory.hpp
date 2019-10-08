@@ -22,7 +22,7 @@
 #include "__Globaldependencies.h"
 #include "Definitions.h"
 //Definitions
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 #define MemAlloc(size) MemAllocDebug(size, __FILE__, __LINE__)
 #define MemAllocAligned(size, alignment) MemAllocAlignedDebug(size, alignment, __FILE__, __LINE__)
 #define MemFree(ptr) MemFreeDebug(ptr)
@@ -51,7 +51,7 @@ namespace StdXX
 		return (uint8 *)p + offset;
 	}
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 	STDPLUSPLUS_API void DebugCheckHeapIntegrity();
     STDPLUSPLUS_API bool DebugDumpMemoryLeaks();
 	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
@@ -75,7 +75,7 @@ namespace StdXX
 	STDPLUSPLUS_API void VirtualMemoryFree(void* addr, uint32 size);
 	STDPLUSPLUS_API void VirtualMemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection);
 
-#ifndef _DEBUG
+#ifndef XPC_BUILDTYPE_DEBUG
 	inline void *MemAllocAligned(uint32 size, uint8 alignment)
 	{
 		void *p = MemoryAllocate(size + alignment-1 + 1); //max error = alignment-1 + one offset byte
@@ -156,7 +156,7 @@ namespace StdXX
 }
 
 //Override global new/delete
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 extern STDPLUSPLUS_API const char *__file__;
 extern STDPLUSPLUS_API int __line__;
 
@@ -175,6 +175,6 @@ void operator delete[](void *p, size_t size) noexcept;
 //Placement-new
 #define pnew(ptr) new(ptr)
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 #define new (__file__ = __FILE__, __line__ = __LINE__) && 0 ? NULL : new
 #endif

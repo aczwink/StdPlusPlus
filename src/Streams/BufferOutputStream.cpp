@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,9 @@
  */
 //Class header
 #include <Std++/Streams/BufferOutputStream.hpp>
+//Local
+#include <Std++/Debug.hpp>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 

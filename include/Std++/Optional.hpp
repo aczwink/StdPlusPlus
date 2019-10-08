@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -138,6 +138,20 @@ namespace StdXX
 		constexpr const T* operator->() const
 		{
 			return &this->Value();
+		}
+
+		constexpr bool operator==(const Optional<T>& rhs) const
+		{
+			if(this->HasValue() != rhs.HasValue())
+				return false;
+			if(this->HasValue())
+				return this->value == rhs.value;
+			return true;
+		}
+
+		constexpr bool operator!=(const Optional<T>& rhs) const
+		{
+			return !(*this == rhs);
 		}
 
 		//Methods

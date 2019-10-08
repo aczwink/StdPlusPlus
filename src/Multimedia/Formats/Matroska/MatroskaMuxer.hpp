@@ -21,6 +21,7 @@
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
+#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 #include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;

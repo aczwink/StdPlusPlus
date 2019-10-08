@@ -18,7 +18,9 @@
  */
 //Class header
 #include <Std++/Streams/BufferedOutputStream.hpp>
+//Local
 #include <Std++/Mathematics.hpp>
+#include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,21 +18,15 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include "BaseException.hpp"
 
 namespace StdXX
 {
-    //Forward declarations
-    class String;
-
 	/**
 	 * In contrast to Error, Exception represents failures that can't be avoided to happen and should thus be expected
 	 * and handled.
 	 */
-    class STDPLUSPLUS_API Exception
+    class Exception : public BaseException
     {
-    public:
-        //Abstract
-        virtual String GetDescription() const = 0;
     };
 }

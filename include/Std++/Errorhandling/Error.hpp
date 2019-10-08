@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,23 +18,25 @@
  */
 #pragma once
 //Local
-#include <Std++/Definitions.h>
+#include "BaseException.hpp"
 
 namespace StdXX
 {
-	//Forward declarations
-	class String;
-
 	/**
 	 * An error describes a fatal fault in the program, which is usually irrecoverable.
 	 * An example would be for instance when the process is out of memory or an assertion fails.
 	 * In such cases, instances of (subclasses of) Error are thrown.
 	 * It is not intended that errors are catched.
 	 */
-	class STDPLUSPLUS_API Error
+	class Error : public BaseException
 	{
 	public:
-		//Abstract
-		virtual String GetDescription() const = 0;
+		//Constructors
+		Error() = default;
+
+		inline Error(const String& fileName, uint32 lineNumber, const String& functionName)
+			: BaseException(fileName, lineNumber, functionName)
+		{
+		}
 	};
 }

@@ -542,25 +542,38 @@ String String::Trim() const
 //Private methods
 uint32 String::DecodeUTF8(const uint8 *src, uint8 &nBytes) const
 {
-	uint32 b1;
-
-	b1 = static_cast<uint32>(*src++);
-
-	if(b1 & 0x80)
+	uint8 b1 = *src++;
+	if(b1 & 0x80_u8)
 	{
-		if(b1 & 0x20)
+		//2 bytes or more...
+		uint8 b2 = *src++;
+		ASSERT((b2 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+		if(b1 & 0x20_u8)
 		{
-			//3 or 4 bytes
-			NOT_IMPLEMENTED_ERROR;
+			//3 or 4 bytes...
+			uint8 b3 = *src++;
+			ASSERT((b3 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+			if(b1 & 0x10_u8)
+			{
+				//4 bytes
+				NOT_IMPLEMENTED_ERROR;
+			}
+
+			//3 byte
+			ASSERT((b1 & 0xF0_u8) == 0xE0_u8, u8"Illegal encoding.");
+			nBytes = 3;
+			return (uint32(b1 & 0xF_u8) << 12_u32) | (uint32(b2 & 0x3F_u8) << 6_u32) | (b3 & 0x3F_u8);
 		}
 
+		//2 byte
+		ASSERT((b1 & 0x60_u8) == 0x40_u8, u8"Illegal encoding.");
 		nBytes = 2;
-
-		return ((b1 & 0x1F) << 6) | (*src & 0x3F);
+		return (uint32(b1 & 0x1F_u8) << 6_u32) | (b2 & 0x3F_u8);
 	}
 
 	nBytes = 1;
-
 	return b1;
 }
 
@@ -743,6 +756,36 @@ String String::CopyRawString(const uint16 *utf16, uint32 nChars)
 	str.ResizeAdditional(str.size);
 
 	MemCopy(str.sharedResource->data, utf16, str.size);
+	str.sharedResource->nElements = str.size;
+
+	return str;
+}
+
+String String::CopyUtf8Bytes(const uint8 *utf8, uint32 size)
+{
+	String str;
+
+	str.sharedResource = new Resource;
+	str.sharedResource->isUTF8 = true;
+
+	str.ResizeAdditional(size);
+	str.length = 0;
+
+	uint8* dest = str.sharedResource->data;
+	for(uint32 i = 0; i < size;)
+	{
+		uint8 nBytes;
+		uint32 codePoint = str.DecodeUTF8(utf8, nBytes);
+		str.EncodeUTF8(codePoint, dest);
+		str.length++;
+
+		utf8 += nBytes;
+		dest += nBytes;
+		i += nBytes;
+
+		ASSERT(i <= size, u8"Invalid encoded data.");
+	}
+	str.size = size;
 	str.sharedResource->nElements = str.size;
 
 	return str;

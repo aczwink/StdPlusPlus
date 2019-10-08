@@ -188,7 +188,7 @@ namespace StdXX
             this->states.Release();
         }
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
         //For debugging
 		void SaveGraph(const Path &refPath);
 #endif

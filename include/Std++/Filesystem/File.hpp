@@ -28,6 +28,12 @@ namespace StdXX
 	{
 	public:
 		//Abstract
+		/**
+		 * Returns the size of the file in bytes.
+		 * @return
+		 */
+		virtual uint64 GetSize() const = 0;
+
 		virtual UniquePointer<InputStream> OpenForReading(bool verify) const = 0;
 		/*
 		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.

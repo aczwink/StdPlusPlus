@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Mathematics.hpp>
 #include "Definitions.h"
 
 namespace StdXX
@@ -84,5 +85,17 @@ namespace StdXX
 		{
 			return int64(0x7FFFFFFFFFFFFFFF);
 		}
+
+		static constexpr int64 Min()
+		{
+			return int64(0x8000000000000000);
+		}
 	};
+
+	//Literals
+	inline int8 operator "" _i8(unsigned long long value)
+	{
+		ASSERT(Math::IsValueInInterval((long long)value, (long long)Signed<int8>::Min(), (long long)Signed<int8>::Max()), u8"Value is out of range for int8");
+		return static_cast<int8>(value);
+	}
 }

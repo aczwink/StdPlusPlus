@@ -120,31 +120,33 @@ namespace StdPlusPlusTest
 	    //Inline
 	    inline void ExecuteTestCase(const Test& testCase)
 	    {
-		    StdXX::stdOut << u8"\tRunning test: " << testCase.name << u8"..." << StdXX::endl;
+	    	StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
+		    textWriter << u8"\tRunning test: " << testCase.name << u8"..." << StdXX::endl;
 		    this->nTestsTotallyExecuted++;
 		    try
 		    {
 			    testCase.testFunction();
-			    StdXX::stdOut << "\t\tPassed!" << StdXX::endl;
+			    textWriter << "\t\tPassed!" << StdXX::endl;
 			    this->nSuccessfulTests++;
 		    }
 		    catch (const StdXX::Exception &e)
 		    {
-			    StdXX::stdOut << u8"\t\tFailed! Caught exception: " << e.GetDescription() << StdXX::endl;
+			    textWriter << u8"\t\tFailed! Caught exception: " << e.ToString() << StdXX::endl;
 		    }
 		    catch (const StdXX::Error &e)
 		    {
-			    StdXX::stdOut << u8"\t\tFailed! Caught error: " << e.GetDescription() << StdXX::endl;
+			    textWriter << u8"\t\tFailed! Caught error: " << e.ToString() << StdXX::endl;
 		    }
 		    catch (...)
 		    {
-			    StdXX::stdOut << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+			    textWriter << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
 		    }
 	    }
 
 	    inline void ExecuteTestSuite(const StdXX::String& testSuiteName)
 	    {
-		    StdXX::stdOut << u8"Running tests for suite: " << testSuiteName << StdXX::endl;
+		    StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
+		    textWriter << u8"Running tests for suite: " << testSuiteName << StdXX::endl;
 		    const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName];
 		    for(const Test& testCase : testCases)
 		    {
@@ -154,7 +156,8 @@ namespace StdPlusPlusTest
 
 	    inline void PrintStatistics()
 	    {
-		    StdXX::stdOut << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << (this->nTestsTotallyExecuted - this->nSuccessfulTests) << u8" failed." << StdXX::endl;
+		    StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
+		    textWriter << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << (this->nTestsTotallyExecuted - this->nSuccessfulTests) << u8" failed." << StdXX::endl;
 	    }
     };
 

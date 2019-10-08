@@ -1,4 +1,5 @@
 add_subdirectory(Cryptography)
+add_subdirectory(FileSystem)
 add_subdirectory(Math)
 
 set(TEST_FILES

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,29 +18,27 @@
  */
 #pragma once
 //Local
-#include "Exception.hpp"
+#include "Std++/Errorhandling/Exception.hpp"
+#include "Std++/Filesystem/Path.hpp"
 
-namespace StdXX
+namespace StdXX::ErrorHandling
 {
-	namespace ErrorHandling
-	{
-		class STDPLUSPLUS_API FileAlreadyExistsException : public Exception
-		{
-		public:
-			//Members
-			Path path;
+    class STDPLUSPLUS_API FileNotFoundException : public Exception
+    {
+    public:
+        //Members
+        Path path;
 
-			//Constructor
-			inline FileAlreadyExistsException(const Path &path)
-			{
-				this->path = path;
-			}
+        //Constructor
+        inline FileNotFoundException(const Path &refPath)
+        {
+            this->path = refPath;
+        }
 
-			//Inline
-			inline String GetDescription() const
-			{
-				return u8"Tried to write file or create directory, but file already exist for path: \"" + this->path.GetString() + u8"\"";
-			}
-		};
-	}
+        //Inline
+        inline String Description() const
+        {
+            return u8"No such file or directory: \"" + this->path.GetString() + u8"\"";
+        }
+    };
 }

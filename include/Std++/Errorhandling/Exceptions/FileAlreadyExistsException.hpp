@@ -18,34 +18,26 @@
  */
 #pragma once
 //Local
-#include "Error.hpp"
-#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Errorhandling/Exception.hpp>
 
-namespace StdXX
+namespace StdXX::ErrorHandling
 {
-	class STDPLUSPLUS_API AssertionError : public Error
+	class STDPLUSPLUS_API FileAlreadyExistsException : public Exception
 	{
 	public:
+		//Members
+		Path path;
+
 		//Constructor
-		inline AssertionError(const String &expression, const String &message, const char *fileName, uint32 lineNumber, const char *functionName)
-		: expression(expression), message(message), fileName(fileName), lineNumber(lineNumber), functionName(functionName)
+		inline FileAlreadyExistsException(const Path &path)
 		{
+			this->path = path;
 		}
 
 		//Inline
-		inline String GetDescription() const override
+		inline String Description() const
 		{
-			return u8"Expression: " + this->expression + u8"\n"
-				   + this->message
-				   + u8"\nFile: " + this->fileName + u8" (" + String::Number(lineNumber)
-				   + u8")\nFunction: " + this->functionName;
+			return u8"Tried to write file or create directory, but file already exist for path: \"" + this->path.GetString() + u8"\"";
 		}
-
-	private:
-		String expression;
-		String message;
-		const char *fileName;
-		uint32 lineNumber;
-		const char *functionName;
 	};
 }

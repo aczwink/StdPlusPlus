@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,30 +18,17 @@
  */
 #pragma once
 //Local
-#include "Exception.hpp"
-#include "../Filesystem/Path.hpp"
+#include "FileSystemNode.hpp"
 
 namespace StdXX
 {
-    namespace ErrorHandling
-    {
-        class STDPLUSPLUS_API FileNotFoundException : public Exception
-        {
-        public:
-            //Members
-            Path path;
+	class Link : public FileSystemNode
+	{
+	public:
+		//Abstract
+		virtual Path ReadTarget() const = 0;
 
-            //Constructor
-            inline FileNotFoundException(const Path &refPath)
-            {
-                this->path = refPath;
-            }
-
-            //Inline
-            inline String GetDescription() const
-            {
-                return u8"No such file or directory: \"" + this->path.GetString() + u8"\"";
-            }
-        };
-    }
+		//Methods
+		FileSystemNodeType GetType() const override;
+	};
 }

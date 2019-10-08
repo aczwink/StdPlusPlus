@@ -11,6 +11,7 @@ add_subdirectory(Multimedia)
 add_subdirectory(Network)
 add_subdirectory(Streams)
 add_subdirectory(UI)
+add_subdirectory(XML)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}
@@ -65,13 +66,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/Timer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/TimerEventSource.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Time/WeakDate.cpp
-
-	#XML
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/XMLParser.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/XMLParser.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp

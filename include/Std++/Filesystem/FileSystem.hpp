@@ -71,7 +71,7 @@ namespace StdXX
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
 			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
 
-			return node.Cast<Directory>();
+			return node.MoveCast<Directory>();
 		}
 
 		inline AutoPointer<const File> GetFile(const Path& path) const
@@ -80,7 +80,7 @@ namespace StdXX
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
 			ASSERT(node->GetType() == FileSystemNodeType::File, u8"Node is not a file.");
 
-			return node.Cast<const File>();
+			return node.MoveCast<const File>();
 		}
 
 		inline const FileSystemFormat *GetFormat() const

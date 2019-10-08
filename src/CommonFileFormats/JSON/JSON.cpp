@@ -18,18 +18,20 @@
  */
 //Class header
 #include <Std++/CommonFileFormats/JSON.hpp>
+//Local
+#include "HumanReadableJsonParser.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
 
 //Destructor
-JSONValue::~JSONValue()
+JsonValue::~JsonValue()
 {
 	this->Release();
 }
 
 //Operators
-JSONValue &JSONValue::operator=(const JSONValue &rhs)
+JsonValue &JsonValue::operator=(const JsonValue &rhs)
 {
 	this->type = rhs.type;
 	this->value = rhs.value;
@@ -37,41 +39,66 @@ JSONValue &JSONValue::operator=(const JSONValue &rhs)
 
 	switch(this->type)
 	{
-		case JSONType::Array:
-			this->value.array = new DynamicArray<JSONValue>(*rhs.value.array);
+		case JsonType::Array:
+			this->value.array = new DynamicArray<JsonValue>(*rhs.value.array);
 			break;
-		case JSONType::Object:
-			this->value.object = new Map<String, JSONValue>(*rhs.value.object);
+		case JsonType::Object:
+			this->value.object = new Map<String, JsonValue>(*rhs.value.object);
 			break;
 	}
 
 	return *this;
 }
 
-JSONValue &JSONValue::operator=(JSONValue &&rhs)
+JsonValue &JsonValue::operator=(JsonValue &&rhs)
 {
 	this->type = rhs.type;
 	this->value = rhs.value;
 	this->stringValue = Move(rhs.stringValue);
 
-	rhs.type = JSONType::Null;
+	rhs.type = JsonType::Null;
 	rhs.value.array = nullptr;
 	rhs.value.object = nullptr;
 
 	return *this;
 }
 
+bool JsonValue::operator==(const JsonValue &rhs) const
+{
+	if(this->type != rhs.type)
+		return false;
+
+	switch(this->type)
+	{
+		case JsonType::Null:
+			return true;
+		case JsonType::Array:
+			return *this->value.array == *rhs.value.array;
+		case JsonType::Boolean:
+			return this->value.boolean == rhs.value.boolean;
+		case JsonType::Number:
+			return this->value.number == rhs.value.number;
+		case JsonType::Object:
+			return *this->value.object == *rhs.value.object;
+		case JsonType::String:
+			return this->stringValue == rhs.stringValue;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+	return false;
+}
+
 //Public methods
-String JSONValue::Dump() const
+String JsonValue::Dump() const
 {
 	switch(this->type)
 	{
-		case JSONType::Array:
+		case JsonType::Array:
 		{
 			bool putComma = false;
 			String tmp;
 
-			for(const JSONValue& v : *this->value.array)
+			for(const JsonValue& v : *this->value.array)
 			{
 				if(putComma)
 					tmp += u8",";
@@ -80,15 +107,15 @@ String JSONValue::Dump() const
 			}
 			return u8"[" + tmp + u8"]";
 		}
-		case JSONType ::Boolean:
+		case JsonType ::Boolean:
 			if(this->value.boolean)
 				return u8"true";
 			return u8"false";
-		case JSONType::Null:
+		case JsonType::Null:
 			return u8"null";
-		case JSONType::Number:
+		case JsonType::Number:
 			return String::Number(this->value.number);
-		case JSONType::Object:
+		case JsonType::Object:
 		{
 			bool putComma = false;
 			String tmp;
@@ -103,7 +130,7 @@ String JSONValue::Dump() const
 			}
 			return u8"{" + tmp + u8"}";
 		}
-		case JSONType::String:
+		case JsonType::String:
 			return u8"\"" + this->stringValue + u8"\"";
 	}
 
@@ -112,17 +139,24 @@ String JSONValue::Dump() const
 }
 
 //Private methods
-void JSONValue::Release()
+void JsonValue::Release()
 {
 	switch(this->type)
 	{
-		case JSONType::Array:
+		case JsonType::Array:
 			delete this->value.array;
 			break;
-		case JSONType::Object:
+		case JsonType::Object:
 			delete this->value.object;
 			break;
 	}
 	this->stringValue.Release();
-	this->type = JSONType::Null;
+	this->type = JsonType::Null;
+}
+
+//Namespace functions
+JsonValue CommonFileFormats::ParseHumanReadableJson(TextReader &textReader)
+{
+	_stdxx_::HumanReadableJsonParser parser(textReader);
+	return parser.Parse();
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -24,6 +24,12 @@
 using namespace StdXX;
 
 //Class functions
+DateTime DateTime::FromUnixTimeStamp(int64 timeStamp)
+{
+	//TODO: like this we loose precision... do this correctly some day maybe
+	return DateTime::FromUnixTimeStampWithMilliSeconds(timeStamp * 1000);
+}
+
 DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 {
 	int64 currentTimeStamp = timeStamp;

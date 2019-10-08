@@ -43,14 +43,14 @@ void StdXX::MemMove(void *destination, const void *source, uint32 size)
 }
 
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 //Global
 #include <stdio.h>
 #include <new>
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 //Namespaces
 using namespace StdXX;
 //Definitions

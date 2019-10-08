@@ -100,7 +100,7 @@ namespace StdXX
             this->states.Insert(pState);
         }
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
         //For debugging
 		void SaveGraph(const Path &refPath);
 #endif

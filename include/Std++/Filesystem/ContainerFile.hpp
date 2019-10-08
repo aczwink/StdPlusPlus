@@ -52,9 +52,9 @@ namespace StdXX
 
 		//Methods
 		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
 		UniquePointer<InputStream> OpenForReading(bool verify) const override;
 		UniquePointer<OutputStream> OpenForWriting() override;
+		FileSystemNodeInfo QueryInfo() const override;
 
 		//Inline
 		inline const ContainerFileHeader& GetHeader() const

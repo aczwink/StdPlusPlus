@@ -83,7 +83,7 @@ static void WriteJump(void* functionAddress, void* targetAddress, uint8 jmpSize)
 	VirtualMemoryProtect(functionAddress, jmpSize, MemoryProtection::Execute_Read);
 }
 
-#include <Std++/Streams/StdOut.hpp>
+#include <Std++/Streams/Writers/StdOut.hpp>
 
 bool FunctionHook::Hook(void* redirectTargetAddress)
 {

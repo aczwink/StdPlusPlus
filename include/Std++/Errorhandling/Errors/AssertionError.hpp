@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,31 +18,29 @@
  */
 #pragma once
 //Local
-#include "Error.hpp"
+#include "Std++/Errorhandling/Error.hpp"
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdXX
+namespace StdXX::ErrorHandling
 {
-	class STDPLUSPLUS_API NotImplementedError : public Error
+	class STDPLUSPLUS_API AssertionError : public Error
 	{
 	public:
 		//Constructor
-		inline NotImplementedError(const char *fileName, uint32 lineNumber, const char *functionName)
-				: fileName(fileName), lineNumber(lineNumber), functionName(functionName)
+		inline AssertionError(const String &expression, const String &message, const String& fileName, uint32 lineNumber, const String& functionName) :
+			Error(fileName, lineNumber, functionName),
+			expression(expression), message(message)
 		{
 		}
 
 		//Inline
-		inline String GetDescription() const override
+		inline String Description() const override
 		{
-			return String(u8"You've reached a point in the program that is not implemented.")
-				   + u8"\nFile: " + this->fileName + u8" (" + String::Number(lineNumber)
-				   + u8")\nFunction: " + this->functionName;
+			return u8"Expression: " + this->expression + u8"\n" + this->message;
 		}
 
 	private:
-		const char *fileName;
-		uint32 lineNumber;
-		const char *functionName;
+		String expression;
+		String message;
 	};
 }

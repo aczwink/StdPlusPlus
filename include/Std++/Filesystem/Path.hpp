@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Streams/Writers/TextWriter.hpp>
 
 namespace StdXX
 {
@@ -92,16 +93,18 @@ namespace StdXX
 			return Path(this->GetString() + other.GetString());
 		}
 
-        inline Path operator/(const Path &rhs) const
-        {
-			if(this->pathString.EndsWith(u8"/"))
-				return Path(this->pathString + rhs.pathString);
-            return Path(this->pathString + u8"/" + rhs.pathString);
-        }
+		/**
+		 * Joins two paths together.
+		 * this must be non-empty.
+		 * rhs must not be absolute.
+		 * @param rhs
+		 * @return
+		 */
+        Path operator/(const Path &rhs) const;
 
-        inline Path &operator/=(const Path &refRight)
+        inline Path &operator/=(const Path &rhs)
         {
-            this->pathString += u8"/" + refRight.pathString;
+        	*this = *this / rhs;
 
             return *this;
         }
@@ -134,12 +137,14 @@ namespace StdXX
 		 */
         Path GetParent() const;
         String GetTitle() const;
+        Path Normalized() const;
         Path RelativePath(const Path& relativeTo) const;
 		/**
 		 * Returns the leftmost part of this path and sets the remaining part to the 'subPath' arg.
 		 * Example:
 		 * Let this be: "bla/bli/blub"
-		 * Then this method returns "bla" and sets 'subPath' to "bli/blub"
+		 * Then this method returns "bla" and sets 'subPath' to "bli/blub".
+		 * In case this is absolute, the return value will be the empty string.
 		 * @param path
 		 * @return
 		 */
@@ -156,6 +161,16 @@ namespace StdXX
 			return this->pathString.StartsWith(u8"/");
 		}
 
+		inline bool IsParentOf(const Path& path) const
+		{
+			return path.Normalized().GetString().StartsWith(this->Normalized().GetString());
+		}
+
+		inline bool IsRelative() const
+		{
+			return !this->IsAbsolute();
+		}
+
         inline bool IsRoot() const
 		{
 			return this->pathString.GetLength() == 1 && this->pathString.StartsWith(u8"/");
@@ -165,4 +180,9 @@ namespace StdXX
 		//Members
 		String pathString;
     };
+
+	inline TextWriter &operator<<(TextWriter& textWriter, const Path &path)
+	{
+		return textWriter << path.GetString();
+	}
 }

@@ -31,9 +31,9 @@ namespace _stdxx_
 
 		//Methods
 		uint64 GetSize() const override;
-		uint64 GetStoredSize() const override;
 		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
+		StdXX::FileSystemNodeInfo QueryInfo() const override;
 
 	private:
 		//Members

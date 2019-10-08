@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -40,6 +40,11 @@ namespace StdXX
 		}
 
 		//Operators
+		inline bool operator==(const Time& other) const
+		{
+			return this->millisecs == other.millisecs;
+		}
+
 		inline bool operator<(const Time &other) const
 		{
 			return this->millisecs < other.millisecs;

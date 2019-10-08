@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
  //corresponding header
 #include <Std++/Memory.hpp>
 
-#ifdef _DEBUG
+#ifdef XPC_BUILDTYPE_DEBUG
 #undef new
 void *operator new(size_t size)
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,54 +18,50 @@
  */
 #pragma once
 //Local
-#include "OutputStream.hpp"
+#include "PrintWriterStream.hpp"
 
 namespace StdXX
 {
-    class CAutoLineBreaker
+    class AutoLineBreaker
     {
-    private:
-        //Members
-        OutputStream &refOutput;
-
     public:
         //Constructor
-        inline CAutoLineBreaker(OutputStream &refOutput) : refOutput(refOutput)
+        inline AutoLineBreaker(OutputStream &outputStream) : textWriter(outputStream, TextCodecType::UTF8)
         {
         }
 
         //Destructor
-        inline ~CAutoLineBreaker()
+        inline ~AutoLineBreaker()
         {
-            this->refOutput << endl;
+        	this->textWriter << endl;
         }
 
         //Inline
-        inline CAutoLineBreaker &operator<<(const OldString &refString)
+        inline AutoLineBreaker &operator<<(const String &string)
         {
-            this->refOutput << refString;
+            this->textWriter << string;
             return *this;
         }
+
+    private:
+        //Members
+        TextWriter textWriter;
     };
 
-    class StdErr : public OutputStream
+    class StdErr : public PrintWriterStream
+    {
+    public:
+    	//Methods
+	    void Flush() override;
+        uint32 WriteBytes(const void *pSource, uint32 size) override;
+    };
+
+    class StdOut : public PrintWriterStream
     {
     public:
         //Methods
-        void WriteByte(byte b);
-        uint32 WriteBytes(const void *pSource, uint32 size) override;
-
         void Flush() override;
-    };
-
-    class StdOut : public OutputStream
-    {
-    public:
-        //Methods
-        void WriteByte(byte b);
         uint32 WriteBytes(const void *pSource, uint32 size) override;
-
-        void Flush() override;
     };
 
     //Global Instances

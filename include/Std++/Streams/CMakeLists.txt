@@ -10,6 +10,8 @@ set(SOURCE_FILES
 
 	#Writers
 	${CMAKE_CURRENT_SOURCE_DIR}/Writers/DataWriter.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Writers/PrintWriterStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Writers/StdOut.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Writers/TextWriter.hpp
 
 	#.
@@ -22,7 +24,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ChecksumFunction.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NullOutputStream.hpp

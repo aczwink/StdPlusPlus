@@ -22,6 +22,7 @@
 #include <sys/stat.h>
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
+#include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -29,17 +30,9 @@ using namespace StdXX;
 //Public methods
 uint64 POSIXFile::GetSize() const
 {
-	struct stat sb{};
-	int ret = stat(reinterpret_cast<const char *>(this->path.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
-	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
-
-	return static_cast<uint64>(sb.st_size);
-}
-
-uint64 POSIXFile::GetStoredSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	uint64 fileSize;
+	StatQueryFileInfo(this->path, fileSize);
+	return fileSize;
 }
 
 UniquePointer<InputStream> POSIXFile::OpenForReading(bool verify) const
@@ -51,4 +44,9 @@ UniquePointer<OutputStream> POSIXFile::OpenForWriting()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
+}
+
+FileSystemNodeInfo POSIXFile::QueryInfo() const
+{
+	return StatQueryFileInfo(this->path);
 }
