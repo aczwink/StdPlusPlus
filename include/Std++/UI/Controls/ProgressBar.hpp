@@ -24,6 +24,11 @@ namespace StdXX
 {
     namespace UI
     {
+        /*
+sizing policy:
+	horz: exp
+	vert: fix
+*/
         class STDPLUSPLUS_API ProgressBar : public Widget
         {
         private:

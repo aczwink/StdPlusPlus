@@ -42,9 +42,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/CTreeView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/CWindow.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CCheckBox.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/ComboBox.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CPushButton.cpp
 
 		#.
         ${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
