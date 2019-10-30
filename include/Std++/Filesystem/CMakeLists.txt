@@ -2,10 +2,10 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/BufferedMetadataFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerDirectory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFile.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileInputStream.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/EmbeddedFileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Directory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIterator.hpp
@@ -16,6 +16,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemNodeInfo.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Link.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MemoryDirectory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/OSFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Path.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/URL.hpp

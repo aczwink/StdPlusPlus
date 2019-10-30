@@ -29,12 +29,14 @@ class UTF8TextCodec : public TextCodec
 {
 public:
 	//Methods
-	uint32 ReadCodePoint(InputStream &inputStream) const override
+	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
 	{
 		DataReader reader(true, inputStream);
 		uint32 b1 = reader.ReadByte();
+		nBytesRead = 1;
 		if(b1 & 0x80)
 		{
+			nBytesRead++;
 			if(b1 & 0x20)
 			{
 				//3 or 4 bytes

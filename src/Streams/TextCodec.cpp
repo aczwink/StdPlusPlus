@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,7 @@
 #include "Textcodecs/Latin1Codec.hpp"
 #include "Textcodecs/UTF16_LE_TextCodec.hpp"
 #include "Textcodecs/UTF8TextCodec.hpp"
+#include "Textcodecs/CP437TextCodec.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -33,6 +34,8 @@ TextCodec *TextCodec::GetCodec(TextCodecType codecType)
 	{
 		case TextCodecType::ASCII:
 			return new ASCIITextCodec;
+		case TextCodecType::CP437:
+			return new _stdxx_::CP437TextCodec;
 		case TextCodecType::Latin1:
 			return new Latin1TextCodec;
 		case TextCodecType::UTF16_LE:

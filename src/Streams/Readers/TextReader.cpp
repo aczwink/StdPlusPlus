@@ -54,7 +54,8 @@ TextReader &TextReader::operator>>(String &target)
 
 	while(true)
 	{
-		codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytesRead;
+		codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
 		if(this->inputStream.IsAtEnd())
 			break;
 
@@ -73,7 +74,8 @@ String TextReader::ReadLine()
 	String buffer;
 	while(!this->inputStream.IsAtEnd())
 	{
-		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytesRead;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
 		if(codePoint == u8'\n')
 			break;
 		if(codePoint == u8'\r')
@@ -97,7 +99,24 @@ String TextReader::ReadString(uint32 length)
 	String result;
 	while(!this->inputStream.IsAtEnd() && length--)
 	{
-		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytesRead;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
+		result += codePoint;
+	}
+
+	return result;
+}
+
+String TextReader::ReadStringBySize(uint32 size)
+{
+	String result;
+	while(!this->inputStream.IsAtEnd() && (size > 0))
+	{
+		uint8 nBytesRead;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
+		ASSERT(nBytesRead <= size, u8"REPORT THIS PLEASE!");
+		size -= nBytesRead;
+
 		result += codePoint;
 	}
 
@@ -109,7 +128,8 @@ String TextReader::ReadZeroTerminatedString()
 	String result;
 	while (!this->inputStream.IsAtEnd())
 	{
-		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytesRead;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
 		if (codePoint == 0)
 			break;
 		result += codePoint;
@@ -123,7 +143,8 @@ String TextReader::ReadZeroTerminatedString(uint32 length)
 	String result;
 	while (!this->inputStream.IsAtEnd() && length--)
 	{
-		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytes;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytes);
 		if (codePoint == 0)
 			break;
 		result += codePoint;
@@ -141,7 +162,8 @@ uint32 TextReader::SkipWhitespaces()
 	{
 		if(this->inputStream.IsAtEnd())
 			return Unsigned<uint32>::Max();
-		codePoint = this->codec->ReadCodePoint(this->inputStream);
+		uint8 nBytesRead;
+		codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
 		if(!IsWhiteSpaceChar(codePoint))
 			break;
 	}

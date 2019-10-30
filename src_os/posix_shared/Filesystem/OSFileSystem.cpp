@@ -99,6 +99,11 @@ OSFileSystem &OSFileSystem::GetInstance()
 			return new POSIXDirectory(Path(u8"/"));
 		}
 
+		AutoPointer<const Directory> GetRoot() const override
+		{
+			return new POSIXDirectory(Path(u8"/"));
+		}
+
 		uint64 GetSize() const override
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me

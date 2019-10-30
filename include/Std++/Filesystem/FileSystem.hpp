@@ -54,6 +54,7 @@ namespace StdXX
 		virtual AutoPointer<FileSystemNode> GetNode(const Path& path) = 0;
 		virtual AutoPointer<const FileSystemNode> GetNode(const Path& path) const = 0;
 		virtual AutoPointer<Directory> GetRoot() = 0;
+		virtual AutoPointer<const Directory> GetRoot() const = 0;
 		virtual uint64 GetSize() const = 0;
 		virtual void Move(const Path &from, const Path &to) = 0;
 

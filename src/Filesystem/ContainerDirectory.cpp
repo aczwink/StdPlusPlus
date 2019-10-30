@@ -29,7 +29,7 @@ using namespace StdXX;
 UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 {
 	MemoryFile* file = new MemoryFile;
-	this->children[name] = file;
+	this->AddChild(name, file);
 
 	this->fileSystem->isFlushed = false;
 
@@ -38,36 +38,9 @@ UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 
 void ContainerDirectory::CreateSubDirectory(const String &name)
 {
-	this->children[name] = new ContainerDirectory(name, this);
+	this->AddChild(name, new ContainerDirectory(name, this));
 
 	this->fileSystem->isFlushed = false;
-}
-
-bool ContainerDirectory::Exists(const Path &path) const
-{
-	Path leftPart;
-	Path child = path.SplitOutmostPathPart(leftPart);
-	const String &childString = child.GetString();
-	if(leftPart.GetString().IsEmpty())
-		return this->children.Contains(childString);
-
-	if(this->HasSubDirectory(childString))
-		return this->children[childString].Cast<ContainerDirectory>()->Exists(leftPart);
-	return false;
-}
-
-AutoPointer<FileSystemNode> ContainerDirectory::GetChild(const String &name)
-{
-	if(!this->children.Contains(name))
-		return nullptr;
-	return this->children[name];
-}
-
-AutoPointer<const FileSystemNode> ContainerDirectory::GetChild(const String &name) const
-{
-	if(!this->children.Contains(name))
-		return nullptr;
-	return this->children[name];
 }
 
 FileSystem *ContainerDirectory::GetFileSystem()
@@ -93,72 +66,8 @@ Path ContainerDirectory::GetPath() const
 	return Path(u8"/");
 }
 
-bool ContainerDirectory::IsEmpty() const
-{
-	return this->children.IsEmpty();
-}
-
 FileSystemNodeInfo ContainerDirectory::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return FileSystemNodeInfo();
-}
-
-//For range-based loop
-DirectoryIterator ContainerDirectory::begin() const
-{
-	class ContainerDirectoryIteratorState : public _stdxx_::DirectoryIteratorState
-	{
-	public:
-		//Constructor
-		ContainerDirectoryIteratorState(const ContainerDirectory &dir)
-			: dir(dir), childrenIterator(dir.children.begin())
-		{
-		}
-
-		//Public methods
-		bool Equals(DirectoryIteratorState *other) const override
-		{
-			if(other == nullptr)
-				return this->IsAtEnd();
-
-			ContainerDirectoryIteratorState *otherTyped = dynamic_cast<ContainerDirectoryIteratorState *>(other);
-			if(otherTyped)
-			{
-				return (&this->dir == &otherTyped->dir) &&
-					(this->childrenIterator == otherTyped->childrenIterator);
-			}
-
-			return false;
-		}
-
-		String GetCurrent() override
-		{
-			const auto& kv = (*this->childrenIterator);
-			return kv.key;
-		}
-
-		void Next() override
-		{
-			++this->childrenIterator;
-		}
-
-	private:
-		//Members
-		const ContainerDirectory &dir;
-		ConstMapIterator<String, AutoPointer<FileSystemNode>> childrenIterator;
-
-		//Inline
-		inline bool IsAtEnd() const
-		{
-			return (this->childrenIterator == this->dir.children.end());
-		}
-	};
-
-	return DirectoryIterator(new ContainerDirectoryIteratorState(*this));
-}
-
-DirectoryIterator ContainerDirectory::end() const
-{
-	return DirectoryIterator(nullptr);
 }

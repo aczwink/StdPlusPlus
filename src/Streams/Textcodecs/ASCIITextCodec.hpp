@@ -28,10 +28,10 @@ class ASCIITextCodec : public TextCodec
 {
 public:
 	//Methods
-	uint32 ReadCodePoint(InputStream &inputStream) const override
+	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
 	{
 		byte b;
-		inputStream.ReadBytes(&b, 1);
+		nBytesRead = inputStream.ReadBytes(&b, 1);
 		if(b > 0x7F)
 			throw ErrorHandling::IllegalEncodedCharException();
 

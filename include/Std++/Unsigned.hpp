@@ -44,6 +44,12 @@ namespace StdXX
 	{
 	public:
 		//Expressions
+		static constexpr bool IsBitSet(uint16 value, uint8 bitPos)
+		{
+			ASSERT(bitPos < 16, u8"Bit position is out of range");
+			return (value & (1u << bitPos)) != 0;
+		}
+
 		static constexpr uint16 Max()
 		{
 			return 0xFFFF;

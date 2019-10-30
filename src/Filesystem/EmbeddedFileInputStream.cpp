@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Filesystem/ContainerFileInputStream.hpp>
+#include <Std++/Filesystem/EmbeddedFileInputStream.hpp>
 //Local
 #include <Std++/Debug.hpp>
 #include <Std++/Filesystem/ContainerFile.hpp>
@@ -27,57 +27,57 @@
 using namespace StdXX;
 
 //Constructor
-ContainerFileInputStream::ContainerFileInputStream(const ContainerFile &file) : file(file), currentOffset(0)
+EmbeddedFileInputStream::EmbeddedFileInputStream(uint64 offset, uint64 size, SeekableInputStream& baseInputStream, Mutex& baseInputStreamLock)
+	: offset(offset), size(size), baseInputStream(baseInputStream), baseInputStreamLock(baseInputStreamLock), currentOffset(0)
 {
 }
 
 //Public methods
-uint32 ContainerFileInputStream::GetBytesAvailable() const
+uint32 EmbeddedFileInputStream::GetBytesAvailable() const
 {
-	return this->file.GetFileSystem()->containerInputStream->GetBytesAvailable();
+	return baseInputStream.GetBytesAvailable();
 }
 
-uint64 ContainerFileInputStream::GetCurrentOffset() const
+uint64 EmbeddedFileInputStream::GetCurrentOffset() const
 {
 	return this->currentOffset;
 }
 
-uint64 ContainerFileInputStream::GetRemainingBytes() const
+uint64 EmbeddedFileInputStream::GetRemainingBytes() const
 {
 	return this->GetSize() - this->currentOffset;
 }
 
-uint64 ContainerFileInputStream::GetSize() const
+uint64 EmbeddedFileInputStream::GetSize() const
 {
-	return this->file.GetHeader().compressedSize; //we only read the data block
+	return this->size;
 }
 
-bool ContainerFileInputStream::IsAtEnd() const
+bool EmbeddedFileInputStream::IsAtEnd() const
 {
 	return this->GetRemainingBytes() == 0;
 }
 
-uint32 ContainerFileInputStream::ReadBytes(void *destination, uint32 count)
+uint32 EmbeddedFileInputStream::ReadBytes(void *destination, uint32 count)
 {
 	count = Math::Min(count, static_cast<const uint32 &>(this->GetRemainingBytes()));
 
-	ContainerFileSystem *fs = (ContainerFileSystem *) this->file.GetFileSystem();
-	fs->containerInputStreamLock.Lock();
-	fs->containerInputStream->SetCurrentOffset(this->file.GetHeader().offset + this->currentOffset);
-	count = fs->containerInputStream->ReadBytes(destination, count);
-	fs->containerInputStreamLock.Unlock();
+	this->baseInputStreamLock.Lock();
+	this->baseInputStream.SetCurrentOffset(this->offset + this->currentOffset);
+	count = this->baseInputStream.ReadBytes(destination, count);
+	this->baseInputStreamLock.Unlock();
 
 	this->currentOffset += count;
 
 	return count;
 }
 
-void ContainerFileInputStream::SetCurrentOffset(uint64 offset)
+void EmbeddedFileInputStream::SetCurrentOffset(uint64 offset)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint32 ContainerFileInputStream::Skip(uint32 nBytes)
+uint32 EmbeddedFileInputStream::Skip(uint32 nBytes)
 {
 	nBytes = Math::Min(nBytes, static_cast<uint32>(this->GetRemainingBytes()));
 	this->currentOffset += nBytes;

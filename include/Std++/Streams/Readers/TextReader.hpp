@@ -62,6 +62,13 @@ namespace StdXX
 		 * @return
 		 */
         String ReadString(uint32 length);
+        /**
+         * Read characters until 'size' many bytes have been consumed.
+         * If 'size' is wrong and more bytes are read then given, an error is raised.
+         * @param size
+         * @return
+         */
+        String ReadStringBySize(uint32 size);
 		String ReadZeroTerminatedString();
 		/**
 		 * Read 'length' characters and return them as string.
@@ -80,7 +87,8 @@ namespace StdXX
 
 		inline uint32 ReadCodePoint()
 		{
-			return this->codec->ReadCodePoint(this->inputStream);
+			uint8 nBytes;
+			return this->codec->ReadCodePoint(this->inputStream, nBytes);
 		}
 
 	private:

@@ -26,7 +26,7 @@
 using namespace StdXX;
 
 //Constructor
-ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath) : FileSystem(format),
+ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath) : BufferedMetadataFileSystem(format),
 																									   fileSystemPath(fileSystemPath),
 																									   containerInputStream((OSFileSystem::GetInstance().Exists(fileSystemPath)) ? (new FileInputStream(fileSystemPath)) : nullptr),
 																									   root(new ContainerDirectory(this))
@@ -45,57 +45,12 @@ bool ContainerFileSystem::Exists(const Path &path) const
 	return this->root->Exists(path);
 }
 
-AutoPointer<FileSystemNode> ContainerFileSystem::GetNode(const Path &path)
-{
-	if(path.IsRoot())
-		return this->root;
-
-	Path leftPath = path;
-	if(leftPath.IsAbsolute()) //skip root slash
-		leftPath = leftPath.GetString().SubString(1);
-	AutoPointer<FileSystemNode> node = this->root;
-	while(true)
-	{
-		Path remaining;
-		String name = leftPath.SplitOutmostPathPart(remaining);
-		leftPath = remaining;
-
-		ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Only directories can have children");
-		node = node.Cast<Directory>()->GetChild(name);
-
-		if(leftPath.GetString().IsEmpty())
-			break;
-	}
-
-	return node;
-}
-
-AutoPointer<const FileSystemNode> ContainerFileSystem::GetNode(const Path &path) const
-{
-	if(path.IsRoot())
-		return this->root;
-
-	Path leftPath = path;
-	if(leftPath.IsAbsolute()) //skip root slash
-		leftPath = leftPath.GetString().SubString(1);
-	AutoPointer<const FileSystemNode> node = this->root;
-	while(true)
-	{
-		Path remaining;
-		String name = leftPath.SplitOutmostPathPart(remaining);
-		leftPath = remaining;
-
-		ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Only directories can have children");
-		node = node.Cast<const Directory>()->GetChild(name);
-
-		if(leftPath.GetString().IsEmpty())
-			break;
-	}
-
-	return node;
-}
-
 AutoPointer<Directory> ContainerFileSystem::GetRoot()
+{
+	return this->root;
+}
+
+AutoPointer<const Directory> ContainerFileSystem::GetRoot() const
 {
 	return this->root;
 }
@@ -115,7 +70,7 @@ void ContainerFileSystem::AddSourceFile(const Path& filePath, ContainerFile *fil
 	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
 	AutoPointer<ContainerDirectory> containerDirectory = dir.Cast<ContainerDirectory>();
 
-	containerDirectory->AddSourceFile(filePath.GetName(), file);
+	containerDirectory->AddChild(filePath.GetName(), file);
 
 	this->isFlushed = flushStatus; //the flushed status is not affected by source files
 }

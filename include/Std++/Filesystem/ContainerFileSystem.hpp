@@ -22,8 +22,8 @@
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include "../Streams/SeekableInputStream.hpp"
-#include "FileSystem.hpp"
 #include "ContainerFile.hpp"
+#include "BufferedMetadataFileSystem.hpp"
 
 namespace StdXX
 {
@@ -50,10 +50,10 @@ namespace StdXX
 	 * containers was successful.
 	 *
 	 */
-	class STDPLUSPLUS_API ContainerFileSystem : public FileSystem
+	class STDPLUSPLUS_API ContainerFileSystem : public BufferedMetadataFileSystem
 	{
 		friend class ContainerDirectory;
-		friend class ContainerFileInputStream;
+		friend class ContainerFile;
 	public:
 		//Constructor
 		ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath);
@@ -61,9 +61,8 @@ namespace StdXX
 		//Methods
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
 		bool Exists(const Path &path) const override;
-		AutoPointer<FileSystemNode> GetNode(const Path &path) override;
-		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
+		AutoPointer<const Directory> GetRoot() const override;
 		uint64 GetSize() const override;
 		void Move(const Path &from, const Path &to) override;
 

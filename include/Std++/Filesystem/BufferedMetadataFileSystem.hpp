@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,32 +17,23 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "../Streams/SeekableInputStream.hpp"
+#include "FileSystem.hpp"
 
 namespace StdXX
 {
-	//Forward declarations
-	class ContainerFile;
-
-	class ContainerFileInputStream : public SeekableInputStream
+	/**
+	 * A filesystem that stores all nodes in memory.
+	 */
+	class BufferedMetadataFileSystem : public FileSystem
 	{
 	public:
 		//Constructor
-		ContainerFileInputStream(const ContainerFile &file);
+		inline BufferedMetadataFileSystem(const FileSystemFormat *format) : FileSystem(format)
+		{
+		}
 
 		//Methods
-		uint32 GetBytesAvailable() const override;
-		uint64 GetCurrentOffset() const override;
-		uint64 GetRemainingBytes() const override;
-		uint64 GetSize() const override;
-		bool IsAtEnd() const override;
-		uint32 ReadBytes(void *destination, uint32 count) override;
-		uint32 Skip(uint32 nBytes) override;
-		void SetCurrentOffset(uint64 offset) override;
-
-	private:
-		//Members
-		const ContainerFile &file;
-		uint64 currentOffset;
+		AutoPointer<FileSystemNode> GetNode(const Path &path) override;
+		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override;
 	};
 }

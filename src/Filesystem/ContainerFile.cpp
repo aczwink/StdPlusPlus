@@ -21,9 +21,10 @@
 //Local
 #include <Std++/Compression/Decompressor.hpp>
 #include <Std++/Filesystem/ContainerDirectory.hpp>
-#include <Std++/Filesystem/ContainerFileInputStream.hpp>
+#include <Std++/Filesystem/EmbeddedFileInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
+#include <Std++/Filesystem/ContainerFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -35,7 +36,11 @@ uint64 ContainerFile::GetSize() const
 
 UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
 {
-	InputStream* input = new ContainerFileInputStream(*this);
+	InputStream* input = new EmbeddedFileInputStream(
+			this->GetHeader().offset,
+			this->GetHeader().compressedSize, //we only read the data block
+			*this->fileSystem->containerInputStream,
+			this->fileSystem->containerInputStreamLock);
 	if (this->header.compression.HasValue())
 	{
 		ChainedInputStream* chain = new ChainedInputStream(input);

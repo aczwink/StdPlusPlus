@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,6 +19,7 @@
 //Class header
 #include "7zip_FileSystemFormat.hpp"
 //Local
+#include <Std++/Filetypes/UTIConstants.hpp>
 #include "7zip_FileSystem.hpp"
 //Namespaces
 using namespace _stdxx_;
@@ -32,8 +33,7 @@ FileSystem * SevenZip_FileSystemFormat::CreateFileSystem(const Path & fileSystem
 
 String SevenZip_FileSystemFormat::GetId() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return String();
+	return FileTypes::UTI::_7zip;
 }
 
 String SevenZip_FileSystemFormat::GetName() const

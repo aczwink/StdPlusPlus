@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,11 +32,22 @@ namespace StdXX
 	template<bool B>
 	using BoolConstant = IntegralConstant<bool, B>;
 
+	//Conditional
+	template<bool condition, class IfTrueType, class IfFalseType>
+	struct Conditional { typedef IfTrueType type; };
+
+	template<class IfTrueType, class IfFalseType>
+	struct Conditional<false, IfTrueType, IfFalseType> { typedef IfFalseType type; };
+
 	//EnableIf
 	template <bool, typename T = void>
 	struct EnableIf{};
 	template <typename T>
 	struct EnableIf<true, T> { typedef T type; };
+
+	//IsConst
+	template<class T> struct IsConst : public BoolConstant<false>{};
+	template<class T> struct IsConst<const T> : public BoolConstant<true>{};
 
 	//IsSameType
 	template<typename T1, typename T2> struct IsSameType : public BoolConstant<false>{};

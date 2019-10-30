@@ -16,26 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Class header
-#include <Std++/Streams/TextCodec.hpp>
-//Namespaces
-using namespace StdXX;
+#pragma once
+//Local
+#include <Std++/Containers/Strings/String.hpp>
 
-class Latin1TextCodec : public TextCodec
+namespace StdXX::FileTypes::UTI
 {
-public:
-	//Methods
-	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
-	{
-		byte b;
-		nBytesRead = inputStream.ReadBytes(&b, 1);
-		return b; //directly maps to unicode, see: https://www.unicode.org/Public/MAPPINGS/ISO8859/8859-1.TXT
-	}
-
-	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
-	{
-		ASSERT(codePoint <= 0xFF, u8"Invalid Latin1 value");
-		byte b = static_cast<byte>(codePoint);
-		outputStream.WriteBytes(&b, 1);
-	}
-};
+	const String _7zip = u8"org.7-zip.7-zip-archive";
+	const String zip = u8"com.pkware.zip-archive";
+}

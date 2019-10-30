@@ -89,6 +89,9 @@
 #include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Filesystem/Path.hpp>
 
+//Filetypes
+#include <Std++/Filetypes/UTIConstants.hpp>
+
 //Internationalization
 #include <Std++/Internationalization/TimeZone.hpp>
 

@@ -18,15 +18,15 @@
  */
 //Local
 #include "../Containers/Map/Map.hpp"
-#include "Directory.hpp"
 #include "ContainerFile.hpp"
+#include "MemoryDirectory.hpp"
 
 namespace StdXX
 {
 	//Forward declarations
 	class ContainerFileSystem;
 
-	class ContainerDirectory : public Directory
+	class ContainerDirectory : public MemoryDirectory
 	{
 		friend class ContainerFileSystem;
 	public:
@@ -44,31 +44,16 @@ namespace StdXX
 		//Methods
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
-		bool Exists(const Path &path) const override;
-		AutoPointer<FileSystemNode> GetChild(const String &name) override;
-		AutoPointer<const FileSystemNode> GetChild(const String &name) const override;
 		FileSystem *GetFileSystem() override;
 		const FileSystem *GetFileSystem() const override;
 		AutoPointer<const Directory> GetParent() const override;
 		Path GetPath() const override;
-		bool IsEmpty() const override;
 		FileSystemNodeInfo QueryInfo() const override;
-
-		//For range-based loop
-		DirectoryIterator begin() const override;
-		DirectoryIterator end() const override;
 
 	private:
 		//Members
 		ContainerFileSystem *fileSystem;
 		String name;
 		ContainerDirectory *parent;
-		Map<String, AutoPointer<FileSystemNode>> children;
-
-		//Inline
-		inline void AddSourceFile(const String& fileName, ContainerFile* file)
-		{
-			this->children[fileName] = file;
-		}
 	};
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,17 +16,17 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Local
-#include "7zip/7zip_FileSystemFormat.hpp"
-#include "zip/ZipFileSystemFormat.hpp"
-//Namespaces
-using namespace StdXX;
+#pragma once
 
 namespace _stdxx_
 {
-	void RegisterFileSystemFormats()
+	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
+	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
+	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+
+	struct EndOfCentralDirectory
 	{
-		FileSystemFormat::Register(new SevenZip_FileSystemFormat);
-		FileSystemFormat::Register(new ZipFileSystemFormat);
-	}
+		uint16 nEntries;
+		uint32 centralDirectoryOffset;
+	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,34 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Class header
+//Class header
 #include <Std++/Streams/TextCodec.hpp>
-//Local
-#include <Std++/Debug.hpp>
-#include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 
-class UTF16_LE_TextCodec : public TextCodec
+namespace _stdxx_
 {
-public:
-	//Methods
-	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
+	class CP437TextCodec : public TextCodec
 	{
-		DataReader reader(false, inputStream);
-
-		uint16 codePoint = reader.ReadUInt16();
-		nBytesRead = 2;
-		if (codePoint > 0xD800)
+	public:
+		//Methods
+		uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
 		{
-			NOT_IMPLEMENTED_ERROR; //surrogate-pair
+			uint8 b;
+			nBytesRead = inputStream.ReadBytes(&b, 1);
+
+			if(Math::IsValueInInterval(b, 32_u8, 0x7E_u8))
+				return b;
+
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 
-		return codePoint;
-	}
-
-	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	}
-};
+		void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	};
+}

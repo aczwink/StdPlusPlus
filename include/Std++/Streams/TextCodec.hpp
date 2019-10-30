@@ -28,6 +28,10 @@ namespace StdXX
 	{
 		ASCII,
 		/**
+		 * IBM PC Code page 437
+		 */
+		CP437,
+		/**
 		 * ISO 8859-1 supplemented with C0 and C1 conctrol codes from ISO 6429
 		*/
 		Latin1,
@@ -42,7 +46,7 @@ namespace StdXX
 		virtual ~TextCodec(){}
 
 		//Abstract
-		virtual uint32 ReadCodePoint(InputStream &inputStream) const = 0;
+		virtual uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const = 0;
 		virtual void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const = 0;
 
 		//Functions
