@@ -50,6 +50,7 @@ The following extensions are currently implemented:
 * libavcodec (ffmpeg) - provides a huge amount of codecs
 * liblzma (XZ Utils) - for compressing using the LZMA algorithm (decompression works without this extension)
 * OpenSSL - for cryptography ciphers and cryptographic hash functions
+* zlib - for compression and decompression using the Deflate algorithm
 
 ## Dependencies
 

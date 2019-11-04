@@ -8,6 +8,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/7zip/7zip_FileSystemFormat.hpp
 
 	#zip
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/LocalFileHeader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/LocalFileHeader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/Zip.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipDirectory.hpp

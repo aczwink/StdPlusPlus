@@ -21,6 +21,8 @@
 #include <Std++/Filesystem/File.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/Compression/CompressionAlgorithm.hpp>
+#include "Zip.hpp"
+#include "CentralDirectoryRecord.hpp"
 
 namespace _stdxx_
 {
@@ -31,7 +33,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		ZipFile(uint32 compressedSize, uint32 crc32, ZipFileSystem& fileSystem);
+		ZipFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem);
 
 		//Methods
 		uint64 GetSize() const override;
@@ -43,11 +45,9 @@ namespace _stdxx_
 		//Members
 		ZipFileSystem& fileSystem;
 		uint64 fileDataOffset;
-		uint16 compressionMethod;
-		uint32 compressedSize;
+		LocalFileHeader fileHeader;
 
 		//Methods
 		StdXX::CompressionAlgorithm MapCompressionMethod() const;
-		void ReadFileMetadata(StdXX::SeekableInputStream& stream);
 	};
 }

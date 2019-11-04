@@ -18,17 +18,23 @@
 */
 #pragma once
 //Local
+#include <Std++/Filesystem/FileSystemNode.hpp>
 #include "LocalFileHeader.hpp"
 
 namespace _stdxx_
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+    class CentralDirectoryRecord : public LocalFileHeader
+    {
+    public:
+        //Members
+        uint16 versionMadeBy;
+        uint32 externalFileAttributes;
+        uint32 localFileHeaderOffset;
 
-	struct EndOfCentralDirectory
-	{
-		uint16 nEntries;
-		uint32 centralDirectoryOffset;
-	};
+        //Constructor
+        CentralDirectoryRecord(StdXX::InputStream& inputStream);
+
+        //Methods
+        StdXX::FileSystemNodeType DetermineType() const;
+    };
 }

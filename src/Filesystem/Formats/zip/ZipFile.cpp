@@ -24,6 +24,7 @@
 #include <Std++/Filesystem/EmbeddedFileInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Streams/CheckedInputStream.hpp>
 #include "Zip.hpp"
 #include "ZipFileSystem.hpp"
 //Namespaces
@@ -31,29 +32,35 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Constructor
-ZipFile::ZipFile(uint32 compressedSize, uint32 crc32, ZipFileSystem& fileSystem)
-	: fileSystem(fileSystem), compressedSize(compressedSize)
+ZipFile::ZipFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem)
+	: fileSystem(fileSystem), fileHeader(centralDirectoryRecord)
 {
-	this->ReadFileMetadata(fileSystem.InputStream());
+    this->fileDataOffset = fileSystem.InputStream().GetCurrentOffset();
+    LocalFileHeader localFileHeader(fileSystem.InputStream());
+    this->fileDataOffset += localFileHeader.HeaderSize();
 }
 
 //Public methods
-uint64 _stdxx_::ZipFile::GetSize() const
+uint64 ZipFile::GetSize() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	return this->fileHeader.uncompressedSize;
 }
 
 UniquePointer<InputStream> ZipFile::OpenForReading(bool verify) const
 {
 	ChainedInputStream* chain = new ChainedInputStream(
-			new EmbeddedFileInputStream(this->fileDataOffset, this->compressedSize, this->fileSystem.InputStream(), this->fileSystem.StreamLock()));
+			new EmbeddedFileInputStream(this->fileDataOffset, this->fileHeader.compressedSize, this->fileSystem.InputStream(), this->fileSystem.StreamLock()));
 
-	if(this->compressionMethod != 0)
+	if(this->fileHeader.compressionMethod != 0)
 	{
 		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
 		chain->Add(Decompressor::Create(this->MapCompressionMethod(), chain->GetEnd(), verify));
 	}
+
+	if(verify)
+    {
+	    chain->Add(new CheckedInputStream(chain->GetEnd(), ChecksumAlgorithm::CRC32, this->fileHeader.crc32));
+    }
 
 	return chain;
 }
@@ -69,31 +76,9 @@ StdXX::FileSystemNodeInfo _stdxx_::ZipFile::QueryInfo() const {
 }
 
 //Private methods
-void ZipFile::ReadFileMetadata(SeekableInputStream &inputStream)
-{
-	BufferedInputStream bufferedInputStream(inputStream);
-	DataReader dataReader(false, bufferedInputStream);
-
-	ASSERT(dataReader.ReadUInt32() == zipLocalFileHeaderSignature, u8"REPORT THIS PLEASE!");
-	bufferedInputStream.Skip(2);
-	bufferedInputStream.Skip(2);
-	this->compressionMethod = dataReader.ReadUInt16();
-	bufferedInputStream.Skip(2);
-	bufferedInputStream.Skip(2);
-	bufferedInputStream.Skip(8); //compressed size and crc32 can be zero here
-	bufferedInputStream.Skip(4);
-	uint16 fileNameSize = dataReader.ReadUInt16();
-	uint16 extraFieldSize = dataReader.ReadUInt16();
-
-	dataReader.Skip(fileNameSize);
-	dataReader.Skip(extraFieldSize);
-
-	this->fileDataOffset = inputStream.GetCurrentOffset() - bufferedInputStream.GetBytesAvailable();
-}
-
 CompressionAlgorithm ZipFile::MapCompressionMethod() const
 {
-	switch(this->compressionMethod)
+	switch(this->fileHeader.compressionMethod)
 	{
 		case 8:
 			return CompressionAlgorithm::DEFLATE;

@@ -28,12 +28,12 @@ namespace _stdxx_
 		CRC32ChecksumFunction();
 		
 		//Methods
-		uint32 GetChecksumSize() const override;
 		void Finish() override;
-		void StoreChecksum(void * target) const override;
+        uint64 GetChecksum() const override;
+        uint8 GetChecksumSize() const override;
 		void Update(const void * buffer, uint32 size) override;
 
-	private:
+    private:
 		//Members
 		uint32 crc;
 	};

@@ -22,7 +22,7 @@
 using namespace _stdxx_;
 
 //Public methods
-uint32 _stdxx_::ADLER32ChecksumFunction::GetChecksumSize() const
+uint8 ADLER32ChecksumFunction::GetChecksumSize() const
 {
 	return 4;
 }
@@ -31,10 +31,9 @@ void ADLER32ChecksumFunction::Finish()
 {
 }
 
-void ADLER32ChecksumFunction::StoreChecksum(void *target) const
+uint64 ADLER32ChecksumFunction::GetChecksum() const
 {
-	uint32 checksum = (this->b << 16) | this->a;
-	*(uint32*)target = checksum;
+    return (this->b << 16) | this->a;
 }
 
 void ADLER32ChecksumFunction::Update(const void *buffer, uint32 size)

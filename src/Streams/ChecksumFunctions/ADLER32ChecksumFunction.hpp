@@ -30,12 +30,12 @@ namespace _stdxx_
 		}
 
 		//Methods
-		uint32 GetChecksumSize() const override;
+        uint64 GetChecksum() const override;
+		uint8 GetChecksumSize() const override;
 		void Finish() override;
-		void StoreChecksum(void *target) const override;
 		void Update(const void *buffer, uint32 size) override;
 
-	private:
+    private:
 		//Members
 		uint32 a;
 		uint32 b;

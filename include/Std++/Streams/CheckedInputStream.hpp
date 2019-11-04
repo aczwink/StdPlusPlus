@@ -26,30 +26,25 @@ namespace StdXX
 	{
 	public:
 		//Constructor
-		inline CheckedInputStream(InputStream &inputStream, ChecksumAlgorithm algorithm) : inputStream(inputStream), algorithm(algorithm)
+		inline CheckedInputStream(InputStream &inputStream, ChecksumAlgorithm algorithm, uint64 expectedChecksum)
+		    : inputStream(inputStream), expectedChecksum(expectedChecksum)
 		{
-			this->checkFunc = ChecksumFunction::CreateInstance(this->algorithm);
+		    this->finished = false;
+			this->checkFunc = ChecksumFunction::CreateInstance(algorithm);
 		}
 
 		//Methods
+        bool Finish();
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
 		uint32 Skip(uint32 nBytes) override;
 
-		//Inline
-		inline UniquePointer<ChecksumFunction> Reset()
-		{
-			UniquePointer<ChecksumFunction> tmp = Move(this->checkFunc);
-			this->checkFunc = ChecksumFunction::CreateInstance(this->algorithm);
-
-			return tmp;
-		}
-
 	private:
 		//Members
 		InputStream &inputStream;
-		ChecksumAlgorithm algorithm;
+        uint64 expectedChecksum;
+        bool finished;
 		UniquePointer<ChecksumFunction> checkFunc;
 	};
 }

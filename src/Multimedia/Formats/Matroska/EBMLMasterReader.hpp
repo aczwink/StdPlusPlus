@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -73,9 +73,9 @@ namespace StdXX
 					ASSERT(&this->inputStream == this->inUseInputStream, u8"Can't have multiple CRC-32 elements in master.");
 
 					this->ReadCurrentChildData(child);
-					this->readCRC32 = child.data.ui;
+					uint32 readCRC32 = child.data.ui;
 					
-					this->checkedInputStream = new CheckedInputStream(this->inputStream, ChecksumAlgorithm::CRC32);
+					this->checkedInputStream = new CheckedInputStream(this->inputStream, ChecksumAlgorithm::CRC32, readCRC32);
 					this->inUseInputStream = this->checkedInputStream.operator->();
 
 					this->ReadNextChildHeader(child);
@@ -92,14 +92,7 @@ namespace StdXX
 			inline void Verify()
 			{
 				if (!this->checkedInputStream.IsNull())
-				{
-					UniquePointer<ChecksumFunction> hasher = this->checkedInputStream->Reset();
-					hasher->Finish();
-					uint32 computed;
-					hasher->StoreChecksum(&computed);
-
-					ASSERT(computed == readCRC32, u8"Wrong checksum! File probably corrupt. Report please!");
-				}
+				    this->checkedInputStream->Finish();
 			}
 
 		private:
@@ -108,7 +101,6 @@ namespace StdXX
 			InputStream* inUseInputStream;
 			UniquePointer<CheckedInputStream> checkedInputStream;
 			const Element& masterElement;
-			uint32 readCRC32;
 			uint64 leftSize;
 		};
 	}

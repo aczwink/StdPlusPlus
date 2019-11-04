@@ -24,6 +24,17 @@
 using namespace StdXX;
 
 //Public methods
+bool CheckedInputStream::Finish()
+{
+    if(!this->finished)
+    {
+        this->checkFunc->Finish();
+        this->finished = true;
+    }
+
+    return this->expectedChecksum == this->checkFunc->GetChecksum();
+}
+
 uint32 CheckedInputStream::GetBytesAvailable() const
 {
 	return this->inputStream.GetBytesAvailable();
@@ -37,7 +48,13 @@ bool CheckedInputStream::IsAtEnd() const
 uint32 CheckedInputStream::ReadBytes(void * destination, uint32 count)
 {
 	uint32 nBytesRead = this->inputStream.ReadBytes(destination, count);
-	this->checkFunc->Update((byte*)destination, nBytesRead);
+	this->checkFunc->Update(destination, nBytesRead);
+
+	if(!this->finished && this->inputStream.IsAtEnd())
+    {
+        bool matches = this->Finish();
+        ASSERT(matches, u8"Wrong checksum! File probably corrupt. Report please!");
+    }
 
 	return nBytesRead;
 }
@@ -50,8 +67,7 @@ uint32 CheckedInputStream::Skip(uint32 nBytes)
 	while (nBytes)
 	{
 		uint32 nBytesToRead = Math::Min(uint32(sizeof(buffer)), nBytes);
-		uint32 nBytesRead = this->inputStream.ReadBytes(buffer, nBytesToRead);
-		this->checkFunc->Update(buffer, nBytesRead);
+		uint32 nBytesRead = this->ReadBytes(buffer, nBytesToRead);
 		nBytes -= nBytesRead;
 		nSkipped += nBytesRead;
 	}

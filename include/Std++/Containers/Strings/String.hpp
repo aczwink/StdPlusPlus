@@ -58,10 +58,10 @@ namespace StdXX
 			//Constructors
 			inline Resource() : referenceCounter(1)
 			{
-#ifdef XPC_OS_LINUX
-				this->isUTF8 = true;
+#ifdef XPC_OS_WINDOWS
+                this->isUTF8 = false;
 #else
-				this->isUTF8 = false;
+                this->isUTF8 = true;
 #endif
 			}
 

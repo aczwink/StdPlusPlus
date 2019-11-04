@@ -39,9 +39,9 @@ namespace StdXX
 		virtual ~ChecksumFunction(){}
 
 		//Abstract
-		virtual uint32 GetChecksumSize() const = 0;
 		virtual void Finish() = 0;
-		virtual void StoreChecksum(void* target) const = 0;
+		virtual uint64 GetChecksum() const = 0;
+        virtual uint8 GetChecksumSize() const = 0;
 		virtual void Update(const void* buffer, uint32 size) = 0;
 
 		//Methods
@@ -49,22 +49,5 @@ namespace StdXX
 
 		//Functions
 		static UniquePointer<ChecksumFunction> CreateInstance(ChecksumAlgorithm algorithm);
-
-		//Inline
-		inline FixedArray<byte> GetChecksum() const
-		{
-			FixedArray<byte> digest(this->GetChecksumSize());
-			this->StoreChecksum(&digest[0]);
-			return digest;
-		}
-
-		inline String GetChecksumString() const
-		{
-			String result;
-			FixedArray<byte> bytes = this->GetChecksum();
-			for(byte b : bytes)
-				result += String::HexNumber(b, 2, false);
-			return result;
-		}
 	};
 }

@@ -207,9 +207,7 @@ uint32 ZLIBDecompressor::ReadBytes(void *destination, uint32 count)
 			if(!this->verifier.IsNull())
 			{
 				this->verifier->Finish();
-				uint32 computed;
-				this->verifier->StoreChecksum(&computed);
-
+				uint32 computed = this->verifier->GetChecksum();
 				uint32 read = this->wrapperInputStream->GetChecksum();
 
 				ASSERT(read == computed, u8"Checksum mismatch");

@@ -90,8 +90,13 @@ FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize
 	fileSize = static_cast<uint64>(sb.st_size);
 
 	//set last modified time
-	FileSystemNodeInfo::FileSystemNodeTime lastModTime{DateTime::FromUnixTimeStamp(sb.st_mtim.tv_sec)};
+#ifdef XPC_OS_DARWIN
+    FileSystemNodeInfo::FileSystemNodeTime lastModTime{DateTime::FromUnixTimeStamp(sb.st_mtimespec.tv_sec)};
+    lastModTime.ns = static_cast<uint64>(sb.st_mtimespec.tv_nsec);
+#else
+    FileSystemNodeInfo::FileSystemNodeTime lastModTime{DateTime::FromUnixTimeStamp(sb.st_mtim.tv_sec)};
 	lastModTime.ns = static_cast<uint64>(sb.st_mtim.tv_nsec);
+#endif
 	info.lastModifiedTime = lastModTime;
 
 	//set stored size

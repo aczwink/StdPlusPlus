@@ -24,6 +24,7 @@
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/Streams/Writers/StdOut.hpp>
 #include "ZipFile.hpp"
+#include "CentralDirectoryRecord.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -80,61 +81,42 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
 {
 	this->fileInputStream.SetCurrentOffset(record.centralDirectoryOffset);
 	BufferedInputStream bufferedInputStream(this->fileInputStream);
-	DataReader dataReader(false, bufferedInputStream);
 
 	for(uint16 i = 0; i < record.nEntries; i++)
 	{
-		ASSERT(dataReader.ReadUInt32() == zipCentralFileHeaderSignature, u8"REPORT THIS PLEASE!");
-		dataReader.Skip(2);
-		dataReader.Skip(2);
-		uint16 generalPurposeBitFlag = dataReader.ReadUInt16();
-		dataReader.Skip(2);
-		dataReader.Skip(2);
-		dataReader.Skip(2);
-		uint32 crc = dataReader.ReadUInt32();
-		uint32 compressedSize = dataReader.ReadUInt32();
-		dataReader.Skip(4);
-		uint16 fileNameSize = dataReader.ReadUInt16();
-		uint16 extraFieldSize = dataReader.ReadUInt16();
-		uint16 commentLength = dataReader.ReadUInt16();
-		dataReader.Skip(2);
-		dataReader.Skip(2);
-		dataReader.Skip(4);
-		uint32 localFileHeaderOffset = dataReader.ReadUInt32();
+	    CentralDirectoryRecord centralDirectoryRecord(bufferedInputStream);
 
-		TextCodecType textEncoding = TextCodecType::CP437;
-		if(Unsigned<uint16>::IsBitSet(generalPurposeBitFlag, 11))
-			textEncoding = TextCodecType::UTF8;
+        String nodeName;
+        AutoPointer<Directory> dir;
+        FileSystemNode* node;
+	    switch(centralDirectoryRecord.DetermineType())
+        {
+            case FileSystemNodeType::Directory:
+            {
+                Path directoryPath = centralDirectoryRecord.path.GetParent();
+                nodeName = directoryPath.GetName();
+                dir = this->GetDirectory(directoryPath.GetParent());
+                node = new ZipDirectory();
+            }
+            break;
+            case FileSystemNodeType::File:
+            {
+                nodeName = centralDirectoryRecord.path.GetName();
+                dir = this->GetDirectory(centralDirectoryRecord.path.GetParent());
 
-		//read file name
-		TextReader textReader(bufferedInputStream, textEncoding);
-		Path nodePath = u8"/" + textReader.ReadStringBySize(fileNameSize);
+                uint64 currentOffset = this->fileInputStream.GetCurrentOffset();
+                this->fileInputStream.SetCurrentOffset(centralDirectoryRecord.localFileHeaderOffset);
+                node = new ZipFile(centralDirectoryRecord, *this);
+                this->fileInputStream.SetCurrentOffset(currentOffset);
+            }
+            break;
+            case FileSystemNodeType::Link:
+                NOT_IMPLEMENTED_ERROR; //TODO: implement me
+                break;
+        }
 
-		String nodeName;
-		AutoPointer<Directory> dir;
-		FileSystemNode* node;
-		if(nodePath.GetString().EndsWith(u8"/"))
-		{
-			Path directoryPath = nodePath.GetParent();
-			nodeName = directoryPath.GetName();
-			dir = this->GetDirectory(directoryPath.GetParent());
-			node = new ZipDirectory();
-		}
-		else
-		{
-			nodeName = nodePath.GetName();
-			dir = this->GetDirectory(nodePath.GetParent());
-
-			uint64 currentOffset = this->fileInputStream.GetCurrentOffset();
-			this->fileInputStream.SetCurrentOffset(localFileHeaderOffset);
-			node = new ZipFile(compressedSize, crc, *this);
-			this->fileInputStream.SetCurrentOffset(currentOffset);
-		}
 		AutoPointer<ZipDirectory> zipDir = dir.Cast<ZipDirectory>();
 		zipDir->AddChild(nodeName, node);
-
-		dataReader.Skip(extraFieldSize);
-		dataReader.Skip(commentLength);
 	}
 }
 

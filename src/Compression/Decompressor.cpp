@@ -21,6 +21,10 @@
 //Local
 #include "LZMA_dec/LZMADecompressor.hpp"
 #include "ZLIB/ZLIBDecompressor.hpp"
+//Extensions
+#ifdef _STDXX_EXTENSION_ZLIB
+#include "../../src_backends/zlib/ExtZLIBInflater.hpp"
+#endif
 //Namespaces
 using namespace StdXX;
 
@@ -30,6 +34,9 @@ Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &
 	switch (algorithm)
 	{
 	case CompressionAlgorithm::DEFLATE:
+#ifdef _STDXX_EXTENSION_ZLIB
+    return new _stdxx_::ExtZLIBInflater(inputStream);
+#endif
 		return new _stdxx_::Inflater(inputStream);
 	case CompressionAlgorithm::LZMA:
 		return new _stdxx_::LZMADecompressor(inputStream);

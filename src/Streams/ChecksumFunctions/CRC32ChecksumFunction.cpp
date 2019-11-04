@@ -48,19 +48,19 @@ CRC32ChecksumFunction::CRC32ChecksumFunction() : crc(0xFFFFFFFF)
 }
 
 //Public methods
-uint32 CRC32ChecksumFunction::GetChecksumSize() const
-{
-	return 4;
-}
-
 void CRC32ChecksumFunction::Finish()
 {
-	this->crc = ~this->crc; //invert all bits
+    this->crc = ~this->crc; //invert all bits
 }
 
-void CRC32ChecksumFunction::StoreChecksum(void * target) const
+uint64 CRC32ChecksumFunction::GetChecksum() const
 {
-	StdXX::MemCopy(target, &this->crc, this->GetChecksumSize());
+    return this->crc;
+}
+
+uint8 CRC32ChecksumFunction::GetChecksumSize() const
+{
+	return 4;
 }
 
 void CRC32ChecksumFunction::Update(const void * buffer, uint32 size)
