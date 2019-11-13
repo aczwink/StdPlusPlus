@@ -26,7 +26,7 @@
 #include "EBML.hpp"
 
 //Constructor
-MatroskaMuxer::MatroskaMuxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
+MatroskaMuxer::MatroskaMuxer(const Format &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 {
 	this->currentCluster.isClusterOpen = false;
 	this->currentCluster.basePTS = 0;

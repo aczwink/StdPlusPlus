@@ -23,31 +23,26 @@
 #include <Std++/Compression/CompressionAlgorithm.hpp>
 #include "Zip.hpp"
 #include "CentralDirectoryRecord.hpp"
+#include "ZipReadableFile.hpp"
 
 namespace _stdxx_
 {
 	//Forward declarations
 	class ZipFileSystem;
 
-	class ZipFile : public StdXX::File
+	class ZipFile : public StdXX::File, public ZipReadableFile
 	{
 	public:
 		//Constructor
-		ZipFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem);
+		inline ZipFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem)
+			: ZipReadableFile(centralDirectoryRecord, fileSystem)
+		{
+		}
 
 		//Methods
 		uint64 GetSize() const override;
 		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
 		StdXX::FileSystemNodeInfo QueryInfo() const override;
-
-	private:
-		//Members
-		ZipFileSystem& fileSystem;
-		uint64 fileDataOffset;
-		LocalFileHeader fileHeader;
-
-		//Methods
-		StdXX::CompressionAlgorithm MapCompressionMethod() const;
 	};
 }

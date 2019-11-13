@@ -32,7 +32,7 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::Multimedia::Demuxer *CreateDemuxer(StdXX::SeekableInputStream &refInput) const override;
-		StdXX::Multimedia::Muxer *CreateMuxer(StdXX::ASeekableOutputStream &outputStream) const override;
+		StdXX::Multimedia::Muxer *CreateMuxer(StdXX::SeekableOutputStream &outputStream) const override;
 		//StdXX::Multimedia::CodecId GetDefaultCodec(StdXX::Multimedia::DataType dataType) const override;
 		void GetFormatInfo(StdXX::Multimedia::FormatInfo &refFormatInfo) const override;
 		StdXX::String GetName() const override;

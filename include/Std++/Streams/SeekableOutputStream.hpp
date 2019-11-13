@@ -16,21 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Format.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::Multimedia;
+#pragma once
+//Local
+#include "OutputStream.hpp"
 
-class BMP_Format : public Format
+namespace StdXX
 {
-public:
-	//Methods
-	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
-	Muxer *CreateMuxer(SeekableOutputStream &refOutput) const;
-	//CodecId GetDefaultCodec(DataType dataType) const;
-	String GetExtension() const;
-	void GetFormatInfo(FormatInfo &refFormatInfo) const;
-	String GetName() const;
-	//BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const;
-	float32 Matches(BufferInputStream &refBuffer) const;
-};
+    class STDPLUSPLUS_API SeekableOutputStream : public OutputStream
+    {
+    public:
+        //Abstract
+        virtual uint64 GetCurrentOffset() const = 0;
+        virtual void SetCurrentOffset(uint64 offset) = 0;
+    };
+}

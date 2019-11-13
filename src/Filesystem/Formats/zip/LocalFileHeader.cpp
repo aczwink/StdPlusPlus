@@ -66,7 +66,37 @@ void LocalFileHeader::ReadExtraFields(uint16 size, InputStream &inputStream)
 
         switch(headerId)
         {
-            case 0x5855:
+        	case 0xA: //NTFS
+	        {
+	        	ASSERT(headerSize >= 4, u8"REPORT THIS PLEASE!");
+	        	dataReader.Skip(4); //reserved
+	        	headerSize -= 4;
+	        	while(headerSize > 4)
+		        {
+	        		uint16 tag = dataReader.ReadUInt16();
+	        		uint16 tagSize = dataReader.ReadUInt16();
+	        		headerSize -= 4;
+
+	        		switch(tag)
+			        {
+			        	case 1:
+				        {
+				        	ASSERT(tagSize == 24, u8"REPORT THIS PLEASE!");
+					        headerSize -= 24;
+
+				        	uint64 mtime = dataReader.ReadUInt64();
+					        uint64 atime = dataReader.ReadUInt64();
+					        uint64 ctime = dataReader.ReadUInt64();
+				        }
+				        break;
+				        default:
+				        	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			        }
+		        }
+	        	dataReader.Skip(headerSize);
+	        }
+	        break;
+            case 0x5855: //Info-ZIP UNIX
             {
                 ASSERT((headerSize == 8) || (headerSize == 12), u8"REPORT THIS PLEASE!");
                 uint32 lastAccessTime = dataReader.ReadUInt32(); //UTC

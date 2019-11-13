@@ -3,7 +3,7 @@ option(EXTENSION_ZLIB "zlib compression-extension." OFF)
 
 
 if(${BACKENDS_AUTO_AVAILABLE})
-	find_package(zlib)
+	find_package(ZLIB)
 	if (ZLIB_FOUND)
 		set(EXTENSION_ZLIB ON)
 	endif ()
@@ -12,7 +12,7 @@ endif ()
 
 
 if(${EXTENSION_ZLIB})
-	find_package(zlib REQUIRED)
+	find_package(ZLIB REQUIRED)
 
 	set(SOURCE_FILES
 		${SOURCE_FILES}

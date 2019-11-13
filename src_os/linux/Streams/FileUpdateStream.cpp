@@ -16,13 +16,29 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
-//Local
-#include "LocalFileHeader.hpp"
+//Class header
+#include <Std++/Streams/FileUpdateStream.hpp>
+//Global
+#include <unistd.h>
+//Namespaces
+using namespace StdXX;
 
-namespace _stdxx_
+//Public methods
+uint64 FileUpdateStream::GetCurrentOffset() const
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
+}
+
+uint64 FileUpdateStream::GetSize() const
+{
+	uint64 offset = this->GetCurrentOffset();
+	uint64 size = (uint64) lseek64(this->fileHandle, 0, SEEK_END);
+	lseek64(this->fileHandle, offset, SEEK_SET);
+
+	return size;
+}
+
+void FileUpdateStream::SetCurrentOffset(uint64 offset)
+{
+	lseek64(this->fileHandle, offset, SEEK_SET);
 }

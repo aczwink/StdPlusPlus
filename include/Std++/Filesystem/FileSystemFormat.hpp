@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,10 +27,11 @@ namespace StdXX
 	{
 	public:
 		//Abstract
-		virtual FileSystem *CreateFileSystem(const Path &fileSystemPath) const = 0;
+		virtual FileSystem* CreateFileSystem(const Path &fileSystemPath) const = 0;
 		virtual String GetId() const = 0;
 		virtual String GetName() const = 0;
 		virtual float32 Matches(SeekableInputStream &inputStream) const = 0;
+		virtual FileSystem *OpenFileSystem(const Path &fileSystemPath, bool writable) const = 0;
 
 		//Functions
 		static STDPLUSPLUS_API void Register(const FileSystemFormat *fileSystemFormat);

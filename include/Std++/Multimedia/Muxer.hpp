@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Streams/ASeekableOutputStream.h"
+#include "Std++/Streams/SeekableOutputStream.hpp"
 #include "MediaObject.hpp"
 
 namespace StdXX
@@ -29,7 +29,7 @@ namespace StdXX
         {
         public:
             //Constructor
-            inline Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : MediaObject(refFormat), outputStream(refOutput)
+            inline Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : MediaObject(refFormat), outputStream(refOutput)
             {
             }
 
@@ -40,7 +40,7 @@ namespace StdXX
 
         protected:
             //Members
-            ASeekableOutputStream &outputStream;
+            SeekableOutputStream &outputStream;
         };
     }
 }

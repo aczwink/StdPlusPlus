@@ -16,13 +16,17 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 //Local
 #include <Std++/Filesystem/Path.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Filesystem/BufferedMetadataFileSystem.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
+#include <Std++/Streams/FileUpdateStream.hpp>
 #include "Zip.hpp"
 #include "ZipDirectory.hpp"
+#include "EndOfCentralDirectory.hpp"
+#include "ZipFileSystemFormat.hpp"
 
 namespace _stdxx_
 {
@@ -32,13 +36,16 @@ namespace _stdxx_
 	class ZipFileSystem : public StdXX::BufferedMetadataFileSystem
 	{
 	public:
-		//Constructor
-		ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path& path, uint64 endOfCentralDirectoryOffset);
+		//Constructors
+		ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path &path);
+		ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path& path, uint64 endOfCentralDirectoryOffset, bool writable);
 
-		//Properties
+//Properties
 		inline StdXX::SeekableInputStream& InputStream()
 		{
-			return this->fileInputStream;
+			if(this->readOnlyInputStream.IsNull())
+				return *this->writableStream;
+			return *this->readOnlyInputStream;
 		}
 
 		inline StdXX::Mutex& StreamLock()
@@ -57,7 +64,8 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::FileInputStream fileInputStream;
+		StdXX::UniquePointer<StdXX::FileInputStream> readOnlyInputStream;
+		StdXX::UniquePointer<StdXX::FileUpdateStream> writableStream;
 		StdXX::Mutex streamLock;
 		StdXX::AutoPointer<ZipDirectory> root;
 

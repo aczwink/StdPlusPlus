@@ -22,7 +22,7 @@
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "../Streams/BufferInputStream.hpp"
-#include "../Streams/ASeekableOutputStream.h"
+#include "Std++/Streams/SeekableOutputStream.hpp"
 #include "EnumTypes.hpp"
 
 namespace StdXX
@@ -51,7 +51,7 @@ namespace StdXX
 
             //Abstract
             virtual Demuxer *CreateDemuxer(SeekableInputStream &refInput) const = 0;
-            virtual Muxer *CreateMuxer(ASeekableOutputStream &refOutput) const = 0;
+            virtual Muxer *CreateMuxer(SeekableOutputStream &refOutput) const = 0;
             //virtual CodecId GetDefaultCodec(DataType dataType) const = 0;
             virtual String GetExtension() const = 0;
             virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = 0;

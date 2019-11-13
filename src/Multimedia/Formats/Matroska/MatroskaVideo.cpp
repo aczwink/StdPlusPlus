@@ -32,7 +32,7 @@ Demuxer *MatroskaVideo::CreateDemuxer(SeekableInputStream &refInput) const
 	return new MatroskaDemuxer(*this, refInput);
 }
 
-Muxer *MatroskaVideo::CreateMuxer(ASeekableOutputStream &refOutput) const
+Muxer *MatroskaVideo::CreateMuxer(SeekableOutputStream &refOutput) const
 {
 	return new MatroskaMuxer(*this, refOutput);
 }

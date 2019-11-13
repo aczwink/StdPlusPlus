@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include "../Filesystem/Path.hpp"
-#include "ASeekableOutputStream.h"
+#include "SeekableOutputStream.hpp"
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API FileOutputStream : public ASeekableOutputStream
+    class STDPLUSPLUS_API FileOutputStream : public SeekableOutputStream
     {
     public:
         //Constructor

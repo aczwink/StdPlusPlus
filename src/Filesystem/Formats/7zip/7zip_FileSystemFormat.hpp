@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -25,9 +25,10 @@ namespace _stdxx_
 	{
 	public:
 		//Methods
-		StdXX::FileSystem * CreateFileSystem(const StdXX::Path & fileSystemPath) const override;
+		StdXX::FileSystem* CreateFileSystem(const StdXX::Path & fileSystemPath) const override;
 		StdXX::String GetId() const override;
 		StdXX::String GetName() const override;
 		float32 Matches(StdXX::SeekableInputStream & inputStream) const override;
+		StdXX::FileSystem *OpenFileSystem(const StdXX::Path &fileSystemPath, bool writable) const override;
 	};
 }

@@ -18,11 +18,11 @@
  */
 #pragma once
 //Local
-#include "ASeekableOutputStream.h"
+#include "SeekableOutputStream.hpp"
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API BufferOutputStream : public ASeekableOutputStream
+    class STDPLUSPLUS_API BufferOutputStream : public SeekableOutputStream
     {
     public:
         //Constructor

@@ -18,11 +18,32 @@
 */
 //Class header
 #include "ZipFileSystemFormat.hpp"
+//Local
+#include "EndOfCentralDirectory.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
+FileSystem* ZipFileSystemFormat::CreateFileSystem(const Path &fileSystemPath) const
+{
+	return new ZipFileSystem(this, fileSystemPath);
+}
+
+FileSystem *ZipFileSystemFormat::OpenFileSystem(const Path &fileSystemPath, bool writable) const
+{
+	uint64 offset;
+	{
+		FileInputStream fileInputStream(fileSystemPath);
+		offset = this->FindEndOfCentralDirectoryOffset(fileInputStream);
+		if (offset == StdXX::Unsigned<uint64>::Max())
+			return nullptr;
+	}
+
+	return new ZipFileSystem(this, fileSystemPath, offset, writable);
+}
+
+//Private methods
 uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream &inputStream) const
 {
 	const uint32 endOfCentralDirectoryStaticSize = 22;

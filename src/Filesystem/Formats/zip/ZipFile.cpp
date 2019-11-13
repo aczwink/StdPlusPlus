@@ -31,15 +31,6 @@
 using namespace _stdxx_;
 using namespace StdXX;
 
-//Constructor
-ZipFile::ZipFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem)
-	: fileSystem(fileSystem), fileHeader(centralDirectoryRecord)
-{
-    this->fileDataOffset = fileSystem.InputStream().GetCurrentOffset();
-    LocalFileHeader localFileHeader(fileSystem.InputStream());
-    this->fileDataOffset += localFileHeader.HeaderSize();
-}
-
 //Public methods
 uint64 ZipFile::GetSize() const
 {
@@ -48,21 +39,7 @@ uint64 ZipFile::GetSize() const
 
 UniquePointer<InputStream> ZipFile::OpenForReading(bool verify) const
 {
-	ChainedInputStream* chain = new ChainedInputStream(
-			new EmbeddedFileInputStream(this->fileDataOffset, this->fileHeader.compressedSize, this->fileSystem.InputStream(), this->fileSystem.StreamLock()));
-
-	if(this->fileHeader.compressionMethod != 0)
-	{
-		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
-		chain->Add(Decompressor::Create(this->MapCompressionMethod(), chain->GetEnd(), verify));
-	}
-
-	if(verify)
-    {
-	    chain->Add(new CheckedInputStream(chain->GetEnd(), ChecksumAlgorithm::CRC32, this->fileHeader.crc32));
-    }
-
-	return chain;
+	return ZipReadableFile::OpenForReading(verify);
 }
 
 StdXX::UniquePointer<StdXX::OutputStream> _stdxx_::ZipFile::OpenForWriting() {
@@ -73,16 +50,4 @@ StdXX::UniquePointer<StdXX::OutputStream> _stdxx_::ZipFile::OpenForWriting() {
 StdXX::FileSystemNodeInfo _stdxx_::ZipFile::QueryInfo() const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return StdXX::FileSystemNodeInfo();
-}
-
-//Private methods
-CompressionAlgorithm ZipFile::MapCompressionMethod() const
-{
-	switch(this->fileHeader.compressionMethod)
-	{
-		case 8:
-			return CompressionAlgorithm::DEFLATE;
-	}
-
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

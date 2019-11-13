@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "OutputStream.hpp"
+#include "SeekableOutputStream.hpp"
+#include "SeekableInputStream.hpp"
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API ASeekableOutputStream : public OutputStream
-    {
-    public:
-        //Abstract
-        virtual uint64 GetCurrentOffset() const = 0;
-        virtual void SetCurrentOffset(uint64 offset) = 0;
-    };
+	/**
+	 * An update stream can read and write.
+	 * In order to be of any usage, such a stream must be seekable.
+	 */
+	class UpdateStream : public SeekableInputStream, public SeekableOutputStream
+	{
+	};
 }

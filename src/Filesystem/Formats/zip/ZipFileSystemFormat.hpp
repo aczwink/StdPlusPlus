@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 //Local
 #include <Std++/Filesystem/FileSystemFormat.hpp>
 #include <Std++/Filetypes/UTIConstants.hpp>
@@ -32,18 +33,7 @@ namespace _stdxx_
 	{
 	public:
 		//Methods
-		StdXX::FileSystem *CreateFileSystem(const StdXX::Path &fileSystemPath) const override
-		{
-			uint64 offset;
-			{
-				StdXX::FileInputStream fileInputStream(fileSystemPath);
-				offset = this->FindEndOfCentralDirectoryOffset(fileInputStream);
-				if (offset == StdXX::Unsigned<uint64>::Max())
-					return nullptr;
-			}
-
-			return new ZipFileSystem(this, fileSystemPath, offset);
-		}
+		StdXX::FileSystem* CreateFileSystem(const StdXX::Path &fileSystemPath) const override;
 
 		StdXX::String GetId() const override
 		{
@@ -61,6 +51,8 @@ namespace _stdxx_
 				return 1;
 			return 0;
 		}
+
+		StdXX::FileSystem *OpenFileSystem(const StdXX::Path &fileSystemPath, bool writable) const override;
 
 	private:
 		//Methods

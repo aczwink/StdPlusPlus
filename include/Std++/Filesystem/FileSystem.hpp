@@ -62,8 +62,28 @@ namespace StdXX
 		void CreateDirectoryTree(const Path &directoryPath);
 
 		//Functions
-		static UniquePointer<FileSystem> Create(const String &id, const Path &p);
+		/**
+		 * Create the file system at the given path.
+		 * The path must not refer to an existing node on the filesystem.
+		 * The filesystem is opened in writable mode.
+		 * @param id
+		 * @param path
+		 */
+		static UniquePointer<FileSystem> Create(const String &id, const Path &path);
+		/**
+		 * Loads an existing file system in writable mode.
+		 * The file system must exist.
+		 * @param p
+		 * @return
+		 */
 		static UniquePointer<FileSystem> LoadFromFile(const Path &p);
+		/**
+		 * Loads an existing file system in read-only mode.
+		 * The file system must exist.
+		 * @param path
+		 * @return
+		 */
+		static UniquePointer<const FileSystem> LoadFromFileReadOnly(const Path& path);
 
 		//Inline
 		inline AutoPointer<Directory> GetDirectory(const Path& path)

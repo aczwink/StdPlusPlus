@@ -10,6 +10,8 @@ set(SOURCE_FILES
 	#zip
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/EndOfCentralDirectory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/EndOfCentralDirectory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/LocalFileHeader.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/LocalFileHeader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/Zip.hpp
@@ -21,6 +23,10 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipFileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipFileSystemFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipLink.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipLink.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipReadableFile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/ZipReadableFile.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__Register.cpp

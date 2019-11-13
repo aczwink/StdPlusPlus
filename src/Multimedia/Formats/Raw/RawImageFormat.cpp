@@ -32,7 +32,7 @@ Demuxer *RawImageFormat::CreateDemuxer(SeekableInputStream &refInput) const
 	return new RawImageDemuxer(*this, refInput, this->codingFormatId);
 }
 
-Muxer *RawImageFormat::CreateMuxer(ASeekableOutputStream &outputStream) const
+Muxer *RawImageFormat::CreateMuxer(SeekableOutputStream &outputStream) const
 {
 	return new RawImageMuxer(*this, outputStream);
 }

@@ -16,13 +16,25 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
+//Class header
+#include "ZipLink.hpp"
 //Local
-#include "LocalFileHeader.hpp"
+#include <Std++/Streams/Readers/TextReader.hpp>
+//Namespaces
+using namespace _stdxx_;
+using namespace StdXX;
 
-namespace _stdxx_
+//Public methods
+FileSystemNodeInfo ZipLink::QueryInfo() const
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return FileSystemNodeInfo();
+}
+
+Path ZipLink::ReadTarget() const
+{
+	UniquePointer<InputStream> inputStream = this->OpenForReading(false);
+	TextReader textReader(*inputStream, TextCodecType::UTF8);
+
+	return textReader.ReadStringBySize(this->fileHeader.uncompressedSize);
 }

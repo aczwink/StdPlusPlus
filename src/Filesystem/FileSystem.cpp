@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,32 +25,13 @@
 //Namespaces
 using namespace StdXX;
 
-//Public methods
-void FileSystem::CreateDirectoryTree(const Path &directoryPath)
-{
-	if(directoryPath.IsAbsolute())
-		this->GetRoot()->CreateDirectoryTree(Path(directoryPath.GetString().SubString(1)));
-	else
-		this->GetRoot()->CreateDirectoryTree(directoryPath);
-}
-
-//Class functions
+//Global variables
 extern DynamicArray<const FileSystemFormat *> g_fsFormats;
 
-UniquePointer<FileSystem> FileSystem::Create(const String &id, const Path &p)
+//Local functions
+static const FileSystemFormat *FindBestFormat(const Path& path)
 {
-	for(const FileSystemFormat *const& fileSystemFormat : g_fsFormats)
-	{
-		if(fileSystemFormat->GetId() == id)
-			return fileSystemFormat->CreateFileSystem(p);
-	}
-
-	return nullptr;
-}
-
-UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
-{
-	UniquePointer<SeekableInputStream> file = new FileInputStream(p);
+	UniquePointer<SeekableInputStream> file = new FileInputStream(path);
 
 	const FileSystemFormat *bestFormat = nullptr;
 	float32 bestScore = 0;
@@ -73,11 +54,43 @@ UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
 		}
 	}
 
-	if(bestFormat)
-	{
-		file = nullptr; //free the file
-		return bestFormat->CreateFileSystem(p);
-	}
+	return bestFormat;
+}
 
+//Public methods
+void FileSystem::CreateDirectoryTree(const Path &directoryPath)
+{
+	if(directoryPath.IsAbsolute())
+		this->GetRoot()->CreateDirectoryTree(Path(directoryPath.GetString().SubString(1)));
+	else
+		this->GetRoot()->CreateDirectoryTree(directoryPath);
+}
+
+//Class functions
+UniquePointer<FileSystem> FileSystem::Create(const String &id, const Path &path)
+{
+	for(const FileSystemFormat *const& fileSystemFormat : g_fsFormats)
+	{
+		if(fileSystemFormat->GetId() == id)
+		{
+			return fileSystemFormat->CreateFileSystem(path);
+		}
+	}
+	return nullptr;
+}
+
+UniquePointer<FileSystem> FileSystem::LoadFromFile(const Path &p)
+{
+	const FileSystemFormat *bestFormat = FindBestFormat(p);
+	if(bestFormat)
+		return bestFormat->OpenFileSystem(p, true);
+	return nullptr;
+}
+
+UniquePointer<const FileSystem> FileSystem::LoadFromFileReadOnly(const Path &path)
+{
+	const FileSystemFormat *bestFormat = FindBestFormat(path);
+	if(bestFormat)
+		return bestFormat->OpenFileSystem(path, false);
 	return nullptr;
 }

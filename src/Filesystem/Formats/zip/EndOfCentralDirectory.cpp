@@ -16,13 +16,26 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
+//Class header
+#include "EndOfCentralDirectory.hpp"
 //Local
-#include "LocalFileHeader.hpp"
+#include <Std++/Streams/Writers/DataWriter.hpp>
+#include "Zip.hpp"
+//Namespaces
+using namespace _stdxx_;
+using namespace StdXX;
 
-namespace _stdxx_
+//Public methods
+void EndOfCentralDirectory::Write(OutputStream &outputStream)
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	DataWriter dataWriter(false, outputStream);
+
+	dataWriter.WriteUInt32(zipEndOfCentralDirectorySignature);
+	dataWriter.WriteUInt16(0);
+	dataWriter.WriteUInt16(0);
+	dataWriter.WriteUInt16(0);
+	dataWriter.WriteUInt16(this->nEntries);
+	dataWriter.WriteUInt32(0);
+	dataWriter.WriteUInt32(this->centralDirectoryOffset);
+	dataWriter.WriteUInt16(0);
 }

@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Streams/ASeekableOutputStream.h"
+#include "Std++/Streams/SeekableOutputStream.hpp"
 #include "CCatalog.h"
 
 namespace StdXX
@@ -36,7 +36,7 @@ namespace StdXX
 
         public:
             //Methods
-            void Write(ASeekableOutputStream &refOutput);
+            void Write(SeekableOutputStream &refOutput);
         };
     }
 }

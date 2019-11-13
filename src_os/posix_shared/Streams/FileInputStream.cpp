@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,6 @@ using namespace StdXX;
 //Constructor
 FileInputStream::FileInputStream(const Path &path)
 {
-	this->hitEnd = false;
 	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
 
 	if(this->fileHandle == -1)
@@ -57,10 +56,5 @@ uint64 FileInputStream::GetRemainingBytes() const
 
 uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
 {
-	uint32 nReadBytes;
-
-	nReadBytes = read(this->fileHandle, pDestination, count);
-	this->hitEnd = nReadBytes < count;
-
-	return nReadBytes;
+	return read(this->fileHandle, pDestination, count);
 }

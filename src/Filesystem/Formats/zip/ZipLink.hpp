@@ -16,13 +16,23 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 //Local
-#include "LocalFileHeader.hpp"
+#include <Std++/Filesystem/Link.hpp>
+#include "ZipReadableFile.hpp"
 
 namespace _stdxx_
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	class ZipLink : public StdXX::Link, public ZipReadableFile
+	{
+	public:
+		//Constructor
+		inline ZipLink(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem)
+				: ZipReadableFile(centralDirectoryRecord, fileSystem)
+		{
+		}
+
+		//Methods
+		StdXX::FileSystemNodeInfo QueryInfo() const override;
+		StdXX::Path ReadTarget() const override;
+	};
 }

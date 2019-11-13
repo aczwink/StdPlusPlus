@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,21 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Format.hpp>
+//Class header
+#include <Std++/Streams/FileUpdateStream.hpp>
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::Multimedia;
 
-class BMP_Format : public Format
+//Public methods
+uint32 FileUpdateStream::GetBytesAvailable() const
 {
-public:
-	//Methods
-	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
-	Muxer *CreateMuxer(SeekableOutputStream &refOutput) const;
-	//CodecId GetDefaultCodec(DataType dataType) const;
-	String GetExtension() const;
-	void GetFormatInfo(FormatInfo &refFormatInfo) const;
-	String GetName() const;
-	//BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const;
-	float32 Matches(BufferInputStream &refBuffer) const;
-};
+	return 0;
+}
+
+bool FileUpdateStream::IsAtEnd() const
+{
+	return this->GetRemainingBytes() == 0;
+}

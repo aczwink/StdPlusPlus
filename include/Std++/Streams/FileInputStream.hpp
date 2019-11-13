@@ -25,14 +25,6 @@ namespace StdXX
 {
     class STDPLUSPLUS_API FileInputStream : public SeekableInputStream
     {
-    private:
-        //Members
-        bool hitEnd;
-        union
-        {
-            void *pFileHandle;
-            int fileHandle;
-        };
     public:
         //Constructor
         FileInputStream(const Path &path);
@@ -49,5 +41,13 @@ namespace StdXX
         uint32 ReadBytes(void *pDestination, uint32 count) override;
         void SetCurrentOffset(uint64 offset) override;
         uint32 Skip(uint32 nBytes) override;
+
+    private:
+	    //Members
+	    union
+	    {
+		    void *pFileHandle;
+		    int fileHandle;
+	    };
 	};
 }

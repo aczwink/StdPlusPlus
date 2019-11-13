@@ -18,11 +18,34 @@
 */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Streams/InputStream.hpp>
+#include <Std++/Compression/CompressionAlgorithm.hpp>
 #include "LocalFileHeader.hpp"
+#include "ZipFileSystem.hpp"
+#include "CentralDirectoryRecord.hpp"
 
 namespace _stdxx_
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	class ZipReadableFile
+	{
+	public:
+		//Constructor
+		ZipReadableFile(const CentralDirectoryRecord& centralDirectoryRecord, ZipFileSystem& fileSystem);
+
+		//Methods
+		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const;
+
+	protected:
+		//Members
+		LocalFileHeader fileHeader;
+
+	private:
+		//Members
+		uint64 fileDataOffset;
+		ZipFileSystem& fileSystem;
+
+		//Methods
+		StdXX::CompressionAlgorithm MapCompressionMethod() const;
+	};
 }

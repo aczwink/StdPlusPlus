@@ -18,11 +18,18 @@
 */
 #pragma once
 //Local
-#include "LocalFileHeader.hpp"
+#include <Std++/Streams/OutputStream.hpp>
 
 namespace _stdxx_
 {
-	const uint32 zipCentralFileHeaderSignature = 0x02014b50;
-	const uint32 zipEndOfCentralDirectorySignature = 0x06054b50;
-	const uint32 zipLocalFileHeaderSignature = 0x04034b50;
+	class EndOfCentralDirectory
+	{
+	public:
+		//Members
+		uint16 nEntries;
+		uint32 centralDirectoryOffset;
+
+		//Methods
+		void Write(StdXX::OutputStream& outputStream);
+	};
 }

@@ -30,7 +30,7 @@ private:
 
 public:
 	//Constructor
-	inline BMP_Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
+	inline BMP_Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 	{
 		this->imageSize = 0;
 	}

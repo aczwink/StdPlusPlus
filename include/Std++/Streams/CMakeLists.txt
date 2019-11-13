@@ -24,6 +24,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ChecksumFunction.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileUpdateStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NullOutputStream.hpp
@@ -31,5 +32,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/SeekableInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdIn.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TextCodec.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UpdateStream.hpp
 
 	PARENT_SCOPE)

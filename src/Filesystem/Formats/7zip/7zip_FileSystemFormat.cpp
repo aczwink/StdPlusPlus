@@ -26,9 +26,10 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
-FileSystem * SevenZip_FileSystemFormat::CreateFileSystem(const Path & fileSystemPath) const
+FileSystem* SevenZip_FileSystemFormat::CreateFileSystem(const Path & fileSystemPath) const
 {
-	return new SevenZip_FileSystem(this, fileSystemPath);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
 }
 
 String SevenZip_FileSystemFormat::GetId() const
@@ -52,4 +53,9 @@ float32 SevenZip_FileSystemFormat::Matches(SeekableInputStream & inputStream) co
 	if (MemCmp(signature, readSignature, sizeof(signature)) == 0)
 		return 1;
 	return 0;
+}
+
+FileSystem *SevenZip_FileSystemFormat::OpenFileSystem(const Path &fileSystemPath, bool writable) const
+{
+	return new SevenZip_FileSystem(this, fileSystemPath);
 }

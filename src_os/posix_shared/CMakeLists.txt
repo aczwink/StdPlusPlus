@@ -18,6 +18,7 @@ set(SOURCE_FILES
 	#Streams
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileUpdateStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Streams/StdIn.cpp
 
 	#Time

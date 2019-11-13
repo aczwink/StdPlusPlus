@@ -24,7 +24,7 @@
 #include "WAVE.h"
 
 //Constructor
-WAVE_Muxer::WAVE_Muxer(const Format &refFormat, ASeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
+WAVE_Muxer::WAVE_Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 {
 }
 

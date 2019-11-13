@@ -31,7 +31,7 @@ Demuxer *BMP_Format::CreateDemuxer(SeekableInputStream &refInput) const
 	return nullptr;
 }
 
-Muxer *BMP_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
+Muxer *BMP_Format::CreateMuxer(SeekableOutputStream &refOutput) const
 {
 	return new BMP_Muxer(*this, refOutput);
 }

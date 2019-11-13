@@ -17,7 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "../OutputStream.hpp"
+//Local
+#include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Debug.hpp>
 
 namespace StdXX
 {

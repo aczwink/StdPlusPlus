@@ -29,7 +29,7 @@ Demuxer *WAVE_Format::CreateDemuxer(SeekableInputStream &refInput) const
 	return nullptr;
 }
 
-Muxer *WAVE_Format::CreateMuxer(ASeekableOutputStream &refOutput) const
+Muxer *WAVE_Format::CreateMuxer(SeekableOutputStream &refOutput) const
 {
 	return new WAVE_Muxer(*this, refOutput);
 }

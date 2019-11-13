@@ -23,16 +23,32 @@
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/Streams/Writers/StdOut.hpp>
+#include <Std++/Streams/FileOutputStream.hpp>
 #include "ZipFile.hpp"
 #include "CentralDirectoryRecord.hpp"
+#include "ZipLink.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
-//Constructor
-ZipFileSystem::ZipFileSystem(const FileSystemFormat *format, const Path &path, uint64 endOfCentralDirectoryOffset) : BufferedMetadataFileSystem(format),
-	fileInputStream(path), root(new ZipDirectory())
+//Constructors
+ZipFileSystem::ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path &path)
+	: BufferedMetadataFileSystem(format), root(new ZipDirectory())
 {
+	{
+		//create file and fail if it exists
+		FileOutputStream fileCreator(path);
+	}
+	this->writableStream = new FileUpdateStream(path);
+}
+
+ZipFileSystem::ZipFileSystem(const FileSystemFormat *format, const Path &path, uint64 endOfCentralDirectoryOffset, bool writable)
+	: BufferedMetadataFileSystem(format), root(new ZipDirectory())
+{
+	if(writable)
+		this->readOnlyInputStream = new FileInputStream(path);
+	else
+		this->writableStream = new FileUpdateStream(path);
 	EndOfCentralDirectory endOfCentralDirectory = this->ReadEndOfCentralDirectory(endOfCentralDirectoryOffset);
 	this->ReadCentralDirectory(endOfCentralDirectory);
 }
@@ -79,8 +95,8 @@ void ZipFileSystem::Move(const Path &from, const Path &to)
 //Private methods
 void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
 {
-	this->fileInputStream.SetCurrentOffset(record.centralDirectoryOffset);
-	BufferedInputStream bufferedInputStream(this->fileInputStream);
+	this->InputStream().SetCurrentOffset(record.centralDirectoryOffset);
+	BufferedInputStream bufferedInputStream(this->InputStream());
 
 	for(uint16 i = 0; i < record.nEntries; i++)
 	{
@@ -89,30 +105,30 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
         String nodeName;
         AutoPointer<Directory> dir;
         FileSystemNode* node;
-	    switch(centralDirectoryRecord.DetermineType())
+        if(centralDirectoryRecord.DetermineType() == FileSystemNodeType::Directory)
         {
-            case FileSystemNodeType::Directory:
-            {
-                Path directoryPath = centralDirectoryRecord.path.GetParent();
-                nodeName = directoryPath.GetName();
-                dir = this->GetDirectory(directoryPath.GetParent());
-                node = new ZipDirectory();
-            }
-            break;
-            case FileSystemNodeType::File:
-            {
-                nodeName = centralDirectoryRecord.path.GetName();
-                dir = this->GetDirectory(centralDirectoryRecord.path.GetParent());
+	        Path directoryPath = centralDirectoryRecord.path.GetParent();
+	        nodeName = directoryPath.GetName();
+	        dir = this->GetDirectory(directoryPath.GetParent());
+	        node = new ZipDirectory();
+        }
+        else
+        {
+	        nodeName = centralDirectoryRecord.path.GetName();
+	        dir = this->GetDirectory(centralDirectoryRecord.path.GetParent());
 
-                uint64 currentOffset = this->fileInputStream.GetCurrentOffset();
-                this->fileInputStream.SetCurrentOffset(centralDirectoryRecord.localFileHeaderOffset);
-                node = new ZipFile(centralDirectoryRecord, *this);
-                this->fileInputStream.SetCurrentOffset(currentOffset);
-            }
-            break;
-            case FileSystemNodeType::Link:
-                NOT_IMPLEMENTED_ERROR; //TODO: implement me
-                break;
+	        uint64 currentOffset = this->InputStream().GetCurrentOffset();
+	        this->InputStream().SetCurrentOffset(centralDirectoryRecord.localFileHeaderOffset);
+	        switch(centralDirectoryRecord.DetermineType())
+	        {
+		        case FileSystemNodeType::File:
+			        node = new ZipFile(centralDirectoryRecord, *this);
+			        break;
+		        case FileSystemNodeType::Link:
+		        	node = new ZipLink(centralDirectoryRecord, *this);
+		        	break;
+	        }
+	        this->InputStream().SetCurrentOffset(currentOffset);
         }
 
 		AutoPointer<ZipDirectory> zipDir = dir.Cast<ZipDirectory>();
@@ -122,8 +138,8 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
 
 EndOfCentralDirectory ZipFileSystem::ReadEndOfCentralDirectory(uint64 offset)
 {
-	this->fileInputStream.SetCurrentOffset(offset);
-	BufferedInputStream bufferedInputStream(this->fileInputStream);
+	this->InputStream().SetCurrentOffset(offset);
+	BufferedInputStream bufferedInputStream(this->InputStream());
 	DataReader dataReader(false, bufferedInputStream);
 
 	EndOfCentralDirectory endOfCentralDirectory;
