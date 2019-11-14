@@ -59,7 +59,6 @@ namespace StdXX
 		ContainerFileSystem(const FileSystemFormat *format, const Path &fileSystemPath);
 
 		//Methods
-		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
 		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
 		AutoPointer<const Directory> GetRoot() const override;

@@ -33,7 +33,7 @@ using namespace StdXX;
 
 //Constructors
 ZipFileSystem::ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path &path)
-	: BufferedMetadataFileSystem(format), root(new ZipDirectory())
+	: BufferedMetadataFileSystem(format), root(new ZipDirectory(*this)), isFlushed(false)
 {
 	{
 		//create file and fail if it exists
@@ -43,7 +43,7 @@ ZipFileSystem::ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX:
 }
 
 ZipFileSystem::ZipFileSystem(const FileSystemFormat *format, const Path &path, uint64 endOfCentralDirectoryOffset, bool writable)
-	: BufferedMetadataFileSystem(format), root(new ZipDirectory())
+	: BufferedMetadataFileSystem(format), root(new ZipDirectory(*this)), isFlushed(true)
 {
 	if(writable)
 		this->readOnlyInputStream = new FileInputStream(path);
@@ -54,12 +54,6 @@ ZipFileSystem::ZipFileSystem(const FileSystemFormat *format, const Path &path, u
 }
 
 //Public methods
-UniquePointer<OutputStream> ZipFileSystem::CreateFile(const Path &filePath)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::UniquePointer<StdXX::OutputStream>();
-}
-
 bool ZipFileSystem::Exists(const Path &path) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -68,6 +62,9 @@ bool ZipFileSystem::Exists(const Path &path) const
 
 void ZipFileSystem::Flush()
 {
+	if(this->isFlushed)
+		return;
+
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
@@ -110,7 +107,7 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
 	        Path directoryPath = centralDirectoryRecord.path.GetParent();
 	        nodeName = directoryPath.GetName();
 	        dir = this->GetDirectory(directoryPath.GetParent());
-	        node = new ZipDirectory();
+	        node = new ZipDirectory(*this);
         }
         else
         {

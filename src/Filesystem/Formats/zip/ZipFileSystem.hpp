@@ -40,7 +40,7 @@ namespace _stdxx_
 		ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path &path);
 		ZipFileSystem(const StdXX::FileSystemFormat *format, const StdXX::Path& path, uint64 endOfCentralDirectoryOffset, bool writable);
 
-//Properties
+		//Properties
 		inline StdXX::SeekableInputStream& InputStream()
 		{
 			if(this->readOnlyInputStream.IsNull())
@@ -54,7 +54,6 @@ namespace _stdxx_
 		}
 
 		//Methods
-		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::Path &filePath) override;
 		bool Exists(const StdXX::Path &path) const override;
 		void Flush() override;
 		StdXX::AutoPointer<StdXX::Directory> GetRoot() override;
@@ -62,8 +61,15 @@ namespace _stdxx_
 		uint64 GetSize() const override;
 		void Move(const StdXX::Path &from, const StdXX::Path &to) override;
 
+		//Inline
+		inline void InformNodeChanged()
+		{
+			this->isFlushed = false;
+		}
+
 	private:
 		//Members
+		bool isFlushed;
 		StdXX::UniquePointer<StdXX::FileInputStream> readOnlyInputStream;
 		StdXX::UniquePointer<StdXX::FileUpdateStream> writableStream;
 		StdXX::Mutex streamLock;

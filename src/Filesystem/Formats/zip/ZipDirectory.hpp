@@ -22,9 +22,17 @@
 
 namespace _stdxx_
 {
+	//Forward declarations
+	class ZipFileSystem;
+
 	class ZipDirectory : public StdXX::MemoryDirectory
 	{
 	public:
+		//Constructor
+		inline ZipDirectory(ZipFileSystem& fileSystem) : fileSystem(fileSystem)
+		{
+		}
+
 		//Methods
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
@@ -35,5 +43,9 @@ namespace _stdxx_
 		StdXX::Path GetPath() const override;
 		bool IsEmpty() const override;
 		StdXX::FileSystemNodeInfo QueryInfo() const override;
+
+	private:
+		//Members
+		ZipFileSystem& fileSystem;
 	};
 }

@@ -20,15 +20,23 @@
 #include "ZipDirectory.hpp"
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
+#include "ZipFileSystem.hpp"
+//Namespaces
+using namespace _stdxx_;
+using namespace StdXX;
+
+//Public methods
+void ZipDirectory::CreateSubDirectory(const String &name)
+{
+	this->AddChild(name, new ZipDirectory(this->fileSystem));
+
+	this->fileSystem.InformNodeChanged();
+}
 
 //TODO NOT IMPLEMENTED
 StdXX::UniquePointer<StdXX::OutputStream> _stdxx_::ZipDirectory::CreateFile(const StdXX::String &name) {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return StdXX::UniquePointer<StdXX::OutputStream>();
-}
-
-void _stdxx_::ZipDirectory::CreateSubDirectory(const StdXX::String &name) {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 bool _stdxx_::ZipDirectory::Exists(const StdXX::Path &path) const {

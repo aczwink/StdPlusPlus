@@ -50,6 +50,11 @@ static AutoPointer<T> GetNodeImpl(const Path& path, AutoPointer<T> root)
 }
 
 //Public methods
+UniquePointer<OutputStream> BufferedMetadataFileSystem::CreateFile(const Path &filePath)
+{
+	return this->GetDirectory(filePath.GetParent())->CreateFile(filePath.GetName());
+}
+
 AutoPointer<FileSystemNode> BufferedMetadataFileSystem::GetNode(const Path &path)
 {
 	return GetNodeImpl<FileSystemNode>(path, this->GetRoot());

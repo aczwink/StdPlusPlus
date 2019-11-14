@@ -35,11 +35,6 @@ ContainerFileSystem::ContainerFileSystem(const FileSystemFormat *format, const P
 }
 
 //Public methods
-UniquePointer<OutputStream> ContainerFileSystem::CreateFile(const Path &filePath)
-{
-	return this->GetDirectory(filePath.GetParent())->CreateFile(filePath.GetName());
-}
-
 bool ContainerFileSystem::Exists(const Path &path) const
 {
 	return this->root->Exists(path);
