@@ -21,7 +21,7 @@ using namespace StdXX;
 
 TEST_SUITE(LzmaTest)
 {
-	TEST(encdec_tests)
+    TEST_CASE(encdec_tests)
 	{
 		const String data = String(u8"this is a test string...").ToUTF8();
 		byte buffer[4096];

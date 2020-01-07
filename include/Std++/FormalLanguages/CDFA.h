@@ -80,25 +80,9 @@ namespace StdXX
 
     class STDPLUSPLUS_API CDFA
     {
-    private:
-        //Members
-        BinaryTreeSet<CDFAState *> states;
     public:
-        //Destructor
-        inline ~CDFA()
-        {
-            for(CDFAState * const& prefState : states)
-                delete prefState;
-        }
-
         //Methods
         void Reduce();
-
-        //Inline
-        inline void AddState(CDFAState *pState)
-        {
-            this->states.Insert(pState);
-        }
 
 #ifdef XPC_BUILDTYPE_DEBUG
         //For debugging

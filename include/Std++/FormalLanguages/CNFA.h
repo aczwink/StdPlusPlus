@@ -28,29 +28,17 @@
 #include "CDFA.h"
 //Definitions
 #define EMPTYWORD_EPSILON UINT32_MAX
-
+/*
 namespace StdXX
 {
     class CNFAState
     {
-    private:
-        //Members
         bool isAccepting;
-        Map<uint32, BinaryTreeSet<CNFAState *>> transitions;
     public:
         //Constructor
         inline CNFAState()
         {
             this->isAccepting = false;
-        }
-
-        //Methods
-        void GetEpsilonClosure(BinaryTreeSet<CNFAState *> &refEpsilonClosure) const;
-
-        //Inline
-        inline void AddTransition(uint32 input, CNFAState *pStateTo)
-        {
-            this->transitions[input].Insert(pStateTo);
         }
 
         inline const Map<uint32, BinaryTreeSet<CNFAState *>> &GetTransitions() const
@@ -107,10 +95,7 @@ namespace StdXX
 
     class STDPLUSPLUS_API CNFA
     {
-    private:
-        //Members
         uint32 nInputSymbols;
-        LinkedList<CNFAState *> states;
 
         //Methods
         void GetEpsilonClosure(const BinaryTreeSet<CNFAState *> &refInput, BinaryTreeSet<CNFAState *> &refOutput) const;
@@ -122,22 +107,9 @@ namespace StdXX
             this->nInputSymbols = nInputSymbols;
         }
 
-        //Destructor
-        inline ~CNFA()
-        {
-            for(const CNFAState *prefState : states)
-                delete prefState;
-        }
-
         //Methods
         CDFA *ConvertToDFA() const;
         CNFA *Copy() const;
-
-        //Inline
-        inline void AddState(CNFAState *pState)
-        {
-            this->states.InsertTail(pState);
-        }
 
         inline uint32 GetNumberOfStates() const
         {
@@ -193,4 +165,4 @@ namespace StdXX
 		void SaveGraph(const Path &refPath);
 #endif
     };
-}
+}*/

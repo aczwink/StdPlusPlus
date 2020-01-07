@@ -16,27 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
+//Class Header
+#include <Std++/Streams/FileUpdateStream.hpp>
+//Global
+#include <unistd.h>
+//Namespaces
 using namespace StdXX;
-using namespace StdXX::Crypto;
 
-TEST_SUITE(scrypt)
+static_assert(sizeof(off_t) >= 8); //make sure we can read large files
+
+uint64 FileUpdateStream::GetCurrentOffset() const
 {
-    TEST_CASE(comparison_with_other_implementations)
-	{
-		const String password = u8"secret";
-		const String salt = u8"salt";
-		constexpr uint8 keySize = 64;
-		const String expected = u8"05ffaebcca41770af425d4ba9b4e7bcdff532237dca931c192a36d94db7307d4c2df95e606514b4113ccb3ad3c19f7ca648e373a112a6b8290f3a69818aa9b7e";
+    return lseek(this->fileHandle, 0, SEEK_CUR);
+}
 
-		const uint8* saltData = salt.ToUTF8().GetRawData();
-		uint8 key[keySize];
-		scrypt(password, saltData, static_cast<uint8>(salt.GetSize()), key, sizeof(key), 14);
+uint64 FileUpdateStream::GetSize() const
+{
+    uint64 offset = this->GetCurrentOffset();
+    off_t size = lseek(this->fileHandle, 0, SEEK_END);
+    lseek(this->fileHandle, offset, SEEK_SET);
 
-		String resultStr;
-		for(uint8 i : key)
-			resultStr += String::HexNumber(i, 2, false).ToLowercase();
-		resultStr.ToUTF8();
-		ASSERT(resultStr == expected, u8"scrypt mismatch!");
-	}
-};
+    return size;
+}
+
+void FileUpdateStream::SetCurrentOffset(uint64 offset)
+{
+    lseek(this->fileHandle, offset, SEEK_SET);
+}

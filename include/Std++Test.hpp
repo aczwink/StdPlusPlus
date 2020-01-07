@@ -22,7 +22,7 @@
 #define _TEST_ADDER_NAME(name, line) name ## line
 #define _TEST_ADDER_NAME2(name, line) _TEST_ADDER_NAME(name, line)
 #define TEST_SUITE(name) namespace {static StdPlusPlusTest::TestSuiteSetter _TEST_ADDER_NAME2(__unique, __LINE__)(#name);} namespace __##name
-#define TEST(name) void name(); namespace {static StdPlusPlusTest::TestAdder _TEST_ADDER_NAME2(__unique, __LINE__)(#name, name);} void name()
+#define TEST_CASE(name) void name(); namespace {static StdPlusPlusTest::TestAdder _TEST_ADDER_NAME2(__unique, __LINE__)(#name, name);} void name()
 
 //Test classes
 namespace StdPlusPlusTest

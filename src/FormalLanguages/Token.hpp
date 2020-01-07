@@ -16,21 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
-using namespace StdXX;
-using namespace StdXX::Math;
-
-TEST_SUITE(LinearCongruentialGeneratorTest)
+namespace _stdxx_
 {
-	TEST_CASE(comparison_with_cpp11_std)
-	{
-		MinStdRand rbg;
-
-		ASSERT(rbg.Next() == 48271, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 182605794, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 1291394886, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 1914720637, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 2078669041, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 407355683, u8"Wrong random number.");
-	}
-};
+    enum class Token
+    {
+        Char,
+        End,
+    };
+}

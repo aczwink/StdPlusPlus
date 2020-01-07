@@ -18,39 +18,21 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/Range.hpp>
 #include "../Containers/LinkedList/LinkedList.hpp"
 
 namespace StdXX
 {
-    class CRange
-    {
-    public:
-        //Members
-        uint32 low;
-        uint32 high;
-
-        //Operators
-        inline bool operator==(const CRange &refOther) const
-        {
-            return this->low == refOther.low && this->high == refOther.high;
-        }
-    };
-
+    /*
     class CCharSet
     {
-    private:
-        //Members
-        LinkedList<CRange> ranges;
-
         //Methods
         void Merge(uint32 idx);
 
         //Inline
         inline void InsertRange(int32 idx, uint32 codePointFrom, uint32 codePointTo)
         {
-            CRange range;
-            range.low = codePointFrom;
-            range.high = codePointTo;
+            Range<uint32> range(codePointFrom, codePointTo);
 
             if(idx == -1)
                 this->ranges.InsertFront(range);
@@ -68,11 +50,6 @@ namespace StdXX
             *this = refOther;
         }
 
-        inline CCharSet(uint32 codePoint)
-        {
-            this->Insert(codePoint);
-        }
-
         //Inline Operators
         inline bool operator==(const CCharSet &refOther) const
         {
@@ -83,40 +60,41 @@ namespace StdXX
         {
             this->ranges.Release();
 
-            for(const CRange &refRange : refOther.GetRanges())
-                this->Insert(refRange.low, refRange.high);
+            NOT_IMPLEMENTED_ERROR;
+            //for(const Range<uint32> &refRange : refOther.GetRanges())
+                //this->Insert(refRange.start, refRange.end);
 
             return *this;
         }
 
         inline CCharSet &operator+=(const CCharSet &refOther)
         {
-            for(const CRange &refRange : refOther.GetRanges())
-                this->Insert(refRange.low, refRange.high);
+            NOT_IMPLEMENTED_ERROR;
+            //for(const Range<uint32> &refRange : refOther.GetRanges())
+                //this->Insert(refRange.start, refRange.end);
 
             return *this;
         }
 
         inline CCharSet &operator-=(const CCharSet &refOther)
         {
-            for(const CRange &refRange : refOther.GetRanges())
-                this->Remove(refRange.low, refRange.high);
+            for(const Range<uint32> &refRange : refOther.GetRanges())
+                this->Remove(refRange.start, refRange.end);
 
             return *this;
         }
 
         //Methods
         CCharSet *GetIntersection(const CCharSet &refOther) const;
-        void Insert(uint32 codePointFrom, uint32 codePointTo);
         void Negate();
         void Remove(uint32 codePointFrom, uint32 codePointTo);
 
         //Inline
         inline bool Contains(uint32 codePoint) const
         {
-            for(const CRange &refRange : this->ranges)
+            for(const Range<uint32> &refRange : this->ranges)
             {
-                if(Math::IsValueInInterval(codePoint, refRange.low, refRange.high))
+                if(Math::IsValueInInterval(codePoint, refRange.start, refRange.end))
                     return true;
             }
 
@@ -128,14 +106,9 @@ namespace StdXX
             return this->ranges.GetNumberOfElements();
         }
 
-        inline const LinkedList<CRange> &GetRanges() const
+        inline const LinkedList<Range<uint32>> &GetRanges() const
         {
             return this->ranges;
-        }
-
-        inline void Insert(uint32 codePoint)
-        {
-            this->Insert(codePoint, codePoint);
         }
 
         inline bool Intersects(const CCharSet &refOther) const
@@ -159,5 +132,5 @@ namespace StdXX
         {
             this->Remove(codePoint, codePoint);
         }
-    };
+    };*/
 }

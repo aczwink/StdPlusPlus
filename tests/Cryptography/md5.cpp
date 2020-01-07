@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(MD5Tests)
 {
-	TEST(wikipedia_hashes)
+    TEST_CASE(wikipedia_hashes)
 	{
 		//from https://en.wikipedia.org/wiki/MD5#MD5_hashes
 		const Tuple<String, String> testdata[] = {

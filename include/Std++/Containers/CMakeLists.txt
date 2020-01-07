@@ -50,6 +50,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/FIFOBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Container.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/KeyValuePair.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/OrderedRangeSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PriorityQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ResizeableSequenceContainer.hpp
 

@@ -44,7 +44,7 @@ TEST_SUITE(HKDF)
 		return buffer;
 	}
 
-	TEST(official_test_vectors) //from https://tools.ietf.org/html/rfc5869
+    TEST_CASE(official_test_vectors) //from https://tools.ietf.org/html/rfc5869
 	{
 		/*
 		 * hash algorithm
@@ -106,7 +106,7 @@ TEST_SUITE(HKDF)
 		}
 	}
 
-	TEST(official_test_vectors_without_salt_and_info) //from https://tools.ietf.org/html/rfc5869
+    TEST_CASE(official_test_vectors_without_salt_and_info) //from https://tools.ietf.org/html/rfc5869
 	{
 		/*
 		 * hash algorithm

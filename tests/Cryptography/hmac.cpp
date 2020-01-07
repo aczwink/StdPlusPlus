@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(HMAC)
 {
-	TEST(wikipedia_hashes)
+    TEST_CASE(wikipedia_hashes)
 	{
 		//from https://en.wikipedia.org/wiki/HMAC#Examples
 		const Tuple<HashAlgorithm, String, String, String> testdata[] = {

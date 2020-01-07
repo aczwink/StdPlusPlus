@@ -16,21 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
-using namespace StdXX;
-using namespace StdXX::Math;
+//Local
+#include <Std++/Containers/OrderedRangeSet.hpp>
 
-TEST_SUITE(LinearCongruentialGeneratorTest)
+namespace _stdxx_
 {
-	TEST_CASE(comparison_with_cpp11_std)
-	{
-		MinStdRand rbg;
-
-		ASSERT(rbg.Next() == 48271, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 182605794, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 1291394886, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 1914720637, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 2078669041, u8"Wrong random number.");
-		ASSERT(rbg.Next() == 407355683, u8"Wrong random number.");
-	}
-};
+    class CharacterClass : public StdXX::OrderedRangeSet<uint32>
+    {
+    public:
+        //Inline
+        inline void Insert(uint32 codePoint)
+        {
+            StdXX::OrderedRangeSet<uint32>::Insert(StdXX::Range<uint32>(codePoint, codePoint+1));
+        }
+    };
+}

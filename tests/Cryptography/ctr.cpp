@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(CTR)
 {
-	TEST(enc_dec_test)
+	TEST_CASE(enc_dec_test)
 	{
 		byte encrypted[16];
 		const String key = u8"this is an insecure key!";
@@ -52,7 +52,7 @@ TEST_SUITE(CTR)
 		ASSERT(data == decrypted, u8"Expected data to not have changed by encryption and then decryption.");
 	}
 
-	TEST(enc_dec_test_with_nonce)
+    TEST_CASE(enc_dec_test_with_nonce)
 	{
 		byte encrypted[89];
 		const String key = u8"this is an insecure key!";

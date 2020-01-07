@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(PBKDF2)
 {
-	TEST(comparison_with_other_implementations)
+    TEST_CASE(comparison_with_other_implementations)
 	{
 		const String password = u8"secret";
 		const String salt = u8"salt";

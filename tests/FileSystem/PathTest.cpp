@@ -23,28 +23,28 @@ TEST_SUITE(PathTest)
 {
 	const String expected = u8"/an/example/path";
 
-	TEST(Normalized_AlreadyNormalized)
+    TEST_CASE(Normalized_AlreadyNormalized)
 	{
 		Path p = String(u8"/an/example/path");
 
 		ASSERT(p.Normalized() == expected, u8"An already normalized path must not be altered.");
 	}
 
-	TEST(Normalized_DoubleSlash)
+    TEST_CASE(Normalized_DoubleSlash)
 	{
 		Path p = String(u8"/an/example//path");
 
 		ASSERT(p.Normalized() == expected, u8"Normalized path is wrong.");
 	}
 
-	TEST(Normalized_SkipSingleDot)
+    TEST_CASE(Normalized_SkipSingleDot)
 	{
 		Path p = String(u8"/an/example/./path");
 
 		ASSERT(p.Normalized() == expected, u8"Normalized path is wrong.");
 	}
 
-	TEST(Normalized_ResolveDoubleDots)
+    TEST_CASE(Normalized_ResolveDoubleDots)
 	{
 		Path p = String(u8"/an/example/another/../path");
 

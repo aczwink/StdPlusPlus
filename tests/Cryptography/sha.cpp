@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(SHATests)
 {
-	TEST(wikipedia_hashes_sha1)
+    TEST_CASE(wikipedia_hashes_sha1)
 	{
 		//from https://en.wikipedia.org/wiki/SHA-1#Example_hashes
 		const Tuple<String, String> testdata[] =
@@ -54,7 +54,7 @@ TEST_SUITE(SHATests)
 		}
 	}
 
-	TEST(wikipedia_hashes_sha256)
+    TEST_CASE(wikipedia_hashes_sha256)
 	{
 		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
 		const Tuple<String, String> testdata[] =
@@ -78,7 +78,7 @@ TEST_SUITE(SHATests)
 		}
 	}
 
-	TEST(wikipedia_hashes_sha512)
+    TEST_CASE(wikipedia_hashes_sha512)
 	{
 		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
 		const Tuple<String, String> testdata[] =

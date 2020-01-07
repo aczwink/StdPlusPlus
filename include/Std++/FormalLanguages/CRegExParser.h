@@ -25,15 +25,13 @@
 #include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "CCharSet.h"
 #include "CNFA.h"
-
+/*
 namespace StdXX
 {
     class STDPLUSPLUS_API CRegExParser
     {
         enum ETokenType
         {
-            TOKEN_END,
-            TOKEN_CHAR,
             TOKEN_ANYCHAR,
             TOKEN_CHARCLASS_OPEN,
             TOKEN_CHARCLASS_CLOSE,
@@ -53,7 +51,6 @@ namespace StdXX
         bool hasDot;
         CCharSet *pAnyCharSet;
         LinkedList<CCharSet *> orderedCharSets; //as they appear in the regex
-        LinkedList<CCharSet *> disjointCharSets;
         LinkedList<CNFA *> nfaStack;
         //Methods
         bool Accept(ETokenType token, ConstUTF8StringIterator &refIt);
@@ -64,7 +61,6 @@ namespace StdXX
         void ParseRegEx(ConstUTF8StringIterator &refIt, LinkedListConstIterator<CCharSet *> &refCharSetIt);
         bool Preprocess(ConstUTF8StringIterator &refIt);
         bool PreprocessCharClass(ConstUTF8StringIterator &refIt, CCharSet *pCharSet);
-        void Push(const CCharSet &refCharSet);
         void Star();
         void UpdateLookahead(ConstUTF8StringIterator &refIt);
         void ZeroOrOne();
@@ -74,7 +70,6 @@ namespace StdXX
         //Destructor
         ~CRegExParser();
         //Methods
-        void BuildDisjointCharSets();
         CNFA *Parse(const UTF8String &refRegEx);
         bool Preprocess(const UTF8String &refRegEx);
         void Union();
@@ -95,4 +90,4 @@ namespace StdXX
             this->nfaStack.InsertFront(pNFA);
         }
     };
-}
+}*/

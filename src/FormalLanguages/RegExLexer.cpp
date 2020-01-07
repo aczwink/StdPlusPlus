@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,18 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Definitions.h"
-#include "Std++/Containers/Strings/UTF-8/UTF8String.hpp"
-#include "CNFA.h"
+//Class header
+#include "RegExLexer.hpp"
+//Namespaces
+using namespace _stdxx_;
+using namespace StdXX;
 
-namespace StdXX
+/*
+ * Grammar:
+ * E -> input char
+ */
+
+//Public methods
+Token RegExLexer::MatchNextToken()
 {
-    class STDPLUSPLUS_API CRegEx
-    {
-    public:
-        //Constructor
-        CRegEx(const UTF8String &refRegEx);
-    };
+    if(this->state == this->string.end())
+        return Token::End;
+
+    this->tokenValueCodePoint = *this->state;
+    ++this->state;
+    return Token::Char;
 }

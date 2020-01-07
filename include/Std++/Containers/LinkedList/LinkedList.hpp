@@ -285,11 +285,6 @@ namespace StdXX
             return data;
         }
 
-		void Remove(uint32 index)
-		{
-			this->RemoveNode(this->FindNode(index));
-		}
-
         void Release()
         {
             while(this->nElements)
@@ -305,6 +300,14 @@ namespace StdXX
 			this->InsertNodeAtTail(new Node(Forward<ArgTypes>(args)...));
 		}
 
+		inline void InsertBefore(uint32 index, DataType&& data)
+        {
+            if(index == 0)
+                this->InsertFront(Move(data));
+            else
+                this->InsertAfter(index - 1, Move(data));
+        }
+
 		inline void InsertTail(const DataType &data)
 		{
 			this->InsertNodeAtTail(new Node(data));
@@ -314,6 +317,11 @@ namespace StdXX
 		{
 			this->InsertNodeAtTail(new Node(Forward<DataType>(data)));
 		}
+
+		inline void Remove(uint32 index)
+        {
+            this->RemoveNode(this->FindNode(index));
+        }
 
 		//For range-based loops
 		Iterator begin()

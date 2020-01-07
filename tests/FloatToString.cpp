@@ -38,7 +38,7 @@ static void test(const char* numberString)
 
 TEST_SUITE(FloatToStringTest)
 {
-	TEST(std_tests) //tests against standard strtod function
+    TEST_CASE(std_tests) //tests against standard strtod function
 	{
 		setlocale(LC_NUMERIC, "C");
 

@@ -18,25 +18,16 @@
  */
 #include <Std++Test.hpp>
 using namespace StdXX;
-using namespace StdXX::Crypto;
 
-TEST_SUITE(scrypt)
+TEST_SUITE(RegExTest)
 {
-    TEST_CASE(comparison_with_other_implementations)
-	{
-		const String password = u8"secret";
-		const String salt = u8"salt";
-		constexpr uint8 keySize = 64;
-		const String expected = u8"05ffaebcca41770af425d4ba9b4e7bcdff532237dca931c192a36d94db7307d4c2df95e606514b4113ccb3ad3c19f7ca648e373a112a6b8290f3a69818aa9b7e";
+    TEST_CASE(abTests)
+    {
+        RegEx regEx1(u8"a");
+        RegEx regEx2(u8"b");
+        String string = u8"ab";
 
-		const uint8* saltData = salt.ToUTF8().GetRawData();
-		uint8 key[keySize];
-		scrypt(password, saltData, static_cast<uint8>(salt.GetSize()), key, sizeof(key), 14);
-
-		String resultStr;
-		for(uint8 i : key)
-			resultStr += String::HexNumber(i, 2, false).ToLowercase();
-		resultStr.ToUTF8();
-		ASSERT(resultStr == expected, u8"scrypt mismatch!");
-	}
-};
+        ASSERT(regEx1.Matches(string), u8"RegEx 'a' should match string 'ab'")
+        ASSERT(!regEx2.Matches(string), u8"RegEx 'b' should not match string 'ab'")
+    }
+}

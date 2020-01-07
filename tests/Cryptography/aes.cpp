@@ -21,7 +21,7 @@ using namespace StdXX;
 
 TEST_SUITE(AESTest)
 {
-	TEST(encdec_tests)
+    TEST_CASE(encdec_tests)
 	{
 		const String keys[] = {
 			//16 byte (128 bit) key

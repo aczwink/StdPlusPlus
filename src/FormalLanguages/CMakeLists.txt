@@ -1,0 +1,15 @@
+set(SOURCE_FILES
+    ${SOURCE_FILES}
+
+    #.
+    ${CMAKE_CURRENT_SOURCE_DIR}/CharacterClass.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/DFA.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/NFA.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegEx.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegExLexer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegExLexer.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegExParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/RegExParser.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Token.hpp
+
+    PARENT_SCOPE)

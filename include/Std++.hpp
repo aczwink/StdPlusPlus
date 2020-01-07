@@ -132,8 +132,8 @@
 #include <Std++/Filesystem/DirectoryIterator.hpp>
 
 //Formal languages
-#include <Std++/Formal Languages/CRegEx.h>
-#include <Std++/Formal Languages/CRegExParser.h>
+#include <Std++/FormalLanguages/RegEx.hpp>
+#include <Std++/FormalLanguages/CRegExParser.h>
 
 //Internationalization
 #include <Std++/Internationalization/Locale.hpp>

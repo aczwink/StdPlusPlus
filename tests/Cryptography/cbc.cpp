@@ -22,7 +22,7 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(CBC)
 {
-	TEST(padding) //block filled with padding
+    TEST_CASE(padding) //block filled with padding
 	{
 		byte encrypted[16];
 		const String key = u8"this is an insecure key!";
@@ -48,7 +48,7 @@ TEST_SUITE(CBC)
 		ASSERT(data == decrypted, u8"Expected data to not have changed by encryption and then decryption.");
 	}
 
-	TEST(paddingExtraBlock) //one full extra padding block
+    TEST_CASE(paddingExtraBlock) //one full extra padding block
 	{
 		byte encrypted[32];
 		const String key = u8"this is an insecure key!";
@@ -74,7 +74,7 @@ TEST_SUITE(CBC)
 		ASSERT(data == decrypted, u8"Expected data to not have changed by encryption and then decryption.");
 	}
 
-	TEST(paddingTwoBlocks) //second block filled up with padding
+    TEST_CASE(paddingTwoBlocks) //second block filled up with padding
 	{
 		byte encrypted[32];
 		const String key = u8"this is an insecure key!";
@@ -100,7 +100,7 @@ TEST_SUITE(CBC)
 		ASSERT(data == decrypted, u8"Expected data to not have changed by encryption and then decryption.");
 	}
 
-	TEST(paddingThreeBlocks) //third block filled up with padding
+    TEST_CASE(paddingThreeBlocks) //third block filled up with padding
 	{
 		byte encrypted[48];
 		const String key = u8"this is an insecure key!";
