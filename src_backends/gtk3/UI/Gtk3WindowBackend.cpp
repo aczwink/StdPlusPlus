@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -65,16 +65,23 @@ Gtk3WindowBackend::Gtk3WindowBackend(UIBackend& backend, Window& window) : Windo
 }
 
 //Public methods
+void Gtk3WindowBackend::AddChild(Widget *widget)
+{
+	Gtk3WidgetBackend* backend = dynamic_cast<Gtk3WidgetBackend *>(widget->_GetBackend());
+	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), backend->GetGtkWidget());
+}
+
 WidgetContainerBackend *Gtk3WindowBackend::CreateContentAreaBackend(CompositeWidget &widget)
 {
-    Gtk3RedirectContainer* backend = new Gtk3RedirectContainer(this->GetUIBackend(), widget);
-	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), backend->GetGtkWidget());
-    return backend;
+	Gtk3RedirectContainer* container = new Gtk3RedirectContainer(this->GetUIBackend(), widget);
+	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), container->GetGtkWidget());
+    return container;
 }
 
 Math::RectD Gtk3WindowBackend::GetContentAreaBounds() const
 {
-	GtkWidget* gtkChild = gtk_bin_get_child(GTK_BIN(this->GetGtkWidget()));
+	GtkBin* gtkBin = GTK_BIN(this->GetGtkWidget());
+	GtkWidget* gtkChild = gtk_bin_get_child(gtkBin);
 
 	GtkAllocation alloc;
 	gtk_widget_get_allocation(gtkChild, &alloc);
@@ -90,6 +97,11 @@ Widget &Gtk3WindowBackend::GetWidget()
 const Widget &Gtk3WindowBackend::GetWidget() const
 {
     return this->window;
+}
+
+void Gtk3WindowBackend::Maximize()
+{
+	gtk_window_maximize(GTK_WINDOW(this->GetGtkWidget()));
 }
 
 void Gtk3WindowBackend::SetTitle(const String &title)
@@ -129,14 +141,6 @@ void _stdxx_::Gtk3WindowBackend::SetBounds(const StdXX::Math::RectD &bounds) {
 }
 
 void _stdxx_::Gtk3WindowBackend::SetEditable(bool enable) const {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3WindowBackend::AddChild(StdXX::UI::Widget *widget) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3WindowBackend::Maximize() {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -82,7 +82,7 @@ namespace StdXX
 		virtual _stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
 		virtual _stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
 		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton *pushButton) = 0;
-		virtual _stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget *renderTargetWidget) = 0;
+		virtual _stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget) = 0;
 		virtual _stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea *scrollArea) = 0;
 		virtual _stdxx_::WidgetBackend* CreateSearchBoxBackend(UI::SearchBox& searchBox) = 0;
 		virtual _stdxx_::ViewBackend* CreateSelectBoxBackend(UI::SelectBox& selectBox) = 0;

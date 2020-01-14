@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,42 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Global
+#include <gdk/gdk.h>
 //Local
 #include "../../OpenGL3Core/Rendering/OpenGLDeviceContext.hpp"
 #include "../UI/oldGtkWindowBackend.hpp"
+#include "../UI/Gtk3WidgetBackend.hpp"
 //Namespaces
-using namespace StdPlusPlus::Rendering;
-using namespace StdPlusPlus::UI;
+using namespace StdXX::Rendering;
+using namespace StdXX::UI;
 
-namespace _stdpp
+namespace _stdxx_
 {
 	class GtkOpenGLDeviceContext : public OpenGLDeviceContext
 	{
 	public:
 		//Constructor
-		GtkOpenGLDeviceContext(const GtkWindowBackend &view, uint8 nSamples, GL_EXT_LOADER loader)
-		{
-			GtkWidget *gtkWidget = view.GetGtkWidget();
-			GtkGLArea *gtkGLArea = GTK_GL_AREA(gtkWidget);
+		GtkOpenGLDeviceContext(Gtk3WidgetBackend& widgetBackend, GL_EXT_LOADER loader);
 
-			gtk_widget_realize(gtkWidget); //important!!!
-			gtk_gl_area_attach_buffers(gtkGLArea); //also important so that device context can read default frame buffer
-
-			this->gdkGLContext = gtk_gl_area_get_context(gtkGLArea);
-			//this->deviceState = ac_gtk_opengl_widget_get_context(AC_GTK_OPENGL_WIDGET(PRIVATE_DATA(&renderTargetWidget)->widget));
-
-			this->Init(loader);
-
-			this->Bind();
-			this->glFuncs.glGetIntegerv(GL_FRAMEBUFFER_BINDING, reinterpret_cast<GLint *>(&this->screenFrameBufferId));
-		}
+		//Methods
+		void SwapBuffers() override;
 
 	protected:
 		//Methods
-		void Bind() const override
-		{
-			gdk_gl_context_make_current(this->gdkGLContext);
-		}
+		void MakeContextCurrent() const override;
 
 	private:
 		//Members

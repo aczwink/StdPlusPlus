@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,9 +31,10 @@ namespace _stdxx_
         //Methods
         StdXX::EventSource *CreateEventSource() override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
-        void Load() override;
+	    WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
         ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
         WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
+	    void Load() override;
 
         //NOT IMPLEMENTED
         CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
@@ -43,7 +44,6 @@ namespace _stdxx_
         LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
         MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
         PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) override;
-        WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget *renderTargetWidget) override;
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
         ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,13 +25,16 @@
 #include "OpenCL1/OpenCL1Backend.hpp"
 #include "OpenALSoft/OpenALSoftBackend.hpp"
 #include "XAudio2/XAudio2Backend.hpp"
+#ifdef _STDXX_BACKEND_XCB_XLIB
+#include "xcb_xlib/XcbXlibBackend.hpp"
+#endif
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
-#define PRIORITY_HIGH 0
+#define PRIORITY_HIGH 2
 #define PRIORITY_NORMAL 1
-#define PRIORITY_LOW 2
+#define PRIORITY_LOW 0
 
 //Global functions
 void RegisterAudioBackends()
@@ -90,7 +93,10 @@ void RegisterUIBackends()
 #endif
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 	Gtk3Backend *gtk3Backend = new Gtk3Backend;
-	ADD_BACKEND(gtk3Backend, PRIORITY_LOW);
+	ADD_BACKEND(gtk3Backend, PRIORITY_NORMAL);
+#endif
+#ifdef _STDXX_BACKEND_XCB_XLIB
+	ADD_BACKEND(new XcbXlibBackend, PRIORITY_LOW);
 #endif
 #undef ADD_BACKEND
 }

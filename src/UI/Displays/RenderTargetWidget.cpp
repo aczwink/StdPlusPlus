@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@ using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-RenderTargetWidget::RenderTargetWidget() : deviceContext(nullptr)
+RenderTargetWidget::RenderTargetWidget(const WidgetFrameBufferSetup& frameBufferSetup) : deviceContext(nullptr), frameBufferSetup(frameBufferSetup)
 {
     this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
     this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
@@ -43,8 +43,8 @@ void RenderTargetWidget::RealizeSelf()
 {
 	UIBackend *uiBackend = this->_GetUIBackend();
 
-	_stdxx_::WidgetBackend* widgetBackend = uiBackend->CreateRenderTargetWidgetBackend(this);
-	this->deviceContext = uiBackend->renderBackends.GetActiveBackend()->CreateDeviceContext(*widgetBackend, 4);
+	_stdxx_::WidgetBackend* widgetBackend = uiBackend->CreateRenderTargetWidgetBackend(*this);
+	this->deviceContext = uiBackend->renderBackends.GetActiveBackend()->CreateDeviceContext(*widgetBackend);
 
 	this->_SetBackend(widgetBackend);
 }

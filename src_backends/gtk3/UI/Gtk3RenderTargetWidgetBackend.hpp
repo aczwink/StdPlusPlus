@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/Rendering/DeviceContext.hpp>
-#include "Backend.hpp"
+#include <Std++/_Backends/UI/WidgetBackend.hpp>
+#include <Std++/UI/Displays/RenderTargetWidget.hpp>
+#include "Gtk3WidgetBackend.hpp"
 
-//Forward declarations
 namespace _stdxx_
 {
-	class WidgetBackend;
-}
-
-namespace StdXX
-{
-	class RenderBackend : public Backend
+	class Gtk3RenderTargetWidgetBackend : public Gtk3WidgetBackend
 	{
 	public:
-		//Abstract
-		virtual Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend) const = 0;
+		//Constructor
+		Gtk3RenderTargetWidgetBackend(StdXX::UIBackend& uiBackend, StdXX::UI::RenderTargetWidget& renderTargetWidget);
 
 		//Methods
-		BackendType GetType() const
-		{
-			return BackendType::Compute;
-		}
+		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
+		void Repaint() override;
+
+		//NOT IMPLEMENTED
+		void SetEditable(bool enable) const override;
+		//END NOT IMPLEMENTED
+
+	private:
+		//Members
+		StdXX::UI::RenderTargetWidget& renderTargetWidget;
 	};
 }

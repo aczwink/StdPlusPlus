@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -323,7 +323,7 @@ bool StdXX::DebugDumpMemoryLeaks()
     {
         if(pBlock->seqNumber >= g_seqNumberUser)
         {
-            fprintf(fp, "Block %d, Size: %d bytes, Allocated in: %s:%d\r\n", pBlock->seqNumber, pBlock->userSize, pBlock->pFileName, pBlock->lineNumber);
+            fprintf(fp, "Block %d, Userdata: %p, Size: %d bytes, Allocated in: %s:%d\r\n", pBlock->seqNumber, pBlock->GetUserData(), pBlock->userSize, pBlock->pFileName, pBlock->lineNumber);
 
             if(pBlock->IsCorrupt())
             {
@@ -361,7 +361,7 @@ bool StdXX::DebugDumpMemoryLeaks()
         pBlock = pBlock->next;
     }
 
-    fclose(fp);
+    //fclose(fp);
 
     g_memMutex.Unlock();
 

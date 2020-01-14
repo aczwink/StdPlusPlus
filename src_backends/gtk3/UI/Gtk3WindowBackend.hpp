@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,10 +29,12 @@ namespace _stdxx_
         Gtk3WindowBackend(StdXX::UIBackend& backend, StdXX::UI::Window& window);
 
         //Methods
+        void AddChild(StdXX::UI::Widget *widget) override;
         WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
         StdXX::Math::RectD GetContentAreaBounds() const override;
         StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
+	    void Maximize() override;
         void SetTitle(const StdXX::String &title) override;
 	    void Show(bool visible) override;
 
@@ -41,8 +43,6 @@ namespace _stdxx_
         void Repaint() override;
         void SetBounds(const StdXX::Math::RectD &bounds) override;
         void SetEditable(bool enable) const override;
-        void AddChild(StdXX::UI::Widget *widget) override;
-        void Maximize() override;
         StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
         void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;

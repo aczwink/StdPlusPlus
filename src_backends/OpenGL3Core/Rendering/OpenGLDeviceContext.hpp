@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -92,6 +92,16 @@ namespace _stdxx_
 		//Methods
 		void Init(GL_EXT_LOADER extensionLoaderFunction);
 
+		//Inline
+		inline void Bind() const
+		{
+			if (OpenGLDeviceContext::state.currentContext != this)
+			{
+				this->MakeContextCurrent();
+				OpenGLDeviceContext::state.currentContext = this;
+			}
+		}
+
 	private:
 		//Fields
 		static thread_local OpenGLState state;
@@ -109,15 +119,6 @@ namespace _stdxx_
 		inline void ActivateLastTextureUnit()
 		{
 			this->glFuncs.glActiveTexture(GL_TEXTURE31); //see OpenGLDeviceContext::SetTexture
-		}
-
-		inline void Bind() const
-		{
-			if (OpenGLDeviceContext::state.currentContext != this)
-			{
-				this->MakeContextCurrent();
-				OpenGLDeviceContext::state.currentContext = this;
-			}
 		}
 	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -93,8 +93,7 @@ bool POSIXDirectory::IsEmpty() const
 
 FileSystemNodeInfo POSIXDirectory::QueryInfo() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::FileSystemNodeInfo();
+	return StatQueryFileInfo(this->path);
 }
 
 //For range-based loop

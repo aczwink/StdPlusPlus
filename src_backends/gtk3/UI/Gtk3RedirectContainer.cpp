@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,10 +56,6 @@ const Widget &Gtk3RedirectContainer::GetWidget() const
 
 
 //NOT IMPLEMENTED
-void _stdxx_::Gtk3RedirectContainer::IgnoreEvent() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::Gtk3RedirectContainer::Repaint() {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -182,6 +182,10 @@ namespace StdXX
 			inline void Show(bool visible = true)
 			{
 				this->visible = visible;
+
+				if(visible && !this->backend)
+					this->EnsureRealized();
+
 				if(this->backend)
 					this->backend->Show(visible);
 			}
@@ -213,6 +217,12 @@ namespace StdXX
 			UIBackend * _GetUIBackend();
 
 			//Inline
+			inline void EnsureRealized()
+			{
+				ASSERT(this->CanRealize(), u8"REPORT THIS PLEASE!");
+				this->Realize();
+			}
+
 			inline void IgnoreEvent()
 			{
 				if(this->backend)

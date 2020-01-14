@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,17 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
 //Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-//Namespaces
-using namespace _stdxx_;
-using namespace StdXX;
+#include <Std++/Eventhandling/EventSource.hpp>
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(WidgetBackend &backend) const
+namespace _stdxx_
 {
-	Gtk3WidgetBackend& gtkWindowBackend = dynamic_cast<Gtk3WidgetBackend &>(backend);
-	return new GtkOpenGLDeviceContext(gtkWindowBackend, this->LoadWindowSystemOpenGLExtension);
+	//Forward declarations
+	class XConnection;
+
+	class XcbXlibEventSource : public StdXX::EventSource
+	{
+	public:
+		//Constructor
+		inline XcbXlibEventSource(XConnection& xConnection) : xConnection(xConnection)
+		{
+		}
+
+		//Methods
+		void DispatchPendingEvents() override;
+		uint64 GetMaxTimeout() const override;
+		void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) override;
+
+	private:
+		//Members
+		XConnection& xConnection;
+	};
 }

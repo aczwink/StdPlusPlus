@@ -2,15 +2,12 @@ option(BACKEND_OPENGL "OpenGL Render-backend" OFF)
 
 
 if(${BACKENDS_AUTO_AVAILABLE})
-	#check for x11
+	#check for x11/glx
 	find_package(X11)
 	if(X11_FOUND)
-		find_package(PkgConfig)
-		if (PkgConfig_FOUND)
-			pkg_check_modules(PC_GLX QUIET glx)
-			if(${PC_GLX_FOUND})
-				set(BACKEND_OPENGL ON)
-			endif()
+		find_package(OpenGL COMPONENTS GLX)
+		if(OpenGL_GLX_FOUND)
+			set(BACKEND_OPENGL ON)
 		endif()
 	endif()
 

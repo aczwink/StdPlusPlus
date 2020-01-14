@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,13 +21,13 @@
 //Local
 #include "../OpenGL3Core/OpenGL3CoreBackend.hpp"
 
-namespace StdPlusPlus
+namespace StdXX
 {
 	class Gtk3OpenGLBackend : public OpenGL3CoreBackend
 	{
 	public:
 		//Methods
-		Rendering::DeviceContext *CreateDeviceContext(const _stdpp::WindowBackend &backend, uint8 nSamples) const override;
+		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend) const override;
 	};
 }
 #endif

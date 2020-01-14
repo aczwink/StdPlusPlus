@@ -38,8 +38,9 @@ The following Render-backends are currently implemented:
 
 The following UI-backends are currently implemented:
 * Cocoa (macOS)
-* GTK 3
 * Common Controls Library (Windows)
+* GTK 3
+* XCB-Xlib (Xlib is needed for GLX for example)
 
 ## Extensions
 Similar to backends, there are extensions. The difference is saddle from the users perspective.

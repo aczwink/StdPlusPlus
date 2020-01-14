@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,10 +19,11 @@
 #pragma once
 //Local
 #include <Std++/UI/Widget.hpp>
+#include "WidgetFrameBufferSetup.hpp"
 
 namespace StdXX
 {
-    //Move declarations
+    //Forward declarations
     namespace Rendering
     {
         class DeviceContext;
@@ -34,10 +35,16 @@ namespace StdXX
         {
         public:
             //Constructor
-            RenderTargetWidget();
+            RenderTargetWidget(const WidgetFrameBufferSetup& frameBufferSetup);
 
             //Destructor
             ~RenderTargetWidget();
+
+            //Properties
+            inline const WidgetFrameBufferSetup& FrameBufferSetup() const
+            {
+            	return this->frameBufferSetup;
+            }
 
         protected:
             //Members
@@ -47,6 +54,9 @@ namespace StdXX
             virtual void OnResized() override;
 
         private:
+        	//Members
+        	WidgetFrameBufferSetup frameBufferSetup;
+
 			//Methods
 			void RealizeSelf() override;
 

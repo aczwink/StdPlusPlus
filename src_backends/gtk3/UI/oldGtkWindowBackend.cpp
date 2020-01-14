@@ -131,12 +131,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::RenderTarget:
 		{
-			//TODO: own gtk3 gl area because: GL_DEPTH_TEST is enabled by gtk3, when a frame buffer has a depth buffer-.-
-			//this->backend = CreateWidgetPrivateData(ac_gtk_opengl_widget_new(), this);
-			//ac_gtk_opengl_widget_setwidget(AC_GTK_OPENGL_WIDGET(THIS), this);
-
-			this->gtkWidget = gtk_gl_area_new();
-
 			g_signal_connect(this->gtkWidget, u8"realize", G_CALLBACK(OnRealize), this);
 			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventSource::PaintSlot), this->widget);
 
@@ -246,12 +240,6 @@ bool GtkWindowBackend::IsChecked() const
 	return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(this->gtkWidget)) != 0;
 }
 
-void GtkWindowBackend::Maximize()
-{
-	gtk_window_maximize(GTK_WINDOW(this->gtkWidget));
-	this->Show(true);
-}
-
 void GtkWindowBackend::Paint()
 {
 }
@@ -286,11 +274,6 @@ void GtkWindowBackend::ResetView() const
 		}
 			break;
 	}
-}
-
-void GtkWindowBackend::Repaint()
-{
-	gtk_widget_queue_draw(this->gtkWidget);
 }
 
 void GtkWindowBackend::Select(ControllerIndex &controllerIndex) const

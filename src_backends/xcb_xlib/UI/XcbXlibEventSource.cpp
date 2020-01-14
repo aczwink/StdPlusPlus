@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,16 +17,39 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "Gtk3OpenGLBackend.hpp"
+#include "XcbXlibEventSource.hpp"
 //Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
+//X Layer
+#include "../XLayer/XConnection.hpp"
+
 //Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(WidgetBackend &backend) const
+void XcbXlibEventSource::DispatchPendingEvents()
 {
-	Gtk3WidgetBackend& gtkWindowBackend = dynamic_cast<Gtk3WidgetBackend &>(backend);
-	return new GtkOpenGLDeviceContext(gtkWindowBackend, this->LoadWindowSystemOpenGLExtension);
+	xcb_generic_event_t* event;
+	while( (event = xcb_poll_for_event(this->xConnection.Connection())) != nullptr )
+	{
+		switch(event->response_type & ~0x80)
+		{
+		}
+
+		free(event);
+	}
+}
+
+uint64 XcbXlibEventSource::GetMaxTimeout() const
+{
+	return Unsigned<uint64>::Max();
+}
+
+void XcbXlibEventSource::VisitWaitObjects(const Function<void(WaitObjHandle, bool)> &visitFunc)
+{
+	WaitObjHandle waitObjHandle{};
+	waitObjHandle.fd = xcb_get_file_descriptor(this->xConnection.Connection());
+
+	visitFunc(waitObjHandle, true);
 }

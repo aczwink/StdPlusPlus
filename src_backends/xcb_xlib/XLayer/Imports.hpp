@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,17 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-//Namespaces
-using namespace _stdxx_;
-using namespace StdXX;
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(WidgetBackend &backend) const
-{
-	Gtk3WidgetBackend& gtkWindowBackend = dynamic_cast<Gtk3WidgetBackend &>(backend);
-	return new GtkOpenGLDeviceContext(gtkWindowBackend, this->LoadWindowSystemOpenGLExtension);
-}
+/*
+ * THIS FILE ALWAYS NEEDS TO BE IMPORTED LAST, SINCE Xlib WILL BREAK EVERYTHING OTHERWISE!!!
+ * THIS IS BECAUSE OF PREPROCESSOR AND NAMING CONFLICTS!!!
+ */
+//Global
+#include <X11/Xlib.h>
+#include <X11/Xlib-xcb.h>
+#include <xcb/xcb.h>

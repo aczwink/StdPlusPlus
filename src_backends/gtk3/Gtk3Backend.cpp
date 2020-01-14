@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,8 @@
 #include "UI/Gtk3WindowBackend.hpp"
 #include "UI/Gtk3TreeViewBackend.hpp"
 #include "UI/GtkEventSource.hpp"
+#include "Gtk3OpenGLBackend.hpp"
+#include "UI/Gtk3RenderTargetWidgetBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -47,6 +49,11 @@ EventSource *Gtk3Backend::CreateEventSource()
 MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 {
     return nullptr;
+}
+
+WidgetBackend *Gtk3Backend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget)
+{
+	return new Gtk3RenderTargetWidgetBackend(*this, renderTargetWidget);
 }
 
 ViewBackend *Gtk3Backend::CreateTreeViewBackend(UI::TreeView &treeView)
@@ -96,12 +103,6 @@ _stdxx_::MenuBackend *_stdxx_::Gtk3Backend::CreateMenuBackend(StdXX::UI::Menu *m
 }
 
 _stdxx_::PushButtonBackend *_stdxx_::Gtk3Backend::CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::WidgetBackend *
-_stdxx_::Gtk3Backend::CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget *renderTargetWidget) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "Gtk3OpenGLBackend.hpp"
 //Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
-//Namespaces
-using namespace _stdxx_;
-using namespace StdXX;
+#include <Std++/Definitions.h>
 
-//Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(WidgetBackend &backend) const
+namespace StdXX
 {
-	Gtk3WidgetBackend& gtkWindowBackend = dynamic_cast<Gtk3WidgetBackend &>(backend);
-	return new GtkOpenGLDeviceContext(gtkWindowBackend, this->LoadWindowSystemOpenGLExtension);
+	struct WidgetFrameBufferSetup
+	{
+		/**
+		 * Number of samples per widgets pixel.
+		 * 1 means one sample per pixel i.e. no multisampling.
+		 */
+		uint8 nSamples = 4;
+	};
 }

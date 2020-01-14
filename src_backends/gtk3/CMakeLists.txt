@@ -40,6 +40,8 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RenderTargetWidgetBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RenderTargetWidgetBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.cpp
@@ -70,6 +72,7 @@ if(${BACKEND_GTK3})
 			${SOURCE_FILES}
 
 			#Rendering
+			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/GtkOpenGLDeviceContext.cpp
 			${CMAKE_CURRENT_SOURCE_DIR}/Rendering/GtkOpenGLDeviceContext.hpp
 
 			#.

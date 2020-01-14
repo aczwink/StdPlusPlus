@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,16 +17,18 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "Gtk3OpenGLBackend.hpp"
-//Local
-#include "Rendering/GtkOpenGLDeviceContext.hpp"
+#include "XcbXlibOpenGLDeviceContext.hpp"
 //Namespaces
 using namespace _stdxx_;
-using namespace StdXX;
 
 //Public methods
-Rendering::DeviceContext *Gtk3OpenGLBackend::CreateDeviceContext(WidgetBackend &backend) const
+void XcbXlibOpenGLDeviceContext::SwapBuffers()
 {
-	Gtk3WidgetBackend& gtkWindowBackend = dynamic_cast<Gtk3WidgetBackend &>(backend);
-	return new GtkOpenGLDeviceContext(gtkWindowBackend, this->LoadWindowSystemOpenGLExtension);
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+//Protected methods
+void XcbXlibOpenGLDeviceContext::MakeContextCurrent() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

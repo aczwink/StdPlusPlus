@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,10 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/*
 #pragma once
+//Global
+#include <gtk/gtk.h>
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/UI/Widget.hpp>
+#include <Std++/UI/Controllers/ControllerIndex.hpp>
+#include <Std++/UI/Controllers/SelectionController.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -38,29 +44,29 @@ namespace _stdxx_
 		//Methods
 		uint32 GetPosition() const override;
 		void GetRange(int32 &min, int32 &max) override;
-		StdPlusPlus::Size GetSize() const;
-		StdPlusPlus::Size GetSizeHint() const;
+		StdXX::Math::Size<float32> GetSize() const;
+		StdXX::Math::Size<float32> GetSizeHint() const;
 		int32 GetValue() const override;
 		bool IsChecked() const override;
 		void Maximize() override;
 		void Paint() override;
 		void ResetView() const override;
 		void Repaint() override;
-		void Select(ControllerIndex &controllerIndex) const;
-		Path SelectExistingDirectory(const String &title, const Function<bool(StdPlusPlus::Path &)> callback) const;
-		void SetBounds(const StdPlusPlus::Rect &area);
+		void Select(StdXX::UI::ControllerIndex &controllerIndex) const;
+		Path SelectExistingDirectory(const String &title, const Function<bool(StdXX::Path &)> callback) const;
+		void SetBounds(const StdXX::Math::Rect<float32> &area);
 		void SetEditable(bool enable) const override;
 		void SetMaximum(uint32 max) override;
 		void SetMinimum(uint32 min) override;
 		void SetPosition(uint32 pos) const override;
 		void SetRange(int32 min, int32 max) override;
-		void SetText(const StdPlusPlus::String &text);
+		void SetText(const StdXX::String &text);
 		void SetValue(int32 value) override;
 		void ShowInformationBox(const String &title, const String &message) const;
-		void UpdateSelection(StdPlusPlus::UI::SelectionController &selectionController) const;
+		void UpdateSelection(StdXX::UI::SelectionController &selectionController) const;
 
 		//Inline
-		void SetMenuBar(StdPlusPlus::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
+		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 
 
 	private:
@@ -69,3 +75,4 @@ namespace _stdxx_
 		GtkWidget *headerBar; //for windows
 	};
 }
+ */

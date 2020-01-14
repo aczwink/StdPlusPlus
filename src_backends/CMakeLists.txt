@@ -5,6 +5,7 @@ add_subdirectory(OpenCL1)
 add_subdirectory(OpenGL3Core)
 add_subdirectory(OpenSSL)
 add_subdirectory(XAudio2)
+add_subdirectory(xcb_xlib)
 add_subdirectory(zlib)
 
 add_subdirectory(Cocoa)

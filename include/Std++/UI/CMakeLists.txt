@@ -33,6 +33,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Displays/PathRenderTargetWidget.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Displays/RenderTargetWidget.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Displays/VideoWidget.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Displays/WidgetFrameBufferSetup.hpp
 
 	#Layouts
 	${CMAKE_CURRENT_SOURCE_DIR}/Layouts/GridLayout.hpp

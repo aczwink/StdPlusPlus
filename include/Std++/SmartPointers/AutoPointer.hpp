@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -83,7 +83,7 @@ namespace StdXX
 		}
 
 		template<typename OtherValueType>
-		inline AutoPointer(AutoPointer<OtherValueType>&& rhs) : pointer(rhs.pointer), controlBlock(rhs.controlBlock), isOwner(false) //Specific -> base move ctor
+		inline AutoPointer(AutoPointer<OtherValueType>&& rhs) : pointer(rhs.pointer), controlBlock(rhs.controlBlock), isOwner(rhs.isOwner) //Specific -> base move ctor
 		{
 			rhs.pointer = nullptr;
 			rhs.controlBlock = nullptr;
@@ -207,12 +207,13 @@ namespace StdXX
 				if(this->isOwner)
 				{
 					this->controlBlock->expired = true;
-					if(this->pointer)
-						delete this->pointer;
+					delete this->pointer;
 					this->pointer = nullptr;
 				}
 				if(--this->controlBlock->referenceCount == 0)
 				{
+					ASSERT(this->controlBlock->expired,
+							u8"Last reference to AutoPointer has gone, but pointer is still valid.");
 					delete this->controlBlock;
 					this->controlBlock = nullptr;
 				}
