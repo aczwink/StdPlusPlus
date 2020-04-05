@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,8 +18,6 @@
  */
 //Class header
 #include <Std++/Filesystem/Path.hpp>
-//Local
-#include <Std++/Filesystem/DirectoryIterator.hpp>
 //Namespaces
 using namespace StdXX;
 
@@ -43,7 +41,7 @@ String Path::GetFileExtension() const
 	if(posSlash == Unsigned<uint32>::Max())
 		posDot = this->pathString.FindReverse(u8".");
 	else
-		posDot = this->pathString.Find(u8".", posSlash);
+		posDot = this->pathString.FindReverse(u8".", this->pathString.GetLength()-1, posSlash);
 
 	if(posDot == Unsigned<uint32>::Max())
 		return String();

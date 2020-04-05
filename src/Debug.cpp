@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,37 @@
 #include <Std++/Containers/Strings/String.hpp>
 
 #ifdef XPC_BUILDTYPE_DEBUG
+void StdXX::AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
+void StdXX::AssertEqualsFailed(uint8 expected, uint8 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
+void StdXX::AssertEqualsFailed(uint16 expected, uint16 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
+void StdXX::AssertEqualsFailed(uint32 expected, uint32 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
+void StdXX::AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
+void StdXX::AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	String message = u8"Expected: '" + expected + u8"' bot got: '" + got + u8"'.";
+	throw ErrorHandling::AssertionError(u8"expected == got", message, fileName, lineNumber, functionName);
+}
+
 void StdXX::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
 	throw ErrorHandling::AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
@@ -34,7 +65,7 @@ void StdXX::AssertionFailed(const char *pContext, const String &refMessage, cons
 	throw ErrorHandling::AssertionError(pContext, refMessage, pFileName, lineNumber, pFunctionName);
 }
 
-void StdXX::AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
+void StdXX::AssertFloatsEqualFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName)
 {
 	String message;
 

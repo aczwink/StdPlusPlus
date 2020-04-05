@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,14 +18,15 @@
  */
 //Local
 #include <Std++/Filesystem/Directory.hpp>
+#include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class POSIXDirectory : public StdXX::Directory
+	class POSIXDirectory : public StdXX::Directory, public PosixNode
 	{
 	public:
 		//Constructor
-		inline POSIXDirectory(const StdXX::Path &path) : path(path)
+		inline POSIXDirectory(const StdXX::Path &path) : PosixNode(path)
 		{
 		}
 
@@ -40,14 +41,9 @@ namespace _stdxx_
 		StdXX::AutoPointer<const Directory> GetParent() const override;
 		StdXX::Path GetPath() const override;
 		bool IsEmpty() const override;
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
 
 		//For range-based loop
 		StdXX::DirectoryIterator begin() const override;
 		StdXX::DirectoryIterator end() const override;
-
-	private:
-		//Members
-		StdXX::Path path;
 	};
 }

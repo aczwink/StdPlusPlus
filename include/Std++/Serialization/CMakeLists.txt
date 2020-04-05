@@ -1,0 +1,10 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Binding.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/JsonSerializer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XmlDeserializer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XmlSerializer.hpp
+
+	PARENT_SCOPE)

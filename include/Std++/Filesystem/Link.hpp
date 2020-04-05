@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,7 @@
 
 namespace StdXX
 {
-	class Link : public FileSystemNode
+	class Link : virtual public FileSystemNode
 	{
 	public:
 		//Abstract

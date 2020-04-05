@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,7 @@ ExtZLIBInflater::ExtZLIBInflater(InputStream& inputStream) : Decompressor(inputS
 
     this->nBytesInInBuffer = 0;
     this->nBytesInOutBuffer = 0;
+    this->streamEnd = false;
 }
 
 //Destructor
@@ -55,7 +56,7 @@ uint32 _stdxx_::ExtZLIBInflater::GetBytesAvailable() const
 
 bool ExtZLIBInflater::IsAtEnd() const
 {
-    return (this->nBytesInInBuffer == 0) && (this->nBytesInOutBuffer == 0) && this->inputStream.IsAtEnd();
+    return ( (this->nBytesInInBuffer == 0) && (this->nBytesInOutBuffer == 0) && this->inputStream.IsAtEnd()) || this->streamEnd;
 }
 
 uint32 ExtZLIBInflater::ReadBytes(void *destination, uint32 count)
@@ -66,7 +67,14 @@ uint32 ExtZLIBInflater::ReadBytes(void *destination, uint32 count)
         if(this->IsAtEnd())
             break;
         if(this->nBytesInOutBuffer == 0)
-            this->DecompressNextBlock();
+		{
+        	bool streamEnd = this->DecompressNextBlock();
+        	if( (this->nBytesInOutBuffer == 0) && streamEnd)
+			{
+        		this->streamEnd = true;
+        		break;
+			}
+		}
 
         uint32 nBytesToCopy = Math::Min(count, this->nBytesInOutBuffer);
         MemCopy(dest, this->outBufferCurrent, nBytesToCopy);
@@ -88,7 +96,7 @@ uint32 _stdxx_::ExtZLIBInflater::Skip(uint32 nBytes)
 }
 
 //Private methods
-void ExtZLIBInflater::DecompressNextBlock()
+bool ExtZLIBInflater::DecompressNextBlock()
 {
     if(this->nBytesInInBuffer == 0)
     {
@@ -104,8 +112,12 @@ void ExtZLIBInflater::DecompressNextBlock()
 
     int ret = inflate(&this->strm, Z_NO_FLUSH);
     ASSERT(ret != Z_STREAM_ERROR, u8"REPORT THIS PLEASE!");
+    bool streamEnd = false;
     switch(ret)
     {
+    	case Z_STREAM_END:
+			streamEnd = true;
+			break;
         case Z_NEED_DICT:
         case Z_DATA_ERROR:
         case Z_MEM_ERROR:
@@ -118,4 +130,6 @@ void ExtZLIBInflater::DecompressNextBlock()
     uint32 nBytesConsumed = this->nBytesInInBuffer - this->strm.avail_in;
     this->nBytesInInBuffer -= nBytesConsumed;
     this->inBufferCurrent += nBytesConsumed;
+
+    return streamEnd;
 }

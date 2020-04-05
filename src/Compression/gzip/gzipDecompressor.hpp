@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,40 +18,35 @@
  */
 //Local
 #include <Std++/Compression/Decompressor.hpp>
-#include <Std++/Containers/FIFOBuffer.hpp>
-#include "LzmaDec.h"
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/ReadOnlyInputStream.hpp>
 
 namespace _stdxx_
 {
-	class LZMADecompressor : public StdXX::Decompressor
+	/**
+	 * Based on RFC 1952
+	 */
+	class gzipDecompressor : public StdXX::Decompressor, public StdXX::ReadOnlyInputStream
 	{
 	public:
-		//Constructors
-		LZMADecompressor(InputStream& inputStream);
-		LZMADecompressor(InputStream& inputStream, uint64 uncompressedSize, const byte* header, uint32 headerSize);
-
-		//Destructor
-		~LZMADecompressor();
+		//Constructor
+		gzipDecompressor(InputStream& inputStream, bool verify);
 
 		//Methods
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
-		uint32 ReadBytes(void * destination, uint32 count) override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
 		uint32 Skip(uint32 nBytes) override;
 
 	private:
 		//Members
-		CLzmaDec state;
-		uint64 uncompressedSize;
-		uint64 leftSize;
-		StdXX::FIFOBuffer buffer;
+		bool memberHeaderRead;
+		bool reachedEnd;
+		StdXX::UniquePointer<StdXX::Decompressor> inflater;
+		StdXX::UniquePointer<StdXX::ChecksumFunction> crc;
 
 		//Methods
-		void Decode(bool write, ELzmaFinishMode finishMode = LZMA_FINISH_ANY);
-
-		inline bool IsUncompressedSizeKnown() const
-		{
-			return this->uncompressedSize != StdXX::Unsigned<uint64>::Max();
-		}
+		void EnsureMemberHeaderRead();
 	};
 }

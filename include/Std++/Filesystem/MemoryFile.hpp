@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,7 @@ namespace StdXX
 	{
 	public:
 		//Methods
+		void ChangePermissions(const Filesystem::NodePermissions &newPermissions) override;
 		uint64 GetSize() const override;
 		UniquePointer<InputStream> OpenForReading(bool verify) const override;
 		UniquePointer<OutputStream> OpenForWriting() override;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,6 +41,7 @@ namespace _stdxx_
 
     private:
         //Members
+        bool streamEnd;
         z_stream strm;
         uint8 inBuffer[c_bufferSize];
         uint8* inBufferCurrent;
@@ -50,6 +51,6 @@ namespace _stdxx_
         uint32 nBytesInOutBuffer;
 
         //Methods
-        void DecompressNextBlock();
+        bool DecompressNextBlock();
     };
 }

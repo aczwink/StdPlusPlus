@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,11 +27,6 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
-FileSystemNodeInfo PosixLink::QueryInfo() const
-{
-	return StatQueryFileInfo(this->path);
-}
-
 Path PosixLink::ReadTarget() const
 {
 	char buffer[4096];

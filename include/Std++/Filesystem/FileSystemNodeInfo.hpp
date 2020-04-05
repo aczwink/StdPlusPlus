@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,8 +18,10 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Time/DateTime.hpp>
 #include <Std++/Optional.hpp>
+#include "NodePermissions.hpp"
 
 namespace StdXX
 {
@@ -28,6 +30,10 @@ namespace StdXX
 		struct FileSystemNodeTime
 		{
 			DateTime dt;
+			/**
+			 * The fractional part of the time.
+			 * Since the time class can represent milliseconds, this value is always less than one millisecond.
+			 */
 			uint64 ns;
 		};
 
@@ -43,5 +49,7 @@ namespace StdXX
 		 * Other nodes than files also occupy blocks on the filesystem.
 		 */
 		uint64 storedSize;
+
+		UniquePointer<Filesystem::NodePermissions> permissions;
 	};
 }

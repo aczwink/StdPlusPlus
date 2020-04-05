@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,7 +23,7 @@
 namespace StdXX
 {
 	/**
-	 * A filesystem that stores all nodes in memory.
+	 * A filesystem that stores all nodes (but not their content) in memory.
 	 */
 	class BufferedMetadataFileSystem : public FileSystem
 	{

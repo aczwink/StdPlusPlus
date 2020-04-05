@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,11 @@
 #include <Std++/Filesystem/MemoryFile.hpp>
 
 //Public methods
+void StdXX::MemoryFile::ChangePermissions(const StdXX::Filesystem::NodePermissions &newPermissions)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 uint64 StdXX::MemoryFile::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

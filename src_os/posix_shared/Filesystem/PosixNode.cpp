@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,16 +17,27 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/XML/TextNode.hpp>
+#include "PosixNode.hpp"
+//Global
+#include <sys/stat.h>
 //Local
-#include <Std++/Debug.hpp>
+#include <Std++/Filesystem/UnixPermissions.hpp>
+#include "PosixStat.hpp"
 //Namespaces
+using namespace _stdxx_;
 using namespace StdXX;
-using namespace StdXX::XML;
+using namespace StdXX::Filesystem;
 
 //Public methods
-NodeType TextNode::GetType() const
+void PosixNode::ChangePermissions(const NodePermissions &newPermissions)
 {
-	NOT_IMPLEMENTED_ERROR;
-	return NodeType::Element; //WRONG
+	const UnixPermissions& unixPermissions = dynamic_cast<const UnixPermissions &>(newPermissions);
+
+	int ret = chmod(reinterpret_cast<const char *>(this->path.GetString().ToUTF8().GetRawZeroTerminatedData()), unixPermissions.Encode());
+	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
+}
+
+FileSystemNodeInfo PosixNode::QueryInfo() const
+{
+	return StatQueryFileInfo(this->path);
 }

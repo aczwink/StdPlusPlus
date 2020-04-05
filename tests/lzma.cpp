@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,14 +28,14 @@ TEST_SUITE(LzmaTest)
 
 		//first compress
 		BufferOutputStream bufferOutputStream(buffer, sizeof(buffer));
-		UniquePointer<Compressor> compressor = Compressor::Create(CompressionAlgorithm::LZMA, bufferOutputStream);
+		UniquePointer<Compressor> compressor = Compressor::Create(CompressionStreamFormatType::lzma, CompressionAlgorithm::LZMA, bufferOutputStream);
 		compressor->WriteBytes(data.GetRawData(), data.GetSize());
-		compressor->Flush();
+		compressor->Finalize();
 		uint64 compressedSize = bufferOutputStream.GetCurrentOffset();
 
 		//now decompress again
 		BufferInputStream bufferInputStream(buffer, compressedSize);
-		UniquePointer<Decompressor> decompressor = Decompressor::Create(CompressionAlgorithm::LZMA, bufferInputStream, false);
+		UniquePointer<Decompressor> decompressor = Decompressor::Create(CompressionStreamFormatType::lzma, bufferInputStream, false);
 		TextReader textReader = TextReader(*decompressor, TextCodecType::UTF8);
 		String read = textReader.ReadString(data.GetLength());
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -43,7 +43,7 @@ DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 	//year
 	int32 relativeYear = (int32)(currentTimeStamp / MILLISECONDS_PER_YEAR);
 	currentTimeStamp -= relativeYear * MILLISECONDS_PER_YEAR;
-	currentTimeStamp -= Date::GetNumberOfElapsedLeapYears(relativeYear) * MILLISECONDS_PER_DAY; //leap years
+	currentTimeStamp -= Date::ComputeNumberOfLeapYears(relativeYear, 0) * MILLISECONDS_PER_DAY; //leap years
 	
 	//days in current year
 	uint16 daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY); //zero-based
@@ -70,5 +70,13 @@ DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
 	uint8 sec = (uint8)(currentTimeStamp / 1000);
 	currentTimeStamp -= sec * 1000;
 	
-	return DateTime(Date(relativeYear + 1970, month, day+1), Time(hour, min, sec, (uint16)currentTimeStamp)); //rest of currentTimeStamp is ms
+	return DateTime(StdXX::Date(relativeYear + 1970, month, day+1), StdXX::Time(hour, min, sec, (uint16)currentTimeStamp)); //rest of currentTimeStamp is ms
+}
+
+DateTime DateTime::ParseISOString(const String &string)
+{
+	DynamicArray<String> parts = string.Split(u8" ");
+	ASSERT_EQUALS(parts.GetNumberOfElements(), 2);
+
+	return DateTime(Date::ParseISOString(parts[0]), {});
 }

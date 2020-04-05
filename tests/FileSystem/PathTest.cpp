@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,15 @@ using namespace StdXX;
 TEST_SUITE(PathTest)
 {
 	const String expected = u8"/an/example/path";
+
+	TEST_CASE(GetFileExtension_TwoFileExtensions)
+	{
+		Path p = String(u8"test.xml.txt");
+		ASSERT(p.GetFileExtension() == u8"txt", u8"Only the last dot part is the file extension");
+
+		Path p2 = String(u8"somePath/test.xml.txt");
+		ASSERT(p2.GetFileExtension() == u8"txt", u8"Only the last dot part is the file extension");
+	}
 
     TEST_CASE(Normalized_AlreadyNormalized)
 	{

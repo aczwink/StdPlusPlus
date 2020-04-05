@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,7 +24,15 @@ namespace StdXX
 	{
 		DEFLATE,
 		LZMA,
-		LZMA2,
-		ZLIB
+	};
+
+	enum class CompressionStreamFormatType
+	{
+		gzip,
+		/**
+		 * .lzma file format with 13 bytes of header (1 byte LZMA properties, 4 byte dictionary size, 8 byte uncompressed size)
+		 */
+		lzma,
+		zlib
 	};
 }

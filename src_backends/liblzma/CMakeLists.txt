@@ -3,7 +3,7 @@ option(EXTENSION_LIBLZMA "liblzma (XZ Utils) compression-extension." OFF)
 
 
 if(${BACKENDS_AUTO_AVAILABLE})
-	find_package(liblzma)
+	find_package(LibLZMA)
 	if (LIBLZMA_FOUND)
 		set(EXTENSION_LIBLZMA ON)
 	endif ()
@@ -12,7 +12,7 @@ endif ()
 
 
 if(${EXTENSION_LIBLZMA})
-	find_package(liblzma REQUIRED)
+	find_package(LibLZMA REQUIRED)
 
 	set(SOURCE_FILES
 		${SOURCE_FILES}
@@ -20,6 +20,8 @@ if(${EXTENSION_LIBLZMA})
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/LZMACompressor.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/LZMACompressor.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/LZMADecompressor.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/LZMADecompressor.hpp
 		)
 
 	target_compile_definitions(Std++ PRIVATE _STDXX_EXTENSION_LIBLZMA)

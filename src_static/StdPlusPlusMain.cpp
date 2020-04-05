@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -66,9 +66,13 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     {
 	    ReportError(u8"BaseException: ", e.ToString());
     }
+	catch(const std::exception& e)
+	{
+		ReportError(u8"Uncaught exception (ISO C++): ", e.what());
+	}
     catch(...)
     {
-		ReportError(u8"Uncaught exception (not StdXX)", String());
+    	ReportError(u8"Uncaught exception (not StdXX, nor C++)", String());
     }
 	ShutdownStdPlusPlus();
 

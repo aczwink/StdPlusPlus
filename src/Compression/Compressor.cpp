@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/Compression/Compressor.hpp>
 //Local
+#include "gzip/gzipCompressor.hpp"
 #ifdef _STDXX_EXTENSION_LIBLZMA
 #include "../../src_backends/liblzma/LZMACompressor.hpp"
 #endif
@@ -31,15 +32,22 @@ void Compressor::Finalize()
 }
 
 //Class functions
-Compressor *Compressor::Create(CompressionAlgorithm algorithm, OutputStream &outputStream, Optional<uint8> compressionLevel)
+Compressor *Compressor::Create(CompressionAlgorithm algorithm, OutputStream &outputStream, const Optional<uint8>& compressionLevel)
 {
-	switch (algorithm)
+	return nullptr;
+}
+
+Compressor *Compressor::Create(CompressionStreamFormatType compressionStreamType, CompressionAlgorithm algorithm, OutputStream &outputStream, const Optional<uint8>& compressionLevel)
+{
+	switch(compressionStreamType)
 	{
+		case CompressionStreamFormatType::gzip:
+			ASSERT(algorithm == CompressionAlgorithm::DEFLATE, u8"gzip only supports DEFLATE");
+			return new _stdxx_::gzipCompressor(outputStream, compressionLevel);
 #ifdef _STDXX_EXTENSION_LIBLZMA
-		case CompressionAlgorithm::LZMA:
+		case CompressionStreamFormatType::lzma:
 			return new _stdxx_::LZMACompressor(outputStream, compressionLevel);
 #endif
 	}
-
 	return nullptr;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,13 +42,19 @@ namespace StdXX
 
 		//Functions
 		/**
+		 * Creates the raw compressor
 		 *
-		 * @param algorithm
-		 * @param outputStream
 		 * @param compressionLevel - A value in range 0 (least compression, fastest) and 9 (best compression, slowest). Don't specify to keep default value (dependent on algorithm)
 		 * @return
 		 */
-		static Compressor *Create(CompressionAlgorithm algorithm, OutputStream& outputStream, Optional<uint8> compressionLevel = {});
+		static Compressor *Create(CompressionAlgorithm algorithm, OutputStream& outputStream, const Optional<uint8>& compressionLevel = {});
+		/**
+		 * Creates a compressor that compresses using a specified algorithm into an compression stream data format.
+		 *
+		 * @param compressionLevel - A value in range 0 (least compression, fastest) and 9 (best compression, slowest). Don't specify to keep default value (dependent on algorithm)
+		 * @return
+		 */
+		static Compressor *Create(CompressionStreamFormatType streamFormatType, CompressionAlgorithm algorithm, OutputStream& outputStream, const Optional<uint8>& compressionLevel = {});
 
 	protected:
 		//Members

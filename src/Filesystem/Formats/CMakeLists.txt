@@ -7,6 +7,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/7zip/7zip_FileSystemFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/7zip/7zip_FileSystemFormat.hpp
 
+	#gzip
+
 	#zip
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.hpp

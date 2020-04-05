@@ -212,8 +212,7 @@ namespace StdXX
 				}
 				if(--this->controlBlock->referenceCount == 0)
 				{
-					ASSERT(this->controlBlock->expired,
-							u8"Last reference to AutoPointer has gone, but pointer is still valid.");
+					//Pointer could be expired or not depending on whether any AutoPointer ever owned the real pointer or not.
 					delete this->controlBlock;
 					this->controlBlock = nullptr;
 				}

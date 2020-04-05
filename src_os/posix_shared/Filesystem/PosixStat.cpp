@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,11 +22,23 @@
 #include <sys/stat.h>
 #include <errno.h>
 //Local
+#include <Std++/Filesystem/UnixPermissions.hpp>
 #include "POSIXFile.hpp"
 #include "POSIXDirectory.hpp"
 #include "PosixLink.hpp"
 //Namespaces
 using namespace StdXX;
+
+//Local functions
+template<typename SecondsType, typename NanoSecondsType>
+static FileSystemNodeInfo::FileSystemNodeTime WithNanoSecondsToTime(SecondsType seconds, NanoSecondsType nanoSeconds)
+{
+	FileSystemNodeInfo::FileSystemNodeTime fileSystemNodeTime{DateTime::FromUnixTimeStamp(seconds)};
+	fileSystemNodeTime.dt.Time() = fileSystemNodeTime.dt.GetTime().AddMSecs(nanoSeconds / 1000000);
+	fileSystemNodeTime.ns = nanoSeconds % 1000000;
+
+	return fileSystemNodeTime;
+}
 
 //Namespace functions
 template<typename ConstOrNotFileSystemNode>
@@ -91,13 +103,10 @@ FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize
 
 	//set last modified time
 #ifdef XPC_OS_DARWIN
-    FileSystemNodeInfo::FileSystemNodeTime lastModTime{DateTime::FromUnixTimeStamp(sb.st_mtimespec.tv_sec)};
-    lastModTime.ns = static_cast<uint64>(sb.st_mtimespec.tv_nsec);
+	info.lastModifiedTime = WithNanoSecondsToTime(sb.st_mtimespec.tv_sec, sb.st_mtim.tv_nsec);
 #else
-    FileSystemNodeInfo::FileSystemNodeTime lastModTime{DateTime::FromUnixTimeStamp(sb.st_mtim.tv_sec)};
-	lastModTime.ns = static_cast<uint64>(sb.st_mtim.tv_nsec);
+	info.lastModifiedTime = WithNanoSecondsToTime(sb.st_mtim.tv_sec, sb.st_mtim.tv_nsec);
 #endif
-	info.lastModifiedTime = lastModTime;
 
 	//set stored size
 #ifdef XPC_OS_LINUX
@@ -107,6 +116,9 @@ FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize
 #else
 	info.storedSize = fileSize;
 #endif
+
+	//permissions
+	info.permissions = new Filesystem::UnixPermissions(sb.st_mode);
 
 	return info;
 }

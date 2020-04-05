@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -31,30 +31,49 @@ Date::Date(int64 year, uint8 month, uint8 day)
 	uint16 monthDays = 0;
 	for (uint8 i = 1; i < month; i++)
 		monthDays += WeakDate::GetNumberOfDaysInMonth(i, year);
-	this->deltaDays = (year - 1970) * 365 + Date::GetNumberOfElapsedLeapYears(year - 1970) + monthDays + (day-1); //day is one-based
+	this->deltaDays = (year - 1970) * 365
+			+ Date::ComputeNumberOfLeapYears(1970, year)
+			+ monthDays //includes the 29th February if "year" is a leap year and month > 2
+			+ (day - 1); //day is one-based
 }
 
 //Class functions
-uint64 Date::GetNumberOfElapsedLeapYears(uint64 year)
+int64 Date::ComputeNumberOfLeapYears(int64 year)
 {
-	uint64 nLeapYears = year / 4;
+	int64 nLeapYears = year / 4;
 	nLeapYears -= year / 100;
 	nLeapYears += (year + 300) / 400;
 
 	return nLeapYears;
 }
 
+Date Date::ParseISOString(const String& string)
+{
+	DynamicArray<String> parts = string.Split(u8"-");
+	ASSERT_EQUALS(parts.GetNumberOfElements(), 3);
+
+	return Date(parts[0].ToInt(), parts[1].ToUInt(), parts[2].ToUInt());
+}
+
 //Private methods
 WeakDate Date::ToWeakDate() const
 {
 	int64 curDays = this->deltaDays;
-	int64 relativeYear = curDays / 365;
+	const int64 relativeYear = curDays / 365;
 	curDays -= relativeYear * 365;
-	curDays -= Date::GetNumberOfElapsedLeapYears(relativeYear);
+
+	int64 year = relativeYear + 1970;
+	curDays -= Date::ComputeNumberOfLeapYears(1970, year);
+	if(curDays < 0)
+	{
+		year--;
+		curDays += 365;
+	}
+	curDays++; //days are one-based
 
 	uint8 month;
-	for (month = 1; curDays > WeakDate::GetNumberOfDaysInMonth(month, relativeYear); month++)
-		curDays -= WeakDate::GetNumberOfDaysInMonth(month, relativeYear);
+	for (month = 1; curDays > WeakDate::GetNumberOfDaysInMonth(month, year); month++)
+		curDays -= WeakDate::GetNumberOfDaysInMonth(month, year);
 
-	return WeakDate(relativeYear + 1970, month, curDays + 1);
+	return WeakDate(year, month, curDays);
 }

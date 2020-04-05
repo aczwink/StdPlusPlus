@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -51,11 +51,35 @@ namespace StdXX
 			return this->deltaDays == other.deltaDays;
 		}
 
+		//Properties
+		inline uint8 Day() const
+		{
+			return this->ToWeakDate().day;
+		}
+
+		inline uint8 Month() const
+		{
+			return this->ToWeakDate().month;
+		}
+
+		inline int64 Year() const
+		{
+			return this->ToWeakDate().year;
+		}
+
 		//Functions
-		/*
-		since the 0-based year 0
-		*/
-		static uint64 GetNumberOfElapsedLeapYears(uint64 year);
+		static int64 ComputeNumberOfLeapYears(int64 year);
+		/**
+		 * Negative if toYear is less than fromYear.
+		 * @param fromYear
+		 * @param toYear
+		 * @return
+		 */
+		inline static int64 ComputeNumberOfLeapYears(int64 fromYear, int64 toYear)
+		{
+			return ComputeNumberOfLeapYears(toYear) - ComputeNumberOfLeapYears(fromYear);
+		}
+		static Date ParseISOString(const String& string);
 
 		//Inline
 		inline Date AddDays(int64 days) const
@@ -79,11 +103,6 @@ namespace StdXX
 			//1970-01-01 was a thursday, i.e. 4. As weekday is 1-based, we need to offset by 3
 			return 1 + ( this->deltaDays + 3) % 7;
 		}
-
-		inline int64 GetYear() const
-		{
-			return this->ToWeakDate().year;
-		}
 		
 		/**
 		* Format date according to ISO 8601 i.e. "YYYY-MM-DD".
@@ -93,8 +112,8 @@ namespace StdXX
 			return this->ToWeakDate().ToISOString();
 		}
 
-		//Functions
-		static Date MinValue()
+		//Inline functions
+		inline static Date MinValue()
 		{
 			return Date(Signed<int64>::Max());
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,7 @@ namespace StdXX
 	//Forward declarations
 	class DirectoryWalkerWrapper;
 
-	class STDPLUSPLUS_API Directory : public FileSystemNode
+	class STDPLUSPLUS_API Directory : virtual public FileSystemNode
 	{
 	public:
 		//Destructor

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,6 +42,7 @@ namespace StdXX
 		}
 
 		//Methods
+		void ChangePermissions(const Filesystem::NodePermissions &newPermissions) override;
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
 		FileSystem *GetFileSystem() override;

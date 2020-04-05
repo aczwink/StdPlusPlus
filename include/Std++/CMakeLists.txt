@@ -17,6 +17,7 @@ add_subdirectory(Multimedia)
 add_subdirectory(Multitasking)
 add_subdirectory(Network)
 add_subdirectory(Rendering)
+add_subdirectory(Serialization)
 add_subdirectory(Streams)
 add_subdirectory(Time)
 add_subdirectory(UI)
@@ -68,12 +69,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/SharedPointer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/UniquePointer.hpp
-
-	#XML
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Document.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Element.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/Node.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/XML/TextNode.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__Globaldependencies.h

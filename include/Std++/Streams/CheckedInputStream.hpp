@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,10 +19,11 @@
 //Local
 #include "ChecksumFunction.hpp"
 #include "InputStream.hpp"
+#include "ReadOnlyInputStream.hpp"
 
 namespace StdXX
 {
-	class STDPLUSPLUS_API CheckedInputStream : public InputStream
+	class STDPLUSPLUS_API CheckedInputStream : public ReadOnlyInputStream
 	{
 	public:
 		//Constructor
@@ -38,7 +39,6 @@ namespace StdXX
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
-		uint32 Skip(uint32 nBytes) override;
 
 	private:
 		//Members

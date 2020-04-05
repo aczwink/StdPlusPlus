@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -37,4 +37,9 @@ Path ZipLink::ReadTarget() const
 	TextReader textReader(*inputStream, TextCodecType::UTF8);
 
 	return textReader.ReadStringBySize(this->fileHeader.uncompressedSize);
+}
+
+void ZipLink::ChangePermissions(const Filesystem::NodePermissions &newPermissions)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -1,0 +1,7 @@
+set(TEST_FILES
+	${TEST_FILES}
+
+	#XML
+	${CMAKE_CURRENT_SOURCE_DIR}/serialization.cpp
+
+	PARENT_SCOPE)

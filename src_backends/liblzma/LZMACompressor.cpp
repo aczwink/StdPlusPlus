@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,8 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <lzma.h>
 #include "LZMACompressor.hpp"
+//Global
+#include <lzma.h>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;

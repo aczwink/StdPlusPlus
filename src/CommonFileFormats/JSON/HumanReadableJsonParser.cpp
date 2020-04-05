@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -108,9 +108,7 @@ JsonValue HumanReadableJsonParser::ParseValue()
 	this->SkipWhitespaces();
 
 	if(Math::IsValueInInterval(this->lookahead, (uint32)u8'0', (uint32)u8'9'))
-	{
 		return this->ParseNumber();
-	}
 
 	switch(this->lookahead)
 	{
@@ -118,6 +116,8 @@ JsonValue HumanReadableJsonParser::ParseValue()
 			return this->ParseTrue();
 		case u8'{':
 			return this->ParseObject();
+		case u8'"':
+			return this->ParseStringLiteral();
 	}
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me

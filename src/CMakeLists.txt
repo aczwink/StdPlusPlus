@@ -11,9 +11,9 @@ add_subdirectory(FormalLanguages)
 add_subdirectory(Math)
 add_subdirectory(Multimedia)
 add_subdirectory(Network)
+add_subdirectory(Serialization)
 add_subdirectory(Streams)
 add_subdirectory(UI)
-add_subdirectory(XML)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}

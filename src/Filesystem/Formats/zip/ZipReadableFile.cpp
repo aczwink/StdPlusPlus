@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -46,7 +46,7 @@ UniquePointer<InputStream> ZipReadableFile::OpenForReading(bool verify) const
 	if(this->fileHeader.compressionMethod != 0)
 	{
 		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
-		chain->Add(Decompressor::Create(this->MapCompressionMethod(), chain->GetEnd(), verify));
+		chain->Add(Decompressor::Create(this->MapCompressionMethod(), chain->GetEnd()));
 	}
 
 	if(verify)

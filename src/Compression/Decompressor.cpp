@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,17 +19,20 @@
 //Class header
 #include <Std++/Compression/Decompressor.hpp>
 //Local
-#include "LZMA_dec/LZMADecompressor.hpp"
 #include "ZLIB/ZLIBDecompressor.hpp"
+#include "gzip/gzipDecompressor.hpp"
 //Extensions
 #ifdef _STDXX_EXTENSION_ZLIB
 #include "../../src_backends/zlib/ExtZLIBInflater.hpp"
+#endif
+#ifdef _STDXX_EXTENSION_LIBLZMA
+#include "../../src_backends/liblzma/LZMADecompressor.hpp"
 #endif
 //Namespaces
 using namespace StdXX;
 
 //Class functions
-Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream, bool verify)
+Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &inputStream)
 {
 	switch (algorithm)
 	{
@@ -38,22 +41,23 @@ Decompressor *Decompressor::Create(CompressionAlgorithm algorithm, InputStream &
     return new _stdxx_::ExtZLIBInflater(inputStream);
 #endif
 		return new _stdxx_::Inflater(inputStream);
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream);
-	case CompressionAlgorithm::ZLIB:
-		return new _stdxx_::ZLIBDecompressor(inputStream, verify);
 	}
 	
 	return nullptr;
 }
 
-Decompressor *Decompressor::CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize)
+Decompressor *Decompressor::Create(CompressionStreamFormatType streamFormatType, InputStream &inputStream, bool verify)
 {
-	switch (algorithm)
+	switch(streamFormatType)
 	{
-	case CompressionAlgorithm::LZMA:
-		return new _stdxx_::LZMADecompressor(inputStream, uncompressedSize, header, headerSize);
+		case CompressionStreamFormatType::gzip:
+			return new _stdxx_::gzipDecompressor(inputStream, verify);
+#ifdef _STDXX_EXTENSION_LIBLZMA
+		case CompressionStreamFormatType::lzma:
+			return new _stdxx_::LZMADecompressor(inputStream);
+#endif
+		case CompressionStreamFormatType::zlib:
+			return new _stdxx_::ZLIBDecompressor(inputStream, verify);
 	}
-
 	return nullptr;
 }

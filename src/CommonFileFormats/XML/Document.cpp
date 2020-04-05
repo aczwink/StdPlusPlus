@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,36 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/CommonFileFormats/XML/Document.hpp>
+#include <Std++/CommonFileFormats/XML/Writer.hpp>
 //Local
-#include <Std++/Containers/Strings/String.hpp>
-#include "Node.hpp"
+#include "XMLParser.hpp"
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::CommonFileFormats::XML;
 
-namespace StdXX
+//Constructor
+Document::Document()
 {
-    namespace XML
-    {
-        class TextNode : public Node
-        {
-        public:
-            //Constructor
-            inline TextNode(const String& text)
-            {
-                this->text = text;
-            }
+	this->rootElement = nullptr;
+}
 
-            //Methods
-            NodeType GetType() const;
+//Destructor
+Document::~Document()
+{
+	delete this->rootElement;
+}
 
-            //Inline
-            inline const String& GetText() const
-            {
-                return this->text;
-            }
+//Class Functions
+UniquePointer<Document> Document::Parse(InputStream& inputStream)
+{
+	XMLParser parser(inputStream);
 
-        private:
-            //Members
-			String text;
-        };
-    }
+	try
+	{
+		return parser.Parse();
+	}
+	catch(ErrorHandling::XmlParseException&)
+	{
+		return nullptr;
+	}
 }

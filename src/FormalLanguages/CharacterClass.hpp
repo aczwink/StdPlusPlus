@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,6 +28,12 @@ namespace _stdxx_
         inline void Insert(uint32 codePoint)
         {
             StdXX::OrderedRangeSet<uint32>::Insert(StdXX::Range<uint32>(codePoint, codePoint+1));
+        }
+
+        inline CharacterClass Intersect(const CharacterClass& other) const
+        {
+            NOT_IMPLEMENTED_ERROR; //TODO: implement me
+            return {};
         }
     };
 }

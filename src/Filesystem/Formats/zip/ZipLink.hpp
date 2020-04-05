@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -32,6 +32,7 @@ namespace _stdxx_
 		}
 
 		//Methods
+		void ChangePermissions(const StdXX::Filesystem::NodePermissions &newPermissions) override;
 		StdXX::FileSystemNodeInfo QueryInfo() const override;
 		StdXX::Path ReadTarget() const override;
 	};

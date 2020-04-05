@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,23 +19,19 @@
 //Local
 #include <Std++/Filesystem/Path.hpp>
 #include <Std++/Filesystem/Link.hpp>
+#include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class PosixLink : public StdXX::Link
+	class PosixLink : public StdXX::Link, public PosixNode
 	{
 	public:
 		//Constructor
-		inline explicit PosixLink(const StdXX::Path& path) : path(path)
+		inline explicit PosixLink(const StdXX::Path& path) : PosixNode(path)
 		{
 		}
 
 		//Methods
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
 		StdXX::Path ReadTarget() const override;
-
-	private:
-		//Members
-		StdXX::Path path;
 	};
 }

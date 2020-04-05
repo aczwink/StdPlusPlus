@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,11 @@
 //CommonFileFormats/CSV
 #include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
+//CommonFileFormats/XML
+#include <Std++/Serialization/XmlDeserializer.hpp>
+#include <Std++/CommonFileFormats/XML/Document.hpp>
+#include <Std++/Serialization/XmlSerializer.hpp>
+#include <Std++/CommonFileFormats/XML/TextNode.hpp>
 
 //Compute
 #include <Std++/Compute/CommandQueue.hpp>
@@ -88,6 +93,7 @@
 #include <Std++/Filesystem/Link.hpp>
 #include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Filesystem/Path.hpp>
+#include <Std++/Filesystem/UnixPermissions.hpp>
 
 //Filetypes
 #include <Std++/Filetypes/UTIConstants.hpp>
@@ -206,6 +212,9 @@
 //Rendering/VectorPath
 #include <Std++/Rendering/VectorPath/DevicePathRenderer.hpp>
 
+//Serialization
+#include <Std++/Serialization/JsonSerializer.hpp>
+
 //Smart Pointers
 #include <Std++/SmartPointers/UniquePointer.hpp>
 
@@ -292,10 +301,6 @@
 #include <Std++/UI/Views/ListView.hpp>
 #include <Std++/UI/Views/TableView.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
-
-//XML
-#include <Std++/XML/Document.hpp>
-#include <Std++/XML/TextNode.hpp>
 
 //.
 #include <Std++/__InitAndShutdown.h>

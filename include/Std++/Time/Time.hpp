@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -55,6 +55,27 @@ namespace StdXX
 			return this->millisecs >= other.millisecs;
 		}
 
+		//Properties
+		inline uint8 Hours() const
+		{
+			return this->millisecs / 1000 / 60 / 60;
+		}
+
+		inline uint16 MilliSeconds() const
+		{
+			return this->millisecs % 1000;
+		}
+
+		inline uint8 Minutes() const
+		{
+			return (this->millisecs / 1000 / 60) % 60;
+		}
+
+		inline uint8 Seconds() const
+		{
+			return (this->millisecs / 1000) % 60;
+		}
+
 		//Methods
 		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
 
@@ -72,37 +93,17 @@ namespace StdXX
 			return t;
 		}
 
-		inline uint8 GetHour() const
-		{
-			return this->millisecs / 1000 / 60 / 60;
-		}
-
-		inline uint16 GetMilliSecond() const
-		{
-			return this->millisecs % 1000;
-		}
-
 		inline uint32 GetMilliSecondsSinceStartOfDay() const
 		{
 			return this->millisecs;
-		}
-
-		inline uint8 GetMinute() const
-		{
-			return (this->millisecs / 1000 / 60) % 60;
-		}
-
-		inline uint8 GetSecond() const
-		{
-			return (this->millisecs / 1000) % 60;
 		}
 		/**
 		* Format time according to ISO 8601 i.e. "hh:mm:ss.sss".
 		*/
 		inline String ToISOString() const
 		{
-			return String::Number(this->GetHour(), 10, 2) + u8":" + String::Number(this->GetMinute(), 10, 2) + u8":" +
-				String::Number(this->GetSecond(), 10, 2) + u8"." + String::Number(this->GetMilliSecond(), 10, 3);
+			return String::Number(this->Hours(), 10, 2) + u8":" + String::Number(this->Minutes(), 10, 2) + u8":" +
+				   String::Number(this->Seconds(), 10, 2) + u8"." + String::Number(this->MilliSeconds(), 10, 3);
 		}
 
 	private:

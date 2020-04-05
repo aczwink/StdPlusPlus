@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,14 +18,15 @@
  */
 //Local
 #include <Std++/Filesystem/File.hpp>
+#include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class POSIXFile : public StdXX::File
+	class POSIXFile : public StdXX::File, public PosixNode
 	{
 	public:
 		//Constructor
-		inline POSIXFile(const StdXX::Path& path) : path(path)
+		inline POSIXFile(const StdXX::Path& path) : PosixNode(path)
 		{
 		}
 
@@ -33,10 +34,5 @@ namespace _stdxx_
 		uint64 GetSize() const override;
 		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
-
-	private:
-		//Members
-		StdXX::Path path;
 	};
 }

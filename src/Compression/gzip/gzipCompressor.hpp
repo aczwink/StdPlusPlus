@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,38 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/XML/Document.hpp>
 //Local
-#include "XMLParser.hpp"
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::XML;
+#include <Std++/Compression/Compressor.hpp>
 
-//Constructor
-Document::Document()
+namespace _stdxx_
 {
-	this->pRootElement = nullptr;
-}
-
-//Destructor
-Document::~Document()
-{
-	if (this->pRootElement)
-		delete this->pRootElement;
-}
-
-//Class Functions
-UniquePointer<Document> Document::Parse(InputStream& inputStream)
-{
-	XMLParser parser(inputStream);
-
-	try
+	class gzipCompressor : public StdXX::Compressor
 	{
-		return parser.Parse();
-	}
-	catch(ErrorHandling::XmlParseException&)
-	{
-		return nullptr;
-	}
+	public:
+		//Constructor
+		gzipCompressor(StdXX::OutputStream &outputStream, const StdXX::Optional<uint8> &compressionLevel);
+
+		//Methods
+		void Flush() override;
+		uint32 WriteBytes(const void *source, uint32 size) override;
+	};
 }

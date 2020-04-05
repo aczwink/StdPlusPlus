@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,7 @@
 #ifdef XPC_BUILDTYPE_DEBUG
 #define ASSERT(expression, message) {if((expression) == 0){StdXX::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
 //extended asserts
+#define ASSERT_EQUALS(expect, got) { if( !( (expect) == (got) ) ){ StdXX::AssertEqualsFailed(expect, got, __FILE__, __LINE__, __FUNCTION__); } }
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdXX::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
 
 namespace StdXX
@@ -31,9 +32,21 @@ namespace StdXX
 	//Forward declarations
 	class String;
 
+	void AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertEqualsFailed(uint8 expected, uint8 got, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertEqualsFailed(uint16 expected, uint16 got, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertEqualsFailed(uint32 expected, uint32 got, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
-	void AssertionFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
+	void AssertFloatsEqualFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
+
+	template <typename T>
+	inline void AssertEqualsFailed(const T& expected, const T& got, const char *fileName, uint32 lineNumber, const char *functionName)
+	{
+		AssertionFailed(u8"expected == got", u8"Expected and received value differ.", fileName, lineNumber, functionName);
+	}
 }
 #else
 #define ASSERT(expression, message) {}

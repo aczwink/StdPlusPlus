@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,11 @@ namespace _stdxx_
             Token token;
             CharacterClass characterClass;
 
-            //Constructor
+            //Constructors
+            inline Part()
+            {
+            }
+
             inline Part(Token token, uint32 codePoint) : token(token)
             {
                 this->characterClass.Insert(codePoint);

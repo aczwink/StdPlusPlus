@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -57,20 +57,4 @@ uint32 CheckedInputStream::ReadBytes(void * destination, uint32 count)
     }
 
 	return nBytesRead;
-}
-
-uint32 CheckedInputStream::Skip(uint32 nBytes)
-{
-	byte buffer[4096];
-
-	uint32 nSkipped = 0;
-	while (nBytes)
-	{
-		uint32 nBytesToRead = Math::Min(uint32(sizeof(buffer)), nBytes);
-		uint32 nBytesRead = this->ReadBytes(buffer, nBytesToRead);
-		nBytes -= nBytesRead;
-		nSkipped += nBytesRead;
-	}
-
-	return nSkipped;
 }

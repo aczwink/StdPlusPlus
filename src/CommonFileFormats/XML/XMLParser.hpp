@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,12 +20,12 @@
 //Local
 #include <Std++/Streams/BufferedInputStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
-#include <Std++/XML/Document.hpp>
-#include <Std++/XML/TextNode.hpp>
+#include <Std++/CommonFileFormats/XML/Document.hpp>
+#include <Std++/CommonFileFormats/XML/TextNode.hpp>
 #include "XmlParseException.hpp"
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::XML;
+using namespace StdXX::CommonFileFormats::XML;
 
 /*
 XML Specification:

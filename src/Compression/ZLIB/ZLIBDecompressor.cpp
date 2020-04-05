@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -175,7 +175,7 @@ ZLIBDecompressor::ZLIBDecompressor(InputStream &inputStream, bool verify) : Deco
 	}
 
 	this->wrapperInputStream = new ZLIBWrapperInputStream(inputStream);
-	this->realDecompressor = Decompressor::Create(compressionAlgorithm, *this->wrapperInputStream, verify);
+	this->realDecompressor = Decompressor::Create(compressionAlgorithm, *this->wrapperInputStream);
 }
 
 //Public methods

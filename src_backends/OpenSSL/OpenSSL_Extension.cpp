@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -112,6 +112,8 @@ const EVP_MD *OpenSSL_Extension::MapHashAlgorithm(HashAlgorithm algorithm)
 			return EVP_sha256();
 		case HashAlgorithm::SHA512:
 			return EVP_sha512();
+		case HashAlgorithm::SHA512_256:
+			return EVP_sha512_256();
 	}
 	return nullptr;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -57,6 +57,7 @@ namespace StdXX
         inline bool TestAndSet()
         {
             NOT_IMPLEMENTED_ERROR;
+            return false;
         }
 #endif
 #ifdef XPC_COMPILER_MSVC

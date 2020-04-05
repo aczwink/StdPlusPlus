@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -809,7 +809,7 @@ String String::FormatBinaryPrefixed(uint64 byteSize, const String &suffix)
 	if(i == 0)
 		result = String::Number(byteSize);
 	else
-		result = String::Number(scaled, 3);
+		result = String::Number(scaled, FloatDisplayMode::FixedPointNotation, 2);
 
 	return result + u8" " + prefixes[i] + suffix;
 }
@@ -863,13 +863,15 @@ String String::Number(uint64 value, uint8 base, uint8 minLength)
 	return result;
 }
 
-String String::Number(float64 number, uint8 precision)
+String String::Number(float64 number, FloatDisplayMode displayMode, uint8 precision)
 {
 	char buf[1024];
 
+	String format = u8"%.*";
+	format += (char)displayMode;
+
 	char *currentLocale = setlocale(LC_NUMERIC, "C");
-	sprintf(buf, "%.*g", precision, number);
-	//sprintf_s(buf, sizeof(buf), "%.*g", DBL_DIG, value);
+	sprintf(buf, reinterpret_cast<const char *>(format.ToUTF8().GetRawZeroTerminatedData()), precision, number);
 	setlocale(LC_NUMERIC, currentLocale);
 
 	return String::CopyRawString(buf);

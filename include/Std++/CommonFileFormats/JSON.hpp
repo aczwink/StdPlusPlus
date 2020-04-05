@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -64,6 +64,10 @@ namespace StdXX
 				this->value.number = number;
 			}
 
+			inline JsonValue(const char* string) : type(JsonType::String), stringValue(string)
+			{
+			}
+
 			inline JsonValue(const String& string) : type(JsonType::String), stringValue(string)
 			{
 			}
@@ -91,6 +95,12 @@ namespace StdXX
 				return this->value.object->operator[](key);
 			}
 
+			inline const JsonValue &operator[](const String& key) const
+			{
+				ASSERT(this->type == JsonType::Object, u8"Can only access objects by key");
+				return this->value.object->operator[](key);
+			}
+
 			//Logical operators
 			bool operator==(const JsonValue& rhs) const;
 
@@ -103,6 +113,17 @@ namespace StdXX
 			String Dump() const;
 
 			//Inline
+			/**
+			 * Returns the property "this[key]" if defined else "defaultValue".
+			 */
+			inline JsonValue Get(const String& key, const JsonValue& defaultValue) const
+			{
+				ASSERT(this->type == JsonType::Object, u8"Can only assign to objects");
+				if(this->value.object->Contains(key))
+					return this->value.object->operator[](key);
+				return defaultValue;
+			}
+
 			inline const Map<String, JsonValue>& MapValue() const
 			{
 				ASSERT(this->type == JsonType::Object, u8"Only objects have maps.");
@@ -174,5 +195,6 @@ namespace StdXX
 		 * @return
 		 */
 		JsonValue ParseHumanReadableJson(TextReader &textReader);
+		JsonValue ParseJson(TextReader& textReader);
 	}
 }

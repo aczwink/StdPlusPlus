@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 //Local
 #include <Std++/Filesystem/DirectoryIterator.hpp>
+#include <Std++/Errorhandling/Exceptions/PermissionDeniedException.hpp>
 #include "POSIXDirectoryIteratorState.hpp"
 #include "POSIXFile.hpp"
 #include "PosixStat.hpp"
@@ -40,7 +41,31 @@ UniquePointer<OutputStream> POSIXDirectory::CreateFile(const String &name)
 void POSIXDirectory::CreateSubDirectory(const String &name)
 {
 	Path p = this->path / name;
-	bool success = mkdir(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), 0700) == 0;
+	int ret = mkdir(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), 0700);
+	if(ret)
+	{
+		switch(errno)
+		{
+			case EACCES:
+				throw ErrorHandling::PermissionDeniedException(p);
+			case EEXIST:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ELOOP:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EMLINK:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENAMETOOLONG:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOENT:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOSPC:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOTDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EROFS:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	}
 }
 
 bool POSIXDirectory::Exists(const Path &path) const
@@ -89,11 +114,6 @@ bool POSIXDirectory::IsEmpty() const
 	for(const String& child : *this)
 		return false;
 	return true;
-}
-
-FileSystemNodeInfo POSIXDirectory::QueryInfo() const
-{
-	return StatQueryFileInfo(this->path);
 }
 
 //For range-based loop

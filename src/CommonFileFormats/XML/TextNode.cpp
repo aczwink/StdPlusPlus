@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,23 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class Header
-#include <Std++/XML/Element.hpp>
+//Class header
+#include <Std++/CommonFileFormats/XML/TextNode.hpp>
+//Local
+#include <Std++/CommonFileFormats/XML/Writer.hpp>
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::XML;
-
-//Destructor
-Element::~Element()
-{
-	for (const Node *const &refpChild : this->children)
-	{
-		delete refpChild;
-	}
-}
+using namespace StdXX::CommonFileFormats::XML;
 
 //Public methods
-NodeType Element::GetType() const
+NodeType TextNode::GetType() const
 {
-	return NodeType::Element;
+	return NodeType::TextNode;
+}
+
+void TextNode::Write(Writer& writer) const
+{
+	writer.WriteText(this->text);
 }

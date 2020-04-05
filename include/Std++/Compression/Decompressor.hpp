@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,8 +37,8 @@ namespace StdXX
 		}
 
 		//Functions
-		static Decompressor *Create(CompressionAlgorithm algorithm, InputStream &inputStream, bool verify);
-		static Decompressor *CreateRaw(CompressionAlgorithm algorithm, InputStream &inputStream, const byte* header, uint32 headerSize, uint64 uncompressedSize);
+		static Decompressor *Create(CompressionAlgorithm algorithm, InputStream &inputStream);
+		static Decompressor *Create(CompressionStreamFormatType streamFormatType, InputStream &inputStream, bool verify);
 
 	protected:
 		//Members

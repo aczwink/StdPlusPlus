@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -26,6 +26,11 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
+void ZipDirectory::ChangePermissions(const Filesystem::NodePermissions &newPermissions)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 void ZipDirectory::CreateSubDirectory(const String &name)
 {
 	this->AddChild(name, new ZipDirectory(this->fileSystem));

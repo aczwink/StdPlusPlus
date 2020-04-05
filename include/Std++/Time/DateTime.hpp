@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -62,6 +62,17 @@ namespace StdXX
 			return false;
 		}
 
+		//Properties
+		inline const class Date& Date() const
+		{
+			return this->date;
+		}
+
+		inline class Time& Time()
+		{
+        	return this->time;
+		}
+
         //Inline
 		inline DateTime AddMilliSeconds(int64 milliSeconds) const
 		{
@@ -83,12 +94,7 @@ namespace StdXX
 			return this->AddMilliSeconds(seconds * 1000);
 		}
 
-		inline const Date& GetDate() const
-		{
-			return this->date;
-		}
-
-		inline const Time& GetTime() const
+		inline const class Time& GetTime() const
 		{
 			return this->time;
 		}
@@ -113,7 +119,7 @@ namespace StdXX
 
 		static DateTime MinValue()
 		{
-			return {Date::MinValue(), Time()};
+			return {Date::MinValue(), {}};
 		}
 
 		/**
@@ -121,10 +127,11 @@ namespace StdXX
 		 * Note that if the system time is different from the current "real-world" wall-clock time, so is the result.
 		 */
 		static DateTime Now();
+		static DateTime ParseISOString(const String& string);
 
 	private:
 		//Members
-		Date date;
-		Time time;
+		class Date date;
+		class Time time;
     };
 }

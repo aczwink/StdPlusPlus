@@ -79,7 +79,7 @@ Element *XMLParser::ParseElement()
 
 					elementName = this->ParseName();
 
-					ASSERT(elementName == pElement->GetName(), "If you see this, report to StdXX");
+					ASSERT(elementName == pElement->Name(), "If you see this, report to StdXX");
 					this->ExpectChar('>');
 					break;
 				}

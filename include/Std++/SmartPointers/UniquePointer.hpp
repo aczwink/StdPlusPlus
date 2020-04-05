@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -104,6 +104,12 @@ namespace StdXX
 		}
 
 		//Inline
+		template <typename CastToType>
+		inline bool IsInstanceOf() const
+		{
+			return IS_INSTANCE_OF(this->pointer, CastToType);
+		}
+
 		inline bool IsNull() const
 		{
 			return this->pointer == nullptr;

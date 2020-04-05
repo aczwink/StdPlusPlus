@@ -67,7 +67,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	this->demuxer = this->format->CreateDemuxer(this->inputStream);
 	if(!this->demuxer)
 	{
-		//this->refLogger << "No demuxer is available for format '" << pFormat->GetName() << "'." << endl;
+		//this->refLogger << "No demuxer is available for format '" << pFormat->Name() << "'." << endl;
 		NOT_IMPLEMENTED_ERROR;
 		return;
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,7 @@ namespace StdXX
 
 	struct ContainerFileHeader
 	{
-		Optional<CompressionAlgorithm> compression;
+		Optional<CompressionStreamFormatType> compression;
 		uint64 offset;
 		uint64 uncompressedSize;
 		uint64 compressedSize;
@@ -51,6 +51,7 @@ namespace StdXX
 		}
 
 		//Methods
+		void ChangePermissions(const Filesystem::NodePermissions &newPermissions) override;
 		uint64 GetSize() const override;
 		UniquePointer<InputStream> OpenForReading(bool verify) const override;
 		UniquePointer<OutputStream> OpenForWriting() override;

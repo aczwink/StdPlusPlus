@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -64,7 +64,8 @@ CompressionAlgorithm SevenZip_FileSystem::MapCodecId(byte(&codecId)[16], uint8 c
 	}
 	break;
 	case 0x21: //LZMA2
-		return CompressionAlgorithm::LZMA2;
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		//return CompressionAlgorithm::LZMA2;
 	default:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
@@ -276,7 +277,10 @@ void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 		
 		LimitedInputStream limiter(*this->containerInputStream, streamsInfo.packInfo->packedStreams[0].compressedSize);
 		const auto& coder = streamsInfo.codersInfo->folderInfos[0].folder.coders[0];
-		UniquePointer<Decompressor> decompressor = Decompressor::CreateRaw(coder.method, limiter, &(*coder.properties)[0], coder.properties->GetNumberOfElements(), streamsInfo.codersInfo->folderInfos[0].uncompressedSize);
+
+		UniquePointer<Decompressor> decompressor;
+		NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+		//UniquePointer<Decompressor> decompressor = Decompressor::CreateRaw(coder.method, limiter, &(*coder.properties)[0], coder.properties->GetNumberOfElements(), streamsInfo.codersInfo->folderInfos[0].uncompressedSize);
 
 		decompressor->ReadBytes(&id, 1);
 		ASSERT(id == PropertyId::kHeader, u8"Report this please!");

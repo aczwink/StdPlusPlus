@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,26 @@ namespace StdXX
 {
 	//Forward declarations
 	class ConstStringIterator;
+
+	enum class FloatDisplayMode
+	{
+		/**
+		 * The more reasonable one, either fixed point or scientific.
+		 * The precision specifies the maximum number of significant digits.
+		 * Trailing zeroes including the decimal separator are omitted.
+		 */
+		Auto = u8'G',
+		/**
+		 * The number is formatted as [-]9.9
+		 * The precision is the number of digits AFTER the decimal point
+		 */
+		FixedPointNotation = u8'f',
+		/**
+		 * The number is formatted as [-]9.9E[+|-]999, where 'E' stands for 'x 10^' i.e. multiplicated power of 10
+		 * The precision is the number of digits AFTER the decimal point
+		 */
+		ScientificNotation = u8'E',
+	};
 
 	/**
 	 * The standard string representation of Std++.
@@ -356,7 +376,7 @@ namespace StdXX
 		 * @return
 		 */
 		static String Number(uint64 value, uint8 base = 10, uint8 minLength = 0);
-		static String Number(float64 number, uint8 precision = 6);
+		static String Number(float64 number, FloatDisplayMode displayMode = FloatDisplayMode::Auto, uint8 precision = 6);
 
 		//Inline functions
 		inline static String Number(uint16 natural)

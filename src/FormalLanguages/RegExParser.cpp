@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -67,7 +67,8 @@ void RegExParser::CreateNFA(CharacterClass&& characterClass)
     nfa->AddState(stateFrom);
     nfa->AddState(stateTo);
 
-    this->nfaStack.Push(nfa);
+    //TODO: implement me
+    //this->nfaStack.Push(nfa);
 }
 
 void RegExParser::Parse()

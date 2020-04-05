@@ -5,14 +5,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/DEFLATE/Inflater.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DEFLATE/Inflater.hpp
 
-	#LZMA_dec
-	${CMAKE_CURRENT_SOURCE_DIR}/LZMA_dec/7zTypes.h
-	${CMAKE_CURRENT_SOURCE_DIR}/LZMA_dec/LzmaDec.c
-	${CMAKE_CURRENT_SOURCE_DIR}/LZMA_dec/LzmaDec.h
-	${CMAKE_CURRENT_SOURCE_DIR}/LZMA_dec/LZMADecompressor.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/LZMA_dec/LZMADecompressor.hpp
+	#gzip
+	${CMAKE_CURRENT_SOURCE_DIR}/gzip/gzipCompressor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gzip/gzipCompressor.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gzip/gzipDecompressor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gzip/gzipDecompressor.hpp
 
-	#ZLIB
+	#zlib
 	${CMAKE_CURRENT_SOURCE_DIR}/ZLIB/ZLIBDecompressor.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ZLIB/ZLIBDecompressor.hpp
 

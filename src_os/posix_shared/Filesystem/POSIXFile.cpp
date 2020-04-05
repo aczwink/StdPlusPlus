@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,14 +18,14 @@
  */
 //Class header
 #include "POSIXFile.hpp"
-//Global
-#include <sys/stat.h>
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
+#include <Std++/Filesystem/UnixPermissions.hpp>
 #include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::Filesystem;
 
 //Public methods
 uint64 POSIXFile::GetSize() const
@@ -44,9 +44,4 @@ UniquePointer<OutputStream> POSIXFile::OpenForWriting()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
-}
-
-FileSystemNodeInfo POSIXFile::QueryInfo() const
-{
-	return StatQueryFileInfo(this->path);
 }

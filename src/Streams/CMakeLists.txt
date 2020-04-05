@@ -22,6 +22,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NullOutputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ReadOnlyInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdOut.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdIn.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TextCodec.cpp

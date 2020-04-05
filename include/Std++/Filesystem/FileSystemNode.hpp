@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,6 +43,7 @@ namespace StdXX
 		virtual ~FileSystemNode() = default;
 
 		//Abstract
+		virtual void ChangePermissions(const Filesystem::NodePermissions& newPermissions) = 0;
 		virtual FileSystemNodeType GetType() const = 0;
 		virtual FileSystemNodeInfo QueryInfo() const = 0;
 	};

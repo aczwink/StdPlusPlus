@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,29 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "../Definitions.h"
+//Class header
+#include <Std++/Serialization/XmlDeserializer.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::CommonFileFormats::XML;
+using namespace StdXX::Serialization;
 
-namespace StdXX
+//Private methods
+Element *XmlDeserializer::FirstChildElementWithTagName(Element &element, const String &tagName)
 {
-    namespace XML
-    {
-        enum class NodeType
-        {
-            Element,
-        };
-
-        class Node
-        {
-        public:
-            //Destructor
-            virtual ~Node()
-            {
-            }
-
-            //Abstract
-            virtual NodeType GetType() const = 0;
-        };
-    }
+	for(Node* node : element.Children())
+	{
+		if( (node->GetType() == NodeType::Element) )
+		{
+			Element* child = dynamic_cast<Element*>(node);
+			if(child->Name() == tagName)
+				return child;
+		}
+	}
+	return nullptr;
 }

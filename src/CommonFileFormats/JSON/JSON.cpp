@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -159,4 +159,9 @@ JsonValue CommonFileFormats::ParseHumanReadableJson(TextReader &textReader)
 {
 	_stdxx_::HumanReadableJsonParser parser(textReader);
 	return parser.Parse();
+}
+
+JsonValue CommonFileFormats::ParseJson(TextReader &textReader)
+{
+	return ParseHumanReadableJson(textReader); //TODO: do this correctly
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -46,9 +46,9 @@ ZipFileSystem::ZipFileSystem(const FileSystemFormat *format, const Path &path, u
 	: BufferedMetadataFileSystem(format), root(new ZipDirectory(*this)), isFlushed(true)
 {
 	if(writable)
-		this->readOnlyInputStream = new FileInputStream(path);
-	else
 		this->writableStream = new FileUpdateStream(path);
+	else
+		this->readOnlyInputStream = new FileInputStream(path);
 	EndOfCentralDirectory endOfCentralDirectory = this->ReadEndOfCentralDirectory(endOfCentralDirectoryOffset);
 	this->ReadCentralDirectory(endOfCentralDirectory);
 }

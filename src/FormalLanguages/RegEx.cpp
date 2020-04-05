@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,6 +30,7 @@ RegEx::RegEx(const String &regEx)
     _stdxx_::RegExLexer lexer(regEx);
     _stdxx_::RegExParser parser(lexer);
 
-    _stdxx_::NFA<_stdxx_::CharacterClass>* nfa = parser.Parse();
-    _stdxx_::DFA<_stdxx_::CharacterClass>* dfa = nfa->ToDFA();
+    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+    //_stdxx_::NFA<_stdxx_::CharacterClass>* nfa = parser.Execute();
+    //_stdxx_::DFA<_stdxx_::CharacterClass>* dfa = nfa->ToDFA();
 }
