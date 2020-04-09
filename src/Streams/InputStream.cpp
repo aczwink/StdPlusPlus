@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,13 +26,13 @@
 using namespace StdXX;
 
 //Public methods
-uint32 InputStream::FlushTo(OutputStream &outputStream, uint32 size)
+uint64 InputStream::FlushTo(OutputStream &outputStream, uint64 size)
 {
 	byte buffer[c_io_blockSize];
-	uint32 nTotalReadBytes = 0;
+	uint64 nTotalReadBytes = 0;
 	while(size)
 	{
-		uint32 leftSize = Math::Min(size, (uint32)sizeof(buffer));
+		uint32 leftSize = (uint32)Math::Min(size, (uint64)sizeof(buffer));
 
 		uint32 nReadBytes = this->ReadBytes(buffer, leftSize);
 		if(!nReadBytes)

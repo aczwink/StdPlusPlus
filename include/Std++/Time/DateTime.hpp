@@ -68,25 +68,34 @@ namespace StdXX
 			return this->date;
 		}
 
-		inline class Time& Time()
+		inline const class Time& Time() const
 		{
         	return this->time;
 		}
 
         //Inline
+        inline DateTime AddMicroseconds(int64 microseconds) const
+		{
+        	return this->AddNanoseconds(microseconds * 1000);
+		}
+
 		inline DateTime AddMilliSeconds(int64 milliSeconds) const
 		{
-			//we check how many days will overflow
-			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
-			int32 ms = (this->time.GetMilliSecondsSinceStartOfDay() + milliSeconds) % msecsPerDay;
-			int64 deltaDays = (milliSeconds - ms) / msecsPerDay;
-
-			return DateTime(this->date.AddDays(deltaDays), this->time.AddMSecs(milliSeconds));
+			return this->AddMicroseconds(milliSeconds * 1000);
 		}
 
 		inline DateTime AddMinutes(int64 minutes) const
 		{
 			return this->AddSeconds(minutes * 60);
+		}
+
+		inline DateTime AddNanoseconds(int64 nanoseconds) const
+		{
+			//we check how many days will overflow
+			const int64 deltaDays = (this->time.NanosecondsSinceStartOfDay() + nanoseconds) / Time::MaxValue;
+			const int64 ns = (this->time.NanosecondsSinceStartOfDay() + nanoseconds) % Time::MaxValue;
+
+			return DateTime(this->date.AddDays(deltaDays), Time::FromNanosecondsSinceStartOfDay(ns));
 		}
 
 		inline DateTime AddSeconds(int64 seconds) const
@@ -112,10 +121,6 @@ namespace StdXX
 		* timeStamp is assumed to be in UTC+0
 		*/
 	    static DateTime FromUnixTimeStamp(int64 timeStamp);
-		/**
-		* timeStamp is assumed to be in UTC+0
-		*/
-		static DateTime FromUnixTimeStampWithMilliSeconds(int64 timeStamp);
 
 		static DateTime MinValue()
 		{

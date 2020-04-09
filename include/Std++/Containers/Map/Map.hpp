@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -168,6 +168,15 @@ namespace StdXX
             return ConstIterator(*this, this->FindNode(refKey));
         }
 
+		inline void Remove(const KeyType& key)
+		{
+			Node* node = this->FindNode(key);
+			this->RemoveNodeLinks(node);
+
+			this->nElements--;
+			delete node;
+		}
+
         //For range-based loop
         Iterator begin()
         {
@@ -208,9 +217,9 @@ namespace StdXX
             while(pNode)
             {
                 if(refKey < pNode->keyValuePair.key)
-                    pNode = (Node *)pNode->pLeft;
+                    pNode = (Node *)pNode->left;
                 else if(refKey > pNode->keyValuePair.key)
-                    pNode = (Node *)pNode->pRight;
+                    pNode = (Node *)pNode->right;
                 else
                     break;
             }
@@ -238,29 +247,29 @@ namespace StdXX
 			{
 				if (pNode->keyValuePair.key < kv.key) //insert in right subtree
 				{
-					if (pNode->pRight) //continue in right subtree
+					if (pNode->right) //continue in right subtree
 					{
-						pNode = (Node *)pNode->pRight;
+						pNode = (Node *)pNode->right;
 					}
 					else
 					{
 						//insert (key,value) as leaf
-						pNode->pRight = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
-						pInsertedNode = (Node *)pNode->pRight;
+						pNode->right = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
+						pInsertedNode = (Node *)pNode->right;
 						break;
 					}
 				}
 				else if (pNode->keyValuePair.key > kv.key) //insert in left subtree
 				{
-					if (pNode->pLeft) //continue in left subtree
+					if (pNode->left) //continue in left subtree
 					{
-						pNode = (Node *)pNode->pLeft;
+						pNode = (Node *)pNode->left;
 					}
 					else
 					{
 						//insert (key,value) as leaf
-						pNode->pLeft = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
-						pInsertedNode = (Node *)pNode->pLeft;
+						pNode->left = new Node(Forward<KeyValuePair<KeyType, ValueType>>(kv), false, pNode);
+						pInsertedNode = (Node *)pNode->left;
 						break;
 					}
 				}
@@ -276,8 +285,8 @@ namespace StdXX
 			//recolor the tree
 			this->Recolorize(pInsertedNode);
 
-			if (this->root->pParent)
-				this->root = (Node *)this->root->pParent;
+			if (this->root->parent)
+				this->root = (Node *)this->root->parent;
 			this->root->isBlack = true;
 		}
 
@@ -296,13 +305,13 @@ namespace StdXX
         {
             Node *pParent, *pGrandParent, *pUncle;
 
-            while((pParent = (Node *)pNode->pParent) && pParent->IsRed())
+            while((pParent = (Node *)pNode->parent) && pParent->IsRed())
             {
-                pGrandParent = (Node *)pParent->pParent;
+                pGrandParent = (Node *)pParent->parent;
 
-                if(pParent == pGrandParent->pLeft)
+                if(pParent == pGrandParent->left)
                 {
-                    pUncle = (Node *)pGrandParent->pRight;
+                    pUncle = (Node *)pGrandParent->right;
 
                     if(pUncle && pUncle->IsRed())
                     {
@@ -313,11 +322,11 @@ namespace StdXX
                     }
                     else
                     {
-                        if(pNode == pParent->pRight)
+                        if(pNode == pParent->right)
                         {
                             pParent->RotateLeft();
                             pNode = pParent;
-                            pParent = (Node *)pNode->pParent;
+                            pParent = (Node *)pNode->parent;
                         }
 
                         pParent->isBlack = true;
@@ -327,7 +336,7 @@ namespace StdXX
                 }
                 else
                 {
-                    pUncle = (Node *)pGrandParent->pLeft;
+                    pUncle = (Node *)pGrandParent->left;
 
                     if(pUncle && pUncle->IsRed())
                     {
@@ -338,11 +347,11 @@ namespace StdXX
                     }
                     else
                     {
-                        if(pNode == pParent->pLeft)
+                        if(pNode == pParent->left)
                         {
                             pParent->RotateRight();
                             pNode = pParent;
-                            pParent = (Node *)pNode->pParent;
+                            pParent = (Node *)pNode->parent;
                         }
 
                         pParent->isBlack = true;
@@ -352,5 +361,150 @@ namespace StdXX
                 }
             }
         }
+
+		/*
+		 * The implementation of this method is a modified version of a piece of code of the following work,
+		 * which was released under GNU Lesser General Public License
+		 * as published by the Free Software Foundation version 2.1:
+		 *
+		 * avltree - Implements an AVL tree with parent pointers.
+		 *
+		 * Copyright (C) 2010-2014 Franck Bui-Huu <fbuihuu@gmail.com>
+		 *
+		 * https://github.com/fbuihuu/libtree
+		 */
+        void RemoveNodeLinks(Node* node)
+		{
+			Node* parent = node->parent;
+			Node *left = node->left;
+			Node *right = node->right;
+			Node *next;
+			bool isBlack;
+
+			if (!left)
+				next = right;
+			else if (!right)
+				next = left;
+			else
+				next = right->GetFirst();
+
+			if (parent)
+			{
+				if(parent->left == node)
+					parent->left = next;
+				else
+					parent->right = next;
+			}
+			else
+				this->root = next;
+
+			if (left && right) {
+				isBlack = next->isBlack;
+				next->isBlack = node->isBlack;
+
+				next->left = left;
+				left->parent = next;
+
+				if (next != right) {
+					parent = next->parent;
+					next->parent = node->parent;
+
+					node = next->right;
+					parent->left = node;
+
+					next->right = right;
+					right->parent = next;
+				} else {
+					next->parent = parent;
+					parent = next;
+					node = next->right;
+				}
+			} else {
+				isBlack = node->isBlack;
+				node = next;
+			}
+			/*
+			 * 'node' is now the sole successor's child and 'parent' its
+			 * new parent (since the successor can have been moved).
+			 */
+			if (node)
+				node->parent = parent;
+
+			/*
+			 * The 'easy' cases.
+			 */
+			if (!isBlack)
+				return;
+			if (node && node->IsRed()) {
+				node->isBlack = true;
+				return;
+			}
+
+			do {
+				if (node == this->root)
+					break;
+
+				if (node == parent->left) {
+					Node *sibling = parent->right;
+
+					if (sibling->IsRed()) {
+						sibling->isBlack = true;
+						parent->isBlack = false;
+						parent->RotateLeft();
+						sibling = parent->right;
+					}
+					if ((!sibling->left || sibling->left->isBlack) &&
+						(!sibling->right || sibling->right->isBlack)) {
+						sibling->isBlack = false;
+						node = parent;
+						parent = parent->parent;
+						continue;
+					}
+					if (!sibling->right || sibling->right->isBlack) {
+						sibling->left->isBlack = true;
+						sibling->isBlack = false;
+						sibling->RotateRight();
+						sibling = parent->right;
+					}
+					sibling->isBlack = parent->isBlack;
+					parent->isBlack = true;
+					sibling->right->isBlack = true;
+					parent->RotateLeft();
+					node = this->root;
+					break;
+				} else {
+					Node *sibling = parent->left;
+
+					if (sibling->IsRed()) {
+						sibling->isBlack = true;
+						parent->isBlack = false;
+						parent->RotateRight();
+						sibling = parent->left;
+					}
+					if ((!sibling->left || sibling->left->isBlack) &&
+						(!sibling->right || sibling->right->isBlack)) {
+						sibling->isBlack = false;
+						node = parent;
+						parent = parent->parent;
+						continue;
+					}
+					if (!sibling->left || sibling->left->isBlack) {
+						sibling->right->isBlack = true;
+						sibling->isBlack = false;
+						sibling->RotateLeft();
+						sibling = parent->left;
+					}
+					sibling->isBlack = parent->isBlack;
+					parent->isBlack = true;
+					sibling->left->isBlack = true;
+					parent->RotateRight();
+					node = this->root;
+					break;
+				}
+			} while (node->isBlack);
+
+			if (node)
+				node->isBlack = true;
+		}
     };
 }

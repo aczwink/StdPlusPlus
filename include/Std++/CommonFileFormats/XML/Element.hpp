@@ -44,6 +44,11 @@ namespace StdXX::CommonFileFormats::XML
 			return this->children;
 		}
 
+		inline const LinkedList<Node *> &Children() const
+		{
+			return this->children;
+		}
+
 		inline const String &Name() const
 		{
 			return this->name;
@@ -69,14 +74,14 @@ namespace StdXX::CommonFileFormats::XML
 			return this->attributes;
 		}
 
-		inline const LinkedList<Node *> &GetChildren() const
-		{
-			return this->children;
-		}
-
 		inline bool HasAttribute(const String &refKey) const
 		{
 			return this->attributes.Contains(refKey);
+		}
+
+		inline void RemoveAttribute(const String& key)
+		{
+			this->attributes.Remove(key);
 		}
 
 		inline void RemoveChild(const Node& child)

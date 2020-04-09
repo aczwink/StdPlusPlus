@@ -30,30 +30,25 @@ static void DateConstructorEquals(int64 year, uint8 month, uint8 day)
 static void TestLeapYears(uint32 year1, uint32 year2)
 {
 	int32 nLeapYears = 0;
-	for(uint32 i = Math::Min(year1, year2); i <= Math::Max(year1, year2); i++)
+	for(uint32 i = Math::Min(year1, year2); i < Math::Max(year1, year2); i++)
 	{
 		if(WeakDate::IsLeapYear(i))
 		{
-			stdOut << i << endl;
 			nLeapYears++;
 		}
 	}
 
-	int64 first = Date::ComputeNumberOfLeapYears(year1, year2);
-	ASSERT_EQUALS(Math::Abs(first), nLeapYears);
+	int64 computed = Date::ComputeNumberOfLeapYears(year1, year2);
+	ASSERT_EQUALS(Math::Abs(computed), nLeapYears);
 
-	int64 second = Date::ComputeNumberOfLeapYears(year2, year1);
-	ASSERT_EQUALS(-first, second);
+	int64 opposite = Date::ComputeNumberOfLeapYears(year2, year1);
+	ASSERT_EQUALS(-opposite, computed);
 }
 
 TEST_SUITE(DateTests)
 {
-	/*
 	TEST_CASE(ComputationTest)
 	{
-		DateConstructorEquals(1502, 4, 25);
-		DateConstructorEquals(1500, 4, 25);
-
 		for(uint32 year = 1500; year <= 2500; year++)
 		{
 			for(uint8 month = 1; month <= 12; month++)
@@ -64,14 +59,13 @@ TEST_SUITE(DateTests)
 				}
 			}
 		}
-	}*/
+	}
 
 	TEST_CASE(ComputeNumberOfLeapYearsTest)
 	{
-		TestLeapYears(1500, 1600);
-		for(uint32 year1 = 1500; year1 <= 2500; year1++)
+		for(uint32 year1 = 1500; year1 <= 3000; year1++)
 		{
-			for(uint32 year2 = 1500; year2 <= 2500; year2++)
+			for(uint32 year2 = year1; year2 <= 3000; year2++)
 			{
 				TestLeapYears(year1, year2);
 			}

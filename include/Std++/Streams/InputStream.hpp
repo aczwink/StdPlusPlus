@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,6 +56,12 @@ namespace StdXX
         virtual uint32 Skip(uint32 nBytes) = 0;
 
         //Methods
-        uint32 FlushTo(OutputStream &outputStream, uint32 size = Unsigned<uint32>::Max());
+        /**
+         * Returns the number of bytes that were processed
+         * @param outputStream
+         * @param The maximum size to flush
+         * @return
+         */
+        uint64 FlushTo(OutputStream &outputStream, uint64 size = Unsigned<uint64>::Max());
     };
 }

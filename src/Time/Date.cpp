@@ -23,6 +23,16 @@
 //Namespaces
 using namespace StdXX;
 
+//Local functions
+static int64 YearMod(int64 year, int64 mod)
+{
+	return year - (year % mod);
+}
+
+//Constants
+static const int c_epochYear = 1970;
+const Date Date::Epoch(c_epochYear, 1, 1);
+
 //Constructor
 Date::Date(int64 year, uint8 month, uint8 day)
 {
@@ -31,18 +41,52 @@ Date::Date(int64 year, uint8 month, uint8 day)
 	uint16 monthDays = 0;
 	for (uint8 i = 1; i < month; i++)
 		monthDays += WeakDate::GetNumberOfDaysInMonth(i, year);
-	this->deltaDays = (year - 1970) * 365
-			+ Date::ComputeNumberOfLeapYears(1970, year)
+	this->deltaDays = (year - c_epochYear) * 365
+					  + Date::ComputeNumberOfLeapYears(c_epochYear, year) //exclude the current year, since its leap day is included in "monthDays"
 			+ monthDays //includes the 29th February if "year" is a leap year and month > 2
 			+ (day - 1); //day is one-based
 }
 
-//Class functions
-int64 Date::ComputeNumberOfLeapYears(int64 year)
+//Properties
+int64 Date::Year() const
 {
-	int64 nLeapYears = year / 4;
-	nLeapYears -= year / 100;
-	nLeapYears += (year + 300) / 400;
+	int64 curDays = this->deltaDays;
+
+	int64 year = c_epochYear;
+	do
+	{
+		const int64 relativeYear = curDays / ( (Math::Abs(curDays) > 365) ? 366 : 365);
+		curDays -= relativeYear * 365;
+
+		const int64 year_new = year + relativeYear;
+		const int64 nLeapDays = Date::ComputeNumberOfLeapYears(year, year_new);
+		curDays -= nLeapDays;
+
+		year = year_new;
+	}
+	while( Math::Abs(curDays) >= 365 );
+
+	if(curDays < 0)
+		year--;
+
+	return year;
+}
+
+//Class functions
+int64 Date::ComputeNumberOfLeapYears(int64 fromYear, int64 toYear)
+{
+	if(fromYear == toYear)
+		return 0;
+	if(fromYear > toYear)
+		return -ComputeNumberOfLeapYears(toYear, fromYear);
+
+	toYear--; //exclude end
+	int64 nLeapYears = (toYear - YearMod(fromYear, 4)) / 4;
+	nLeapYears -= (toYear - YearMod(fromYear, 100)) / 100;
+	nLeapYears += (toYear - YearMod(fromYear, 400)) / 400;
+
+	if(WeakDate::IsLeapYear(fromYear))
+		nLeapYears++;
 
 	return nLeapYears;
 }
@@ -59,16 +103,12 @@ Date Date::ParseISOString(const String& string)
 WeakDate Date::ToWeakDate() const
 {
 	int64 curDays = this->deltaDays;
-	const int64 relativeYear = curDays / 365;
-	curDays -= relativeYear * 365;
+	const int64 year = this->Year();
+	const int64 relativeYear = year - 1970;
 
-	int64 year = relativeYear + 1970;
-	curDays -= Date::ComputeNumberOfLeapYears(1970, year);
-	if(curDays < 0)
-	{
-		year--;
-		curDays += 365;
-	}
+	curDays -= relativeYear * 365;
+	const int64 nLeapDays = Date::ComputeNumberOfLeapYears(c_epochYear, year);
+	curDays -= nLeapDays;
 	curDays++; //days are one-based
 
 	uint8 month;

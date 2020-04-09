@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,16 +20,31 @@
 #include <Std++/Time/Time.hpp>
 //Local
 #include <Std++/Debug.hpp>
+#include <Std++/Signed.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Public methods
-void Time::Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs)
+void Time::Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs, uint16 microsecs, uint16 nanosecs)
 {
 	ASSERT(hour < 24, u8"Invalid hour value");
 	ASSERT(min < 60, u8"Invalid minute value");
 	ASSERT(secs < 60, u8"Invalid seconds value");
 	ASSERT(millisecs < 1000, u8"Invalid milliseconds value");
+	ASSERT(microsecs < 1000, u8"Invalid milliseconds value");
+	ASSERT(nanosecs < 1000, u8"Invalid milliseconds value");
 
-	this->millisecs = millisecs + 1000 * (secs + 60 * (min + 60 * hour));
+	this->nanoseconds = nanosecs + 1000_i64 * (microsecs + 1000_i64 * (millisecs + 1000_i64 * (secs + 60_i64 * (min + 60_i64 * hour) ) ) );
+}
+
+//Class functions
+Time Time::ParseISOString(const String &string)
+{
+	DynamicArray<String> parts = string.Split(u8":");
+	ASSERT_EQUALS(parts.GetNumberOfElements(), 3);
+
+	DynamicArray<String> subParts = parts[2].Split(u8".");
+	ASSERT_EQUALS(subParts.GetNumberOfElements(), 2);
+
+	return Time(parts[0].ToUInt(), parts[1].ToUInt(), subParts[0].ToUInt()).AddNanoseconds(subParts[1].ToUInt());
 }

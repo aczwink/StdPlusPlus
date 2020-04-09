@@ -26,51 +26,14 @@ using namespace StdXX;
 //Class functions
 DateTime DateTime::FromUnixTimeStamp(int64 timeStamp)
 {
-	//TODO: like this we loose precision... do this correctly some day maybe
-	return DateTime::FromUnixTimeStampWithMilliSeconds(timeStamp * 1000);
-}
-
-DateTime DateTime::FromUnixTimeStampWithMilliSeconds(int64 timeStamp)
-{
-	int64 currentTimeStamp = timeStamp;
-
 	//constants
-	const uint16 MILLISECONDS_PER_MINUTE = 60 * 1000;
-	const uint32 MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
-	const uint32 MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
-	const uint64 MILLISECONDS_PER_YEAR = 365 * uint64(MILLISECONDS_PER_DAY);
+	const uint16 SECONDS_PER_MINUTE = 60;
+	const uint16 SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+	const uint32 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
 
-	//year
-	int32 relativeYear = (int32)(currentTimeStamp / MILLISECONDS_PER_YEAR);
-	currentTimeStamp -= relativeYear * MILLISECONDS_PER_YEAR;
-	currentTimeStamp -= Date::ComputeNumberOfLeapYears(relativeYear, 0) * MILLISECONDS_PER_DAY; //leap years
-	
-	//days in current year
-	uint16 daysInYear = (uint16)(currentTimeStamp / MILLISECONDS_PER_DAY); //zero-based
-	currentTimeStamp -= uint64(daysInYear) * MILLISECONDS_PER_DAY;
-
-	//month and day in month
-	uint16 currentDays = 0;
-	uint8 month, day; //zero-based
-	for (month = 0; currentDays < daysInYear; month++) //month is always 1 too high after this loop, i.e. it is one-based afterwards
-	{
-		day = daysInYear - currentDays;
-		currentDays += WeakDate::GetNumberOfDaysInMonth(month+1, relativeYear + 1970);
-	}
-
-	//hour
-	uint8 hour = (uint8)(currentTimeStamp / MILLISECONDS_PER_HOUR);
-	currentTimeStamp -= hour * MILLISECONDS_PER_HOUR;
-
-	//min
-	uint8 min = (uint8)(currentTimeStamp / MILLISECONDS_PER_MINUTE);
-	currentTimeStamp -= min * MILLISECONDS_PER_MINUTE;
-
-	//sec
-	uint8 sec = (uint8)(currentTimeStamp / 1000);
-	currentTimeStamp -= sec * 1000;
-	
-	return DateTime(StdXX::Date(relativeYear + 1970, month, day+1), StdXX::Time(hour, min, sec, (uint16)currentTimeStamp)); //rest of currentTimeStamp is ms
+	const int32 nSeconds = timeStamp % SECONDS_PER_DAY;
+	const int64 nDays = (timeStamp / SECONDS_PER_DAY) + (nSeconds < 0 ? -1 : 0);
+	return DateTime(StdXX::Date::Epoch.AddDays(nDays), StdXX::Time().AddSecs(nSeconds));
 }
 
 DateTime DateTime::ParseISOString(const String &string)
@@ -78,5 +41,5 @@ DateTime DateTime::ParseISOString(const String &string)
 	DynamicArray<String> parts = string.Split(u8" ");
 	ASSERT_EQUALS(parts.GetNumberOfElements(), 2);
 
-	return DateTime(Date::ParseISOString(parts[0]), {});
+	return DateTime(Date::ParseISOString(parts[0]), Time::ParseISOString(parts[1]));
 }

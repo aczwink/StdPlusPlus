@@ -49,7 +49,7 @@ The library functions without them but offers more possibilities when having the
 
 The following extensions are currently implemented:
 * libavcodec (ffmpeg) - provides a huge amount of codecs
-* liblzma (XZ Utils) - for compressing using the LZMA algorithm (decompression works without this extension)
+* liblzma (XZ Utils) - for compressing and decompressing using the LZMA algorithm
 * OpenSSL - for cryptography ciphers and cryptographic hash functions
 * zlib - for compression and decompression using the Deflate algorithm
 

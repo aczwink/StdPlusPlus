@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -97,5 +97,11 @@ namespace StdXX
 	{
 		ASSERT(Math::IsValueInInterval((long long)value, (long long)Signed<int8>::Min(), (long long)Signed<int8>::Max()), u8"Value is out of range for int8");
 		return static_cast<int8>(value);
+	}
+
+	constexpr int64 operator "" _i64(unsigned long long value)
+	{
+		ASSERT(Math::IsValueInInterval((long long)value, (long long)Signed<int64>::Min(), (long long)Signed<int64>::Max()), u8"Value is out of range for int64");
+		return static_cast<int64>(value);
 	}
 }

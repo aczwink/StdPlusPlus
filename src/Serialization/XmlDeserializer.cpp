@@ -24,13 +24,13 @@ using namespace StdXX::CommonFileFormats::XML;
 using namespace StdXX::Serialization;
 
 //Private methods
-Element *XmlDeserializer::FirstChildElementWithTagName(Element &element, const String &tagName)
+const Element *XmlDeserializer::FirstChildElementWithTagName(const Element &element, const String &tagName) const
 {
-	for(Node* node : element.Children())
+	for(const Node* node : element.Children())
 	{
 		if( (node->GetType() == NodeType::Element) )
 		{
-			Element* child = dynamic_cast<Element*>(node);
+			const Element* child = dynamic_cast<const Element*>(node);
 			if(child->Name() == tagName)
 				return child;
 		}

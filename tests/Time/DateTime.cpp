@@ -29,7 +29,7 @@ static void UnixTimeStampEquals(int64 unixTimeStamp, int64 year, uint8 month, ui
 	ASSERT_EQUALS(dt.Time().Hours(), hours);
 	ASSERT_EQUALS(dt.Time().Minutes(), minutes);
 	ASSERT_EQUALS(dt.Time().Seconds(), seconds);
-	ASSERT_EQUALS(dt.Time().MilliSeconds(), 0);
+	ASSERT_EQUALS(dt.Time().Milliseconds(), 0);
 }
 
 TEST_SUITE(DateTimeTests)
@@ -37,10 +37,10 @@ TEST_SUITE(DateTimeTests)
 	TEST_CASE(ParseISOStringTest)
 	{
 		Date date(2020, 4, 3);
-		Time time(16, 48, 22, 123);
+		Time time(16, 48, 22, 123, 456, 789);
 		DateTime dateTime(date, time);
 
-		const String expected = u8"2020-04-03 16:48:22.123";
+		const String expected = u8"2020-04-03 16:48:22.123456789";
 		ASSERT_EQUALS(expected, dateTime.ToISOString());
 
 		DateTime parsed = DateTime::ParseISOString(expected);
@@ -50,5 +50,16 @@ TEST_SUITE(DateTimeTests)
 	TEST_CASE(UnixTimeStampTests)
 	{
 		UnixTimeStampEquals(Signed<int32>::Min(), 1901, 12, 13, 20, 45, 52);
+		UnixTimeStampEquals(-1000000000, 1938, 4, 24, 22, 13, 20);
+		UnixTimeStampEquals(0, 1970, 1, 1, 0, 0, 0);
+		UnixTimeStampEquals(100000000, 1973, 3, 3, 9, 46, 40);
+		UnixTimeStampEquals(500000000, 1985, 11, 5, 0, 53, 20);
+		UnixTimeStampEquals(1000000000, 2001, 9, 9, 1, 46, 40);
+		UnixTimeStampEquals(1111111111, 2005, 3, 18, 1, 58, 31);
+		UnixTimeStampEquals(1234567890, 2009, 2, 13, 23, 31, 30);
+		UnixTimeStampEquals(2000000000, 2033, 5, 18, 3, 33, 20);
+		UnixTimeStampEquals(Signed<int32>::Max(), 2038, 1, 19, 3, 14, 7);
+		UnixTimeStampEquals(Unsigned<uint32>::Max(), 2106, 2, 7, 6, 28, 15);
+		UnixTimeStampEquals(Signed<int64>::Max(), 292277026596, 12, 4, 15, 30, 7);
 	}
 };

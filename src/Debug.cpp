@@ -51,7 +51,7 @@ void StdXX::AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName
 
 void StdXX::AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName)
 {
-	String message = u8"Expected: '" + expected + u8"' bot got: '" + got + u8"'.";
+	String message = u8"Expected: '" + expected + u8"' but got: '" + got + u8"'.";
 	throw ErrorHandling::AssertionError(u8"expected == got", message, fileName, lineNumber, functionName);
 }
 

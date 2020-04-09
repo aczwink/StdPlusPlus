@@ -30,5 +30,5 @@ DateTime DateTime::Now()
 	int ret = clock_gettime(CLOCK_REALTIME, &ts);
 	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
 
-	return DateTime::FromUnixTimeStampWithMilliSeconds( ts.tv_sec * 1000 + (ts.tv_nsec / 1000000) );
+	return DateTime::FromUnixTimeStamp(ts.tv_sec).AddNanoseconds(ts.tv_nsec);
 }

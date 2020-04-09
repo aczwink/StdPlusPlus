@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -120,5 +120,11 @@ namespace StdXX
 	{
 		ASSERT(value <= Unsigned<uint32>::Max(), u8"Too large uint32 literal");
 		return static_cast<uint32>(value);
+	}
+
+	constexpr uint64 operator "" _u64(unsigned long long value)
+	{
+		ASSERT(value <= Unsigned<uint64>::Max(), u8"Too large uint64 literal");
+		return static_cast<uint64>(value);
 	}
 }

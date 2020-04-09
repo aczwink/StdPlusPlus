@@ -50,13 +50,13 @@ namespace StdXX
 
             if(this->currentNode)
             {
-                if(this->currentNode->pRight)
+                if(this->currentNode->right)
                 {
-                    this->currentNode = (Node *)this->currentNode->pRight->GetFirst();
+                    this->currentNode = (Node *)this->currentNode->right->GetFirst();
                 }
                 else
                 {
-                    while((pParent = (Node *)this->currentNode->pParent) && pParent->pRight == this->currentNode)
+                    while((pParent = (Node *)this->currentNode->parent) && pParent->right == this->currentNode)
                         this->currentNode = pParent;
                     this->currentNode = pParent;
                 }
@@ -69,14 +69,14 @@ namespace StdXX
 		{
 			if (this->currentNode)
 			{
-				if (this->currentNode->pLeft)
+				if (this->currentNode->left)
 				{
-					this->currentNode = (Node *)this->currentNode->pLeft->GetFirst();
+					this->currentNode = (Node *)this->currentNode->left->GetFirst();
 				}
 				else
 				{
 					Node *pParent;
-					while ((pParent = (Node *)this->currentNode->pParent) && pParent->pLeft == this->currentNode)
+					while ((pParent = (Node *)this->currentNode->parent) && pParent->left == this->currentNode)
 						this->currentNode = pParent;
 					this->currentNode = pParent;
 				}
@@ -143,13 +143,13 @@ namespace StdXX
 
 			if(this->currentNode)
 			{
-				if(this->currentNode->pRight)
+				if(this->currentNode->right)
 				{
-					this->currentNode = (Node *)this->currentNode->pRight->GetFirst();
+					this->currentNode = (Node *)this->currentNode->right->GetFirst();
 				}
 				else
 				{
-					while((pParent = (Node *)this->currentNode->pParent) && pParent->pRight == this->currentNode)
+					while((pParent = (Node *)this->currentNode->parent) && pParent->right == this->currentNode)
 						this->currentNode = pParent;
 					this->currentNode = pParent;
 				}

@@ -33,6 +33,7 @@ namespace StdXX::Serialization
 		inline XmlDeserializer(InputStream& inputStream) : inputStream(inputStream)
 		{
 			this->document = CommonFileFormats::XML::Document::Parse(this->inputStream);
+			this->inAttributes = false;
 		}
 
 		//Operators
@@ -45,22 +46,33 @@ namespace StdXX::Serialization
 		template <typename T>
 		XmlDeserializer& operator>>(const Binding<T>& binding)
 		{
-			this->EnterElement(binding.name);
+			this->EnterElementOrAttribute(binding.name);
 			*this >> binding.value;
-			this->LeaveElement();
+			this->LeaveElementOrAttribute();
 
 			return *this;
 		}
 
 		inline void operator>>(String& value)
 		{
-			const auto& children = this->elementStack.Last()->Children();
-			ASSERT(children.GetNumberOfElements() == 1, u8"REPORT THIS PLEASE");
-			ASSERT(children.Last()->GetType() == CommonFileFormats::XML::NodeType::TextNode, u8"REPORT THIS PLEASE!");
-			value = dynamic_cast<CommonFileFormats::XML::TextNode *>(children.Last())->Text();
+			if(this->inAttributes)
+				value = this->elementStack.Last()->GetAttribute(this->currentAttributeName);
+			else
+			{
+				const auto &children = this->elementStack.Last()->Children();
+				ASSERT(children.GetNumberOfElements() == 1, u8"REPORT THIS PLEASE");
+				ASSERT(children.Last()->GetType() == CommonFileFormats::XML::NodeType::TextNode,
+					   u8"REPORT THIS PLEASE!");
+				value = dynamic_cast<CommonFileFormats::XML::TextNode *>(children.Last())->Text();
+			}
 		}
 
 		//Inline
+		inline void EnterAttributes()
+		{
+			this->inAttributes = true;
+		}
+
 		inline void EnterElement(const String& tagName)
 		{
 			if(this->elementStack.IsEmpty())
@@ -72,9 +84,19 @@ namespace StdXX::Serialization
 				this->elementStack.Push(this->FirstChildElementWithTagName(*this->elementStack.Last(), tagName));
 		}
 
+		inline bool HasChildElement(const String& tagName) const
+		{
+			return this->FirstChildElementWithTagName(*this->elementStack.Last(), tagName) != nullptr;
+		}
+
 		inline bool MoreChildrenExistsAtCurrentLevel() const
 		{
 			return !this->elementStack.Last()->Children().IsEmpty();
+		}
+
+		inline void LeaveAttributes()
+		{
+			this->inAttributes = false;
 		}
 
 		inline void LeaveElement()
@@ -93,6 +115,8 @@ namespace StdXX::Serialization
 		InputStream& inputStream;
 		UniquePointer<CommonFileFormats::XML::Document> document;
 		DynamicArray<CommonFileFormats::XML::Element*> elementStack;
+		bool inAttributes;
+		String currentAttributeName;
 
 		//Operators
 		inline void operator>>(int32& value)
@@ -103,6 +127,14 @@ namespace StdXX::Serialization
 			value = tmp.ToInt32();
 		}
 
+		inline void operator>>(uint64& value)
+		{
+			String tmp;
+			*this >> tmp;
+
+			value = tmp.ToUInt();
+		}
+
 		template <typename T>
 		inline void operator>>(T& obj)
 		{
@@ -110,6 +142,29 @@ namespace StdXX::Serialization
 		}
 
 		//Methods
-		CommonFileFormats::XML::Element* FirstChildElementWithTagName(CommonFileFormats::XML::Element& element, const String& tagName);
+		const CommonFileFormats::XML::Element* FirstChildElementWithTagName(const CommonFileFormats::XML::Element& element, const String& tagName) const;
+
+		//Inline
+		inline void EnterElementOrAttribute(const String& name)
+		{
+			if(this->inAttributes)
+				this->currentAttributeName = name;
+			else
+				this->EnterElement(name);
+		}
+
+		inline CommonFileFormats::XML::Element* FirstChildElementWithTagName(CommonFileFormats::XML::Element& element, const String& tagName)
+		{
+			return const_cast<CommonFileFormats::XML::Element *>(this->FirstChildElementWithTagName(
+					(const CommonFileFormats::XML::Element &) element, tagName));
+		}
+
+		inline void LeaveElementOrAttribute()
+		{
+			if(this->inAttributes)
+				this->elementStack.Last()->RemoveAttribute(this->currentAttributeName);
+			else
+				this->LeaveElement();
+		}
 	};
 }

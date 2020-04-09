@@ -32,6 +32,9 @@ namespace StdXX
 	class STDPLUSPLUS_API Date
 	{
 	public:
+		//Constants
+		static const Date Epoch;
+
 		//Constructor
 		Date(int64 year, uint8 month, uint8 day);
 
@@ -62,23 +65,17 @@ namespace StdXX
 			return this->ToWeakDate().month;
 		}
 
-		inline int64 Year() const
-		{
-			return this->ToWeakDate().year;
-		}
+		int64 Year() const;
 
 		//Functions
-		static int64 ComputeNumberOfLeapYears(int64 year);
 		/**
+		 * Includes fromYear but excludes toYear.
 		 * Negative if toYear is less than fromYear.
 		 * @param fromYear
 		 * @param toYear
 		 * @return
 		 */
-		inline static int64 ComputeNumberOfLeapYears(int64 fromYear, int64 toYear)
-		{
-			return ComputeNumberOfLeapYears(toYear) - ComputeNumberOfLeapYears(fromYear);
-		}
+		static int64 ComputeNumberOfLeapYears(int64 fromYear, int64 toYear);
 		static Date ParseISOString(const String& string);
 
 		//Inline

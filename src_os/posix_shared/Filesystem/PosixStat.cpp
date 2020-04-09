@@ -31,13 +31,9 @@ using namespace StdXX;
 
 //Local functions
 template<typename SecondsType, typename NanoSecondsType>
-static FileSystemNodeInfo::FileSystemNodeTime WithNanoSecondsToTime(SecondsType seconds, NanoSecondsType nanoSeconds)
+static DateTime WithNanoSecondsToTime(SecondsType seconds, NanoSecondsType nanoseconds)
 {
-	FileSystemNodeInfo::FileSystemNodeTime fileSystemNodeTime{DateTime::FromUnixTimeStamp(seconds)};
-	fileSystemNodeTime.dt.Time() = fileSystemNodeTime.dt.GetTime().AddMSecs(nanoSeconds / 1000000);
-	fileSystemNodeTime.ns = nanoSeconds % 1000000;
-
-	return fileSystemNodeTime;
+	return DateTime::FromUnixTimeStamp(seconds).AddNanoseconds(nanoseconds);
 }
 
 //Namespace functions

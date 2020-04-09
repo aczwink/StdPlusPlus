@@ -18,99 +18,128 @@
 */
 #pragma once
 //Local
-#include "../Definitions.h"
+#include <Std++/Mathematics.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 
 namespace StdXX
 {
 	/**
-	* Represents times within a 24 hour format.
+	* Represents times within a 24 hour format with nanosecond precision, which resembles current processor precision.
 	*/
 	class STDPLUSPLUS_API Time
 	{
 	public:
+		//Constants
+		static const constexpr uint64 MaxValue = 24_u64 * 60 * 60 * 1000 * 1000 * 1000;
+
 		//Constructors
-		inline Time() : millisecs(0)
+		inline Time() : nanoseconds(0)
 		{
 		}
 
-		inline Time(uint8 hour, uint8 min = 0, uint8 secs = 0, uint16 millisecs = 0)
+		inline Time(uint8 hour, uint8 min = 0, uint8 secs = 0, uint16 millisecs = 0, uint16 microsecs = 0, uint16 nanosecs = 0)
 		{
-			this->Set(hour, min, secs, millisecs);
+			this->Set(hour, min, secs, millisecs, microsecs, nanosecs);
 		}
 
 		//Operators
 		inline bool operator==(const Time& other) const
 		{
-			return this->millisecs == other.millisecs;
+			return this->nanoseconds == other.nanoseconds;
 		}
 
 		inline bool operator<(const Time &other) const
 		{
-			return this->millisecs < other.millisecs;
+			return this->nanoseconds < other.nanoseconds;
 		}
 
 		inline bool operator>=(const Time &other) const
 		{
-			return this->millisecs >= other.millisecs;
+			return this->nanoseconds >= other.nanoseconds;
 		}
 
 		//Properties
 		inline uint8 Hours() const
 		{
-			return this->millisecs / 1000 / 60 / 60;
+			return this->nanoseconds / 1000 / 1000 / 1000 / 60 / 60;
 		}
 
-		inline uint16 MilliSeconds() const
+		inline uint16 Milliseconds() const
 		{
-			return this->millisecs % 1000;
+			return (this->nanoseconds / 1000 / 1000) % 1000;
+		}
+
+		inline uint64 NanosecondsSinceStartOfDay() const
+		{
+			return this->nanoseconds;
 		}
 
 		inline uint8 Minutes() const
 		{
-			return (this->millisecs / 1000 / 60) % 60;
+			return (this->nanoseconds / 1000 / 1000 / 1000 / 60) % 60;
 		}
 
 		inline uint8 Seconds() const
 		{
-			return (this->millisecs / 1000) % 60;
+			return (this->nanoseconds / 1000 / 1000 / 1000) % 60;
 		}
 
 		//Methods
-		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs);
+		void Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs, uint16 microsecs, uint16 nanosecs);
+
+		//Class functions
+		inline static Time FromNanosecondsSinceStartOfDay(uint64 nanoseconds)
+		{
+			ASSERT(nanoseconds < MaxValue, u8"Invalid value.");
+			Time t;
+			t.nanoseconds = nanoseconds;
+			return t;
+		}
+		
+		static Time ParseISOString(const String& string);
 
 		//Inline
-		inline Time AddSecs(int32 s) const
+		inline Time AddMicroseconds(int64 microseconds) const
 		{
-			return this->AddMSecs(s * 1000);
+			return this->AddNanoseconds(microseconds * 1000);
 		}
 
-		inline Time AddMSecs(int32 ms) const
+		inline Time AddMilliseconds(int32 ms) const
 		{
-			const uint32 msecsPerDay = (24 * 60 * 60 * 1000);
+			return this->AddMicroseconds(ms * 1000_u64);
+		}
+
+		inline Time AddNanoseconds(int64 nanoseconds) const
+		{
 			Time t;
-			t.millisecs = (this->millisecs + ms) % msecsPerDay;
+			t.nanoseconds = this->nanoseconds;
+			if(nanoseconds != 0)
+			{
+				const int64 nsecsPerDay = MaxValue * Math::Sign(nanoseconds);
+				t.nanoseconds = (t.nanoseconds + nanoseconds) % nsecsPerDay;
+			}
 			return t;
 		}
 
-		inline uint32 GetMilliSecondsSinceStartOfDay() const
+		inline Time AddSecs(int32 s) const
 		{
-			return this->millisecs;
+			return this->AddMilliseconds(s * 1000);
 		}
+
 		/**
-		* Format time according to ISO 8601 i.e. "hh:mm:ss.sss".
+		* Format time according to ISO 8601 i.e. "hh:mm:ss.sssssssss".
 		*/
 		inline String ToISOString() const
 		{
 			return String::Number(this->Hours(), 10, 2) + u8":" + String::Number(this->Minutes(), 10, 2) + u8":" +
-				   String::Number(this->Seconds(), 10, 2) + u8"." + String::Number(this->MilliSeconds(), 10, 3);
+				   String::Number(this->Seconds(), 10, 2) + u8"." + String::Number(this->nanoseconds % 1000000000, 10, 9);
 		}
 
 	private:
 		//Members
 		/*
-		Invariant: millisecs < 24 * 60 * 60 * 1000 = 86,400,000 i.e. max allowed value is 23:59:59.999
+		Invariant: nanoseconds < 24 * 60 * 60 * 1000 * 1000 * 1000 = 86,400,000,000,000 i.e. max allowed value is 23:59:59.999999999
 		*/
-		uint32 millisecs;
+		uint64 nanoseconds;
 	};
 }

@@ -27,21 +27,11 @@ namespace StdXX
 {
 	struct FileSystemNodeInfo
 	{
-		struct FileSystemNodeTime
-		{
-			DateTime dt;
-			/**
-			 * The fractional part of the time.
-			 * Since the time class can represent milliseconds, this value is always less than one millisecond.
-			 */
-			uint64 ns;
-		};
-
 		/**
 		 * The last modified time is not stored by all filesystems.
 		 * Also not all operating system can guarantee a precision smaller than seconds (or not even seconds).
 		 */
-		 Optional<FileSystemNodeTime> lastModifiedTime;
+		 Optional<DateTime> lastModifiedTime;
 
 		/**
 		 * The number of bytes that the node occupies on the file system.

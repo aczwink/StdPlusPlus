@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,23 @@
 #include <Std++Test.hpp>
 using namespace StdXX;
 using namespace StdXX::Crypto;
+
+static void Execute(const Tuple<String, String>* testdata, uint32 nEntries, HashAlgorithm algorithm)
+{
+	for(uint32 i = 0; i < nEntries; i++)
+	{
+		const Tuple<String, String>& t = *testdata++;
+
+		String input = t.Get<0>().ToUTF8();
+
+		UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(algorithm);
+		hasher->Update(input.GetRawData(), input.GetSize());
+		hasher->Finish();
+
+		String expected = t.Get<1>();
+		ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"Hash mismatch!");
+	}
+}
 
 TEST_SUITE(SHATests)
 {
@@ -41,17 +58,7 @@ TEST_SUITE(SHATests)
 			},
 		};
 
-		for(const Tuple<String, String>& t : testdata)
-		{
-			String input = t.Get<0>().ToUTF8();
-
-			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA1);
-			hasher->Update(input.GetRawData(), input.GetSize());
-			hasher->Finish();
-
-			String expected = t.Get<1>();
-			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA1 mismatch!");
-		}
+		Execute(testdata, sizeof(testdata)/sizeof(testdata[0]), HashAlgorithm::SHA1);
 	}
 
     TEST_CASE(wikipedia_hashes_sha256)
@@ -65,17 +72,7 @@ TEST_SUITE(SHATests)
 			},
 		};
 
-		for(const Tuple<String, String>& t : testdata)
-		{
-			String input = t.Get<0>().ToUTF8();
-
-			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA256);
-			hasher->Update(input.GetRawData(), input.GetSize());
-			hasher->Finish();
-
-			String expected = t.Get<1>();
-			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA256 mismatch!");
-		}
+		Execute(testdata, sizeof(testdata)/sizeof(testdata[0]), HashAlgorithm::SHA256);
 	}
 
     TEST_CASE(wikipedia_hashes_sha512)
@@ -89,16 +86,20 @@ TEST_SUITE(SHATests)
 			},
 		};
 
-		for(const Tuple<String, String>& t : testdata)
+		Execute(testdata, sizeof(testdata)/sizeof(testdata[0]), HashAlgorithm::SHA512);
+	}
+
+	TEST_CASE(wikipedia_hashes_sha512_256)
+	{
+		//from https://en.wikipedia.org/wiki/SHA-2#Test_vectors
+		const Tuple<String, String> testdata[] =
 		{
-			String input = t.Get<0>().ToUTF8();
+			{
+				u8"",
+				u8"c672b8d1ef56ed28ab87c3622c5114069bdd3ad7b8f9737498d0c01ecef0967a"
+			},
+		};
 
-			UniquePointer<Crypto::HashFunction> hasher = Crypto::HashFunction::CreateInstance(HashAlgorithm::SHA512);
-			hasher->Update(input.GetRawData(), input.GetSize());
-			hasher->Finish();
-
-			String expected = t.Get<1>();
-			ASSERT(hasher->GetDigestString().ToLowercase() == expected, u8"SHA512 mismatch!");
-		}
+		Execute(testdata, sizeof(testdata)/sizeof(testdata[0]), HashAlgorithm::SHA512_256);
 	}
 };
