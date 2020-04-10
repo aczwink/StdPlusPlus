@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,6 @@
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
-#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 #include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;
@@ -116,10 +115,11 @@ private:
 		this->EndElement();
 	}
 
-	inline void WriteUTF8Element(MatroskaId id, const UTF8String &refString)
+	inline void WriteUTF8Element(MatroskaId id, const String &string)
 	{
 		this->BeginElement(id);
-		this->outputStream.WriteBytes(refString.GetC_Str(), refString.GetNumberOfElements());
+		TextWriter textWriter(this->outputStream, TextCodecType::UTF8);
+		textWriter.WriteString(string);
 		this->EndElement();
 	}
 

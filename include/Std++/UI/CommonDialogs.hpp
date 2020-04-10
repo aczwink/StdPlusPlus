@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Strings/OldString.hpp>
 #include "../Tuple.hpp"
 #include "../Filesystem/Path.hpp"
 #include "Window.hpp"
@@ -30,7 +29,7 @@ namespace StdXX
         namespace CommonDialogs
         {
             //Functions
-            STDPLUSPLUS_API Path SaveFile(const Window *pParentWnd, const OldString &refTitle, const LinkedList<Tuple<OldString, OldString>> &refFilters);
+            STDPLUSPLUS_API Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
         }
     }
 }

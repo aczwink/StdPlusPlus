@@ -21,7 +21,6 @@
 #include "Node.hpp"
 #include "Std++/Containers/Map/Map.hpp"
 #include "Std++/Containers/LinkedList/LinkedList.hpp"
-#include "Std++/Containers/Strings/OldString.hpp"
 #include "Std++/Containers/Strings/String.hpp"
 
 namespace StdXX::CommonFileFormats::XML

@@ -43,11 +43,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.hpp
 
 	#Multimedia
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCrImage.hpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
@@ -74,7 +71,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__Globaldependencies.h
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.hpp

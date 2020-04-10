@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../../Definitions.h"
-#include "../../Containers/Strings/OldString.hpp"
 #include "../Views/CCheckListView.h"
 
 namespace StdXX
@@ -38,7 +37,7 @@ namespace StdXX
 
             //Abstract
             virtual uint32 GetNumberOfItems() const = 0;
-            virtual OldString GetText(uint32 index) const = 0;
+            virtual String GetText(uint32 index) const = 0;
 
             //Inline
             inline void ModelChanged()

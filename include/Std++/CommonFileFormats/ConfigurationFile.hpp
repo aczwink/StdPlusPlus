@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,12 +19,11 @@
 
 #pragma once
 //Local
-#include "Containers/Map/Map.hpp"
-#include "Containers/Strings/OldString.hpp"
-#include "Containers/Strings/StringUtil.h"
-#include "Definitions.h"
-#include "Filesystem/Path.hpp"
-#include "Streams/SeekableInputStream.hpp"
+#include "Std++/Containers/Map/Map.hpp"
+#include "Std++/Containers/Strings/StringUtil.h"
+#include "Std++/Definitions.h"
+#include "Std++/Filesystem/Path.hpp"
+#include "Std++/Streams/SeekableInputStream.hpp"
 
 namespace StdXX
 {

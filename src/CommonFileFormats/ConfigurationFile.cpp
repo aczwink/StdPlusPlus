@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class Header
-#include <Std++/ConfigurationFile.hpp>
+#include <Std++/CommonFileFormats/ConfigurationFile.hpp>
 //Local
 #include <Std++/Filesystem/OSFileSystem.hpp>
 #include <Std++/Streams/FileInputStream.hpp>

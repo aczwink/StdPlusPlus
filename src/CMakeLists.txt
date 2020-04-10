@@ -29,11 +29,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.cpp
 
 	#Multimedia
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/RGB/R8G8B8Image.cpp
 
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmaps/YCbCr/YCbCr420Image.cpp
-
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
@@ -71,7 +68,6 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationFile.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Memory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MemoryOperators.cpp

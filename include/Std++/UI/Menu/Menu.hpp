@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,6 @@
 #include "ActionEntry.hpp"
 #include <Std++/_Backends/UI/MenuBackend.hpp>
 #include "../../Containers/Array/DynamicArray.hpp"
-#include "../../Containers/Strings/OldString.hpp"
 
 namespace StdXX
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,6 @@
 #include "../Containers/Array/DynamicArray.hpp"
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Map/Map.hpp"
-#include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Filesystem/Path.hpp"
 #include "CCharSet.h"
 #include "CDFA.h"

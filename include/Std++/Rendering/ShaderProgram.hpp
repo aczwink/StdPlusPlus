@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../Color.hpp"
-#include "../Containers/Strings/ByteString.hpp"
 #include "../Math/Matrix2x2.hpp"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Matrix4x4.hpp"
@@ -42,7 +41,7 @@ namespace StdXX
             //Abstract
             virtual void AttachShader(const Shader *pShader) = 0;
             virtual void DetachShader(const Shader *pShader) = 0;
-            virtual uint32 GetUniformId(const StdXX::ByteString &refVarName) const = 0;
+            virtual uint32 GetUniformId(const StdXX::String &refVarName) const = 0;
             virtual void Link() = 0;
             virtual void SetUniformValue(uint32 varId, int32 value) = 0;
             virtual void SetUniformValue(uint32 varId, uint32 value) = 0;

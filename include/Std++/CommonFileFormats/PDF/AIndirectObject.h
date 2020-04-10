@@ -18,39 +18,31 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
-#include "../Function.hpp"
+#include "Std++/Definitions.h"
 
 namespace StdXX
 {
-    namespace Multimedia
+    namespace PDF
     {
-        struct SAudioPlaybackFormat
+        //Forward declarations
+        class AIndirectObject;
+
+        class IDocumentTreeVisitor
         {
-            AudioSampleFormat sampleType;
-            uint32 sampleRate;
-            uint8 nChannels;
+        public:
+            virtual void AcceptIndirectObject(AIndirectObject &refObject) = 0;
         };
 
-        class STDPLUSPLUS_API CAudioVoice
+        class STDPLUSPLUS_API AIndirectObject
         {
-        private:
+            friend class CCrossReferenceTable;
+        protected:
             //Members
-            void *pOSHandle;
+            uint32 objectNumber;
 
         public:
-            //Constructor
-            CAudioVoice(const SAudioPlaybackFormat &refPlaybackFormat);
-
-            //Destructor
-            ~CAudioVoice();
-
-            //Methods
-            void BindBufferEndEvent(const Function<void (const void *)> &refCallback);
-            uint32 GetMaximumNumberOfQueuedBuffers();
-            void Start();
-            void Stop();
-            void SubmitBuffer(const void *pBuffer, uint32 size);
+            //Abstract
+            virtual void Visit(IDocumentTreeVisitor &refVisitor) = 0;
         };
     }
 }

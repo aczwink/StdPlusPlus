@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,8 +20,6 @@
 //Local
 #include "../TextCodec.hpp"
 #include "../InputStream.hpp"
-#include "../../Containers/Strings/ByteString.hpp"
-#include "../../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "DataReader.hpp"
 
 namespace StdXX

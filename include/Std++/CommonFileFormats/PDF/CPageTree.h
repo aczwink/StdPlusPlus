@@ -18,31 +18,23 @@
  */
 #pragma once
 //Local
-#include "../../../Definitions.h"
+#include "Std++/Containers/LinkedList/LinkedList.hpp"
+#include "AIndirectObject.h"
+#include "CPage.h"
 
 namespace StdXX
 {
-    //Move declarations
-    class UTF8String;
-
-    class STDPLUSPLUS_API ConstUTF8StringIterator
+    namespace PDF
     {
-    private:
-        //Members
-        const UTF8String &refString;
-        const byte *pCurrent;
-    public:
-        //Constructor
-        ConstUTF8StringIterator(const UTF8String &refString, uint32 index = 0);
-
-        //Operators
-        ConstUTF8StringIterator &operator++(); //Prefix ++
-        uint32 operator*() const;
-
-        //Inline Operators
-        inline bool operator!=(const ConstUTF8StringIterator &refOther) const
+        class STDPLUSPLUS_API CPageTree : public AIndirectObject
         {
-            return (&this->refString != &refOther.refString) || (this->pCurrent != refOther.pCurrent);
-        }
-    };
+        private:
+            //Members
+            LinkedList<CPage *> pages;
+
+        public:
+            //Methods
+            void Visit(IDocumentTreeVisitor &refVisitor);
+        };
+    }
 }

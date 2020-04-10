@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,7 +20,6 @@
 #include <Std++/Containers/Strings/UTF32String.hpp>
 //Local
 #include <Std++/Containers/Strings/StringUtil.h>
-#include <Std++/Containers/Strings/UTF-8/UTF8String.hpp>
 #include <Std++/Char.hpp>
 //Namespaces
 using namespace StdXX;
@@ -80,33 +79,6 @@ UTF32String &UTF32String::operator=(const uint16 *pString)
 		this->data[this->nElements] = pString[i];
 
 		this->nElements++;
-	}
-	this->data[this->nElements] = 0;
-
-	return *this;
-}
-
-UTF32String &UTF32String::operator=(const ByteString &refString)
-{
-	this->EnsureCapacity(refString.GetLength());
-
-	this->nElements = refString.GetNumberOfElements();
-	for(uint32 i = 0; i < this->nElements; i++)
-	{
-		this->data[i] = refString[i];
-	}
-	this->data[this->nElements] = 0;
-
-	return *this;
-}
-
-UTF32String &UTF32String::operator = (const UTF8String &refString)
-{
-	this->EnsureCapacity(refString.GetLength());
-	this->nElements = 0;
-	for(uint32 codePoint : refString)
-	{
-		this->data[this->nElements++] = codePoint;
 	}
 	this->data[this->nElements] = 0;
 

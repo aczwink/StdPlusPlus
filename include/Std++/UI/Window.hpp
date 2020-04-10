@@ -21,7 +21,6 @@
 #include <Std++/UI/Containers/ContentAreaWidget.hpp>
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/Tuple.hpp>
-#include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Function.hpp"
 #include "Menu/MenuBar.hpp"
 

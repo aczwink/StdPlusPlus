@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,10 +22,6 @@
 
 namespace StdXX
 {
-    //Move declarations
-    class ByteString;
-    class UTF8String;
-
     class STDPLUSPLUS_API UTF32String : public FixedCharLengthString<uint32>
     {
     public:
@@ -64,23 +60,11 @@ namespace StdXX
             *this = pStr;
         }
 
-        inline UTF32String(const ByteString &refStr)
-        {
-            *this = refStr;
-        }
-
-        inline UTF32String(const UTF8String &refString)
-        {
-            *this = refString;
-        }
-
         //Operators
         UTF32String &operator=(const UTF32String &refString); //copy assign
         UTF32String &operator=(uint8 c);
         UTF32String &operator=(const uint8 *pString);
         UTF32String &operator=(const uint16 *pStr);
-        UTF32String &operator=(const ByteString &refStr);
-        UTF32String &operator=(const UTF8String &refString);
 
         UTF32String &operator+=(const UTF32String &refString);
 

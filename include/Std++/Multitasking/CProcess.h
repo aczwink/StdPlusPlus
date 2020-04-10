@@ -1,5 +1,5 @@
 /*headers
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Containers/Strings/OldString.hpp"
 
 namespace StdXX
 {
@@ -31,6 +30,6 @@ namespace StdXX
 
     public:
         //Constructor
-        CProcess(const OldString &refProgram, const LinkedList<OldString> &refArguments);
+        CProcess(const String &refProgram, const LinkedList<String> &refArguments);
     };
 }

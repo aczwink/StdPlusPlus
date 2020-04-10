@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
-#include "../Containers/Strings/UTF-8/UTF8String.hpp"
 #include "../Definitions.h"
 #include "../Streams/BufferInputStream.hpp"
 #include "Std++/Streams/SeekableOutputStream.hpp"

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,26 +18,10 @@
  */
 #pragma once
 //Local
-#include "ByteString.hpp"
+#include <Std++/Definitions.h>
 
 namespace StdXX
 {
-    //Move declarations
-    class Fraction;
-    class OldString;
-
-    OldString ToString(uint64 i, uint8 bla = 0);
-
-    //Functions
-    bool IsStringConvertibleToFloat(const ByteString &refString);
-    bool IsStringConvertibleToInteger(const ByteString &refString);
-    STDPLUSPLUS_API int64 StringToInt64(const OldString &refString);
-    STDPLUSPLUS_API uint64 StringToUInt64(const OldString &refString);
-
-    //8-bit functions
-    STDPLUSPLUS_API ByteString To8BitString(const OldString &refString);
-    STDPLUSPLUS_API ByteString ToString_8Bit(uint64 value, uint8 nMinChars = 0);
-
     //Inline Functions
     template <typename CharType>
     inline uint32 GetStringLength(const CharType *pStr)

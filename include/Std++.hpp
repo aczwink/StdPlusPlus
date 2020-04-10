@@ -49,9 +49,7 @@
 #include <Std++/Containers/Map/BijectiveMap.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 //Strings
-#include <Std++/Containers/Strings/ByteString.hpp>
 #include <Std++/Containers/Strings/String.hpp>
-#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 //Tables
 #include <Std++/Containers/Table/FixedTable.hpp>
 #include <Std++/Containers/FIFOBuffer.hpp>
@@ -174,11 +172,7 @@
 #include <Std++/Multimedia/VideoDecoder.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
-#include <Std++/Multimedia/CAudioVoice.h>
 #include <Std++/Multimedia/SMetaInfo.h>
-//Pixmaps
-//Pixmaps/YCbCr
-#include <Std++/Multimedia/Pixmaps/YCbCr/YCbCr420Image.hpp>
 
 //Multitasking
 #include <Std++/Multitasking/ConditionVariable.hpp>
@@ -194,9 +188,6 @@
 #include <Std++/Network/HTTPServer.hpp>
 #include <Std++/Network/IPv4Address.hpp>
 #include <Std++/Network/TCPServerSocket.hpp>
-
-//PDF
-#include <Std++/PDF/CDocument.h>
 
 //Rendering
 #include <Std++/Rendering/DeviceContext.hpp>
@@ -305,7 +296,7 @@
 //.
 #include <Std++/__InitAndShutdown.h>
 #include <Std++/Char.hpp>
-#include <Std++/ConfigurationFile.hpp>
+#include <Std++/CommonFileFormats/ConfigurationFile.hpp>
 #include <Std++/Function.hpp>
 #include <Std++/Streams/ChecksumFunction.hpp>
 #include <Std++/Tuple.hpp>

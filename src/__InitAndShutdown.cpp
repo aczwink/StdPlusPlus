@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,6 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
 #include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Containers/Strings/ByteString.hpp>
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Filesystem/FileSystemFormat.hpp>
