@@ -160,7 +160,6 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
     _stdxx_::Gtk3WidgetBackend* thisContainer = _stdxx_::Gtk3WidgetBackend::Gtk3WidgetBackendFromGtkWidget(redirContainer);
 
 	gtk_widget_set_allocation(redirContainer, allocation);
-	const int containerHeight = allocation->height;
 
 	for(GList *iter = priv->firstChild; iter; iter = iter->next)
 	{
@@ -178,16 +177,16 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
         StdXX::Math::RectD bounds = widget.GetLocalBounds();
 
 		//offset bounds because the parent of the gtk3 widget might not be the parent of the std++ widget
-		bounds.origin = widget.TranslateToAncestorCoords(bounds.origin, (const StdXX::UI::WidgetContainer*)&thisContainer->GetWidget());
-		bounds.y() = containerHeight - bounds.GetVerticalEnd(); //invert "y"-axis for gtk
+		bounds.origin = widget.TranslateToAncestorCoords(bounds.origin, dynamic_cast<const StdXX::UI::WidgetContainer *>(&thisContainer->GetWidget()));
+		bounds.y() = thisContainer->GetWidget().GetSize().height - bounds.GetVerticalEnd(); //invert "y"-axis for gtk
 
-		allocation->x = bounds.x();
-		allocation->y = bounds.y();
-		allocation->width = bounds.width();
-		allocation->height = bounds.height();
+		GtkAllocation childAllocation;
+        childAllocation.x = allocation->x + bounds.x();
+        childAllocation.y = allocation->y + bounds.y();
+        childAllocation.width = bounds.width();
+        childAllocation.height = bounds.height();
 		//fprintf(stderr, "size-allocate: %p -> %g, %g, %g, %g\n", &widget, bounds.x(), bounds.y(), bounds.width(), bounds.height());
 		//fflush(stderr);
-		//if(gtk_widget_get_realized(gtkWidget))
-			gtk_widget_size_allocate(gtkWidget, allocation);
+		gtk_widget_size_allocate(gtkWidget, &childAllocation);
 	}
 }

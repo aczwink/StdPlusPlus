@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -50,7 +50,10 @@ uint32 ContentAreaWidget::GetNumberOfChildren() const
 
 SizeD ContentAreaWidget::GetSizeHint() const
 {
-	return Widget::GetSizeHint() + this->contentContainer->GetSizeHint();
+    SizeD sizeHint = Widget::GetSizeHint();
+    if(sizeHint == SizeD())
+        return this->contentContainer->GetSizeHint();
+    return sizeHint;
 }
 
 void ContentAreaWidget::RemoveChild(Widget *child)

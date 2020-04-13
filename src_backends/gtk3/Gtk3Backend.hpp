@@ -32,7 +32,9 @@ namespace _stdxx_
         StdXX::EventSource *CreateEventSource() override;
         GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
+        PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;
 	    WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
+        ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
         SliderBackend *CreateSliderBackend(StdXX::UI::Slider& slider) override;
         ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
         WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
@@ -44,29 +46,10 @@ namespace _stdxx_
         HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
         LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
         MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
-        PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) override;
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
-        ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
         SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;
         ViewBackend *CreateTableViewBackend(StdXX::UI::TableView &treeView) override;
     };
 }
-/*OLD:
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include "UI/GtkWindowBackend.hpp"
-#include "Gtk3OpenGLBackend.hpp"
-
-namespace StdPlusPlus
-{
-	class Gtk3Backend : public UIBackend
-	{
-	public:
-		//Methods
-		_stdpp::WindowBackend *CreateWindowBackend(_stdpp::WindowBackendType type, Widget *widget)
-		{
-			return new _stdpp::GtkWindowBackend(this, type, widget, nullptr);
-		}
-	};
-}*/
 #endif

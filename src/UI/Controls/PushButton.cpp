@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -36,7 +36,7 @@ PushButton::PushButton() : pushButtonBackend(nullptr)
 //Private methods
 void PushButton::RealizeSelf()
 {
-	_stdxx_::PushButtonBackend* pushButtonBackend = this->_GetUIBackend()->CreatePushButtonBackend(this);
+	_stdxx_::PushButtonBackend* pushButtonBackend = this->_GetUIBackend()->CreatePushButtonBackend(*this);
 	this->_SetBackend(pushButtonBackend);
 }
 

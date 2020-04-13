@@ -93,7 +93,7 @@ MenuBarBackend *XcbXlibBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 	return nullptr;
 }
 
-_stdxx_::PushButtonBackend *_stdxx_::XcbXlibBackend::CreatePushButtonBackend(StdXX::UI::PushButton *pushButton)
+_stdxx_::PushButtonBackend *_stdxx_::XcbXlibBackend::CreatePushButtonBackend(StdXX::UI::PushButton& pushButton)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;

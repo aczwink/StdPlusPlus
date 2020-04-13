@@ -28,6 +28,8 @@
 #include "UI/Gtk3RenderTargetWidgetBackend.hpp"
 #include "UI/Gtk3GroupBoxBackend.hpp"
 #include "UI/Gtk3SliderBackend.hpp"
+#include "UI/Gtk3SelectBoxBackend.hpp"
+#include "UI/Gtk3PushButtonBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -58,9 +60,19 @@ MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
     return nullptr;
 }
 
+PushButtonBackend *Gtk3Backend::CreatePushButtonBackend(UI::PushButton& pushButton)
+{
+    return new Gtk3PushButtonBackend(*this, pushButton);
+}
+
 WidgetBackend *Gtk3Backend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget)
 {
 	return new Gtk3RenderTargetWidgetBackend(*this, renderTargetWidget);
+}
+
+ViewBackend *Gtk3Backend::CreateSelectBoxBackend(UI::SelectBox &selectBox)
+{
+    return new Gtk3SelectBoxBackend(*this, selectBox);
 }
 
 SliderBackend *Gtk3Backend::CreateSliderBackend(UI::Slider& slider)
@@ -109,22 +121,12 @@ _stdxx_::MenuBackend *_stdxx_::Gtk3Backend::CreateMenuBackend(StdXX::UI::Menu *m
     return nullptr;
 }
 
-_stdxx_::PushButtonBackend *_stdxx_::Gtk3Backend::CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
 _stdxx_::ContentAreaWidgetBackend *_stdxx_::Gtk3Backend::CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }
 
 _stdxx_::WidgetBackend *_stdxx_::Gtk3Backend::CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::ViewBackend *_stdxx_::Gtk3Backend::CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }

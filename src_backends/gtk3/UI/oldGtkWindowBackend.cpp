@@ -75,12 +75,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::ComboBox:
 		{
-			this->gtkWidget = gtk_combo_box_new();
-
-			GtkCellRenderer *column = gtk_cell_renderer_text_new();
-			gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(this->gtkWidget), column, TRUE);
-			gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(this->gtkWidget), column, u8"text", 0, NULL);
-
 			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), this->widget);
 		}
 		break;
@@ -96,8 +90,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::PushButton:
 		{
-			this->gtkWidget = gtk_button_new();
-
 			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventSource::ClickedSlot), widget);
 		}
 		break;
@@ -318,9 +310,6 @@ void GtkWindowBackend::SetText(const String &text)
 			break;
 		case WindowBackendType::Label:
 			gtk_label_set_text(GTK_LABEL(this->gtkWidget), gtkText);
-			break;
-		case WindowBackendType::PushButton:
-			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
 			break;
 		case WindowBackendType::RadioButton:
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);

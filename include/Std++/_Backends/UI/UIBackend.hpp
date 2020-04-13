@@ -81,7 +81,7 @@ namespace StdXX
 		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) = 0;
 		virtual _stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
 		virtual _stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
-		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton *pushButton) = 0;
+		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton& pushButton) = 0;
 		virtual _stdxx_::WidgetBackend *CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget) = 0;
 		virtual _stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea *scrollArea) = 0;
 		virtual _stdxx_::WidgetBackend* CreateSearchBoxBackend(UI::SearchBox& searchBox) = 0;

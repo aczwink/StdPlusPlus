@@ -42,7 +42,7 @@ namespace _stdxx_
 		LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
 		MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
 		MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
-		PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton *pushButton) override;
+		PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;
 		WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
 		ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
 		WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
