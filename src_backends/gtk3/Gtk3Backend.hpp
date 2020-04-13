@@ -30,8 +30,10 @@ namespace _stdxx_
 
         //Methods
         StdXX::EventSource *CreateEventSource() override;
+        GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
 	    WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
+        SliderBackend *CreateSliderBackend(StdXX::UI::Slider& slider) override;
         ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
         WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
 	    void Load() override;
@@ -39,7 +41,6 @@ namespace _stdxx_
         //NOT IMPLEMENTED
         CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
         DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
-        GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox *groupBox) override;
         HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
         LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
         MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
@@ -47,7 +48,6 @@ namespace _stdxx_
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
         ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
-        SliderBackend *CreateSliderBackend(StdXX::UI::Slider *slider) override;
         SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;
         ViewBackend *CreateTableViewBackend(StdXX::UI::TableView &treeView) override;
     };

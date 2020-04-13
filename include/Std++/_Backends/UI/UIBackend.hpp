@@ -76,7 +76,7 @@ namespace StdXX
 		virtual _stdxx_::CheckBoxBackend *CreateCheckBoxBackend(UI::CheckBox *checkBox) = 0;
 		virtual _stdxx_::DrawableWidgetBackend* CreateDrawableWidgetBackend(UI::Widget& widget) = 0;
 		virtual EventSource *CreateEventSource() = 0;
-		virtual _stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox *groupBox) = 0;
+		virtual _stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox& groupBox) = 0;
 		virtual _stdxx_::HeaderViewBackend* CreateHeaderViewBackend(UI::HeaderView& headerView) = 0;
 		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) = 0;
 		virtual _stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
@@ -86,7 +86,7 @@ namespace StdXX
 		virtual _stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea *scrollArea) = 0;
 		virtual _stdxx_::WidgetBackend* CreateSearchBoxBackend(UI::SearchBox& searchBox) = 0;
 		virtual _stdxx_::ViewBackend* CreateSelectBoxBackend(UI::SelectBox& selectBox) = 0;
-		virtual _stdxx_::SliderBackend *CreateSliderBackend(UI::Slider *slider) = 0;
+		virtual _stdxx_::SliderBackend *CreateSliderBackend(UI::Slider& slider) = 0;
 		virtual _stdxx_::SpinBoxBackend *CreateSpinBoxBackend(UI::SpinBox *spinBox) = 0;
 		virtual _stdxx_::ViewBackend* CreateTableViewBackend(UI::TableView& treeView) = 0;
 		virtual _stdxx_::ViewBackend* CreateTreeViewBackend(UI::TreeView& treeView) = 0;

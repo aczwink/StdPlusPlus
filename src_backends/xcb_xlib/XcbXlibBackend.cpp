@@ -64,7 +64,7 @@ EventSource* XcbXlibBackend::CreateEventSource()
 	return new XcbXlibEventSource(*this->xConnection);
 }
 
-_stdxx_::GroupBoxBackend *_stdxx_::XcbXlibBackend::CreateGroupBoxBackend(StdXX::UI::GroupBox *groupBox)
+_stdxx_::GroupBoxBackend *_stdxx_::XcbXlibBackend::CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
@@ -122,7 +122,7 @@ _stdxx_::ViewBackend *_stdxx_::XcbXlibBackend::CreateSelectBoxBackend(StdXX::UI:
 	return nullptr;
 }
 
-_stdxx_::SliderBackend *_stdxx_::XcbXlibBackend::CreateSliderBackend(StdXX::UI::Slider *slider)
+_stdxx_::SliderBackend *_stdxx_::XcbXlibBackend::CreateSliderBackend(StdXX::UI::Slider& slider)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;

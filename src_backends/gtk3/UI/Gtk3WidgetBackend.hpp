@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,9 +28,7 @@ namespace _stdxx_
     {
     public:
         //Constructor
-        inline Gtk3WidgetBackend(StdXX::UIBackend& uiBackend, GtkWidget *gtkWidget) : WidgetBackend(uiBackend), gtkWidget(gtkWidget)
-        {
-        }
+        Gtk3WidgetBackend(StdXX::UIBackend& uiBackend, GtkWidget *gtkWidget);
 
         //Methods
         StdXX::Math::SizeD GetSizeHint() const override;
@@ -39,6 +37,12 @@ namespace _stdxx_
         void SetEnabled(bool enable) override;
         void SetHint(const StdXX::String &text) override;
         void Show(bool visible) override;
+
+        //Functions
+        static inline Gtk3WidgetBackend* Gtk3WidgetBackendFromGtkWidget(GtkWidget* gtkWidget)
+        {
+            return static_cast<Gtk3WidgetBackend *>(g_object_get_data(G_OBJECT(gtkWidget), u8"Std++"));
+        }
 
 		//Inline
 		inline GtkWidget *GetGtkWidget()

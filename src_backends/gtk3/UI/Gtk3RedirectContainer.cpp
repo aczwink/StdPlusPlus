@@ -27,7 +27,6 @@ using namespace StdXX::UI;
 Gtk3RedirectContainer::Gtk3RedirectContainer(UIBackend& uiBackend, CompositeWidget &widget) : WidgetContainerBackend(uiBackend),
 	Gtk3WidgetBackend(uiBackend, redirect_container_new()), WidgetBackend(uiBackend), widget(widget)
 {
-	g_object_set_data(G_OBJECT(this->GetGtkWidget()), u8"Std++", &widget);
 }
 
 //Public methods

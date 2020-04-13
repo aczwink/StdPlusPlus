@@ -54,5 +54,11 @@ namespace _stdxx_
         //Members
     	bool wasVisibleBefore;
         StdXX::UI::Window& window;
+
+        //Properties
+        inline GtkWindow* GetGtkWindow() const
+        {
+            return GTK_WINDOW(this->GetGtkWidget());
+        }
     };
 }

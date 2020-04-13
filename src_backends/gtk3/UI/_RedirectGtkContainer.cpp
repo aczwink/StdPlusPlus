@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,7 +23,7 @@
 #include <math.h>
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
-#include "Gtk.h"
+#include "Gtk3WidgetBackend.hpp"
 
 #define REDIRECT_CONTAINER_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), REDIRECT_CONTAINER_TYPE, RedirectContainerPrivate))
 typedef struct _RedirectContainerPrivate RedirectContainerPrivate;
@@ -115,9 +115,9 @@ static void redirect_container_get_preferred_height(GtkWidget *redirContainer, i
 	g_return_if_fail(redirContainer != NULL);
 	g_return_if_fail(IS_REDIRECT_CONTAINER(redirContainer));
 
-	WidgetContainer *container = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
+	_stdxx_::Gtk3WidgetBackend* container = _stdxx_::Gtk3WidgetBackend::Gtk3WidgetBackendFromGtkWidget(redirContainer);
 
-	*minimal = container->GetSizeHint().height;
+	*minimal = container->GetWidget().GetSizeHint().height;
 	*natural = *minimal;
 }
 
@@ -126,9 +126,9 @@ static void redirect_container_get_preferred_width(GtkWidget *redirContainer, in
 	g_return_if_fail(redirContainer != NULL);
 	g_return_if_fail(IS_REDIRECT_CONTAINER(redirContainer));
 
-	WidgetContainer *container = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
+    _stdxx_::Gtk3WidgetBackend* container = _stdxx_::Gtk3WidgetBackend::Gtk3WidgetBackendFromGtkWidget(redirContainer);
 
-	*minimal = container->GetSizeHint().width;
+	*minimal = container->GetWidget().GetSizeHint().width;
 	*natural = *minimal;
 }
 
@@ -157,9 +157,10 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 	g_return_if_fail(IS_REDIRECT_CONTAINER(redirContainer));
 
 	RedirectContainerPrivate *priv = REDIRECT_CONTAINER_PRIVATE(redirContainer);
-	WidgetContainer *thisContainer = (WidgetContainer *)WIDGET_FROM_GTK(redirContainer);
+    _stdxx_::Gtk3WidgetBackend* thisContainer = _stdxx_::Gtk3WidgetBackend::Gtk3WidgetBackendFromGtkWidget(redirContainer);
 
 	gtk_widget_set_allocation(redirContainer, allocation);
+	const int containerHeight = allocation->height;
 
 	for(GList *iter = priv->firstChild; iter; iter = iter->next)
 	{
@@ -170,24 +171,23 @@ static void redirect_container_size_allocate(GtkWidget *redirContainer, GtkAlloc
 			gtk_widget_get_preferred_width(gtkWidget, &tmp, &tmp); //make gtk3 happy, else it will print out warnings -.-
 		}
 
-		Widget *widget = WIDGET_FROM_GTK(gtkWidget);
-		if(!widget)
+        _stdxx_::Gtk3WidgetBackend* widgetBackend = _stdxx_::Gtk3WidgetBackend::Gtk3WidgetBackendFromGtkWidget(gtkWidget);
+		if(!widgetBackend)
 			continue;
-		Math::RectD bounds = widget->GetLocalBounds();
+        StdXX::UI::Widget &widget = widgetBackend->GetWidget();
+        StdXX::Math::RectD bounds = widget.GetLocalBounds();
 
 		//offset bounds because the parent of the gtk3 widget might not be the parent of the std++ widget
-		bounds.origin = widget->TranslateToAncestorCoords(bounds.origin, thisContainer);
-		//the gtk3 allocation is in coordinates of the widget, not its child i.e. the redirect container
-        //NOT_IMPLEMENTED_ERROR; //TODO: next line
-		//bounds.origin = thisContainer->TranslateChildToWidgetCoords(bounds.origin);
+		bounds.origin = widget.TranslateToAncestorCoords(bounds.origin, (const StdXX::UI::WidgetContainer*)&thisContainer->GetWidget());
+		bounds.y() = containerHeight - bounds.GetVerticalEnd(); //invert "y"-axis for gtk
 
 		allocation->x = bounds.x();
 		allocation->y = bounds.y();
 		allocation->width = bounds.width();
 		allocation->height = bounds.height();
-		//fprintf(stderr, "size-allocate: %p -> %d, %d, %d, %d\n", widget, bounds.x(), bounds.y(), bounds.width(), bounds.height());
+		//fprintf(stderr, "size-allocate: %p -> %g, %g, %g, %g\n", &widget, bounds.x(), bounds.y(), bounds.width(), bounds.height());
 		//fflush(stderr);
-		if(gtk_widget_get_realized(gtkWidget))
+		//if(gtk_widget_get_realized(gtkWidget))
 			gtk_widget_size_allocate(gtkWidget, allocation);
 	}
 }

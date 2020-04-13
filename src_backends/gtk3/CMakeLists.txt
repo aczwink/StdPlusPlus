@@ -37,11 +37,14 @@ if(${BACKEND_GTK3})
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk.h
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RenderTargetWidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RenderTargetWidgetBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3SliderBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3SliderBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.cpp

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,8 +37,6 @@ Gtk3TreeViewBackend::Gtk3TreeViewBackend(UIBackend& uiBackend, TreeView& treeVie
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(gtkWidget), true);
 
 	gtk_widget_show_all(gtkWidget); //default is show
-
-	g_object_set_data(G_OBJECT(gtkWidget), u8"Std++", &treeView);
 }
 
 //Public methods

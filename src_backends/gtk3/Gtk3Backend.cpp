@@ -26,6 +26,8 @@
 #include "UI/GtkEventSource.hpp"
 #include "Gtk3OpenGLBackend.hpp"
 #include "UI/Gtk3RenderTargetWidgetBackend.hpp"
+#include "UI/Gtk3GroupBoxBackend.hpp"
+#include "UI/Gtk3SliderBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -46,6 +48,11 @@ EventSource *Gtk3Backend::CreateEventSource()
     return new GtkEventSource;
 }
 
+GroupBoxBackend *Gtk3Backend::CreateGroupBoxBackend(UI::GroupBox& groupBox)
+{
+    return new Gtk3GroupBoxBackend(*this, groupBox);
+}
+
 MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 {
     return nullptr;
@@ -54,6 +61,11 @@ MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 WidgetBackend *Gtk3Backend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget)
 {
 	return new Gtk3RenderTargetWidgetBackend(*this, renderTargetWidget);
+}
+
+SliderBackend *Gtk3Backend::CreateSliderBackend(UI::Slider& slider)
+{
+    return new Gtk3SliderBackend(*this, slider);
 }
 
 ViewBackend *Gtk3Backend::CreateTreeViewBackend(UI::TreeView &treeView)
@@ -78,11 +90,6 @@ _stdxx_::CheckBoxBackend *_stdxx_::Gtk3Backend::CreateCheckBoxBackend(StdXX::UI:
 }
 
 _stdxx_::DrawableWidgetBackend *_stdxx_::Gtk3Backend::CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::GroupBoxBackend *_stdxx_::Gtk3Backend::CreateGroupBoxBackend(StdXX::UI::GroupBox *groupBox) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }
@@ -118,11 +125,6 @@ _stdxx_::WidgetBackend *_stdxx_::Gtk3Backend::CreateSearchBoxBackend(StdXX::UI::
 }
 
 _stdxx_::ViewBackend *_stdxx_::Gtk3Backend::CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::SliderBackend *_stdxx_::Gtk3Backend::CreateSliderBackend(StdXX::UI::Slider *slider) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }

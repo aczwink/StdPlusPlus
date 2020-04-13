@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,7 +38,7 @@ GroupBox::GroupBox() : ContentAreaWidget(),
 //Private methods
 void GroupBox::RealizeSelf()
 {
-	_stdxx_::GroupBoxBackend* groupBoxBackend = this->_GetUIBackend()->CreateGroupBoxBackend(this);
+	_stdxx_::GroupBoxBackend* groupBoxBackend = this->_GetUIBackend()->CreateGroupBoxBackend(*this);
 	this->_SetBackend(groupBoxBackend);
 }
 

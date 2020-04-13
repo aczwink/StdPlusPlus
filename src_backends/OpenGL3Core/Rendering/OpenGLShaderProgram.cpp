@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,9 +47,9 @@ void OpenGLShaderProgram::DetachShader(const Shader *pShader)
     this->glFuncs.glDetachShader(this->id, ((OpenGLShader *)pShader)->id);
 }
 
-uint32 OpenGLShaderProgram::GetUniformId(const ByteString &refVarName) const
+uint32 OpenGLShaderProgram::GetUniformId(const String& varName) const
 {
-    return this->glFuncs.glGetUniformLocation(this->id, refVarName.GetC_Str());
+    return this->glFuncs.glGetUniformLocation(this->id, reinterpret_cast<const GLchar *>(varName.GetRawZeroTerminatedData()));
 }
 
 void OpenGLShaderProgram::Link()

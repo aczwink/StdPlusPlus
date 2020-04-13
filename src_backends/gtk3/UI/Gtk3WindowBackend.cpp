@@ -58,8 +58,6 @@ Gtk3WindowBackend::Gtk3WindowBackend(UIBackend& backend, Window& window) : Windo
 
 	GtkWidget* gtkWidget = this->GetGtkWidget();
 
-	g_object_set_data(G_OBJECT(gtkWidget), u8"Std++", &window);
-
 	g_signal_connect(gtkWidget, u8"delete-event", G_CALLBACK(CloseSlot), this);
 	g_signal_connect(gtkWidget, u8"size-allocate", G_CALLBACK(SizeAllocateSlot), this);
 }
@@ -83,10 +81,19 @@ Math::RectD Gtk3WindowBackend::GetContentAreaBounds() const
 	GtkBin* gtkBin = GTK_BIN(this->GetGtkWidget());
 	GtkWidget* gtkChild = gtk_bin_get_child(gtkBin);
 
-	GtkAllocation alloc;
-	gtk_widget_get_allocation(gtkChild, &alloc);
+	if(gtkChild)
+    {
+        GtkAllocation alloc;
+        gtk_widget_get_allocation(gtkChild, &alloc);
 
-	return Math::RectD(alloc.x, alloc.y, alloc.width, alloc.height);
+        return Math::RectD(alloc.x, alloc.y, alloc.width, alloc.height);
+    }
+
+	//according to doc, this should try to omit client side decorations, unfortunately position can't be known :S
+	gint width, height;
+    gtk_window_get_size(this->GetGtkWindow(), &width, &height);
+
+    return Math::RectD(0, 0, width, height);
 }
 
 Widget &Gtk3WindowBackend::GetWidget()

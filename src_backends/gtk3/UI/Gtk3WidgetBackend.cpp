@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,15 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+
+//Constructor
+Gtk3WidgetBackend::Gtk3WidgetBackend(StdXX::UIBackend &uiBackend, GtkWidget *gtkWidget)
+        : WidgetBackend(uiBackend), gtkWidget(gtkWidget)
+{
+    if(!GTK_IS_WINDOW(gtkWidget))
+        gtk_widget_show(gtkWidget); //default to show
+    g_object_set_data(G_OBJECT(gtkWidget), u8"Std++", this);
+}
 
 //Public methods
 Math::SizeD Gtk3WidgetBackend::GetSizeHint() const

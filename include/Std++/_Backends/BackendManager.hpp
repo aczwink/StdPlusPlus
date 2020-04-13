@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -78,6 +78,7 @@ namespace StdXX
 		//Inline
 		inline BackendClassType *GetPreferredBackend() const
 		{
+		    ASSERT(!this->backends.IsEmpty(), u8"Tried to instantiate backend, but none is available");
 			return this->backends.Top().template Get<1>();
 		}
 

@@ -84,12 +84,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), this->widget);
 		}
 		break;
-		case WindowBackendType::GroupBox:
-		{
-			isContainer = true;
-			this->gtkWidget = gtk_frame_new(nullptr);
-		}
-		break;
 		case WindowBackendType::Label:
 		{
 			this->gtkWidget = gtk_label_new(nullptr);
@@ -148,8 +142,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::Slider:
 		{
-			this->gtkWidget = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1);
-
 			g_signal_connect(this->gtkWidget, u8"value-changed", G_CALLBACK(GtkEventSource::ValueChangedSlot), this->widget);
 		}
 		break;
@@ -185,16 +177,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			gtk_window_set_position(GTK_WINDOW(this->gtkWidget), GTK_WIN_POS_CENTER);
 		}
 		break;
-	}
-
-	if(!GTK_IS_WINDOW(this->gtkWidget))
-		gtk_widget_show(this->gtkWidget); //default to show
-
-	if(isContainer)
-	{
-		g_object_set_data(G_OBJECT(this->childAreaWidget), u8"Std++", widget);
-		gtk_container_add(GTK_CONTAINER(this->gtkWidget), this->childAreaWidget);
-		gtk_widget_show(this->childAreaWidget); //default to show
 	}
 }
 
@@ -321,25 +303,6 @@ void GtkWindowBackend::SetEditable(bool enable) const
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(this->gtkWidget), enable);
 }
 
-void GtkWindowBackend::SetMaximum(uint32 max)
-{
-	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
-
-	gtk_range_set_range(GTK_RANGE(this->gtkWidget), gtk_adjustment_get_lower(adjustment), max);
-}
-
-void GtkWindowBackend::SetMinimum(uint32 min)
-{
-	GtkAdjustment *adjustment = gtk_range_get_adjustment(GTK_RANGE(this->gtkWidget));
-
-	gtk_range_set_range(GTK_RANGE(this->gtkWidget), min, gtk_adjustment_get_upper(adjustment));
-}
-
-void GtkWindowBackend::SetPosition(uint32 pos) const
-{
-	gtk_range_set_value(GTK_RANGE(this->gtkWidget), pos);
-}
-
 void GtkWindowBackend::SetRange(int32 min, int32 max)
 {
 	gtk_spin_button_set_range(GTK_SPIN_BUTTON(this->gtkWidget), min, max);
@@ -352,9 +315,6 @@ void GtkWindowBackend::SetText(const String &text)
 	{
 		case WindowBackendType::CheckBox:
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
-			break;
-		case WindowBackendType::GroupBox:
-			gtk_frame_set_label(GTK_FRAME(this->gtkWidget), gtkText);
 			break;
 		case WindowBackendType::Label:
 			gtk_label_set_text(GTK_LABEL(this->gtkWidget), gtkText);
