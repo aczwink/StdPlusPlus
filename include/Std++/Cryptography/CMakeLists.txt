@@ -7,6 +7,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockDecipherStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CBCCipher.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CBCDecipher.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CheckedHashingInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CipherAlgorithm.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Counter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CTRCipher.hpp

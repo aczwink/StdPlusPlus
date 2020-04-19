@@ -21,9 +21,16 @@ using namespace StdXX;
 using namespace StdXX::CommonFileFormats::XML;
 using namespace StdXX::Serialization;
 
+enum class TestEnum
+{
+	Value1,
+	Value2,
+};
+
 struct TestObj1
 {
 	int32 v;
+	TestEnum e;
 };
 
 struct TestObj2
@@ -38,7 +45,10 @@ namespace StdXX::Serialization
 	template<class ArchiveType>
 	void Archive(ArchiveType & ar, TestObj1& obj)
 	{
+		StaticArray<Tuple<TestEnum, String>, 2> enumMapping = { { {TestEnum::Value1, u8"Value1"}, {TestEnum::Value2, u8"Value2"} } };
+
 		ar & Binding(u8"v", obj.v);
+		ar & Binding(u8"e", StringMapping(obj.e, enumMapping));
 	}
 
 	template<class ArchiveType>
@@ -52,14 +62,32 @@ namespace StdXX::Serialization
 
 TEST_SUITE(SerializationTests)
 {
-	template <typename SerializerType>
-	void Execute()
+	TEST_CASE(SerializeThenDeserializeTestUsingJSON)
 	{
 		FIFOBuffer buffer;
 
-		TestObj2 obj{34, u8"test", {59}};
+		TestObj2 obj{34, u8"test", {59, TestEnum::Value1}};
 
-		SerializerType serializer(buffer);
+		JSONSerializer serializer(buffer);
+		serializer << obj;
+
+		TestObj2 obj2{};
+		JSONDeserializer deserializer(buffer, true);
+		deserializer >> obj2;
+
+		ASSERT(obj.i == obj2.i, u8"Binding and deserialization should yield same values");
+		ASSERT(obj.s == obj2.s, u8"Binding and deserialization should yield same values");
+		ASSERT(obj.nested.v == obj2.nested.v, u8"Binding and deserialization should yield same values");
+		ASSERT_EQUALS(obj.nested.e, obj2.nested.e);
+	}
+
+	TEST_CASE(SerializeThenDeserializeTestUsingXML)
+	{
+		FIFOBuffer buffer;
+
+		TestObj2 obj{34, u8"test", {59, TestEnum::Value2}};
+
+		XmlSerializer serializer(buffer);
 		serializer << Binding{u8"TestObj", obj};
 
 		TestObj2 obj2{};
@@ -69,11 +97,6 @@ TEST_SUITE(SerializationTests)
 		ASSERT(obj.i == obj2.i, u8"Binding and deserialization should yield same values");
 		ASSERT(obj.s == obj2.s, u8"Binding and deserialization should yield same values");
 		ASSERT(obj.nested.v == obj2.nested.v, u8"Binding and deserialization should yield same values");
-	}
-
-	TEST_CASE(SerializeThenDeserializeTestUsingXML)
-	{
-		//Execute<JsonSerializer>();
-		Execute<XmlSerializer>();
+		ASSERT_EQUALS(obj.nested.e, obj2.nested.e);
 	}
 };

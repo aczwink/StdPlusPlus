@@ -48,6 +48,7 @@ Extensions extend the possibilities of the library (add cryptographic functions,
 The library functions without them but offers more possibilities when having them.
 
 The following extensions are currently implemented:
+* fuse - for mounting filesystems into the operating systems file system
 * libavcodec (ffmpeg) - provides a huge amount of codecs
 * liblzma (XZ Utils) - for compressing and decompressing using the LZMA algorithm
 * OpenSSL - for cryptography ciphers and cryptographic hash functions

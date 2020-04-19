@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Filesystem/Path.hpp>
+#include <Std++/FileSystem/Path.hpp>
 #include "HTTPHeaders.hpp"
 #include "HTTPResponse.hpp"
 #include "TCPServerSocket.hpp"
@@ -53,7 +53,7 @@ namespace StdXX
 
 	protected:
 		//Event handlers
-		virtual void OnGETRequest(const Path& requestPath, const HTTPHeaders& requestHeaders, HTTPResponse& response);
+		virtual void OnGETRequest(const FileSystem::Path& requestPath, const HTTPHeaders& requestHeaders, HTTPResponse& response);
 
 	private:
 		//Members

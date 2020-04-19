@@ -22,12 +22,13 @@
 #include <sys/stat.h>
 #include <errno.h>
 //Local
-#include <Std++/Filesystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/UnixPermissions.hpp>
 #include "POSIXFile.hpp"
 #include "POSIXDirectory.hpp"
 #include "PosixLink.hpp"
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Local functions
 template<typename SecondsType, typename NanoSecondsType>
@@ -114,7 +115,7 @@ FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize
 #endif
 
 	//permissions
-	info.permissions = new Filesystem::UnixPermissions(sb.st_mode);
+	info.permissions = new FileSystem::UnixPermissions(sb.st_mode);
 
 	return info;
 }

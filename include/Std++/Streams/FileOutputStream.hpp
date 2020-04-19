@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Filesystem/Path.hpp"
+#include "../FileSystem/Path.hpp"
 #include "SeekableOutputStream.hpp"
 
 namespace StdXX
@@ -38,7 +38,7 @@ namespace StdXX
 		 * @param path
 		 * @param overwrite
 		 */
-        FileOutputStream(const Path &path, bool overwrite = false);
+        FileOutputStream(const FileSystem::Path &path, bool overwrite = false);
         //FileOutputStream
         ~FileOutputStream();
         //Methods
@@ -48,7 +48,7 @@ namespace StdXX
         uint32 WriteBytes(const void *pSource, uint32 size) override;
 
 		//Inline
-		inline const Path &GetPath() const
+		inline const FileSystem::Path &GetPath() const
 		{
 			return this->filePath;
 		}
@@ -60,6 +60,6 @@ namespace StdXX
             void *pFileHandle;
             int fileHandle;
         };
-		Path filePath;
+		FileSystem::Path filePath;
     };
 }

@@ -25,6 +25,7 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Public methods
 Path PosixLink::ReadTarget() const

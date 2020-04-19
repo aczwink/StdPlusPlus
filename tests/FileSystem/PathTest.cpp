@@ -18,6 +18,7 @@
  */
 #include <Std++Test.hpp>
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 TEST_SUITE(PathTest)
 {

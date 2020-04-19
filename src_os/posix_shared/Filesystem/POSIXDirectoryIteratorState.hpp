@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		POSIXDirectoryIteratorState(const StdXX::Path& path);
+		POSIXDirectoryIteratorState(const StdXX::FileSystem::Path& path);
 
 		//Destructor
 		~POSIXDirectoryIteratorState();
@@ -39,7 +39,7 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::Path path;
+		StdXX::FileSystem::Path path;
 		DIR* dir;
 		dirent* currentEntry;
 	};

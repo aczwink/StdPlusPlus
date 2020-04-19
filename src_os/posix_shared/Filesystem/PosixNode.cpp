@@ -21,12 +21,12 @@
 //Global
 #include <sys/stat.h>
 //Local
-#include <Std++/Filesystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/UnixPermissions.hpp>
 #include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
-using namespace StdXX::Filesystem;
+using namespace StdXX::FileSystem;
 
 //Public methods
 void PosixNode::ChangePermissions(const NodePermissions &newPermissions)

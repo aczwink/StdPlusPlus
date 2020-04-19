@@ -32,6 +32,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ReadOnlyInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SeekableInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StdIn.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/StringInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TextCodec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UpdateStream.hpp
 

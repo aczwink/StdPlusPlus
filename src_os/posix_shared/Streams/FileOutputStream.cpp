@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@
 using namespace StdXX;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path &path, bool overwrite) : filePath(path)
+FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite) : filePath(path)
 {
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if(!overwrite)

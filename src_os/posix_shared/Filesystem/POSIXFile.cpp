@@ -20,12 +20,12 @@
 #include "POSIXFile.hpp"
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
-#include <Std++/Filesystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/UnixPermissions.hpp>
 #include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
-using namespace StdXX::Filesystem;
+using namespace StdXX::FileSystem;
 
 //Public methods
 uint64 POSIXFile::GetSize() const

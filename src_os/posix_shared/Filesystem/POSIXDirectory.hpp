@@ -17,33 +17,33 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/Directory.hpp>
+#include <Std++/FileSystem/Directory.hpp>
 #include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class POSIXDirectory : public StdXX::Directory, public PosixNode
+	class POSIXDirectory : public StdXX::FileSystem::Directory, public PosixNode
 	{
 	public:
 		//Constructor
-		inline POSIXDirectory(const StdXX::Path &path) : PosixNode(path)
+		inline POSIXDirectory(const StdXX::FileSystem::Path &path) : PosixNode(path)
 		{
 		}
 
 		//Methods
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
-		bool Exists(const StdXX::Path &path) const override;
+		bool Exists(const StdXX::FileSystem::Path &path) const override;
 		StdXX::AutoPointer<FileSystemNode> GetChild(const StdXX::String &name) override;
 		StdXX::AutoPointer<const FileSystemNode> GetChild(const StdXX::String &name) const override;
-		StdXX::FileSystem *GetFileSystem() override;
-		const StdXX::FileSystem *GetFileSystem() const override;
+		StdXX::FileSystem::RWFileSystem *GetFileSystem() override;
+		const StdXX::FileSystem::RWFileSystem *GetFileSystem() const override;
 		StdXX::AutoPointer<const Directory> GetParent() const override;
-		StdXX::Path GetPath() const override;
+		StdXX::FileSystem::Path GetPath() const override;
 		bool IsEmpty() const override;
 
 		//For range-based loop
-		StdXX::DirectoryIterator begin() const override;
-		StdXX::DirectoryIterator end() const override;
+		StdXX::FileSystem::DirectoryIterator begin() const override;
+		StdXX::FileSystem::DirectoryIterator end() const override;
 	};
 }

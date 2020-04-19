@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 #include "../Containers/Array/DynamicArray.hpp"
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Map/Map.hpp"
-#include "../Filesystem/Path.hpp"
+#include "../FileSystem/Path.hpp"
 #include "Std++/Debug.hpp"
 
 namespace StdXX
@@ -86,7 +86,7 @@ namespace StdXX
 
 #ifdef XPC_BUILDTYPE_DEBUG
         //For debugging
-		void SaveGraph(const Path &refPath);
+		void SaveGraph(const FileSystem::Path &refPath);
 #endif
     };
 }

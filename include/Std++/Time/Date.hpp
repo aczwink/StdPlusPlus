@@ -65,6 +65,11 @@ namespace StdXX
 			return this->ToWeakDate().month;
 		}
 
+		inline int64 NumberOfDaysSinceEpoch() const
+		{
+			return this->deltaDays;
+		}
+
 		int64 Year() const;
 
 		//Functions

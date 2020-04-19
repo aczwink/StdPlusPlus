@@ -49,6 +49,11 @@ namespace StdXX
 				this->value.boolean = b;
 			}
 
+			inline JsonValue(int32 number) : type(JsonType::Number)
+			{
+				this->value.number = number;
+			}
+
 			inline JsonValue(uint32 number) : type(JsonType::Number)
 			{
 				this->value.number = number;
@@ -98,7 +103,8 @@ namespace StdXX
 			inline const JsonValue &operator[](const String& key) const
 			{
 				ASSERT(this->type == JsonType::Object, u8"Can only access objects by key");
-				return this->value.object->operator[](key);
+				const Map<String, JsonValue>& map = *this->value.object;
+				return map[key];
 			}
 
 			//Logical operators
@@ -113,6 +119,12 @@ namespace StdXX
 			String Dump() const;
 
 			//Inline
+			inline void Delete(const String& key)
+			{
+				ASSERT_EQUALS(this->type, JsonType::Object);
+				this->value.object->Remove(key);
+			}
+
 			/**
 			 * Returns the property "this[key]" if defined else "defaultValue".
 			 */

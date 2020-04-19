@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Tuple.hpp"
-#include "../Filesystem/Path.hpp"
+#include "../FileSystem/Path.hpp"
 #include "Window.hpp"
 
 namespace StdXX
@@ -29,7 +29,7 @@ namespace StdXX
         namespace CommonDialogs
         {
             //Functions
-            STDPLUSPLUS_API Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
+            STDPLUSPLUS_API FileSystem::Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
         }
     }
 }

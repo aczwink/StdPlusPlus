@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,7 +28,7 @@
 using namespace StdXX;
 
 //Constructor
-FileInputStream::FileInputStream(const Path &path)
+FileInputStream::FileInputStream(const FileSystem::Path &path)
 {
 	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
 

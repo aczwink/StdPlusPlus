@@ -71,7 +71,7 @@ namespace StdXX
 				this->windowBackend->Maximize();
 			}
 
-			inline Path SelectExistingDirectory(const String &title, const Function<bool(const Path &)> &callback = [](const Path &){return true;}) const
+			inline FileSystem::Path SelectExistingDirectory(const String &title, const Function<bool(const FileSystem::Path &)> &callback = [](const FileSystem::Path &){return true;}) const
 			{
 				return this->windowBackend->SelectExistingDirectory(title, callback);
 			}
@@ -83,7 +83,7 @@ namespace StdXX
 			 * @param initialDirectory
 			 * @return
 			 */
-			inline Path SelectExistingFile(const String& title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const Path& initialDirectory) const
+			inline FileSystem::Path SelectExistingFile(const String& title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const FileSystem::Path& initialDirectory) const
 			{
 				return this->windowBackend->SelectExistingFile(title, filters, initialDirectory);
 			}

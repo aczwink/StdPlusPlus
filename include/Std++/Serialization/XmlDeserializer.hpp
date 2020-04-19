@@ -43,28 +43,56 @@ namespace StdXX::Serialization
 			return *this >> binding;
 		}
 
-		template <typename T>
-		XmlDeserializer& operator>>(const Binding<T>& binding)
+		XmlDeserializer& operator>>(const Binding<bool>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
-			*this >> binding.value;
+			String string = this->FetchStringValue();
+			if(string == u8"true")
+				binding.value = true;
+			else if (string == u8"false")
+				binding.value = false;
+			else
+				NOT_IMPLEMENTED_ERROR; //TODO: do this correctly
 			this->LeaveElementOrAttribute();
 
 			return *this;
 		}
 
-		inline void operator>>(String& value)
+		XmlDeserializer& operator>>(const Binding<int32>& binding)
 		{
-			if(this->inAttributes)
-				value = this->elementStack.Last()->GetAttribute(this->currentAttributeName);
-			else
-			{
-				const auto &children = this->elementStack.Last()->Children();
-				ASSERT(children.GetNumberOfElements() == 1, u8"REPORT THIS PLEASE");
-				ASSERT(children.Last()->GetType() == CommonFileFormats::XML::NodeType::TextNode,
-					   u8"REPORT THIS PLEASE!");
-				value = dynamic_cast<CommonFileFormats::XML::TextNode *>(children.Last())->Text();
-			}
+			this->EnterElementOrAttribute(binding.name);
+			binding.value = this->FetchStringValue().ToInt32();
+			this->LeaveElementOrAttribute();
+
+			return *this;
+		}
+
+		XmlDeserializer& operator>>(const Binding<uint64>& binding)
+		{
+			this->EnterElementOrAttribute(binding.name);
+			binding.value = this->FetchStringValue().ToUInt();
+			this->LeaveElementOrAttribute();
+
+			return *this;
+		}
+
+		XmlDeserializer& operator>>(const Binding<String>& binding)
+		{
+			this->EnterElementOrAttribute(binding.name);
+			binding.value = this->FetchStringValue();
+			this->LeaveElementOrAttribute();
+
+			return *this;
+		}
+
+		template <typename T>
+		XmlDeserializer& operator>>(const Binding<T>& binding)
+		{
+			this->EnterElementOrAttribute(binding.name);
+			Archive(*this, binding.value);
+			this->LeaveElementOrAttribute();
+
+			return *this;
 		}
 
 		//Inline
@@ -118,31 +146,22 @@ namespace StdXX::Serialization
 		bool inAttributes;
 		String currentAttributeName;
 
-		//Operators
-		inline void operator>>(int32& value)
-		{
-			String tmp;
-			*this >> tmp;
-
-			value = tmp.ToInt32();
-		}
-
-		inline void operator>>(uint64& value)
-		{
-			String tmp;
-			*this >> tmp;
-
-			value = tmp.ToUInt();
-		}
-
-		template <typename T>
-		inline void operator>>(T& obj)
-		{
-			Archive(*this, obj);
-		}
-
 		//Methods
 		const CommonFileFormats::XML::Element* FirstChildElementWithTagName(const CommonFileFormats::XML::Element& element, const String& tagName) const;
+
+		String FetchStringValue()
+		{
+			if(this->inAttributes)
+				return this->elementStack.Last()->GetAttribute(this->currentAttributeName);
+			else
+			{
+				const auto &children = this->elementStack.Last()->Children();
+				ASSERT(children.GetNumberOfElements() == 1, u8"REPORT THIS PLEASE");
+				ASSERT(children.Last()->GetType() == CommonFileFormats::XML::NodeType::TextNode,
+					   u8"REPORT THIS PLEASE!");
+				return dynamic_cast<CommonFileFormats::XML::TextNode *>(children.Last())->Text();
+			}
+		}
 
 		//Inline
 		inline void EnterElementOrAttribute(const String& name)

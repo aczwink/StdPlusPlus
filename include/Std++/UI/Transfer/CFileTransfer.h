@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../../Containers/LinkedList/LinkedList.hpp"
-#include "../../Filesystem/Path.hpp"
+#include "../../FileSystem/Path.hpp"
 #include "ITransfer.h"
 
 namespace StdXX
@@ -30,7 +30,7 @@ namespace StdXX
         {
         public:
             //Members
-            LinkedList<Path> files;
+            LinkedList<FileSystem::Path> files;
         };
     }
 }

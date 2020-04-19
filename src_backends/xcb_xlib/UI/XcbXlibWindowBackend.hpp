@@ -52,11 +52,11 @@ namespace _stdxx_
 		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String &text) override;
-		StdXX::Path SelectExistingDirectory(const StdXX::String &title,
-		                                    const StdXX::Function<bool(StdXX::Path &)> callback) const override;
-		StdXX::Path SelectExistingFile(const StdXX::String &title,
+		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title,
+		                                    const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
+		StdXX::FileSystem::Path SelectExistingFile(const StdXX::String &title,
 		                               const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters,
-		                               const StdXX::Path &initialPath) const override;
+		                               const StdXX::FileSystem::Path &initialPath) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
 		void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
 		void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;

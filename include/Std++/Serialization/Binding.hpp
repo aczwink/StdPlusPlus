@@ -28,8 +28,12 @@ namespace StdXX::Serialization
 		String name;
 		T& value;
 
-		//Constructor
+		//Constructors
 		inline Binding(const String& name, T& value) : name(name), value(value)
+		{
+		}
+
+		inline Binding(const String& name, T&& value) : name(name), value(value)
 		{
 		}
 	};

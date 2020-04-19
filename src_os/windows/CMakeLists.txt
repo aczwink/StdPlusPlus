@@ -5,7 +5,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.cpp
 	
-	#Filesystem
+	#FileSystem
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.hpp

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Filesystem/Path.hpp"
+#include "../FileSystem/Path.hpp"
 #include "SeekableInputStream.hpp"
 
 namespace StdXX
@@ -27,7 +27,7 @@ namespace StdXX
     {
     public:
         //Constructor
-        FileInputStream(const Path &path);
+        FileInputStream(const FileSystem::Path &path);
 
         //Destructor
         ~FileInputStream();

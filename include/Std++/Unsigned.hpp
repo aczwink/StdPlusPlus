@@ -66,6 +66,13 @@ namespace StdXX
 			return (dividend + (divisor - 1)) / divisor; //TODO: this might actually overflow, whereas dividend / divisor does not
 		}
 
+		static constexpr uint32 DowncastToClosest(uint64 number)
+		{
+			if(number > Max())
+				return Max();
+			return (uint32)number;
+		}
+
 		static constexpr uint32 From4UInt8(uint8 msb, uint8 upperMiddle, uint8 lowerMiddle, uint8 lsb)
 		{
 			return (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb));

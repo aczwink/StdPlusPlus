@@ -17,21 +17,21 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/Path.hpp>
-#include <Std++/Filesystem/Link.hpp>
+#include <Std++/FileSystem/Path.hpp>
+#include <Std++/FileSystem/Link.hpp>
 #include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class PosixLink : public StdXX::Link, public PosixNode
+	class PosixLink : public StdXX::FileSystem::Link, public PosixNode
 	{
 	public:
 		//Constructor
-		inline explicit PosixLink(const StdXX::Path& path) : PosixNode(path)
+		inline explicit PosixLink(const StdXX::FileSystem::Path& path) : PosixNode(path)
 		{
 		}
 
 		//Methods
-		StdXX::Path ReadTarget() const override;
+		StdXX::FileSystem::Path ReadTarget() const override;
 	};
 }

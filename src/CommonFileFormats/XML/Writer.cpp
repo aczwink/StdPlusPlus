@@ -23,14 +23,12 @@ using namespace StdXX;
 using namespace StdXX::CommonFileFormats::XML;
 
 //Public methods
-void Writer::BeginElement(const String &tagName, const Map <String, String> &attributes)
+void Writer::BeginElement(const String &tagName)
 {
 	this->OnAddingChild(NodeType::Element);
 
 	this->Indent();
 	textWriter.WriteString(u8"<" + tagName);
-	for(const auto& kv : attributes)
-		textWriter.WriteString(u8" " + kv.key + u8"=\"" + kv.value + u8"\"");
 
 	this->elementStack.Push({ElementStateType::AfterBegin, tagName});
 }
@@ -47,13 +45,13 @@ void Writer::EndElement()
 		case ElementStateType::AtChildren:
 			this->indention--;
 			this->Indent();
+			this->WriteEndTag(state.tagName);
 			break;
 		case ElementStateType::HaveOneTextNodeChild:
 			this->textWriter.WriteString(state.text);
+			this->WriteEndTag(state.tagName);
 			break;
 	}
-
-	this->textWriter.WriteLine(u8"</" + state.tagName + u8">");
 
 	this->elementStack.Pop();
 }

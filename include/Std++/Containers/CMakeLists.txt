@@ -6,6 +6,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/ConstArrayIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/DynamicArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/FixedArray.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Array/StaticArray.hpp
 
 	#BinaryTreeSet
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/BinaryTreeSet.hpp

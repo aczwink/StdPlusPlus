@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++.hpp>
+#include <StdXX.hpp>
 #include "HumanReadableJsonParser.hpp"
 //Namespaces
 using namespace _stdxx_;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Filesystem/Path.hpp>
+#include <Std++/FileSystem/Path.hpp>
 #include <Std++/Math/Geometry/Rect.hpp>
 #include <Std++/Math/Size.hpp>
 #include <Std++/Function.hpp>

@@ -42,7 +42,9 @@ NodeType Element::GetType() const
 
 void Element::Write(Writer& writer) const
 {
-	writer.BeginElement(this->name, this->attributes);
+	writer.BeginElement(this->name);
+	for(const auto& kv : this->attributes)
+		writer.WriteAttribute(kv.key, kv.value);
 	for(const auto& child : this->children)
 		child->Write(writer);
 	writer.EndElement();

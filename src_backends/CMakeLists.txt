@@ -1,3 +1,4 @@
+add_subdirectory(fuse3)
 add_subdirectory(libavcodec)
 add_subdirectory(liblzma)
 add_subdirectory(OpenALSoft)

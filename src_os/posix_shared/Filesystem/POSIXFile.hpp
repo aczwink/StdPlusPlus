@@ -17,16 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Filesystem/File.hpp>
+#include <Std++/FileSystem/File.hpp>
 #include "PosixNode.hpp"
 
 namespace _stdxx_
 {
-	class POSIXFile : public StdXX::File, public PosixNode
+	class POSIXFile : public StdXX::FileSystem::File, public PosixNode
 	{
 	public:
 		//Constructor
-		inline POSIXFile(const StdXX::Path& path) : PosixNode(path)
+		inline POSIXFile(const StdXX::FileSystem::Path& path) : PosixNode(path)
 		{
 		}
 

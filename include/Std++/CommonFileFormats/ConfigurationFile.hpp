@@ -22,7 +22,7 @@
 #include "Std++/Containers/Map/Map.hpp"
 #include "Std++/Containers/Strings/StringUtil.h"
 #include "Std++/Definitions.h"
-#include "Std++/Filesystem/Path.hpp"
+#include "Std++/FileSystem/Path.hpp"
 #include "Std++/Streams/SeekableInputStream.hpp"
 
 namespace StdXX
@@ -34,7 +34,7 @@ namespace StdXX
     {
     public:
         //Constructor
-        ConfigurationFile(const Path &refPath, bool readOnly = false);
+        ConfigurationFile(const FileSystem::Path &refPath, bool readOnly = false);
         //Destructor
         ~ConfigurationFile();
 
@@ -82,7 +82,7 @@ namespace StdXX
 	private:
 		//Members
 		bool readOnly;
-		Path path;
+		FileSystem::Path path;
 		Map<String, Map<String, String>> sections;
 		//Methods
 		String ReadKey(InputStream &refInput);

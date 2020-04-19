@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Constructor
-POSIXDirectoryIteratorState::POSIXDirectoryIteratorState(const Path& path) : path(path)
+POSIXDirectoryIteratorState::POSIXDirectoryIteratorState(const FileSystem::Path& path) : path(path)
 {
 	this->dir = opendir(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()));
 	if(!this->dir)

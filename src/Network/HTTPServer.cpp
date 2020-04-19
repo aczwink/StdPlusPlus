@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -53,7 +53,7 @@ void HTTPServer::Serve()
 		ASSERT(reqParts.GetNumberOfElements() == 3, u8"REPORT THIS PLEASE!");
 		ASSERT(reqParts[2] == u8"HTTP/1.1", u8"REPORT THIS PLEASE!");
 		ASSERT(reqParts[0] == u8"GET", u8"REPORT THIS PLEASE!");
-		Path path = reqParts[1];
+		FileSystem::Path path = reqParts[1];
 
 		//parse headers
 		HTTPHeaders headers;
@@ -77,7 +77,7 @@ void HTTPServer::Serve()
 }
 
 //Event handlers
-void HTTPServer::OnGETRequest(const Path& requestPath, const HTTPHeaders& requestHeaders, HTTPResponse& response)
+void HTTPServer::OnGETRequest(const FileSystem::Path& requestPath, const HTTPHeaders& requestHeaders, HTTPResponse& response)
 {
 	response.WriteHeader(501);
 }

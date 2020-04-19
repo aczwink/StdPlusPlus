@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -25,7 +25,7 @@
 using namespace StdXX;
 
 //Constructor
-FileUpdateStream::FileUpdateStream(const Path &path)
+FileUpdateStream::FileUpdateStream(const FileSystem::Path &path)
 {
 	int flags = O_RDWR;
 	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);

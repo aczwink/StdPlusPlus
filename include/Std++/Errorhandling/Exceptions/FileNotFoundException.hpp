@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Std++/Errorhandling/Exception.hpp"
-#include "Std++/Filesystem/Path.hpp"
+#include "Std++/FileSystem/Path.hpp"
 
 namespace StdXX::ErrorHandling
 {
@@ -27,10 +27,10 @@ namespace StdXX::ErrorHandling
     {
     public:
         //Members
-        Path path;
+		FileSystem::Path path;
 
         //Constructor
-        inline FileNotFoundException(const Path &refPath)
+        inline FileNotFoundException(const FileSystem::Path &refPath)
         {
             this->path = refPath;
         }

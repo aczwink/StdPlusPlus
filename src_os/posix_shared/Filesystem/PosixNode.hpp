@@ -18,24 +18,24 @@
  */
 #pragma once
 //Local
-#include <Std++/Filesystem/FileSystemNode.hpp>
+#include <Std++/FileSystem/FileSystemNode.hpp>
 
 namespace _stdxx_
 {
-	class PosixNode : virtual public StdXX::FileSystemNode
+	class PosixNode : virtual public StdXX::FileSystem::FileSystemNode
 	{
 	public:
 		//Constructor
-		inline PosixNode(const StdXX::Path& path) : path(path)
+		inline PosixNode(const StdXX::FileSystem::Path& path) : path(path)
 		{
 		}
 
 		//Methods
-		void ChangePermissions(const StdXX::Filesystem::NodePermissions &newPermissions) override;
+		void ChangePermissions(const StdXX::FileSystem::NodePermissions &newPermissions) override;
 		StdXX::FileSystemNodeInfo QueryInfo() const override;
 
 	protected:
 		//Members
-		StdXX::Path path;
+		StdXX::FileSystem::Path path;
 	};
 }

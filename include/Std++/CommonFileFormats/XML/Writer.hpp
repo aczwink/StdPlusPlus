@@ -49,10 +49,15 @@ namespace StdXX::CommonFileFormats::XML
 		}
 
 		//Methods
-		void BeginElement(const String& tagName, const Map<String, String>& attributes);
+		void BeginElement(const String& tagName);
 		void EndElement();
 
 		//Inline
+		inline void WriteAttribute(const String& key, const String& value)
+		{
+			this->textWriter.WriteString(u8" " + key + u8"=\"" + value + u8"\"");
+		}
+
 		inline void WriteText(const String& text)
 		{
 			this->OnAddingChild(NodeType::TextNode, text);
@@ -78,6 +83,11 @@ namespace StdXX::CommonFileFormats::XML
 			if(this->elementStack.IsEmpty())
 				return;
 			this->OnAddingChild(this->elementStack.GetNumberOfElements()-1, nodeType, text);
+		}
+
+		inline void WriteEndTag(const String& tagName)
+		{
+			this->textWriter.WriteLine(u8"</" + tagName + u8">");
 		}
 
 		inline void WriteProlog()

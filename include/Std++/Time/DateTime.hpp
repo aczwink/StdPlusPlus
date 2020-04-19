@@ -33,7 +33,10 @@ namespace StdXX
 		{
 		}
 
-		//Operators
+		//Methods
+		uint64 ToUnixTimestamp() const;
+
+		//Inline operators
 		inline bool operator==(const DateTime& other) const
 		{
         	return (this->date == other.date) && (this->time == other.time);

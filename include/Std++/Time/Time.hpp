@@ -74,6 +74,11 @@ namespace StdXX
 			return this->nanoseconds;
 		}
 
+		inline uint64 NanosecondsSinceStartOfSecond() const
+		{
+			return this->nanoseconds % 1000000000;
+		}
+
 		inline uint8 Minutes() const
 		{
 			return (this->nanoseconds / 1000 / 1000 / 1000 / 60) % 60;
@@ -81,7 +86,12 @@ namespace StdXX
 
 		inline uint8 Seconds() const
 		{
-			return (this->nanoseconds / 1000 / 1000 / 1000) % 60;
+			return this->SecondsSinceStartOfDay() % 60;
+		}
+
+		inline uint32 SecondsSinceStartOfDay() const
+		{
+			return this->nanoseconds / 1000 / 1000 / 1000;
 		}
 
 		//Methods

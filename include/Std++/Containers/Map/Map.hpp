@@ -174,6 +174,10 @@ namespace StdXX
 			this->RemoveNodeLinks(node);
 
 			this->nElements--;
+			if(this->root && this->root->parent)
+				this->root = this->root->parent;
+			node->left = nullptr;
+			node->right = nullptr;
 			delete node;
 		}
 

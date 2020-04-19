@@ -22,7 +22,7 @@
 #include "../Containers/Array/DynamicArray.hpp"
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
 #include "../Containers/Map/Map.hpp"
-#include "../Filesystem/Path.hpp"
+#include "../FileSystem/Path.hpp"
 #include "CCharSet.h"
 #include "CDFA.h"
 //Definitions

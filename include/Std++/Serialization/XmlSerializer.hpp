@@ -17,6 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include <Std++/Errorhandling/Errors/IllegalCodePathError.hpp>
 
 namespace StdXX::Serialization
 {
@@ -26,6 +28,7 @@ namespace StdXX::Serialization
 		//Constructor
 		inline XmlSerializer(OutputStream& outputStream) : writer(outputStream)
 		{
+			this->inAttributes = false;
 		}
 
 		//Operators
@@ -38,30 +41,85 @@ namespace StdXX::Serialization
 		template <typename T>
 		inline XmlSerializer& operator<<(const Binding<T>& binding)
 		{
-			this->writer.BeginElement(binding.name, {});
-			*this << binding.value;
-			this->writer.EndElement();
+			if(this->inAttributes)
+			{
+				this->currentAttribute = binding.name;
+				*this << binding.value;
+			}
+			else
+			{
+				this->writer.BeginElement(binding.name);
+				*this << binding.value;
+				this->writer.EndElement();
+			}
 			return *this;
+		}
+
+		inline void operator<<(String& value)
+		{
+			if(this->inAttributes)
+				this->writer.WriteAttribute(this->currentAttribute, value);
+			else
+				this->writer.WriteText(value);
+		}
+
+		inline void operator<<(const String& value)
+		{
+			*this << const_cast<String&>(value);
+		}
+
+		//Inline
+		inline void EnterAttributes()
+		{
+			this->inAttributes = true;
+		}
+
+		inline void EnterElement(const String& tagName)
+		{
+			this->writer.BeginElement(tagName);
+		}
+
+		inline void LeaveAttributes()
+		{
+			this->inAttributes = false;
+		}
+
+		inline void LeaveElement()
+		{
+			this->writer.EndElement();
 		}
 
 	private:
 		//Members
 		CommonFileFormats::XML::Writer writer;
+		bool inAttributes;
+		String currentAttribute;
 
 		//Operators
-		inline void operator<<(int32 value)
+		inline void operator<<(bool value)
 		{
-			this->writer.WriteText(String::Number(value));
+			*this << (value ? u8"true" : u8"false");
 		}
 
-		inline void operator<<(String& value)
+		inline void operator<<(int32 value)
 		{
-			this->writer.WriteText(value);
+			*this << String::Number(value);
+		}
+
+		inline void operator<<(uint64 value)
+		{
+			*this << String::Number(value);
+		}
+
+		inline void operator<<(const char* value)
+		{
+			*this << String(value);
 		}
 
 		template <typename T>
 		inline void operator<<(T& obj)
 		{
+			ASSERT(!this->inAttributes, u8"Hierarchies are not supported while in attributes");
 			Archive(*this, obj);
 		}
 	};

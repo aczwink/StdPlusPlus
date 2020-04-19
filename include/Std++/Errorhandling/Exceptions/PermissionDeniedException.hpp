@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Std++/Errorhandling/Exception.hpp"
-#include "Std++/Filesystem/Path.hpp"
+#include "Std++/FileSystem/Path.hpp"
 
 namespace StdXX::ErrorHandling
 {
@@ -27,10 +27,10 @@ namespace StdXX::ErrorHandling
 	{
 	public:
 		//Members
-		Path path;
+		FileSystem::Path path;
 
 		//Constructor
-		inline PermissionDeniedException(const Path& path)
+		inline PermissionDeniedException(const FileSystem::Path& path)
 		{
 			this->path = path;
 		}

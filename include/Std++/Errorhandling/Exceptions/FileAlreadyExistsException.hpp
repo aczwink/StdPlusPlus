@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,10 +26,10 @@ namespace StdXX::ErrorHandling
 	{
 	public:
 		//Members
-		Path path;
+		FileSystem::Path path;
 
 		//Constructor
-		inline FileAlreadyExistsException(const Path &path)
+		inline FileAlreadyExistsException(const FileSystem::Path &path)
 		{
 			this->path = path;
 		}

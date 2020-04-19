@@ -24,7 +24,7 @@
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/Filesystem/FileSystemFormat.hpp>
+#include <Std++/FileSystem/Format.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
@@ -68,8 +68,8 @@ void ShutdownStdPlusPlus()
 	ShutdownStdPlusPlus_Platform();
 
 	//release file system formats
-	extern DynamicArray<const FileSystemFormat *> g_fsFormats;
-	for(const FileSystemFormat *format : g_fsFormats)
+	extern DynamicArray<const FileSystem::Format *> g_fsFormats;
+	for(const FileSystem::Format *format : g_fsFormats)
 		delete(format);
 	g_fsFormats.Release();
 

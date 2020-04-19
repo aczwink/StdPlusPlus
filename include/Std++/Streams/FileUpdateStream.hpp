@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Filesystem/Path.hpp>
+#include <Std++/FileSystem/Path.hpp>
 #include "UpdateStream.hpp"
 
 namespace StdXX
@@ -31,7 +31,7 @@ namespace StdXX
 		 * Already existing file is opened in update mode. It is never truncated.
 		 * If the file does not exist, an error occurs.
 		 * */
-		FileUpdateStream(const Path &path);
+		FileUpdateStream(const FileSystem::Path &path);
 
 		//Destructor
 		~FileUpdateStream();

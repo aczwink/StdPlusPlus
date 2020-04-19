@@ -121,20 +121,20 @@ void _stdxx_::XcbXlibWindowBackend::SetHint(const StdXX::String &text)
 	ASSERT(text.IsEmpty(), u8"IMPLEMENT THIS"); //TODO: implement me
 }
 
-StdXX::Path _stdxx_::XcbXlibWindowBackend::SelectExistingDirectory(const StdXX::String &title,
+StdXX::FileSystem::Path _stdxx_::XcbXlibWindowBackend::SelectExistingDirectory(const StdXX::String &title,
                                                                    const StdXX::Function<bool(
-		                                                                   StdXX::Path &)> callback) const
+		                                                                   StdXX::FileSystem::Path &)> callback) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
+	return StdXX::FileSystem::Path();
 }
 
-StdXX::Path _stdxx_::XcbXlibWindowBackend::SelectExistingFile(const StdXX::String &title,
+StdXX::FileSystem::Path _stdxx_::XcbXlibWindowBackend::SelectExistingFile(const StdXX::String &title,
                                                               const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters,
-                                                              const StdXX::Path &initialPath) const
+                                                              const StdXX::FileSystem::Path &initialPath) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
+	return StdXX::FileSystem::Path();
 }
 
 void _stdxx_::XcbXlibWindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, _stdxx_::MenuBarBackend *menuBarBackend)

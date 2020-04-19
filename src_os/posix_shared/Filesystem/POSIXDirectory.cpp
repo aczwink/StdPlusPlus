@@ -22,7 +22,7 @@
 #include <cerrno>
 #include <sys/stat.h>
 //Local
-#include <Std++/Filesystem/DirectoryIterator.hpp>
+#include <Std++/FileSystem/DirectoryIterator.hpp>
 #include <Std++/Errorhandling/Exceptions/PermissionDeniedException.hpp>
 #include "POSIXDirectoryIteratorState.hpp"
 #include "POSIXFile.hpp"
@@ -30,6 +30,7 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Public methods
 UniquePointer<OutputStream> POSIXDirectory::CreateFile(const String &name)
@@ -85,13 +86,13 @@ AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) c
 	return StatFindNode(this->path / name);
 }
 
-FileSystem *POSIXDirectory::GetFileSystem()
+RWFileSystem *POSIXDirectory::GetFileSystem()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
 
-const FileSystem *POSIXDirectory::GetFileSystem() const
+const RWFileSystem *POSIXDirectory::GetFileSystem() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
@@ -117,12 +118,12 @@ bool POSIXDirectory::IsEmpty() const
 }
 
 //For range-based loop
-StdXX::DirectoryIterator _stdxx_::POSIXDirectory::begin() const
+StdXX::FileSystem::DirectoryIterator _stdxx_::POSIXDirectory::begin() const
 {
 	return new POSIXDirectoryIteratorState(this->path);
 }
 
-StdXX::DirectoryIterator _stdxx_::POSIXDirectory::end() const
+StdXX::FileSystem::DirectoryIterator _stdxx_::POSIXDirectory::end() const
 {
 	return nullptr;
 }

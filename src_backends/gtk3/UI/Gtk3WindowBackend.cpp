@@ -151,10 +151,10 @@ void _stdxx_::Gtk3WindowBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-StdXX::Path _stdxx_::Gtk3WindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(
-        StdXX::Path &)> callback) const {
+StdXX::FileSystem::Path _stdxx_::Gtk3WindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(
+        StdXX::FileSystem::Path &)> callback) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return StdXX::Path();
+    return StdXX::FileSystem::Path();
 }
 
 void _stdxx_::Gtk3WindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, _stdxx_::MenuBarBackend *menuBarBackend) {
@@ -169,9 +169,9 @@ void _stdxx_::Gtk3WindowBackend::ShowInformationBox(const StdXX::String &title, 
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-Path Gtk3WindowBackend::SelectExistingFile(const StdXX::String &title,
+FileSystem::Path Gtk3WindowBackend::SelectExistingFile(const StdXX::String &title,
                                            const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters,
-                                           const StdXX::Path &initialPath) const {
+                                           const StdXX::FileSystem::Path &initialPath) const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::Path();
+	return StdXX::FileSystem::Path();
 }

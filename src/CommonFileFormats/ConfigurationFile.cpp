@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,13 +19,14 @@
 //Class Header
 #include <Std++/CommonFileFormats/ConfigurationFile.hpp>
 //Local
-#include <Std++/Filesystem/OSFileSystem.hpp>
+#include <Std++/FileSystem/OSFileSystem.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Constructor
 ConfigurationFile::ConfigurationFile(const Path &path, bool readOnly)

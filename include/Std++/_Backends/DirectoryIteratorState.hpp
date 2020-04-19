@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Tuple.hpp>
-#include "../Filesystem/FileSystemNode.hpp"
+#include "../FileSystem/FileSystemNode.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 
 //Move declarations

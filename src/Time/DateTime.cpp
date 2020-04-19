@@ -23,14 +23,20 @@
 //Namespaces
 using namespace StdXX;
 
+//constants
+const uint16 SECONDS_PER_MINUTE = 60;
+const uint16 SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+const uint32 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
+
+//Public methods
+uint64 DateTime::ToUnixTimestamp() const
+{
+	return this->Date().NumberOfDaysSinceEpoch() * SECONDS_PER_DAY + this->Time().SecondsSinceStartOfDay();
+}
+
 //Class functions
 DateTime DateTime::FromUnixTimeStamp(int64 timeStamp)
 {
-	//constants
-	const uint16 SECONDS_PER_MINUTE = 60;
-	const uint16 SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
-	const uint32 SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
-
 	const int32 nSeconds = timeStamp % SECONDS_PER_DAY;
 	const int64 nDays = (timeStamp / SECONDS_PER_DAY) + (nSeconds < 0 ? -1 : 0);
 	return DateTime(StdXX::Date::Epoch.AddDays(nDays), StdXX::Time().AddSecs(nSeconds));

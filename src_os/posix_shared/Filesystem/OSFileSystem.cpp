@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Filesystem/OSFileSystem.hpp>
+#include <Std++/FileSystem/OSFileSystem.hpp>
 //Global
 #include <climits>
 #include <cstdio>
@@ -27,9 +27,11 @@
 #include "POSIXDirectory.hpp"
 #include "POSIXFile.hpp"
 #include "PosixStat.hpp"
+#include "../src_backends/fuse3/fuse3.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Public methods
 Path OSFileSystem::FromNativePath(const String &nativePath) const
@@ -45,6 +47,15 @@ Path OSFileSystem::GetWorkingDirectory() const
 	ASSERT(ret, u8"REPORT THIS PLEASE!");
 
 	return String::CopyRawString(buffer);
+}
+
+void OSFileSystem::MountReadOnly(const Path &mountPoint, const RWFileSystem &fileSystem)
+{
+#ifdef _STDXX_EXTENSION_FUSE3
+	fuse_MountReadOnly(mountPoint, fileSystem);
+	return;
+#endif
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 Path OSFileSystem::ToAbsolutePath(const Path &path) const
@@ -92,16 +103,6 @@ OSFileSystem &OSFileSystem::GetInstance()
 		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override
 		{
 			return StatFindNode(this->ToAbsolutePath(path));
-		}
-
-		AutoPointer<Directory> GetRoot() override
-		{
-			return new POSIXDirectory(Path(u8"/"));
-		}
-
-		AutoPointer<const Directory> GetRoot() const override
-		{
-			return new POSIXDirectory(Path(u8"/"));
 		}
 
 		uint64 GetSize() const override
