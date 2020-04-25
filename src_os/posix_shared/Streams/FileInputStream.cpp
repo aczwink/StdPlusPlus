@@ -30,7 +30,7 @@ using namespace StdXX;
 //Constructor
 FileInputStream::FileInputStream(const FileSystem::Path &path)
 {
-	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
+	this->fileHandle = open(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), O_RDONLY);
 
 	if(this->fileHandle == -1)
 	{
@@ -49,9 +49,9 @@ FileInputStream::~FileInputStream()
 }
 
 //Public methods
-uint64 FileInputStream::GetRemainingBytes() const
+uint64 FileInputStream::QueryRemainingBytes() const
 {
-	return this->GetSize() - this->GetCurrentOffset();
+	return this->QuerySize() - this->GetCurrentOffset();
 }
 
 uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)

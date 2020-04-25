@@ -28,9 +28,8 @@ using namespace StdXX::FileSystem;
 //Public methods
 void Directory::CreateDirectoryTree(const Path &directoryPath)
 {
-	if(directoryPath.IsAbsolute())
-		return this->GetFileSystem()->CreateDirectoryTree(directoryPath);
-	if(directoryPath.GetString().IsEmpty())
+	ASSERT(directoryPath.IsRelative(), u8"Directory can't move upwards");
+	if(directoryPath.String().IsEmpty())
 		return;
 
 	Path subPath;
@@ -46,9 +45,9 @@ void Directory::CreateDirectoryTree(const Path &directoryPath)
 	this->GetSubDirectory(part)->CreateDirectoryTree(subPath);
 }
 
-FileSystemNodeType Directory::GetType() const
+NodeType Directory::GetType() const
 {
-	return FileSystemNodeType::Directory;
+	return NodeType::Directory;
 }
 
 DirectoryWalkerWrapper Directory::WalkFiles()

@@ -43,12 +43,12 @@ uint64 BufferInputStream::GetCurrentOffset() const
     return this->current - this->pStart;
 }
 
-uint64 BufferInputStream::GetRemainingBytes() const
+uint64 BufferInputStream::QueryRemainingBytes() const
 {
     return this->endPos - this->current;
 }
 
-uint64 BufferInputStream::GetSize() const
+uint64 BufferInputStream::QuerySize() const
 {
     return this->endPos - this->pStart;
 }
@@ -60,10 +60,10 @@ bool BufferInputStream::IsAtEnd() const
 
 uint32 BufferInputStream::ReadBytes(void *pDestination, uint32 count)
 {
-    if(count > this->GetRemainingBytes())
+    if(count > this->QueryRemainingBytes())
     {
         //trying to read more than there is
-        count = (uint32)this->GetRemainingBytes();
+        count = (uint32) this->QueryRemainingBytes();
     }
 
     MemCopy(pDestination, this->current, count);
@@ -72,7 +72,7 @@ uint32 BufferInputStream::ReadBytes(void *pDestination, uint32 count)
     return count;
 }
 
-void BufferInputStream::SetCurrentOffset(uint64 offset)
+void BufferInputStream::SeekTo(uint64 offset)
 {
     ASSERT(this->pStart + offset <= this->endPos, "If you see this, report to StdXX");
 
@@ -81,10 +81,10 @@ void BufferInputStream::SetCurrentOffset(uint64 offset)
 
 uint32 BufferInputStream::Skip(uint32 nBytes)
 {
-    if(nBytes > this->GetRemainingBytes())
+    if(nBytes > this->QueryRemainingBytes())
     {
         //trying to read more than there is
-        nBytes = (uint32)this->GetRemainingBytes();
+        nBytes = (uint32) this->QueryRemainingBytes();
     }
 
     this->current += nBytes;

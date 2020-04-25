@@ -38,12 +38,8 @@ namespace _stdxx_
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
-		StdXX::FileSystem::RWFileSystem *GetFileSystem() override;
-		const StdXX::FileSystem::RWFileSystem *GetFileSystem() const override;
-		StdXX::AutoPointer<const Directory> GetParent() const override;
-		StdXX::FileSystem::Path GetPath() const override;
 		bool IsEmpty() const override;
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
+		StdXX::NodeInfo QueryInfo() const override;
 
 	private:
 		//Members

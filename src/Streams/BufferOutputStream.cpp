@@ -44,7 +44,7 @@ uint64 BufferOutputStream::GetCurrentOffset() const
 	return this->pCurrent - this->pStart;
 }
 
-void BufferOutputStream::SetCurrentOffset(uint64 offset)
+void BufferOutputStream::SeekTo(uint64 offset)
 {
 	ASSERT(this->pStart + offset < this->pEnd, u8"Offset out of bounds.");
 

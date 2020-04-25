@@ -29,5 +29,5 @@ uint32 FileInputStream::GetBytesAvailable() const
 
 bool FileInputStream::IsAtEnd() const
 {
-	return this->GetRemainingBytes() == 0;
+	return this->QueryRemainingBytes() == 0;
 }

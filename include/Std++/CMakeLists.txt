@@ -2,6 +2,7 @@ add_subdirectory(_Backends)
 add_subdirectory(Audio)
 add_subdirectory(Buffers)
 add_subdirectory(CodeAnalysis)
+add_subdirectory(CommandLine)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Compression)
 add_subdirectory(Containers)
@@ -71,8 +72,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/__Globaldependencies.h
 	${CMAKE_CURRENT_SOURCE_DIR}/__InitAndShutdown.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Char.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Color.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Debug.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Definitions.h
 	${CMAKE_CURRENT_SOURCE_DIR}/Deleters.hpp

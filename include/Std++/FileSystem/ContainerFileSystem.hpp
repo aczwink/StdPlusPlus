@@ -59,11 +59,12 @@ namespace StdXX::FileSystem
 		ContainerFileSystem(const Path &fileSystemPath);
 
 		//Methods
+		void CreateLink(const Path &linkPath, const Path &linkTargetPath) override;
 		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
 		AutoPointer<const Directory> GetRoot() const override;
-		uint64 GetSize() const override;
 		void Move(const Path &from, const Path &to) override;
+		SpaceInfo QuerySpace() const override;
 
 	protected:
 		//Members

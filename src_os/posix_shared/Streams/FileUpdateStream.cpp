@@ -28,7 +28,7 @@ using namespace StdXX;
 FileUpdateStream::FileUpdateStream(const FileSystem::Path &path)
 {
 	int flags = O_RDWR;
-	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	this->fileHandle = open(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	ASSERT(this->fileHandle != -1, u8"REPORT THIS PLEASE!");
 }
 
@@ -43,9 +43,9 @@ void FileUpdateStream::Flush()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint64 FileUpdateStream::GetRemainingBytes() const
+uint64 FileUpdateStream::QueryRemainingBytes() const
 {
-	return this->GetSize() - this->GetCurrentOffset();
+	return this->QuerySize() - this->GetCurrentOffset();
 }
 
 uint32 FileUpdateStream::ReadBytes(void *destination, uint32 count)

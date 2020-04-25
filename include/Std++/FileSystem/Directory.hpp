@@ -21,7 +21,7 @@
 #include "../SmartPointers/AutoPointer.hpp"
 #include "../SmartPointers/UniquePointer.hpp"
 #include "../Streams/OutputStream.hpp"
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 #include "Path.hpp"
 #include "File.hpp"
 
@@ -30,7 +30,7 @@ namespace StdXX::FileSystem
 	//Forward declarations
 	class DirectoryWalkerWrapper;
 
-	class STDPLUSPLUS_API Directory : virtual public FileSystemNode
+	class STDPLUSPLUS_API Directory : virtual public Node
 	{
 	public:
 		//Destructor
@@ -48,17 +48,13 @@ namespace StdXX::FileSystem
 		 * @param name
 		 * @return
 		 */
-		virtual AutoPointer<FileSystemNode> GetChild(const String &name) = 0;
-		virtual AutoPointer<const FileSystemNode> GetChild(const String &name) const = 0;
-		virtual RWFileSystem *GetFileSystem() = 0;
-		virtual const RWFileSystem *GetFileSystem() const = 0;
-		virtual AutoPointer<const Directory> GetParent() const = 0;
-		virtual Path GetPath() const = 0;
+		virtual AutoPointer<Node> GetChild(const String &name) = 0;
+		virtual AutoPointer<const Node> GetChild(const String &name) const = 0;
 		virtual bool IsEmpty() const = 0;
 
 		//Methods
 		void CreateDirectoryTree(const Path &directoryPath);
-		FileSystemNodeType GetType() const override;
+		NodeType GetType() const override;
 		DirectoryWalkerWrapper WalkFiles();
 
 		//For range-based loop
@@ -68,34 +64,34 @@ namespace StdXX::FileSystem
 		//Inline
 		inline AutoPointer<Directory> GetSubDirectory(const String& name)
 		{
-			AutoPointer<FileSystemNode> node = this->GetChild(name);
+			AutoPointer<Node> node = this->GetChild(name);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
+			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
 			return node.MoveCast<Directory>();
 		}
 
 		inline AutoPointer<const Directory> GetSubDirectory(const String& name) const
 		{
-			AutoPointer<const FileSystemNode> node = this->GetChild(name);
+			AutoPointer<const Node> node = this->GetChild(name);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
+			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
 			return node.MoveCast<const Directory>();
 		}
 
 		inline bool HasFile(const String& name) const
 		{
-			AutoPointer<const FileSystemNode> node = this->GetChild(name);
+			AutoPointer<const Node> node = this->GetChild(name);
 			if(node.IsNull())
 				return false;
-			return node->GetType() == FileSystemNodeType::File;
+			return node->GetType() == NodeType::File;
 		}
 
 		inline bool HasSubDirectory(const String& name) const
 		{
-			AutoPointer<const FileSystemNode> node = this->GetChild(name);
+			AutoPointer<const Node> node = this->GetChild(name);
 			if(node.IsNull())
 				return false;
-			return node->GetType() == FileSystemNodeType::Directory;
+			return node->GetType() == NodeType::Directory;
 		}
 	};
 }

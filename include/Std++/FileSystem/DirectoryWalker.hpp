@@ -103,7 +103,7 @@ namespace StdXX::FileSystem
 		{
 			WalkerState& topState = this->states.Last();
 			String s = *(*topState.iterator);
-			if(topState.path.GetString().IsEmpty())
+			if(topState.path.String().IsEmpty())
 				return s;
 			return topState.path / s;
 		}

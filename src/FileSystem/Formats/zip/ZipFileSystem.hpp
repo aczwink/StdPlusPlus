@@ -54,12 +54,13 @@ namespace _stdxx_
 		}
 
 		//Methods
+		void CreateLink(const StdXX::FileSystem::Path &linkPath, const StdXX::FileSystem::Path &linkTargetPath) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
 		void Flush() override;
 		StdXX::AutoPointer<StdXX::FileSystem::Directory> GetRoot() override;
 		StdXX::AutoPointer<const StdXX::FileSystem::Directory> GetRoot() const override;
-		uint64 GetSize() const override;
 		void Move(const StdXX::FileSystem::Path &from, const StdXX::FileSystem::Path &to) override;
+		StdXX::FileSystem::SpaceInfo QuerySpace() const override;
 
 		//Inline
 		inline void InformNodeChanged()

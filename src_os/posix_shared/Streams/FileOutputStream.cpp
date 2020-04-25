@@ -34,7 +34,7 @@ FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite)
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if(!overwrite)
 		flags |= O_EXCL;
-	this->fileHandle = open(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	this->fileHandle = open(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if(this->fileHandle == -1)
 	{
 		switch(errno)

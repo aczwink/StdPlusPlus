@@ -31,7 +31,7 @@ using namespace StdXX;
 //Constructor
 POSIXDirectoryIteratorState::POSIXDirectoryIteratorState(const FileSystem::Path& path) : path(path)
 {
-	this->dir = opendir(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()));
+	this->dir = opendir(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()));
 	if(!this->dir)
 		throw ErrorHandling::FileNotFoundException(path);
 	this->Next();

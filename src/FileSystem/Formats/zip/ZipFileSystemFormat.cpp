@@ -50,10 +50,10 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 	const uint32 endOfCentralDirectoryStaticSize = 22;
 	const uint32 endOfCentralDirectoryMaxSize = endOfCentralDirectoryStaticSize + Unsigned<uint16>::Max();
 
-	uint32 bufferSize = (uint32)Math::Min((uint64)endOfCentralDirectoryMaxSize, inputStream.GetSize());
+	uint32 bufferSize = (uint32)Math::Min((uint64)endOfCentralDirectoryMaxSize, inputStream.QuerySize());
 	FixedSizeBuffer buffer(bufferSize);
 
-	inputStream.SetCurrentOffset(inputStream.GetSize() - bufferSize);
+	inputStream.SeekTo(inputStream.QuerySize() - bufferSize);
 	uint32 nBytesRead = inputStream.ReadBytes(buffer.data(), bufferSize);
 	ASSERT(nBytesRead == bufferSize, u8"REPORT THIS PLEASE!");
 	ASSERT(inputStream.IsAtEnd(), u8"REPORT THIS PLEASE!");
@@ -65,7 +65,7 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 		if(offset == Unsigned<uint32>::Max())
 			break;
 		if(this->ValidateEndOfCentralDirectory(buffer, offset))
-			return inputStream.GetSize() - buffer.size() + offset;
+			return inputStream.QuerySize() - buffer.size() + offset;
 	}
 
 	return Unsigned<uint64>::Max();
@@ -78,5 +78,5 @@ bool ZipFileSystemFormat::ValidateEndOfCentralDirectory(const FixedSizeBuffer &b
 	DataReader dataReader(false, bufferInputStream);
 
 	uint16 commentLength = dataReader.ReadUInt16();
-	return bufferInputStream.GetRemainingBytes() == commentLength;
+	return bufferInputStream.QueryRemainingBytes() == commentLength;
 }

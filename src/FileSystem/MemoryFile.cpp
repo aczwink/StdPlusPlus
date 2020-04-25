@@ -27,12 +27,6 @@ void MemoryFile::ChangePermissions(const StdXX::FileSystem::NodePermissions &new
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint64 MemoryFile::GetSize() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
-}
-
 StdXX::UniquePointer<StdXX::InputStream> MemoryFile::OpenForReading(bool verify) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -45,8 +39,8 @@ StdXX::UniquePointer<StdXX::OutputStream> MemoryFile::OpenForWriting()
 	return UniquePointer<OutputStream>();
 }
 
-StdXX::FileSystemNodeInfo MemoryFile::QueryInfo() const
+StdXX::NodeInfo MemoryFile::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return FileSystemNodeInfo();
+	return NodeInfo();
 }

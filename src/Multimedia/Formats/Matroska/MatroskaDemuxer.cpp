@@ -87,7 +87,7 @@ void MatroskaDemuxer::ReadHeader()
 	//read segment
 	ASSERT(segmentOffsets.GetNumberOfElements() == 1, u8"Can't read matroska files with multiple segments currently.");
 
-	this->inputStream.SetCurrentOffset(segmentOffsets[0]);
+	this->inputStream.SeekTo(segmentOffsets[0]);
 	this->ReadSegment(segmentOffsets[0], false);
 
 	//ReadSegment will place us at the beginning of the first cluster
@@ -514,12 +514,12 @@ void MatroskaDemuxer::ReadSegment(uint64 segmentOffset, bool isLive)
 		{
 			uint64 currentOffset = this->inputStream.GetCurrentOffset();
 
-			this->inputStream.SetCurrentOffset(kv.value);
+			this->inputStream.SeekTo(kv.value);
 			EBML::Element element;
 			EBML::ParseElementHeader(element, this->inputStream);
 			this->ReadSection(element);
 
-			this->inputStream.SetCurrentOffset(currentOffset);
+			this->inputStream.SeekTo(currentOffset);
 		}
 	}
 

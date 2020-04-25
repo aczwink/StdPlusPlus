@@ -21,7 +21,7 @@
 #include <Std++/Tuple.hpp>
 #include "../_Backends/DirectoryIteratorState.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 
 namespace StdXX::FileSystem
 {

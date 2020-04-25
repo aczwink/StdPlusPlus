@@ -1,0 +1,16 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Argument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EnumArgument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Group.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MatchResult.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Option.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/OptionWithArgument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Parser.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PathArgument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/StringArgument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SubCommandArgument.hpp
+
+	PARENT_SCOPE)

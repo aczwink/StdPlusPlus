@@ -31,6 +31,7 @@ namespace StdXX
 	template<typename ValueType>
 	class UniquePointer
 	{
+		template <typename > friend class UniquePointer; //All UniquePointers are friends
 	public:
 		//Constructors
 		inline UniquePointer() : pointer(nullptr)
@@ -43,7 +44,8 @@ namespace StdXX
 
 		UniquePointer(const UniquePointer &rhs) = delete; //Copy constructor
 
-		UniquePointer(UniquePointer &&rhs) //Move ctor
+		template <typename SubValueType>
+		inline UniquePointer(UniquePointer<SubValueType> &&rhs) //Move ctor
 		{
 			this->pointer = rhs.pointer;
 			rhs.pointer = nullptr;

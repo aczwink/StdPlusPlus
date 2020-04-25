@@ -37,11 +37,6 @@ void ZipFile::ChangePermissions(const FileSystem::NodePermissions &newPermission
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint64 ZipFile::GetSize() const
-{
-	return this->fileHeader.uncompressedSize;
-}
-
 UniquePointer<InputStream> ZipFile::OpenForReading(bool verify) const
 {
 	return ZipReadableFile::OpenForReading(verify);
@@ -52,7 +47,8 @@ StdXX::UniquePointer<StdXX::OutputStream> _stdxx_::ZipFile::OpenForWriting() {
 	return StdXX::UniquePointer<StdXX::OutputStream>();
 }
 
-StdXX::FileSystemNodeInfo _stdxx_::ZipFile::QueryInfo() const {
+StdXX::NodeInfo _stdxx_::ZipFile::QueryInfo() const {
+	//size = this->fileHeader.uncompressedSize;
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::FileSystemNodeInfo();
+	return StdXX::NodeInfo();
 }

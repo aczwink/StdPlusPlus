@@ -62,7 +62,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 	const uint32 maxSearchSize = this->GetNumberOfStreams() * 10000;
 
 	currentOffset = this->inputStream.GetCurrentOffset();
-	this->inputStream.SetCurrentOffset(this->inputStream.GetSize() - maxSearchSize);
+	this->inputStream.SeekTo(this->inputStream.QuerySize() - maxSearchSize);
 
 	for(i = 0; i < this->streams.GetNumberOfElements(); i++)
 	{
@@ -84,7 +84,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 		}
 	}
 
-	this->inputStream.SetCurrentOffset(currentOffset);
+	this->inputStream.SeekTo(currentOffset);
 }
 
 void Demuxer::ExtractInfo(Packet &refPacket)
@@ -203,10 +203,10 @@ bool Demuxer::FindStreamInfo()
 
 	//compute overall bit rate
 	if(this->AllStreamsHaveDuration())
-		this->bitRate = uint32(((float64)this->inputStream.GetSize() * 8 / this->timeScale) / this->duration);
+		this->bitRate = uint32(((float64) this->inputStream.QuerySize() * 8 / this->timeScale) / this->duration);
 
 	//reset state
-	this->inputStream.SetCurrentOffset(currentOffset);
+	this->inputStream.SeekTo(currentOffset);
 	this->Reset();
 	for(uint32 i = 0; i < this->streams.GetNumberOfElements(); i++)
 	{

@@ -37,7 +37,8 @@ namespace StdXX::ErrorHandling
 		//Inline
 		inline String Description() const
 		{
-			return u8"Tried to write file or create directory, but file already exist for path: \"" + this->path.GetString() + u8"\"";
+			return u8"Tried to write file or create directory, but file already exist for path: \"" +
+					this->path.String() + u8"\"";
 		}
 	};
 }

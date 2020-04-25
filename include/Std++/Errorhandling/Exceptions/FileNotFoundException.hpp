@@ -38,7 +38,7 @@ namespace StdXX::ErrorHandling
         //Inline
         inline String Description() const
         {
-            return u8"No such file or directory: \"" + this->path.GetString() + u8"\"";
+            return u8"No such file or directory: \"" + this->path.String() + u8"\"";
         }
     };
 }

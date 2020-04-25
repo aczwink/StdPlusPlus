@@ -18,7 +18,7 @@
 */
 #pragma once
 //Local
-#include <Std++/FileSystem/FileSystemNode.hpp>
+#include <Std++/FileSystem/Node.hpp>
 #include "LocalFileHeader.hpp"
 
 namespace _stdxx_
@@ -35,6 +35,6 @@ namespace _stdxx_
         CentralDirectoryRecord(StdXX::InputStream& inputStream);
 
         //Methods
-        StdXX::FileSystem::FileSystemNodeType DetermineType() const;
+        StdXX::FileSystem::NodeType DetermineType() const;
     };
 }

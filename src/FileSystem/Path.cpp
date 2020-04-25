@@ -36,18 +36,19 @@ Path Path::operator/(const Path &rhs) const
 //Public methods
 String Path::GetFileExtension() const
 {
-	uint32 posSlash = this->pathString.FindReverse(u8"/");
+	auto it = this->pathString.end();
+	--it;
 
-	uint32 posDot;
-	if(posSlash == Unsigned<uint32>::Max())
-		posDot = this->pathString.FindReverse(u8".");
-	else
-		posDot = this->pathString.FindReverse(u8".", this->pathString.GetLength()-1, posSlash);
+	while(it != this->pathString.begin())
+	{
+		if(*it == u8'/')
+			break;
+		if(*it == u8'.')
+			return this->pathString.SubString(it.GetPosition() + 1, this->pathString.GetLength() - it.GetPosition() - 1).ToLowercase();
+		--it;
+	}
 
-	if(posDot == Unsigned<uint32>::Max())
-		return String();
-
-	return this->pathString.SubString(posDot + 1, this->pathString.GetLength() - posDot - 1).ToLowercase();
+	return {};
 }
 
 String Path::GetName() const
@@ -70,7 +71,7 @@ Path Path::GetParent() const
 	if(pos == Unsigned<uint32>::Max())
 		return Path();
 	if(pos == 0)
-		return String(u8"/");
+		return StdXX::String(u8"/");
 
 	return Path(this->pathString.SubString(0, pos));
 }
@@ -100,14 +101,14 @@ Path Path::Normalized() const
 {
 	//split into parts first
 	Path tmp = *this;
-	DynamicArray<String> parts;
+	DynamicArray<class String> parts;
 
 	if(this->IsAbsolute())
 		parts.Push(u8"/");
 
-	while(!tmp.GetString().IsEmpty())
+	while(!tmp.String().IsEmpty())
 	{
-		String part = tmp.SplitOutmostPathPart(tmp);
+		class String part = tmp.SplitOutmostPathPart(tmp);
 
 		//empty string is caused by double slashes
 		if(part.IsEmpty())
@@ -142,10 +143,10 @@ Path Path::RelativePath(const Path &relativeTo) const
 	ASSERT(this->IsAbsolute() && relativeTo.IsAbsolute(), u8"How can this work if both are not absolute? We have no knowledge of any file system.")
 	Path self = *this;
 	Path relative = relativeTo;
-	while(!relative.GetString().IsEmpty())
+	while(!relative.String().IsEmpty())
 	{
-		String choppedSelf = self.SplitOutmostPathPart(self);
-		String choppedRel = relative.SplitOutmostPathPart(relative);
+		class String choppedSelf = self.SplitOutmostPathPart(self);
+		class String choppedRel = relative.SplitOutmostPathPart(relative);
 		ASSERT(choppedRel == choppedSelf, u8"this correlates with the above assert");
 	}
 	return self;
@@ -156,11 +157,11 @@ String Path::SplitOutmostPathPart(Path &subPath) const
 	uint32 posSlash = this->pathString.Find(u8"/");
 	if(posSlash == Unsigned<uint32>::Max())
 	{
-		String outmost = this->pathString; //do this first so that, in case subPath is this
+		class String outmost = this->pathString; //do this first so that, in case subPath is this
 		subPath = u8"";
 		return outmost;
 	}
-	String outmost = this->pathString.SubString(0, posSlash); //again handle case where subpath is this
+	class String outmost = this->pathString.SubString(0, posSlash); //again handle case where subpath is this
 	subPath = this->pathString.SubString(posSlash+1);
 	return outmost;
 }

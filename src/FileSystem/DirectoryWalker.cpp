@@ -41,7 +41,7 @@ void DirectoryWalker::CorrectIteratorPos()
 			{
 				AutoPointer<const Directory> subdir = state.directory->GetSubDirectory(childName);
 				Path subPath;
-				if(state.path.GetString().IsEmpty())
+				if(state.path.String().IsEmpty())
 					subPath = childName;
 				else
 					subPath = state.path / childName;

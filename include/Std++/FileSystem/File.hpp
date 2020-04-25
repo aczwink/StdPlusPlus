@@ -20,20 +20,14 @@
 //Local
 #include "../SmartPointers/UniquePointer.hpp"
 #include "../Streams/InputStream.hpp"
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 
 namespace StdXX::FileSystem
 {
-	class File : virtual public FileSystemNode
+	class File : virtual public Node
 	{
 	public:
 		//Abstract
-		/**
-		 * Returns the size of the file in bytes.
-		 * @return
-		 */
-		virtual uint64 GetSize() const = 0;
-
 		virtual UniquePointer<InputStream> OpenForReading(bool verify) const = 0;
 		/*
 		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
@@ -57,6 +51,6 @@ namespace StdXX::FileSystem
 		virtual UniquePointer<OutputStream> OpenForWriting() = 0;
 
 		//Methods
-		FileSystemNodeType GetType() const override;
+		NodeType GetType() const override;
 	};
 }

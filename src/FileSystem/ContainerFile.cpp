@@ -35,11 +35,6 @@ void ContainerFile::ChangePermissions(const FileSystem::NodePermissions &newPerm
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-uint64 ContainerFile::GetSize() const
-{
-	return this->header.uncompressedSize;
-}
-
 UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
 {
 	InputStream* input = new EmbeddedFileInputStream(
@@ -64,8 +59,9 @@ UniquePointer<OutputStream> ContainerFile::OpenForWriting()
 	return nullptr;
 }
 
-FileSystemNodeInfo ContainerFile::QueryInfo() const
+NodeInfo ContainerFile::QueryInfo() const
 {
+	//size = return this->header.uncompressedSize;
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return FileSystemNodeInfo();
+	return NodeInfo();
 }

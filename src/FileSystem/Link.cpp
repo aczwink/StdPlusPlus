@@ -23,7 +23,7 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-FileSystemNodeType Link::GetType() const
+NodeType Link::GetType() const
 {
-	return FileSystemNodeType::Link;
+	return NodeType::Link;
 }

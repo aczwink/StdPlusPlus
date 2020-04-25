@@ -67,7 +67,7 @@ String WAVE_Format::GetName() const
 
 float32 WAVE_Format::Matches(BufferInputStream &inputStream) const
 {
-	if(inputStream.GetRemainingBytes() < 12)
+	if(inputStream.QueryRemainingBytes() < 12)
 		return FORMAT_MATCH_BUFFER_TOO_SMALL;
 
 	DataReader reader(true, inputStream);

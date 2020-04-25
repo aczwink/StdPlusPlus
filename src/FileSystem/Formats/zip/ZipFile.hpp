@@ -41,9 +41,8 @@ namespace _stdxx_
 
 		//Methods
 		void ChangePermissions(const StdXX::FileSystem::NodePermissions &newPermissions) override;
-		uint64 GetSize() const override;
 		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
+		StdXX::NodeInfo QueryInfo() const override;
 	};
 }

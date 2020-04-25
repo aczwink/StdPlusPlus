@@ -41,14 +41,14 @@ uint64 StringInputStream::GetCurrentOffset() const
 	return this->bufferInputStream->GetCurrentOffset();
 }
 
-uint64 StringInputStream::GetRemainingBytes() const
+uint64 StringInputStream::QueryRemainingBytes() const
 {
-	return this->bufferInputStream->GetRemainingBytes();
+	return this->bufferInputStream->QueryRemainingBytes();
 }
 
-uint64 StringInputStream::GetSize() const
+uint64 StringInputStream::QuerySize() const
 {
-	return this->bufferInputStream->GetSize();
+	return this->bufferInputStream->QuerySize();
 }
 
 bool StringInputStream::IsAtEnd() const
@@ -61,9 +61,9 @@ uint32 StringInputStream::ReadBytes(void *destination, uint32 count)
 	return this->bufferInputStream->ReadBytes(destination, count);
 }
 
-void StringInputStream::SetCurrentOffset(uint64 offset)
+void StringInputStream::SeekTo(uint64 offset)
 {
-	this->bufferInputStream->SetCurrentOffset(offset);
+	this->bufferInputStream->SeekTo(offset);
 }
 
 uint32 StringInputStream::Skip(uint32 nBytes)

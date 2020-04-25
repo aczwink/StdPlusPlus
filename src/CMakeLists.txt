@@ -1,5 +1,6 @@
 add_subdirectory(Buffers)
 add_subdirectory(CodeAnalysis)
+add_subdirectory(CommandLine)
 add_subdirectory(CommonFileFormats)
 add_subdirectory(Compression)
 add_subdirectory(Containers)

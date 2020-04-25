@@ -29,7 +29,7 @@ uint64 FileOutputStream::GetCurrentOffset() const
     return lseek64(this->fileHandle, 0, SEEK_CUR);
 }
 
-void FileOutputStream::SetCurrentOffset(uint64 offset)
+void FileOutputStream::SeekTo(uint64 offset)
 {
     lseek64(this->fileHandle, offset, SEEK_SET);
 }

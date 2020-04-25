@@ -37,7 +37,7 @@ namespace StdXX::FileSystem
 		}
 
 		inline ContainerDirectory(const String &name, ContainerDirectory *parent) :
-			fileSystem(reinterpret_cast<ContainerFileSystem *>(parent->GetFileSystem())), name(name), parent(parent)
+			fileSystem(parent->fileSystem), name(name), parent(parent)
 		{
 		}
 
@@ -45,16 +45,21 @@ namespace StdXX::FileSystem
 		void ChangePermissions(const FileSystem::NodePermissions &newPermissions) override;
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name) override;
-		RWFileSystem *GetFileSystem() override;
-		const RWFileSystem *GetFileSystem() const override;
-		AutoPointer<const Directory> GetParent() const override;
-		Path GetPath() const override;
-		FileSystemNodeInfo QueryInfo() const override;
+		NodeInfo QueryInfo() const override;
 
 	private:
 		//Members
 		ContainerFileSystem *fileSystem;
 		String name;
 		ContainerDirectory *parent;
+
+		//Inline
+		inline Path GetPath() const
+		{
+			if(this->parent)
+				return this->parent->GetPath() / this->name;
+
+			return Path(u8"/");
+		}
 	};
 }

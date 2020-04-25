@@ -26,10 +26,10 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-FileSystemNodeInfo ZipLink::QueryInfo() const
+NodeInfo ZipLink::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return FileSystemNodeInfo();
+	return NodeInfo();
 }
 
 Path ZipLink::ReadTarget() const

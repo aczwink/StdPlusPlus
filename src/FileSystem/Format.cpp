@@ -39,7 +39,7 @@ const Format* Format::FindBestFormat(const Path& path)
 	for(const Format *const& fileSystemFormat : g_fsFormats)
 	{
 		float32 matchScore = fileSystemFormat->Matches(*file);
-		file->SetCurrentOffset(0);
+		file->SeekTo(0);
 
 		//check unusual cases
 		if(matchScore == 1)

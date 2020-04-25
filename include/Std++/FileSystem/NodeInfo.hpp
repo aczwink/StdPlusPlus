@@ -25,8 +25,13 @@
 
 namespace StdXX
 {
-	struct FileSystemNodeInfo
+	struct NodeInfo
 	{
+		/**
+		 * The size of the content of the file/link/directory.
+		 */
+		uint64 size;
+
 		/**
 		 * The last modified time is not stored by all filesystems.
 		 * Also not all operating system can guarantee a precision smaller than seconds (or not even seconds).
@@ -36,7 +41,6 @@ namespace StdXX
 		/**
 		 * The number of bytes that the node occupies on the file system.
 		 * For example a file that is compressed on the filesystem may have a less stored size than its actual size.
-		 * Other nodes than files also occupy blocks on the filesystem.
 		 */
 		uint64 storedSize;
 

@@ -34,13 +34,24 @@ static void UnixTimeStampEquals(int64 unixTimeStamp, int64 year, uint8 month, ui
 
 TEST_SUITE(DateTimeTests)
 {
+	TEST_CASE(ParseISOFractionalSecondsTest)
+	{
+		const String less = u8"2020-04-03T16:48:22.123Z";
+		DateTime parsed = DateTime::ParseISOString(less);
+		ASSERT_EQUALS(123 * 1000 * 1000, parsed.Time().NanosecondsSinceStartOfSecond());
+
+		const String more = u8"2020-04-03T16:48:22.1234567899Z";
+		DateTime parsed2 = DateTime::ParseISOString(more);
+		ASSERT_EQUALS(123456789, parsed2.Time().NanosecondsSinceStartOfSecond());
+	}
+
 	TEST_CASE(ParseISOStringTest)
 	{
 		Date date(2020, 4, 3);
 		Time time(16, 48, 22, 123, 456, 789);
 		DateTime dateTime(date, time);
 
-		const String expected = u8"2020-04-03 16:48:22.123456789";
+		const String expected = u8"2020-04-03T16:48:22.123456789Z";
 		ASSERT_EQUALS(expected, dateTime.ToISOString());
 
 		DateTime parsed = DateTime::ParseISOString(expected);

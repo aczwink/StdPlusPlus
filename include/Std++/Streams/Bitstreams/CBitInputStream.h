@@ -54,7 +54,7 @@ namespace StdXX
         /*
         inline uint32 GetRemainingBits() const
         {
-            return this->refInput.GetRemainingBytes() * 8 + this->validBitsInBuffer;
+            return this->refInput.QueryRemainingBytes() * 8 + this->validBitsInBuffer;
         }
         */
 

@@ -139,7 +139,7 @@ bool GtkEventSource::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpo
 			break;
 		case GDK_BUTTON_RELEASE:
             NOT_IMPLEMENTED_ERROR; //TODO: next line
-			//l_gtkEvtSrc->DispatchMouseButtonReleased(*widget, button, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
+			//l_gtkEvtSrc->DispatchMouseButtonReleased(*widget, button, Point((int32) event->x, (int32) (widget->QuerySize().height - event->y)));
 			break;
 		default:
 			g_ignoreEvent = true;
@@ -184,7 +184,7 @@ bool GtkEventSource::MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event
 	Widget *widget = (Widget *)WIDGET_FROM_GTK(gtkWidget);
 
     NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//l_gtkEvtSrc->DispatchMouseMovedEvent(*widget, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
+	//l_gtkEvtSrc->DispatchMouseMovedEvent(*widget, Point((int32) event->x, (int32) (widget->QuerySize().height - event->y)));
 
 	return !g_ignoreEvent;
 }

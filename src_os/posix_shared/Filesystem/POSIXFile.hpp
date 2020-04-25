@@ -31,7 +31,6 @@ namespace _stdxx_
 		}
 
 		//Methods
-		uint64 GetSize() const override;
 		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
 		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
 	};

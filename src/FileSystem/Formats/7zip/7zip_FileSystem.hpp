@@ -98,7 +98,7 @@ namespace _stdxx_
 
 		//Methods
 		void Flush() override;
-		StdXX::AutoPointer<const StdXX::FileSystem::FileSystemNode> GetNode(const StdXX::FileSystem::Path &path) const override;
+		StdXX::AutoPointer<const StdXX::FileSystem::Node> GetNode(const StdXX::FileSystem::Path &path) const override;
 
 	private:
 		//Members

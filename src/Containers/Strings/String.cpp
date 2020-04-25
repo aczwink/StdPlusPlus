@@ -458,6 +458,29 @@ uint64 String::ToUInt() const
 	return result;
 }
 
+String String::ToUppercase() const
+{
+	String tmp;
+
+	tmp.sharedResource = new Resource;
+	tmp.sharedResource->EnsureCapacity(this->length * 4); //worst case: every code point takes 4 bytes or is a surrogate
+	if(tmp.sharedResource->isUTF8)
+	{
+		for(uint32 codePoint : *this)
+			tmp.sharedResource->nElements += this->EncodeUTF8(StdXX::ToUppercase(codePoint), &tmp.sharedResource->data[tmp.sharedResource->nElements]);
+	}
+	else
+	{
+		for (uint32 codePoint : *this)
+			tmp.sharedResource->nElements += 2 + 2 * this->EncodeUTF16(StdXX::ToUppercase(codePoint), (uint16 *)&tmp.sharedResource->data[tmp.sharedResource->nElements]);
+	}
+	tmp.data = tmp.sharedResource->data;
+	tmp.length = this->length;
+	tmp.size = tmp.sharedResource->nElements;
+
+	return tmp;
+}
+
 const String &String::ToUTF8() const
 {
 	if(!this->IsUTF8())

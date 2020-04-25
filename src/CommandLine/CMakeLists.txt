@@ -1,0 +1,12 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Argument.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Group.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Option.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/OptionWithArgument.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Parser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/StringArgument.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/SubCommandArgument.cpp
+
+	PARENT_SCOPE)

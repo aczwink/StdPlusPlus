@@ -31,7 +31,7 @@ using namespace StdXX::FileSystem;
 Path PosixLink::ReadTarget() const
 {
 	char buffer[4096];
-	ssize_t nBytesInBuffer = readlink(reinterpret_cast<const char *>(this->path.GetString().ToUTF8().GetRawZeroTerminatedData()), buffer, sizeof(buffer));
+	ssize_t nBytesInBuffer = readlink(reinterpret_cast<const char *>(this->path.String().ToUTF8().GetRawZeroTerminatedData()), buffer, sizeof(buffer));
 	ASSERT(nBytesInBuffer != -1, u8"REPORT THIS PLEASE!");
 	ASSERT(nBytesInBuffer < sizeof(buffer), u8"REPORT THIS PLEASE!");
 

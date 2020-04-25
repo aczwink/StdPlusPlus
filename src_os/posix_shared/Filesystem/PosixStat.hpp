@@ -17,22 +17,15 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/FileSystem/FileSystemNodeInfo.hpp>
+#include <Std++/FileSystem/NodeInfo.hpp>
 #include <Std++/FileSystem/Path.hpp>
 #include <Std++/SmartPointers/AutoPointer.hpp>
-#include <Std++/FileSystem/FileSystemNode.hpp>
+#include <Std++/FileSystem/Node.hpp>
 
 namespace _stdxx_
 {
 	//Functions
-	template<typename ConstOrNotFileSystemNode = const StdXX::FileSystem::FileSystemNode>
+	template<typename ConstOrNotFileSystemNode = const StdXX::FileSystem::Node>
 	StdXX::AutoPointer<ConstOrNotFileSystemNode> StatFindNode(const StdXX::FileSystem::Path& path);
-	StdXX::FileSystemNodeInfo StatQueryFileInfo(const StdXX::FileSystem::Path &path, uint64 &fileSize);
-
-	//Inline
-	inline StdXX::FileSystemNodeInfo StatQueryFileInfo(const StdXX::FileSystem::Path &path)
-	{
-		uint64 fileSize;
-		return StatQueryFileInfo(path, fileSize);
-	}
+	StdXX::NodeInfo StatQueryFileInfo(const StdXX::FileSystem::Path &path);
 }

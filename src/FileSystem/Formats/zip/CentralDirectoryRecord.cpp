@@ -59,7 +59,7 @@ CentralDirectoryRecord::CentralDirectoryRecord(InputStream &inputStream)
     this->headerSize = 46 + fileNameSize + extraFieldSize + commentLength;
 }
 
-FileSystemNodeType CentralDirectoryRecord::DetermineType() const
+NodeType CentralDirectoryRecord::DetermineType() const
 {
     switch(this->versionMadeBy >> 8)
     {
@@ -68,15 +68,15 @@ FileSystemNodeType CentralDirectoryRecord::DetermineType() const
             switch(this->externalFileAttributes >> 28) //upper 4 bits of st_mode
             {
                 case 0x4:
-                    return FileSystemNodeType::Directory;
+                    return NodeType::Directory;
                 case 0x8:
-                    return FileSystemNodeType::File;
+                    return NodeType::File;
                 case 0xA:
-                    return FileSystemNodeType::Link;
+                    return NodeType::Link;
             }
         }
         break;
     }
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return FileSystemNodeType::File;
+    return NodeType::File;
 }

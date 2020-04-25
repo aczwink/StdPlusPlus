@@ -49,7 +49,7 @@ Path OSFileSystem::GetWorkingDirectory() const
 	return String::CopyRawString(buffer);
 }
 
-void OSFileSystem::MountReadOnly(const Path &mountPoint, const RWFileSystem &fileSystem)
+void OSFileSystem::MountReadOnly(const Path &mountPoint, const ReadableFileSystem &fileSystem)
 {
 #ifdef _STDXX_EXTENSION_FUSE3
 	fuse_MountReadOnly(mountPoint, fileSystem);
@@ -63,7 +63,7 @@ Path OSFileSystem::ToAbsolutePath(const Path &path) const
 	//realpath in general works well but unfortunately resolves symlinks
 	/*
 	char p[PATH_MAX];
-	realpath(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), p);
+	realpath(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), p);
 	return {String::CopyRawString(p)};
 	 */
 	if(path.IsAbsolute())
@@ -84,37 +84,45 @@ OSFileSystem &OSFileSystem::GetInstance()
 			return nullptr;
 		}
 
+		void CreateLink(const Path &linkPath, const Path &linkTargetPath) override
+		{
+			int ret = symlink(
+					reinterpret_cast<const char *>(linkTargetPath.String().ToUTF8().GetRawZeroTerminatedData()),
+					reinterpret_cast<const char *>(linkPath.String().ToUTF8().GetRawZeroTerminatedData()));
+			ASSERT_EQUALS(0, ret);
+		}
+
 		bool Exists(const Path &path) const override
 		{
 			Path p = this->ToAbsolutePath(path);
 			struct stat sb{};
-			return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
+			return stat(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 		}
 
 		void Flush() override
 		{
 		}
 
-		AutoPointer<FileSystemNode> GetNode(const Path &path) override
+		AutoPointer<Node> GetNode(const Path &path) override
 		{
-			return StatFindNode<FileSystemNode>(this->ToAbsolutePath(path));
+			return StatFindNode<Node>(this->ToAbsolutePath(path));
 		}
 
-		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override
+		AutoPointer<const Node> GetNode(const Path &path) const override
 		{
 			return StatFindNode(this->ToAbsolutePath(path));
 		}
 
-		uint64 GetSize() const override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return 0;
-		}
-
 		void Move(const Path &from, const Path &to) override
 		{
-			rename(reinterpret_cast<const char *>(from.GetString().ToUTF8().GetRawZeroTerminatedData()),
-				   reinterpret_cast<const char *>(to.GetString().ToUTF8().GetRawZeroTerminatedData()));
+			rename(reinterpret_cast<const char *>(from.String().ToUTF8().GetRawZeroTerminatedData()),
+				   reinterpret_cast<const char *>(to.String().ToUTF8().GetRawZeroTerminatedData()));
+		}
+
+		SpaceInfo QuerySpace() const override
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return {};
 		}
 	} posix_fs;
 

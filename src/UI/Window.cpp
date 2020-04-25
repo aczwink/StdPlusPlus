@@ -103,7 +103,7 @@ void Window::SwitchFullscreen(bool state)
     }
     else
     {
-		//this->SetBounds(Rect(Point(), GetRenderTarget(this->renderMode).GetSize()));
+		//this->SetBounds(Rect(Point(), GetRenderTarget(this->renderMode).QuerySize()));
         NOT_IMPLEMENTED_ERROR;
         this->Repaint();
     }

@@ -112,11 +112,11 @@ namespace StdXX
 		}
 
 		/**
-		* Format date and time according to ISO 8601 i.e. "YYYY-MM-DD hh:mm:ss.sss".
+		* Format date and time according to ISO 8601 i.e. "YYYY-MM-DDThh:mm:ss.sssssssssZ".
 		*/
 		inline String ToISOString() const
 		{
-			return this->date.ToISOString() + u8" " + this->time.ToISOString();
+			return this->date.ToISOString() + u8"T" + this->time.ToISOString();
 		}
 
 		//Functions

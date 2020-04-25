@@ -38,7 +38,7 @@ namespace StdXX::ErrorHandling
 		//Inline
 		inline String Description() const override
 		{
-			return u8"Permission to node \"" + this->path.GetString() + u8"\" was denied.";
+			return u8"Permission to node \"" + this->path.String() + u8"\" was denied.";
 		}
 	};
 }

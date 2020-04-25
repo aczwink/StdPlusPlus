@@ -23,9 +23,28 @@
 
 namespace StdXX::Serialization
 {
-	inline void operator<<(XmlSerializer& serializer, const FileSystem::Path& value)
+	template <typename ArchiveType, typename T>
+	inline ArchiveType& operator<<(ArchiveType& serializer, const Binding<Optional<T>>& binding)
 	{
-		serializer << value.GetString();
+		if(binding.value.HasValue())
+			serializer << Binding(binding.name, *binding.value);
+		return serializer;
+	}
+
+	template <typename ArchiveType>
+	inline ArchiveType& operator<<(ArchiveType& serializer, const Binding<FileSystem::Path>& binding)
+	{
+		serializer << Binding(binding.name, binding.value.String());
+
+		return serializer;
+	}
+
+	template <typename ArchiveType>
+	inline ArchiveType& operator<<(ArchiveType& serializer, const Binding<const FileSystem::Path>& binding)
+	{
+		serializer << Binding(binding.name, binding.value.String());
+
+		return serializer;
 	}
 
 	template <typename ArchiveType>

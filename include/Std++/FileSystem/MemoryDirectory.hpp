@@ -30,8 +30,8 @@ namespace StdXX::FileSystem
 	public:
 		//Methods
 		bool Exists(const Path &path) const override;
-		AutoPointer<FileSystemNode> GetChild(const String &name) override;
-		AutoPointer<const FileSystemNode> GetChild(const String &name) const override;
+		AutoPointer<Node> GetChild(const String &name) override;
+		AutoPointer<const Node> GetChild(const String &name) const override;
 		bool IsEmpty() const override;
 
 		//For range-based loop
@@ -39,7 +39,7 @@ namespace StdXX::FileSystem
 		DirectoryIterator end() const override;
 
 		//Inline
-		inline void AddChild(const String& nodeName, FileSystemNode* node)
+		inline void AddChild(const String& nodeName, Node* node)
 		{
 			ASSERT(!this->children.Contains(nodeName), u8"Can't add child that already exists.");
 			this->children[nodeName] = node;
@@ -47,6 +47,6 @@ namespace StdXX::FileSystem
 
 	private:
 		//Members
-		Map<String, AutoPointer<FileSystemNode>> children;
+		Map<String, AutoPointer<Node>> children;
 	};
 }

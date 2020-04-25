@@ -137,12 +137,13 @@ namespace StdXX
 		}
 
 		/**
-		* Format time according to ISO 8601 i.e. "hh:mm:ss.sssssssss".
+		* Format time according to ISO 8601 i.e. "hh:mm:ss.sssssssssZ".
 		*/
 		inline String ToISOString() const
 		{
 			return String::Number(this->Hours(), 10, 2) + u8":" + String::Number(this->Minutes(), 10, 2) + u8":" +
-				   String::Number(this->Seconds(), 10, 2) + u8"." + String::Number(this->nanoseconds % 1000000000, 10, 9);
+				   String::Number(this->Seconds(), 10, 2) + u8"." + String::Number(this->nanoseconds % 1000000000, 10, 9)
+				   + u8"Z";
 		}
 
 	private:

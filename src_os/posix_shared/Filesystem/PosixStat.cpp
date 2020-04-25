@@ -43,7 +43,7 @@ AutoPointer<ConstOrNotFileSystemNode> _stdxx_::StatFindNode(const Path& path)
 {
 	struct stat sb{};
 
-	int result = lstat(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
+	int result = lstat(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), &sb);
 	if(result == -1)
 	{
 		switch(errno)
@@ -84,19 +84,19 @@ AutoPointer<ConstOrNotFileSystemNode> _stdxx_::StatFindNode(const Path& path)
 }
 
 //Explicit instantiation
-template AutoPointer<FileSystemNode> _stdxx_::StatFindNode(const Path& path);
-template AutoPointer<const FileSystemNode> _stdxx_::StatFindNode(const Path& path);
+template AutoPointer<Node> _stdxx_::StatFindNode(const Path& path);
+template AutoPointer<const Node> _stdxx_::StatFindNode(const Path& path);
 
-FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize)
+NodeInfo _stdxx_::StatQueryFileInfo(const Path &path)
 {
 	struct stat sb{};
-	int ret = lstat(reinterpret_cast<const char *>(path.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb);
+	int ret = lstat(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), &sb);
 	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
 
-	FileSystemNodeInfo info{};
+	NodeInfo info{};
 
 	//set file size
-	fileSize = static_cast<uint64>(sb.st_size);
+	info.size = static_cast<uint64>(sb.st_size);
 
 	//set last modified time
 #ifdef XPC_OS_DARWIN
@@ -109,7 +109,7 @@ FileSystemNodeInfo _stdxx_::StatQueryFileInfo(const Path &path, uint64 &fileSize
 #ifdef XPC_OS_LINUX
 	//sb.st_size can be larger in case the file has "holes"...
 	//on linux st_blocks is in 512 units
-	info.storedSize = Math::Max(static_cast<uint64>(sb.st_blocks * 512), fileSize);
+	info.storedSize = Math::Max(static_cast<uint64>(sb.st_blocks * 512), info.size);
 #else
 	info.storedSize = fileSize;
 #endif

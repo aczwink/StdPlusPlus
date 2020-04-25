@@ -33,10 +33,10 @@ void WAVE_Muxer::Finalize()
 {
 	uint32 currentOffset = (uint32)this->outputStream.GetCurrentOffset();
 	DataWriter writer(false, this->outputStream);
-	this->outputStream.SetCurrentOffset(this->riffTagSizeOffset);
+	this->outputStream.SeekTo(this->riffTagSizeOffset);
 	writer.WriteUInt32(currentOffset - 8); //sizeof("RIFF") + sizeof(chunkSize)
 
-	this->outputStream.SetCurrentOffset(this->dataChunkSizeOffset);
+	this->outputStream.SeekTo(this->dataChunkSizeOffset);
 	writer.WriteUInt32(currentOffset - this->dataChunkSizeOffset - 4);
 }
 

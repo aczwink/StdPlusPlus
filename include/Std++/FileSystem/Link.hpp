@@ -18,17 +18,17 @@
  */
 #pragma once
 //Local
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 
 namespace StdXX::FileSystem
 {
-	class Link : virtual public FileSystemNode
+	class Link : virtual public Node
 	{
 	public:
 		//Abstract
 		virtual Path ReadTarget() const = 0;
 
 		//Methods
-		FileSystemNodeType GetType() const override;
+		NodeType GetType() const override;
 	};
 }

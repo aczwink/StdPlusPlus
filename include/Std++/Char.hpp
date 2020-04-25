@@ -41,4 +41,11 @@ namespace StdXX
 			return codePoint + 32;
 		return codePoint;
 	}
+
+	inline uint32 ToUppercase(uint32 codePoint)
+	{
+		if(Math::IsValueInInterval(codePoint, (uint32)u8'a', (uint32)u8'z'))
+			return codePoint - 32;
+		return codePoint;
+	}
 }

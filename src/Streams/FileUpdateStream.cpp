@@ -29,5 +29,5 @@ uint32 FileUpdateStream::GetBytesAvailable() const
 
 bool FileUpdateStream::IsAtEnd() const
 {
-	return this->GetRemainingBytes() == 0;
+	return this->QueryRemainingBytes() == 0;
 }

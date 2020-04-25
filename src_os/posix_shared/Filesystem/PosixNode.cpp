@@ -33,11 +33,11 @@ void PosixNode::ChangePermissions(const NodePermissions &newPermissions)
 {
 	const UnixPermissions& unixPermissions = dynamic_cast<const UnixPermissions &>(newPermissions);
 
-	int ret = chmod(reinterpret_cast<const char *>(this->path.GetString().ToUTF8().GetRawZeroTerminatedData()), unixPermissions.Encode());
+	int ret = chmod(reinterpret_cast<const char *>(this->path.String().ToUTF8().GetRawZeroTerminatedData()), unixPermissions.Encode());
 	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
 }
 
-FileSystemNodeInfo PosixNode::QueryInfo() const
+NodeInfo PosixNode::QueryInfo() const
 {
 	return StatQueryFileInfo(this->path);
 }

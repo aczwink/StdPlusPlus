@@ -34,7 +34,7 @@ namespace StdXX::FileSystem
 
 		//Methods
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
-		AutoPointer<FileSystemNode> GetNode(const Path &path) override;
-		AutoPointer<const FileSystemNode> GetNode(const Path &path) const override;
+		AutoPointer<Node> GetNode(const Path &path) override;
+		AutoPointer<const Node> GetNode(const Path &path) const override;
 	};
 }

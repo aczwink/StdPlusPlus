@@ -65,8 +65,14 @@ namespace StdXX::FileSystem
             this->pathString = refPathString;
         }
 
+        //Properties
+		inline const class String &String() const
+		{
+			return this->pathString;
+		}
+
         //Operators
-        inline Path &operator=(const String &refPathString)
+        inline Path &operator=(const class String &refPathString)
         {
             this->pathString = refPathString;
 
@@ -90,7 +96,7 @@ namespace StdXX::FileSystem
 
         inline Path operator+(const Path &other)
 		{
-			return Path(this->GetString() + other.GetString());
+			return Path(this->String() + other.String());
 		}
 
 		/**
@@ -110,7 +116,7 @@ namespace StdXX::FileSystem
         }
 
         //Methods
-        String GetFileExtension() const;
+        class String GetFileExtension() const;
 		/**
 		 * Returns the name of the file or directory that the path refers to.
 		 * Examples:
@@ -121,7 +127,7 @@ namespace StdXX::FileSystem
 		 * Then the name is: "blub"
 		 * @return
 		 */
-        String GetName() const;
+        class String GetName() const;
 		/**
 		 * Returns the parent path of this path.
 		 * If this path is a directory path, then the parent directory path is returned.
@@ -133,10 +139,13 @@ namespace StdXX::FileSystem
 		 * Let path be "/bla/bli/blub"
 		 * Then parent path is: /bla/bli
 		 *
+		 * Let path be "/bla/bli/blub/"
+		 * Then parent path is: /bla/bli
+		 *
 		 * @return
 		 */
         Path GetParent() const;
-        String GetTitle() const;
+        class String GetTitle() const;
         Path Normalized() const;
         Path RelativePath(const Path& relativeTo) const;
 		/**
@@ -148,14 +157,9 @@ namespace StdXX::FileSystem
 		 * @param path
 		 * @return
 		 */
-		String SplitOutmostPathPart(Path &subPath) const;
+		class String SplitOutmostPathPart(Path &subPath) const;
 
         //Inline
-		inline const String &GetString() const
-		{
-			return this->pathString;
-		}
-
 		inline bool IsAbsolute() const
 		{
 			return this->pathString.StartsWith(u8"/");
@@ -163,7 +167,7 @@ namespace StdXX::FileSystem
 
 		inline bool IsParentOf(const Path& path) const
 		{
-			return path.Normalized().GetString().StartsWith(this->Normalized().GetString());
+			return path.Normalized().String().StartsWith(this->Normalized().String());
 		}
 
 		inline bool IsRelative() const
@@ -178,11 +182,11 @@ namespace StdXX::FileSystem
 
 	private:
 		//Members
-		String pathString;
+		class String pathString;
     };
 
 	inline TextWriter &operator<<(TextWriter& textWriter, const Path &path)
 	{
-		return textWriter << path.GetString();
+		return textWriter << path.String();
 	}
 }

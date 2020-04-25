@@ -32,11 +32,11 @@ void BMP_Muxer::Finalize()
 	DataWriter dataWriter(false, this->outputStream);
 
 	//Update file size
-	this->outputStream.SetCurrentOffset(this->startOffset + BMP_HEADER_TYPE_SIZE);
+	this->outputStream.SeekTo(this->startOffset + BMP_HEADER_TYPE_SIZE);
 	dataWriter.WriteUInt32((uint32)(currentOffset - this->startOffset));
 
 	//Update image size
-	this->outputStream.SetCurrentOffset(this->startOffset + BMP_FILEHEADER_SIZE + 20);
+	this->outputStream.SeekTo(this->startOffset + BMP_FILEHEADER_SIZE + 20);
 	dataWriter.WriteUInt32(this->imageSize);
 }
 

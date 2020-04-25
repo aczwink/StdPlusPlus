@@ -89,7 +89,7 @@ bool FunctionHook::Hook(void* redirectTargetAddress)
 {
 	//read in complete function
 	BufferInputStream input((byte *)this->functionAddress, c_max_func_size);
-	CodeAnalysis::Program program(input, (uint32)input.GetSize(), CodeAnalysis::Architecture::x86_64);
+	CodeAnalysis::Program program(input, (uint32) input.QuerySize(), CodeAnalysis::Architecture::x86_64);
 	
 	CodeAnalysis::AnalyzedProcedure proc = program.AnalyzeProcedure(0); //analyze procedure directly at the offset that we should hook
 	uint32 procSize = proc.ComputeSize();

@@ -44,7 +44,7 @@ namespace StdXX
         //Methods
 		void Flush() override;
         uint64 GetCurrentOffset() const override;
-        void SetCurrentOffset(uint64 offset) override;
+        void SeekTo(uint64 offset) override;
         uint32 WriteBytes(const void *pSource, uint32 size) override;
 
 		//Inline

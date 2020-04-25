@@ -34,10 +34,10 @@ void SevenZip_FileSystem::Flush()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-AutoPointer<const FileSystemNode> SevenZip_FileSystem::GetNode(const Path &path) const
+AutoPointer<const Node> SevenZip_FileSystem::GetNode(const Path &path) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::AutoPointer<const StdXX::FileSystem::FileSystemNode>();
+	return StdXX::AutoPointer<const StdXX::FileSystem::Node>();
 }
 
 //Private methods
@@ -259,7 +259,7 @@ void SevenZip_FileSystem::ReadFolder(Folder& folder, InputStream& inputStream)
 
 void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 {
-	this->containerInputStream->SetCurrentOffset(this->baseOffset + offset);
+	this->containerInputStream->SeekTo(this->baseOffset + offset);
 
 	DataReader reader(false, *this->containerInputStream); //7z is little endian
 
@@ -271,7 +271,7 @@ void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 		StreamsInfo streamsInfo;
 		this->ReadStreamsInfo(streamsInfo, *this->containerInputStream);
 
-		this->containerInputStream->SetCurrentOffset(this->baseOffset + streamsInfo.packInfo->offset);
+		this->containerInputStream->SeekTo(this->baseOffset + streamsInfo.packInfo->offset);
 		ASSERT(streamsInfo.packInfo->packedStreams.GetNumberOfElements() == 1, u8"Report this please!");
 		ASSERT(streamsInfo.codersInfo->folderInfos.GetNumberOfElements() == 1, u8"Report this please!");
 		ASSERT(streamsInfo.codersInfo->folderInfos[0].folder.coders.GetNumberOfElements() == 1, u8"Report this please!");

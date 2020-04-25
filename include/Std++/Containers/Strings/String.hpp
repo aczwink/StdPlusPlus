@@ -242,6 +242,7 @@ namespace StdXX
 		int64 ToInt() const;
 		String ToLowercase() const;
 		uint64 ToUInt() const;
+		String ToUppercase() const;
 		/**
 		 * Convert internal representation to UTF-8 if it not already is in this enconding.
 		 *
@@ -379,6 +380,19 @@ namespace StdXX
 		static String Number(float64 number, FloatDisplayMode displayMode = FloatDisplayMode::Auto, uint8 precision = 6);
 
 		//Inline functions
+		template <typename Iterable>
+		inline static String Join(const Iterable& iterable, const String& separator)
+		{
+			String joined;
+			for(const String& string : iterable)
+			{
+				if(!joined.IsEmpty())
+					joined += separator;
+				joined += string;
+			}
+			return joined;
+		}
+
 		inline static String Number(uint16 natural)
 		{
 			return String::Number((uint64)natural);
@@ -518,6 +532,11 @@ namespace StdXX
 	};
 
 	//Operators
+	inline bool operator==(const char *utf8, const String &rhs)
+	{
+		return rhs == utf8;
+	}
+
 	inline String operator+(const char *utf8, const String &rhs)
 	{
 		return String(utf8) + rhs;

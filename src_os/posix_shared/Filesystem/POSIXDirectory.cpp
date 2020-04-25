@@ -42,7 +42,7 @@ UniquePointer<OutputStream> POSIXDirectory::CreateFile(const String &name)
 void POSIXDirectory::CreateSubDirectory(const String &name)
 {
 	Path p = this->path / name;
-	int ret = mkdir(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), 0700);
+	int ret = mkdir(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), 0700);
 	if(ret)
 	{
 		switch(errno)
@@ -73,41 +73,17 @@ bool POSIXDirectory::Exists(const Path &path) const
 {
 	Path p = this->path / path;
 	struct stat sb{};
-	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
+	return stat(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 }
 
-AutoPointer<FileSystemNode> POSIXDirectory::GetChild(const String &name)
+AutoPointer<Node> POSIXDirectory::GetChild(const String &name)
 {
-	return StatFindNode<FileSystemNode>(this->path / name);
+	return StatFindNode<Node>(this->path / name);
 }
 
-AutoPointer<const FileSystemNode> POSIXDirectory::GetChild(const String &name) const
+AutoPointer<const Node> POSIXDirectory::GetChild(const String &name) const
 {
 	return StatFindNode(this->path / name);
-}
-
-RWFileSystem *POSIXDirectory::GetFileSystem()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
-const RWFileSystem *POSIXDirectory::GetFileSystem() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
-AutoPointer<const Directory> POSIXDirectory::GetParent() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
-Path POSIXDirectory::GetPath() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Path();
 }
 
 bool POSIXDirectory::IsEmpty() const
@@ -142,6 +118,6 @@ bool POSIXDirectory::ContainsSubDirectory(const String &name) const
 {
 	Path p = this->path / name;
 	struct stat sb{};
-	return stat(reinterpret_cast<const char *>(p.GetString().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
+	return stat(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0 && S_ISDIR(sb.st_mode) != 0;
 }
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -130,6 +130,11 @@ namespace StdXX
 			return *this;
 		}
 
+		constexpr T& operator*()
+		{
+			return this->Value();
+		}
+
 		constexpr const T& operator*() const
 		{
 			return this->Value();
@@ -158,6 +163,12 @@ namespace StdXX
 		constexpr bool HasValue() const noexcept
 		{
 			return this->isInitialized;
+		}
+
+		constexpr T& Value()
+		{
+			ASSERT(this->HasValue(), u8"Can't access optional that does not have a value.");
+			return this->value;
 		}
 
 		constexpr const T& Value() const

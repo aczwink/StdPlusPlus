@@ -29,7 +29,7 @@ uint64 FileInputStream::GetCurrentOffset() const
     return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
 }
 
-uint64 FileInputStream::GetSize() const
+uint64 FileInputStream::QuerySize() const
 {
     uint64 offset, size;
 
@@ -40,7 +40,7 @@ uint64 FileInputStream::GetSize() const
     return size;
 }
 
-void FileInputStream::SetCurrentOffset(uint64 offset)
+void FileInputStream::SeekTo(uint64 offset)
 {
     lseek64(this->fileHandle, offset, SEEK_SET);
 }

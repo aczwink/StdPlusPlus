@@ -80,6 +80,15 @@ namespace StdXX::Serialization
 		}
 
 		template <typename T>
+		JSONDeserializer& operator>>(const Binding<Optional<T>>& binding)
+		{
+			CommonFileFormats::JsonValue& parent = *this->objectStack.Last();
+			if(parent.MapValue().Contains(binding.name))
+				return *this >> Binding(binding.name, *binding.value);
+			return *this;
+		}
+
+		template <typename T>
 		JSONDeserializer& operator>>(const Binding<T>& binding)
 		{
 			CommonFileFormats::JsonValue& parent = *this->objectStack.Last();

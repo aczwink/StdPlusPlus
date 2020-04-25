@@ -40,7 +40,7 @@ bool RawImageDemuxer::ReadPacket(Packet &packet)
 	if(this->inputStream.IsAtEnd())
 		return false;
 
-	packet.Allocate(this->inputStream.GetRemainingBytes());
+	packet.Allocate(this->inputStream.QueryRemainingBytes());
 	packet.streamIndex = 0;
 
 	this->inputStream.ReadBytes(packet.GetData(), packet.GetSize());

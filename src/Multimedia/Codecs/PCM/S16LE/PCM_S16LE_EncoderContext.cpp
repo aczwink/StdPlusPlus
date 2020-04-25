@@ -47,7 +47,7 @@ void PCM_S16LE_EncoderContext::Encode(const Frame &frame)
 	packet->Allocate(audioBuffer->GetNumberOfSamplesPerChannel() * audioStream.sampleFormat->nChannels);
 	packet->pts = frame.pts;
 
-	BufferOutputStream packetStream(packet->GetData(), packet->GetSize());
+	BufferOutputStream packetStream(packet->GetData(), packet->QuerySize());
 	DataWriter packetWriter(false, packetStream);
 
 	//write pcm data

@@ -49,31 +49,8 @@ void ContainerDirectory::CreateSubDirectory(const String &name)
 	this->fileSystem->isFlushed = false;
 }
 
-RWFileSystem *ContainerDirectory::GetFileSystem()
-{
-	return this->fileSystem;
-}
-
-const RWFileSystem *ContainerDirectory::GetFileSystem() const
-{
-	return this->fileSystem;
-}
-
-AutoPointer<const Directory> ContainerDirectory::GetParent() const
-{
-	return this->parent;
-}
-
-Path ContainerDirectory::GetPath() const
-{
-	if(this->parent)
-		return this->parent->GetPath() / this->name;
-
-	return Path(u8"/");
-}
-
-FileSystemNodeInfo ContainerDirectory::QueryInfo() const
+NodeInfo ContainerDirectory::QueryInfo() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return FileSystemNodeInfo();
+	return NodeInfo();
 }

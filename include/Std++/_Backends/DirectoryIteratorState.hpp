@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Tuple.hpp>
-#include "../FileSystem/FileSystemNode.hpp"
+#include "Std++/FileSystem/Node.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 
 //Move declarations

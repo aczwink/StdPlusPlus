@@ -80,7 +80,7 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 	while(resize)
 	{
 		pDetectionBuffer = (byte *)MemRealloc(pDetectionBuffer, detectionBufferSize);
-		inputStream.SetCurrentOffset(currentOffset);
+		inputStream.SeekTo(currentOffset);
 		nReadBytes = inputStream.ReadBytes(pDetectionBuffer, detectionBufferSize);
 		if(detectionBufferSize != nReadBytes)
 			break; //end of input reached... we can't do anything anymore
@@ -118,7 +118,7 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 
 	end:;
 	MemFree(pDetectionBuffer);
-	inputStream.SetCurrentOffset(currentOffset);
+	inputStream.SeekTo(currentOffset);
 
 	return pBestFormat;
 }

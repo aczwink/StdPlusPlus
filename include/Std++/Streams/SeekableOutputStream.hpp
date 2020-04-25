@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,14 +19,11 @@
 #pragma once
 //Local
 #include "OutputStream.hpp"
+#include "Seekable.hpp"
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API SeekableOutputStream : public OutputStream
+    class STDPLUSPLUS_API SeekableOutputStream : public OutputStream, public Seekable
     {
-    public:
-        //Abstract
-        virtual uint64 GetCurrentOffset() const = 0;
-        virtual void SetCurrentOffset(uint64 offset) = 0;
     };
 }

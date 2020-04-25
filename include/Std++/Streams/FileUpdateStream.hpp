@@ -40,11 +40,11 @@ namespace StdXX
 		void Flush() override;
 		uint32 GetBytesAvailable() const override;
 		uint64 GetCurrentOffset() const override;
-		uint64 GetRemainingBytes() const override;
-		uint64 GetSize() const override;
+		uint64 QueryRemainingBytes() const override;
+		uint64 QuerySize() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
-		void SetCurrentOffset(uint64 offset) override;
+		void SeekTo(uint64 offset) override;
 		uint32 Skip(uint32 nBytes) override;
 		uint32 WriteBytes(const void *source, uint32 size) override;
 

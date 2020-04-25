@@ -21,7 +21,7 @@
 #include <Std++/Streams/OutputStream.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Path.hpp"
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -33,6 +33,7 @@ namespace StdXX::FileSystem
 
 		//Abstract
 		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
+		virtual void CreateLink(const Path& linkPath, const Path& linkTargetPath) = 0;
 		virtual void Flush() = 0;
 		/**
 		 * Get the node identified by path or nullptr if not existent.
@@ -40,7 +41,7 @@ namespace StdXX::FileSystem
 		 * @param path - If relative, it should be considered relative to the root.
 		 * @return
 		 */
-		virtual AutoPointer<FileSystemNode> GetNode(const Path& path) = 0;
+		virtual AutoPointer<Node> GetNode(const Path& path) = 0;
 		virtual void Move(const Path &from, const Path &to) = 0;
 
 		//Methods
@@ -66,9 +67,9 @@ namespace StdXX::FileSystem
 		//Inline
 		inline AutoPointer<Directory> GetDirectory(const Path& path)
 		{
-			AutoPointer<FileSystemNode> node = this->GetNode(path);
+			AutoPointer<Node> node = this->GetNode(path);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Node is not a directory.");
+			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
 
 			return node.MoveCast<Directory>();
 		}

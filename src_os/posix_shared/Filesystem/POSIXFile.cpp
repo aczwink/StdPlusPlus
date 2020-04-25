@@ -28,13 +28,6 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-uint64 POSIXFile::GetSize() const
-{
-	uint64 fileSize;
-	StatQueryFileInfo(this->path, fileSize);
-	return fileSize;
-}
-
 UniquePointer<InputStream> POSIXFile::OpenForReading(bool verify) const
 {
 	return new FileInputStream(this->path);

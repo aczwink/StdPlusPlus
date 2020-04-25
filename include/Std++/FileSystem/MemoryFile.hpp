@@ -30,10 +30,9 @@ namespace StdXX::FileSystem
 	public:
 		//Methods
 		void ChangePermissions(const FileSystem::NodePermissions &newPermissions) override;
-		uint64 GetSize() const override;
 		UniquePointer<InputStream> OpenForReading(bool verify) const override;
 		UniquePointer<OutputStream> OpenForWriting() override;
-		FileSystemNodeInfo QueryInfo() const override;
+		NodeInfo QueryInfo() const override;
 
 	private:
 		//Members

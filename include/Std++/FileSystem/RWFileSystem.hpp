@@ -29,5 +29,9 @@ namespace StdXX::FileSystem
 {
 	class STDPLUSPLUS_API RWFileSystem : public ReadableFileSystem, public WritableFileSystem
 	{
+	public:
+		//Methods
+		using ReadableFileSystem::GetNode;
+		using WritableFileSystem::GetNode;
 	};
 }

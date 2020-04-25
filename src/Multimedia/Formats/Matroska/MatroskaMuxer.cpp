@@ -67,12 +67,12 @@ void MatroskaMuxer::EndElement()
 	sizeOffset = this->elementSizeOffsets.Pop();
 
 	//write size
-	this->outputStream.SetCurrentOffset(sizeOffset);
+	this->outputStream.SeekTo(sizeOffset);
 	DataWriter dataWriter(true, this->outputStream);
 	dataWriter.WriteUInt64(((uint64)1 << 56) | (currentOffset - sizeOffset - 8)); //8 is the 'size' field size
 
 	//
-	this->outputStream.SetCurrentOffset(currentOffset);
+	this->outputStream.SeekTo(currentOffset);
 }
 
 void MatroskaMuxer::FinalizeMetaSeekInfo()
@@ -80,15 +80,15 @@ void MatroskaMuxer::FinalizeMetaSeekInfo()
 	DataWriter dataWriter(true, this->outputStream);
 
 	//segment info
-	this->outputStream.SetCurrentOffset(this->metaSeekInfoWriteOffsets.segmentInfoOffset);
+	this->outputStream.SeekTo(this->metaSeekInfoWriteOffsets.segmentInfoOffset);
 	dataWriter.WriteUInt64(this->metaSeekInfoOffsets.segmentInfoOffset - this->segmentOutputStreamOffset);
 
 	//track info
-	this->outputStream.SetCurrentOffset(this->metaSeekInfoWriteOffsets.trackInfoOffset);
+	this->outputStream.SeekTo(this->metaSeekInfoWriteOffsets.trackInfoOffset);
 	dataWriter.WriteUInt64(this->metaSeekInfoOffsets.trackInfoOffset - this->segmentOutputStreamOffset);
 
 	//cueing data
-	this->outputStream.SetCurrentOffset(this->metaSeekInfoWriteOffsets.cueingDataOffset);
+	this->outputStream.SeekTo(this->metaSeekInfoWriteOffsets.cueingDataOffset);
 	dataWriter.WriteUInt64(this->metaSeekInfoOffsets.cueingDataOffset - this->segmentOutputStreamOffset);
 }
 

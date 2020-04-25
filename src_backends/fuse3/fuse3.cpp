@@ -28,6 +28,7 @@
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/FileSystem/Link.hpp>
+#include <Std++/FileSystem/Directory.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -103,7 +104,7 @@ class fuse_mapper_state
 {
 public:
 	//Constructor
-	inline fuse_mapper_state(const RWFileSystem& fileSystem) : fileSystem(fileSystem)
+	inline fuse_mapper_state(const ReadableFileSystem& fileSystem) : fileSystem(fileSystem)
 	{
 	}
 
@@ -125,7 +126,7 @@ public:
 			if(streamState.inputStream.IsInstanceOf<SeekableInputStream>())
 			{
 				SeekableInputStream& seekableInputStream = *dynamic_cast<SeekableInputStream*>(inputStream);
-				seekableInputStream.SetCurrentOffset(offset);
+				seekableInputStream.SeekTo(offset);
 			}
 			else if(streamState.offset < offset)
 				inputStream->Skip(offset - streamState.offset);
@@ -149,17 +150,16 @@ public:
 	}
 
 	//Inline
-	inline AutoPointer<const FileSystemNode> GetNode(const char* path) const
+	inline AutoPointer<const Node> GetNode(const char* path) const
 	{
 		Path p = String(path);
-		NOT_IMPLEMENTED_ERROR; //TODO: REIMPLEMENT NEXT LINEs
-		//AutoPointer<const FileSystemNode> node = fileSystem.GetNode(p);
-		//return node;
+		AutoPointer<const Node> node = fileSystem.GetNode(p);
+		return node;
 	}
 
 private:
 	//Members
-	const RWFileSystem& fileSystem;
+	const ReadableFileSystem& fileSystem;
 	Map<Path, StreamState> openInputStreams;
 	Mutex openInputStreamsLock;
 };
@@ -179,7 +179,7 @@ static void *fuse_mapper_init(struct fuse_conn_info *conn, struct fuse_config *c
 
 static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi)
 {
-	AutoPointer<const FileSystemNode> node = GetState().GetNode(path);
+	AutoPointer<const Node> node = GetState().GetNode(path);
 	if(node.IsNull())
 		return -ENOENT;
 
@@ -189,7 +189,7 @@ static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse
 	stbuf->st_atim = {};
 	stbuf->st_ctim = {};
 
-	FileSystemNodeInfo info = node->QueryInfo();
+	NodeInfo info = node->QueryInfo();
 	if(info.lastModifiedTime.HasValue())
 	{
 		stbuf->st_mtim.tv_sec = info.lastModifiedTime->ToUnixTimestamp();
@@ -200,22 +200,22 @@ static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse
 
 	switch (node->GetType())
 	{
-		case FileSystemNodeType::Directory:
+		case NodeType::Directory:
 			stbuf->st_mode = S_IFDIR | 0555;
 			stbuf->st_nlink = 2;
 			stbuf->st_size = 0;
 			stbuf->st_blocks = 0;
 			break;
-		case FileSystemNodeType::File:
+		case NodeType::File:
 			stbuf->st_mode = S_IFREG | 0444;
 			stbuf->st_nlink = 1;
-			stbuf->st_size = node.Cast<const File>()->GetSize();
+			stbuf->st_size = info.size;
 			stbuf->st_blocks = info.storedSize / 512;
 			break;
-		case FileSystemNodeType::Link:
+		case NodeType::Link:
 			stbuf->st_mode = S_IFLNK | 0555;
 			stbuf->st_nlink = 1;
-			stbuf->st_size = info.storedSize;
+			stbuf->st_size = info.size;
 			stbuf->st_blocks = info.storedSize / 512;
 			break;
 	}
@@ -225,7 +225,7 @@ static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse
 
 static int fuse_mapper_open(const char *path, struct fuse_file_info *fi)
 {
-	AutoPointer<const FileSystemNode> node = GetState().GetNode(path);
+	AutoPointer<const Node> node = GetState().GetNode(path);
 	if(node.IsNull())
 		return -ENOENT;
 	if ((fi->flags & O_ACCMODE) != O_RDONLY)
@@ -238,10 +238,10 @@ static int fuse_mapper_read(const char *path, char *buf, size_t size, off_t offs
 {
 	fuse_mapper_state &state = GetState();
 	Path p = String::CopyRawString(path);
-	AutoPointer<const FileSystemNode> node = state.GetNode(path);
+	AutoPointer<const Node> node = state.GetNode(path);
 	if(node.IsNull())
 		return -ENOENT;
-	if(node->GetType() == FileSystemNodeType::Directory)
+	if(node->GetType() == NodeType::Directory)
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		
 	InputStream& inputStream = state.GetInputStream(p, offset);
@@ -253,10 +253,10 @@ static int fuse_mapper_read(const char *path, char *buf, size_t size, off_t offs
 
 static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags)
 {
-	AutoPointer<const FileSystemNode> node = GetState().GetNode(path);
+	AutoPointer<const Node> node = GetState().GetNode(path);
 	if(node.IsNull())
 		return -ENOENT;
-	if(node->GetType() != FileSystemNodeType::Directory)
+	if(node->GetType() != NodeType::Directory)
 		return -ENOENT;
 
 	filler(buf, u8".", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
@@ -274,15 +274,15 @@ static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t fill
 
 static int fuse_mapper_readlink(const char* path, char* buffer, size_t bufferSize)
 {
-	AutoPointer<const FileSystemNode> node = GetState().GetNode(path);
+	AutoPointer<const Node> node = GetState().GetNode(path);
 	if(node.IsNull())
 		return -ENOENT;
-	if(node->GetType() != FileSystemNodeType::Link)
+	if(node->GetType() != NodeType::Link)
 		return -ENOENT;
 
 	AutoPointer<const Link> link = node.Cast<const Link>();
 	Path target = link->ReadTarget();
-	const String& targetString = target.GetString();
+	const String& targetString = target.String();
 	targetString.ToUTF8();
 
 	uint32 nullByteOffset = Math::Min((uint32)(bufferSize - 1), targetString.GetSize());
@@ -292,7 +292,7 @@ static int fuse_mapper_readlink(const char* path, char* buffer, size_t bufferSiz
 	return 0;
 }
 
-void _stdxx_::fuse_MountReadOnly(const Path &mountPoint, const RWFileSystem &fileSystem)
+void _stdxx_::fuse_MountReadOnly(const Path &mountPoint, const ReadableFileSystem &fileSystem)
 {
 	struct fuse_operations operations = {
 		.getattr = fuse_mapper_getattr,
@@ -310,7 +310,7 @@ void _stdxx_::fuse_MountReadOnly(const Path &mountPoint, const RWFileSystem &fil
 	args.Add(u8"-d"); //debug output
 #endif
 	args.Add(u8"-f"); //foreground (i.e. in this thread)
-	args.Add(mountPoint.GetString());
+	args.Add(mountPoint.String());
 
 	fuse_mapper_state state(fileSystem);
 	fuse_main( args.argc(), args.argv(), &operations, (void*)&state );

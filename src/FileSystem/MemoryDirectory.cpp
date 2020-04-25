@@ -30,8 +30,8 @@ bool MemoryDirectory::Exists(const Path &path) const
 {
 	Path leftPart;
 	Path child = path.SplitOutmostPathPart(leftPart);
-	const String &childString = child.GetString();
-	if(leftPart.GetString().IsEmpty())
+	const String &childString = child.String();
+	if(leftPart.String().IsEmpty())
 		return this->children.Contains(childString);
 
 	if(this->HasSubDirectory(childString))
@@ -39,14 +39,14 @@ bool MemoryDirectory::Exists(const Path &path) const
 	return false;
 }
 
-AutoPointer<FileSystemNode> MemoryDirectory::GetChild(const String &name)
+AutoPointer<Node> MemoryDirectory::GetChild(const String &name)
 {
 	if(!this->children.Contains(name))
 		return nullptr;
 	return this->children[name];
 }
 
-AutoPointer<const FileSystemNode> MemoryDirectory::GetChild(const String &name) const
+AutoPointer<const Node> MemoryDirectory::GetChild(const String &name) const
 {
 	if(!this->children.Contains(name))
 		return nullptr;
@@ -100,7 +100,7 @@ DirectoryIterator MemoryDirectory::begin() const
 	private:
 		//Members
 		const MemoryDirectory &dir;
-		ConstMapIterator<String, AutoPointer<FileSystemNode>> childrenIterator;
+		ConstMapIterator<String, AutoPointer<Node>> childrenIterator;
 
 		//Inline
 		inline bool IsAtEnd() const

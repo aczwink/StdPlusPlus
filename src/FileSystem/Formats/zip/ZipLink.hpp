@@ -33,7 +33,7 @@ namespace _stdxx_
 
 		//Methods
 		void ChangePermissions(const StdXX::FileSystem::NodePermissions &newPermissions) override;
-		StdXX::FileSystemNodeInfo QueryInfo() const override;
+		StdXX::NodeInfo QueryInfo() const override;
 		StdXX::FileSystem::Path ReadTarget() const override;
 	};
 }

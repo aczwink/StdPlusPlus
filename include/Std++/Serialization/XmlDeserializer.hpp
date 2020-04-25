@@ -22,6 +22,7 @@
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/CommonFileFormats/XML/TextNode.hpp>
 #include "Std++/CommonFileFormats/XML/Document.hpp"
+#include <Std++/Optional.hpp>
 #include "Binding.hpp"
 
 namespace StdXX::Serialization
@@ -82,6 +83,25 @@ namespace StdXX::Serialization
 			binding.value = this->FetchStringValue();
 			this->LeaveElementOrAttribute();
 
+			return *this;
+		}
+
+		template<typename T>
+		XmlDeserializer& operator>>(const Binding<Optional<T>>& binding)
+		{
+			bool contain = false;
+			if(this->inAttributes)
+			{
+				if(this->elementStack.Last()->HasAttribute(binding.name))
+					contain = true;
+			}
+			else if(this->FirstChildElementWithTagName(*this->elementStack.Last(), binding.name))
+				contain = true;
+			if(contain)
+			{
+				binding.value = T();
+				return *this >> Binding(binding.name, *binding.value);
+			}
 			return *this;
 		}
 

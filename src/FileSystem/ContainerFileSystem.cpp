@@ -35,6 +35,11 @@ ContainerFileSystem::ContainerFileSystem(const Path &fileSystemPath) : fileSyste
 }
 
 //Public methods
+void ContainerFileSystem::CreateLink(const Path &linkPath, const Path &linkTargetPath)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 bool ContainerFileSystem::Exists(const Path &path) const
 {
 	return this->root->Exists(path);
@@ -50,9 +55,13 @@ AutoPointer<const Directory> ContainerFileSystem::GetRoot() const
 	return this->root;
 }
 
-uint64 ContainerFileSystem::GetSize() const
+SpaceInfo ContainerFileSystem::QuerySpace() const
 {
-	return this->containerInputStream->GetSize();
+	return {
+		.availableSize = 0,
+		.freeSize = 0,
+		.totalSize = this->containerInputStream->QuerySize()
+	};
 }
 
 //Protected methods

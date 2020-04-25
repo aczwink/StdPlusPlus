@@ -31,7 +31,7 @@ static AutoPointer<T> GetNodeImpl(const Path& path, AutoPointer<T> root)
 
 	Path leftPath = path;
 	if(leftPath.IsAbsolute()) //skip root slash
-		leftPath = leftPath.GetString().SubString(1);
+		leftPath = leftPath.String().SubString(1);
 	AutoPointer<T> node = root;
 	while(true)
 	{
@@ -39,11 +39,11 @@ static AutoPointer<T> GetNodeImpl(const Path& path, AutoPointer<T> root)
 		String name = leftPath.SplitOutmostPathPart(remaining);
 		leftPath = remaining;
 
-		ASSERT(node->GetType() == FileSystemNodeType::Directory, u8"Only directories can have children");
+		ASSERT(node->GetType() == NodeType::Directory, u8"Only directories can have children");
 		using dirType = typename Conditional<IsConst<T>::value, const Directory, Directory>::type;
 		node = node.template Cast<dirType>()->GetChild(name);
 
-		if(leftPath.GetString().IsEmpty())
+		if(leftPath.String().IsEmpty())
 			break;
 	}
 
@@ -56,12 +56,12 @@ UniquePointer<OutputStream> BufferedMetadataFileSystem::CreateFile(const Path &f
 	return this->GetDirectory(filePath.GetParent())->CreateFile(filePath.GetName());
 }
 
-AutoPointer<FileSystemNode> BufferedMetadataFileSystem::GetNode(const Path &path)
+AutoPointer<Node> BufferedMetadataFileSystem::GetNode(const Path &path)
 {
-	return GetNodeImpl<FileSystemNode>(path, this->GetRoot());
+	return GetNodeImpl<Node>(path, this->GetRoot());
 }
 
-AutoPointer<const FileSystemNode> BufferedMetadataFileSystem::GetNode(const Path &path) const
+AutoPointer<const Node> BufferedMetadataFileSystem::GetNode(const Path &path) const
 {
-	return GetNodeImpl<const FileSystemNode>(path, this->GetRoot());
+	return GetNodeImpl<const Node>(path, this->GetRoot());
 }

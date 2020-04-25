@@ -18,9 +18,9 @@
  */
 //Local
 #include <Std++/FileSystem/Path.hpp>
-#include <Std++/FileSystem/RWFileSystem.hpp>
+#include <Std++/FileSystem/ReadableFileSystem.hpp>
 
 namespace _stdxx_
 {
-	void fuse_MountReadOnly(const StdXX::FileSystem::Path &mountPoint, const StdXX::FileSystem::RWFileSystem &fileSystem);
+	void fuse_MountReadOnly(const StdXX::FileSystem::Path &mountPoint, const StdXX::FileSystem::ReadableFileSystem &fileSystem);
 }

@@ -21,7 +21,7 @@
 #include "../Containers/Strings/String.hpp"
 #include "../SmartPointers/AutoPointer.hpp"
 #include "Path.hpp"
-#include "FileSystemNodeInfo.hpp"
+#include "NodeInfo.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -29,22 +29,22 @@ namespace StdXX::FileSystem
 	class Directory;
 	class RWFileSystem;
 
-	enum class FileSystemNodeType
+	enum class NodeType
 	{
 		Directory,
 		File,
 		Link
 	};
 
-	class FileSystemNode
+	class Node
 	{
 	public:
 		//Destructor
-		virtual ~FileSystemNode() = default;
+		virtual ~Node() = default;
 
 		//Abstract
 		virtual void ChangePermissions(const FileSystem::NodePermissions& newPermissions) = 0;
-		virtual FileSystemNodeType GetType() const = 0;
-		virtual FileSystemNodeInfo QueryInfo() const = 0;
+		virtual NodeType GetType() const = 0;
+		virtual NodeInfo QueryInfo() const = 0;
 	};
 }

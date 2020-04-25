@@ -20,11 +20,18 @@
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Path.hpp"
-#include "FileSystemNode.hpp"
+#include "Node.hpp"
 #include "File.hpp"
 
 namespace StdXX::FileSystem
 {
+	struct SpaceInfo
+	{
+		uint64 availableSize;
+		uint64 freeSize;
+		uint64 totalSize;
+	};
+
 	class ReadableFileSystem
 	{
 	public:
@@ -39,8 +46,8 @@ namespace StdXX::FileSystem
 		 * @param path - If relative, it should be considered relative to the root.
 		 * @return
 		 */
-		virtual AutoPointer<const FileSystemNode> GetNode(const Path& path) const = 0;
-		virtual uint64 GetSize() const = 0;
+		virtual AutoPointer<const Node> GetNode(const Path& path) const = 0;
+		virtual SpaceInfo QuerySpace() const = 0;
 
 		//Functions
 		/**
@@ -54,16 +61,16 @@ namespace StdXX::FileSystem
 		//Inline
 		inline AutoPointer<const File> GetFile(const Path& path) const
 		{
-			AutoPointer<const FileSystemNode> node = this->GetNode(path);
+			AutoPointer<const Node> node = this->GetNode(path);
 			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == FileSystemNodeType::File, u8"Node is not a file.");
+			ASSERT(node->GetType() == NodeType::File, u8"Node is not a file.");
 
 			return node.MoveCast<const File>();
 		}
 
 		inline bool IsDirectory(const Path& path) const
 		{
-			return this->GetNode(path)->GetType() == FileSystemNodeType::Directory;
+			return this->GetNode(path)->GetType() == NodeType::Directory;
 		}
 	};
 }

@@ -27,7 +27,7 @@ using namespace StdXX::FileSystem;
 //Public methods
 void WritableFileSystem::CreateDirectoryTree(const Path &directoryPath)
 {
-	Path p = directoryPath.IsAbsolute() ? directoryPath.GetString().SubString(1) : directoryPath;
+	Path p = directoryPath.IsAbsolute() ? directoryPath.String().SubString(1) : directoryPath;
 	this->GetDirectory(String(u8"/"))->CreateDirectoryTree(p);
 }
 

@@ -50,33 +50,13 @@ bool _stdxx_::ZipDirectory::Exists(const Path &path) const {
 	return false;
 }
 
-StdXX::FileSystem::RWFileSystem *_stdxx_::ZipDirectory::GetFileSystem() {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
-const StdXX::FileSystem::RWFileSystem *_stdxx_::ZipDirectory::GetFileSystem() const {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
-}
-
-StdXX::AutoPointer<const StdXX::FileSystem::Directory> _stdxx_::ZipDirectory::GetParent() const {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::AutoPointer<const Directory>();
-}
-
-Path _stdxx_::ZipDirectory::GetPath() const {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Path();
-}
-
 bool _stdxx_::ZipDirectory::IsEmpty() const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return false;
 }
 
-StdXX::FileSystemNodeInfo _stdxx_::ZipDirectory::QueryInfo() const {
+StdXX::NodeInfo _stdxx_::ZipDirectory::QueryInfo() const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::FileSystemNodeInfo();
+	return StdXX::NodeInfo();
 }
 //END TODO NOT IMPLEMENTED

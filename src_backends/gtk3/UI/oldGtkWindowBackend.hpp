@@ -44,7 +44,7 @@ namespace _stdxx_
 		//Methods
 		uint32 GetPosition() const override;
 		void GetRange(int32 &min, int32 &max) override;
-		StdXX::Math::Size<float32> GetSize() const;
+		StdXX::Math::Size<float32> QuerySize() const;
 		StdXX::Math::Size<float32> GetSizeHint() const;
 		int32 GetValue() const override;
 		bool IsChecked() const override;

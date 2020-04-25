@@ -31,6 +31,17 @@ TEST_SUITE(PathTest)
 
 		Path p2 = String(u8"somePath/test.xml.txt");
 		ASSERT(p2.GetFileExtension() == u8"txt", u8"Only the last dot part is the file extension");
+
+		Path p3 = String(u8"/CLion-2019.3.5.win.zip");
+		ASSERT_EQUALS(u8"zip", p3.GetFileExtension());
+	}
+
+	TEST_CASE(GetParent_WithAndWithoutTrailingSlash)
+	{
+		Path p = expected + u8"/foo";
+		ASSERT_EQUALS(expected, p.GetParent().String());
+		Path p2 = expected + u8"/bar/";
+		ASSERT_EQUALS(expected + u8"/bar", p2.GetParent().String());
 	}
 
     TEST_CASE(Normalized_AlreadyNormalized)

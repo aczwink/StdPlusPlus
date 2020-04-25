@@ -46,5 +46,13 @@ Time Time::ParseISOString(const String &string)
 	DynamicArray<String> subParts = parts[2].Split(u8".");
 	ASSERT_EQUALS(subParts.GetNumberOfElements(), 2);
 
-	return Time(parts[0].ToUInt(), parts[1].ToUInt(), subParts[0].ToUInt()).AddNanoseconds(subParts[1].ToUInt());
+	ASSERT(subParts[1].EndsWith(u8"Z"), u8"TODO: DO THIS CORRECTLY");
+	String fractional = subParts[1].SubString(0, subParts[1].GetLength()-1);
+	uint64 frac = fractional.ToUInt();
+	if(fractional.GetLength() > 9)
+		frac /= Math::Power(10_u64, fractional.GetLength() - 9_u64);
+	else if(fractional.GetLength() < 9)
+		frac *= Math::Power(10_u64, 9_u64 - fractional.GetLength());
+
+	return Time(parts[0].ToUInt(), parts[1].ToUInt(), subParts[0].ToUInt()).AddNanoseconds(frac);
 }

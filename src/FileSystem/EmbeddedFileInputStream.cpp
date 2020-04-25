@@ -42,27 +42,27 @@ uint64 EmbeddedFileInputStream::GetCurrentOffset() const
 	return this->currentOffset;
 }
 
-uint64 EmbeddedFileInputStream::GetRemainingBytes() const
+uint64 EmbeddedFileInputStream::QueryRemainingBytes() const
 {
-	return this->GetSize() - this->currentOffset;
+	return this->QuerySize() - this->currentOffset;
 }
 
-uint64 EmbeddedFileInputStream::GetSize() const
+uint64 EmbeddedFileInputStream::QuerySize() const
 {
 	return this->size;
 }
 
 bool EmbeddedFileInputStream::IsAtEnd() const
 {
-	return this->GetRemainingBytes() == 0;
+	return this->QueryRemainingBytes() == 0;
 }
 
 uint32 EmbeddedFileInputStream::ReadBytes(void *destination, uint32 count)
 {
-	count = Math::Min(count, static_cast<const uint32 &>(this->GetRemainingBytes()));
+	count = Math::Min(count, static_cast<const uint32 &>(this->QueryRemainingBytes()));
 
 	this->baseInputStreamLock.Lock();
-	this->baseInputStream.SetCurrentOffset(this->offset + this->currentOffset);
+	this->baseInputStream.SeekTo(this->offset + this->currentOffset);
 	count = this->baseInputStream.ReadBytes(destination, count);
 	this->baseInputStreamLock.Unlock();
 
@@ -71,14 +71,14 @@ uint32 EmbeddedFileInputStream::ReadBytes(void *destination, uint32 count)
 	return count;
 }
 
-void EmbeddedFileInputStream::SetCurrentOffset(uint64 offset)
+void EmbeddedFileInputStream::SeekTo(uint64 offset)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 uint32 EmbeddedFileInputStream::Skip(uint32 nBytes)
 {
-	nBytes = Math::Min(nBytes, static_cast<uint32>(this->GetRemainingBytes()));
+	nBytes = Math::Min(nBytes, static_cast<uint32>(this->QueryRemainingBytes()));
 	this->currentOffset += nBytes;
 	return nBytes;
 }

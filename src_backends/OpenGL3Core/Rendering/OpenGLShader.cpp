@@ -56,9 +56,9 @@ bool OpenGLShader::Compile(SeekableInputStream &refSource)
     int32 result;
 
     //read shader code
-    pShaderText = (byte *)MemAlloc((uint32)refSource.GetRemainingBytes() + 1);
-    pShaderText[refSource.GetRemainingBytes()] = 0;
-    refSource.ReadBytes(pShaderText, (uint32)refSource.GetRemainingBytes());
+    pShaderText = (byte *)MemAlloc((uint32) refSource.QueryRemainingBytes() + 1);
+    pShaderText[refSource.QueryRemainingBytes()] = 0;
+    refSource.ReadBytes(pShaderText, (uint32) refSource.QueryRemainingBytes());
 
     //compile shader
     this->glFuncs.glShaderSource(this->id, 1, (const char * const *)&pShaderText, nullptr);

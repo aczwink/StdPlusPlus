@@ -34,12 +34,8 @@ namespace _stdxx_
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
 		void CreateSubDirectory(const StdXX::String &name) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
-		StdXX::AutoPointer<FileSystemNode> GetChild(const StdXX::String &name) override;
-		StdXX::AutoPointer<const FileSystemNode> GetChild(const StdXX::String &name) const override;
-		StdXX::FileSystem::RWFileSystem *GetFileSystem() override;
-		const StdXX::FileSystem::RWFileSystem *GetFileSystem() const override;
-		StdXX::AutoPointer<const Directory> GetParent() const override;
-		StdXX::FileSystem::Path GetPath() const override;
+		StdXX::AutoPointer<Node> GetChild(const StdXX::String &name) override;
+		StdXX::AutoPointer<const Node> GetChild(const StdXX::String &name) const override;
 		bool IsEmpty() const override;
 
 		//For range-based loop
