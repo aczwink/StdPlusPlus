@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,30 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
+#include "Type_clang.hpp"
 
-namespace StdXX
+namespace StdXX::Type
 {
-	namespace CommonFileFormats
-	{
-		class CSVDialect
-		{
-		public:
-			//Members
-			String separator;
-			String lineSeparator;
-			String quote;
+    template <typename T> struct IsMoveAssignable : public IsAssignable<typename std::add_lvalue_reference<T>::type, typename std::add_rvalue_reference<T>::type> {};
+    template< typename T > inline constexpr bool IsMoveAssignable_v = IsMoveAssignable<T>::value;
 
-			//Constructor
-			CSVDialect(const String &separator, const String &lineSeparator, const String& quote) : separator(separator),
-			    lineSeparator(lineSeparator), quote(quote)
-			{
-			}
-		};
-
-		//Instances
-		static CSVDialect csvDialect_excel(u8",", u8"\r\n", u8"\"");
-	}
+    template< typename T> struct IsTriviallyMoveAssignable : public IsTriviallyAssignable< typename std::add_lvalue_reference<T>::type, typename std::add_rvalue_reference<T>::type> {};
+    template< typename T > inline constexpr bool IsTriviallyMoveAssignable_v = IsTriviallyMoveAssignable<T>::value;
 }

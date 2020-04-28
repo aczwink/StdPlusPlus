@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,7 +31,7 @@ uint64 FileOutputStream::GetCurrentOffset() const
 	return lseek(this->fileHandle, 0, SEEK_CUR);
 }
 
-void FileOutputStream::SetCurrentOffset(uint64 offset)
+void FileOutputStream::SeekTo(uint64 offset)
 {
 	lseek(this->fileHandle, offset, SEEK_SET);
 }

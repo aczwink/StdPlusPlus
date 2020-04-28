@@ -20,7 +20,7 @@
 #include "POSIXFile.hpp"
 //Local
 #include <Std++/Streams/FileInputStream.hpp>
-#include <Std++/FileSystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
 #include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;

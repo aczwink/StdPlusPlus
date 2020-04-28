@@ -27,16 +27,20 @@ namespace StdXX
     class STDPLUSPLUS_API DateTime
     {
 	public:
-        //Constructor
+        //Constructors
 		inline DateTime(const Date &date, const Time &time)
 			: date(date), time(time)
 		{
 		}
 
+        DateTime(const DateTime&) = default;
+
 		//Methods
 		uint64 ToUnixTimestamp() const;
 
 		//Inline operators
+		DateTime& operator=(const DateTime&) = default;
+
 		inline bool operator==(const DateTime& other) const
 		{
         	return (this->date == other.date) && (this->time == other.time);

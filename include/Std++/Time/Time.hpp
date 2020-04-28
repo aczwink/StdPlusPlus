@@ -42,6 +42,8 @@ namespace StdXX
 			this->Set(hour, min, secs, millisecs, microsecs, nanosecs);
 		}
 
+		Time(const Time&) = default;
+
 		//Operators
 		inline bool operator==(const Time& other) const
 		{

@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/FileSystem/NodePermissions.hpp>
 #include "../FileSystem/Path.hpp"
 #include "SeekableOutputStream.hpp"
 
@@ -37,8 +38,9 @@ namespace StdXX
 		 *
 		 * @param path
 		 * @param overwrite
+		 * @param permissions - pass null for default permissions
 		 */
-        FileOutputStream(const FileSystem::Path &path, bool overwrite = false);
+        FileOutputStream(const FileSystem::Path &path, bool overwrite = false, const FileSystem::NodePermissions* permissions = nullptr);
         //FileOutputStream
         ~FileOutputStream();
         //Methods

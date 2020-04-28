@@ -20,8 +20,9 @@
 #include "PosixNode.hpp"
 //Global
 #include <sys/stat.h>
+#include <unistd.h>
 //Local
-#include <Std++/FileSystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
 #include "PosixStat.hpp"
 //Namespaces
 using namespace _stdxx_;
@@ -31,10 +32,14 @@ using namespace StdXX::FileSystem;
 //Public methods
 void PosixNode::ChangePermissions(const NodePermissions &newPermissions)
 {
-	const UnixPermissions& unixPermissions = dynamic_cast<const UnixPermissions &>(newPermissions);
+	const POSIXPermissions& unixPermissions = dynamic_cast<const POSIXPermissions &>(newPermissions);
 
-	int ret = chmod(reinterpret_cast<const char *>(this->path.String().ToUTF8().GetRawZeroTerminatedData()), unixPermissions.Encode());
+	const char* path = reinterpret_cast<const char *>(this->path.String().ToUTF8().GetRawZeroTerminatedData());
+	int ret = chmod(path, unixPermissions.EncodeMode());
 	ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
+
+	ret = chown(path, unixPermissions.userId, unixPermissions.groupId);
+	ASSERT_EQUALS(0, ret);
 }
 
 NodeInfo PosixNode::QueryInfo() const

@@ -18,7 +18,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Path.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ReadableFileSystem.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UnixPermissions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/POSIXPermissions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/URL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WritableFileSystem.cpp
 

@@ -22,7 +22,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 //Local
-#include <Std++/FileSystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
 #include "POSIXFile.hpp"
 #include "POSIXDirectory.hpp"
 #include "PosixLink.hpp"
@@ -100,22 +100,22 @@ NodeInfo _stdxx_::StatQueryFileInfo(const Path &path)
 
 	//set last modified time
 #ifdef XPC_OS_DARWIN
-	info.lastModifiedTime = WithNanoSecondsToTime(sb.st_mtimespec.tv_sec, sb.st_mtim.tv_nsec);
+	info.lastModifiedTime = WithNanoSecondsToTime(sb.st_mtimespec.tv_sec, sb.st_mtimespec.tv_nsec);
 #else
 	info.lastModifiedTime = WithNanoSecondsToTime(sb.st_mtim.tv_sec, sb.st_mtim.tv_nsec);
 #endif
 
 	//set stored size
-#ifdef XPC_OS_LINUX
+#if defined(XPC_OS_LINUX) || defined(XPC_OS_DARWIN)
 	//sb.st_size can be larger in case the file has "holes"...
-	//on linux st_blocks is in 512 units
-	info.storedSize = Math::Max(static_cast<uint64>(sb.st_blocks * 512), info.size);
+	//on linux and darwin st_blocks is in 512 units
+	info.storedSize = sb.st_blocks * 512_u64;
 #else
-	info.storedSize = fileSize;
+	info.storedSize = info.size;
 #endif
 
 	//permissions
-	info.permissions = new FileSystem::UnixPermissions(sb.st_mode);
+	info.permissions = new FileSystem::POSIXPermissions(sb.st_uid, sb.st_gid, sb.st_mode);
 
 	return info;
 }

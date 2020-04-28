@@ -32,7 +32,7 @@ namespace _stdxx_
 
 		//Methods
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
-		void CreateSubDirectory(const StdXX::String &name) override;
+		void CreateSubDirectory(const StdXX::String &name, const StdXX::FileSystem::NodePermissions* permissions) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
 		StdXX::AutoPointer<Node> GetChild(const StdXX::String &name) override;
 		StdXX::AutoPointer<const Node> GetChild(const StdXX::String &name) const override;

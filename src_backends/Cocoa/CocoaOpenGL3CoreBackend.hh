@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ namespace StdXX
 	{
 	public:
 		//Methods
-		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend, uint8 nSamples) const override;
+		Rendering::DeviceContext *CreateDeviceContext(_stdxx_::WidgetBackend &backend) const override;
 	};
 }
 #endif

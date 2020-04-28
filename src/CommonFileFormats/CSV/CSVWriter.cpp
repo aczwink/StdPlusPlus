@@ -1,7 +1,5 @@
-#include <Std++/Streams/OutputStream.hpp>
-
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +20,7 @@
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
 //Local
 #include <Std++/Streams/Writers/TextWriter.hpp>
-#include <Std++/Streams/Writers/StdOut.hpp>
+#include <Std++/Streams/OutputStream.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
@@ -42,9 +40,15 @@ void CSVWriter::WriteCell(const String &string)
 	TextWriter writer(this->outputStream, TextCodecType::UTF8);
 
 	if(this->writeSeparator)
-		writer.WriteString(this->dialect.separator);
+    {
+	    const bool needsQuoting = string.Find(this->dialect.separator) != Unsigned<uint32>::Max();
+	    if(needsQuoting)
+	        writer.WriteString(this->dialect.quote);
+        writer.WriteString(this->dialect.separator);
+        if(needsQuoting)
+            writer.WriteString(this->dialect.quote);
+    }
 
-	ASSERT(string.Find(this->dialect.separator) == Unsigned<uint32>::Max(), u8"TODO: escape cell");
 	writer.WriteString(string);
 	this->writeSeparator = true;
 }

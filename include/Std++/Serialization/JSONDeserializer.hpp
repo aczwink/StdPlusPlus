@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Type/Remove_cv.hpp>
 #include "Binding.hpp"
 
 namespace StdXX::Serialization
@@ -99,7 +100,7 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
-		template <typename T>
+		template <typename T, typename Type::EnableIf<!Type::IsConst<T>::value, bool>::type = false>
 		inline JSONDeserializer& operator>>(T& value)
 		{
 			this->objectStack.Push(&this->root);

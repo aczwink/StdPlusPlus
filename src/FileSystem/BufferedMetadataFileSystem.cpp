@@ -40,7 +40,7 @@ static AutoPointer<T> GetNodeImpl(const Path& path, AutoPointer<T> root)
 		leftPath = remaining;
 
 		ASSERT(node->GetType() == NodeType::Directory, u8"Only directories can have children");
-		using dirType = typename Conditional<IsConst<T>::value, const Directory, Directory>::type;
+		using dirType = typename Type::Conditional<Type::IsConst<T>::value, const Directory, Directory>::type;
 		node = node.template Cast<dirType>()->GetChild(name);
 
 		if(leftPath.String().IsEmpty())

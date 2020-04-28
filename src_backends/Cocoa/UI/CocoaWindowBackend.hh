@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -55,8 +55,8 @@ namespace _stdxx_
 		const StdXX::UI::Widget &GetWidget() const override;
 		void IgnoreEvent() override;
 		void Maximize() override;
-		StdXX::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
-		StdXX::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::Path &initialPath) const override;
+		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
+		StdXX::FileSystem::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::FileSystem::Path &initialPath) const override;
 		void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String &text) override;
@@ -91,6 +91,6 @@ namespace _stdxx_
 		//Methods
 		StdXX::Math::SizeD ComputeTextSize(NSString *string, NSFont *font) const;
 		NSString* CreateString(const StdXX::String& string) const;
-		StdXX::Path RunOpenPanel(NSOpenPanel* panel) const;
+		StdXX::FileSystem::Path RunOpenPanel(NSOpenPanel* panel) const;
 	};
 }

@@ -3,5 +3,6 @@ set(TEST_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/PathTest.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/POSIXPermissionsTest.cpp
 
 	PARENT_SCOPE)

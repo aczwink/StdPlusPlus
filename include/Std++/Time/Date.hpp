@@ -35,8 +35,9 @@ namespace StdXX
 		//Constants
 		static const Date Epoch;
 
-		//Constructor
+		//Constructors
 		Date(int64 year, uint8 month, uint8 day);
+		Date(const Date&) = default;
 
 		//Operators
 		inline bool operator<(const Date &other) const

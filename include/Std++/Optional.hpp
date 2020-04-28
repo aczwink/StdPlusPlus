@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Type/Assignable.hpp>
 #include "Debug.hpp"
 #include "Memory.hpp"
 #include "Utility.hpp"
@@ -114,6 +115,7 @@ namespace StdXX
 			return *this;
 		}
 
+		template <typename Type::EnableIf_t<Type::IsMoveAssignable_v<T>, bool> = false>
 		constexpr Optional<T>& operator=(Optional<T>&& other)
 		{
 			if (other.isInitialized)
@@ -123,7 +125,7 @@ namespace StdXX
 			return *this;
 		}
 
-		template <typename U = T>
+        template <typename U = T, typename Type::EnableIf_t<Type::IsTriviallyMoveAssignable_v<U>, bool> = false>
 		Optional &operator=(U&& rhs)
 		{
 			this->AssignMove(StdXX::Forward<U>(rhs));

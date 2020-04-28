@@ -25,16 +25,27 @@
 //Local
 #include <Std++/Errorhandling/Exceptions/FileAlreadyExistsException.hpp>
 #include <Std++/Errorhandling/Exceptions/FileNotFoundException.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Constructor
-FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite) : filePath(path)
+FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite, const FileSystem::NodePermissions* permissions) : filePath(path)
 {
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if(!overwrite)
 		flags |= O_EXCL;
-	this->fileHandle = open(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), flags, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+
+    uint32 permissionFlags = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+    if(permissions)
+    {
+        const POSIXPermissions* posixPermissions = dynamic_cast<const POSIXPermissions *>(permissions);
+        ASSERT(posixPermissions, u8"Illegal permissions type");
+        permissionFlags = posixPermissions->EncodeMode();
+    }
+
+	this->fileHandle = open(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), flags, permissionFlags);
 	if(this->fileHandle == -1)
 	{
 		switch(errno)

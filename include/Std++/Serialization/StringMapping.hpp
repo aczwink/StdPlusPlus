@@ -56,6 +56,7 @@ namespace StdXX::Serialization
 					return t.template Get<1>();
 			}
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return {};
 		}
 
 	private:
@@ -87,4 +88,16 @@ namespace StdXX::Serialization
 	{
 		serializer << value.ToString();
 	}
+
+	//clang needs this :(
+    template <typename T, uint32 N>
+    constexpr JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<StringMapping<T, N>>& binding)
+    {
+        return operator>><JSONDeserializer, T, N>(deserializer, binding);
+    }
+    template <typename T, uint32 N>
+    constexpr XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<StringMapping<T, N>>& binding)
+    {
+        return operator>><XmlDeserializer, T, N>(deserializer, binding);
+    }
 }

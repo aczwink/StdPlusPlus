@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 
-namespace StdXX
+namespace StdXX::Type
 {
 	//Traits
 	template <typename T, T v>
@@ -44,6 +44,8 @@ namespace StdXX
 	struct EnableIf{};
 	template <typename T>
 	struct EnableIf<true, T> { typedef T type; };
+    template<bool B, typename T = void >
+    using EnableIf_t = typename EnableIf<B,T>::type;
 
 	//IsConst
 	template<class T> struct IsConst : public BoolConstant<false>{};

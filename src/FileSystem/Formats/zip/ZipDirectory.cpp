@@ -32,7 +32,7 @@ void ZipDirectory::ChangePermissions(const FileSystem::NodePermissions &newPermi
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void ZipDirectory::CreateSubDirectory(const String &name)
+void ZipDirectory::CreateSubDirectory(const String &name, const NodePermissions* permissions)
 {
 	this->AddChild(name, new ZipDirectory(this->fileSystem));
 

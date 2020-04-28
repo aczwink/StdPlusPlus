@@ -24,6 +24,7 @@
 //Local
 #include <Std++/FileSystem/DirectoryIterator.hpp>
 #include <Std++/Errorhandling/Exceptions/PermissionDeniedException.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
 #include "POSIXDirectoryIteratorState.hpp"
 #include "POSIXFile.hpp"
 #include "PosixStat.hpp"
@@ -39,10 +40,18 @@ UniquePointer<OutputStream> POSIXDirectory::CreateFile(const String &name)
 	return nullptr;
 }
 
-void POSIXDirectory::CreateSubDirectory(const String &name)
+void POSIXDirectory::CreateSubDirectory(const String &name, const NodePermissions* permissions)
 {
 	Path p = this->path / name;
-	int ret = mkdir(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), 0700);
+
+	uint32 permissionFlags = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+	if(permissions)
+    {
+	    const POSIXPermissions* posixPermissions = dynamic_cast<const POSIXPermissions *>(permissions);
+	    ASSERT(posixPermissions, u8"Illegal permissions type");
+	    permissionFlags = posixPermissions->EncodeMode();
+    }
+	int ret = mkdir(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), permissionFlags);
 	if(ret)
 	{
 		switch(errno)

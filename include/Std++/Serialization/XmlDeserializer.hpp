@@ -68,6 +68,15 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
+        XmlDeserializer& operator>>(const Binding<uint32>& binding)
+        {
+            this->EnterElementOrAttribute(binding.name);
+            binding.value = this->FetchStringValue().ToUInt();
+            this->LeaveElementOrAttribute();
+
+            return *this;
+        }
+
 		XmlDeserializer& operator>>(const Binding<uint64>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,10 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+#include <Std++Test.hpp>
+using namespace StdXX;
+using namespace StdXX::FileSystem;
 
-#include <atomic> //needed in AtomicFlag
-#include <cmath>
-#include <cfloat>
-#include <new>
-#include <type_traits>
+TEST_SUITE(POSIXPermissionsTest)
+{
+    TEST_CASE(ModeShouldNotBeChangedByDecodingAndEncoding)
+    {
+        const StaticArray<uint32, 4> modes ={{01755, 04563, 02017, 07777}};
+        for(uint32 mode : modes)
+        {
+            POSIXPermissions posixPermissions(0, 0, mode);
+            ASSERT_EQUALS(mode, posixPermissions.EncodeMode());
+        }
+    }
+};

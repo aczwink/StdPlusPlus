@@ -16,41 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include <Std++/Definitions.h>
-#include "NodePermissions.hpp"
 
-namespace StdXX::FileSystem
+namespace StdXX::Type
 {
-	class UnixPermissions : public NodePermissions
-	{
-		struct UnixPermission
-		{
-			/**
-			 * Read file/link or list children names of directory.
-			 */
-			bool read;
-			/**
-			 * Write file/link or manage contents of directory (i.e. delete children, create new children etc.)
-			 */
-			bool write;
-			/**
-			 * Execute file/link or read metadata from children if name is known.
-			 */
-			bool execute;
-		};
-
-	public:
-		//Members
-		UnixPermission owner;
-		UnixPermission group;
-		UnixPermission others;
-
-		//Constructor
-		UnixPermissions(uint32 encodedPermissions);
-
-		//Methods
-		uint32 Encode() const;
-	};
+    template<typename T> struct RemoveConst { typedef T type; };
+    template<typename T> struct RemoveConst<const T> { typedef T type; };
 }

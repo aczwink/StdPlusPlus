@@ -36,7 +36,7 @@ namespace _stdxx_
 		//Methods
 		void ChangePermissions(const StdXX::FileSystem::NodePermissions &newPermissions) override;
 		StdXX::UniquePointer<StdXX::OutputStream> CreateFile(const StdXX::String &name) override;
-		void CreateSubDirectory(const StdXX::String &name) override;
+		void CreateSubDirectory(const StdXX::String &name, const StdXX::FileSystem::NodePermissions* permissions) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
 		bool IsEmpty() const override;
 		StdXX::NodeInfo QueryInfo() const override;

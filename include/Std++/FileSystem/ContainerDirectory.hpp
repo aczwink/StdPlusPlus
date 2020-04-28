@@ -44,7 +44,7 @@ namespace StdXX::FileSystem
 		//Methods
 		void ChangePermissions(const FileSystem::NodePermissions &newPermissions) override;
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
-		void CreateSubDirectory(const String &name) override;
+		void CreateSubDirectory(const String &name, const NodePermissions* permissions) override;
 		NodeInfo QueryInfo() const override;
 
 	private:

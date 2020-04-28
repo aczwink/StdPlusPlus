@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,10 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Local
+#include <Std++/__Globaldependencies.h>
 
-#include <atomic> //needed in AtomicFlag
-#include <cmath>
-#include <cfloat>
-#include <new>
-#include <type_traits>
+#ifdef XPC_COMPILER_CLANG
+namespace StdXX::Type
+{
+    template <typename T, typename Arg>
+    struct IsAssignable : public std::is_assignable<T, Arg> {};
+
+    template <typename T, typename Arg> struct IsTriviallyAssignable : public std::is_trivially_assignable<T, Arg> {};
+}
+#endif

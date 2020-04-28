@@ -42,7 +42,7 @@ UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 	return file->OpenForWriting();
 }
 
-void ContainerDirectory::CreateSubDirectory(const String &name)
+void ContainerDirectory::CreateSubDirectory(const String &name, const NodePermissions* permissions)
 {
 	this->AddChild(name, new ContainerDirectory(name, this));
 

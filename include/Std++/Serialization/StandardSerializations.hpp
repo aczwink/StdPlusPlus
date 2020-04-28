@@ -66,4 +66,31 @@ namespace StdXX::Serialization
 
 		return deserializer;
 	}
+
+    //clang needs this :(
+    template <typename T>
+    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<Optional<T>>& binding)
+    {
+        return operator<<<XmlSerializer>(serializer, binding);
+    }
+    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<FileSystem::Path>& binding)
+    {
+        return operator<<<XmlSerializer>(serializer, binding);
+    }
+    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<const FileSystem::Path>& binding)
+    {
+        return operator<<<XmlSerializer>(serializer, binding);
+    }
+    inline JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<FileSystem::Path>& binding)
+    {
+        return operator>><JSONDeserializer>(deserializer, binding);
+    }
+    inline XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<FileSystem::Path>& binding)
+    {
+        return operator>><XmlDeserializer>(deserializer, binding);
+    }
+    inline XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<DateTime>& binding)
+    {
+        return operator>><XmlDeserializer>(deserializer, binding);
+    }
 }

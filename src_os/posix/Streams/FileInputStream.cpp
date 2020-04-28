@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,26 +31,22 @@ uint64 FileInputStream::GetCurrentOffset() const
 	return (uint64)lseek(this->fileHandle, 0, SEEK_CUR);
 }
 
-uint64 FileInputStream::GetSize() const
+uint64 FileInputStream::QuerySize() const
 {
-	uint64 offset, size;
-
-	offset = this->GetCurrentOffset();
-	size = (uint64)lseek(this->fileHandle, 0, SEEK_END);
+	uint64 offset = this->GetCurrentOffset();
+	uint64 size = (uint64)lseek(this->fileHandle, 0, SEEK_END);
 	lseek(this->fileHandle, offset, SEEK_SET);
 
 	return size;
 }
 
-void FileInputStream::SetCurrentOffset(uint64 offset)
+void FileInputStream::SeekTo(uint64 offset)
 {
 	lseek(this->fileHandle, offset, SEEK_SET);
 }
 
 uint32 FileInputStream::Skip(uint32 nBytes)
 {
-	uint64 currentOffset;
-
-	currentOffset = this->GetCurrentOffset();
+	uint64 currentOffset = this->GetCurrentOffset();
 	return (uint32)(lseek(this->fileHandle, nBytes, SEEK_CUR) - currentOffset);
 }

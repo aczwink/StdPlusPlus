@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -123,7 +123,7 @@ void CocoaWindowBackend::Maximize()
 	[this->cocoaWindow zoom:this->cocoaWindow];
 }
 
-Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(Path &)> callback) const
+FileSystem::Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(FileSystem::Path &)> callback) const
 {
 	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
 	[panel setTitle:this->CreateString(title)];
@@ -134,11 +134,11 @@ Path CocoaWindowBackend::SelectExistingDirectory(const String &title, const Func
 	return this->RunOpenPanel(panel);
 }
 
-Path CocoaWindowBackend::SelectExistingFile(const String &title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const Path &initialPath) const
+FileSystem::Path CocoaWindowBackend::SelectExistingFile(const String &title, const DynamicArray<Tuple<String, DynamicArray<String>>>& filters, const FileSystem::Path &initialPath) const
 {
 	NSOpenPanel *panel = [[NSOpenPanel alloc] init];
 	[panel setTitle:this->CreateString(title)];
-	[panel setDirectoryURL: [NSURL URLWithString:this->CreateString(u8"file://" + initialPath.GetString())]];
+	[panel setDirectoryURL: [NSURL URLWithString:this->CreateString(u8"file://" + initialPath.String())]];
 	[panel setCanChooseFiles:true];
 	[panel setCanChooseDirectories:false];
 	[panel setAllowsMultipleSelection:false];
@@ -212,7 +212,7 @@ NSString *CocoaWindowBackend::CreateString(const StdXX::String &string) const
 	return tmp;
 }
 
-StdXX::Path CocoaWindowBackend::RunOpenPanel(NSOpenPanel* panel) const
+StdXX::FileSystem::Path CocoaWindowBackend::RunOpenPanel(NSOpenPanel* panel) const
 {
 	String resultStr;
 	if([panel runModal] == NSModalResponseOK)

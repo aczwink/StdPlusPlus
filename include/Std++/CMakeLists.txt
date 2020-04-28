@@ -21,6 +21,7 @@ add_subdirectory(Rendering)
 add_subdirectory(Serialization)
 add_subdirectory(Streams)
 add_subdirectory(Time)
+add_subdirectory(Type)
 add_subdirectory(UI)
 
 set(SOURCE_FILES

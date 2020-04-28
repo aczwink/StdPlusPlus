@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -59,9 +59,9 @@ StdXX::EventSource *StdXX::CocoaBackend::CreateEventSource()
 	return new CocoaEventSource;
 }
 
-GroupBoxBackend *CocoaBackend::CreateGroupBoxBackend(GroupBox * groupBox)
+GroupBoxBackend *CocoaBackend::CreateGroupBoxBackend(GroupBox& groupBox)
 {
-	return new CocoaGroupBoxBackend(*this, groupBox);
+	return new CocoaGroupBoxBackend(*this, &groupBox);
 }
 
 HeaderViewBackend *CocoaBackend::CreateHeaderViewBackend(UI::HeaderView &headerView)
@@ -85,14 +85,14 @@ MenuBarBackend *StdXX::CocoaBackend::CreateMenuBarBackend(StdXX::UI::MenuBar *me
 	return new CocoaMenuBarBackend();
 }
 
-PushButtonBackend *CocoaBackend::CreatePushButtonBackend(UI::PushButton *pushButton)
+PushButtonBackend *CocoaBackend::CreatePushButtonBackend(UI::PushButton& pushButton)
 {
-	return new CocoaPushButtonBackend(*this, pushButton);
+	return new CocoaPushButtonBackend(*this, &pushButton);
 }
 
-WidgetBackend *CocoaBackend::CreateRenderTargetWidgetBackend(RenderTargetWidget *renderTargetWidget)
+WidgetBackend *CocoaBackend::CreateRenderTargetWidgetBackend(RenderTargetWidget& renderTargetWidget)
 {
-	return new CocoaRenderTargetWidgetBackend(*this, renderTargetWidget);
+	return new CocoaRenderTargetWidgetBackend(*this, &renderTargetWidget);
 }
 
 ContentAreaWidgetBackend *CocoaBackend::CreateScrollAreaBackend(UI::ScrollArea *scrollArea)
@@ -111,9 +111,9 @@ ViewBackend *CocoaBackend::CreateSelectBoxBackend(UI::SelectBox &selectBox)
 	return nullptr;
 }
 
-SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider *slider)
+SliderBackend *CocoaBackend::CreateSliderBackend(UI::Slider& slider)
 {
-	return new CocoaSliderBackend(*this, slider);
+	return new CocoaSliderBackend(*this, &slider);
 }
 
 SpinBoxBackend *CocoaBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)

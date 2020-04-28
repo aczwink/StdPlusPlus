@@ -106,6 +106,11 @@ namespace StdXX::Serialization
 			*this << String::Number(value);
 		}
 
+        inline void operator<<(uint32 value)
+        {
+            *this << String::Number(value);
+        }
+
 		inline void operator<<(uint64 value)
 		{
 			*this << String::Number(value);

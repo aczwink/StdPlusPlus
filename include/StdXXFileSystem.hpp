@@ -26,4 +26,4 @@
 #include <Std++/FileSystem/Link.hpp>
 #include <Std++/FileSystem/OSFileSystem.hpp>
 #include <Std++/FileSystem/Path.hpp>
-#include <Std++/FileSystem/UnixPermissions.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>

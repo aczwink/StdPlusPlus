@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,12 +23,12 @@ namespace StdXX
 {
 	//Functions
 	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type& arg) noexcept
+	constexpr T&& Forward(typename Type::RemoveReference<T>::type& arg) noexcept
 	{
 		return static_cast<T&&>(arg);
 	}
 	template <typename T>
-	constexpr T&& Forward(typename RemoveReference<T>::type&& arg) noexcept
+	constexpr T&& Forward(typename Type::RemoveReference<T>::type&& arg) noexcept
 	{
 		return static_cast<T&&>(arg);
 	}

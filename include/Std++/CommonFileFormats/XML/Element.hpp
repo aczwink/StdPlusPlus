@@ -54,7 +54,7 @@ namespace StdXX::CommonFileFormats::XML
 		}
 
 		//Methods
-		NodeType GetType() const;
+		NodeType GetType() const override;
 		void Write(Writer& writer) const override;
 
 		//Inline

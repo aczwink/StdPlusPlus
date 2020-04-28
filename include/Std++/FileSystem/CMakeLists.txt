@@ -22,7 +22,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/OSFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Path.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ReadableFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/UnixPermissions.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/POSIXPermissions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/URL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WritableFileSystem.hpp
 

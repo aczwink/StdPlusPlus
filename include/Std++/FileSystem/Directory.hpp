@@ -40,7 +40,12 @@ namespace StdXX::FileSystem
 
 		//Abstract
 		virtual UniquePointer<OutputStream> CreateFile(const String &name) = 0;
-		virtual void CreateSubDirectory(const String &name) = 0;
+		/**
+		 *
+		 * @param name
+		 * @param permissions - pass null for default permissions
+		 */
+		virtual void CreateSubDirectory(const String &name, const NodePermissions* permissions = nullptr) = 0;
 		virtual bool Exists(const Path &path) const = 0;
 		/**
 		 * Returns the child identified by name or nullptr if not existent.

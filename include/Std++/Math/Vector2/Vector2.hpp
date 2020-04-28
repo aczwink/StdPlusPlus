@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,7 +41,7 @@ namespace StdXX
 
 #ifdef XPC_FEATURE_SSE2
 			template <class T = ScalarType>
-			inline Vector2(typename EnableIf<IsSameType<T, float64>::value, __m128d>::type mmValue)
+			inline Vector2(typename Type::EnableIf<Type::IsSameType<T, float64>::value, __m128d>::type mmValue)
 			{
 				this->mmValue = mmValue;
 			}

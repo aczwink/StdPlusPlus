@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,7 +30,7 @@ uint64 FileUpdateStream::GetCurrentOffset() const
     return lseek(this->fileHandle, 0, SEEK_CUR);
 }
 
-uint64 FileUpdateStream::GetSize() const
+uint64 FileUpdateStream::QuerySize() const
 {
     uint64 offset = this->GetCurrentOffset();
     off_t size = lseek(this->fileHandle, 0, SEEK_END);
@@ -39,7 +39,7 @@ uint64 FileUpdateStream::GetSize() const
     return size;
 }
 
-void FileUpdateStream::SetCurrentOffset(uint64 offset)
+void FileUpdateStream::SeekTo(uint64 offset)
 {
     lseek(this->fileHandle, offset, SEEK_SET);
 }

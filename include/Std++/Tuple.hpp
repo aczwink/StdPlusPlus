@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -74,23 +74,23 @@ namespace _stdxx_
 
 		//Inline
 		template<uint32 index>
-		inline auto& GetValue(typename StdXX::EnableIf<(index > 0), int>::type dummy = 0)
+		inline auto& GetValue(typename StdXX::Type::EnableIf<(index > 0), int>::type dummy = 0)
 		{
 			return TupleBase<RestTypes...>::template GetValue<index - 1>();
 		}
 		template<uint32 index>
-		inline typename StdXX::EnableIf<index == 0, FirstType>::type& GetValue()
+		inline typename StdXX::Type::EnableIf<index == 0, FirstType>::type& GetValue()
 		{
 			return this->value;
 		}
 
 		template<uint32 index>
-		inline const auto& GetValue(typename StdXX::EnableIf<(index > 0), int>::type dummy = 0) const
+		inline const auto& GetValue(typename StdXX::Type::EnableIf<(index > 0), int>::type dummy = 0) const
 		{
 			return TupleBase<RestTypes...>::template GetValue<index - 1>();
 		}
 		template<uint32 index>
-		inline const typename StdXX::EnableIf<index == 0, FirstType>::type& GetValue() const
+		inline const typename StdXX::Type::EnableIf<index == 0, FirstType>::type& GetValue() const
 		{
 			return this->value;
 		}
@@ -133,13 +133,13 @@ namespace _stdxx_
 
 		//Inline
 		template<uint32 index>
-		inline typename StdXX::EnableIf<index == 0, LastType>::type& GetValue()
+		inline typename StdXX::Type::EnableIf<index == 0, LastType>::type& GetValue()
 		{
 			return this->value;
 		}
 
 		template<uint32 index>
-		inline const typename StdXX::EnableIf<index == 0, LastType>::type& GetValue() const
+		inline const typename StdXX::Type::EnableIf<index == 0, LastType>::type& GetValue() const
 		{
 			return this->value;
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
  //Class header
 #include "CocoaOpenGL3CoreBackend.hh"
 //Local
+#include <Std++/UI/Displays/RenderTargetWidget.hpp>
 #import "Rendering/CocoaOpenGL3CoreDeviceContext.hh"
 #import "UI/CocoaRenderTargetWidgetBackend.hh"
 //Namespaces
@@ -27,8 +28,11 @@ using namespace StdXX;
 using namespace StdXX::Rendering;
 
 //Public methods
-DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(WidgetBackend &backend, uint8 nSamples) const
+DeviceContext *CocoaOpenGL3CoreBackend::CreateDeviceContext(WidgetBackend &backend) const
 {
-	CocoaRenderTargetWidgetBackend &renderTargetWidgetBackend = dynamic_cast<CocoaRenderTargetWidgetBackend &>(backend);
-	return new CocoaOpenGL3CoreDeviceContext(renderTargetWidgetBackend.GetOpenGLView(), nSamples, this->LoadWindowSystemOpenGLExtension);
+    UI::RenderTargetWidget& renderTargetWidget = dynamic_cast<UI::RenderTargetWidget &>(backend.GetWidget());
+    const WidgetFrameBufferSetup &frameBufferSetup = renderTargetWidget.FrameBufferSetup();
+
+    CocoaRenderTargetWidgetBackend &renderTargetWidgetBackend = dynamic_cast<CocoaRenderTargetWidgetBackend &>(backend);
+    return new CocoaOpenGL3CoreDeviceContext(renderTargetWidgetBackend.GetOpenGLView(), frameBufferSetup.nSamples, this->LoadWindowSystemOpenGLExtension);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -137,7 +137,7 @@ namespace StdXX
 
 		//Inline
 		template <typename T = DataType>
-		typename EnableIf<IsTrivial<T>::value, void>::type
+		typename Type::EnableIf<Type::IsTrivial<T>::value, void>::type
 		inline AllocateContainer(uint32 requiredNumberOfElements)
 		{
 			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
@@ -149,7 +149,7 @@ namespace StdXX
 		}
 
 		template <typename T = DataType>
-		typename EnableIf<!IsTrivial<T>::value, void>::type
+		typename Type::EnableIf<!Type::IsTrivial<T>::value, void>::type
 		inline AllocateContainer(uint32 requiredNumberOfElements)
 		{
 			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
@@ -165,14 +165,14 @@ namespace StdXX
 		}
 
 		template <typename T = DataType>
-		typename EnableIf<IsTrivial<T>::value, void>::type
+		typename Type::EnableIf<Type::IsTrivial<T>::value, void>::type
 		inline FreeContainer()
 		{
 			MemFree(this->data);
 		};
 
 		template <typename T = DataType>
-		typename EnableIf<!IsTrivial<T>::value, void>::type
+		typename Type::EnableIf<!Type::IsTrivial<T>::value, void>::type
 		inline FreeContainer()
 		{
 			delete[] this->data;
