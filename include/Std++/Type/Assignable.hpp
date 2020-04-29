@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "Type_clang.hpp"
+#include "Global.hpp"
 
 namespace StdXX::Type
 {

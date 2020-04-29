@@ -19,7 +19,6 @@
 //Local
 #include <Std++/__Globaldependencies.h>
 
-#ifdef XPC_COMPILER_CLANG
 namespace StdXX::Type
 {
     template <typename T, typename Arg>
@@ -27,4 +26,3 @@ namespace StdXX::Type
 
     template <typename T, typename Arg> struct IsTriviallyAssignable : public std::is_trivially_assignable<T, Arg> {};
 }
-#endif
