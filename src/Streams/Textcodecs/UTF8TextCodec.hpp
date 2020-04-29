@@ -32,20 +32,39 @@ public:
 	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
 	{
 		DataReader reader(true, inputStream);
-		uint32 b1 = reader.ReadByte();
-		nBytesRead = 1;
-		if(b1 & 0x80)
+
+		uint8 b1 = reader.ReadByte();
+		if(b1 & 0x80_u8)
 		{
-			nBytesRead++;
-			if(b1 & 0x20)
+			//2 bytes or more...
+			uint8 b2 = reader.ReadByte();
+			ASSERT((b2 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+			if(b1 & 0x20_u8)
 			{
-				//3 or 4 bytes
-				NOT_IMPLEMENTED_ERROR;
+				//3 or 4 bytes...
+				uint8 b3 = reader.ReadByte();
+				ASSERT((b3 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+				if(b1 & 0x10_u8)
+				{
+					//4 bytes
+					NOT_IMPLEMENTED_ERROR;
+				}
+
+				//3 byte
+				ASSERT((b1 & 0xF0_u8) == 0xE0_u8, u8"Illegal encoding.");
+				nBytesRead = 3;
+				return (uint32(b1 & 0xF_u8) << 12_u32) | (uint32(b2 & 0x3F_u8) << 6_u32) | (b3 & 0x3F_u8);
 			}
 
-			return ((b1 & 0x1F) << 6) | (reader.ReadByte() & 0x3F);
+			//2 byte
+			ASSERT((b1 & 0x60_u8) == 0x40_u8, u8"Illegal encoding.");
+			nBytesRead = 2;
+			return (uint32(b1 & 0x1F_u8) << 6_u32) | (b2 & 0x3F_u8);
 		}
 
+		nBytesRead = 1;
 		return b1;
 	}
 
