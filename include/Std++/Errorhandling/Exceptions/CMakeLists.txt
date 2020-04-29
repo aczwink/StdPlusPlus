@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AddressInUseException.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileAlreadyExistsException.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}//FileNotFoundException.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/IllegalEncodedCharException.hpp

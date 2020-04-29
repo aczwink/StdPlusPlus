@@ -76,10 +76,6 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
-//Errorhandling
-#include <Std++/Errorhandling/Errors/IllegalCodePathError.hpp>
-#include <Std++/Errorhandling/Exceptions/VerificationFailedException.hpp>
-
 //Eventhandling
 #include <Std++/Eventhandling/StandardEventQueue.hpp>
 
@@ -115,11 +111,6 @@
 
 //Debugging
 #include <Std++/Debugging/FunctionHook.hpp>
-
-//ErrorHandling
-#include <Std++/Errorhandling/Error.hpp>
-#include <Std++/Errorhandling/Exception.hpp>
-#include <Std++/Errorhandling/Exceptions/IllegalEncodedCharException.hpp>
 
 //Formal languages
 #include <Std++/FormalLanguages/RegEx.hpp>
@@ -299,4 +290,5 @@
 
 
 #include "StdXXCommandLine.hpp"
+#include "StdXXErrorHandling.hpp"
 #include "StdXXFileSystem.hpp"

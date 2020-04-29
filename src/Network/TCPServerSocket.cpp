@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,6 +28,7 @@
 //Local
 #include <Std++/Network/IPv4Address.hpp>
 #include <Std++/Signed.hpp>
+#include <Std++/Errorhandling/Exceptions/AddressInUseException.hpp>
 #include "Shared.hpp"
 //Namespaces
 using namespace StdXX;
@@ -67,7 +68,7 @@ TCPServerSocket::TCPServerSocket(const NetAddress &netAddress, uint16 port)
 				switch (errno)
 				{
 					case EADDRINUSE:
-						NOT_IMPLEMENTED_ERROR;
+						throw ErrorHandling::AddressInUseException(netAddress, port);
 					default:
 						NOT_IMPLEMENTED_ERROR;
 				}
@@ -136,10 +137,10 @@ UniquePointer<TCPSocket> TCPServerSocket::WaitForIncomingConnections(uint64 time
 	{
 #ifdef XPC_OS_WINDOWS
 		NOT_IMPLEMENTED_ERROR;
-		bool timedOut;
 #else
 		bool timedOut = poll(&fd, 1, timeOut32Bit) == 0;
 #endif
+
 		if (timedOut)
 			break;
 
@@ -147,7 +148,35 @@ UniquePointer<TCPSocket> TCPServerSocket::WaitForIncomingConnections(uint64 time
 		int socket = accept(this->systemHandle.i32, nullptr, nullptr);
 		if(socket == -1)
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: error occured
+			if(errno == EWOULDBLOCK)
+				continue; //try again
+			switch(errno)
+			{
+				case EAGAIN:
+					continue; //try again
+				case EBADF:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case ECONNABORTED:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case EINTR:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case EINVAL:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case EMFILE:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case ENFILE:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case ENOBUFS:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case ENOMEM:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case ENOTSOCK:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case EOPNOTSUPP:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+				case EPROTO:
+					NOT_IMPLEMENTED_ERROR; //TODO: error occured
+			}
 		}
 
 		Variant clientSystemHandle;
