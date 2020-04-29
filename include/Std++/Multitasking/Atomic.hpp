@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -88,7 +88,7 @@ namespace StdXX
             return *this;
         }
 
-	    inline T operator*()
+	    inline T operator*() const
 	    {
 		    return __atomic_load_n(&this->native, std::memory_order_seq_cst);
 	    }
@@ -98,15 +98,30 @@ namespace StdXX
             return this->FetchAdd(1);
         }
 
+        inline T operator--(int) noexcept //Postfix
+        {
+	    	return this->FetchSub(1);
+        }
+
         inline T operator--() //Prefix
         {
 			return __atomic_sub_fetch(&this->native, 1, std::memory_order_seq_cst);
         }
 
+		inline operator T() const noexcept
+		{
+	    	return this->operator*();
+		}
+
 		//Inline
 		inline T FetchAdd(T operand)
 		{
 			return __atomic_fetch_add(&this->native, operand, std::memory_order_seq_cst);
+		}
+
+		inline T FetchSub(T operand) noexcept
+		{
+	    	return __atomic_fetch_sub(&this->native, operand, std::memory_order_seq_cst);
 		}
 
     private:
