@@ -55,7 +55,9 @@ namespace StdXX::CommonFileFormats::XML
 		//Inline
 		inline void WriteAttribute(const String& key, const String& value)
 		{
-			this->textWriter.WriteString(u8" " + key + u8"=\"" + value + u8"\"");
+			this->textWriter.WriteString(u8" " + key + u8"=\"");
+			this->WriteStringWithEscaping(value);
+			this->textWriter.WriteString(u8"\"");
 		}
 
 		inline void WriteText(const String& text)
@@ -71,6 +73,7 @@ namespace StdXX::CommonFileFormats::XML
 
 		//Methods
 		void OnAddingChild(uint32 index, NodeType nodeType, const String& text);
+		void WriteStringWithEscaping(const String& text);
 
 		//Inline
 		inline void Indent()

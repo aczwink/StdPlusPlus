@@ -19,11 +19,11 @@
 //Class Header
 #include <Std++/Streams/FileInputStream.hpp>
 //Global
-#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 //Local
 #include <Std++/Errorhandling/Exceptions/FileNotFoundException.hpp>
+#include "read.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -38,6 +38,11 @@ FileInputStream::FileInputStream(const FileSystem::Path &path)
 		{
 			case ENOENT:
 				throw ErrorHandling::FileNotFoundException(path);
+			default:
+			{
+				int errno_bkp = errno;
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
 		}
 	}
 }
@@ -54,7 +59,7 @@ uint64 FileInputStream::QueryRemainingBytes() const
 	return this->QuerySize() - this->GetCurrentOffset();
 }
 
-uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
+uint32 FileInputStream::ReadBytes(void* destination, uint32 count)
 {
-	return read(this->fileHandle, pDestination, count);
+	return POSIXReadBytes(this->fileHandle, destination, count);
 }

@@ -16,30 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/CommonFileFormats/XML/Document.hpp>
-#include <Std++/CommonFileFormats/XML/Writer.hpp>
+#pragma once
 //Local
-#include "DOMReader.hpp"
+#include <Std++/Streams/BufferedInputStream.hpp>
+#include <Std++/Streams/Readers/TextReader.hpp>
+#include <Std++/CommonFileFormats/XML/Document.hpp>
+#include <Std++/CommonFileFormats/XML/TextNode.hpp>
+#include <Std++/CommonFileFormats/XML/Parser.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats::XML;
 
-//Constructor
-Document::Document()
+class DOMReader : private ParserCallbacks
 {
-	this->rootElement = nullptr;
-}
+public:
+	//Constructor
+	DOMReader(InputStream &inputStream);
 
-//Destructor
-Document::~Document()
-{
-	delete this->rootElement;
-}
+	//Methods
+	Document *Parse();
 
-//Class Functions
-UniquePointer<Document> Document::Parse(InputStream& inputStream)
-{
-	DOMReader parser(inputStream);
-	return parser.Parse();
-}
+private:
+	//Members
+	Document *document;
+	BufferedInputStream input;
+	DynamicArray<Element*> elementStack;
+
+	//Parser callbacks
+	void OnBeginElement(String &&elementName, Map<String, String> &&attributes) override;
+	void OnEndElement(String &&elementName) override;
+	void OnText(String &&text) override;
+};

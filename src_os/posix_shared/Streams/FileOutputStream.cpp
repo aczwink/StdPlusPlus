@@ -117,5 +117,51 @@ void FileOutputStream::Flush()
 
 uint32 FileOutputStream::WriteBytes(const void *pSource, uint32 size)
 {
-	return write(this->fileHandle, pSource, size);
+	ssize_t result = write(this->fileHandle, pSource, size);
+
+	if(result == -1)
+	{
+		if(errno == EWOULDBLOCK)
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		switch(errno)
+		{
+			case EAGAIN:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EBADF:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EFBIG:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EINTR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOSPC:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ERANGE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ECONNRESET:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EPIPE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EINVAL:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOBUFS:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENXIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EACCES:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENETDOWN:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENETUNREACH:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			default:
+			{
+				int errno_bkp = errno;
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
+		}
+	}
+
+	return result;
 }

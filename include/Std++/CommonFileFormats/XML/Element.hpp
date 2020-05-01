@@ -28,10 +28,16 @@ namespace StdXX::CommonFileFormats::XML
 	class Element : public Node
 	{
 	public:
-		//Constructor
-		inline Element(const String &refName)
+		//Constructors
+		inline Element(const String& name)
 		{
-			this->name = refName;
+			this->name = name;
+		}
+
+		inline Element(String&& name, Map<String, String>&& attributes)
+		{
+			this->name = Move(name);
+			this->attributes = Move(attributes);
 		}
 
 		//Destructor

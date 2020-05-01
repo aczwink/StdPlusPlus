@@ -98,6 +98,11 @@ namespace StdXX
 			this->lineSeparator = lsep;
 		}
 
+		inline void WriteCodePoint(uint32 codePoint)
+		{
+        	this->codec->WriteCodePoint(codePoint, this->outputStream);
+		}
+
 		inline void WriteLine()
 		{
 			this->WriteString(this->lineSeparator);

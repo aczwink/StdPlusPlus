@@ -48,7 +48,7 @@ void Writer::EndElement()
 			this->WriteEndTag(state.tagName);
 			break;
 		case ElementStateType::HaveOneTextNodeChild:
-			this->textWriter.WriteString(state.text);
+			this->WriteStringWithEscaping(state.text);
 			this->WriteEndTag(state.tagName);
 			break;
 	}
@@ -90,5 +90,32 @@ void Writer::OnAddingChild(uint32 index, NodeType nodeType, const String& text)
 		case ElementStateType::HaveOneTextNodeChild:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			break;
+	}
+}
+
+void Writer::WriteStringWithEscaping(const String &text)
+{
+	for(uint32 codePoint : text)
+	{
+		switch(codePoint)
+		{
+			case u8'"':
+				this->textWriter.WriteString(u8"&quot;");
+				break;
+			case u8'\'':
+				this->textWriter.WriteString(u8"&apos;");
+				break;
+			case u8'<':
+				this->textWriter.WriteString(u8"&lt;");
+				break;
+			case u8'>':
+				this->textWriter.WriteString(u8"&gt;");
+				break;
+			case u8'&':
+				this->textWriter.WriteString(u8"&amp;");
+				break;
+			default:
+				this->textWriter.WriteCodePoint(codePoint);
+		}
 	}
 }

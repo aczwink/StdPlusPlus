@@ -21,6 +21,8 @@
 //Global
 #include <fcntl.h>
 #include <unistd.h>
+//Local
+#include "read.hpp"
 //Namespaces
 using namespace StdXX;
 
@@ -50,7 +52,7 @@ uint64 FileUpdateStream::QueryRemainingBytes() const
 
 uint32 FileUpdateStream::ReadBytes(void *destination, uint32 count)
 {
-	return read(this->fileHandle, destination, count);
+	return POSIXReadBytes(this->fileHandle, destination, count);
 }
 
 uint32 FileUpdateStream::Skip(uint32 nBytes)
