@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,78 +19,80 @@
 #pragma once
 //Local
 #include "../Definitions.h"
+#include "IPacket.hpp"
 #include <Std++/Debug.hpp>
 #include <Std++/Utility.hpp>
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-		class STDPLUSPLUS_API Packet
+	class Packet : public IPacket
+	{
+	public:
+		//Members
+		uint32 streamIndex;
+		uint64 pts; //the presentation time stamp
+		uint64 duration;
+		bool containsKeyframe;
+
+		//Constructors
+		Packet();
+		Packet(uint32 size);
+
+		inline Packet(const Packet &source) : data(nullptr), capacity(0) //copy ctor
 		{
-		public:
-			//Members
-			uint32 streamIndex;
-			uint64 pts; //the presentation time stamp
-			uint64 duration;
-			bool containsKeyframe;
+			*this = source;
+		}
 
-			//Constructors
-			Packet();
+		inline Packet(Packet &&source) : data(nullptr) //move ctor
+		{
+			*this = Move(source);
+		}
 
-			inline Packet(const Packet &source) : data(nullptr), capacity(0) //copy ctor
-			{
-				*this = source;
-			}
+		//Destructor
+		~Packet();
 
-			inline Packet(Packet &&source) : data(nullptr) //move ctor
-			{
-				*this = Move(source);
-			}
+		//Operators
+		Packet &operator=(const Packet &source); //copy assign
+		Packet &operator=(Packet &&source); //move assign
 
-			//Destructor
-			~Packet();
+		//Methods
+		void Allocate(uint32 size);
+		bool ContainsKeyFrame() const override;
+		void CopyAttributesFrom(const Packet& p);
+		uint64 GetPresentationTimestamp() const override;
+		uint32 GetStreamIndex() const override;
 
-			//Operators
-			Packet &operator=(const Packet &source); //copy assign
-			Packet &operator=(Packet &&source); //move assign
+		//Inline
+		inline void AllocateAdditional(uint32 size)
+		{
+			this->Allocate(this->size + size);
+		}
 
-			//Methods
-			void Allocate(uint32 size);
-			void CopyAttributesFrom(const Packet& p);
+		inline byte *GetData()
+		{
+			return this->data;
+		}
 
-			//Inline
-			inline void AllocateAdditional(uint32 size)
-			{
-				this->Allocate(this->size + size);
-			}
+		inline const byte *GetData() const
+		{
+			return this->data;
+		}
 
-			inline byte *GetData()
-			{
-				return this->data;
-			}
+		inline uint32 GetSize() const
+		{
+			return this->size;
+		}
 
-			inline const byte *GetData() const
-			{
-				return this->data;
-			}
+		inline void RemoveEnd(uint32 nBytes)
+		{
+			ASSERT(this->size > nBytes, u8"Can't remove more bytes than are in packet.");
+			this->size -= nBytes;
+		}
 
-			inline uint32 GetSize() const
-			{
-				return this->size;
-			}
-
-			inline void RemoveEnd(uint32 nBytes)
-			{
-				ASSERT(this->size > nBytes, u8"Can't remove more bytes than are in packet.");
-				this->size -= nBytes;
-			}
-
-		private:
-			//Members
-			byte * data;
-			uint32 size;
-			uint32 capacity;
-		};
-    }
+	private:
+		//Members
+		byte * data;
+		uint32 size;
+		uint32 capacity;
+	};
 }

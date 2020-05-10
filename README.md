@@ -50,6 +50,7 @@ The library functions without them but offers more possibilities when having the
 The following extensions are currently implemented:
 * fuse - for mounting filesystems into the operating systems file system
 * libavcodec (ffmpeg) - provides a huge amount of codecs
+* libavformat (ffmpeg) - provides a huge amount of multimedia container formats
 * liblzma (XZ Utils) - for compressing and decompressing using the LZMA algorithm
 * OpenSSL - for cryptography ciphers and cryptographic hash functions
 * zlib - for compression and decompression using the Deflate algorithm

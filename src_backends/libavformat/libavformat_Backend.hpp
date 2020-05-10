@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,25 +17,13 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Multimedia/Demuxer.hpp>
+#include <Std++/_Backends/Extension.hpp>
 
 namespace _stdxx_
 {
-	class RawImageDemuxer : public StdXX::Multimedia::Demuxer
+	class libavformat_Backend : public Extension
 	{
 	public:
-		//Constructor
-		inline RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodingFormatId id)
-				: Demuxer(format, inputStream), codingFormatId(id)
-		{
-		}
-
-		//Methods
-		void ReadHeader() override;
-		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;
-
-	private:
-		//Members
-		StdXX::Multimedia::CodingFormatId codingFormatId;
+		void Load() override;
 	};
 }

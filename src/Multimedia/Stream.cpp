@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,6 +28,7 @@ Stream::Stream()
 	this->decoderContext = nullptr;
 	this->parserContext = nullptr;
 	this->encoderContext = nullptr;
+	this->codingFormat = nullptr;
 
 	this->parserFlags.requiresParsing = true;
 	this->parserFlags.repack = true;

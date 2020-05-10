@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -42,7 +42,7 @@ libavcodec_ParserContext::~libavcodec_ParserContext()
 }
 
 //Public methods
-void libavcodec_ParserContext::Parse(const Packet &packet)
+void libavcodec_ParserContext::Parse(const IPacket &packet)
 {
 	const byte *data = packet.GetData();
 	uint32 leftSize = packet.GetSize();
@@ -51,7 +51,7 @@ void libavcodec_ParserContext::Parse(const Packet &packet)
 	while (leftSize)
 	{
 		//parse frames from our packet
-		int ret = av_parser_parse2(this->parserContext, this->codecContext, &this->packet->data, &this->packet->size, data, leftSize, packet.pts, AV_NOPTS_VALUE, 0);
+		int ret = av_parser_parse2(this->parserContext, this->codecContext, &this->packet->data, &this->packet->size, data, leftSize, packet.GetPresentationTimestamp(), AV_NOPTS_VALUE, 0);
 		if (ret < 0)
 			break; //an error occured. skip packet
 
@@ -64,17 +64,17 @@ void libavcodec_ParserContext::Parse(const Packet &packet)
 }
 
 //Private methods
-void libavcodec_ParserContext::MapPacket(const Packet &sourcePacket)
+void libavcodec_ParserContext::MapPacket(const IPacket &sourcePacket)
 {
 	Packet p;
 
 	p.Allocate(this->packet->size);
 	MemCopy(p.GetData(), this->packet->data, p.GetSize());
 
-	if ((this->parserContext->key_frame == 1) || (this->parserContext->key_frame == -1 && sourcePacket.containsKeyframe))
+	if ((this->parserContext->key_frame == 1) || (this->parserContext->key_frame == -1 && sourcePacket.ContainsKeyFrame()))
 		p.containsKeyframe = true;
 	p.pts = this->parserContext->pts;
-	p.streamIndex = sourcePacket.streamIndex;
+	p.streamIndex = sourcePacket.GetStreamIndex();
 
 	this->AddToFrameBuffer(p);
 	this->ReadyFrameBuffer();

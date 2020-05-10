@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -93,7 +93,7 @@ void MatroskaDemuxer::ReadHeader()
 	//ReadSegment will place us at the beginning of the first cluster
 }
 
-bool MatroskaDemuxer::ReadPacket(Packet &packet)
+UniquePointer<IPacket> MatroskaDemuxer::ReadPacket()
 {
 	while (this->demuxerState.packetQueue.IsEmpty())
 	{
@@ -102,7 +102,7 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 		EBML::ParseElementHeader(element, this->inputStream);
 
 		if (this->inputStream.IsAtEnd())
-			return false; //no more data
+			return nullptr; //no more data
 		
 		switch (element.id)
 		{
@@ -209,21 +209,19 @@ bool MatroskaDemuxer::ReadPacket(Packet &packet)
 	//get next packet from packetqueue
 	IncomingPacket p = this->demuxerState.packetQueue.PopFront();
 	if(p.IsBuffered())
-		packet = Move(p.packet);
-	else
-	{
-		const TrackInfo& trackInfo = this->tracks[p.trackNumber];
-		
-		packet.Allocate(p.size + trackInfo.strippedHeader.GetSize());
-		if (!trackInfo.strippedHeader.IsEmpty())
-			MemCopy(packet.GetData(), &trackInfo.strippedHeader[0], trackInfo.strippedHeader.GetSize());
-		this->inputStream.ReadBytes(packet.GetData() + trackInfo.strippedHeader.GetSize(), p.size);
-		packet.CopyAttributesFrom(p.packet);
+		return new Packet(Move(p.packet));
 
-		this->demuxerState.leftClusterSize -= p.size;
-	}
+	const TrackInfo& trackInfo = this->tracks[p.trackNumber];
+
+	UniquePointer<Packet> packet = new Packet(p.size + trackInfo.strippedHeader.GetSize());
+	if (!trackInfo.strippedHeader.IsEmpty())
+		MemCopy(packet->GetData(), &trackInfo.strippedHeader[0], trackInfo.strippedHeader.GetSize());
+	this->inputStream.ReadBytes(packet->GetData() + trackInfo.strippedHeader.GetSize(), p.size);
+	packet->CopyAttributesFrom(p.packet);
+
+	this->demuxerState.leftClusterSize -= p.size;
 	
-	return true;
+	return packet;
 }
 
 //Private methods

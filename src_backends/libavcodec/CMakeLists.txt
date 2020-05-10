@@ -5,7 +5,7 @@ option(EXTENSION_LIBAVCODEC "libavcodec (ffmpeg) codec-extension." OFF)
 option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." OFF)
 #VERY IMPORTANT!
 
-include(FindFFmpeg.cmake)
+include(../FindFFmpeg.cmake)
 if(${BACKENDS_AUTO_AVAILABLE})
 	if (LIBAV_FOUND)
 		set(EXTENSION_LIBAVCODEC ON)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,26 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Global
+extern "C"
+{
+#include <libavformat/avformat.h>
+}
 //Local
+#include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
+#include "libavio_StreamWrapper.hpp"
 
 namespace _stdxx_
 {
-	class RawImageDemuxer : public StdXX::Multimedia::Demuxer
+	//Forward declarations
+	class libavformat_Format;
+
+	class libavformat_Demuxer : public StdXX::Multimedia::Demuxer
 	{
 	public:
 		//Constructor
-		inline RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodingFormatId id)
-				: Demuxer(format, inputStream), codingFormatId(id)
-		{
-		}
+		libavformat_Demuxer(const libavformat_Format& format, StdXX::SeekableInputStream& seekableInputStream);
+
+		//Destructor
+		~libavformat_Demuxer() override;
 
 		//Methods
 		void ReadHeader() override;
-		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;
 
 	private:
 		//Members
-		StdXX::Multimedia::CodingFormatId codingFormatId;
+		AVInputFormat* avInputFormat;
+		AVFormatContext *fmt_ctx;
+		libavio_StreamWrapper streamWrapper;
+
+		//Methods
+		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;
 	};
 }

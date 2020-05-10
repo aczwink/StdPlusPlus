@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,33 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "RawImageDemuxer.hpp"
+#include "libavformat_Backend.hpp"
 //Local
-#include <Std++/Multimedia/VideoStream.hpp>
-#include "RawImageFormat.hpp"
+#include "Multimedia/libavformat_Format.hpp"
 //Namespaces
 using namespace _stdxx_;
-using namespace StdXX;
-using namespace StdXX::Multimedia;
 
 //Public methods
-void RawImageDemuxer::ReadHeader()
+void libavformat_Backend::Load()
 {
-	Stream *stream = new VideoStream;
-	stream->SetCodingFormat(this->codingFormatId);
+	Extension::Load();
 
-	this->AddStream(stream);
-}
-
-UniquePointer<IPacket> RawImageDemuxer::ReadPacket()
-{
-	if(this->inputStream.IsAtEnd())
-		return nullptr;
-
-	UniquePointer<Packet> packet = new Packet(this->inputStream.QueryRemainingBytes());
-	packet->streamIndex = 0;
-
-	this->inputStream.ReadBytes(packet->GetData(), packet->GetSize());
-
-	return Move(packet);
+	StdXX::Multimedia::Format::Register(new libavformat_Format(u8"avi"));
 }

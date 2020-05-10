@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -54,7 +54,6 @@ public:
 
 	//Methods
 	void ReadHeader();
-	bool ReadPacket(Packet &packet);
 
 private:
 	//Members
@@ -72,6 +71,7 @@ private:
 	void AddStream(Matroska::Track &track);
 	void BufferPackets();
 	uint8 ReadBlockHeader(bool simple, uint32 blockSize);
+	UniquePointer<IPacket> ReadPacket();
 	void ReadSegment(uint64 segmentOffset, bool isLive);
 	void ReadSection(const EBML::Element &element);
 	void Reset();

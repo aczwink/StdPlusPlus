@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,7 +25,7 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Constructor
+//Constructors
 Packet::Packet()
 {
 	this->data = nullptr;
@@ -36,6 +36,11 @@ Packet::Packet()
 	this->pts = Unsigned<uint64>::Max();
 	this->duration = Unsigned<uint64>::Max();;
 	this->containsKeyframe = false;
+}
+
+Packet::Packet(uint32 size) : Packet()
+{
+	this->Allocate(size);
 }
 
 //Destructor
@@ -87,10 +92,25 @@ void Packet::Allocate(uint32 size)
 	this->size = size;
 }
 
+bool Packet::ContainsKeyFrame() const
+{
+	return this->containsKeyframe;
+}
+
 void Packet::CopyAttributesFrom(const Packet& p)
 {
 	this->streamIndex = p.streamIndex;
 	this->pts = p.pts;
 	this->duration = p.duration;
 	this->containsKeyframe = p.containsKeyframe;
+}
+
+uint64 Packet::GetPresentationTimestamp() const
+{
+	return this->pts;
+}
+
+uint32 Packet::GetStreamIndex() const
+{
+	return this->streamIndex;
 }

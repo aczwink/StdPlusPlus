@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -24,67 +24,64 @@
 #include "Frame.hpp"
 #include "Packet.hpp"
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-	namespace Multimedia
+	//Forward declarations
+	class Decoder;
+	class Stream;
+
+	class STDPLUSPLUS_API DecoderContext
 	{
-		//Forward declarations
-		class Decoder;
-		class Stream;
-
-		class STDPLUSPLUS_API DecoderContext
+	public:
+		//Constructor
+		inline DecoderContext(const Decoder &decoder, Stream &stream) : decoder(decoder), stream(stream)
 		{
-		public:
-			//Constructor
-			inline DecoderContext(const Decoder &decoder, Stream &stream) : decoder(decoder), stream(stream)
-			{
-				this->frameCounter = 0;
-			}
+			this->frameCounter = 0;
+		}
 
-			//Destructor
-			virtual ~DecoderContext();
+		//Destructor
+		virtual ~DecoderContext();
 
-			//Abstract
-			virtual void Decode(const Packet &packet) = 0;
+		//Abstract
+		virtual void Decode(const IPacket &packet) = 0;
 
-			//Overrideable
-			virtual void Reset();
+		//Overrideable
+		virtual void Reset();
 
-			//Inline
-			inline const Decoder &GetDecoder() const
-			{
-				return this->decoder;
-			}
+		//Inline
+		inline const Decoder &GetDecoder() const
+		{
+			return this->decoder;
+		}
 
-			inline Frame *GetNextFrame()
-			{
-				return this->orderedFrames.PopFront();
-			}
+		inline Frame *GetNextFrame()
+		{
+			return this->orderedFrames.PopFront();
+		}
 
-			inline bool IsFrameReady() const
-			{
-				return !this->orderedFrames.IsEmpty();
-			}
+		inline bool IsFrameReady() const
+		{
+			return !this->orderedFrames.IsEmpty();
+		}
 
-		protected:
-			//Members
-			Stream &stream;
+	protected:
+		//Members
+		Stream &stream;
 
-			//Methods
-			void AddFrame(Frame *pFrame, uint32 frameNumber = 0);
+		//Methods
+		void AddFrame(Frame *pFrame, uint32 frameNumber = 0);
 
-			//Inline
-			inline void ResetFrameCounter()
-			{
-				this->frameCounter = 0;
-			}
+		//Inline
+		inline void ResetFrameCounter()
+		{
+			this->frameCounter = 0;
+		}
 
-		private:
-			//Members
-			const Decoder &decoder;
-			uint32 frameCounter;
-			PriorityQueue<Tuple<uint32, Frame *>> unorderedFrames;
-			LinkedList<Frame *> orderedFrames;
-		};
-	}
+	private:
+		//Members
+		const Decoder &decoder;
+		uint32 frameCounter;
+		PriorityQueue<Tuple<uint32, Frame *>> unorderedFrames;
+		LinkedList<Frame *> orderedFrames;
+	};
 }

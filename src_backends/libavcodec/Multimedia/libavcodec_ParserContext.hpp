@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -36,7 +36,7 @@ namespace _stdxx_
 		~libavcodec_ParserContext();
 
 		//Methods
-		void Parse(const StdXX::Multimedia::Packet & refPacket) override;
+		void Parse(const StdXX::Multimedia::IPacket & refPacket) override;
 
 	private:
 		//Members
@@ -45,6 +45,6 @@ namespace _stdxx_
 		AVPacket *packet;
 
 		//Methods
-		void MapPacket(const StdXX::Multimedia::Packet &sourcePacket);
+		void MapPacket(const StdXX::Multimedia::IPacket &sourcePacket);
 	};
 }

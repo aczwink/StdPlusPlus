@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,17 +39,17 @@ namespace StdXX
 
 			//Abstract
 			//virtual CodecId GetCodecId() const = 0;
-			virtual void Parse(const Packet &refPacket) = 0;
+			virtual void Parse(const IPacket &packet) = 0;
 
 			//Overrideable
 			virtual void Reset();
 
 			//Inline
-			inline void GetParsedFrame(Packet &refPacket)
+			inline Packet GetParsedFrame()
 			{
 				ASSERT(this->IsFrameReady(), "If you see this, report to Std++");
 
-				refPacket = parsedFrames.PopFront();
+				return parsedFrames.PopFront();
 			}
 
 			inline bool IsFrameReady() const

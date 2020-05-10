@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -76,7 +76,7 @@ libavcodec_DecoderContext::~libavcodec_DecoderContext()
 }
 
 //Public methods
-void libavcodec_DecoderContext::Decode(const Packet & packet)
+void libavcodec_DecoderContext::Decode(const IPacket & packet)
 {
 	this->MapPacket(packet);
 
@@ -189,15 +189,15 @@ ChannelLayout libavcodec_DecoderContext::MapChannels(int nChannels)
 	NOT_IMPLEMENTED_ERROR;
 }
 
-void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::Packet &packet)
+void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::IPacket &packet)
 {
 	this->packet->data = (uint8_t *)packet.GetData();
 	this->packet->size = packet.GetSize();
 
-	if (packet.pts == Unsigned<uint64>::Max())
+	if (packet.GetPresentationTimestamp() == Unsigned<uint64>::Max())
 		this->packet->pts = AV_NOPTS_VALUE;
 	else
-		this->packet->pts = packet.pts;
+		this->packet->pts = packet.GetPresentationTimestamp();
 }
 
 AudioSampleType libavcodec_DecoderContext::MapSampleFormat(AVSampleFormat sampleFormat) const

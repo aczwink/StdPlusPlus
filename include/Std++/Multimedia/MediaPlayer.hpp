@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -62,7 +62,7 @@ namespace _stdxx_
 		StdXX::Multimedia::Packet *TryGetNextOutputPacket();
 
 		//Inline
-		inline void AddInputPacket(StdXX::Multimedia::Packet *packet)
+		inline void AddInputPacket(StdXX::UniquePointer<StdXX::Multimedia::IPacket> packet)
 		{
 			this->inputPacketQueueLock.Lock();
 			while (this->inputPacketQueue.GetNumberOfElements() >= 100)
@@ -74,7 +74,7 @@ namespace _stdxx_
 
 				this->inputPacketQueueSignal.Wait(this->inputPacketQueueLock);
 			}
-			this->inputPacketQueue.InsertTail(packet);
+			this->inputPacketQueue.InsertTail(Move(packet));
 			this->inputPacketQueueSignal.Signal();
 			this->inputPacketQueueLock.Unlock();
 		}
@@ -107,7 +107,7 @@ namespace _stdxx_
 		StdXX::UniquePointer<StdXX::Multimedia::ComputePixmapResampler> pixmapResampler;
 		StdXX::UniquePointer<StdXX::Multimedia::Stream> encodingStream;
 		StdXX::Multimedia::EncoderContext *encoderContext;
-		StdXX::LinkedList<StdXX::Multimedia::Packet *> inputPacketQueue;
+		StdXX::LinkedList<StdXX::UniquePointer<StdXX::Multimedia::IPacket>> inputPacketQueue;
 		StdXX::Mutex inputPacketQueueLock;
 		StdXX::ConditionVariable inputPacketQueueSignal;
 		StdXX::LinkedList<StdXX::Multimedia::Packet *> outputPacketQueue;
@@ -115,7 +115,7 @@ namespace _stdxx_
 		StdXX::ConditionVariable outputPacketQueueSignal;
 
 		//Methods
-		StdXX::Multimedia::Packet *GetNextInputPacket();
+		StdXX::UniquePointer<StdXX::Multimedia::IPacket> GetNextInputPacket();
 		void Run() override;
 		bool WaitForWork();
 

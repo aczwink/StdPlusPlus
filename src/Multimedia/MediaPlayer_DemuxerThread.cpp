@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -58,28 +58,23 @@ void DemuxerThread::Run()
 		this->working = true;
 
 		//read a packet
-		Packet *packet = new Packet;
-		if(!demuxer->ReadFrame(*packet))
+		UniquePointer<IPacket> packet = demuxer->ReadFrame();
+		if(packet.IsNull())
 		{
-			delete packet;
 			this->work = false; //no more work
 			continue;
 		}
 
 		//check if we want that packet
-		if(packet->streamIndex == this->audioStreamIndex)
+		if(packet->GetStreamIndex() == this->audioStreamIndex)
 		{
-			this->audioDecodeThread->AddInputPacket(packet);
+			this->audioDecodeThread->AddInputPacket(Move(packet));
 		}
-		else if(packet->streamIndex == this->videoStreamIndex)
+		else if(packet->GetStreamIndex() == this->videoStreamIndex)
 		{
-			this->videoDecodeThread->AddInputPacket(packet);
+			this->videoDecodeThread->AddInputPacket(Move(packet));
 		}
-		else
-		{
-			//not of interest
-			delete packet;
-		}
+		//else not of interest
 	}
 
 	this->working = false;

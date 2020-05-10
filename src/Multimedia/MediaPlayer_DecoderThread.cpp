@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,10 +43,8 @@ DecoderThread::~DecoderThread()
 }
 
 //Private methods
-Packet *DecoderThread::GetNextInputPacket()
+UniquePointer<IPacket> DecoderThread::GetNextInputPacket()
 {
-	Packet *pPacket;
-
 	this->inputPacketQueueLock.Lock();
 	while(this->inputPacketQueue.IsEmpty())
 	{
@@ -63,11 +61,11 @@ Packet *DecoderThread::GetNextInputPacket()
 			return nullptr;
 		}
 	}
-	pPacket = this->inputPacketQueue.PopFront();
+	UniquePointer<IPacket> packet = this->inputPacketQueue.PopFront();
 	this->inputPacketQueueSignal.Signal();
 	this->inputPacketQueueLock.Unlock();
 
-	return pPacket;
+	return packet;
 }
 
 void DecoderThread::Run()
@@ -141,11 +139,10 @@ void DecoderThread::Run()
 		}
 
 		//We have no more frames for playback... decode new ones
-		Packet *packet = this->GetNextInputPacket();
-		if(packet)
+		UniquePointer<IPacket> packet = this->GetNextInputPacket();
+		if(!packet.IsNull())
 		{
 			this->decoderContext->Decode(*packet);
-			delete packet;
 		}
 	}
 
@@ -177,8 +174,7 @@ bool DecoderThread::WaitForWork()
 void DecoderThread::FlushInputQueue()
 {
 	this->inputPacketQueueLock.Lock();
-	while(!this->inputPacketQueue.IsEmpty())
-		delete this->inputPacketQueue.PopFront();
+	this->inputPacketQueue.Release();
 	this->inputPacketQueueLock.Unlock();
 }
 

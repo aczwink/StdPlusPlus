@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,26 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include <Std++/Multimedia/Demuxer.hpp>
+#pragma once
 
-namespace _stdxx_
+namespace StdXX::Multimedia
 {
-	class RawImageDemuxer : public StdXX::Multimedia::Demuxer
+	class IPacket
 	{
 	public:
-		//Constructor
-		inline RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodingFormatId id)
-				: Demuxer(format, inputStream), codingFormatId(id)
-		{
-		}
-
-		//Methods
-		void ReadHeader() override;
-		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;
-
-	private:
-		//Members
-		StdXX::Multimedia::CodingFormatId codingFormatId;
+		//Abstract
+		virtual bool ContainsKeyFrame() const = 0;
+		virtual const uint8* GetData() const = 0;
+		virtual uint64 GetPresentationTimestamp() const = 0;
+		virtual uint32 GetSize() const = 0;
+		virtual uint32 GetStreamIndex() const = 0;
 	};
 }

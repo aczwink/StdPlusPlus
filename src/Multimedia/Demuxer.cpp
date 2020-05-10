@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -53,7 +53,6 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 {
 	uint32 i;
 	uint64 currentOffset;
-	Packet packet;
 	Stream *pStream;
 	BinaryTreeSet<uint32> streamsThatRequireDuration;
 
@@ -73,30 +72,31 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 	while(true)
 	{
 		//work directly on packets to avoid parsing overhead
-		if(!this->ReadPacket(packet))
+		UniquePointer<IPacket> packet = this->ReadPacket();
+		if(packet.IsNull())
 			break;
 
-		if(packet.pts != Unsigned<uint64>::Max() && streamsThatRequireDuration.Contains(packet.streamIndex))
+		if(packet->GetPresentationTimestamp() != Unsigned<uint64>::Max() && streamsThatRequireDuration.Contains(packet->GetStreamIndex()))
 		{
-			pStream = this->GetStream(packet.streamIndex);
+			pStream = this->GetStream(packet->GetStreamIndex());
 
-			pStream->duration = packet.pts - pStream->startTime;
+			pStream->duration = packet->GetPresentationTimestamp() - pStream->startTime;
 		}
 	}
 
 	this->inputStream.SeekTo(currentOffset);
 }
 
-void Demuxer::ExtractInfo(Packet &refPacket)
+void Demuxer::ExtractInfo(const IPacket& packet)
 {
 	Stream *pStream;
 
-	pStream = this->GetStream(refPacket.streamIndex);
+	pStream = this->GetStream(packet.GetStreamIndex());
 
 	//in case we have a pts and stream has no start time, we use it as start time
-	if(refPacket.pts != Unsigned<uint64>::Max() && pStream->startTime == Unsigned<uint64>::Max())
+	if(packet.GetPresentationTimestamp() != Unsigned<uint64>::Max() && pStream->startTime == Unsigned<uint64>::Max())
 	{
-		pStream->startTime = refPacket.pts;
+		pStream->startTime = packet.GetPresentationTimestamp();
 	}
 
 	//check for coding format
@@ -140,7 +140,7 @@ void Demuxer::ExtractInfo(Packet &refPacket)
 		if (decoderContext != nullptr)
 		{
 			//we have a decoder.... let's try if decoding some packets updates info
-			decoderContext->Decode(refPacket);
+			decoderContext->Decode(packet);
 		}
 	}
 }
@@ -151,7 +151,6 @@ bool Demuxer::FindStreamInfo()
 	bool ret;
 	uint16 nReadFrames;
 	uint64 currentOffset;
-	Packet packet;
 	FormatInfo formatInfo;
 
 	const uint16 MAX_PROBE_FRAMES = this->GetNumberOfStreams() * 10;
@@ -187,10 +186,10 @@ bool Demuxer::FindStreamInfo()
 		if(nReadFrames >= MAX_PROBE_FRAMES)
 			break;
 
-		if(!this->ReadFrame(packet))
+		UniquePointer<IPacket> packet = this->ReadFrame();
+		if(packet.IsNull())
 			break;
-
-		this->ExtractInfo(packet);
+		this->ExtractInfo(*packet);
 
 		nReadFrames++;
 	}
@@ -219,7 +218,7 @@ bool Demuxer::FindStreamInfo()
 	return this->AllInfoIsAvailable();
 }
 
-bool Demuxer::ReadFrame(Packet &packet)
+UniquePointer<IPacket> Demuxer::ReadFrame()
 {
 	uint32 i;
 
@@ -229,30 +228,24 @@ bool Demuxer::ReadFrame(Packet &packet)
 		if(ParserContext *parserContext = this->GetStream(i)->GetParserContext())
 		{
 			if(parserContext->IsFrameReady())
-			{
-				parserContext->GetParsedFrame(packet);
-
-				return true;
-			}
+				return new Packet(parserContext->GetParsedFrame());
 		}
 	}
 
 	//read packets until a frame is collected
 	while(true)
 	{
-		if(!this->ReadPacket(packet))
-			return false;
+		UniquePointer<IPacket> packet = this->ReadPacket();
+		if(packet.IsNull())
+			break;
 
-		if(ParserContext *parserContext = this->GetStream(packet.streamIndex)->GetParserContext())
+		if(ParserContext *parserContext = this->GetStream(packet->GetStreamIndex())->GetParserContext())
 		{
-			parserContext->Parse(packet);
+			parserContext->Parse(*packet);
 			if (parserContext->ShouldRepack())
 			{
 				if (parserContext->IsFrameReady())
-				{
-					parserContext->GetParsedFrame(packet);
-					break;
-				}
+					return new Packet(parserContext->GetParsedFrame());
 			}
 			else
 			{
@@ -267,7 +260,7 @@ bool Demuxer::ReadFrame(Packet &packet)
 		}
 	}
 
-	return true;
+	return nullptr;
 }
 
 //Protected methods
