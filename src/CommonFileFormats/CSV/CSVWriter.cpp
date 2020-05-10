@@ -40,15 +40,16 @@ void CSVWriter::WriteCell(const String &string)
 	TextWriter writer(this->outputStream, TextCodecType::UTF8);
 
 	if(this->writeSeparator)
-    {
-	    const bool needsQuoting = string.Find(this->dialect.separator) != Unsigned<uint32>::Max();
-	    if(needsQuoting)
-	        writer.WriteString(this->dialect.quote);
         writer.WriteString(this->dialect.separator);
-        if(needsQuoting)
-            writer.WriteString(this->dialect.quote);
-    }
+    
+    const bool needsQuoting = string.Find(this->dialect.separator) != Unsigned<uint32>::Max();
+    if(needsQuoting)
+        writer.WriteString(this->dialect.quote);
 
 	writer.WriteString(string);
+	
+	if(needsQuoting)
+            writer.WriteString(this->dialect.quote);
+            
 	this->writeSeparator = true;
 }
