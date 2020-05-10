@@ -38,6 +38,46 @@ FileInputStream::FileInputStream(const FileSystem::Path &path)
 		{
 			case ENOENT:
 				throw ErrorHandling::FileNotFoundException(path);
+			case EACCES:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EEXIST:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EINTR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EINVAL:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EISDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ELOOP:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EMFILE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENAMETOOLONG:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENFILE:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOTDIR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOSR:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOSPC:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENXIO:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EOVERFLOW:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EROFS:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EAGAIN:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ENOMEM:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case EOPNOTSUPP:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			case ETXTBSY:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			default:
 			{
 				int errno_bkp = errno;
