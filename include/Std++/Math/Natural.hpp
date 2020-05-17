@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,6 +47,16 @@ namespace StdXX
 					this->value.Resize(1);
 					this->value[0] = v;
 				}
+			}
+
+			//Properties
+			inline uint64 RoundDown() const
+			{
+				if(this->value.IsEmpty())
+					return 0;
+				if(this->value.GetNumberOfElements() > 1)
+					return Unsigned<uint64>::Max();
+				return this->value[0];
 			}
 
 			//Assignment operators

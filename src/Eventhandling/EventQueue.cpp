@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,17 +17,14 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/EventHandling/EventQueue.hpp>
 //Local
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::UI;
-
-//Global variables
-EventQueue *g_globalEventQueue = nullptr;
+using namespace StdXX::EventHandling;
 
 //Constructor
 EventQueue::EventQueue()
@@ -71,7 +68,8 @@ void EventQueue::DispatchPendingEvents()
 {
 	for(EventSource *const& source : this->sources)
 	{
-		source->DispatchPendingEvents();
+		if(source->HasPendingEvents())
+			source->DispatchPendingEvents();
 	}
 }
 
@@ -82,11 +80,10 @@ void EventQueue::WaitForEvents()
 	for(const EventSource *const& source : this->sources)
 	{
 		uint64 tmp = source->GetMaxTimeout();
+		if(tmp == 0)
+			return;
 		minWaitTime = Math::Min(minWaitTime, tmp);
 	}
-
-	if(minWaitTime == 0)
-		return;
 
 	this->System_CollectWaitObjects();
 	this->System_WaitForEvents(minWaitTime);

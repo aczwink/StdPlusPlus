@@ -25,11 +25,11 @@ set(SOURCE_FILES
 	#Devices
 	${CMAKE_CURRENT_SOURCE_DIR}/Devices/DeviceEnumerator.cpp
 
-	#Eventhandling
+	#EventHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.cpp
 
-	#Multimedia
+	#format
 
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp

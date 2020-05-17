@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Eventhandling/EventSource.hpp>
+#include <Std++/EventHandling/EventSource.hpp>
 #include "Std++/_Backends/Backend.hpp"
 #include "Std++/_Backends/BackendManager.hpp"
 #include "Std++/_Backends/RenderBackend.hpp"
@@ -45,7 +45,10 @@ namespace _stdxx_
 namespace StdXX
 {
 	//Forward declarations
-	class EventQueue;
+	namespace EventHandling
+	{
+		class EventQueue;
+	}
 	namespace UI
 	{
 		class CheckBox;
@@ -75,7 +78,7 @@ namespace StdXX
 		//Abstract
 		virtual _stdxx_::CheckBoxBackend *CreateCheckBoxBackend(UI::CheckBox *checkBox) = 0;
 		virtual _stdxx_::DrawableWidgetBackend* CreateDrawableWidgetBackend(UI::Widget& widget) = 0;
-		virtual EventSource *CreateEventSource() = 0;
+		virtual EventHandling::EventSource *CreateEventSource() = 0;
 		virtual _stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox& groupBox) = 0;
 		virtual _stdxx_::HeaderViewBackend* CreateHeaderViewBackend(UI::HeaderView& headerView) = 0;
 		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) = 0;

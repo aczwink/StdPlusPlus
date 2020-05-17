@@ -76,9 +76,6 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
-//Eventhandling
-#include <Std++/Eventhandling/StandardEventQueue.hpp>
-
 //Filetypes
 #include <Std++/Filetypes/UTIConstants.hpp>
 
@@ -121,7 +118,7 @@
 
 //Math
 #include <Std++/Math/CComplex.h>
-#include <Std++/Math/Fraction.hpp>
+#include <Std++/Math/Rational.hpp>
 #include <Std++/Math/CMatrix.h>
 //Math/Distributions
 #include <Std++/Math/Distributions/UniformRealDistribution.hpp>
@@ -131,7 +128,7 @@
 //Math/RandomBitGenerators
 #include <Std++/Math/RandomBitGenerators/LinearCongruentialGenerator.hpp>
 
-//Multimedia
+//format
 #include <Std++/Multimedia/AudioBuffer.hpp>
 #include <Std++/Multimedia/AudioDecoder.hpp>
 #include <Std++/Multimedia/AudioFrame.hpp>
@@ -229,7 +226,6 @@
 #include <Std++/UI/Action.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>
-#include <Std++/Eventhandling/EventQueue.hpp>
 #include <Std++/UI/Keyboard.hpp>
 #include <Std++/UI/MainAppWindow.hpp>
 #include <Std++/UI/Mouse.hpp>
@@ -291,4 +287,5 @@
 
 #include "StdXXCommandLine.hpp"
 #include "StdXXErrorHandling.hpp"
+#include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"

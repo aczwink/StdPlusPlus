@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,6 +33,6 @@ public:
 
 	String GetName() const override
 	{
-		return u8"Microsoft MPEG-4 Part2 V2";
+		return u8"Microsoft MPEG-4 Part 2 V2";
 	}
 };

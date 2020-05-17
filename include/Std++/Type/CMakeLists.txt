@@ -3,7 +3,8 @@ set(SOURCE_FILES
 
     #.
     ${CMAKE_CURRENT_SOURCE_DIR}/Assignable.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Remove_cv.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Global.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Remove_cv.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/TypeIndex.hpp
 
     PARENT_SCOPE)

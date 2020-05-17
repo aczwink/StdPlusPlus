@@ -340,7 +340,7 @@ void MatroskaMuxer::WriteHeader()
 	this->metaSeekInfoOffsets.segmentInfoOffset = this->outputStream.GetCurrentOffset();
 	this->BeginElement(MATROSKA_ID_INFO);
 
-	this->WriteUIntElement(MATROSKA_ID_TIMECODESCALE, this->timeCodeScale.Eval());
+	this->WriteUIntElement(MATROSKA_ID_TIMECODESCALE, this->timeCodeScale.ToFloat());
 	this->WriteFloatElement(MATROSKA_ID_DURATION, this->duration);
 	this->WriteUTF8Element(MATROSKA_ID_MUXINGAPP, u8"Std++ library");
 	this->WriteUTF8Element(MATROSKA_ID_WRITINGAPP, u8"Std++ library");
@@ -378,7 +378,7 @@ void MatroskaMuxer::WriteHeader()
 
 		//DefaultDuration
 		this->WriteUIntElement(MATROSKA_ID_DEFAULTDURATION,
-							   static_cast<uint64>((stream->timeScale.Inverse() * uint64(1000000000)).Eval()));
+							   static_cast<uint64>((stream->timeScale.Reciprocal() * uint64(1000000000)).ToFloat()));
 
 		//TODO: Language
 

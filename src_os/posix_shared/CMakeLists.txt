@@ -3,7 +3,7 @@ add_subdirectory(Filesystem)
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
-	#Eventhandling
+	#EventHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
 
 	#Multitasking

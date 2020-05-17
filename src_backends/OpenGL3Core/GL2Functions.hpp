@@ -32,7 +32,7 @@ struct GLFunctions_2_0
 	//Data-exchange
 	PFNGLPIXELSTOREIPROC glPixelStorei;
 
-	//Multimedia
+	//format
 	PFNGLBLENDFUNCPROC glBlendFunc;
 	PFNGLCLEARPROC glClear;
 	PFNGLCLEARCOLORPROC glClearColor;

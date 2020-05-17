@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,6 +33,7 @@ void EventQueue::System_WaitForEvents(uint64 timeOut)
 	waitTime.tv_sec = static_cast<__time_t>(timeOut / 1000000);
 	waitTime.tv_nsec = static_cast<__syscall_slong_t>((timeOut % 1000000) * 1000);
 
-
-	ppoll(&(*THIS)[0], THIS->GetNumberOfElements(), &waitTime, nullptr);
+	auto a = &(*THIS)[1];
+	int ret = ppoll(&(*THIS)[0], THIS->GetNumberOfElements(), &waitTime, nullptr);
+	ASSERT(ret >= 0, u8"TODO: IMPLEMENT THIS CORRECTLY");
 }

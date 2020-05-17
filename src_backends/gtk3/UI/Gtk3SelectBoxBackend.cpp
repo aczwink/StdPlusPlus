@@ -20,6 +20,7 @@
 #include "Gtk3SelectBoxBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
@@ -33,6 +34,31 @@ Gtk3SelectBoxBackend::Gtk3SelectBoxBackend(StdXX::UIBackend& uiBackend, SelectBo
 }
 
 //Public methods
+void Gtk3SelectBoxBackend::ControllerChanged()
+{
+	gtk_combo_box_set_model(GTK_COMBO_BOX(this->GetGtkWidget()), nullptr);
+
+	const SharedPointer<TreeController>& controller = this->selectBox.GetController();
+
+	if(!controller.IsNull())
+	{
+		GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
+
+		uint32 nEntries = controller->GetNumberOfChildren();
+
+		for(uint32 i = 0; i < nEntries; i++)
+		{
+			ControllerIndex childIndex = controller->GetChildIndex(i, 0, ControllerIndex());
+
+			GtkTreeIter iter;
+			gtk_list_store_append(store, &iter);
+			gtk_list_store_set(store, &iter, 0, controller->GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
+		}
+
+		gtk_combo_box_set_model(GTK_COMBO_BOX(this->GetGtkWidget()), GTK_TREE_MODEL(store));
+	}
+}
+
 Widget &Gtk3SelectBoxBackend::GetWidget()
 {
     return this->selectBox;
@@ -43,15 +69,13 @@ const Widget &Gtk3SelectBoxBackend::GetWidget() const
     return this->selectBox;
 }
 
+void Gtk3SelectBoxBackend::UpdateSelection() const
+{
+	const SelectionController& selectionController = this->selectBox.SelectionController();
+	gtk_combo_box_set_active(GTK_COMBO_BOX(this->GetGtkWidget()), selectionController.GetSelectedIndexes()[0].GetRow());
+}
+
 //NOT IMPLEMENTED
-void _stdxx_::Gtk3SelectBoxBackend::ControllerChanged() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3SelectBoxBackend::UpdateSelection() const {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::Gtk3SelectBoxBackend::Repaint() {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

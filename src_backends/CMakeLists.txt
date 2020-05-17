@@ -1,6 +1,5 @@
+add_subdirectory(ffmpeg)
 add_subdirectory(fuse3)
-add_subdirectory(libavcodec)
-add_subdirectory(libavformat)
 add_subdirectory(liblzma)
 add_subdirectory(OpenALSoft)
 add_subdirectory(OpenCL1)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,9 +38,9 @@ namespace StdXX
             DataType GetType() const;
 
             //Inline
-            inline Fraction GetAspectRatio() const
+            inline Math::Rational<uint16> GetAspectRatio() const
             {
-                return Fraction(this->size.width, this->size.height).Reduce();
+                return Math::Rational(this->size.width, this->size.height).Reduce();
             }
 
         private:

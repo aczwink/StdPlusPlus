@@ -10,6 +10,7 @@ add_subdirectory(Cryptography)
 add_subdirectory(Debugging)
 add_subdirectory(Devices)
 add_subdirectory(Errorhandling)
+add_subdirectory(EventHandling)
 add_subdirectory(FileSystem)
 add_subdirectory(Filetypes)
 add_subdirectory(FormalLanguages)
@@ -34,17 +35,11 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Kernel.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Compute/Program.hpp
 
-	#Eventhandling
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventSource.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/StandardEventQueue.hpp
-
 	#Internationalization
 	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.hpp
 
-	#Multimedia
+	#format
 
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp

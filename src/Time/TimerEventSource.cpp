@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,6 +43,12 @@ void TimerEventSource::DispatchPendingEvents()
 			break;
 		}
 	}
+}
+
+uint32 TimerEventSource::QueryWaitInfo(EventHandling::WaitRecord *waitRecords, uint32 nWaitRecords, uint64 &maxTimeOut)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return 0;
 }
 
 uint64 TimerEventSource::GetMaxTimeout() const

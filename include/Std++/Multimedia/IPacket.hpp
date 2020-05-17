@@ -17,12 +17,16 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+#include <Std++/Definitions.h>
 
 namespace StdXX::Multimedia
 {
 	class IPacket
 	{
 	public:
+		//Destructor
+		virtual ~IPacket() = default;
+
 		//Abstract
 		virtual bool ContainsKeyFrame() const = 0;
 		virtual const uint8* GetData() const = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Eventhandling/StandardEventQueue.hpp>
+#include <Std++/EventHandling/StandardEventQueue.hpp>
 //Local
 #include <Std++/Time/TimerEventSource.hpp>
 #include <Std++/_Backends/BackendManager.hpp>

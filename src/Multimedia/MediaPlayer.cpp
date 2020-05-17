@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -130,7 +130,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 		}
 	}
 
-	this->masterClock = this->demuxer->GetStartTime() * 1000000 * this->demuxer->GetTimeScale();
+	this->masterClock = (this->demuxer->GetStartTime() * 1000000 * this->demuxer->TimeScale()).RoundDown();
 	
 	//start threads
 	this->audio.decodeThread = new _stdxx_::DecoderThread(this);

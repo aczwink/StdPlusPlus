@@ -80,11 +80,6 @@ void ShutdownStdPlusPlus()
 	delete g_fixedDistanceDecoder;
 	delete g_fixedLiteralLengthDecoder;
 
-	//shut down global event queue
-	extern EventQueue *g_globalEventQueue;
-	if(g_globalEventQueue)
-		delete g_globalEventQueue;
-
 	//release memory of global style sheet
 	UI::StyleSheet::Global() = {};
 

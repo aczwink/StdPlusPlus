@@ -1,0 +1,10 @@
+set(SOURCE_FILES
+	${SOURCE_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/EventQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventSource.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventSignal.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/StandardEventQueue.hpp
+
+	PARENT_SCOPE)

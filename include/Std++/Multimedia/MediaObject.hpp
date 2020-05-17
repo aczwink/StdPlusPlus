@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,12 +22,13 @@
 #include "Stream.hpp"
 #include "SMetaInfo.h"
 #include "Packet.hpp"
+#include "TimeScale.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        //Move declarations
+        //Forward declarations
         class Format;
 
         class STDPLUSPLUS_API MediaObject
@@ -36,7 +37,7 @@ namespace StdXX
             //Members
             const Format &refFormat;
             DynamicArray<Stream *> streams;
-            Fraction timeScale;
+            class TimeScale timeScale;
             uint64 startTime;
             uint64 duration;
 
@@ -51,7 +52,7 @@ namespace StdXX
             inline MediaObject(const Format &refFormat) : refFormat(refFormat)
             {
                 //Time base for all timestamps in this context (NOT for the stream timestamps)
-                //this->timeScale = Fraction(1, 1000000); //the smaller the value, the better... it's more precise like that
+                //this->timeScale = Rational(1, 1000000); //the smaller the value, the better... it's more precise like that
 
                 this->startTime = Unsigned<uint64>::Max();
                 this->duration = Unsigned<uint64>::Max();
@@ -62,6 +63,12 @@ namespace StdXX
 
             //Destructor
             virtual ~MediaObject();
+
+            //Properties
+			inline const class TimeScale &TimeScale() const
+			{
+				return this->timeScale;
+			}
 
             //Inline
             inline uint32 AddStream(Stream *pStream)
@@ -87,11 +94,6 @@ namespace StdXX
             inline const Stream *GetStream(uint32 index) const
             {
                 return this->streams[index];
-            }
-
-            inline const Fraction &GetTimeScale() const
-            {
-                return this->timeScale;
             }
         };
     }

@@ -202,7 +202,7 @@ bool Demuxer::FindStreamInfo()
 
 	//compute overall bit rate
 	if(this->AllStreamsHaveDuration())
-		this->bitRate = uint32(((float64) this->inputStream.QuerySize() * 8 / this->timeScale) / this->duration);
+		this->bitRate = uint32((this->inputStream.QuerySize() * 8 / this->timeScale.ToFloat()) / this->duration);
 
 	//reset state
 	this->inputStream.SeekTo(currentOffset);

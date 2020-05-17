@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,7 +21,7 @@
 //Local
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
-#include <Std++/Math/Fraction.hpp>
+#include <Std++/Math/Rational.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Compute;
@@ -55,7 +55,7 @@ Pixmap *ComputePixmapResampler::Run(const Pixmap &sourcePixmap)
 		const auto &plane = this->targetPixelFormat->planes[i];
 		//we can only write multiples of 32bit (without byte-addressing-store extensions)
 		uint8 currentBlockSize = this->targetPixelFormat->ComputeBlockSize(i);
-		uint8 current = ComputeLeastCommonMultiple(4, currentBlockSize) / currentBlockSize;
+		uint8 current = Math::ComputeLeastCommonMultiple(4_u8, currentBlockSize) / currentBlockSize;
 		nPixelsPerWorker = Math::Max(nPixelsPerWorker, current);
 	}
 

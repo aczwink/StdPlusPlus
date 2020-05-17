@@ -218,43 +218,6 @@ void GtkWindowBackend::Paint()
 {
 }
 
-void GtkWindowBackend::ResetView() const
-{
-	View *view = (View *)this->widget;
-
-	switch(this->type)
-	{
-		case WindowBackendType::ComboBox:
-		{
-			gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), nullptr);
-
-			if(controller)
-			{
-				GtkListStore *store = gtk_list_store_new(1, G_TYPE_STRING);
-
-				uint32 nEntries = controller->GetNumberOfChildren();
-
-				for(uint32 i = 0; i < nEntries; i++)
-				{
-					ControllerIndex childIndex = controller->GetChildIndex(i, 0, ControllerIndex());
-
-					GtkTreeIter iter;
-					gtk_list_store_append(store, &iter);
-					gtk_list_store_set(store, &iter, 0, controller->GetText(childIndex).ToUTF8().GetRawZeroTerminatedData(), -1);
-				}
-
-				gtk_combo_box_set_model(GTK_COMBO_BOX(this->gtkWidget), GTK_TREE_MODEL(store));
-			}
-		}
-			break;
-	}
-}
-
-void GtkWindowBackend::Select(ControllerIndex &controllerIndex) const
-{
-	gtk_combo_box_set_active(GTK_COMBO_BOX(this->gtkWidget), controllerIndex.GetRow());
-}
-
 Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(Path &)> callback) const
 {
 	GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)title.ToUTF8().GetRawZeroTerminatedData(), GTK_WINDOW(this->gtkWidget), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, "Cancel", GTK_RESPONSE_CANCEL, "Select", GTK_RESPONSE_ACCEPT, nullptr);

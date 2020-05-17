@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -18,7 +18,8 @@
 */
 #pragma once
 //Local
-#include <Std++/Containers/LinkedList/LinkedList.hpp>
+#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Type/TypeIndex.hpp>
 #include "../__InitAndShutdown.h"
 #include "Extension.hpp"
 
@@ -35,9 +36,17 @@ namespace _stdxx_
 		}
 
 		//Inline
-		inline void RegisterExtension(Extension *extension)
+		template <typename ExtensionType>
+		inline const ExtensionType* GetExtension() const
 		{
-			this->extensions.InsertTail(extension);
+			Extension* extension = this->extensions[typeid(ExtensionType)];
+			return dynamic_cast<ExtensionType*>(extension);
+		}
+
+		template <typename ExtensionType>
+		inline void RegisterExtension(ExtensionType *extension)
+		{
+			this->extensions.Insert(typeid(ExtensionType), extension);
 			extension->Load();
 		}
 
@@ -51,13 +60,13 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::LinkedList<Extension *> extensions;
+		StdXX::Map<StdXX::Type::TypeIndex, Extension *> extensions;
 
 		inline void ReleaseAll()
 		{
-			while (!this->extensions.IsEmpty())
+			for(const auto& kv : this->extensions)
 			{
-				Extension *ext = this->extensions.PopFront();
+				Extension *ext = kv.value;
 				ext->Unload();
 				delete ext;
 			}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,6 +46,12 @@ namespace StdXX
 			{
 			}
 
+			//Properties
+			inline const class SelectionController& SelectionController() const
+			{
+				return this->selectionController;
+			}
+
 			//Methods
 			void Select(const ControllerIndex& index);
 			void SetController(SharedPointer<TreeController> controller);
@@ -62,11 +68,6 @@ namespace StdXX
 			inline bool HasController() const
 			{
 				return !this->controller.IsNull();
-			}
-
-			inline const SelectionController &GetSelectionController() const
-			{
-				return this->selectionController;
 			}
 
 		protected:
@@ -87,7 +88,7 @@ namespace StdXX
 		private:
 			//Members
 			_stdxx_::ViewBackend* viewBackend;
-			SelectionController selectionController;
+			class SelectionController selectionController;
 
 			//Event handlers
 			void OnSelectionChanged(SelectionChangedEvent& event);

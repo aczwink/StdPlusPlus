@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,14 +20,14 @@
 #include <Std++/UI/MainAppWindow.hpp>
 //Local
 #include <Std++/Streams/Writers/StdOut.hpp>
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/EventHandling/EventQueue.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-MainAppWindow::MainAppWindow(EventQueue &eventQueue) : eventQueue(eventQueue)
+MainAppWindow::MainAppWindow(EventHandling::EventQueue &eventQueue) : eventQueue(eventQueue)
 {
     this->SetMenuBar(new MenuBar);
 }

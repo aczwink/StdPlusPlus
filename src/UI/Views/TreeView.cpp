@@ -52,7 +52,7 @@ void TreeView::RealizeSelf()
 
 		this->headerView = new HeaderView;
 		this->AddChild(this->headerView);
-		this->body = new _stdxx_::TreeViewBody(*this->headerView, this->GetSelectionController());
+		this->body = new _stdxx_::TreeViewBody(*this->headerView, this->SelectionController());
 		this->AddChild(this->body);
 	}
 }

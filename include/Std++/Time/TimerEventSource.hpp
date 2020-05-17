@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Eventhandling/EventSource.hpp>
+#include <Std++/EventHandling/EventSource.hpp>
 #include <Std++/Containers/PriorityQueue.hpp>
 #include <Std++/Tuple.hpp>
 #include "Clock.hpp"
@@ -28,7 +28,7 @@ namespace StdXX
 	//Forward declarations
 	class Timer;
 
-	class TimerEventSource : public EventSource
+	class TimerEventSource : public EventHandling::EventSource
 	{
 	public:
 		//Class members
@@ -36,7 +36,7 @@ namespace StdXX
 
 		//Methods
 		void DispatchPendingEvents() override;
-		uint64 GetMaxTimeout() const override;
+		uint32 QueryWaitInfo(EventHandling::WaitRecord *waitRecords, uint32 nWaitRecords, uint64 &maxTimeOut) override;
 
 		//Inline
 		/**
@@ -56,11 +56,9 @@ namespace StdXX
 			//this->oneShotTimerQueue.Remove(timer);
 		}
 
-		void VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc) override;
-
 	private:
 		//Members
-		EventWaiter eventTriggerer;
+		EventHandling::EventSignal eventTriggerer;
 		Clock clock;
 		PriorityQueue<Tuple<uint64, Timer *>> oneShotTimerQueue;
 	};

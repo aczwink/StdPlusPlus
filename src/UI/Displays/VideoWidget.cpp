@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 #include <Std++/UI/Displays/VideoWidget.hpp>
 //Local
 #include <Std++/Rendering/DeviceContext.hpp>
-#include <Std++/Math/Fraction.hpp>
+#include <Std++/Math/Rational.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -66,7 +66,7 @@ void VideoWidget::OnPaint(PaintEvent& event)
 	this->frameLock.Unlock();
 
 	//compute size and pos of image
-	Fraction aspectRatio;
+	Math::Rational<uint16> aspectRatio;
 	aspectRatio.numerator = this->frameSize.width;
 	aspectRatio.denominator = this->frameSize.height;
 	aspectRatio = aspectRatio.Reduce();
@@ -75,11 +75,11 @@ void VideoWidget::OnPaint(PaintEvent& event)
 	frameRect.size.width = this->GetSize().width;
 	if(aspectRatio.numerator == 0)
 		aspectRatio.numerator = 1; //avoid 0 division
-	frameRect.size.height = (uint16) (frameRect.size.width / aspectRatio);
+	frameRect.size.height = (uint16) (frameRect.size.width / aspectRatio.ToFloat());
 	if(frameRect.size.height > this->GetSize().height)
 	{
 		frameRect.size.height = this->GetSize().height;
-		frameRect.size.width = (uint16) (frameRect.size.height * aspectRatio);
+		frameRect.size.width = (uint16) (frameRect.size.height * aspectRatio.ToFloat());
 	}
 
 	frameRect.origin.x = (this->GetSize().width - frameRect.size.width) / 2;

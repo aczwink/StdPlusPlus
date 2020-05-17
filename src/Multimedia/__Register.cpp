@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,6 +28,7 @@
 //Video coding formats
 #include "Codecs/Images/PNG_CodingFormat.hpp"
 #include "Codecs/MPEG/H264_CodingFormat.hpp"
+#include "Codecs/MPEG/MPEG4_Part2_CodingFormat.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
 #include "Codecs/RawVideo/RawVideo_CodingFormat.hpp"
 #include "Codecs/Xiph/Theora_CodingFormat.hpp"
@@ -55,6 +56,7 @@ void MultimediaRegisterCodecsAndFormats()
 
 	//Video coding formats
 	CodingFormat::Register(new H264_CodingFormat);
+	CodingFormat::Register(new MPEG4_Part2_CodingFormat);
 	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
 	CodingFormat::Register(new PNG_CodingFormat);
 	CodingFormat::Register(new RawVideo_CodingFormat);

@@ -29,12 +29,12 @@ namespace _stdxx_
         Gtk3SelectBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::SelectBox& selectBox);
 
         //Methods
+		void ControllerChanged() override;
         StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
+		void UpdateSelection() const override;
 
         //NOT IMPLEMENTED
-        void ControllerChanged() override;
-        void UpdateSelection() const override;
         void Repaint() override;
         void SetEditable(bool enable) const override;
         //END OF NOT IMPLEMENTED

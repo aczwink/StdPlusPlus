@@ -106,6 +106,8 @@ Math::Natural Math::Natural::operator*(const Natural& other) const
 
 Math::Natural Math::Natural::operator<<(uint64 shift) const
 {
+	if(shift == 0)
+		return *this;
 	if (this->value.IsEmpty())
 		return Natural(); //zero stays zero
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -51,6 +51,7 @@ namespace StdXX
 			//Video codecs
 			RawVideo = 0,
 			H264 = FOURCC(u8"H264"),
+			MPEG4Part2 = FOURCC(u8"FMP4"),
 			MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
 			PNG = FOURCC(u8"png "),
 			Theora = FOURCC(u8"theo")

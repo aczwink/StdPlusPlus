@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "../Definitions.h"
-#include "../Math/Fraction.hpp"
+#include "Std++/Math/Rational.hpp"
 #include "Decoder.hpp"
 #include "PixelFormat.hpp"
 

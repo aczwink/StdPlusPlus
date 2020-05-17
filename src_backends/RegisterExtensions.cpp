@@ -19,9 +19,9 @@
 //Class header
 #include <Std++/_Backends/ExtensionManager.hpp>
 //Extensions
-#include "libavcodec/libavcodec_Backend.hpp"
+#include "ffmpeg/libavcodec_Extension.hpp"
 #ifdef _STDXX_EXTENSION_LIBAVFORMAT
-#include "libavformat/libavformat_Backend.hpp"
+#include "ffmpeg/libavformat_Extension.hpp"
 #endif
 #ifdef _STDXX_EXTENSION_OPENSSL
 #include "OpenSSL/OpenSSL_Extension.hpp"
@@ -34,11 +34,11 @@ void RegisterExtensions()
 {
 #define ADD_EXTENSION(extension) ExtensionManager::GetRootInstance().RegisterExtension(extension);
 #ifdef _STDXX_EXTENSION_LIBAVCODEC
-	libavcodec_Backend *libavcodec_backend = new libavcodec_Backend;
+	libavcodec_Extension *libavcodec_backend = new libavcodec_Extension;
 	ADD_EXTENSION(libavcodec_backend);
 #endif
 #ifdef _STDXX_EXTENSION_LIBAVFORMAT
-	libavformat_Backend *libavformat_backend = new libavformat_Backend;
+	libavformat_Extension *libavformat_backend = new libavformat_Extension;
 	ADD_EXTENSION(libavformat_backend);
 #endif
 #ifdef _STDXX_EXTENSION_OPENSSL

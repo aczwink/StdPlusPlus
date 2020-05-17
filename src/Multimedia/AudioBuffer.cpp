@@ -150,6 +150,6 @@ AudioSampleFormat AudioBuffer<int16>::GetSampleType() const
 }
 
 //Explicit instantiation
-template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<float32>;
-template STDPLUSPLUS_API class StdXX::Multimedia::AudioBuffer<int16>;
+template STDPLUSPLUS_API class StdXX::format::AudioBuffer<float32>;
+template STDPLUSPLUS_API class StdXX::format::AudioBuffer<int16>;
 */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Multimedia/MediaObject.hpp>
+//Local
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -34,54 +36,50 @@ MediaObject::~MediaObject()
 //Protected methods
 void MediaObject::UpdateTimingInfo()
 {
-	uint32 i;
-	uint64 startTime, endTime;
-	Stream *pStream;
-	Fraction timeScale;
-
 	//compute overall time scale
-	if(this->timeScale == Fraction()) //but only if demuxer or muxer does not set a specific one
+	if(this->timeScale == Math::Rational<uint64>()) //but only if demuxer or muxer does not set a specific one
 	{
 		for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
 		{
-			timeScale = this->GetStream(i)->timeScale;
-			if(timeScale == Fraction())
+			Math::Rational timeScale = this->GetStream(i)->timeScale;
+			if(timeScale == Math::Rational<uint64>())
 				continue; //no time scale for this stream
 
 			timeScale = timeScale.Reduce();
-			ASSERT(timeScale.numerator == 1, "If you see this, report to StdXX"); //TODO: figure out what happens if numerator is not 1
-			this->timeScale.denominator = ComputeLeastCommonMultiple(this->timeScale.denominator, timeScale.denominator);
+			this->timeScale.denominator = Math::ComputeLeastCommonMultiple(this->timeScale.denominator, timeScale.denominator);
 		}
-		this->timeScale.numerator = 1; //TODO: figure out what happens if numerator of stream is not 1
+
+		this->timeScale.numerator = 1;
 	}
 
 	//compute start time
-	for(i = 0; i < this->GetNumberOfStreams(); i++)
+	Stream *pStream;
+	for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
 	{
 		pStream = this->GetStream(i);
 
-		if(pStream->timeScale == Fraction())
+		if(pStream->timeScale == Math::Rational<uint64>())
 			continue; //no time scale for this stream
 
 		if(pStream->startTime != Unsigned<uint64>::Max())
 		{
-			startTime = pStream->startTime / this->timeScale * pStream->timeScale; //keep order because of integer division
+			uint64 startTime = pStream->timeScale.Rescale(pStream->startTime, this->timeScale);
 			if(startTime < this->startTime)
 				this->startTime = startTime;
 		}
 	}
 
 	//compute longest duration
-	for(i = 0; i < this->GetNumberOfStreams(); i++)
+	for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
 	{
 		pStream = this->GetStream(i);
 
-		if(pStream->timeScale == Fraction())
+		if(pStream->timeScale == Math::Rational<uint64>())
 			continue; //no time scale for this stream
 		if(pStream->startTime == Unsigned<uint64>::Max() || pStream->duration == Unsigned<uint64>::Max())
 			continue; //no start time or duration
 
-		endTime = (pStream->startTime + pStream->duration) / this->timeScale * pStream->timeScale;
+		uint64 endTime = pStream->timeScale.Rescale(pStream->startTime + pStream->duration, this->timeScale);
 		if(endTime - this->startTime > this->duration || this->duration == Unsigned<uint64>::Max())
 			this->duration = endTime - this->startTime;
 	}

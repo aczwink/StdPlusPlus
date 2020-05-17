@@ -38,7 +38,7 @@ class MatroskaMuxer : public Muxer
 private:
 	//Members
 	DynamicArray<uint64> elementSizeOffsets;
-	Fraction timeCodeScale;
+	Math::Rational<uint64> timeCodeScale;
 	struct
 	{
 		bool isClusterOpen;
@@ -81,7 +81,7 @@ private:
 	//Inline
 	inline uint64 MapSeconds(uint64 seconds) const
 	{
-		return seconds / this->timeScale;
+		return this->timeScale.Rescale(seconds);
 	}
 
 	inline uint64 TransformPTS(uint64 pts, uint32 streamIndex) const
@@ -89,7 +89,7 @@ private:
 		if(pts == Unsigned<uint64>::Max())
 			return Unsigned<uint64>::Max();
 
-		return pts / this->timeScale * this->GetStream(streamIndex)->timeScale;
+		return this->GetStream(streamIndex)->timeScale.Rescale(pts, this->timeScale);
 	}
 
 	inline void WriteASCIIElement(MatroskaId id, const String &string)

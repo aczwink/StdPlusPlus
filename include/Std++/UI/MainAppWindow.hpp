@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,25 +18,22 @@
  */
 #pragma once
 //Local
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/EventHandling/EventQueue.hpp>
 #include "Window.hpp"
 
-namespace StdXX
+namespace StdXX::UI
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API MainAppWindow : public Window
-        {
-        public:
-            //Constructor
-			MainAppWindow(EventQueue &eventQueue);
+	class MainAppWindow : public Window
+	{
+	public:
+		//Constructor
+		MainAppWindow(EventHandling::EventQueue &eventQueue);
 
-            //Destructor
-			~MainAppWindow();
+		//Destructor
+		~MainAppWindow();
 
-		private:
-			//Members
-			EventQueue &eventQueue;
-        };
-    }
+	private:
+		//Members
+		EventHandling::EventQueue &eventQueue;
+	};
 }
