@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/Time/TimerEventSource.hpp>
 //Local
-#include <Std++/Definitions.h>
+#include <Std++/EventHandling/WaitObjectManager.hpp>
 #include <Std++/Unsigned.hpp>
 #include <Std++/Time/Timer.hpp>
 //Namespaces
@@ -29,6 +29,11 @@ using namespace StdXX;
 TimerEventSource *TimerEventSource::globalSource = nullptr;
 
 //Public methods
+bool TimerEventSource::CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults)
+{
+	return waitResults[0].occuredEvents != 0;
+}
+
 void TimerEventSource::DispatchPendingEvents()
 {
 	uint64 currentClock = this->clock.GetCurrentValue();
@@ -45,14 +50,21 @@ void TimerEventSource::DispatchPendingEvents()
 	}
 }
 
-uint32 TimerEventSource::QueryWaitInfo(EventHandling::WaitRecord *waitRecords, uint32 nWaitRecords, uint64 &maxTimeOut)
+bool TimerEventSource::HasPendingEvents() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return 0;
+	if(!this->oneShotTimerQueue.IsEmpty())
+	{
+		uint64 currentClock = this->clock.GetCurrentValue();
+		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
+			return true;
+	}
+	return false;
 }
 
-uint64 TimerEventSource::GetMaxTimeout() const
+uint64 TimerEventSource::QueryWaitInfo(EventHandling::WaitObjectManager& waitObjectManager)
 {
+	waitObjectManager.AddWaitForInput(*this, this->eventTriggerer.Handle());
+
 	if(!this->oneShotTimerQueue.IsEmpty())
 	{
 		uint64 currentClock = this->clock.GetCurrentValue();
@@ -62,9 +74,4 @@ uint64 TimerEventSource::GetMaxTimeout() const
 	}
 
 	return Unsigned<uint64>::Max();
-}
-
-void TimerEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc)
-{
-	visitFunc(this->eventTriggerer.GetNativeHandle(), true);
 }

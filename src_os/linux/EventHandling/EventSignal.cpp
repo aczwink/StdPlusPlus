@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,23 +17,30 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/EventHandling/EventSignal.hpp>
 //Global
-#include <poll.h>
+#include <sys/eventfd.h>
+#include <unistd.h>
+//Local
+#include <Std++/Debug.hpp>
 //Namespaces
-using namespace StdXX;
-//Definitions
-#define THIS ((DynamicArray<pollfd> *)this->internal)
+using namespace StdXX::EventHandling;
 
-//Private methods
-void EventQueue::System_WaitForEvents(uint64 timeOut)
+//Constructor
+EventSignal::EventSignal()
 {
-	timespec waitTime;
+    this->waitableHandle.fd = eventfd(0, 0);
+}
 
-	waitTime.tv_sec = static_cast<__time_t>(timeOut / 1000000);
-	waitTime.tv_nsec = static_cast<__syscall_slong_t>((timeOut % 1000000) * 1000);
+//Destructor
+EventSignal::~EventSignal()
+{
+    close(this->waitableHandle.fd);
+}
 
-	auto a = &(*THIS)[1];
-	int ret = ppoll(&(*THIS)[0], THIS->GetNumberOfElements(), &waitTime, nullptr);
-	ASSERT(ret >= 0, u8"TODO: IMPLEMENT THIS CORRECTLY");
+//Public methods
+void EventSignal::Signal()
+{
+    //TODO: implement me
+    NOT_IMPLEMENTED_ERROR;
 }

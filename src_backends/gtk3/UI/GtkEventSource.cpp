@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,9 +19,11 @@
 //Class header
 #include "GtkEventSource.hpp"
 //Local
+#include <Std++/EventHandling/WaitObjectManager.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::EventHandling;
 
 //Constructor
 GtkEventSource::GtkEventSource()
@@ -30,87 +32,75 @@ GtkEventSource::GtkEventSource()
 }
 
 //Public methods
+bool GtkEventSource::CheckWaitResults(const FixedArray<WaitResult> &waitResults)
+{
+	const gboolean locked = g_main_context_acquire(this->context);
+	ASSERT_EQUALS(TRUE, locked);
+
+	for(uint32 i = 0; i < this->pollFds.GetNumberOfElements(); i++)
+		this->pollFds[i].revents = waitResults[i].occuredEvents;
+
+	gboolean result;
+	if(this->pollFds.IsEmpty())
+		result = g_main_context_check(this->context, G_PRIORITY_HIGH, nullptr, 0);
+	else
+		result = g_main_context_check(this->context, G_PRIORITY_HIGH, &this->pollFds[0], this->pollFds.GetNumberOfElements());
+
+	g_main_context_release(this->context);
+
+	return result == TRUE;
+}
+
 void GtkEventSource::DispatchPendingEvents()
 {
-	if(g_main_context_acquire(this->context))
+	const gboolean locked = g_main_context_acquire(this->context);
+	ASSERT_EQUALS(TRUE, locked);
+
+	g_main_context_dispatch(this->context);
+
+	g_main_context_release(this->context);
+}
+
+bool GtkEventSource::HasPendingEvents() const
+{
+	return g_main_context_pending(this->context) == TRUE;
+}
+
+uint64 GtkEventSource::QueryWaitInfo(EventHandling::WaitObjectManager &waitObjectManager)
+{
+	const gboolean locked = g_main_context_acquire(this->context);
+	ASSERT_EQUALS(TRUE, locked);
+
+	gint maxPriority;
+	if(g_main_context_prepare(this->context, &maxPriority) == TRUE)
 	{
+		g_main_context_release(this->context);
+		return 0;
+	}
+
+	uint32 nEventObjects = 0;
+	gint timeOut; //in milliseconds
+	GPollFD *pfds;
+	do
+	{
+		this->pollFds.Resize(nEventObjects);
 		if(this->pollFds.IsEmpty())
-			g_main_context_check(this->context, G_PRIORITY_HIGH, nullptr, 0);
+			pfds = nullptr;
 		else
-			g_main_context_check(this->context, G_PRIORITY_HIGH, &this->pollFds[0], this->pollFds.GetNumberOfElements());
-		g_main_context_dispatch(this->context);
-		g_main_context_release(this->context);
+			pfds = &this->pollFds[0];
 	}
-	else
-	{
-		NOT_IMPLEMENTED_ERROR;
-	}
+	while((nEventObjects = static_cast<uint32>(g_main_context_query(this->context, maxPriority, &timeOut, pfds, this->pollFds.GetNumberOfElements()))) > this->pollFds.GetNumberOfElements());
+	this->pollFds.Resize(nEventObjects); //just set correct size, in case nEventObjects got smaller during last call
+
+	g_main_context_release(this->context);
+
+	for(uint32 i = 0; i < nEventObjects; i++)
+		waitObjectManager.Add(*this, this->pollFds[i].fd, this->pollFds[i].events);
+
+	return timeOut * 1000000_u64;
 }
 
-uint64 GtkEventSource::GetMaxTimeout() const
-{
-	if(g_main_context_acquire(this->context))
-	{
-		gint maxPriority;
-		g_main_context_prepare(this->context, &maxPriority);
-
-		uint32 nEventObjects = 0;
-		gint timeOut; //in milliseconds
-		GPollFD *pfds;
-		do
-		{
-			this->pollFds.Resize(nEventObjects);
-			if(this->pollFds.IsEmpty())
-				pfds = nullptr;
-			else
-				pfds = &this->pollFds[0];
-		}
-		while((nEventObjects = static_cast<uint32>(g_main_context_query(this->context, maxPriority, &timeOut, pfds, this->pollFds.GetNumberOfElements()))) > this->pollFds.GetNumberOfElements());
-		this->pollFds.Resize(nEventObjects); //just set correct size, in case nEventObjects got smaller during last call
-
-		g_main_context_release(this->context);
-
-		return static_cast<uint64>(timeOut * 1000000);
-	}
-	else
-	{
-		NOT_IMPLEMENTED_ERROR;
-	}
-
-	return Unsigned<uint64>::Max();
-}
-
-void GtkEventSource::VisitWaitObjects(const StdXX::Function<void(_stdxx_::WaitObjHandle, bool)> &visitFunc)
-{
-	for(const GPollFD &gPollFD : this->pollFds)
-	{
-		_stdxx_::WaitObjHandle waitObjHandle;
-		waitObjHandle.fd = gPollFD.fd;
-		visitFunc(Move(waitObjHandle), (gPollFD.events & G_IO_IN) != 0);
-	}
-}
-
-/*OLD:
-//Local
-#include <Std++/Streams/StdOut.hpp>
-#include <Std++/UI/Views/SelectBox.hpp>
-#include <Std++/UI/Views/TreeView.hpp>
-#include <Std++/UI/Controls/Slider.hpp>
- #include "Gtk.h"
-//Namespaces
-using namespace StdXX::UI;
-
-//Global variables
-bool g_ignoreEvent = false;
-//Local variables
-static GtkEventSource *l_gtkEvtSrc = nullptr;
-
-//Constructor
-GtkEventSource::GtkEventSource()
-{
-	l_gtkEvtSrc = this;
-}
-
+/*
 //Public slots
 bool GtkEventSource::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpointer user_data)
 {

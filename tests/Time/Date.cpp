@@ -39,7 +39,7 @@ static void TestLeapYears(uint32 year1, uint32 year2)
 	}
 
 	int64 computed = Date::ComputeNumberOfLeapYears(year1, year2);
-	ASSERT_EQUALS(Math::Abs(computed), nLeapYears);
+	ASSERT_EQUALS(Math::Abs(computed), (int64)nLeapYears);
 
 	int64 opposite = Date::ComputeNumberOfLeapYears(year2, year1);
 	ASSERT_EQUALS(-opposite, computed);

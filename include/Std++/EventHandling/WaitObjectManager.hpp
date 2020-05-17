@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,30 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include <Std++/EventHandling/EventSource.hpp>
+#include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/Definitions.h>
+#include <Std++/OSHandle.hpp>
 
-namespace _stdxx_
+namespace StdXX::EventHandling
 {
 	//Forward declarations
-	class XConnection;
+	class EventSource;
 
-	class XcbXlibEventSource : public StdXX::EventHandling::EventSource
+	struct WaitResult
+	{
+		OSHandle osHandle;
+		int16 occuredEvents;
+	};
+
+	class WaitObjectManager
 	{
 	public:
-		//Constructor
-		inline XcbXlibEventSource(XConnection& xConnection) : xConnection(xConnection)
-		{
-		}
+		//Desructor
+		virtual ~WaitObjectManager() = default;
 
 		//Methods
-		bool CheckWaitResults(const StdXX::FixedArray<StdXX::EventHandling::WaitResult> &waitResults) override;
-		void DispatchPendingEvents() override;
-		bool HasPendingEvents() const override;
-		uint64 QueryWaitInfo(StdXX::EventHandling::WaitObjectManager &waitObjectManager) override;
-
-	private:
-		//Members
-		XConnection& xConnection;
+		virtual void Add(const EventSource& source, int fd, int16 nativeEvents) = 0;
+		virtual void AddWaitForInput(const EventSource& source, const OSHandle& osHandle) = 0;
+		virtual void AddWaitForInput(const EventSource& source, int fd) = 0;
+		virtual void Clear() = 0;
+		virtual FixedArray<WaitResult> FetchWaitResult(const EventSource& eventSource) = 0;
 	};
 }

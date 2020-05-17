@@ -24,6 +24,11 @@
 #include <Std++/Containers/Strings/String.hpp>
 
 #ifdef XPC_BUILDTYPE_DEBUG
+void StdXX::AssertEqualsFailed(int32 expected, int32 got, const char *fileName, uint32 lineNumber, const char *functionName)
+{
+	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+}
+
 void StdXX::AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName)
 {
 	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);

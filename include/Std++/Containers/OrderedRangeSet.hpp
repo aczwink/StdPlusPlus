@@ -39,7 +39,7 @@ namespace StdXX
         }
 
         //Methods
-        void Insert(Range<DataType>&& range)
+        void Insert(Math::Range<DataType>&& range)
         {
             auto it = this->ranges.begin();
             while((it != this->ranges.end()) && (*it < range))
@@ -56,6 +56,6 @@ namespace StdXX
 
     private:
         //Members
-        LinkedList<Range<uint32>> ranges;
+        LinkedList<Math::Range<uint32>> ranges;
     };
 }

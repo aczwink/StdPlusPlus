@@ -6,5 +6,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/EventSource.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EventSignal.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StandardEventQueue.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WaitObjectManager.hpp
 
 	PARENT_SCOPE)

@@ -45,7 +45,7 @@ DateTime DateTime::FromUnixTimeStamp(int64 timeStamp)
 DateTime DateTime::ParseISOString(const String &string)
 {
 	DynamicArray<String> parts = string.Split(u8"T");
-	ASSERT_EQUALS(parts.GetNumberOfElements(), 2);
+	ASSERT_EQUALS(2_u32, parts.GetNumberOfElements());
 
 	return DateTime(Date::ParseISOString(parts[0]), Time::ParseISOString(parts[1]));
 }

@@ -35,8 +35,10 @@ namespace StdXX
 		static TimerEventSource *globalSource;
 
 		//Methods
+		bool CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults) override;
 		void DispatchPendingEvents() override;
-		uint32 QueryWaitInfo(EventHandling::WaitRecord *waitRecords, uint32 nWaitRecords, uint64 &maxTimeOut) override;
+		bool HasPendingEvents() const override;
+		uint64 QueryWaitInfo(EventHandling::WaitObjectManager &waitObjectManager) override;
 
 		//Inline
 		/**

@@ -5,8 +5,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Cryptography/SecureRandomNumberGenerator.cpp
 
 	#EventHandling
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventSignal.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/EventSignal.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp

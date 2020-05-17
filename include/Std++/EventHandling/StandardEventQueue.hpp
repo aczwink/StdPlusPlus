@@ -20,9 +20,9 @@
 //Local
 #include "EventQueue.hpp"
 
-namespace StdXX
+namespace StdXX::EventHandling
 {
-	class STDPLUSPLUS_API StandardEventQueue : public EventHandling::EventQueue
+	class StandardEventQueue : public EventQueue
 	{
 	public:
 		//Constructor

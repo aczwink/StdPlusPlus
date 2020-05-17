@@ -22,7 +22,7 @@
 #include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
 #include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Eventhandling/EventQueue.hpp>
+#include <Std++/EventHandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/FileSystem/Format.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>

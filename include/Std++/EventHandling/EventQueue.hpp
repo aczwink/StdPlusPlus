@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
 #include "Std++/Containers/PriorityQueue.hpp"
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "EventSource.hpp"
 
 namespace StdXX::EventHandling
@@ -62,13 +63,11 @@ namespace StdXX::EventHandling
 		//Members
 		bool quit;
 		DynamicArray<EventSource *> sources;
-		void *internal;
+		UniquePointer<WaitObjectManager> waitObjectManager;
 
 		//Methods
 		void DispatchPendingEvents();
-		void System_CollectWaitObjects();
 		void System_Init();
-		void System_Shutdown();
 		void System_WaitForEvents(uint64 timeOut);
 		void WaitForEvents();
 	};

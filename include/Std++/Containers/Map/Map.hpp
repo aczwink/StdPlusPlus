@@ -78,14 +78,9 @@ namespace StdXX
             return pNode->keyValuePair.value;
         }
 
-        const ValueType &operator[](const KeyType &refKey) const
+        inline const ValueType &operator[](const KeyType& key) const
         {
-            Node *pNode;
-
-            pNode = this->FindNode(refKey);
-            ASSERT(pNode, "A non-existant key of const map was accessed.");
-
-            return pNode->keyValuePair.value;
+            return this->Get(key);
         }
 
         Map &operator=(const Map &refMap) //copy assign
@@ -129,6 +124,14 @@ namespace StdXX
 	    }
 
         //Methods
+        inline const ValueType& Get(const KeyType& key) const
+		{
+			Node* node = this->FindNode(key);
+			ASSERT(node, "A non-existant key of const map was accessed.");
+
+			return node->keyValuePair.value;
+		}
+
 		inline void Insert(const KeyType& key, const ValueType& value)
 		{
 			this->InsertNode(KeyValuePair<KeyType, ValueType>(key, value));

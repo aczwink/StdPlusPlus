@@ -45,7 +45,7 @@ Gtk3Backend::Gtk3Backend()
 }
 
 //Public methods
-EventSource *Gtk3Backend::CreateEventSource()
+EventHandling::EventSource *Gtk3Backend::CreateEventSource()
 {
     return new GtkEventSource;
 }

@@ -36,7 +36,7 @@ namespace _stdxx_
 		//Methods
 		CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
 		DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
-		StdXX::EventSource *CreateEventSource() override;
+		StdXX::EventHandling::EventSource *CreateEventSource() override;
 		GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
 		HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
 		LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,41 +17,17 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Eventhandling/EventQueue.hpp>
-//Global
-#include <poll.h>
+#include <Std++/EventHandling/EventQueue.hpp>
+//Local
+#include "poll_WaitObjectManager.hpp"
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::EventHandling;
 //Definitions
-#define THIS ((DynamicArray<pollfd> *)this->internal)
+#define THIS (*(_stdxx_::poll_WaitObjectManager*)this->waitObjectManager.operator->())
 
 //Private methods
-void EventQueue::System_CollectWaitObjects()
-{
-	THIS->Resize(0);
-
-	Function<void(_stdxx_::WaitObjHandle, bool)> collector = [this](_stdxx_::WaitObjHandle waitObjHandle, bool input)
-	{
-		pollfd pfd;
-		pfd.fd = waitObjHandle.fd;
-		pfd.events = static_cast<short>(input ? POLLIN : POLLOUT);
-		pfd.revents = 0;
-
-		THIS->Push(pfd);
-	};
-
-	for(EventSource *const& source : this->sources)
-	{
-		source->VisitWaitObjects(collector);
-	}
-}
-
 void EventQueue::System_Init()
 {
-	this->internal = new DynamicArray<pollfd>;
-}
-
-void EventQueue::System_Shutdown()
-{
-	delete THIS;
+	this->waitObjectManager = new _stdxx_::poll_WaitObjectManager;
 }

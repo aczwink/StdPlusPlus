@@ -4,7 +4,9 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#EventHandling
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/EventQueue.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/poll_WaitObjectManager.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/poll_WaitObjectManager.hpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp

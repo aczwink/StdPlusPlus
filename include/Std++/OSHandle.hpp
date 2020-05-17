@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
-namespace StdXX::EventHandling
+namespace StdXX
 {
 	union OSHandle
 	{

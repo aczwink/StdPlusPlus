@@ -94,7 +94,7 @@ int64 Date::ComputeNumberOfLeapYears(int64 fromYear, int64 toYear)
 Date Date::ParseISOString(const String& string)
 {
 	DynamicArray<String> parts = string.Split(u8"-");
-	ASSERT_EQUALS(parts.GetNumberOfElements(), 3);
+	ASSERT_EQUALS(3_u32, parts.GetNumberOfElements());
 
 	return Date(parts[0].ToInt(), parts[1].ToUInt(), parts[2].ToUInt());
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,11 +30,12 @@ namespace _stdxx_
 	    GtkEventSource();
 
         //Methods
+		bool CheckWaitResults(const StdXX::FixedArray<StdXX::EventHandling::WaitResult> &waitResults) override;
         void DispatchPendingEvents() override;
-        uint64 GetMaxTimeout() const override;
-        void VisitWaitObjects(const StdXX::Function<void(WaitObjHandle, bool)> &visitFunc) override;
+		bool HasPendingEvents() const override;
+		uint64 QueryWaitInfo(StdXX::EventHandling::WaitObjectManager &waitObjectManager) override;
 
-    private:
+	private:
         //Members
         GMainContext *context;
 	    mutable StdXX::DynamicArray<GPollFD> pollFds;

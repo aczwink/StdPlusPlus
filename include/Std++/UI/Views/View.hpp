@@ -28,9 +28,6 @@
 
 namespace StdXX
 {
-	//Forward declarations
-	class EventQueue;
-
 	namespace UI
 	{
 		//Forward declarations

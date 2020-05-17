@@ -27,7 +27,7 @@ namespace _stdxx_
         //Inline
         inline void Insert(uint32 codePoint)
         {
-            StdXX::OrderedRangeSet<uint32>::Insert(StdXX::Range<uint32>(codePoint, codePoint+1));
+            StdXX::OrderedRangeSet<uint32>::Insert(StdXX::Math::Range<uint32>(codePoint, codePoint+1));
         }
 
         inline CharacterClass Intersect(const CharacterClass& other) const

@@ -23,7 +23,7 @@
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
-using namespace StdXX;
+using namespace StdXX::EventHandling;
 
 //Constructor
 StandardEventQueue::StandardEventQueue()
@@ -34,6 +34,6 @@ StandardEventQueue::StandardEventQueue()
 	TimerEventSource::globalSource = timerEventSource;
 
 	//ui events
-	EventSource *uiSource = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateEventSource();
+	EventHandling::EventSource *uiSource = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateEventSource();
 	this->AddSource(uiSource);
 }

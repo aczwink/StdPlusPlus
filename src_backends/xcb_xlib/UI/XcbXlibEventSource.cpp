@@ -19,6 +19,7 @@
 //Class header
 #include "XcbXlibEventSource.hpp"
 //Local
+#include <Std++/EventHandling/WaitObjectManager.hpp>
 #include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace _stdxx_;
@@ -28,6 +29,11 @@ using namespace StdXX;
 #include "../XLayer/XConnection.hpp"
 
 //Public methods
+bool XcbXlibEventSource::CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults)
+{
+	return waitResults[0].occuredEvents != 0;
+}
+
 void XcbXlibEventSource::DispatchPendingEvents()
 {
 	xcb_generic_event_t* event;
@@ -41,15 +47,14 @@ void XcbXlibEventSource::DispatchPendingEvents()
 	}
 }
 
-uint64 XcbXlibEventSource::GetMaxTimeout() const
+bool XcbXlibEventSource::HasPendingEvents() const
 {
-	return Unsigned<uint64>::Max();
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return false;
 }
 
-void XcbXlibEventSource::VisitWaitObjects(const Function<void(WaitObjHandle, bool)> &visitFunc)
+uint64 XcbXlibEventSource::QueryWaitInfo(EventHandling::WaitObjectManager &waitObjectManager)
 {
-	WaitObjHandle waitObjHandle{};
-	waitObjHandle.fd = xcb_get_file_descriptor(this->xConnection.Connection());
-
-	visitFunc(waitObjHandle, true);
+	waitObjectManager.AddWaitForInput(*this, xcb_get_file_descriptor(this->xConnection.Connection()));
+	return Unsigned<uint64>::Max();
 }

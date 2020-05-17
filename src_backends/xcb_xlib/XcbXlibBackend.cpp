@@ -59,7 +59,7 @@ _stdxx_::DrawableWidgetBackend *_stdxx_::XcbXlibBackend::CreateDrawableWidgetBac
 	return nullptr;
 }
 
-EventSource* XcbXlibBackend::CreateEventSource()
+EventHandling::EventSource* XcbXlibBackend::CreateEventSource()
 {
 	return new XcbXlibEventSource(*this->xConnection);
 }

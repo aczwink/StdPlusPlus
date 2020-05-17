@@ -22,6 +22,7 @@
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/Time/Timer.hpp>
+#include <Std++/EventHandling/WaitObjectManager.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::EventHandling;
@@ -38,8 +39,6 @@ EventQueue::~EventQueue()
 {
 	for(EventSource *source : this->sources)
 		delete source;
-
-	this->System_Shutdown();
 }
 
 //Public methods
@@ -75,16 +74,22 @@ void EventQueue::DispatchPendingEvents()
 
 void EventQueue::WaitForEvents()
 {
-	uint64 minWaitTime = Unsigned<uint64>::Max();
+	this->waitObjectManager->Clear();
 
-	for(const EventSource *const& source : this->sources)
+	uint64 minWaitTime = Unsigned<uint64>::Max();
+	for(EventSource *const& source : this->sources)
 	{
-		uint64 tmp = source->GetMaxTimeout();
+		uint64 tmp = source->QueryWaitInfo(*this->waitObjectManager);
 		if(tmp == 0)
 			return;
 		minWaitTime = Math::Min(minWaitTime, tmp);
 	}
 
-	this->System_CollectWaitObjects();
 	this->System_WaitForEvents(minWaitTime);
+
+	for(EventSource *const& source : this->sources)
+	{
+		FixedArray<WaitResult> waitResult = this->waitObjectManager->FetchWaitResult(*source);
+		source->CheckWaitResults(Move(waitResult));
+	}
 }

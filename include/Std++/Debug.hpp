@@ -32,6 +32,7 @@ namespace StdXX
 	//Forward declarations
 	class String;
 
+	void AssertEqualsFailed(int32 expected, int32 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(uint8 expected, uint8 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(uint16 expected, uint16 got, const char *fileName, uint32 lineNumber, const char *functionName);

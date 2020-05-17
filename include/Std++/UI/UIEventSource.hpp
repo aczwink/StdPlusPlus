@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,7 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/Eventhandling/EventSource.hpp>
+#include <Std++/EventHandling/EventSource.hpp>
 #include <Std++/UI/Controls/CheckBox.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Controls/PushButton.hpp>
@@ -29,7 +29,7 @@ namespace StdXX
 {
 	namespace UI
 	{
-		class UIEventSource : public EventSource
+		class UIEventSource : public EventHandling::EventSource
 		{
 		protected:
 			inline void DispatchActivatedEvent(RadioButton &button)

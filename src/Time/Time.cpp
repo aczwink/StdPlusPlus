@@ -41,10 +41,10 @@ void Time::Set(uint8 hour, uint8 min, uint8 secs, uint16 millisecs, uint16 micro
 Time Time::ParseISOString(const String &string)
 {
 	DynamicArray<String> parts = string.Split(u8":");
-	ASSERT_EQUALS(parts.GetNumberOfElements(), 3);
+	ASSERT_EQUALS(3_u32, parts.GetNumberOfElements());
 
 	DynamicArray<String> subParts = parts[2].Split(u8".");
-	ASSERT_EQUALS(subParts.GetNumberOfElements(), 2);
+	ASSERT_EQUALS(2_u32, subParts.GetNumberOfElements());
 
 	ASSERT(subParts[1].EndsWith(u8"Z"), u8"TODO: DO THIS CORRECTLY");
 	String fractional = subParts[1].SubString(0, subParts[1].GetLength()-1);

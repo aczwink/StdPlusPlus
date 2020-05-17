@@ -29,7 +29,7 @@ namespace _stdxx_
         Gtk3Backend();
 
         //Methods
-        StdXX::EventSource *CreateEventSource() override;
+        StdXX::EventHandling::EventSource *CreateEventSource() override;
         GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
         PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;

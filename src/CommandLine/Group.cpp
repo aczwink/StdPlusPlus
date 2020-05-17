@@ -51,7 +51,7 @@ void Group::MatchOptions(MatchResult &result) const
 		}
 		else if(next.StartsWith(u8"-"))
 		{
-			ASSERT_EQUALS(2, next.GetLength());
+			ASSERT_EQUALS(2_u32, next.GetLength());
 
 			const String& optionName = next.SubString(1);
 			uint32 codePoint = *optionName.begin();

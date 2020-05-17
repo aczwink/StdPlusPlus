@@ -29,7 +29,7 @@ static void UnixTimeStampEquals(int64 unixTimeStamp, int64 year, uint8 month, ui
 	ASSERT_EQUALS(dt.Time().Hours(), hours);
 	ASSERT_EQUALS(dt.Time().Minutes(), minutes);
 	ASSERT_EQUALS(dt.Time().Seconds(), seconds);
-	ASSERT_EQUALS(dt.Time().Milliseconds(), 0);
+	ASSERT_EQUALS(0_u16, dt.Time().Milliseconds());
 }
 
 TEST_SUITE(DateTimeTests)
@@ -38,11 +38,11 @@ TEST_SUITE(DateTimeTests)
 	{
 		const String less = u8"2020-04-03T16:48:22.123Z";
 		DateTime parsed = DateTime::ParseISOString(less);
-		ASSERT_EQUALS(123 * 1000 * 1000, parsed.Time().NanosecondsSinceStartOfSecond());
+		ASSERT_EQUALS(123 * 1000 * 1000_u64, parsed.Time().NanosecondsSinceStartOfSecond());
 
 		const String more = u8"2020-04-03T16:48:22.1234567899Z";
 		DateTime parsed2 = DateTime::ParseISOString(more);
-		ASSERT_EQUALS(123456789, parsed2.Time().NanosecondsSinceStartOfSecond());
+		ASSERT_EQUALS(123456789_u64, parsed2.Time().NanosecondsSinceStartOfSecond());
 	}
 
 	TEST_CASE(ParseISOStringTest)

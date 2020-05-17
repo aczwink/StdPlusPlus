@@ -21,6 +21,7 @@
 #include <Std++/Definitions.h>
 #include <Std++/Function.hpp>
 #include "EventSignal.hpp"
+#include "WaitObjectManager.hpp"
 
 namespace StdXX::EventHandling
 {
@@ -31,15 +32,16 @@ namespace StdXX::EventHandling
 		virtual ~EventSource() = default;
 
 		//Abstract
+		virtual bool CheckWaitResults(const FixedArray<WaitResult>& waitResults) = 0;
 		virtual void DispatchPendingEvents() = 0;
 		virtual bool HasPendingEvents() const = 0;
 		/**
 		 * Queries the wait records that the queue will wait on for new events and the maximum time in nanoseconds until this source expects a new event.
-		 * The source should write its wait records into \p waitRecords which has room for \p nWaitRecords number of wait records.
+		 * The source should write its wait records into \p waitObjectManager.
 		 * Event queues will take this information to determine its sleeping duration.
 		 *
-		 * @return The number of wait records that this source maintains.
+		 * @return Timeout
 		 */
-		virtual uint32 QueryWaitInfo(WaitRecord* waitRecords, uint32 nWaitRecords, uint64& maxTimeOut) = 0;
+		virtual uint64 QueryWaitInfo(WaitObjectManager& waitObjectManager) = 0;
 	};
 }
