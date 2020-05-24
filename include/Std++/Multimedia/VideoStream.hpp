@@ -23,29 +23,28 @@
 #include "Stream.hpp"
 #include "PixelFormat.hpp"
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-        class STDPLUSPLUS_API VideoStream : public Stream
-        {
-        public:
-            //Members
-            Math::Size<uint16> size;
-			Optional<PixelFormat> pixelFormat;
+	class STDPLUSPLUS_API VideoStream : public Stream
+	{
+	public:
+		//Members
+		Optional<PixelFormat> pixelFormat;
 
-            //Methods
-            DataType GetType() const;
+		//Constructor
+		inline VideoStream()
+		{
+			this->codingParameters.dataType = DataType::Video;
+		}
 
-            //Inline
-            inline Math::Rational<uint16> GetAspectRatio() const
-            {
-                return Math::Rational(this->size.width, this->size.height).Reduce();
-            }
+		//Inline
+		inline Math::Rational<uint16> GetAspectRatio() const
+		{
+			return Math::Rational(this->codingParameters.video.size.width, this->codingParameters.video.size.height).Reduce();
+		}
 
-        private:
-            //Methods
-            bool AllDecoderInfoIsAvailable();
-        };
-    }
+	private:
+		//Methods
+		bool AllDecoderInfoIsAvailable();
+	};
 }

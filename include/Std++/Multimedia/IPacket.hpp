@@ -30,6 +30,7 @@ namespace StdXX::Multimedia
 		//Abstract
 		virtual bool ContainsKeyFrame() const = 0;
 		virtual const uint8* GetData() const = 0;
+		virtual uint64 GetDecodeTimestamp() const = 0;
 		virtual uint64 GetPresentationTimestamp() const = 0;
 		virtual uint32 GetSize() const = 0;
 		virtual uint32 GetStreamIndex() const = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,7 +34,9 @@ void PathRenderTargetWidget::OnResized()
 {
 	RenderTargetWidget::OnResized();
 
-	this->renderer->SetViewPort(this->GetSize());
-
-	this->Repaint();
+	if(!this->renderer.IsNull())
+	{
+		this->renderer->SetViewPort(this->GetSize());
+		this->Repaint();
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,28 +18,19 @@
  */
 #pragma once
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-		enum class ColorSpace
-		{
-			RGB,
-			RGBA,
-			YCbCr
-		};
+	enum class ColorSpace
+	{
+		RGB,
+		RGBA,
+		YCbCr
+	};
 
-		enum class DataType
-		{
-			Audio,
-			Subtitle,
-			Video
-		};
-
-        enum class ChannelLayout
-        {
-            Mono, //left
-            Stereo //left, right
-        };
-    }
+	enum class DataType
+	{
+		Audio,
+		Subtitle,
+		Video
+	};
 }

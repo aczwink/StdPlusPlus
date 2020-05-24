@@ -18,16 +18,38 @@
  */
 //Class header
 #include "Gtk3RenderTargetWidgetBackend.hpp"
+//Local
+#include "../Rendering/GtkOpenGLDeviceContext.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::UI;
+
+static bool RenderSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data)
+{
+	RenderTargetWidget& renderTargetWidget = *(RenderTargetWidget*)user_data;
+
+	GtkOpenGLDeviceContext& gtkOpenGlDeviceContext = (GtkOpenGLDeviceContext &) renderTargetWidget.DeviceContext();
+	gtkOpenGlDeviceContext.ResetDepthTest();
+
+	GtkAllocation gtkAllocation;
+	gtk_widget_get_allocation(GTK_WIDGET(glArea), &gtkAllocation);
+
+	PaintEvent paintEvent({ static_cast<float64>(gtkAllocation.x), static_cast<float64>(gtkAllocation.y),
+						 static_cast<float64>(gtkAllocation.width), static_cast<float64>(gtkAllocation.height) });
+	renderTargetWidget.Event(paintEvent);
+
+	return paintEvent.WasAccepted();
+}
 
 //Constructor
-Gtk3RenderTargetWidgetBackend::Gtk3RenderTargetWidgetBackend(UIBackend &uiBackend, UI::RenderTargetWidget& renderTargetWidget)
+Gtk3RenderTargetWidgetBackend::Gtk3RenderTargetWidgetBackend(UIBackend &uiBackend, RenderTargetWidget& renderTargetWidget)
 	: Gtk3WidgetBackend(uiBackend, gtk_gl_area_new()), WidgetBackend(uiBackend),
 	renderTargetWidget(renderTargetWidget)
 {
 	gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(this->GetGtkWidget()), true);
+
+	g_signal_connect(this->GetGtkWidget(), u8"render", G_CALLBACK(RenderSlot), &renderTargetWidget);
 }
 
 //Public methods

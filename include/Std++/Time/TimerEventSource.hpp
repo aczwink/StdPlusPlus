@@ -35,7 +35,7 @@ namespace StdXX
 		static TimerEventSource *globalSource;
 
 		//Methods
-		bool CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults) override;
+		bool CheckWaitResults(const EventHandling::WaitResult& waitResults) override;
 		void DispatchPendingEvents() override;
 		bool HasPendingEvents() const override;
 		uint64 QueryWaitInfo(EventHandling::WaitObjectManager &waitObjectManager) override;
@@ -46,16 +46,17 @@ namespace StdXX
 		 * @param timeOut in nanoseconds
 		 * @param timer
 		 */
-		inline void AddOneShotTimer(uint64 timeOut, Timer *timer)
+		inline uint64 AddOneShotTimer(uint64 timeOut, Timer *timer)
 		{
-			this->oneShotTimerQueue.Insert({this->clock.GetCurrentValue() + timeOut, timer});
+			uint64 id = this->clock.GetCurrentValue() + timeOut;
+			this->oneShotTimerQueue.Insert({id, timer});
 			this->eventTriggerer.Signal();
+			return id;
 		}
 
-		inline void RemoveTimer(Timer *timer)
+		inline void RemoveTimer(uint64 id, Timer *timer)
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
-			//this->oneShotTimerQueue.Remove(timer);
+			this->oneShotTimerQueue.Remove({id, timer});
 		}
 
 	private:

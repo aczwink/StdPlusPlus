@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,30 +20,28 @@
 //Local
 #include <Std++/Math/Vector3.hpp>
 
-namespace StdXX
+namespace StdXX::Audio
 {
-	namespace Audio
+	//Forward declarations
+	class Buffer;
+
+	class Source
 	{
-		//Forward declarations
-		class Buffer;
+	public:
+		//Destructor
+		virtual ~Source(){}
 
-		class Source
-		{
-		public:
-			//Destructor
-			virtual ~Source(){}
-
-			//Abstract
-			virtual void EnqueueBuffer(const Buffer& buffer) = 0;
-			virtual uint32 GetNumberOfQueuedBuffers() const = 0;
-			virtual bool IsPlaying() const = 0;
-			virtual void Play() = 0;
-			virtual void SetGain(float32 gain) = 0;
-			virtual void SetLooping(bool loop) = 0;
-			virtual void SetPitch(float32 pitch) = 0;
-			virtual void SetPosition(const Math::Vector3S &pos) = 0;
-			virtual void SetVelocity(const Math::Vector3S &vel) = 0;
-			virtual void Stop() = 0;
-		};
-	}
+		//Abstract
+		virtual void DequeueProcessedBuffers() = 0;
+		virtual void EnqueueBuffer(const Buffer& buffer) = 0;
+		virtual uint32 GetNumberOfQueuedBuffers() const = 0;
+		virtual bool IsPlaying() const = 0;
+		virtual void Play() = 0;
+		virtual void SetGain(float32 gain) = 0;
+		virtual void SetLooping(bool loop) = 0;
+		virtual void SetPitch(float32 pitch) = 0;
+		virtual void SetPosition(const Math::Vector3S &pos) = 0;
+		virtual void SetVelocity(const Math::Vector3S &vel) = 0;
+		virtual void Stop() = 0;
+	};
 }

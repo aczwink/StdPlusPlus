@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -44,7 +44,7 @@ void WAVE_Muxer::WriteHeader()
 {
 	AudioStream *stream = (AudioStream *)this->GetStream(0);
 
-	uint16 bitsPerSample = this->GetBitsPerSample(stream->GetCodingFormat()->GetId());
+	uint16 bitsPerSample = this->GetBitsPerSample(stream->codingParameters.codingFormat->GetId());
 	uint16 blockAlign = stream->sampleFormat->nChannels * bitsPerSample / 8;
 
 	DataWriter writer(false, this->outputStream);
@@ -57,10 +57,10 @@ void WAVE_Muxer::WriteHeader()
 	//format chunk
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
-	writer.WriteUInt16((uint16)(stream->GetCodingFormat()->GetId()));
+	writer.WriteUInt16((uint16)(stream->codingParameters.codingFormat->GetId()));
 	writer.WriteUInt16(stream->sampleFormat->nChannels);
-	writer.WriteUInt32(stream->sampleRate);
-	writer.WriteUInt32(stream->sampleRate * blockAlign);
+	writer.WriteUInt32(stream->codingParameters.audio.sampleRate);
+	writer.WriteUInt32(stream->codingParameters.audio.sampleRate * blockAlign);
 	writer.WriteUInt16(blockAlign);
 	writer.WriteUInt16(bitsPerSample);
 
@@ -70,7 +70,7 @@ void WAVE_Muxer::WriteHeader()
 	writer.WriteUInt32(0); //chunk size
 }
 
-void WAVE_Muxer::WritePacket(const Packet &packet)
+void WAVE_Muxer::WritePacket(const IPacket& packet)
 {
 	this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,51 +17,48 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-namespace StdXX
+namespace StdXX::UI
 {
-	namespace UI
+	enum class EventType
 	{
-		enum class EventType
+		MouseButtonPressed,
+		MouseButtonReleased,
+		MouseMoved,
+		MouseWheelRolled,
+		SelectionChanged,
+		ValueChanged,
+		WidgetBoundsChanged,
+		WidgetShouldBePainted,
+		WindowShouldBeClosed,
+	};
+
+	class Event
+	{
+	public:
+		//Constructor
+		inline Event(EventType type) : type(type), accepted(false)
 		{
-			MouseButtonPressed,
-			MouseButtonReleased,
-			MouseMoved,
-			MouseWheelRolled,
-			SelectionChanged,
-			ValueChanged,
-			WidgetShouldBePainted,
-			WindowShouldBeClosed,
-			WindowWasResized,
-		};
+		}
 
-		class Event
+		//Inline
+		inline void Accept()
 		{
-		public:
-			//Constructor
-			inline Event(EventType type) : type(type), accepted(false)
-			{
-			}
+			this->accepted = true;
+		}
 
-			//Inline
-			inline void Accept()
-			{
-				this->accepted = true;
-			}
+		inline EventType GetType() const
+		{
+			return this->type;
+		}
 
-			inline EventType GetType() const
-			{
-				return this->type;
-			}
+		inline bool WasAccepted() const
+		{
+			return this->accepted;
+		}
 
-			inline bool WasAccepted() const
-			{
-				return this->accepted;
-			}
-
-		private:
-			//Members
-			EventType type;
-			bool accepted;
-		};
-	}
+	private:
+		//Members
+		EventType type;
+		bool accepted;
+	};
 }

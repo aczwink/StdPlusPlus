@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,74 +20,86 @@
 //Local
 #include <Std++/Math/Vector2/Vector2.hpp>
 
-namespace StdXX
+namespace StdXX::Math
 {
-    namespace Math
-    {
-        template <typename ScalarType>
-        class STDPLUSPLUS_API Matrix2x2
-        {
-			typedef Matrix2x2<ScalarType> mat2;
-			typedef Vector2<ScalarType> vec2;
+	template <typename ScalarType>
+	class STDPLUSPLUS_API Matrix2x2
+	{
+		typedef Matrix2x2<ScalarType> mat2;
+		typedef Vector2<ScalarType> vec2;
 
-        public:
-        	//Constructors
-        	Matrix2x2() = default;
+	public:
+		//Constructors
+		Matrix2x2() = default;
 
-        	inline Matrix2x2(const vec2& col1, const vec2& col2)
-			{
-				this->columns[0] = col1;
-				this->columns[1] = col2;
-			}
+		inline Matrix2x2(const vec2& col1, const vec2& col2)
+		{
+			this->columns[0] = col1;
+			this->columns[1] = col2;
+		}
 
-            //Operators
-            Matrix2x2 operator*(const Matrix2x2 &refRight) const;
-			vec2 operator*(const vec2 &v) const;
+		//Operators
+		Matrix2x2 operator*(const Matrix2x2 &right) const;
+		vec2 operator*(const vec2 &v) const;
 
-            //Inline operators
-            inline ScalarType &operator()(uint8 row, uint8 col)
-            {
-                ASSERT(col < 2, "Column must be < 2");
+		//Inline operators
+		inline ScalarType &operator()(uint8 row, uint8 col)
+		{
+			ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[col][row];
-            }
+			return this->columns[col][row];
+		}
 
-            inline const float32 &operator()(uint8 row, uint8 col) const
-            {
-                ASSERT(col < 2, "Column must be < 2");
+		inline const float32 &operator()(uint8 row, uint8 col) const
+		{
+			ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[col][row];
-            }
+			return this->columns[col][row];
+		}
 
-            inline vec2 &operator[](uint8 col)
-            {
-                ASSERT(col < 2, "Column must be < 2");
+		inline vec2 &operator[](uint8 col)
+		{
+			ASSERT(col < 2, "Column must be < 2");
 
-                return this->columns[col];
-            }
+			return this->columns[col];
+		}
 
-            //Functions
-            static Matrix2x2 Identity();
-			static mat2 Rotate(ScalarType angle);
-            static Matrix2x2 Scale(float32 scaleX, float32 scaleY);
+		//Functions
+		static Matrix2x2 Identity();
+		static mat2 Rotate(ScalarType angle);
 
-            //Inline
-			inline ScalarType Determinant() const
-			{
-				/*
-				 * [ a b ]
-				 * [ c d ]
-				 * a*d - b*c
-				 */
-				return this->columns[0].x * this->columns[1].y - this->columns[1].x * this->columns[0].y;
-			}
+		//Inline
+		inline ScalarType Determinant() const
+		{
+			/*
+			 * [ a b ]
+			 * [ c d ]
+			 * a*d - b*c
+			 */
+			return this->columns[0].x * this->columns[1].y - this->columns[1].x * this->columns[0].y;
+		}
 
-		private:
-			//Members
-			vec2 columns[2];
-        };
+		//Inline functions
+		inline static Matrix2x2 Scale(ScalarType scaleX, ScalarType scaleY)
+		{
+			return Scale({scaleX, scaleY});
+		}
 
-		typedef Matrix2x2<float32> Matrix2S;
-		typedef Matrix2x2<float64> Matrix2D;
-    }
+		inline static Matrix2x2 Scale(const Math::Vector2<ScalarType>& scale)
+		{
+			Matrix2x2<ScalarType> matrix;
+
+			matrix(0, 0) = scale.x;
+			matrix(1, 1) = scale.y;
+
+			return matrix;
+		}
+
+	private:
+		//Members
+		vec2 columns[2];
+	};
+
+	typedef Matrix2x2<float32> Matrix2S;
+	typedef Matrix2x2<float64> Matrix2D;
 }

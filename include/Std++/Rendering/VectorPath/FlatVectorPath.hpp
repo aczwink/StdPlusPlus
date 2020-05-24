@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,73 +22,70 @@
 #include "../../Containers/LinkedList/LinkedList.hpp"
 #include <Std++/Math/Vector2/Vector2.inl>
 
-namespace StdXX
+namespace StdXX::Rendering
 {
-    namespace Rendering
-    {
-        class FlatVectorPath
-        {
-            friend class VectorPath;
-        public:
-            struct SPoint
-            {
-                Math::Vector2D pos;
-                Math::Vector2D dir;
-                float64 length;
-                Math::Vector2D extrusion;
-                bool isCorner;
-                bool bevelInner;
-                bool bevelOuter;
-            };
+	class FlatVectorPath
+	{
+		friend class VectorPath;
+	public:
+		struct Point
+		{
+			Math::Vector2D pos;
+			Math::Vector2D dir;
+			float64 length;
+			Math::Vector2D extrusion;
+			bool isCorner;
+			bool bevelInner;
+			bool bevelOuter;
+		};
 
-        private:
-            //Members
-            LinkedList<SPoint> points;
-            bool isClosed;
-            bool isConvex;
+	private:
+		//Members
+		LinkedList<Point> points;
+		bool isClosed;
+		bool isConvex;
 
-        public:
-            //Constructor
-            inline FlatVectorPath()
-            {
-                this->isClosed = false;
-                this->isConvex = false;
-            }
+	public:
+		//Constructor
+		inline FlatVectorPath()
+		{
+			this->isClosed = false;
+			this->isConvex = false;
+		}
 
-            //Methods
-            void ComputeJoins(float64 w, float64 miterLimit);
-            void ComputePointAttributes();
+		//Methods
+		void ComputeJoins(float64 w, float64 miterLimit);
+		void ComputePointAttributes();
 
-            //Inline
-            inline void AddCorner(const Math::Vector2D &refV)
-            {
-                this->AddPoint(refV, true);
-            }
+		//Inline
+		inline void AddCorner(const Math::Vector2D &refV)
+		{
+			this->AddPoint(refV, true);
+		}
 
-            inline void AddPoint(const Math::Vector2D &refV, bool isCorner)
-            {
-                this->points.InsertTail({refV, Math::Vector2D(), 0, Math::Vector2D(), isCorner, false, false});
-            }
+		inline void AddPoint(const Math::Vector2D &refV, bool isCorner)
+		{
+			this->points.InsertTail({refV, Math::Vector2D(), 0, Math::Vector2D(), isCorner, false, false});
+		}
 
-            inline const SPoint &GetPoint(uint32 index) const
-            {
-                return this->points[index];
-            }
+		inline const Point &GetPoint(uint32 index) const
+		{
+			return this->points[index];
+		}
 
-            inline const LinkedList<SPoint> &GetPoints() const
-            {
-                return this->points;
-            }
+		inline const LinkedList<Point> &GetPoints() const
+		{
+			return this->points;
+		}
 
-            inline bool IsClosed() const
-            {
-                return this->isClosed;
-            }
+		inline bool IsClosed() const
+		{
+			return this->isClosed;
+		}
 
-            inline bool IsConvex() const
-            {
-                return this->isConvex;
-            }
-        };
-    }
+		inline bool IsConvex() const
+		{
+			return this->isConvex;
+		}
+	};
 }

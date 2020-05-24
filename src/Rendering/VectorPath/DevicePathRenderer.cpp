@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,11 +31,11 @@ using namespace StdXX::Rendering;
 //Constructor
 DevicePathRenderer::DevicePathRenderer(DeviceContext &refDC) : refDC(refDC)
 {
-	this->pShaderProgram = nullptr;
+	this->shaderProgram = nullptr;
 	this->pInputState = nullptr;
 	this->pVertexBuffer = nullptr;
 
-	this->pTexture = nullptr;
+	this->texture = nullptr;
 
 	//init rendering
 	this->InitRendering();
@@ -46,7 +46,7 @@ DevicePathRenderer::~DevicePathRenderer()
 {
 	delete this->pVertexBuffer;
 	delete this->pInputState;
-	delete this->pShaderProgram;
+	delete this->shaderProgram;
 }
 
 //Public methods
@@ -56,23 +56,31 @@ void DevicePathRenderer::Sync()
 
 	//update vertex buffer first
 	//TODO: GL_STREAM_DRAW!!!
-	this->pVertexBuffer->Allocate(this->vertices.GetNumberOfElements(), sizeof(SVertex), &this->vertices[0]);
+	this->pVertexBuffer->Allocate(this->vertices.GetNumberOfElements(), sizeof(Vertex), &this->vertices[0]);
 
 	//prepare rendering
-	this->pShaderProgram->SetUniformValue(this->uniformLocations.viewSize, this->viewSize);
-	this->pShaderProgram->SetUniformValue(this->uniformLocations.textureSampler, 0); //we always just need one texture unit
+	this->shaderProgram->SetUniformValue(this->uniformLocations.textureSampler, 0); //we always just need one texture unit
 	this->refDC.SetInputState(this->pInputState);
-	this->refDC.SetProgram(this->pShaderProgram);
+	this->refDC.SetProgram(this->shaderProgram);
+
+	Math::Vector3S scale = { 2 / this->viewSize.x, 2 / this->viewSize.y, 1 };
+	Math::Matrix3S transform = Math::Matrix3S::Translate({-1, -1}) * Math::Matrix3S::Scale(scale) * this->state.transform;
 
 	//render
-	for(const SRenderEntry &refDrawCall : this->renderCalls)
+	for(const RenderEntry& drawCall : this->renderCalls)
 	{
-		this->pShaderProgram->SetUniformValue(this->uniformLocations.color, refDrawCall.color);
-		this->pShaderProgram->SetUniformValue(this->uniformLocations.transform, this->state.transform); //TODO: this should be in the draw entry
+		this->shaderProgram->SetUniformValue(this->uniformLocations.color, drawCall.color);
+		this->shaderProgram->SetUniformValue(this->uniformLocations.transform, transform); //TODO: this should be in the draw entry
 
-		switch(refDrawCall.renderMethod)
+		scale = Math::Vector3S(1.0 / (drawCall.boundingRectMax - drawCall.boundingRectMin).x, 1.0 / (drawCall.boundingRectMax - drawCall.boundingRectMin).y, 1);
+		Math::Vector2S translate = { static_cast<float32>(-drawCall.boundingRectMin.x), static_cast<float32>(-drawCall.boundingRectMin.y) };
+		Math::Matrix3S uvTransform = Math::Matrix3S::Scale(scale) * Math::Matrix3S::Translate(translate);
+
+		this->shaderProgram->SetUniformValue(this->uniformLocations.uvTransform, uvTransform);
+
+		switch(drawCall.renderMethod)
 		{
-			case ERenderMethod::Fill:
+			case RenderMethod::Fill:
 			{
 				this->refDC.EnableStencilTest();
 				this->refDC.SetStencilWriteMask(0xFF);
@@ -81,39 +89,39 @@ void DevicePathRenderer::Sync()
 				this->refDC.SetStencilTestEffects(true, ETestEffect::KeepValue, ETestEffect::KeepValue, ETestEffect::IncrementWithWrapAround);
 				this->refDC.SetStencilTestEffects(false, ETestEffect::KeepValue, ETestEffect::KeepValue, ETestEffect::DecrementWithWrapAround);
 
-				for(const SPathAttributes &refPA : refDrawCall.pathAttributes)
+				for(const PathAttributes &refPA : drawCall.pathAttributes)
 					this->refDC.DrawTriangleFan(refPA.verticesBeginIndex, refPA.nVertices);
 
 				this->refDC.EnableColorBufferWriting(true, true, true, true);
 				this->refDC.SetStencilTest(TestFunction::NotEqual, 0, 0xFF);
 				this->refDC.SetStencilTestEffects(ETestEffect::SetToZero, ETestEffect::SetToZero, ETestEffect::SetToZero);
 
-				this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
-				this->refDC.DrawTriangles(refDrawCall.boundingRectangleOffset, 2);
+				this->shaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
+				this->refDC.DrawTriangles(drawCall.boundingRectangleOffset, 2);
 
 				this->refDC.EnableStencilTest(false);
 			}
 				break;
-			case ERenderMethod::FillConvex:
+			case RenderMethod::FillConvex:
 			{
-				if(refDrawCall.pTexture)
+				if(drawCall.texture)
 				{
-					this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_TEXTURE);
+					this->shaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_TEXTURE);
 
-					this->refDC.SetTexture(0, refDrawCall.pTexture);
+					this->refDC.SetTexture(0, drawCall.texture);
 				}
 				else
-					this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
+					this->shaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
 
 				//only one path
-				this->refDC.DrawTriangleFan(refDrawCall.pathAttributes[0].verticesBeginIndex, refDrawCall.pathAttributes[0].nVertices);
+				this->refDC.DrawTriangleFan(drawCall.pathAttributes[0].verticesBeginIndex, drawCall.pathAttributes[0].nVertices);
 			}
 				break;
-			case ERenderMethod::Stroke:
+			case RenderMethod::Stroke:
 			{
-				this->pShaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
+				this->shaderProgram->SetUniformValue(this->uniformLocations.fragmentType, FRAGMENT_TYPE_COLOR);
 
-				for(const SPathAttributes &refPA : refDrawCall.pathAttributes)
+				for(const PathAttributes &refPA : drawCall.pathAttributes)
 					this->refDC.DrawTriangleStrip(refPA.verticesBeginIndex, refPA.nVertices);
 			}
 				break;
@@ -137,13 +145,15 @@ void DevicePathRenderer::InitRendering()
 		{
 		"#version 330\r\n"
 		"#extension GL_ARB_explicit_attrib_location : require\r\n"
-		"uniform vec2 viewSize;\r\n"
+		"uniform mat3 transform;"
+		"uniform mat3 uvTransform;"
 		"layout(location = 0) in vec2 pos;\r\n"
 		"out vec2 textureCoords;\r\n"
 		"void main(void)\r\n"
 		"{\r\n"
-		"gl_Position = vec4(2.0 * pos.x / viewSize.x - 1.0, 2.0 * pos.y / viewSize.y - 1.0, 0, 1);\r\n"
-		"textureCoords = pos / viewSize;\r\n"
+  		"vec3 transformed = transform * vec3(pos, 1);"
+		"gl_Position = vec4(transformed, 1);\r\n"
+		"textureCoords = (uvTransform * vec3(pos, 1)).xy;\r\n"
 		"}\r\n"
 		};
 
@@ -155,7 +165,6 @@ void DevicePathRenderer::InitRendering()
 		"uniform int fragmentType;\r\n"
 		"uniform vec4 color;\r\n"
 		"uniform sampler2D textureSampler;\r\n"
-		"uniform mat2 transform;"
 		
 		"in vec2 textureCoords;\r\n"
 		
@@ -170,7 +179,7 @@ void DevicePathRenderer::InitRendering()
 		"}\r\n"
 		"else if(fragmentType == 1)\r\n"
 		"{\r\n"
-		"outColor = texture(textureSampler, transform * textureCoords);\r\n"
+		"outColor = texture(textureSampler, textureCoords);\r\n"
 		"}\r\n"
 		
 		"}\r\n"
@@ -189,23 +198,23 @@ void DevicePathRenderer::InitRendering()
 	ASSERT(result, pFSShader->GetCompilationLog());
 
 	//create program
-	this->pShaderProgram = refDC.CreateShaderProgram();
+	this->shaderProgram = refDC.CreateShaderProgram();
 
-	this->pShaderProgram->AttachShader(pVSShader);
-	this->pShaderProgram->AttachShader(pFSShader);
-	this->pShaderProgram->Link();
-	this->pShaderProgram->DetachShader(pVSShader);
-	this->pShaderProgram->DetachShader(pFSShader);
+	this->shaderProgram->AttachShader(pVSShader);
+	this->shaderProgram->AttachShader(pFSShader);
+	this->shaderProgram->Link();
+	this->shaderProgram->DetachShader(pVSShader);
+	this->shaderProgram->DetachShader(pFSShader);
 
 	delete pVSShader;
 	delete pFSShader;
 
 	//get uniform locations
-	this->uniformLocations.color = this->pShaderProgram->GetUniformId(u8"color");
-	this->uniformLocations.fragmentType = this->pShaderProgram->GetUniformId(u8"fragmentType");
-	this->uniformLocations.viewSize = this->pShaderProgram->GetUniformId(u8"viewSize");
-	this->uniformLocations.textureSampler = this->pShaderProgram->GetUniformId(u8"textureSampler");
-	this->uniformLocations.transform = this->pShaderProgram->GetUniformId(u8"transform");
+	this->uniformLocations.color = this->shaderProgram->GetUniformId(u8"color");
+	this->uniformLocations.fragmentType = this->shaderProgram->GetUniformId(u8"fragmentType");
+	this->uniformLocations.textureSampler = this->shaderProgram->GetUniformId(u8"textureSampler");
+	this->uniformLocations.transform = this->shaderProgram->GetUniformId(u8"transform");
+	this->uniformLocations.uvTransform = this->shaderProgram->GetUniformId(u8"uvTransform");
 
 	//init vertex buffer
 	this->pVertexBuffer = refDC.CreateVertexBuffer();
@@ -221,43 +230,44 @@ void DevicePathRenderer::InitRendering()
 	this->pInputState->AddVertexBuffer(this->pVertexBuffer, inputLayout);
 }
 
-void DevicePathRenderer::RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax)
+void DevicePathRenderer::RenderFill(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<PathAttributes> &&pathAttributes, Math::Vector2D boundingRectMin, Math::Vector2D boundingRectMax)
 {
-	SRenderEntry entry;
+	RenderEntry entry;
 
 	//fill out entry
-	entry.renderMethod = ERenderMethod::Fill;
+	entry.renderMethod = RenderMethod::Fill;
 	if(refPaths.GetNumberOfElements() == 1 && refPaths[0]->IsConvex())
-		entry.renderMethod = ERenderMethod::FillConvex;
-
-	entry.pathAttributes = refPathAttributes;
+		entry.renderMethod = RenderMethod::FillConvex;
 
 	entry.color = this->state.fillColor;
-	entry.pTexture = this->pTexture;
+	entry.texture = this->texture;
+	entry.pathAttributes = Move(pathAttributes);
+	entry.boundingRectMin = boundingRectMin;
+	entry.boundingRectMax = boundingRectMax;
 
 	//in case we have a normal fill we need also a quad of the bounding rectangle
-	if(entry.renderMethod == ERenderMethod::Fill)
+	if(entry.renderMethod == RenderMethod::Fill)
 	{
 		entry.boundingRectangleOffset = this->vertices.GetNumberOfElements();
 
-		this->AddVertex(boundingRectMin.x, boundingRectMax.y);
-		this->AddVertex(boundingRectMax.x, boundingRectMax.y);
-		this->AddVertex(boundingRectMax.x, boundingRectMin.y);
+		this->AddVertex(boundingRectMin.x, boundingRectMax.y, 0, 1);
+		this->AddVertex(boundingRectMax.x, boundingRectMax.y, 1, 1);
+		this->AddVertex(boundingRectMax.x, boundingRectMin.y, 1, 0);
 
-		this->AddVertex(boundingRectMin.x, boundingRectMax.y);
-		this->AddVertex(boundingRectMax.x, boundingRectMin.y);
-		this->AddVertex(boundingRectMin.x, boundingRectMin.y);
+		this->AddVertex(boundingRectMin.x, boundingRectMax.y, 0, 1);
+		this->AddVertex(boundingRectMax.x, boundingRectMin.y, 1, 0);
+		this->AddVertex(boundingRectMin.x, boundingRectMin.y, 0, 0);
 	}
 
 	//put render entry
 	this->renderCalls.InsertTail(entry);
 }
 
-void DevicePathRenderer::RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<SPathAttributes> &&refPathAttributes)
+void DevicePathRenderer::RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<PathAttributes> &&refPathAttributes)
 {
-	SRenderEntry entry;
+	RenderEntry entry;
 
-	entry.renderMethod = ERenderMethod::Stroke;
+	entry.renderMethod = RenderMethod::Stroke;
 
 	entry.pathAttributes = refPathAttributes;
 

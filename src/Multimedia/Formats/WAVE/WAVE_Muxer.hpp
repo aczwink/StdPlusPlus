@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,7 +31,7 @@ public:
 	//Methods
 	void Finalize();
 	void WriteHeader();
-	void WritePacket(const Packet &packet);
+	void WritePacket(const IPacket& packet);
 
 private:
 	//Members

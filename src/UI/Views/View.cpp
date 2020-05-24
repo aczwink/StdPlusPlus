@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,7 +41,8 @@ void View::Event(UI::Event& event)
 void View::Select(const ControllerIndex& index)
 {
 	this->selectionController.Select(index);
-	this->viewBackend->UpdateSelection(); //inform ui
+	if(this->viewBackend)
+		this->viewBackend->UpdateSelection(); //inform ui
 	this->controller->OnSelectionChanged(); //inform controller
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,14 +25,8 @@ using namespace StdXX::Multimedia;
 bool AudioStream::AllDecoderInfoIsAvailable()
 {
 	//we have a decoder, but check if we have all important parameters
-	if(!this->sampleFormat.HasValue() || this->sampleRate == 0)
+	if(!this->sampleFormat.HasValue() || this->codingParameters.audio.sampleRate == 0)
 		return false;
 
 	return true;
-}
-
-//Public methods
-DataType AudioStream::GetType() const
-{
-	return DataType::Audio;
 }

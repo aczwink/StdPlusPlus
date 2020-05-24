@@ -32,8 +32,20 @@ Gtk3RedirectContainer::Gtk3RedirectContainer(UIBackend& uiBackend, CompositeWidg
 //Public methods
 void Gtk3RedirectContainer::AddChild(Widget *widget)
 {
+	if(!widget->_IsRealized())
+		return;
+
 	Gtk3WidgetBackend* child = dynamic_cast<Gtk3WidgetBackend*>(widget->_GetBackend());
-	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), child->GetGtkWidget());
+	if(child)
+	{
+		gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), child->GetGtkWidget());
+	}
+	else
+	{
+		WidgetContainer* widgetContainer = dynamic_cast<WidgetContainer *>(widget);
+		for(uint32 i = 0; i < widgetContainer->GetNumberOfChildren(); i++)
+			this->AddChild(widgetContainer->GetChild(i));
+	}
 }
 
 Math::SizeD Gtk3RedirectContainer::GetSizeHint() const

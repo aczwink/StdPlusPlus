@@ -22,11 +22,20 @@
 using namespace _stdxx_;
 using namespace StdXX::UI;
 
+//Local functions
+static void ClickedSlot(GtkButton *button, gpointer user_data)
+{
+	PushButton& pushButton = *(PushButton *) user_data;
+	if(pushButton.onActivatedHandler.IsBound())
+		pushButton.onActivatedHandler();
+}
+
 //Constructor
-_stdxx_::Gtk3PushButtonBackend::Gtk3PushButtonBackend(StdXX::UIBackend &uiBackend, PushButton &pushButton)
+Gtk3PushButtonBackend::Gtk3PushButtonBackend(StdXX::UIBackend &uiBackend, PushButton &pushButton)
     : PushButtonBackend(uiBackend), Gtk3WidgetBackend(uiBackend, gtk_button_new()), WidgetBackend(uiBackend),
     pushButton(pushButton)
 {
+	g_signal_connect(this->GetGtkWidget(), u8"clicked", G_CALLBACK(ClickedSlot), &pushButton);
 }
 
 //Public methods

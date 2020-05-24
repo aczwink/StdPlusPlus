@@ -130,5 +130,5 @@ public:
 	//Methods
 	void Finalize();
 	void WriteHeader();
-	void WritePacket(const Packet &packet);
+	void WritePacket(const IPacket& packet);
 };

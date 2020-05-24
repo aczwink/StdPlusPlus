@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,7 @@
 #include <Std++/Signed.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
+#include <Std++/Multimedia/CodingParameters.hpp>
 #include "../BMP/BMP.hpp"
 #include "EBML.hpp"
 
@@ -160,9 +161,9 @@ void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
 
 void MatroskaMuxer::WriteCodecElement(Stream &stream)
 {
-	ASSERT(stream.GetCodingFormat(), u8"If you see this, report to StdXX");
+	ASSERT(stream.codingParameters.codingFormat, u8"If you see this, report to StdXX");
 
-	switch(stream.GetType())
+	switch(stream.codingParameters.dataType)
 	{
 		case DataType::Audio:
 			NOT_IMPLEMENTED_ERROR; //TODO: next
@@ -173,7 +174,7 @@ void MatroskaMuxer::WriteCodecElement(Stream &stream)
 		case DataType::Video:
 			{
 				//native codecs
-				switch(stream.GetCodingFormat()->GetId())
+				switch(stream.codingParameters.codingFormat->GetId())
 				{
 					default: //non-native
 						this->WriteASCIIElement(MATROSKA_ID_CODECID, codecId_ms_fourcc);
@@ -363,7 +364,7 @@ void MatroskaMuxer::WriteHeader()
 		this->WriteUIntElement(MATROSKA_ID_TRACKUID, i + 1);
 
 		//TrackType
-		switch(stream->GetType())
+		switch(stream->codingParameters.dataType)
 		{
 			case DataType::Audio:
 				this->WriteUIntElement(MATROSKA_ID_TRACKTYPE, TRACK_TYPE_AUDIO);
@@ -385,7 +386,7 @@ void MatroskaMuxer::WriteHeader()
 		//CodecID
 		this->WriteCodecElement(*stream);
 
-		switch(stream->GetType())
+		switch(stream->codingParameters.dataType)
 		{
 			case DataType::Audio:
 			{
@@ -394,7 +395,7 @@ void MatroskaMuxer::WriteHeader()
 				this->BeginElement(MATROSKA_ID_AUDIO);
 
 				this->WriteUIntElement(MATROSKA_ID_CHANNELS, refpAudioStream->sampleFormat->nChannels);
-				this->WriteFloatElement(MATROSKA_ID_SAMPLINGFREQUENCY, refpAudioStream->sampleRate);
+				this->WriteFloatElement(MATROSKA_ID_SAMPLINGFREQUENCY, refpAudioStream->codingParameters.audio.sampleRate);
 
 				this->WriteAdditionalAudioStreamInfo(*refpAudioStream);
 
@@ -407,8 +408,8 @@ void MatroskaMuxer::WriteHeader()
 
 				this->BeginElement(MATROSKA_ID_VIDEO);
 
-				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, videoStream->size.width);
-				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, videoStream->size.height);
+				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, videoStream->codingParameters.video.size.width);
+				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, videoStream->codingParameters.video.size.height);
 
 				this->EndElement();
 			}
@@ -421,9 +422,9 @@ void MatroskaMuxer::WriteHeader()
 	//TODO: chapters
 }
 
-void MatroskaMuxer::WritePacket(const Packet &packet)
+void MatroskaMuxer::WritePacket(const IPacket& packet)
 {
-	uint64 transformedPTS = this->TransformPTS(packet.pts, packet.streamIndex);
+	uint64 transformedPTS = this->TransformPTS(packet.GetPresentationTimestamp(), packet.GetStreamIndex());
 
 	//check for new cluster
 	bool startNewCluster = false;
@@ -433,7 +434,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 		//if we don't have a cluster open we need to open one
 		startNewCluster = true;
 	}
-	else if(this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
+	else if(this->GetStream(packet.GetStreamIndex())->codingParameters.dataType == DataType::Video)
 	{
 		/*
 		As of here https://www.matroska.org/technical/diagram/index.html
@@ -466,7 +467,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 
 	//write block header
 	this->BeginElement(MATROSKA_ID_SIMPLEBLOCK);
-	this->WriteEBMLUInt(packet.streamIndex + 1);
+	this->WriteEBMLUInt(packet.GetStreamIndex() + 1);
 
 	/*
 	add cue
@@ -474,13 +475,13 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	As of here https://www.matroska.org/technical/diagram/index.html
 	it is sufficient to index video keyframes
 	*/
-	if(packet.containsKeyframe && transformedPTS != Unsigned<uint64>::Max() && this->GetStream(packet.streamIndex)->GetType() == DataType::Video)
+	if(packet.ContainsKeyFrame() && transformedPTS != Unsigned<uint64>::Max() && this->GetStream(packet.GetStreamIndex())->codingParameters.dataType == DataType::Video)
 	{
 		CueEntry &cueEntry = this->cues[transformedPTS];
 
 		cueEntry.clusterOffset = this->currentCluster.beginOffset;
 		cueEntry.relativeOffset = static_cast<uint32>(this->outputStream.GetCurrentOffset() - cueEntry.clusterOffset);
-		cueEntry.streamIndices.Push(packet.streamIndex);
+		cueEntry.streamIndices.Push(packet.GetStreamIndex());
 	}
 
 	//update current pts
@@ -494,7 +495,7 @@ void MatroskaMuxer::WritePacket(const Packet &packet)
 	writer.WriteInt16(pts);
 
 	uint8 flags = 0;
-	if(packet.containsKeyframe)
+	if(packet.ContainsKeyFrame())
 	{
 		flags |= 0x80;
 	}

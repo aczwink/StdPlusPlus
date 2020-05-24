@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,32 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
+#include <Std++/Optional.hpp>
 #include <Std++/Math/Size.hpp>
-#include "Event.hpp"
+#include <Std++/Buffers/FixedSizeBuffer.hpp>
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-	namespace UI
+	struct AudioCodingParameters
 	{
-		class WindowResizedEvent : public Event
-		{
-		public:
-			//Constructor
-			inline WindowResizedEvent(const Math::SizeD& newSize) : Event(EventType::WindowWasResized),
-				newSize(newSize)
-			{
-			}
+		uint32 sampleRate = 0;
+	};
 
-			//Inline
-			inline const Math::SizeD& GetNewSize() const
-			{
-				return this->newSize;
-			}
+	struct VideoCodingParameters
+	{
+		Math::Size<uint16> size;
+	};
 
-		private:
-			//Members
-			Math::SizeD newSize;
-		};
-	}
+	struct CodingParameters
+	{
+		DataType dataType;
+		const CodingFormat *codingFormat = nullptr;
+		Optional<bool> vbr;
+		uint32 bitRate = 0; //if vbr then this is the average bitrate
+		Optional<FixedSizeBuffer> codecPrivateData;
+
+		AudioCodingParameters audio;
+		VideoCodingParameters video;
+	};
 }

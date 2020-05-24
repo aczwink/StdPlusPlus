@@ -20,8 +20,10 @@
 #include "ffmpeg_Extension.hpp"
 //Local
 #include <Std++/Debug.hpp>
+#include <Std++/Multimedia/AudioSampleFormat.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Public methods
@@ -32,7 +34,7 @@ void ffmpeg_Extension::Load()
 	this->LoadPixelFormatMap();
 }
 
-AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(int nChannels, AVSampleFormat sampleFormat) const
+AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(int nChannels, uint64 channelLayout, AVSampleFormat sampleFormat) const
 {
 	AudioSampleType sampleType;
 	switch (sampleFormat)
@@ -43,13 +45,67 @@ AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(int nChannels, AVSample
 		default:
 			NOT_IMPLEMENTED_ERROR;
 	}
-	return AudioSampleFormat(nChannels, sampleType, av_sample_fmt_is_planar(sampleFormat) == 1);
+
+	AudioSampleFormat audioSampleFormat = AudioSampleFormat(nChannels, sampleType, av_sample_fmt_is_planar(sampleFormat) == 1);
+
+	switch(channelLayout)
+	{
+		case AV_CH_LAYOUT_MONO:
+		case AV_CH_LAYOUT_STEREO:
+			break; //don't need to do something here
+		case AV_CH_LAYOUT_5POINT1:
+			audioSampleFormat.channels[0].speaker = SpeakerPosition::Front_Left;
+			audioSampleFormat.channels[1].speaker = SpeakerPosition::Front_Right;
+			audioSampleFormat.channels[2].speaker = SpeakerPosition::Front_Center;
+			audioSampleFormat.channels[3].speaker = SpeakerPosition::LowFrequency;
+			audioSampleFormat.channels[4].speaker = SpeakerPosition::Side_Left;
+			audioSampleFormat.channels[5].speaker = SpeakerPosition::Side_Right;
+			break;
+		default:
+			NOT_IMPLEMENTED_ERROR;
+	}
+
+	return audioSampleFormat;
+}
+
+uint8 *ffmpeg_Extension::MapCodecExtradata(const FixedSizeBuffer& codecPrivateData) const
+{
+	uint8* ptr = (uint8*)MemAlloc(codecPrivateData.Size() + AV_INPUT_BUFFER_PADDING_SIZE);
+	MemCopy(ptr, codecPrivateData.Data(), codecPrivateData.Size());
+	MemZero(ptr + codecPrivateData.Size(), AV_INPUT_BUFFER_PADDING_SIZE);
+
+	return ptr;
+}
+
+void ffmpeg_Extension::MapPacket(const IPacket& sourcePacket, AVPacket& destPacket) const
+{
+	destPacket.buf = nullptr;
+
+	if (sourcePacket.GetPresentationTimestamp() == Unsigned<uint64>::Max())
+		destPacket.pts = AV_NOPTS_VALUE;
+	else
+		destPacket.pts = sourcePacket.GetPresentationTimestamp();
+
+	if (sourcePacket.GetDecodeTimestamp() == Unsigned<uint64>::Max())
+		destPacket.dts = AV_NOPTS_VALUE;
+	else
+		destPacket.dts = sourcePacket.GetDecodeTimestamp();
+
+	destPacket.data = const_cast<uint8*>(sourcePacket.GetData());
+	destPacket.size = sourcePacket.GetSize();
+	destPacket.stream_index = sourcePacket.GetStreamIndex();
+	destPacket.flags = sourcePacket.ContainsKeyFrame() ? AV_PKT_FLAG_KEY : 0;
+	destPacket.side_data = nullptr;
+	destPacket.side_data_elems = 0;
+	destPacket.duration = 0;
+	destPacket.pos = -1;
 }
 
 //Protected methods
 void ffmpeg_Extension::LoadCodingFormatIdMap()
 {
 	//audio
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_AC3, CodingFormatId::AC3); //ac3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_VORBIS, CodingFormatId::Vorbis);

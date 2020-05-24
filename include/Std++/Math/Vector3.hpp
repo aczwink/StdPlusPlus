@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,175 +21,180 @@
 #include "../__Globaldependencies.h" //needed for sqrt
 #include "../Definitions.h"
 #include "Std++/Debug.hpp"
+#include "Vector2/Vector2.inl"
 
-namespace StdXX
+namespace StdXX::Math
 {
-    namespace Math
-    {
-		//Forward declarations
-		template <typename ScalarType>
-		class Vector4;
+	//Forward declarations
+	template <typename ScalarType>
+	class Vector4;
 
-        template <typename ScalarType>
-		class STDPLUSPLUS_API Vector3
-        {
-			typedef Vector3<ScalarType> vec3;
-        public:
-            //Members
-            union
-            {
-                struct
-                {
-					ScalarType x;
-					ScalarType y;
-					ScalarType z;
-                };
-				ScalarType e[3];
-            };
-
-            //Constructors
-            inline Vector3()
-            {
-                this->x = 0;
-                this->y = 0;
-                this->z = 0;
-            }
-
-            inline Vector3(ScalarType x, ScalarType y, ScalarType z)
-            {
-                this->x = x;
-                this->y = y;
-                this->z = z;
-            }
-
-			template<typename OtherScalarType>
-			inline Vector3(const Vector3<OtherScalarType> &other) : x(other.x), y(other.y), z(other.z)
+	template <typename ScalarType>
+	class STDPLUSPLUS_API Vector3
+	{
+		typedef Vector3<ScalarType> vec3;
+	public:
+		//Members
+		union
+		{
+			struct
 			{
-			}
+				ScalarType x;
+				ScalarType y;
+				ScalarType z;
+			};
+			ScalarType e[3];
+		};
 
-            Vector3(const Vector4<ScalarType> &refV);
+		//Constructors
+		inline Vector3()
+		{
+			this->x = 0;
+			this->y = 0;
+			this->z = 0;
+		}
 
-            //Operators
-            inline ScalarType &operator[](uint8 idx)
-            {
-                ASSERT(idx < 3, "Column must be < 3");
+		inline Vector3(const Vector2<ScalarType>& vec, ScalarType z)
+		{
+			this->x = vec.x;
+			this->y = vec.y;
+			this->z = z;
+		}
 
-                return this->e[idx];
-            }
+		inline Vector3(ScalarType x, ScalarType y, ScalarType z)
+		{
+			this->x = x;
+			this->y = y;
+			this->z = z;
+		}
 
-            inline const ScalarType &operator[](uint8 idx) const
-            {
-                ASSERT(idx < 3, "Column must be < 3");
+		template<typename OtherScalarType>
+		inline Vector3(const Vector3<OtherScalarType> &other) : x(other.x), y(other.y), z(other.z)
+		{
+		}
 
-                return this->e[idx];
-            }
+		Vector3(const Vector4<ScalarType> &refV);
 
-            inline Vector3 &operator=(const Vector3 &refOther)
-            {
-                this->x = refOther.x;
-                this->y = refOther.y;
-                this->z = refOther.z;
+		//Operators
+		inline ScalarType &operator[](uint8 idx)
+		{
+			ASSERT(idx < 3, "Column must be < 3");
 
-                return *this;
-            }
+			return this->e[idx];
+		}
 
-			inline Vector3 operator+(const vec3 &rhs) const
-			{
-				return vec3(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
-			}
+		inline const ScalarType &operator[](uint8 idx) const
+		{
+			ASSERT(idx < 3, "Column must be < 3");
 
-			inline Vector3 &operator+=(const Vector3 &refOther)
-			{
-				this->x += refOther.x;
-				this->y += refOther.y;
-				this->z += refOther.z;
+			return this->e[idx];
+		}
 
-				return *this;
-			}
+		inline Vector3 &operator=(const Vector3 &refOther)
+		{
+			this->x = refOther.x;
+			this->y = refOther.y;
+			this->z = refOther.z;
 
-			inline Vector3 operator-(const vec3 &rhs) const
-			{
-				return vec3(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
-			}
+			return *this;
+		}
 
-			inline Vector3 &operator-=(const Vector3 &refOther)
-			{
-				this->x -= refOther.x;
-				this->y -= refOther.y;
-				this->z -= refOther.z;
+		inline Vector3 operator+(const vec3 &rhs) const
+		{
+			return vec3(this->x + rhs.x, this->y + rhs.y, this->z + rhs.z);
+		}
 
-				return *this;
-			}
+		inline Vector3 &operator+=(const Vector3 &refOther)
+		{
+			this->x += refOther.x;
+			this->y += refOther.y;
+			this->z += refOther.z;
 
-			inline Vector3 operator*(ScalarType scalar) const
-			{
-				return vec3(this->x * scalar, this->y * scalar, this->z * scalar);
-			}
+			return *this;
+		}
 
-			inline Vector3 operator/(ScalarType scalar) const
-			{
-				return vec3(this->x / scalar, this->y / scalar, this->z / scalar);
-			}
+		inline Vector3 operator-(const vec3 &rhs) const
+		{
+			return vec3(this->x - rhs.x, this->y - rhs.y, this->z - rhs.z);
+		}
 
-			inline Vector3 &operator/=(ScalarType scalar)
-			{
-				this->x /= scalar;
-				this->y /= scalar;
-				this->z /= scalar;
+		inline Vector3 &operator-=(const Vector3 &refOther)
+		{
+			this->x -= refOther.x;
+			this->y -= refOther.y;
+			this->z -= refOther.z;
 
-				return *this;
-			}
+			return *this;
+		}
 
-            inline Vector3 operator-() const
-            {
-                return Vector3(-this->x, -this->y, -this->z);
-            }
+		inline Vector3 operator*(ScalarType scalar) const
+		{
+			return vec3(this->x * scalar, this->y * scalar, this->z * scalar);
+		}
 
-			inline bool operator==(const vec3 &rhs) const
-			{
-				return this->x == rhs.x && this->y == rhs.y && this->z == rhs.z;
-			}
+		inline Vector3 operator/(ScalarType scalar) const
+		{
+			return vec3(this->x / scalar, this->y / scalar, this->z / scalar);
+		}
 
-            //Inline
-			inline Vector3 Cross(const Vector3 &rhs) const
-			{
-				return vec3(
-					this->y * rhs.z - this->z * rhs.y,
-					this->z * rhs.x - this->x * rhs.z,
-					this->x * rhs.y - this->y * rhs.x
-				);
-			}
+		inline Vector3 &operator/=(ScalarType scalar)
+		{
+			this->x /= scalar;
+			this->y /= scalar;
+			this->z /= scalar;
 
-			inline ScalarType Dot(const vec3 &rhs) const
-			{
-				return ScalarType(this->x * rhs.x + this->y * rhs.y + this->z * rhs.z);
-			}
+			return *this;
+		}
 
-            inline ScalarType Length() const
-            {
-                return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
-            }
+		inline Vector3 operator-() const
+		{
+			return Vector3(-this->x, -this->y, -this->z);
+		}
 
-			inline vec3 &Normalize()
-			{
-				*this = this->Normalized();
-				return *this;
-			}
+		inline bool operator==(const vec3 &rhs) const
+		{
+			return this->x == rhs.x && this->y == rhs.y && this->z == rhs.z;
+		}
 
-            inline vec3 Normalized() const
-            {
-				ScalarType length = this->Length();
-				return vec3(this->x / length, this->y / length, this->z / length);
-            }
-        };
+		//Inline
+		inline Vector3 Cross(const Vector3 &rhs) const
+		{
+			return vec3(
+				this->y * rhs.z - this->z * rhs.y,
+				this->z * rhs.x - this->x * rhs.z,
+				this->x * rhs.y - this->y * rhs.x
+			);
+		}
 
-        //Class operators
-		template <typename ScalarType>
-        inline Vector3<ScalarType> operator*(ScalarType scalar, const Vector3<ScalarType> &refRight)
-        {
-            return Vector3<ScalarType>(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
-        }
+		inline ScalarType Dot(const vec3 &rhs) const
+		{
+			return ScalarType(this->x * rhs.x + this->y * rhs.y + this->z * rhs.z);
+		}
 
-		typedef Vector3<float32> Vector3S;
-    }
+		inline ScalarType Length() const
+		{
+			return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
+		}
+
+		inline vec3 &Normalize()
+		{
+			*this = this->Normalized();
+			return *this;
+		}
+
+		inline vec3 Normalized() const
+		{
+			ScalarType length = this->Length();
+			return vec3(this->x / length, this->y / length, this->z / length);
+		}
+	};
+
+	//Class operators
+	template <typename ScalarType>
+	inline Vector3<ScalarType> operator*(ScalarType scalar, const Vector3<ScalarType> &refRight)
+	{
+		return Vector3<ScalarType>(scalar * refRight.x, scalar * refRight.y, scalar * refRight.z);
+	}
+
+	typedef Vector3<float32> Vector3S;
 }

@@ -28,15 +28,12 @@ Stream::Stream()
 	this->decoderContext = nullptr;
 	this->parserContext = nullptr;
 	this->encoderContext = nullptr;
-	this->codingFormat = nullptr;
 
 	this->parserFlags.requiresParsing = true;
 	this->parserFlags.repack = true;
 
 	this->startTime = Unsigned<uint64>::Max();
 	this->duration = Unsigned<uint64>::Max();
-	this->vbr = false;
-	this->bitRate = 0;
 }
 
 //Destructor
@@ -48,13 +45,21 @@ Stream::~Stream()
 }
 
 //Public methods
-bool Stream::AllInfoIsAvailable()
+bool Stream::AllDecodingInfoIsAvailable()
 {
-	if(!this->bitRate)
-		return false;
-
 	if(!this->decoderContext) //we don't have a decoder
 		return false;
 
 	return this->AllDecoderInfoIsAvailable();
+}
+
+bool Stream::AllInfoIsAvailable()
+{
+	if(!this->codingParameters.vbr.HasValue())
+		return false;
+
+	if(!this->codingParameters.bitRate)
+		return false;
+
+	return this->AllDecodingInfoIsAvailable();
 }

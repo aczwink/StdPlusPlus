@@ -41,6 +41,7 @@ EventSignal::~EventSignal()
 //Public methods
 void EventSignal::Signal()
 {
-    //TODO: implement me
-    NOT_IMPLEMENTED_ERROR;
+	const uint64 increment = 1;
+	ssize_t ret = write(this->waitableHandle.fd, &increment, sizeof(increment));
+	ASSERT(ret != -1, u8"TODO: IMPPLEMENT THIS CORRECTLY");
 }

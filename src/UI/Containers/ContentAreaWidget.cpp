@@ -66,5 +66,9 @@ void ContentAreaWidget::RemoveChild(Widget *child)
 //Eventhandlers
 void ContentAreaWidget::OnResized()
 {
-	this->contentContainer->SetBounds(this->contentAreaWidgetBackend->GetContentAreaBounds());
+	/*
+	 * The parent manages the size of the content area
+	if(this->contentAreaWidgetBackend != nullptr)
+		this->contentContainer->SetBounds(this->contentAreaWidgetBackend->GetContentAreaBounds());
+	 */
 }

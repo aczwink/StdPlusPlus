@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,6 +30,6 @@ namespace _stdxx_
 		//Methods
 		void Finalize() override;
 		void WriteHeader() override;
-		void WritePacket(const StdXX::Multimedia::Packet &refPacket) override;
+		void WritePacket(const StdXX::Multimedia::IPacket& packet) override;
 	};
 }

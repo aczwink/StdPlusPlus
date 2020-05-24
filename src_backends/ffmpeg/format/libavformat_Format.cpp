@@ -20,8 +20,9 @@
 #include "libavformat_Format.hpp"
 //Local
 #include <Std++/Containers/Strings/String.hpp>
-#include "../libavio_StreamWrapper.hpp"
+#include "libavio_InputStreamWrapper.hpp"
 #include "libavformat_Demuxer.hpp"
+#include "libavformat_Muxer.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -32,6 +33,9 @@ libavformat_Format::libavformat_Format(const char *shortName)
 {
 	this->avInputFormat = av_find_input_format(shortName);
 	ASSERT(this->avInputFormat, u8"Wrong short name");
+
+	this->avOutputFormat = av_guess_format(shortName, nullptr, nullptr);
+	ASSERT(this->avOutputFormat, u8"Wrong short name");
 }
 
 //Public methods
@@ -40,16 +44,14 @@ Demuxer *libavformat_Format::CreateDemuxer(SeekableInputStream& seekableInputStr
 	return new libavformat_Demuxer(*this, seekableInputStream);
 }
 
-StdXX::Multimedia::Muxer *_stdxx_::libavformat_Format::CreateMuxer(StdXX::SeekableOutputStream &refOutput) const
+Muxer *libavformat_Format::CreateMuxer(SeekableOutputStream &seekableOutputStream) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+	return new libavformat_Muxer(*this, seekableOutputStream);
 }
 
-StdXX::String _stdxx_::libavformat_Format::GetExtension() const
+String libavformat_Format::GetExtension() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return {};
+	return this->avOutputFormat->extensions;
 }
 
 void libavformat_Format::GetFormatInfo(FormatInfo &formatInfo) const
@@ -59,7 +61,7 @@ void libavformat_Format::GetFormatInfo(FormatInfo &formatInfo) const
 
 String libavformat_Format::GetName() const
 {
-	return this->avInputFormat->long_name + String(u8" via libavformat (ffmpeg)");
+	return this->avOutputFormat->long_name + String(u8" via libavformat (ffmpeg)");
 }
 
 float32 libavformat_Format::Matches(BufferInputStream& buffer) const

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -53,6 +53,17 @@ namespace StdXX
                 this->origin = refPoint;
                 this->size = refSize;
             }
+
+            //Operators
+            inline bool operator==(const Rect<ScalarType>& other) const
+			{
+            	return (this->origin == other.origin) and (this->size == other.size);
+			}
+
+			inline bool operator!=(const Rect<ScalarType>& other) const
+			{
+				return !(*this == other);
+			}
 
             //Methods
             Rect Intersect(const Rect<ScalarType> &refRect) const;

@@ -89,7 +89,7 @@ void EventQueue::WaitForEvents()
 
 	for(EventSource *const& source : this->sources)
 	{
-		FixedArray<WaitResult> waitResult = this->waitObjectManager->FetchWaitResult(*source);
-		source->CheckWaitResults(Move(waitResult));
+		UniquePointer<WaitResult> waitResult = this->waitObjectManager->FetchWaitResult(*source);
+		source->CheckWaitResults(*waitResult);
 	}
 }

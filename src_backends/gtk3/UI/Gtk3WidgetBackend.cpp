@@ -18,20 +18,51 @@
  */
 //Class header
 #include "Gtk3WidgetBackend.hpp"
+//Local
+#include <Std++/UI/Events/WidgetBoundsChangedEvent.hpp>
+#include <Std++/UI/Widget.hpp>
+#include <Std++/UI/WidgetContainer.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::UI;
+
+//Local functions
+static void SizeAllocateSlot(GtkWidget* gtkWidget, GdkRectangle *allocation, gpointer user_data)
+{
+	Gtk3WidgetBackend* backend = static_cast<Gtk3WidgetBackend *>(user_data);
+	backend->OnSetAllocation(*allocation);
+}
 
 //Constructor
 Gtk3WidgetBackend::Gtk3WidgetBackend(StdXX::UIBackend &uiBackend, GtkWidget *gtkWidget)
         : WidgetBackend(uiBackend), gtkWidget(gtkWidget)
 {
+	/*
     if(!GTK_IS_WINDOW(gtkWidget))
         gtk_widget_show(gtkWidget); //default to show
+        */
+
     g_object_set_data(G_OBJECT(gtkWidget), u8"Std++", this);
+
+	g_signal_connect(gtkWidget, u8"size-allocate", G_CALLBACK(SizeAllocateSlot), this);
 }
 
 //Public methods
+Math::RectD Gtk3WidgetBackend::GetNextAssignmentBoundsInGtkCoords() const
+{
+	Math::RectD bounds = this->nextBounds;
+
+	const Widget& widget = this->GetWidget();
+	const WidgetContainer* parent = widget._GetParentWithBackend();
+	
+	//offset bounds because the parent of the gtk3 widget might not be the parent of the std++ widget
+	bounds.origin = widget.TranslateToAncestorCoords(bounds.origin - widget.GetBounds().origin, parent);
+	bounds.y() = parent->GetSize().height - bounds.GetVerticalEnd(); //invert "y"-axis for gtk
+	
+	return bounds;
+}
+
 Math::SizeD Gtk3WidgetBackend::GetSizeHint() const
 {
 	int min1, nat1, min2, nat2;
@@ -47,8 +78,31 @@ void Gtk3WidgetBackend::IgnoreEvent()
 	//obsolete method
 }
 
-void Gtk3WidgetBackend::SetBounds(const Math::RectD &bounds)
+void Gtk3WidgetBackend::OnSetAllocation(const GtkAllocation &allocation)
 {
+	const WidgetContainer* parent = this->GetWidget()._GetParentWithBackend();
+
+	Math::RectD newBounds(allocation.x, allocation.y, allocation.width, allocation.height);
+
+	GtkWidget* gtkParent = gtk_widget_get_parent(this->gtkWidget);
+	if(gtkParent)
+	{
+		GtkAllocation parentAllocation;
+		gtk_widget_get_allocation(gtkParent, &parentAllocation);
+		newBounds.x() -= parentAllocation.x;
+		newBounds.y() -= parentAllocation.y;
+	}
+
+	if(parent)
+		newBounds.y() = parent->GetSize().height - newBounds.GetVerticalEnd(); //invert "y"-axis from gtk-coords
+
+	WidgetBoundsChangedEvent event(newBounds);
+	this->GetWidget().Event(event);
+}
+
+void Gtk3WidgetBackend::SetBounds(const Math::RectD& bounds)
+{
+	this->nextBounds = bounds;
 	gtk_widget_queue_resize(this->gtkWidget);
 }
 

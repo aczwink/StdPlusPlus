@@ -33,7 +33,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		bool CheckWaitResults(const StdXX::FixedArray<StdXX::EventHandling::WaitResult> &waitResults) override;
+		bool CheckWaitResults(const StdXX::EventHandling::WaitResult& waitResults) override;
 		void DispatchPendingEvents() override;
 		bool HasPendingEvents() const override;
 		uint64 QueryWaitInfo(StdXX::EventHandling::WaitObjectManager &waitObjectManager) override;

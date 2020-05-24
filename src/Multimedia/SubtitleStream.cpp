@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,10 +25,4 @@ using namespace StdXX::Multimedia;
 bool SubtitleStream::AllDecoderInfoIsAvailable()
 {
 	return true;
-}
-
-//Public methods
-DataType SubtitleStream::GetType() const
-{
-	return DataType::Subtitle;
 }

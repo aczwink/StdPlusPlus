@@ -29,9 +29,9 @@ using namespace StdXX;
 TimerEventSource *TimerEventSource::globalSource = nullptr;
 
 //Public methods
-bool TimerEventSource::CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults)
+bool TimerEventSource::CheckWaitResults(const EventHandling::WaitResult &waitResults)
 {
-	return waitResults[0].occuredEvents != 0;
+	return waitResults.AnyEventOccured(this->eventTriggerer.Handle());
 }
 
 void TimerEventSource::DispatchPendingEvents()

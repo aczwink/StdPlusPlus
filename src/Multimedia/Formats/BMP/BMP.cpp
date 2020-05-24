@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -51,7 +51,7 @@ void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Video
 	DataReader reader(false, inputStream);
 
 	uint32 size = reader.ReadUInt32();
-	stream.size.width = static_cast<uint16>(reader.ReadUInt32());
+	stream.codingParameters.video.size.width = static_cast<uint16>(reader.ReadUInt32());
 	int32 height = reader.ReadInt32();
 	inputStream.Skip(2); //planes
 	uint16 bitsPerPixel = reader.ReadUInt16();
@@ -64,7 +64,7 @@ void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Video
 		height = -height;
 	else
 		refIsBottomUp = true;
-	stream.size.height = (uint16)height;
+	stream.codingParameters.video.size.height = (uint16)height;
 
 	CodingFormatId codingFormatId = CodingFormatId::Unknown;
 	switch(codecTag)
@@ -120,11 +120,11 @@ void _stdxx_::WriteBitmapInfoHeader(VideoStream &stream, OutputStream &outputStr
 	DataWriter dataWriter(false, outputStream);
 
 	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
-	dataWriter.WriteUInt32(stream.size.width);
-	dataWriter.WriteUInt32(stream.size.height);
+	dataWriter.WriteUInt32(stream.codingParameters.video.size.width);
+	dataWriter.WriteUInt32(stream.codingParameters.video.size.height);
 	dataWriter.WriteUInt16(1); //number of planes
 	dataWriter.WriteUInt16(24); //bits per pixel
-	dataWriter.WriteUInt32(static_cast<uint32>(stream.GetCodingFormat()->GetId())); //compression
+	dataWriter.WriteUInt32(static_cast<uint32>(stream.codingParameters.codingFormat->GetId())); //compression
 	dataWriter.WriteUInt32(0); //image size...
 	dataWriter.WriteUInt32(0); //pixels per meter horizontal
 	dataWriter.WriteUInt32(0); //pixels per meter vertical

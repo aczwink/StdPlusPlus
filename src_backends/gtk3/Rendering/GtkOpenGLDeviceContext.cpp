@@ -23,6 +23,7 @@ using namespace _stdxx_;
 
 //Constructor
 GtkOpenGLDeviceContext::GtkOpenGLDeviceContext(Gtk3WidgetBackend& widgetBackend, GL_EXT_LOADER loader)
+	: depthTestState(false) //initially, depth testing is disabled in OpenGL
 {
 	GtkWidget *gtkWidget = widgetBackend.GetGtkWidget();
 	GtkGLArea *gtkGLArea = GTK_GL_AREA(gtkWidget);
@@ -30,6 +31,7 @@ GtkOpenGLDeviceContext::GtkOpenGLDeviceContext(Gtk3WidgetBackend& widgetBackend,
 	gtk_widget_realize(gtkWidget); //important!!!
 
 	this->gdkGLContext = gtk_gl_area_get_context(gtkGLArea);
+	ASSERT(this->gdkGLContext, u8"TODO: IMPLEMENT ME");
 	this->Init(loader);
 
 	this->Bind();
@@ -38,9 +40,24 @@ GtkOpenGLDeviceContext::GtkOpenGLDeviceContext(Gtk3WidgetBackend& widgetBackend,
 }
 
 //Public methods
-void _stdxx_::GtkOpenGLDeviceContext::SwapBuffers()
+void GtkOpenGLDeviceContext::EnableDepthTest(bool enabled)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	OpenGLDeviceContext::EnableDepthTest(enabled);
+	/*
+	GL_DEPTH_TEST is enabled/disabled by GtkGlArea on each render, by whether the frame buffer has a depth buffer
+	work around that we save the depth state set to this device context, and then reset it before each paint event
+	 */
+	this->depthTestState = enabled;
+}
+
+void GtkOpenGLDeviceContext::ResetDepthTest()
+{
+	//the original depth test is reset here
+	this->EnableDepthTest(this->depthTestState);
+}
+
+void GtkOpenGLDeviceContext::SwapBuffers()
+{
 }
 
 //Protected methods

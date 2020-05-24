@@ -54,7 +54,7 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 	FixedSizeBuffer buffer(bufferSize);
 
 	inputStream.SeekTo(inputStream.QuerySize() - bufferSize);
-	uint32 nBytesRead = inputStream.ReadBytes(buffer.data(), bufferSize);
+	uint32 nBytesRead = inputStream.ReadBytes(buffer.Data(), bufferSize);
 	ASSERT(nBytesRead == bufferSize, u8"REPORT THIS PLEASE!");
 	ASSERT(inputStream.IsAtEnd(), u8"REPORT THIS PLEASE!");
 
@@ -65,7 +65,7 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 		if(offset == Unsigned<uint32>::Max())
 			break;
 		if(this->ValidateEndOfCentralDirectory(buffer, offset))
-			return inputStream.QuerySize() - buffer.size() + offset;
+			return inputStream.QuerySize() - buffer.Size() + offset;
 	}
 
 	return Unsigned<uint64>::Max();
@@ -73,7 +73,7 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 
 bool ZipFileSystemFormat::ValidateEndOfCentralDirectory(const FixedSizeBuffer &buffer, uint32 offset) const
 {
-	BufferInputStream bufferInputStream(buffer.data() + offset, buffer.size() - offset);
+	BufferInputStream bufferInputStream(buffer.Data() + offset, buffer.Size() - offset);
 	bufferInputStream.Skip(20);
 	DataReader dataReader(false, bufferInputStream);
 

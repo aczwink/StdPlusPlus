@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,14 +25,8 @@ using namespace StdXX::Multimedia;
 bool VideoStream::AllDecoderInfoIsAvailable()
 {
 	//we have a decoder, but check if we have all important parameters
-	if((this->size.width == 0) || (this->size.height == 0))
+	if((this->codingParameters.video.size.width == 0) || (this->codingParameters.video.size.height == 0))
 		return false;
 
 	return true;
-}
-
-//Public methods
-DataType VideoStream::GetType() const
-{
-	return DataType::Video;
 }

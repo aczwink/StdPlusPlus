@@ -35,7 +35,7 @@ namespace StdXX
 		{
 		public:
 			//Constructor
-			inline ContentAreaWidget() : contentContainer(nullptr)
+			inline ContentAreaWidget() : contentContainer(nullptr), contentAreaWidgetBackend(nullptr)
 			{
 			}
 

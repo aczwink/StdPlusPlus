@@ -17,40 +17,43 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include "libavio_StreamWrapper.hpp"
+#include "libavio_OutputStreamWrapper.hpp"
 //Local
 #include <Std++/Constants.hpp>
+#include <Std++/Debug.hpp>
+#include <Std++/Signed.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
 //Local functions
-static int read_packet(void *opaque, uint8_t *buf, int buf_size)
+static int write_packet(void *opaque, uint8_t *buf, int buf_size)
 {
-	libavio_StreamWrapper* wrapper = (libavio_StreamWrapper *)opaque;
-	return wrapper->ReadPacket(buf, buf_size);
+	libavio_OutputStreamWrapper* wrapper = (libavio_OutputStreamWrapper *)opaque;
+	return wrapper->WritePacket(buf, buf_size);
 }
 
 static int64_t seek(void *opaque, int64_t offset, int whence)
 {
-	libavio_StreamWrapper* wrapper = (libavio_StreamWrapper *)opaque;
+	libavio_OutputStreamWrapper* wrapper = (libavio_OutputStreamWrapper *)opaque;
 
 	if(whence & AVSEEK_SIZE)
-		return wrapper->QuerySize();
+		return Signed<int64>::Max();
 
 	ASSERT(whence == 0, u8"TODO: IMPLEMENT THIS");
 	return wrapper->SeekTo(offset);
 }
 
 //Constructor
-libavio_StreamWrapper::libavio_StreamWrapper(SeekableInputStream &seekableInputStream) : seekableInputStream(seekableInputStream)
+libavio_OutputStreamWrapper::libavio_OutputStreamWrapper(SeekableOutputStream &seekableOutputStream)
+	: seekableOutputStream(seekableOutputStream)
 {
 	this->avio_ctx_buffer = static_cast<uint8 *>(av_malloc(c_io_blockSize));
-	this->avio_ctx = avio_alloc_context(avio_ctx_buffer, c_io_blockSize, 0, this, &read_packet, nullptr, &seek);
+	this->avio_ctx = avio_alloc_context(avio_ctx_buffer, c_io_blockSize, 1, this, nullptr, write_packet, &seek);
 }
 
 //Destructor
-libavio_StreamWrapper::~libavio_StreamWrapper()
+libavio_OutputStreamWrapper::~libavio_OutputStreamWrapper()
 {
 	if (this->avio_ctx)
 		av_freep(&this->avio_ctx->buffer);

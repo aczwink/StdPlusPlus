@@ -24,7 +24,7 @@ extern "C"
 //Local
 #include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
-#include "../libavio_StreamWrapper.hpp"
+#include "libavio_InputStreamWrapper.hpp"
 
 namespace _stdxx_
 {
@@ -42,12 +42,13 @@ namespace _stdxx_
 
 		//Methods
 		void ReadHeader() override;
+		void Seek(uint64 timestamp, const StdXX::Multimedia::TimeScale &timeScale) override;
 
 	private:
 		//Members
 		AVInputFormat* avInputFormat;
 		AVFormatContext *fmt_ctx;
-		libavio_StreamWrapper streamWrapper;
+		libavio_InputStreamWrapper streamWrapper;
 
 		//Methods
 		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -22,6 +22,7 @@
 #include <Std++/Unsigned.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>
+#include <Std++/Utility.hpp>
 
 namespace StdXX
 {
@@ -29,37 +30,84 @@ namespace StdXX
 	{
 	public:
 		//Constructor
-		inline FixedSizeBuffer(uint32 size) : _size(size)
+		inline FixedSizeBuffer(const void* source, uint32 size) : size(size)
 		{
-			this->_data = (byte*)MemAlloc(size);
+			this->data = (byte*)MemAlloc(size);
+			this->CopyFrom(source, size);
+		}
+
+		inline FixedSizeBuffer(uint32 size) : size(size)
+		{
+			this->data = (byte*)MemAlloc(size);
+		}
+
+		inline FixedSizeBuffer(const FixedSizeBuffer& rhs) : size(rhs.size)
+		{
+			this->data = (byte*)MemAlloc(rhs.size);
+			*this = rhs;
+		}
+
+		inline FixedSizeBuffer(FixedSizeBuffer&& rhs)
+		{
+			this->data = nullptr;
+			*this = Move(rhs);
 		}
 
 		//Destructor
 		inline ~FixedSizeBuffer()
 		{
-			MemFree(this->_data);
+			if(this->data)
+				MemFree(this->data);
+		}
+
+		//Operators
+		inline FixedSizeBuffer& operator=(const FixedSizeBuffer& rhs)
+		{
+			ASSERT_EQUALS(this->size, rhs.size);
+			MemCopy(this->data, rhs.data, this->size);
+
+			return *this;
+		}
+
+		inline FixedSizeBuffer& operator=(FixedSizeBuffer&& rhs)
+		{
+			if(this->data)
+				MemFree(this->data);
+
+			this->data = rhs.data;
+			this->size = rhs.size;
+			rhs.data = nullptr;
+			rhs.size = 0;
+
+			return *this;
 		}
 
 		//Properties
-		inline uint8* data()
+		inline uint8* Data()
 		{
-			return this->_data;
+			return this->data;
 		}
 
-		inline const uint8* data() const
+		inline const uint8* Data() const
 		{
-			return this->_data;
+			return this->data;
 		}
 
-		inline uint32 size() const
+		inline uint32 Size() const
 		{
-			return this->_size;
+			return this->size;
 		}
 
 		//Methods
 		uint32 FindBytesReversed(const byte* bytes, uint32 size, uint32 startOffset = StdXX::Unsigned<uint32>::Max());
 
 		//Inline
+		inline void CopyFrom(const void* source, uint32 size)
+		{
+			ASSERT(size <= this->size, u8"Size too small");
+			MemCopy(this->data, source, size);
+		}
+
 		inline uint32 FindReversedUInt32(uint32 value, bool bigEndian, uint32 startOffset = StdXX::Unsigned<uint32>::Max())
 		{
 			byte buffer[4];
@@ -72,7 +120,7 @@ namespace StdXX
 
 	private:
 		//Members
-		byte* _data;
-		uint32 _size;
+		byte* data;
+		uint32 size;
 	};
 }

@@ -41,10 +41,7 @@ RenderTargetWidget::~RenderTargetWidget()
 //Private methods
 void RenderTargetWidget::RealizeSelf()
 {
-	UIBackend *uiBackend = this->_GetUIBackend();
-
-	_stdxx_::WidgetBackend* widgetBackend = uiBackend->CreateRenderTargetWidgetBackend(*this);
-	this->deviceContext = uiBackend->renderBackends.GetActiveBackend()->CreateDeviceContext(*widgetBackend);
+	_stdxx_::WidgetBackend* widgetBackend = this->_GetUIBackend()->CreateRenderTargetWidgetBackend(*this);
 
 	this->_SetBackend(widgetBackend);
 }
@@ -56,6 +53,12 @@ void RenderTargetWidget::OnPaint(PaintEvent& event)
     this->deviceContext->SwapBuffers();
 
 	event.Accept();
+}
+
+void RenderTargetWidget::OnRealized()
+{
+	Widget::OnRealized();
+	this->deviceContext = this->_GetUIBackend()->renderBackends.GetActiveBackend()->CreateDeviceContext(*this->_GetBackend());
 }
 
 void RenderTargetWidget::OnResized()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -52,7 +52,8 @@ public:
 	{
 		if(currentContext != this->context)
 		{
-			alcMakeContextCurrent(this->context);
+			ALCboolean result = alcMakeContextCurrent(this->context);
+			ASSERT_EQUALS(ALC_TRUE, result);
 			currentContext = this->context;
 		}
 	}

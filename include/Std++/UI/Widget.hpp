@@ -70,8 +70,10 @@ namespace StdXX
 			}
 
             //Methods
+			const WidgetContainer* _GetParentWithBackend() const;
 			Window *GetWindow();
 			const Window *GetWindow() const;
+			void SetBounds(const Math::RectD &newBounds);
 			Math::PointD TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const;
 
             //Overrideable
@@ -87,6 +89,11 @@ namespace StdXX
 			inline const _stdxx_::WidgetBackend *_GetBackend() const
 			{
 				return this->backend;
+			}
+
+			inline bool _IsRealized() const
+			{
+				return this->isRealized;
 			}
 
 			inline const Math::RectD &GetBounds() const
@@ -142,27 +149,6 @@ namespace StdXX
 					this->backend->SetBounds(this->bounds);
 					this->OnResized();
 				}
-			}
-
-			inline void SetBounds(const Math::RectD &newBounds)
-			{
-				bool updatedPos = false, updatedSize = false;
-				if (this->bounds.origin != newBounds.origin)
-				{
-					this->bounds.origin = newBounds.origin;
-					updatedPos = true;
-				}
-				if (this->bounds.size != newBounds.size)
-				{
-					this->bounds.size = newBounds.size;
-					updatedSize = true;
-				}
-				if((updatedPos || updatedSize) && this->backend)
-					this->backend->SetBounds(this->bounds);
-				if (updatedPos)
-					this->OnMoved();
-				if (updatedSize)
-					this->OnResized();
 			}
 
 			inline void SetEnabled(bool enable = true)

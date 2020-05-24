@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,26 +21,23 @@
 #include "Std++/Streams/SeekableOutputStream.hpp"
 #include "MediaObject.hpp"
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-        class STDPLUSPLUS_API Muxer : public MediaObject
-        {
-        public:
-            //Constructor
-            inline Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : MediaObject(refFormat), outputStream(refOutput)
-            {
-            }
+	class STDPLUSPLUS_API Muxer : public MediaObject
+	{
+	public:
+		//Constructor
+		inline Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : MediaObject(refFormat), outputStream(refOutput)
+		{
+		}
 
-            //Abstract
-            virtual void Finalize() = 0;
-            virtual void WriteHeader() = 0;
-            virtual void WritePacket(const Packet &refPacket) = 0;
+		//Abstract
+		virtual void Finalize() = 0;
+		virtual void WriteHeader() = 0;
+		virtual void WritePacket(const IPacket& packet) = 0;
 
-        protected:
-            //Members
-            SeekableOutputStream &outputStream;
-        };
-    }
+	protected:
+		//Members
+		SeekableOutputStream &outputStream;
+	};
 }

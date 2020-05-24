@@ -43,6 +43,9 @@ namespace StdXX::Multimedia
 
 		inline uint64 Rescale(uint64 ts, const TimeScale& targetTimeScale) const
 		{
+			if(ts == Unsigned<uint64>::Max())
+				return ts;
+
 			Rational<Math::Natural> target(targetTimeScale.numerator, targetTimeScale.denominator);
 			Rational<Math::Natural> source(this->numerator, this->denominator);
 

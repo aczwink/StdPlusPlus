@@ -36,6 +36,7 @@ namespace StdXX::Multimedia
 
 		//Abstract
 		virtual void ReadHeader() = 0;
+		virtual void Seek(uint64 timestamp, const class TimeScale& timeScale) = 0;
 
 		//Methods
 		bool FindStreamInfo();
@@ -78,5 +79,8 @@ namespace StdXX::Multimedia
 		bool AllStreamsHaveDuration() const;
 		void DeriveDurationFromPacketTimestamps();
 		void ExtractInfo(const IPacket& packet);
+		void InitializeDecoders();
+		void InitializeParsers();
+		bool TryToAllocateDecoder(Stream& stream);
 	};
 }

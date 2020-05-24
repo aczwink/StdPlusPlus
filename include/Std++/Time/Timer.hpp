@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,7 +41,8 @@ namespace StdXX
 
 	private:
 		//Members
-		TimerEventSource &eventSource;
+		TimerEventSource& eventSource;
 		Function<void()> timedOutCallback;
+		uint64 id;
     };
 }

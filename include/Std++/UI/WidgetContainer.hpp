@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,6 +27,7 @@ namespace StdXX
 	{
 		class STDPLUSPLUS_API WidgetContainer : public Widget
 		{
+			friend class Widget;
 		public:
 			//Constructor
 			inline WidgetContainer() : widgetContainerBackend(nullptr)
@@ -63,8 +64,6 @@ namespace StdXX
 				if(widget->parent)
 					widget->parent->RemoveChild(widget);
 				widget->parent = this;
-				if (widget->CanRealize())
-					widget->Realize();
 				this->InformBackendAboutWidgetOwnershipTransfer(widget);
 			}
 

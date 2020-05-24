@@ -34,7 +34,7 @@ namespace _stdxx_
 		void AddWaitForInput(const StdXX::EventHandling::EventSource& source, const StdXX::OSHandle &osHandle) override;
 		void AddWaitForInput(const StdXX::EventHandling::EventSource& source, int fd) override;
 		void Clear() override;
-		StdXX::FixedArray<StdXX::EventHandling::WaitResult> FetchWaitResult(const StdXX::EventHandling::EventSource &eventSource) override;
+		StdXX::UniquePointer<StdXX::EventHandling::WaitResult> FetchWaitResult(const StdXX::EventHandling::EventSource &eventSource) override;
 
 		//Properties
 		inline pollfd* PollFDs()

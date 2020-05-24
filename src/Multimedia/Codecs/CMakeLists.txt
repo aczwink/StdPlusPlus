@@ -33,4 +33,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Theora_CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Vorbis_CodingFormat.hpp
 
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/AC3_CodingFormat.hpp
+
 	PARENT_SCOPE)

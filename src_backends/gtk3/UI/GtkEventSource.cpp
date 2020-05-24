@@ -32,13 +32,13 @@ GtkEventSource::GtkEventSource()
 }
 
 //Public methods
-bool GtkEventSource::CheckWaitResults(const FixedArray<WaitResult> &waitResults)
+bool GtkEventSource::CheckWaitResults(const WaitResult& waitResults)
 {
 	const gboolean locked = g_main_context_acquire(this->context);
 	ASSERT_EQUALS(TRUE, locked);
 
 	for(uint32 i = 0; i < this->pollFds.GetNumberOfElements(); i++)
-		this->pollFds[i].revents = waitResults[i].occuredEvents;
+		this->pollFds[i].revents = waitResults.ResultAt(i);
 
 	gboolean result;
 	if(this->pollFds.IsEmpty())
@@ -156,8 +156,6 @@ void GtkEventSource::ClickedSlot(GtkButton *button, gpointer user_data)
     /*
 	if(GTK_IS_RADIO_BUTTON(button))
 		l_gtkEvtSrc->DispatchActivatedEvent(*(RadioButton *) user_data);
-	else
-		l_gtkEvtSrc->DispatchActivatedEvent(*(PushButton *) user_data);
      *//*
 }
 
@@ -175,16 +173,6 @@ bool GtkEventSource::MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event
 
     NOT_IMPLEMENTED_ERROR; //TODO: next line
 	//l_gtkEvtSrc->DispatchMouseMovedEvent(*widget, Point((int32) event->x, (int32) (widget->QuerySize().height - event->y)));
-
-	return !g_ignoreEvent;
-}
-
-bool GtkEventSource::PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data)
-{
-	g_ignoreEvent = false;
-
-    NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//l_gtkEvtSrc->DispatchPaintEvent(*(Widget *)user_data);
 
 	return !g_ignoreEvent;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,7 +37,7 @@ void RawImageMuxer::WriteHeader()
 {
 }
 
-void RawImageMuxer::WritePacket(const Packet &refPacket)
+void RawImageMuxer::WritePacket(const IPacket& packet)
 {
-	this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
+	this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
 }

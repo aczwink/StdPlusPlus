@@ -274,6 +274,7 @@ namespace StdXX
 				uint32 activeStreamIndex;
 				Packet *nextPacket;
 
+				AutoPointer<AudioDevice> device;
 				UniquePointer<Audio::DeviceContext> deviceContext;
 				UniquePointer<Audio::Source> source;
 				UniquePointer<Audio::Buffer> buffers[c_nAudioBuffers];

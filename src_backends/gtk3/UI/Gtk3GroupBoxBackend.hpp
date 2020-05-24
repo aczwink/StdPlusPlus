@@ -29,6 +29,7 @@ namespace _stdxx_
         Gtk3GroupBoxBackend(StdXX::UIBackend& uiBackend, StdXX::UI::GroupBox& groupBox);
 
         //Methods
+		void AddChild(StdXX::UI::Widget *widget) override;
         WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
         StdXX::Math::RectD GetContentAreaBounds() const override;
         StdXX::UI::Widget &GetWidget() override;
@@ -38,7 +39,6 @@ namespace _stdxx_
         //NOT IMPLEMENTED
         void Repaint() override;
         void SetEditable(bool enable) const override;
-        void AddChild(StdXX::UI::Widget *widget) override;
         //END OF NOT IMPLEMENTED
 
     private:

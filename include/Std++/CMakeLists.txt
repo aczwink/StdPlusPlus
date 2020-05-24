@@ -52,8 +52,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp

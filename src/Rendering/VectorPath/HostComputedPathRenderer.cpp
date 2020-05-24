@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@ HostComputedPathRenderer::HostComputedPathRenderer()
 	this->pCurrentPath = nullptr;
 
 	//init current state
-	this->state.transform = Matrix2S::Identity();
+	this->state.transform = Matrix3S::Identity();
 	this->state.lineCap = ELineCap::Butt;
 	this->state.miterLimit = 10; //TODO: why this value?
 	this->state.strokeColor = Color();
@@ -58,7 +58,7 @@ void HostComputedPathRenderer::Fill()
 
 	for(FlatVectorPath *const& refpPath : this->pathCache)
 	{
-		for(const FlatVectorPath::SPoint &refPoint : refpPath->GetPoints())
+		for(const FlatVectorPath::Point &refPoint : refpPath->GetPoints())
 		{
 			if(refPoint.pos.x < this->boundingRectMin.x)
 				this->boundingRectMin.x = refPoint.pos.x;
@@ -79,7 +79,7 @@ void HostComputedPathRenderer::Fill()
 	}
 
 	this->ExpandFill();
-	this->RenderFill(this->pathCache, (DynamicArray<SPathAttributes> &&)this->pathAttributes, this->boundingRectMin, this->boundingRectMax);
+	this->RenderFill(this->pathCache, (DynamicArray<PathAttributes> &&)this->pathAttributes, this->boundingRectMin, this->boundingRectMax);
 }
 
 void HostComputedPathRenderer::Stroke()
@@ -100,24 +100,24 @@ void HostComputedPathRenderer::Stroke()
 	}
 
 	this->ExpandStroke(w);
-	this->RenderStroke(this->pathCache, (DynamicArray<SPathAttributes> &&)this->pathAttributes);
+	this->RenderStroke(this->pathCache, (DynamicArray<PathAttributes> &&)this->pathAttributes);
 }
 
 //Private methods
-void HostComputedPathRenderer::ButtCapEnd(const FlatVectorPath::SPoint &refPoint, float64 w)
+void HostComputedPathRenderer::ButtCapEnd(const FlatVectorPath::Point& point, float64 w)
 {
 	Math::Vector2D perpendicularDirection;
 
 	//we calculate a direction perpendicular to the original one
-	perpendicularDirection = Math::Vector2D(refPoint.dir.y, -refPoint.dir.x);
+	perpendicularDirection = Math::Vector2D(point.dir.y, -point.dir.x);
 
-	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w, refPoint.pos.y + perpendicularDirection.y * w);
-	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w, refPoint.pos.y - perpendicularDirection.y * w);
-	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w + refPoint.dir.x, refPoint.pos.y + perpendicularDirection.y * w + refPoint.dir.y);
-	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w + refPoint.dir.x, refPoint.pos.y - perpendicularDirection.y * w + refPoint.dir.y);
+	this->AddVertex(point.pos.x + perpendicularDirection.x * w, point.pos.y + perpendicularDirection.y * w, 0, 1);
+	this->AddVertex(point.pos.x - perpendicularDirection.x * w, point.pos.y - perpendicularDirection.y * w, 1, 1);
+	this->AddVertex(point.pos.x + perpendicularDirection.x * w + point.dir.x, point.pos.y + perpendicularDirection.y * w + point.dir.y, 0, 0);
+	this->AddVertex(point.pos.x - perpendicularDirection.x * w + point.dir.x, point.pos.y - perpendicularDirection.y * w + point.dir.y, 1, 0);
 }
 
-void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::SPoint &refPoint, float64 w)
+void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::Point &refPoint, float64 w)
 {
 	Math::Vector2D perpendicularDirection;
 
@@ -130,13 +130,13 @@ void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::SPoint &refPoi
 	perpendicularDirection = Math::Vector2D(refPoint.dir.y, -refPoint.dir.x);
 
 	//top, left
-	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w - refPoint.dir.x, refPoint.pos.y + perpendicularDirection.y * w - refPoint.dir.y);
+	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w - refPoint.dir.x, refPoint.pos.y + perpendicularDirection.y * w - refPoint.dir.y, 0, 0);
 	//top, right
-	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w - refPoint.dir.x, refPoint.pos.y - perpendicularDirection.y * w - refPoint.dir.y);
+	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w - refPoint.dir.x, refPoint.pos.y - perpendicularDirection.y * w - refPoint.dir.y, 1, 0);
 	//bottom, left
-	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w, refPoint.pos.y + perpendicularDirection.y * w);
+	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w, refPoint.pos.y + perpendicularDirection.y * w, 0, 1);
 	//bottom, right
-	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w, refPoint.pos.y - perpendicularDirection.y * w);
+	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w, refPoint.pos.y - perpendicularDirection.y * w, 1, 1);
 }
 
 void HostComputedPathRenderer::ClearCache()
@@ -161,9 +161,9 @@ void HostComputedPathRenderer::ExpandFill()
 		verticesOffset = this->vertices.GetNumberOfElements();
 
 		//add vertices
-		for(const FlatVectorPath::SPoint &refPoint : refpPath->GetPoints())
+		for(const FlatVectorPath::Point &point : refpPath->GetPoints())
 		{
-			this->AddVertex(refPoint.pos);
+			this->AddVertex(point.pos, {0.5, 1});
 		}
 
 		//fill out path attributes
@@ -206,7 +206,7 @@ void HostComputedPathRenderer::ExpandStroke(float64 w)
 		//loop over points
 		for(j = startIndex; j < endIndex; j++)
 		{
-			const FlatVectorPath::SPoint &refPoint = refpPath->GetPoint(j);
+			const FlatVectorPath::Point &refPoint = refpPath->GetPoint(j);
 
 			if(refPoint.bevelInner || refPoint.bevelOuter)
 			{
@@ -214,8 +214,8 @@ void HostComputedPathRenderer::ExpandStroke(float64 w)
 			}
 			else
 			{
-				this->AddVertex(refPoint.pos + refPoint.extrusion * w);
-				this->AddVertex(refPoint.pos - refPoint.extrusion * w);
+				this->AddVertex(refPoint.pos + refPoint.extrusion * w, {0, 1});
+				this->AddVertex(refPoint.pos - refPoint.extrusion * w, {0, 1});
 			}
 		}
 
@@ -223,8 +223,8 @@ void HostComputedPathRenderer::ExpandStroke(float64 w)
 		if(refpPath->IsClosed())
 		{
 			//loop to first point
-			this->AddVertex(this->vertices[verticesOffset].position);
-			this->AddVertex(this->vertices[verticesOffset + 1].position);
+			this->AddVertex(this->vertices[verticesOffset].position, {0, 1});
+			this->AddVertex(this->vertices[verticesOffset + 1].position, {1, 1});
 		}
 		else
 		{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,19 +20,18 @@
 //Local
 #include "Stream.hpp"
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-        class STDPLUSPLUS_API SubtitleStream : public Stream
-        {
-        private:
-            //Methods
-            bool AllDecoderInfoIsAvailable();
-
-        public:
-            //Methods
-            DataType GetType() const;
-        };
-    }
+	class STDPLUSPLUS_API SubtitleStream : public Stream
+	{
+	public:
+		//Constructor
+		inline SubtitleStream()
+		{
+			this->codingParameters.dataType = DataType::Subtitle;
+		}
+	private:
+		//Methods
+		bool AllDecoderInfoIsAvailable();
+	};
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,6 +21,7 @@
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
+#include <Std++/Errorhandling/Exceptions/IllegalDataException.hpp>
 #include "EBMLMasterReader.hpp"
 //Namespaces
 using namespace StdXX;
@@ -34,15 +35,12 @@ inline uint64 PutLength(uint64 uncoded, uint8 length)
 //Namespace functions
 uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream, bool isElementSize)
 {
-	byte first, mask;
-	uint64 result;
-
 	DataReader reader(true, inputStream);
 
-	result = 0;
+	uint64 result = 0;
 	length = 1;
-	mask = 0x80;
-	first = reader.ReadByte();
+	uint8 mask = 0x80;
+	uint8 first = reader.ReadByte();
 	while (mask)
 	{
 		if (isElementSize && (first == Unsigned<byte>::Max()))
@@ -62,8 +60,7 @@ uint64 EBML::DecodeVariableLengthInteger(uint8 &length, InputStream &inputStream
 		mask >>= 1;
 	}
 
-	NOT_IMPLEMENTED_ERROR;
-	return result;
+	throw ErrorHandling::IllegalDataException();
 }
 
 void EBML::ParseElementHeader(Element &element, InputStream &inputStream)

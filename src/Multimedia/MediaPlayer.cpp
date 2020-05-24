@@ -42,6 +42,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 
 	this->video.activeStreamIndex = Unsigned<uint32>::Max();
 	this->video.nextPacket = nullptr;
+	this->video.frameDelay = Signed<int64>::Max();
 	this->video.outputWidget = nullptr;
 
 	for (uint8 i = 0; i < c_nAudioBuffers; i++)
@@ -79,15 +80,14 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	{
 		Stream *stream = this->demuxer->GetStream(i);
 
-		switch(stream->GetType())
+		switch(stream->codingParameters.dataType)
 		{
 			case DataType::Audio:
 			{
 				AudioStream *const& audioStream = (AudioStream *)stream;
 
-				if(audioStream->AllInfoIsAvailable())
+				if(audioStream->AllDecodingInfoIsAvailable())
 				{
-					//audio playback is only possible if really all info is available
 					this->audio.streams.Insert(i, audioStream);
 				}
 			}
@@ -120,7 +120,8 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 		AutoPointer<Device> audioDevice = deviceEnumerator.GetNextDevice();
 		if (!audioDevice.IsNull())
 		{
-			this->audio.deviceContext = audioDevice.Cast<AudioDevice>()->CreateDeviceContext();
+			this->audio.device = audioDevice.MoveCast<AudioDevice>();
+			this->audio.deviceContext = this->audio.device->CreateDeviceContext();
 			this->audio.source = this->audio.deviceContext->CreateSource();
 
 			for (uint8 i = 0; i < c_nAudioBuffers; i++)
@@ -137,6 +138,11 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	this->video.decodeThread = new _stdxx_::DecoderThread(this);
 
 	this->demuxerThread.Connect(this->audio.decodeThread.operator->(), this->video.decodeThread.operator->());
+
+	if(!this->video.streams.IsEmpty())
+		this->SetVideoStreamIndex( (*this->video.streams.begin()).key );
+	if(!this->audio.streams.IsEmpty())
+		this->SetAudioStreamIndex( (*this->audio.streams.begin()).key );
 
 	this->demuxerThread.Start();
 	this->audio.decodeThread->Start();
@@ -189,7 +195,7 @@ void MediaPlayer::OnMasterClockTriggered()
 			this->video.frameDelay -= elapsed;
 			if(this->video.frameDelay <= 0 && this->video.outputWidget)
 			{
-				this->video.outputWidget->UpdatePicture(this->video.nextPacket, videoStream->size);
+				this->video.outputWidget->UpdatePicture(this->video.nextPacket, videoStream->codingParameters.video.size);
 				this->video.nextPacket = nullptr;
 			}
 		}
@@ -219,6 +225,7 @@ void MediaPlayer::OnMasterClockTriggered()
 
 			if(this->audio.nextPacket)
 			{
+				this->audio.source->DequeueProcessedBuffers();
 				if (this->audio.source->GetNumberOfQueuedBuffers() < c_nAudioBuffers) //is a buffer free?
 				{
 					uint8 bufferIndex = this->audio.nextBufferIndex;
@@ -227,8 +234,11 @@ void MediaPlayer::OnMasterClockTriggered()
 					this->audio.bufferDurations[bufferIndex] = this->audio.nextPacket->pts - this->audio.lastPTS;
 					this->audio.lastPTS = this->audio.nextPacket->pts;
 					
-					this->audio.buffers[bufferIndex]->SetData(this->audio.nextPacket->GetData(), this->audio.nextPacket->GetSize(), audioStream->sampleRate, audioStream->sampleFormat->nChannels);
+					this->audio.buffers[bufferIndex]->SetData(this->audio.nextPacket->GetData(), this->audio.nextPacket->GetSize(), audioStream->codingParameters.audio.sampleRate, audioStream->sampleFormat->nChannels);
 					this->audio.source->EnqueueBuffer(*this->audio.buffers[bufferIndex]);
+
+					if(this->isPlaying && !this->audio.source->IsPlaying())
+						this->audio.source->Play();
 
 					//packet is not needed anymore
 					delete this->audio.nextPacket;
@@ -301,8 +311,5 @@ void MediaPlayer::Play()
 
 		this->clock.Start();
 		this->masterClockTimer.OneShot(1);
-		
-		if (!this->audio.source.IsNull())
-			this->audio.source->Play();
 	}
 }

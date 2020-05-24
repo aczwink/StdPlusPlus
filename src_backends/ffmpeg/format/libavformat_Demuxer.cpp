@@ -23,6 +23,7 @@
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
+#include <Std++/Multimedia/Stream.hpp>
 #include "libavformat_Format.hpp"
 #include "../libav_Packet.hpp"
 #include "../libavformat_Extension.hpp"
@@ -42,6 +43,7 @@ libavformat_Demuxer::libavformat_Demuxer(const libavformat_Format& format, Seeka
 //Destructor
 libavformat_Demuxer::~libavformat_Demuxer()
 {
+	this->fmt_ctx->pb = nullptr;
 	avformat_close_input(&this->fmt_ctx);
 }
 
@@ -60,32 +62,58 @@ void libavformat_Demuxer::ReadHeader()
 		AVStream* avStream = this->fmt_ctx->streams[i];
 
 		Stream *stream = nullptr;
-		switch(avStream->codecpar->codec_type)
+		AVCodecParameters *codecParameters = avStream->codecpar;
+		switch(codecParameters->codec_type)
 		{
 			case AVMEDIA_TYPE_AUDIO:
 				AudioStream* audioStream;
 				stream = audioStream = new AudioStream;
-				audioStream->sampleRate = avStream->codecpar->sample_rate;
-				audioStream->sampleFormat = libavformatExtension->MapAudioSampleFormat(avStream->codecpar->channels, (AVSampleFormat)avStream->codecpar->format);
+				audioStream->codingParameters.audio.sampleRate = codecParameters->sample_rate;
+				audioStream->sampleFormat = libavformatExtension->MapAudioSampleFormat(codecParameters->channels, codecParameters->channel_layout, (AVSampleFormat) codecParameters->format);
 				break;
 			case AVMEDIA_TYPE_VIDEO:
 				VideoStream* videoStream;
 				stream = videoStream = new VideoStream;
-				videoStream->pixelFormat = libavformatExtension->MapPixelFormat(static_cast<AVPixelFormat>(avStream->codecpar->format));
-				videoStream->size = Math::Size<uint16>(avStream->codecpar->width, avStream->codecpar->height);
+				videoStream->pixelFormat = libavformatExtension->MapPixelFormat(static_cast<AVPixelFormat>(codecParameters->format));
+				videoStream->codingParameters.video.size = Math::Size<uint16>(codecParameters->width, codecParameters->height);
 				break;
 			case AVMEDIA_TYPE_SUBTITLE:
 				stream = new SubtitleStream;
 				break;
 		}
+		stream->codingParameters.bitRate = codecParameters->bit_rate;
+		stream->SetCodingFormat(libavformatExtension->MapCodecId(codecParameters->codec_id));
+
+		if(codecParameters->extradata_size > 0)
+			stream->codingParameters.codecPrivateData = FixedSizeBuffer(codecParameters->extradata, codecParameters->extradata_size);
+
 		stream->startTime = avStream->start_time;
 		stream->duration = avStream->duration;
 		stream->timeScale = {static_cast<uint64>(avStream->time_base.num), static_cast<uint64>(avStream->time_base.den)};
-		stream->bitRate = avStream->codecpar->bit_rate;
-		stream->SetCodingFormat(libavformatExtension->MapCodecId(avStream->codecpar->codec_id));
+		switch(avStream->need_parsing)
+		{
+			case AVSTREAM_PARSE_NONE:
+				stream->parserFlags.requiresParsing = false;
+				stream->parserFlags.repack = false;
+				break;
+			case AVSTREAM_PARSE_FULL:
+				stream->parserFlags.requiresParsing = true;
+				stream->parserFlags.repack = true;
+				break;
+			default:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
 
 		this->AddStream(stream);
 	}
+}
+
+void libavformat_Demuxer::Seek(uint64 timestamp, const class TimeScale &timeScale)
+{
+	class TimeScale avTimeScale(AV_TIME_BASE_Q.num, AV_TIME_BASE_Q.den);
+	uint64 convertedTs = timeScale.Rescale(timestamp, avTimeScale);
+	int ret = avformat_seek_file(this->fmt_ctx, -1, convertedTs, convertedTs, convertedTs, 0);
+	ASSERT(ret >= 0, u8"TODO: implement this correctly");
 }
 
 //Private methods

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,83 +20,83 @@
  //Local
 #include <Std++/Definitions.h>
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-	namespace Multimedia
+	enum class SpeakerPosition
 	{
-		enum class SpeakerPosition
+		Unknown,
+		Front_Left,
+		Front_Right,
+		Front_Center,
+		LowFrequency,
+		Side_Left,
+		Side_Right
+	};
+
+	enum class AudioSampleType
+	{
+		Float,
+		S16,
+	};
+
+	class STDPLUSPLUS_API AudioSampleFormat
+	{
+	public:
+		//Constants
+		static const uint8 MAX_CHANNELS = 6;
+		static const uint8 MAX_PLANES = MAX_CHANNELS;
+
+		//Members
+		uint8 nPlanes;
+		uint8 nChannels;
+		AudioSampleType sampleType;
+		struct
 		{
-			Unknown,
-			Front_Left,
-			Front_Right,
-			Front_Center,
-		};
+			/**
+			 * In which plane is the sample found.
+			 */
+			uint8 planeIndex;
+			/**
+			 * Specifies the number of bytes that are discarded, before the sample.
+			 */
+			uint8 offset;
+			/**
+			 * Speaker position that the channel should targeted to.
+			 */
+			SpeakerPosition speaker;
+		} channels[MAX_CHANNELS];
 
-		enum class AudioSampleType
+		//Constructors
+		inline AudioSampleFormat(AudioSampleType sampleType) : nPlanes(0), nChannels(0), sampleType(sampleType)
 		{
-			Float,
-			S16,
-		};
+		}
 
-		class STDPLUSPLUS_API AudioSampleFormat
+		AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType, bool planar); //Create standard layout
+
+		//Operators
+		inline bool operator==(const AudioSampleFormat &other) const
 		{
-		public:
-			//Constants
-			static const uint8 MAX_CHANNELS = 2;
-			static const uint8 MAX_PLANES = MAX_CHANNELS;
+			return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->sampleType == other.sampleType) && (this->channels == other.channels);
+		}
 
-			//Members
-			uint8 nPlanes;
-			uint8 nChannels;
-			AudioSampleType sampleType;
-			struct
-			{
-				/**
-				 * In which plane is the sample found.
-				 */
-				uint8 planeIndex;
-				/**
-				 * Specifies the number of bytes that are discarded, before the sample.
-				 */
-				uint8 offset;
-				/**
-				 * Speaker position that the channel should targeted to.
-				 */
-				SpeakerPosition speaker;
-			} channels[MAX_CHANNELS];
+		inline bool operator!=(const AudioSampleFormat& other) const
+		{
+			return !(*this == other);
+		}
 
-			//Constructors
-			inline AudioSampleFormat(AudioSampleType sampleType) : nPlanes(0), nChannels(0), sampleType(sampleType)
-			{
-			}
-			
-			AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType, bool planar); //Create standard layout
+		//Methods
+		uint8 ComputeBlockSize(uint8 planeIndex) const;
+		uint8 GetSampleSize() const;
 
-			//Operators
-			inline bool operator==(const AudioSampleFormat &other) const
-			{
-				return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->sampleType == other.sampleType) && (this->channels == other.channels);
-			}
+		//Inline
+		inline uint32 ComputePlaneSize(uint8 planeIndex, uint32 nSamplesPerChannel) const
+		{
+			return this->ComputeBlockSize(planeIndex) * nSamplesPerChannel;
+		}
 
-			inline bool operator!=(const AudioSampleFormat& other) const
-			{
-				return !(*this == other);
-			}
-
-			//Methods
-			uint8 ComputeBlockSize(uint8 planeIndex) const;
-			uint8 GetSampleSize() const;
-
-			//Inline
-			inline uint32 ComputePlaneSize(uint8 planeIndex, uint32 nSamplesPerChannel) const
-			{
-				return this->ComputeBlockSize(planeIndex) * nSamplesPerChannel;
-			}
-
-			inline bool IsPlanar() const
-			{
-				return this->nPlanes > 1;
-			}
-		};
-	}
+		inline bool IsPlanar() const
+		{
+			return this->nPlanes > 1;
+		}
+	};
 }

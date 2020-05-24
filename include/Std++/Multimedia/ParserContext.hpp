@@ -68,7 +68,7 @@ namespace StdXX
             Packet frameBuffer;
 
             //Methods
-            void AddToFrameBuffer(const Packet &refPacket);
+            void AddToFrameBuffer(const Packet &packet);
             void AddToFrameBuffer(const void *pData, uint32 size);
             void ReadyFrameBuffer(uint32 nOverreadBytes = 0);
 

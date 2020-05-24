@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,10 +36,10 @@ Timer::~Timer()
 //Public methods
 void Timer::OneShot(uint64 timeOut_usec)
 {
-	this->eventSource.AddOneShotTimer(timeOut_usec, this);
+	this->id = this->eventSource.AddOneShotTimer(timeOut_usec, this);
 }
 
 void Timer::Stop()
 {
-	this->eventSource.RemoveTimer(this);
+	this->eventSource.RemoveTimer(id, this);
 }

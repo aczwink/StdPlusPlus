@@ -47,3 +47,8 @@ UniquePointer<IPacket> RawImageDemuxer::ReadPacket()
 
 	return Move(packet);
 }
+
+void RawImageDemuxer::Seek(uint64 timestamp, const class TimeScale &timeScale)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}

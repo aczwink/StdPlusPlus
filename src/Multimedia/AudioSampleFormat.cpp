@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,20 +31,10 @@ AudioSampleFormat::AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType
 	if (planar)
 	{
 		this->nPlanes = this->nChannels;
-		switch (this->nChannels)
+		for(uint8 i = 0; i < this->nChannels; i++)
 		{
-		case 1:
-			this->channels[0].offset = 0;
-			this->channels[0].planeIndex = 0;
-			break;
-		case 2:
-			this->channels[0].offset = 0;
-			this->channels[0].planeIndex = 0;
-			this->channels[1].offset = 0;
-			this->channels[1].planeIndex = 1;
-			break;
-		default:
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			this->channels[i].offset = 0;
+			this->channels[i].planeIndex = i;
 		}
 	}
 	else
@@ -73,8 +63,6 @@ AudioSampleFormat::AudioSampleFormat(uint8 nChannels, AudioSampleType sampleType
 		this->channels[0].speaker = SpeakerPosition::Front_Left;
 		this->channels[1].speaker = SpeakerPosition::Front_Right;
 		break;
-	default:
-		NOT_IMPLEMENTED_ERROR;
 	}
 }
 

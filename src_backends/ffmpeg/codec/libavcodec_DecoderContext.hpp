@@ -45,15 +45,12 @@ namespace _stdxx_
 	private:
 		//Members
 		AVCodecContext *codecContext;
-		AVPacket *packet;
 		AVFrame *frame;
 		byte* extradata;
 
 		//Methods
 		uint64 GetBestFramePTS() const;
 		void MapAudioFrame();
-		StdXX::Multimedia::ChannelLayout MapChannels(int channels);
-		void MapPacket(const StdXX::Multimedia::IPacket &packet);
 		void MapVideoFrame();
 	};
 }

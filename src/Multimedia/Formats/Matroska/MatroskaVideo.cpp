@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 #include "MatroskaVideo.hpp"
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/Errorhandling/Exceptions/IllegalDataException.hpp>
 #include "../BMP/BMP.hpp"
 #include "../WAVE/WAVE.h"
 #include "EBML.hpp"
@@ -90,11 +91,18 @@ String MatroskaVideo::GetName() const
 float32 MatroskaVideo::Matches(BufferInputStream &buffer) const
 {
 	EBML::Header header;
-	if(!EBML::ParseHeader(header, buffer))
+	try
 	{
-		if(buffer.IsAtEnd())
-			return FORMAT_MATCH_BUFFER_TOO_SMALL;
+		if(!EBML::ParseHeader(header, buffer))
+		{
+			if(buffer.IsAtEnd())
+				return FORMAT_MATCH_BUFFER_TOO_SMALL;
 
+			return 0;
+		}
+	}
+	catch(ErrorHandling::IllegalDataException&)
+	{
 		return 0;
 	}
 

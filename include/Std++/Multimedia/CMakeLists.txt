@@ -9,6 +9,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatId.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CodingParameters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Encoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EncoderContext.hpp
@@ -16,10 +17,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/DecoderContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Index.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/IPacket.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Packet.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PacketWrapper.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Parser.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ParserContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PixelFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Pixmap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Stream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TimeIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TimeScale.hpp
 

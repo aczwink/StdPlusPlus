@@ -35,6 +35,8 @@ namespace _stdxx_
 		GtkOpenGLDeviceContext(Gtk3WidgetBackend& widgetBackend, GL_EXT_LOADER loader);
 
 		//Methods
+		void EnableDepthTest(bool enabled) override;
+		void ResetDepthTest();
 		void SwapBuffers() override;
 
 	protected:
@@ -45,5 +47,6 @@ namespace _stdxx_
 		//Members
 		GdkGLContext *gdkGLContext;
 		uint32 screenFrameBufferId;
+		bool depthTestState;
 	};
 }

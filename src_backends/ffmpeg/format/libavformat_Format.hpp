@@ -38,6 +38,11 @@ namespace _stdxx_
 			return this->avInputFormat;
 		}
 
+		inline AVOutputFormat* OutputFormat() const
+		{
+			return this->avOutputFormat;
+		}
+
 		//Methods
 		StdXX::Multimedia::Demuxer *CreateDemuxer(StdXX::SeekableInputStream &refInput) const override;
 		StdXX::Multimedia::Muxer *CreateMuxer(StdXX::SeekableOutputStream &refOutput) const override;
@@ -49,5 +54,6 @@ namespace _stdxx_
 	private:
 		//Members
 		AVInputFormat* avInputFormat;
+		AVOutputFormat* avOutputFormat;
 	};
 }

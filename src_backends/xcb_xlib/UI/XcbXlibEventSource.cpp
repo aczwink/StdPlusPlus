@@ -29,9 +29,9 @@ using namespace StdXX;
 #include "../XLayer/XConnection.hpp"
 
 //Public methods
-bool XcbXlibEventSource::CheckWaitResults(const FixedArray<EventHandling::WaitResult> &waitResults)
+bool XcbXlibEventSource::CheckWaitResults(const EventHandling::WaitResult& waitResults)
 {
-	return waitResults[0].occuredEvents != 0;
+	return waitResults.AnyEventOccured(xcb_get_file_descriptor(this->xConnection.Connection()));
 }
 
 void XcbXlibEventSource::DispatchPendingEvents()

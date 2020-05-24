@@ -34,17 +34,6 @@ struct FileChooserData
 };
 
 //Local functions
-static void OnRealize(GtkWidget *gtkWidget, gpointer user_data)
-{
-	GtkGLArea *glArea = GTK_GL_AREA(gtkWidget);
-
-	gtk_gl_area_make_current(glArea);
-
-	//enable depth buffer
-	gtk_gl_area_set_has_depth_buffer(glArea, true);
-	//glDisable(GL_DEPTH_TEST); //stupid gtk3!!! GL_DEPTH_TEST is disabled by default even if the def framebuffer has a depth buffer
-}
-
 static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
 {
 	bool accept = false;
@@ -88,11 +77,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			this->gtkWidget = gtk_list_box_new();
 		}
 		break;
-		case WindowBackendType::PushButton:
-		{
-			g_signal_connect(this->gtkWidget, u8"clicked", G_CALLBACK(GtkEventSource::ClickedSlot), widget);
-		}
-		break;
 		case WindowBackendType::RadioButton:
 		{
 			GtkWidget *buttonGroupWidget = nullptr;
@@ -117,9 +101,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::RenderTarget:
 		{
-			g_signal_connect(this->gtkWidget, u8"realize", G_CALLBACK(OnRealize), this);
-			g_signal_connect(this->gtkWidget, u8"render", G_CALLBACK(GtkEventSource::PaintSlot), this->widget);
-
 			gtk_widget_add_events(this->gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
 			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
 			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);

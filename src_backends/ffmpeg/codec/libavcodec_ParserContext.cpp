@@ -51,7 +51,7 @@ void libavcodec_ParserContext::Parse(const IPacket &packet)
 	while (leftSize)
 	{
 		//parse frames from our packet
-		int ret = av_parser_parse2(this->parserContext, this->codecContext, &this->packet->data, &this->packet->size, data, leftSize, packet.GetPresentationTimestamp(), AV_NOPTS_VALUE, 0);
+		int ret = av_parser_parse2(this->parserContext, this->codecContext, &this->packet->data, &this->packet->size, data, leftSize, packet.GetPresentationTimestamp(), packet.GetDecodeTimestamp(), 0);
 		if (ret < 0)
 			break; //an error occured. skip packet
 
@@ -73,7 +73,8 @@ void libavcodec_ParserContext::MapPacket(const IPacket &sourcePacket)
 
 	if ((this->parserContext->key_frame == 1) || (this->parserContext->key_frame == -1 && sourcePacket.ContainsKeyFrame()))
 		p.containsKeyframe = true;
-	p.pts = this->parserContext->pts;
+	p.dts = this->parserContext->dts == AV_NOPTS_VALUE ? Unsigned<uint64>::Max() : this->parserContext->dts;
+	p.pts = this->parserContext->pts == AV_NOPTS_VALUE ? Unsigned<uint64>::Max() : this->parserContext->pts;
 	p.streamIndex = sourcePacket.GetStreamIndex();
 
 	this->AddToFrameBuffer(p);

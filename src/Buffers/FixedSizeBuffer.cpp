@@ -25,7 +25,7 @@ using namespace StdXX;
 //Public methods
 uint32 FixedSizeBuffer::FindBytesReversed(const byte *bytes, uint32 size, uint32 startOffset)
 {
-	startOffset = Math::Min(startOffset, this->_size - 1);
+	startOffset = Math::Min(startOffset, this->size - 1);
 	if(size == 0)
 		return startOffset;
 	if(size > startOffset)
@@ -37,7 +37,7 @@ uint32 FixedSizeBuffer::FindBytesReversed(const byte *bytes, uint32 size, uint32
 		bool match = true;
 		for(uint32 i = 0; i < size; i++)
 		{
-			if(this->_data[offset + i] != bytes[i])
+			if(this->data[offset + i] != bytes[i])
 			{
 				match = false;
 				break;

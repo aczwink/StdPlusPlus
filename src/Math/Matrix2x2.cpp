@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,10 +26,25 @@ using namespace StdXX::Math;
 
 //Operators
 template <typename ScalarType>
-Matrix2x2<ScalarType> Matrix2x2<ScalarType>::operator*(const Matrix2x2 &refRight) const
+Matrix2x2<ScalarType> Matrix2x2<ScalarType>::operator*(const Matrix2x2& right) const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Matrix2x2();
+	Matrix2x2 result;
+
+	for(uint8 row = 0; row < 2; row++)
+	{
+		for(uint8 col = 0; col < 2; col++)
+		{
+			ScalarType current = 0;
+			for(uint8 k = 0; k < 2; k++)
+			{
+				current += this->operator()(row, k) * right(k, col);
+			}
+
+			result(row, col) = current;
+		}
+	}
+
+	return result;
 }
 
 template<typename ScalarType>
@@ -75,19 +90,9 @@ Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Rotate(ScalarType angle)
 	return result;
 }
 
-template <typename ScalarType>
-Matrix2x2<ScalarType> Matrix2x2<ScalarType>::Scale(float32 scaleX, float32 scaleY)
+namespace StdXX::Math
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return Matrix2x2();
-}
-
-namespace StdXX
-{
-	namespace Math
-	{
-		//Explicit instantiations
-		template class Matrix2x2<float32>;
-		template class Matrix2x2<float64>;
-	}
+	//Explicit instantiations
+	template class Matrix2x2<float32>;
+	template class Matrix2x2<float64>;
 }

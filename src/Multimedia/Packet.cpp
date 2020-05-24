@@ -33,6 +33,7 @@ Packet::Packet()
 	this->capacity = 0;
 
 	this->streamIndex = Unsigned<uint32>::Max();
+	this->dts = Unsigned<uint64>::Max();
 	this->pts = Unsigned<uint64>::Max();
 	this->duration = Unsigned<uint64>::Max();;
 	this->containsKeyframe = false;
@@ -100,9 +101,15 @@ bool Packet::ContainsKeyFrame() const
 void Packet::CopyAttributesFrom(const Packet& p)
 {
 	this->streamIndex = p.streamIndex;
+	this->dts = p.dts;
 	this->pts = p.pts;
 	this->duration = p.duration;
 	this->containsKeyframe = p.containsKeyframe;
+}
+
+uint64 Packet::GetDecodeTimestamp() const
+{
+	return this->dts;
 }
 
 uint64 Packet::GetPresentationTimestamp() const

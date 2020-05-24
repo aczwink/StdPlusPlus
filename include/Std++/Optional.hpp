@@ -142,6 +142,11 @@ namespace StdXX
 			return this->Value();
 		}
 
+		constexpr T* operator->()
+		{
+			return &this->Value();
+		}
+
 		constexpr const T* operator->() const
 		{
 			return &this->Value();

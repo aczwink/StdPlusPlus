@@ -26,6 +26,9 @@ extern "C"
 #include <Std++/_Backends/Extension.hpp>
 #include <Std++/Multimedia/AudioSampleFormat.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
+#include <Std++/Multimedia/CodingFormat.hpp>
+#include <Std++/Multimedia/IPacket.hpp>
+#include <Std++/Buffers/FixedSizeBuffer.hpp>
 #include "../../src/Multimedia/CodingFormatIdMap.hpp"
 
 namespace _stdxx_
@@ -35,12 +38,21 @@ namespace _stdxx_
 	public:
 		//Methods
 		void Load() override;
-		StdXX::Multimedia::AudioSampleFormat MapAudioSampleFormat(int nChannels, AVSampleFormat sampleFormat) const;
+		StdXX::Multimedia::AudioSampleFormat MapAudioSampleFormat(int nChannels, uint64 channelLayout, AVSampleFormat sampleFormat) const;
+		uint8* MapCodecExtradata(const StdXX::FixedSizeBuffer& codecPrivateData) const;
+		void MapPacket(const StdXX::Multimedia::IPacket& sourcePacket, AVPacket& destPacket) const;
 
 		//Inline
 		inline StdXX::Multimedia::CodingFormatId MapCodecId(AVCodecID avCodecId) const
 		{
 			return this->libavCodecIdMap.Get(avCodecId);
+		}
+
+		inline AVCodecID MapCodingFormat(const StdXX::Multimedia::CodingFormat* codingFormat) const
+		{
+			if(codingFormat)
+				return this->libavCodecIdMap.GetReverse(codingFormat->GetId());
+			return AV_CODEC_ID_NONE;
 		}
 
 		inline StdXX::Multimedia::PixelFormat MapPixelFormat(AVPixelFormat avPixelFormat) const

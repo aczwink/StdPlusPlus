@@ -19,7 +19,6 @@
 //Class header
 #include "Gtk3WindowBackend.hpp"
 //Local
-#include <Std++/UI/Events/WindowResizedEvent.hpp>
 #include <Std++/UI/Window.hpp>
 #include "Gtk3RedirectContainer.hpp"
 //Namespaces
@@ -38,17 +37,6 @@ static gboolean CloseSlot(GtkWidget* gtkWidget, GdkEvent* gdkEvent, gpointer use
 	return event.WasAccepted();
 }
 
-static void SizeAllocateSlot(GtkWidget* gtkWidget, GdkRectangle *allocation, gpointer user_data)
-{
-	Gtk3WindowBackend* backend = static_cast<Gtk3WindowBackend *>(user_data);
-
-	Math::SizeD newSize(allocation->width, allocation->height);
-	WindowResizedEvent event(newSize);
-	backend->GetWidget().Event(event);
-}
-
-
-
 
 //Constructor
 Gtk3WindowBackend::Gtk3WindowBackend(UIBackend& backend, Window& window) : WindowBackend(backend), WidgetContainerBackend(backend),
@@ -59,7 +47,6 @@ Gtk3WindowBackend::Gtk3WindowBackend(UIBackend& backend, Window& window) : Windo
 	GtkWidget* gtkWidget = this->GetGtkWidget();
 
 	g_signal_connect(gtkWidget, u8"delete-event", G_CALLBACK(CloseSlot), this);
-	g_signal_connect(gtkWidget, u8"size-allocate", G_CALLBACK(SizeAllocateSlot), this);
 }
 
 //Public methods
@@ -78,17 +65,6 @@ WidgetContainerBackend *Gtk3WindowBackend::CreateContentAreaBackend(CompositeWid
 
 Math::RectD Gtk3WindowBackend::GetContentAreaBounds() const
 {
-	GtkBin* gtkBin = GTK_BIN(this->GetGtkWidget());
-	GtkWidget* gtkChild = gtk_bin_get_child(gtkBin);
-
-	if(gtkChild)
-    {
-        GtkAllocation alloc;
-        gtk_widget_get_allocation(gtkChild, &alloc);
-
-        return Math::RectD(alloc.x, alloc.y, alloc.width, alloc.height);
-    }
-
 	//according to doc, this should try to omit client side decorations, unfortunately position can't be known :S
 	gint width, height;
     gtk_window_get_size(this->GetGtkWindow(), &width, &height);

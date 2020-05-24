@@ -4,7 +4,7 @@ option(EXTENSION_LIBAVFORMAT "libavformat (ffmpeg) format-extension." OFF)
 
 #VERY IMPORTANT!
 #!license issues!
-option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." OFF)
+option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." ON)
 #VERY IMPORTANT!
 
 
@@ -66,8 +66,12 @@ if(${EXTENSION_LIBAVFORMAT})
 		${CMAKE_CURRENT_SOURCE_DIR}/format/libavformat_Demuxer.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/format/libavformat_Format.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/format/libavformat_Format.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/libavio_StreamWrapper.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/libavio_StreamWrapper.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavformat_Muxer.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavformat_Muxer.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavio_InputStreamWrapper.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavio_InputStreamWrapper.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavio_OutputStreamWrapper.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/format/libavio_OutputStreamWrapper.hpp
 
 		#.
 		${CMAKE_CURRENT_SOURCE_DIR}/ffmpeg_Extension.cpp

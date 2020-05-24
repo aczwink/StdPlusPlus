@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,19 +36,33 @@ OpenALSoftSource::~OpenALSoftSource()
 }
 
 //Public methods
+void OpenALSoftSource::DequeueProcessedBuffers()
+{
+	this->deviceContext.Bind();
+	ALint state;
+	alGetSourcei(this->id, AL_BUFFERS_PROCESSED, &state);
+
+	ALuint bufferId;
+	for(ALint i = 0; i < state; i++)
+		alSourceUnqueueBuffers(this->id, 1, &bufferId);
+}
+
 void OpenALSoftSource::EnqueueBuffer(const Buffer& buffer)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: re-IMPLEMENT ME
 	const OpenALSoftBuffer *openALSoftBuffer = (OpenALSoftBuffer *)&buffer;
+	ALuint bufferId = openALSoftBuffer->GetId();
 
 	this->deviceContext.Bind();
-	alSourcei(this->id, AL_BUFFER, openALSoftBuffer->GetId());
+	alSourceQueueBuffers(this->id, 1, &bufferId);
 }
 
 uint32 OpenALSoftSource::GetNumberOfQueuedBuffers() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
-	return 0;
+	this->deviceContext.Bind();
+	ALint state;
+	alGetSourcei(this->id, AL_BUFFERS_QUEUED, &state);
+
+	return state;
 }
 
 bool OpenALSoftSource::IsPlaying() const
@@ -63,6 +77,22 @@ void OpenALSoftSource::Play()
 {
 	this->deviceContext.Bind();
 	alSourcePlay(this->id);
+
+#ifdef XPC_BUILDTYPE_DEBUG
+	switch(alGetError())
+	{
+		case AL_NO_ERROR:
+			break;
+		case AL_INVALID_VALUE:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		case AL_INVALID_NAME:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		case AL_INVALID_OPERATION:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		default:
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+#endif
 }
 
 void OpenALSoftSource::SetGain(float32 gain)
@@ -97,5 +127,6 @@ void OpenALSoftSource::SetVelocity(const Math::Vector3S &vel)
 
 void OpenALSoftSource::Stop()
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
+	this->deviceContext.Bind();
+	alSourceStop(this->id);
 }

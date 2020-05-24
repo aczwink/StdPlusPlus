@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Controllers/TreeController.hpp>
-#include <Std++/UI/Events/WindowResizedEvent.hpp>
+#include <Std++/UI/Events/WidgetBoundsChangedEvent.hpp>
 #include <Std++/UI/Views/View.hpp>
 #include <Std++/UI/Widget.hpp>
 #include "CommCtrlMenuBarBackend.hpp"

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -60,17 +60,17 @@ void BMP_Muxer::WriteHeader()
 	_stdxx_::WriteBitmapInfoHeader(*stream, this->outputStream);
 }
 
-void BMP_Muxer::WritePacket(const Packet &refPacket)
+void BMP_Muxer::WritePacket(const IPacket& packet)
 {
 	VideoStream *pStream = (VideoStream *)this->GetStream(0);
 	
-	switch(pStream->GetCodingFormat()->GetId())
+	switch(pStream->codingParameters.codingFormat->GetId())
 	{
 	case CodingFormatId::RawVideo:
 	{
-		const byte *pCurrent = refPacket.GetData();
-		uint16 nRows = refPacket.GetSize() / 3 / pStream->size.height;
-		uint16 rowSize = 3 * pStream->size.width;
+		const byte *pCurrent = packet.GetData();
+		uint16 nRows = packet.GetSize() / 3 / pStream->codingParameters.video.size.height;
+		uint16 rowSize = 3 * pStream->codingParameters.video.size.width;
 		for (uint16 y = 0; y < nRows; y++)
 		{
 			this->outputStream.WriteBytes(pCurrent, rowSize);
@@ -85,7 +85,7 @@ void BMP_Muxer::WritePacket(const Packet &refPacket)
 	}
 	break;
 	default:
-		this->outputStream.WriteBytes(refPacket.GetData(), refPacket.GetSize());
-		this->imageSize += refPacket.GetSize();
+		this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
+		this->imageSize += packet.GetSize();
 	}
 }

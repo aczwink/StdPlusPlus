@@ -33,10 +33,16 @@ Gtk3GroupBoxBackend::Gtk3GroupBoxBackend(StdXX::UIBackend& uiBackend, GroupBox &
 }
 
 //Public methods
+void Gtk3GroupBoxBackend::AddChild(Widget *widget)
+{
+	Gtk3WidgetBackend* backend = dynamic_cast<Gtk3WidgetBackend *>(widget->_GetBackend());
+	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), backend->GetGtkWidget());
+}
+
 WidgetContainerBackend *Gtk3GroupBoxBackend::CreateContentAreaBackend(CompositeWidget &widget)
 {
-    Gtk3RedirectContainer* container = new Gtk3RedirectContainer(this->GetUIBackend(), widget);
-    gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), container->GetGtkWidget());
+	Gtk3RedirectContainer* container = new Gtk3RedirectContainer(this->GetUIBackend(), widget);
+	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), container->GetGtkWidget());
     return container;
 }
 
@@ -74,10 +80,6 @@ void _stdxx_::Gtk3GroupBoxBackend::Repaint() {
 }
 
 void _stdxx_::Gtk3GroupBoxBackend::SetEditable(bool enable) const {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3GroupBoxBackend::AddChild(StdXX::UI::Widget *widget) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 //END OF NOT IMPLEMENTED

@@ -39,8 +39,8 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 
 	for(i = 0; i < this->points.GetNumberOfElements(); i++)
 	{
-		const FlatVectorPath::SPoint &refPrev = this->points[prevIndex];
-		FlatVectorPath::SPoint &refCurrent = this->points[index];
+		const FlatVectorPath::Point &refPrev = this->points[prevIndex];
+		FlatVectorPath::Point &refCurrent = this->points[index];
 
 		//get perpendicular directions
 		dl0 = refPrev.dir.PerpendicularDirection();

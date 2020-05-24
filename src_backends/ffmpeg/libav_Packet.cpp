@@ -20,8 +20,16 @@
 #include "libav_Packet.hpp"
 //Local
 #include <Std++/Debug.hpp>
+#include <Std++/Unsigned.hpp>
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
+
+//Destructor
+libav_Packet::~libav_Packet()
+{
+	av_packet_unref(&this->pkt);
+}
 
 //Public methods
 bool libav_Packet::ContainsKeyFrame() const
@@ -34,8 +42,17 @@ const uint8 *libav_Packet::GetData() const
 	return this->pkt.data;
 }
 
+uint64 libav_Packet::GetDecodeTimestamp() const
+{
+	if(this->pkt.dts == AV_NOPTS_VALUE)
+		return Unsigned<uint64>::Max();
+	return this->pkt.dts;
+}
+
 uint64 libav_Packet::GetPresentationTimestamp() const
 {
+	if(this->pkt.pts == AV_NOPTS_VALUE)
+		return Unsigned<uint64>::Max();
 	return this->pkt.pts;
 }
 

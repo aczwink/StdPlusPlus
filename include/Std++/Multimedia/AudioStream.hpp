@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,29 +24,22 @@
 #include "Stream.hpp"
 #include "EnumTypes.hpp"
 
-namespace StdXX
+namespace StdXX::Multimedia
 {
-    namespace Multimedia
-    {
-        class STDPLUSPLUS_API AudioStream : public Stream
-        {
-        public:
-            //Members
-            uint32 sampleRate;
-			Optional<AudioSampleFormat> sampleFormat;
-			
-			//Constructor
-            inline AudioStream()
-            {
-                this->sampleRate = 0;
-            }
+	class STDPLUSPLUS_API AudioStream : public Stream
+	{
+	public:
+		//Members
+		Optional<AudioSampleFormat> sampleFormat;
 
-            //Methods
-            DataType GetType() const;
+		//Constructor
+		inline AudioStream()
+		{
+			this->codingParameters.dataType = DataType::Audio;
+		}
 
-		private:
-			//Methods
-			bool AllDecoderInfoIsAvailable();
-        };
-    }
+	private:
+		//Methods
+		bool AllDecoderInfoIsAvailable();
+	};
 }

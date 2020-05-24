@@ -26,98 +26,95 @@
 #include "Vector2Base_scalar.inl"
 #include "Vector2Base_SSE.inl"
 
-namespace StdXX
+namespace StdXX::Math
 {
-    namespace Math
-    {
-        template <typename ScalarType>
-        class alignas(2*sizeof(ScalarType)) Vector2 : public _stdxx_::Vector2Base<ScalarType>
-        {
-			typedef Vector2<ScalarType> vec2;
-        public:
-            //Constructors
-            inline Vector2();
-            inline Vector2(ScalarType x, ScalarType y);
+	template <typename ScalarType>
+	class alignas(2*sizeof(ScalarType)) Vector2 : public _stdxx_::Vector2Base<ScalarType>
+	{
+		typedef Vector2<ScalarType> vec2;
+	public:
+		//Constructors
+		inline Vector2();
+		inline Vector2(ScalarType x, ScalarType y);
 
 #ifdef XPC_FEATURE_SSE2
-			template <class T = ScalarType>
-			inline Vector2(typename Type::EnableIf<Type::IsSameType<T, float64>::value, __m128d>::type mmValue)
-			{
-				this->mmValue = mmValue;
-			}
+		template <class T = ScalarType>
+		inline Vector2(typename Type::EnableIf<Type::IsSameType<T, float64>::value, __m128d>::type mmValue)
+		{
+			this->mmValue = mmValue;
+		}
 #endif
 
-            //Access operators
-			inline ScalarType &operator[](uint8 idx)
-			{
-				ASSERT(idx < 2, "Column must be < 2");
+		//Access operators
+		inline ScalarType &operator[](uint8 idx)
+		{
+			ASSERT(idx < 2, "Column must be < 2");
 
-				return this->e[idx];
-			}
+			return this->e[idx];
+		}
 
-			inline const ScalarType &operator[](uint8 idx) const
-			{
-				ASSERT(idx < 2, "Column must be < 2");
+		inline const ScalarType &operator[](uint8 idx) const
+		{
+			ASSERT(idx < 2, "Column must be < 2");
 
-				return this->e[idx];
-			}
+			return this->e[idx];
+		}
 
-			//Arithmetic operators
-			inline Vector2 operator-()
-			{
-				return Vector2(-this->x, -this->y);
-			}
-			inline Vector2 operator+(const Vector2 &refRight) const;
-			inline Vector2& operator+=(const Vector2& rhs)
-			{
-				*this = *this + rhs;
-				return *this;
-			}
+		//Arithmetic operators
+		inline Vector2 operator-()
+		{
+			return Vector2(-this->x, -this->y);
+		}
+		inline Vector2 operator+(const Vector2 &refRight) const;
+		inline Vector2& operator+=(const Vector2& rhs)
+		{
+			*this = *this + rhs;
+			return *this;
+		}
 
-			inline Vector2 operator-(const Vector2 &refRight) const;
-			inline Vector2 operator*(ScalarType rhs) const;
-			inline Vector2 operator*(const Vector2 &refRight) const;
-			inline Vector2 &operator*=(ScalarType right);
-			inline Vector2 operator/(ScalarType right) const;
+		inline Vector2 operator-(const Vector2 &refRight) const;
+		inline Vector2 operator*(ScalarType rhs) const;
+		inline Vector2 operator*(const Vector2 &refRight) const;
+		inline Vector2 &operator*=(ScalarType right);
+		inline Vector2 operator/(ScalarType right) const;
 
-			//Comparison operators
-			inline bool operator==(const vec2 &other) const;
-			inline bool operator!=(const vec2 &other) const;
+		//Comparison operators
+		inline bool operator==(const vec2 &other) const;
+		inline bool operator!=(const vec2 &other) const;
 
-			//Inline
-			inline ScalarType Cross2D(const vec2 &rhs) const
-			{
-				return this->x * rhs.y - this->y * rhs.x;
-			}
+		//Inline
+		inline ScalarType Cross2D(const vec2 &rhs) const
+		{
+			return this->x * rhs.y - this->y * rhs.x;
+		}
 
-			inline ScalarType Dot(const vec2 &rhs) const;
-			inline ScalarType Length() const;
-			inline ScalarType LengthSquared() const;
+		inline ScalarType Dot(const vec2 &rhs) const;
+		inline ScalarType Length() const;
+		inline ScalarType LengthSquared() const;
 
-            inline vec2 &Normalize()
-            {
-                *this = this->Normalized();
-                return *this;
-            }
+		inline vec2 &Normalize()
+		{
+			*this = this->Normalized();
+			return *this;
+		}
 
-            inline vec2 Normalized() const;
+		inline vec2 Normalized() const;
 
-			inline vec2 PerpendicularDirection() const
-			{
-				return vec2(this->y, -this->x);
-			}
+		inline vec2 PerpendicularDirection() const
+		{
+			return vec2(this->y, -this->x);
+		}
 
-			inline vec2 Rotate(ScalarType angle) const;
-        };
+		inline vec2 Rotate(ScalarType angle) const;
+	};
 
-        //Binary operators
-		template <typename ScalarType>
-        inline Vector2<ScalarType> operator*(ScalarType lhs, const Vector2<ScalarType>& rhs)
-        {
-			return rhs * lhs;
-        }
+	//Binary operators
+	template <typename ScalarType>
+	inline Vector2<ScalarType> operator*(ScalarType lhs, const Vector2<ScalarType>& rhs)
+	{
+		return rhs * lhs;
+	}
 
-		typedef Vector2<float32> Vector2S;
-		typedef Vector2<float64> Vector2D;
-    }
+	typedef Vector2<float32> Vector2S;
+	typedef Vector2<float64> Vector2D;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,6 +39,7 @@ public:
 	~OpenALSoftSource();
 
 	//Methods
+	void DequeueProcessedBuffers() override;
 	void EnqueueBuffer(const Buffer& buffer) override;
 	uint32 GetNumberOfQueuedBuffers() const override;
 	bool IsPlaying() const override;

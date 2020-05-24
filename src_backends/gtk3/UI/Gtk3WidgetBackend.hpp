@@ -31,8 +31,10 @@ namespace _stdxx_
         Gtk3WidgetBackend(StdXX::UIBackend& uiBackend, GtkWidget *gtkWidget);
 
         //Methods
+        StdXX::Math::RectD GetNextAssignmentBoundsInGtkCoords() const;
         StdXX::Math::SizeD GetSizeHint() const override;
 	    void IgnoreEvent() override;
+		void OnSetAllocation(const GtkAllocation& allocation);
 	    void SetBounds(const StdXX::Math::RectD &bounds) override;
         void SetEnabled(bool enable) override;
         void SetHint(const StdXX::String &text) override;
@@ -58,5 +60,6 @@ namespace _stdxx_
     private:
         //Members
         GtkWidget *gtkWidget;
+		StdXX::Math::RectD nextBounds;
     };
 }

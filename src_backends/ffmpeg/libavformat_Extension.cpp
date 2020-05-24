@@ -32,4 +32,5 @@ void libavformat_Extension::Load()
 	this->LoadPatentedCodingFormatIdMap();
 
 	StdXX::Multimedia::Format::Register(new libavformat_Format(u8"avi"));
+	StdXX::Multimedia::Format::Register(new libavformat_Format(u8"mp4"));
 }

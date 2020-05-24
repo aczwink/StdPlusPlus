@@ -27,14 +27,14 @@ extern "C"
 
 namespace _stdxx_
 {
-	class libavio_StreamWrapper
+	class libavio_InputStreamWrapper
 	{
 	public:
 		//Constructor
-		libavio_StreamWrapper(StdXX::SeekableInputStream& seekableInputStream);
+		libavio_InputStreamWrapper(StdXX::SeekableInputStream& seekableInputStream);
 
 		//Destructor
-		~libavio_StreamWrapper();
+		~libavio_InputStreamWrapper();
 
 		//Properties
 		inline AVIOContext* Context()

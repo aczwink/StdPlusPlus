@@ -37,29 +37,29 @@ libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Str
 	: DecoderContext(decoder, stream), extradata(nullptr)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
-	this->packet = av_packet_alloc();
 	this->frame = av_frame_alloc();
 
 	//set what some codecs don't have in its encoded data
-	switch (stream.GetType())
+	switch (stream.codingParameters.dataType)
 	{
 	case DataType::Video:
 	{
 		VideoStream &videoStream = (VideoStream &)stream;
 
-		if (videoStream.size.width)
-			this->codecContext->width = videoStream.size.width;
-		if (videoStream.size.height)
-			this->codecContext->height = videoStream.size.height;
+		if (videoStream.codingParameters.video.size.width)
+			this->codecContext->width = videoStream.codingParameters.video.size.width;
+		if (videoStream.codingParameters.video.size.height)
+			this->codecContext->height = videoStream.codingParameters.video.size.height;
 	}
 	break;
 	}
 	
-	if (stream.codecPrivateData.HasValue())
+	if (stream.codingParameters.codecPrivateData.HasValue())
 	{
-		this->codecContext->extradata_size = stream.codecPrivateData->GetNumberOfElements();
-		this->extradata = (byte*)MemAlloc(this->codecContext->extradata_size + AV_INPUT_BUFFER_PADDING_SIZE);
-		MemCopy(this->extradata, &(*stream.codecPrivateData)[0], this->codecContext->extradata_size);
+		const libavcodec_Extension *libavcodecExtension = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>();
+
+		this->extradata = libavcodecExtension->MapCodecExtradata(*stream.codingParameters.codecPrivateData);
+		this->codecContext->extradata_size = stream.codingParameters.codecPrivateData->Size();
 		this->codecContext->extradata = this->extradata;
 	}
 
@@ -70,18 +70,23 @@ libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Str
 //Destructor
 libavcodec_DecoderContext::~libavcodec_DecoderContext()
 {
-	av_frame_free(&this->frame);
-	av_packet_free(&this->packet);
-	avcodec_free_context(&this->codecContext);
 	MemFree(this->extradata);
+	this->codecContext->extradata = nullptr;
+	this->codecContext->extradata_size = 0;
+
+	av_frame_free(&this->frame);
+	avcodec_free_context(&this->codecContext);
 }
 
 //Public methods
 void libavcodec_DecoderContext::Decode(const IPacket & packet)
 {
-	this->MapPacket(packet);
+	const libavcodec_Extension *libavcodecExtension = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>();
 
-	int ret = avcodec_send_packet(this->codecContext, this->packet);
+	AVPacket avPacket;
+	libavcodecExtension->MapPacket(packet, avPacket);
+
+	int ret = avcodec_send_packet(this->codecContext, &avPacket);
 	switch (ret)
 	{
 	case 0:
@@ -103,8 +108,8 @@ void libavcodec_DecoderContext::Decode(const IPacket & packet)
 			return; //an error occured. skip packet*/
 			
 		//update stream if possible
-		if ((this->stream.bitRate == 0) && (this->codecContext->bit_rate != 0))
-			this->stream.bitRate = this->codecContext->bit_rate;
+		if ((this->stream.codingParameters.bitRate == 0) && (this->codecContext->bit_rate != 0))
+			this->stream.codingParameters.bitRate = this->codecContext->bit_rate;
 
 		const libavcodec_Extension *libavcodecExtension = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>();
 		switch (this->codecContext->codec_type)
@@ -112,11 +117,11 @@ void libavcodec_DecoderContext::Decode(const IPacket & packet)
 		case AVMEDIA_TYPE_AUDIO:
 		{
 			AudioStream &audioStream = (AudioStream &)this->stream;
-			if ((audioStream.sampleRate == 0) && (this->codecContext->sample_rate != 0))
-				audioStream.sampleRate = this->codecContext->sample_rate;
+			if ((audioStream.codingParameters.audio.sampleRate == 0) && (this->codecContext->sample_rate != 0))
+				audioStream.codingParameters.audio.sampleRate = this->codecContext->sample_rate;
 			if ((!audioStream.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
 			{
-				audioStream.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->channels, this->codecContext->sample_fmt);
+				audioStream.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->channels, this->codecContext->channel_layout, this->codecContext->sample_fmt);
 			}
 		}
 		break;
@@ -175,30 +180,6 @@ void libavcodec_DecoderContext::MapAudioFrame()
 	audioFrame->pts = this->GetBestFramePTS();
 
 	this->AddFrame(audioFrame);
-}
-
-ChannelLayout libavcodec_DecoderContext::MapChannels(int nChannels)
-{
-	switch (nChannels)
-	{
-	case 1:
-		return ChannelLayout::Mono;
-	case 2:
-		return ChannelLayout::Stereo;
-	}
-
-	NOT_IMPLEMENTED_ERROR;
-}
-
-void libavcodec_DecoderContext::MapPacket(const StdXX::Multimedia::IPacket &packet)
-{
-	this->packet->data = (uint8_t *)packet.GetData();
-	this->packet->size = packet.GetSize();
-
-	if (packet.GetPresentationTimestamp() == Unsigned<uint64>::Max())
-		this->packet->pts = AV_NOPTS_VALUE;
-	else
-		this->packet->pts = packet.GetPresentationTimestamp();
 }
 
 void libavcodec_DecoderContext::MapVideoFrame()

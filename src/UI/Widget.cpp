@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 #include <Std++/UI/Widget.hpp>
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
-#include <Std++/UI/Events/WindowResizedEvent.hpp>
+#include <Std++/UI/Events/WidgetBoundsChangedEvent.hpp>
 #include <Std++/UI/Window.hpp>
 //Namespaces
 using namespace StdXX;
@@ -53,20 +53,23 @@ void Widget::Event(UI::Event& e)
 	case EventType::MouseWheelRolled:
 		this->OnMouseWheelRolled(static_cast<MouseWheelEvent&>(e));
 		break;
+	case EventType::WidgetBoundsChanged:
+		{
+			WidgetBoundsChangedEvent& wre = static_cast<WidgetBoundsChangedEvent&>(e);
+
+			Math::RectD oldBounds = this->bounds;
+			this->bounds = wre.NewBounds();
+
+			if (oldBounds.origin != wre.NewBounds().origin)
+				this->OnMoved();
+			if (oldBounds.size != wre.NewBounds().size)
+				this->OnResized();
+			e.Accept();
+		}
+		break;
 	case EventType::WidgetShouldBePainted:
 		this->OnPaint(static_cast<PaintEvent&>(e));
 		break;
-	case EventType::WindowWasResized:
-	{
-		WindowResizedEvent& wre = static_cast<WindowResizedEvent&>(e);
-		if (this->bounds.size != wre.GetNewSize())
-		{
-			this->bounds.size = wre.GetNewSize();
-			this->OnResized();
-		}
-		e.Accept();
-	}
-	break;
 	}
 }
 
@@ -76,6 +79,15 @@ Math::SizeD Widget::GetSizeHint() const
 		return this->backend->GetSizeHint();
 
 	return Math::SizeD();
+}
+
+const WidgetContainer* Widget::_GetParentWithBackend() const
+{
+	if(this->parent == nullptr)
+		return nullptr;
+	if(this->parent->backend == nullptr)
+		return this->parent->_GetParentWithBackend();
+	return this->parent;
 }
 
 Window *Widget::GetWindow()
@@ -94,6 +106,20 @@ const Window *Widget::GetWindow() const
 	if (this->parent)
 		return this->parent->GetWindow();
 	return nullptr;
+}
+
+void Widget::SetBounds(const Math::RectD &newBounds)
+{
+	if(this->bounds == newBounds)
+		return;
+
+	if(this->backend)
+		this->backend->SetBounds(newBounds);
+	else
+	{
+		WidgetBoundsChangedEvent widgetBoundsChangedEvent(newBounds);
+		this->Event(widgetBoundsChangedEvent);
+	}
 }
 
 Math::PointD Widget::TranslateToAncestorCoords(const Math::PointD &point, const WidgetContainer *ancestor) const
@@ -142,6 +168,9 @@ void Widget::Realize()
 	//realize self
 	this->RealizeSelf();
 	this->OnRealized();
+
+	if(this->backend)
+		this->backend->Show(this->visible);
 }
 
 void Widget::RealizeSelf()
@@ -180,8 +209,10 @@ void Widget::OnRealized()
 	{
 		this->backend->SetEnabled(this->enabled);
 		this->backend->SetHint(this->hint);
-		this->backend->Show(this->visible);
 	}
+
+	if(this->parent)
+		this->parent->InformBackendAboutWidgetOwnershipTransfer(this);
 }
 
 void Widget::OnResized()

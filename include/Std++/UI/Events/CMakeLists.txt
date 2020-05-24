@@ -9,6 +9,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/PaintEvent.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SelectionChangedEvent.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ValueChangedEvent.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/WindowResizedEvent.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WidgetBoundsChangedEvent.hpp
 
 	PARENT_SCOPE)

@@ -40,7 +40,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 
 	this->codecContext->time_base.num = static_cast<int>(stream.timeScale.numerator);
 	this->codecContext->time_base.den = static_cast<int>(stream.timeScale.denominator);
-	switch(stream.GetType())
+	switch(stream.codingParameters.dataType)
 	{
 		case DataType::Audio:
 		{
@@ -63,7 +63,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 			
 			//AV_SAMPLE_FMT_FLTP
 
-			this->codecContext->sample_rate = audioStream.sampleRate;
+			this->codecContext->sample_rate = audioStream.codingParameters.audio.sampleRate;
 			this->codecContext->channel_layout = this->MapChannelLayout(*audioStream.sampleFormat);
 			this->codecContext->channels = audioStream.sampleFormat->nChannels;
 		}
@@ -78,8 +78,8 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 			ASSERT(nameFound, u8"TODO: ...");
 
 			this->codecContext->pix_fmt = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>()->MapPixelFormat(this->namedPixelFormat);
-			this->codecContext->width = videoStream.size.width;
-			this->codecContext->height = videoStream.size.height;
+			this->codecContext->width = videoStream.codingParameters.video.size.width;
+			this->codecContext->height = videoStream.codingParameters.video.size.height;
 		}
 		break;
 		default:

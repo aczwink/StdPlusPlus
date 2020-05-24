@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -43,14 +43,16 @@ void ParserContext::Reset()
 }
 
 //Protected methods
-void ParserContext::AddToFrameBuffer(const Packet &refPacket)
+void ParserContext::AddToFrameBuffer(const Packet& packet)
 {
-	this->AddToFrameBuffer(refPacket.GetData(), refPacket.GetSize());
+	this->AddToFrameBuffer(packet.GetData(), packet.GetSize());
 
-	this->frameBuffer.streamIndex = refPacket.streamIndex;
-	if (this->frameBuffer.pts == Unsigned<uint64>::Max() && refPacket.pts != Unsigned<uint64>::Max())
-		this->frameBuffer.pts = refPacket.pts;
-	if (refPacket.containsKeyframe)
+	this->frameBuffer.streamIndex = packet.streamIndex;
+	if (this->frameBuffer.dts == Unsigned<uint64>::Max() && packet.dts != Unsigned<uint64>::Max())
+		this->frameBuffer.dts = packet.dts;
+	if (this->frameBuffer.pts == Unsigned<uint64>::Max() && packet.pts != Unsigned<uint64>::Max())
+		this->frameBuffer.pts = packet.pts;
+	if (packet.containsKeyframe)
 		this->frameBuffer.containsKeyframe = true;
 }
 

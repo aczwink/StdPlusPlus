@@ -21,6 +21,7 @@
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
 #include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
 #include "Codecs/Xiph/Vorbis_CodingFormat.hpp"
+#include "Codecs/AC3_CodingFormat.hpp"
 
 //Subtitle coding formats
 #include "Codecs/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp"
@@ -45,6 +46,7 @@ void MultimediaRegisterCodecsAndFormats()
 {
 	//Audio coding formats
 	CodingFormat::Register(new AAC_CodingFormat);
+	CodingFormat::Register(new AC3_CodingFormat);
 	CodingFormat::Register(new MP3_CodingFormat);
 	CodingFormat::Register(new PCM_S16LE_CodingFormat);
 	CodingFormat::Register(new Vorbis_CodingFormat);

@@ -54,6 +54,7 @@ public:
 
 	//Methods
 	void ReadHeader();
+	void Seek(uint64 timestamp, const class TimeScale &timeScale) override;
 
 private:
 	//Members

@@ -192,7 +192,7 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 
 	const Stream* sourceStream = this->player->GetDemuxer()->GetStream(streamIndex);
 	CodingFormatId codingFormatId;
-	switch (sourceStream->GetType())
+	switch (sourceStream->codingParameters.dataType)
 	{
 	case DataType::Audio:
 	{
@@ -213,11 +213,11 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 
 		VideoStream* videoStream = new VideoStream;
 		videoStream->pixelFormat = PixelFormat(NamedPixelFormat::RGB_24);
-		videoStream->size = videoSrcStream->size;
+		videoStream->codingParameters.video.size = videoSrcStream->codingParameters.video.size;
 
 		if (*videoSrcStream->pixelFormat != *videoStream->pixelFormat)
 		{
-			this->pixmapResampler = new ComputePixmapResampler(videoSrcStream->size, *videoSrcStream->pixelFormat);
+			this->pixmapResampler = new ComputePixmapResampler(videoSrcStream->codingParameters.video.size, *videoSrcStream->pixelFormat);
 			this->pixmapResampler->ChangePixelFormat(*videoStream->pixelFormat);
 		}
 

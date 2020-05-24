@@ -33,6 +33,7 @@ namespace _stdxx_
 		//Methods
 		void ReadHeader() override;
 		StdXX::UniquePointer<StdXX::Multimedia::IPacket> ReadPacket() override;
+		void Seek(uint64 timestamp, const StdXX::Multimedia::TimeScale &timeScale) override;
 
 	private:
 		//Members

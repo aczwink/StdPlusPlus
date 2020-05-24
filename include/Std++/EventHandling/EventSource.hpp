@@ -32,7 +32,7 @@ namespace StdXX::EventHandling
 		virtual ~EventSource() = default;
 
 		//Abstract
-		virtual bool CheckWaitResults(const FixedArray<WaitResult>& waitResults) = 0;
+		virtual bool CheckWaitResults(const WaitResult& waitResults) = 0;
 		virtual void DispatchPendingEvents() = 0;
 		virtual bool HasPendingEvents() const = 0;
 		/**

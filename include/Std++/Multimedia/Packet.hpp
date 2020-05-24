@@ -30,7 +30,8 @@ namespace StdXX::Multimedia
 	public:
 		//Members
 		uint32 streamIndex;
-		uint64 pts; //the presentation time stamp
+		uint64 dts;
+		uint64 pts;
 		uint64 duration;
 		bool containsKeyframe;
 
@@ -59,6 +60,7 @@ namespace StdXX::Multimedia
 		void Allocate(uint32 size);
 		bool ContainsKeyFrame() const override;
 		void CopyAttributesFrom(const Packet& p);
+		uint64 GetDecodeTimestamp() const override;
 		uint64 GetPresentationTimestamp() const override;
 		uint32 GetStreamIndex() const override;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -59,6 +59,19 @@ namespace StdXX
 
 			return root;
         }
+
+        void Remove(const DataType& dataType)
+		{
+        	for(uint32 i = 0; i < this->nElements; i++)
+			{
+        		if(this->data[i] == dataType)
+				{
+        			this->data[i] = Move(this->data[--this->nElements]);
+        			this->Heapify(i);
+        			break;
+				}
+			}
+		}
 
         //Inline
 		inline const DataType& Top() const

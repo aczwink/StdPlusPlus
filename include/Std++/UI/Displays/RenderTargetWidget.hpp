@@ -41,6 +41,11 @@ namespace StdXX
             ~RenderTargetWidget();
 
             //Properties
+            inline const Rendering::DeviceContext& DeviceContext() const
+			{
+            	return *this->deviceContext;
+			}
+
             inline const WidgetFrameBufferSetup& FrameBufferSetup() const
             {
             	return this->frameBufferSetup;
@@ -51,6 +56,7 @@ namespace StdXX
             Rendering::DeviceContext *deviceContext;
 
             //Eventhandlers
+			virtual void OnRealized();
             virtual void OnResized() override;
 
         private:

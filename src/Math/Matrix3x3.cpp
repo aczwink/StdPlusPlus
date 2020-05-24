@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,6 +34,28 @@ Matrix3x3<ScalarType>::Matrix3x3(const Matrix4x4<ScalarType> &refMat)
 }
 
 //Operators
+template <typename ScalarType>
+Matrix3x3<ScalarType> Matrix3x3<ScalarType>::operator*(const mat3& right) const
+{
+	mat3 result;
+
+	for(uint8 row = 0; row < 3; row++)
+	{
+		for(uint8 col = 0; col < 3; col++)
+		{
+			ScalarType current = 0;
+			for(uint8 k = 0; k < 3; k++)
+			{
+				current += this->operator()(row, k) * right(k, col);
+			}
+
+			result(row, col) = current;
+		}
+	}
+
+	return result;
+}
+
 template<typename ScalarType>
 Vector3<ScalarType> Matrix3x3<ScalarType>::operator*(const vec3 &v) const
 {

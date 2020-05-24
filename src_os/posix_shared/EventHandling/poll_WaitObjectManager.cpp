@@ -24,6 +24,38 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::EventHandling;
 
+class poll_WaitResult : public WaitResult
+{
+public:
+	//Constructor
+	inline poll_WaitResult(pollfd *pollfds, uint32 count) : pollfds(pollfds), count(count)
+	{
+	}
+
+	//Methods
+	int16 ResultAt(uint32 index) const override
+	{
+		ASSERT(index < this->count, u8"Index out of range");
+
+		return this->pollfds[index].revents;
+	}
+
+	int16 ResultFor(const OSHandle &osHandle) const override
+	{
+		for(uint32 i = 0; i < this->count; i++)
+		{
+			if(this->pollfds[i].fd == osHandle.fd)
+				return this->pollfds[i].revents;
+		}
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+
+private:
+	//Members
+	pollfd* pollfds;
+	uint32 count;
+};
+
 //Public methods
 void poll_WaitObjectManager::Add(const EventSource& source, int fd, int16 nativeEvents)
 {
@@ -57,11 +89,8 @@ void poll_WaitObjectManager::Clear()
 	this->ranges.Release();
 }
 
-FixedArray<WaitResult> poll_WaitObjectManager::FetchWaitResult(const EventSource &eventSource)
+UniquePointer<WaitResult> poll_WaitObjectManager::FetchWaitResult(const EventSource &eventSource)
 {
 	const StdXX::Math::Range<uint32>& range = this->ranges.Get(&eventSource);
-	FixedArray<WaitResult> result(range.end - range.start);
-	for(uint32 i = 0; i < result.GetNumberOfElements(); i++)
-		result[i] = { {this->pollfds[i].fd}, this->pollfds[i].revents };
-	return result;
+	return new poll_WaitResult(&this->pollfds[range.start], range.end - range.start);
 }

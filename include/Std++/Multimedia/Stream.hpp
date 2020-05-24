@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Optional.hpp>
 #include "../Definitions.h"
 #include "Std++/Math/Rational.hpp"
@@ -28,6 +27,7 @@
 #include "DecoderContext.hpp"
 #include "EncoderContext.hpp"
 #include "TimeScale.hpp"
+#include "CodingParameters.hpp"
 
 namespace StdXX::Multimedia
 {
@@ -38,9 +38,7 @@ namespace StdXX::Multimedia
 		TimeScale timeScale;
 		uint64 startTime;
 		uint64 duration;
-		bool vbr;
-		uint32 bitRate; //if vbr then this is the average bitrate
-		Optional<FixedArray<byte>> codecPrivateData;
+		CodingParameters codingParameters;
 		struct
 		{
 			/**
@@ -63,18 +61,11 @@ namespace StdXX::Multimedia
 		//Destructor
 		virtual ~Stream();
 
-		//Abstract
-		virtual DataType GetType() const = 0;
-
 		//Methods
+		bool AllDecodingInfoIsAvailable();
 		bool AllInfoIsAvailable();
 
 		//Inline
-		inline const CodingFormat *GetCodingFormat() const
-		{
-			return this->codingFormat;
-		}
-
 		inline DecoderContext *GetDecoderContext()
 		{
 			return this->decoderContext;
@@ -92,7 +83,7 @@ namespace StdXX::Multimedia
 
 		inline void SetCodingFormat(CodingFormatId codingFormatId)
 		{
-			this->codingFormat = CodingFormat::GetCodingFormatById(codingFormatId);
+			this->codingParameters.codingFormat = CodingFormat::GetCodingFormatById(codingFormatId);
 		}
 
 		inline void SetDecoderContext(DecoderContext *decoderContext)
@@ -114,7 +105,6 @@ namespace StdXX::Multimedia
 
 	private:
 		//Members
-		const CodingFormat *codingFormat;
 		DecoderContext *decoderContext;
 		EncoderContext *encoderContext;
 		ParserContext *parserContext;

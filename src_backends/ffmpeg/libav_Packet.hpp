@@ -32,9 +32,13 @@ namespace _stdxx_
 		friend class libavformat_Demuxer;
 
 	public:
+		//Destructor
+		~libav_Packet();
+
 		//Methods
 		bool ContainsKeyFrame() const override;
 		const uint8 *GetData() const override;
+		uint64 GetDecodeTimestamp() const override;
 		uint64 GetPresentationTimestamp() const override;
 		uint32 GetSize() const override;
 		uint32 GetStreamIndex() const override;

@@ -22,6 +22,7 @@
 #include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
+#include <Std++/Multimedia/CodingParameters.hpp>
 #include "EBML.hpp"
 #include "EBMLMasterReader.hpp"
 #include "Matroska.hpp"
@@ -91,6 +92,11 @@ void MatroskaDemuxer::ReadHeader()
 	this->ReadSegment(segmentOffsets[0], false);
 
 	//ReadSegment will place us at the beginning of the first cluster
+}
+
+void MatroskaDemuxer::Seek(uint64 timestamp, const class TimeScale &timeScale)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 UniquePointer<IPacket> MatroskaDemuxer::ReadPacket()
@@ -253,10 +259,7 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	this->tracks[track.number].streamIndex = index;
 
 	if (!track.codecPrivate.IsEmpty())
-	{
-		pStream->codecPrivateData = FixedArray<byte>(track.codecPrivate.GetSize());
-		MemCopy((void*)&(*pStream->codecPrivateData)[0], &track.codecPrivate[0], track.codecPrivate.GetSize());
-	}
+		pStream->codingParameters.codecPrivateData = FixedSizeBuffer(&track.codecPrivate[0], track.codecPrivate.GetSize());
 
 	//encoding
 	if (!track.encodings.IsEmpty())
@@ -279,12 +282,12 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	{
 		AudioStream *const& audioStream = (AudioStream *)pStream;
 		
-		audioStream->sampleRate = (uint32)track.audio.sampleRate;
+		audioStream->codingParameters.audio.sampleRate = (uint32)track.audio.sampleRate;
 		//audioStream->sampleFormatHints.nChannels = track.audio.nChannels;
 
-		if (audioStream->GetCodingFormat())
+		if (audioStream->codingParameters.codingFormat)
 		{
-			switch (audioStream->GetCodingFormat()->GetId())
+			switch (audioStream->codingParameters.codingFormat->GetId())
 			{
 			case CodingFormatId::AAC:
 				pStream->parserFlags.requiresParsing = false;
@@ -312,8 +315,8 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	{
 		VideoStream *const& videoStream = (VideoStream *)pStream;
 
-		videoStream->size.width = track.video.width;
-		videoStream->size.height = track.video.height;
+		videoStream->codingParameters.video.size.width = track.video.width;
+		videoStream->codingParameters.video.size.height = track.video.height;
 
 		//check for microsoft BMP header
 		if (codingFormatId == CodingFormatId::Unknown && track.codecId == codecId_ms_fourcc)
@@ -323,9 +326,9 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 			_stdxx_::ReadBMPHeader(isBottomUp, codecPrivateData, *videoStream);
 		}
 
-		if (videoStream->GetCodingFormat())
+		if (videoStream->codingParameters.codingFormat)
 		{
-			switch (videoStream->GetCodingFormat()->GetId())
+			switch (videoStream->codingParameters.codingFormat->GetId())
 			{
 			case CodingFormatId::H264:
 				//only look at packets

@@ -128,26 +128,6 @@
 //Math/RandomBitGenerators
 #include <Std++/Math/RandomBitGenerators/LinearCongruentialGenerator.hpp>
 
-//format
-#include <Std++/Multimedia/AudioBuffer.hpp>
-#include <Std++/Multimedia/AudioDecoder.hpp>
-#include <Std++/Multimedia/AudioFrame.hpp>
-#include <Std++/Multimedia/AudioStream.hpp>
-#include <Std++/Multimedia/ComputePixmapResampler.hpp>
-#include <Std++/Multimedia/Index.hpp>
-#include <Std++/Multimedia/Demuxer.hpp>
-#include <Std++/Multimedia/Encoder.hpp>
-#include <Std++/Multimedia/Format.hpp>
-#include <Std++/Multimedia/MediaPlayer.hpp>
-#include <Std++/Multimedia/Muxer.hpp>
-#include <Std++/Multimedia/Packet.hpp>
-#include <Std++/Multimedia/Stream.hpp>
-#include <Std++/Multimedia/SubtitleStream.hpp>
-#include <Std++/Multimedia/VideoDecoder.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
-#include <Std++/Multimedia/SMetaInfo.h>
-
 //Multitasking
 #include <Std++/Multitasking/ConditionVariable.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
@@ -289,3 +269,4 @@
 #include "StdXXErrorHandling.hpp"
 #include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"
+#include "StdXXMultimedia.hpp"

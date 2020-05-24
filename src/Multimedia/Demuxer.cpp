@@ -26,6 +26,115 @@
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
+//Public methods
+bool Demuxer::FindStreamInfo()
+{
+	this->InitializeParsers();
+	this->InitializeDecoders();
+
+	bool ret;
+	uint16 nReadFrames;
+	uint64 currentOffset;
+	FormatInfo formatInfo;
+
+	const uint16 MAX_PROBE_FRAMES = this->GetNumberOfStreams() * 10;
+
+	ret = true;
+
+	this->refFormat.GetFormatInfo(formatInfo);
+	currentOffset = this->inputStream.GetCurrentOffset();
+
+
+
+	//read some frames to get stream info
+	nReadFrames = 0;
+	while(!this->AllInfoIsAvailable())
+	{
+		if(nReadFrames >= MAX_PROBE_FRAMES)
+			break;
+
+		UniquePointer<IPacket> packet = this->ReadFrame();
+		if(packet.IsNull())
+			break;
+		this->ExtractInfo(*packet);
+
+		nReadFrames++;
+	}
+
+	if(formatInfo.supportsByteSeeking && !this->AllStreamsHaveDuration())
+		this->DeriveDurationFromPacketTimestamps();
+
+	//derive overall timing info
+	this->UpdateTimingInfo();
+
+	//compute overall bit rate
+	if(this->AllStreamsHaveDuration())
+		this->bitRate = uint32((this->inputStream.QuerySize() * 8 / this->timeScale.ToFloat()) / this->duration);
+
+	//reset state
+	this->inputStream.SeekTo(currentOffset);
+	this->Reset();
+	for(uint32 i = 0; i < this->streams.GetNumberOfElements(); i++)
+	{
+		if(this->streams[i]->GetParserContext())
+			this->streams[i]->GetParserContext()->Reset();
+		if(this->streams[i]->GetDecoderContext())
+			this->streams[i]->GetDecoderContext()->Reset();
+	}
+
+	return this->AllInfoIsAvailable();
+}
+
+UniquePointer<IPacket> Demuxer::ReadFrame()
+{
+	uint32 i;
+
+	//Check if we have a queued package ready
+	for(i = 0; i < this->GetNumberOfStreams(); i++)
+	{
+		if(ParserContext *parserContext = this->GetStream(i)->GetParserContext())
+		{
+			if(parserContext->IsFrameReady())
+				return new Packet(parserContext->GetParsedFrame());
+		}
+	}
+
+	//read packets until a frame is collected
+	while(true)
+	{
+		UniquePointer<IPacket> packet = this->ReadPacket();
+		if(packet.IsNull())
+			break;
+
+		if(ParserContext *parserContext = this->GetStream(packet->GetStreamIndex())->GetParserContext())
+		{
+			parserContext->Parse(*packet);
+			if (parserContext->ShouldRepack())
+			{
+				if (parserContext->IsFrameReady())
+					return new Packet(parserContext->GetParsedFrame());
+			}
+			else
+			{
+				//the parser should parse the packet but not repack it. Therefore we return it
+				return packet;
+			}
+		}
+		else
+		{
+			//no parser... well then just return packet
+			return packet;
+		}
+	}
+
+	return nullptr;
+}
+
+//Protected methods
+void Demuxer::Reset()
+{
+}
+
 //Private methods
 bool Demuxer::AllInfoIsAvailable()
 {
@@ -100,76 +209,67 @@ void Demuxer::ExtractInfo(const IPacket& packet)
 	}
 
 	//check for coding format
-	if (pStream->GetCodingFormat())
-	{		
-		DecoderContext *decoderContext = pStream->GetDecoderContext();
-		if (decoderContext == nullptr)
+	DecoderContext *decoderContext = pStream->GetDecoderContext();
+	if (decoderContext == nullptr)
+	{
+		if(!this->TryToAllocateDecoder(*pStream))
 		{
-			//try to allocate one
-			const Decoder *decoder = pStream->GetCodingFormat()->GetBestMatchingDecoder();
-			if (decoder)
-			{
-				decoderContext = decoder->CreateContext(*pStream);
-				pStream->SetDecoderContext(decoderContext);
-			}
-			else
-			{
-				//shit.. we don't have a decoder...
+			//shit.. we don't have a decoder...
 
-				//if we have a parser... it may suggest a codec id
-				if (ParserContext *parserContext = pStream->GetParserContext())
+			//if we have a parser... it may suggest a codec id
+			if (ParserContext *parserContext = pStream->GetParserContext())
+			{
+				NOT_IMPLEMENTED_ERROR; //TODO:; next lines
+				/*
+				CodecId codecId;
+
+				codecId = pParser->GetCodecId();
+				pStream->SetCodec(Codec::GetCodec(codecId));
+				pDecoder = pStream->GetDecoder();
+
+				if(pDecoder)
 				{
-					NOT_IMPLEMENTED_ERROR; //TODO:; next lines
-					/*
-					CodecId codecId;
-					
-					codecId = pParser->GetCodecId();
-					pStream->SetCodec(Codec::GetCodec(codecId));
-					pDecoder = pStream->GetDecoder();
-					
-					if(pDecoder)
-					{
-					//juhu we got a decoder now
-					pDecoder->Decode(refPacket);
-					}
-					*/
+				//juhu we got a decoder now
+				pDecoder->Decode(refPacket);
 				}
+				*/
 			}
 		}
+	}
 
-		if (decoderContext != nullptr)
+	if (decoderContext != nullptr)
+	{
+		//we have a decoder.... let's try if decoding some packets updates info
+		decoderContext->Decode(packet);
+	}
+}
+
+void Demuxer::InitializeDecoders()
+{
+	for (Stream *& stream : this->streams)
+	{
+		if (stream->codingParameters.codingFormat)
 		{
-			//we have a decoder.... let's try if decoding some packets updates info
-			decoderContext->Decode(packet);
+			DecoderContext* decoderContext = stream->GetDecoderContext();
+			if (decoderContext == nullptr)
+			{
+				this->TryToAllocateDecoder(*stream);
+			}
 		}
 	}
 }
 
-//Public methods
-bool Demuxer::FindStreamInfo()
+void Demuxer::InitializeParsers()
 {
-	bool ret;
-	uint16 nReadFrames;
-	uint64 currentOffset;
-	FormatInfo formatInfo;
-
-	const uint16 MAX_PROBE_FRAMES = this->GetNumberOfStreams() * 10;
-
-	ret = true;
-
-	this->refFormat.GetFormatInfo(formatInfo);
-	currentOffset = this->inputStream.GetCurrentOffset();
-
-	//initialize parsers
 	for (Stream *& stream : this->streams)
 	{
-		if ((stream->GetCodingFormat() != nullptr) && (stream->parserFlags.requiresParsing))
+		if ((stream->codingParameters.codingFormat != nullptr) && (stream->parserFlags.requiresParsing))
 		{
 			ParserContext *parserContext = stream->GetParserContext();
 			if (parserContext == nullptr)
 			{
 				//try to allocate one
-				const Parser *parser = stream->GetCodingFormat()->GetBestMatchingParser();
+				const Parser *parser = stream->codingParameters.codingFormat->GetBestMatchingParser();
 				if (parser)
 				{
 					parserContext = parser->CreateContext(*stream);
@@ -178,92 +278,19 @@ bool Demuxer::FindStreamInfo()
 			}
 		}
 	}
-
-	//read some frames to get stream info
-	nReadFrames = 0;
-	while(!this->AllInfoIsAvailable())
-	{
-		if(nReadFrames >= MAX_PROBE_FRAMES)
-			break;
-
-		UniquePointer<IPacket> packet = this->ReadFrame();
-		if(packet.IsNull())
-			break;
-		this->ExtractInfo(*packet);
-
-		nReadFrames++;
-	}
-
-	if(formatInfo.supportsByteSeeking && !this->AllStreamsHaveDuration())
-		this->DeriveDurationFromPacketTimestamps();
-
-	//derive overall timing info
-	this->UpdateTimingInfo();
-
-	//compute overall bit rate
-	if(this->AllStreamsHaveDuration())
-		this->bitRate = uint32((this->inputStream.QuerySize() * 8 / this->timeScale.ToFloat()) / this->duration);
-
-	//reset state
-	this->inputStream.SeekTo(currentOffset);
-	this->Reset();
-	for(uint32 i = 0; i < this->streams.GetNumberOfElements(); i++)
-	{
-		if(this->streams[i]->GetParserContext())
-			this->streams[i]->GetParserContext()->Reset();
-		if(this->streams[i]->GetDecoderContext())
-			this->streams[i]->GetDecoderContext()->Reset();
-	}
-
-	return this->AllInfoIsAvailable();
 }
 
-UniquePointer<IPacket> Demuxer::ReadFrame()
+bool Demuxer::TryToAllocateDecoder(Stream& stream)
 {
-	uint32 i;
+	if (stream.codingParameters.codingFormat == nullptr)
+		return false;
 
-	//Check if we have a queued package ready
-	for(i = 0; i < this->GetNumberOfStreams(); i++)
+	const Decoder *decoder = stream.codingParameters.codingFormat->GetBestMatchingDecoder();
+	if (decoder)
 	{
-		if(ParserContext *parserContext = this->GetStream(i)->GetParserContext())
-		{
-			if(parserContext->IsFrameReady())
-				return new Packet(parserContext->GetParsedFrame());
-		}
+		DecoderContext* decoderContext = decoder->CreateContext(stream);
+		stream.SetDecoderContext(decoderContext);
+		return true;
 	}
-
-	//read packets until a frame is collected
-	while(true)
-	{
-		UniquePointer<IPacket> packet = this->ReadPacket();
-		if(packet.IsNull())
-			break;
-
-		if(ParserContext *parserContext = this->GetStream(packet->GetStreamIndex())->GetParserContext())
-		{
-			parserContext->Parse(*packet);
-			if (parserContext->ShouldRepack())
-			{
-				if (parserContext->IsFrameReady())
-					return new Packet(parserContext->GetParsedFrame());
-			}
-			else
-			{
-				//the parser should parse the packet but not repack it. Therefore we return it
-				break;
-			}
-		}
-		else
-		{
-			//no parser... well then just return packet
-			break;
-		}
-	}
-
-	return nullptr;
-}
-
-//Protected methods
-void Demuxer::Reset()
-{
+	return false;
 }

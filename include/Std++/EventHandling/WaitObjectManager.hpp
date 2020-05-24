@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Definitions.h>
 #include <Std++/OSHandle.hpp>
 
@@ -27,10 +27,31 @@ namespace StdXX::EventHandling
 	//Forward declarations
 	class EventSource;
 
-	struct WaitResult
+	class WaitResult
 	{
-		OSHandle osHandle;
-		int16 occuredEvents;
+	public:
+		//Desructor
+		virtual ~WaitResult() = default;
+
+		//Abstract
+		virtual int16 ResultAt(uint32 index) const = 0;
+		virtual int16 ResultFor(const OSHandle& osHandle) const = 0;
+
+		//Inline
+		inline bool AnyEventOccured(const OSHandle& osHandle) const
+		{
+			return this->ResultFor(osHandle) != 0;
+		}
+
+		inline bool AnyEventOccured(int fd) const
+		{
+			return this->AnyEventOccured(OSHandle{.fd = fd});
+		}
+
+		inline int16 ResultFor(int fd) const
+		{
+			return this->ResultFor(OSHandle{.fd = fd});
+		}
 	};
 
 	class WaitObjectManager
@@ -44,6 +65,6 @@ namespace StdXX::EventHandling
 		virtual void AddWaitForInput(const EventSource& source, const OSHandle& osHandle) = 0;
 		virtual void AddWaitForInput(const EventSource& source, int fd) = 0;
 		virtual void Clear() = 0;
-		virtual FixedArray<WaitResult> FetchWaitResult(const EventSource& eventSource) = 0;
+		virtual UniquePointer<WaitResult> FetchWaitResult(const EventSource& eventSource) = 0;
 	};
 }
