@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 #ifdef _STDPLUSPLUS_BACKEND_GTK3
 //Local
 #include <Std++/_Backends/UI/UIBackend.hpp>
@@ -31,6 +32,7 @@ namespace _stdxx_
         //Methods
         StdXX::EventHandling::EventSource *CreateEventSource() override;
         GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
+		LabelBackend *CreateLabelBackend(StdXX::UI::Label& label) override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
         PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;
 	    WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
@@ -44,7 +46,6 @@ namespace _stdxx_
         CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
         DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
         HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
-        LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
         MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;

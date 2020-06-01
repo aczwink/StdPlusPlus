@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@ using namespace StdXX::UI;
 //Private methods
 void Label::RealizeSelf()
 {
-	_stdxx_::LabelBackend* labelBackend = this->_GetUIBackend()->CreateLabelBackend(this);
+	_stdxx_::LabelBackend* labelBackend = this->_GetUIBackend()->CreateLabelBackend(*this);
 	this->_SetBackend(labelBackend);
 }
 

@@ -25,6 +25,7 @@ using namespace StdXX;
 Timer::Timer(const Function<void()> &timedOutCallback, TimerEventSource &eventSource) : eventSource(eventSource)
 {
 	this->timedOutCallback = timedOutCallback;
+	this->isPending = false;
 }
 
 //Destructor
@@ -34,12 +35,25 @@ Timer::~Timer()
 }
 
 //Public methods
-void Timer::OneShot(uint64 timeOut_usec)
+void Timer::OneShot()
 {
-	this->id = this->eventSource.AddOneShotTimer(timeOut_usec, this);
+	ASSERT_EQUALS(false, this->isPending);
+
+	this->isPending = true;
+	this->isPeriodic = false;
+	this->eventSource.AddTimerToQueue(*this);
+}
+
+void Timer::Start()
+{
+	ASSERT_EQUALS(false, this->isPending);
+
+	this->isPending = true;
+	this->isPeriodic = true;
+	this->eventSource.AddTimerToQueue(*this);
 }
 
 void Timer::Stop()
 {
-	this->eventSource.RemoveTimer(id, this);
+	this->isPending = false;
 }

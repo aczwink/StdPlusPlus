@@ -81,7 +81,7 @@ namespace StdXX
 		virtual EventHandling::EventSource *CreateEventSource() = 0;
 		virtual _stdxx_::GroupBoxBackend *CreateGroupBoxBackend(UI::GroupBox& groupBox) = 0;
 		virtual _stdxx_::HeaderViewBackend* CreateHeaderViewBackend(UI::HeaderView& headerView) = 0;
-		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label *label) = 0;
+		virtual _stdxx_::LabelBackend *CreateLabelBackend(UI::Label& label) = 0;
 		virtual _stdxx_::MenuBackend *CreateMenuBackend(UI::Menu *menu) = 0;
 		virtual _stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) = 0;
 		virtual _stdxx_::PushButtonBackend *CreatePushButtonBackend(UI::PushButton& pushButton) = 0;

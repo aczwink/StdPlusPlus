@@ -151,6 +151,13 @@ void libavcodec_DecoderContext::Decode(const IPacket & packet)
 	}
 }
 
+void libavcodec_DecoderContext::Reset()
+{
+	avcodec_flush_buffers(this->codecContext);
+
+	DecoderContext::Reset();
+}
+
 //Private methods
 uint64 libavcodec_DecoderContext::GetBestFramePTS() const
 {

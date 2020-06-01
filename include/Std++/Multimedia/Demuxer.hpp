@@ -42,6 +42,12 @@ namespace StdXX::Multimedia
 		bool FindStreamInfo();
 		UniquePointer<IPacket> ReadFrame();
 
+		//Properties
+		inline uint64 EndTime() const
+		{
+			return this->startTime + this->duration;
+		}
+
 		//Inline
 		inline uint32 GetBitRate() const
 		{

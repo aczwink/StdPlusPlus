@@ -21,6 +21,7 @@
 #include <Std++/EventHandling/EventSource.hpp>
 #include <Std++/Containers/PriorityQueue.hpp>
 #include <Std++/Tuple.hpp>
+#include <Std++/Containers/Map/Map.hpp>
 #include "Clock.hpp"
 
 namespace StdXX
@@ -35,34 +36,16 @@ namespace StdXX
 		static TimerEventSource *globalSource;
 
 		//Methods
+		void AddTimerToQueue(Timer& timer);
 		bool CheckWaitResults(const EventHandling::WaitResult& waitResults) override;
 		void DispatchPendingEvents() override;
 		bool HasPendingEvents() const override;
 		uint64 QueryWaitInfo(EventHandling::WaitObjectManager &waitObjectManager) override;
 
-		//Inline
-		/**
-		 *
-		 * @param timeOut in nanoseconds
-		 * @param timer
-		 */
-		inline uint64 AddOneShotTimer(uint64 timeOut, Timer *timer)
-		{
-			uint64 id = this->clock.GetCurrentValue() + timeOut;
-			this->oneShotTimerQueue.Insert({id, timer});
-			this->eventTriggerer.Signal();
-			return id;
-		}
-
-		inline void RemoveTimer(uint64 id, Timer *timer)
-		{
-			this->oneShotTimerQueue.Remove({id, timer});
-		}
-
 	private:
 		//Members
 		EventHandling::EventSignal eventTriggerer;
 		Clock clock;
-		PriorityQueue<Tuple<uint64, Timer *>> oneShotTimerQueue;
+		PriorityQueue<Tuple<uint64, Timer *>, GreaterThan<Tuple<uint64, Timer *>>> timerQueue;
 	};
 }

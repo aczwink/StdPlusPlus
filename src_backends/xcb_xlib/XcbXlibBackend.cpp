@@ -76,7 +76,7 @@ _stdxx_::HeaderViewBackend *_stdxx_::XcbXlibBackend::CreateHeaderViewBackend(Std
 	return nullptr;
 }
 
-_stdxx_::LabelBackend *_stdxx_::XcbXlibBackend::CreateLabelBackend(StdXX::UI::Label *label)
+_stdxx_::LabelBackend *_stdxx_::XcbXlibBackend::CreateLabelBackend(StdXX::UI::Label& label)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;

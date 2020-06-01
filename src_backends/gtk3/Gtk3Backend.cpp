@@ -30,6 +30,7 @@
 #include "UI/Gtk3SliderBackend.hpp"
 #include "UI/Gtk3SelectBoxBackend.hpp"
 #include "UI/Gtk3PushButtonBackend.hpp"
+#include "UI/Gtk3LabelBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -53,6 +54,11 @@ EventHandling::EventSource *Gtk3Backend::CreateEventSource()
 GroupBoxBackend *Gtk3Backend::CreateGroupBoxBackend(UI::GroupBox& groupBox)
 {
     return new Gtk3GroupBoxBackend(*this, groupBox);
+}
+
+LabelBackend* Gtk3Backend::CreateLabelBackend(UI::Label& label)
+{
+	return new Gtk3LabelBackend(*this, label);
 }
 
 MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
@@ -107,11 +113,6 @@ _stdxx_::DrawableWidgetBackend *_stdxx_::Gtk3Backend::CreateDrawableWidgetBacken
 }
 
 _stdxx_::HeaderViewBackend *_stdxx_::Gtk3Backend::CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::LabelBackend *_stdxx_::Gtk3Backend::CreateLabelBackend(StdXX::UI::Label *label) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }

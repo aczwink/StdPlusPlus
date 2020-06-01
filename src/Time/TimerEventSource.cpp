@@ -29,19 +29,41 @@ using namespace StdXX;
 TimerEventSource *TimerEventSource::globalSource = nullptr;
 
 //Public methods
+void TimerEventSource::AddTimerToQueue(Timer &timer)
+{
+	this->timerQueue.Insert({this->clock.GetCurrentValue() + timer.timeOut, &timer});
+	this->eventTriggerer.Signal();
+}
+
 bool TimerEventSource::CheckWaitResults(const EventHandling::WaitResult &waitResults)
 {
-	return waitResults.AnyEventOccured(this->eventTriggerer.Handle());
+	if(waitResults.AnyEventOccured(this->eventTriggerer.Handle()))
+	{
+		this->eventTriggerer.Clear();
+		return true;
+	}
+	return false;
 }
 
 void TimerEventSource::DispatchPendingEvents()
 {
 	uint64 currentClock = this->clock.GetCurrentValue();
-	while(!this->oneShotTimerQueue.IsEmpty())
+	while(!this->timerQueue.IsEmpty())
 	{
-		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
+		if(currentClock >= this->timerQueue.Top().Get<0>())
 		{
-			this->oneShotTimerQueue.PopTop().Get<1>()->timedOutCallback();
+			Tuple<uint64, Timer*> top = this->timerQueue.PopTop();
+			Timer* timer = top.Get<1>();
+
+			bool wasPending = timer->isPending;
+
+			if(!timer->IsPeriodic())
+				timer->isPending = false;
+
+			if(wasPending)
+				timer->timedOutCallback();
+			if(timer->IsPeriodic())
+				this->AddTimerToQueue(*timer);
 		}
 		else
 		{
@@ -52,10 +74,10 @@ void TimerEventSource::DispatchPendingEvents()
 
 bool TimerEventSource::HasPendingEvents() const
 {
-	if(!this->oneShotTimerQueue.IsEmpty())
+	if(!this->timerQueue.IsEmpty())
 	{
 		uint64 currentClock = this->clock.GetCurrentValue();
-		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
+		if(currentClock >= this->timerQueue.Top().Get<0>())
 			return true;
 	}
 	return false;
@@ -65,12 +87,12 @@ uint64 TimerEventSource::QueryWaitInfo(EventHandling::WaitObjectManager& waitObj
 {
 	waitObjectManager.AddWaitForInput(*this, this->eventTriggerer.Handle());
 
-	if(!this->oneShotTimerQueue.IsEmpty())
+	if(!this->timerQueue.IsEmpty())
 	{
 		uint64 currentClock = this->clock.GetCurrentValue();
-		if(currentClock >= this->oneShotTimerQueue.Top().Get<0>())
+		if(currentClock >= this->timerQueue.Top().Get<0>())
 			return 0;
-		return (currentClock - this->oneShotTimerQueue.Top().Get<0>()) / 1000;
+		return (currentClock - this->timerQueue.Top().Get<0>());
 	}
 
 	return Unsigned<uint64>::Max();

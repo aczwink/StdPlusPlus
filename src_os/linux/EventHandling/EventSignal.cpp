@@ -39,6 +39,13 @@ EventSignal::~EventSignal()
 }
 
 //Public methods
+void EventSignal::Clear()
+{
+	uint64 value;
+	ssize_t ret = read(this->waitableHandle.fd, &value, sizeof(value));
+	ASSERT(ret == sizeof(value), u8"TODO: IMPPLEMENT THIS CORRECTLY");
+}
+
 void EventSignal::Signal()
 {
 	const uint64 increment = 1;

@@ -39,7 +39,7 @@ namespace _stdxx_
 		StdXX::EventHandling::EventSource *CreateEventSource() override;
 		GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
 		HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
-		LabelBackend *CreateLabelBackend(StdXX::UI::Label *label) override;
+		LabelBackend *CreateLabelBackend(StdXX::UI::Label& label) override;
 		MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
 		MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
 		PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;

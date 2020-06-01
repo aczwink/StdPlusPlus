@@ -41,6 +41,7 @@ namespace _stdxx_
 
 		//Methods
 		void Decode(const StdXX::Multimedia::IPacket & packet) override;
+		void Reset() override;
 
 	private:
 		//Members

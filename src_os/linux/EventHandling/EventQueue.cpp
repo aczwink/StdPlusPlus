@@ -30,8 +30,8 @@ void EventQueue::System_WaitForEvents(uint64 timeOut)
 {
 	timespec waitTime;
 
-	waitTime.tv_sec = static_cast<__time_t>(timeOut / 1000000);
-	waitTime.tv_nsec = static_cast<__syscall_slong_t>((timeOut % 1000000) * 1000);
+	waitTime.tv_sec = static_cast<__time_t>(timeOut / 1000000000);
+	waitTime.tv_nsec = static_cast<__syscall_slong_t>(timeOut % 1000000000);
 
 	int ret = ppoll(THIS.PollFDs(), THIS.PollFDsCount(), &waitTime, nullptr);
 	ASSERT(ret >= 0, u8"TODO: IMPLEMENT THIS CORRECTLY");

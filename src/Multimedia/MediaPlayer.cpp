@@ -30,7 +30,7 @@ using namespace StdXX::Math;
 using namespace StdXX::Multimedia;
 
 //Constructor
-MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this)), demuxerThread(this)
+MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputStream), masterClockTimer(Function<void()>(&MediaPlayer::OnMasterClockTriggered, this))
 {
 	this->demuxer = nullptr;
 	this->isPlaying = false;
@@ -137,14 +137,15 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 	this->audio.decodeThread = new _stdxx_::DecoderThread(this);
 	this->video.decodeThread = new _stdxx_::DecoderThread(this);
 
-	this->demuxerThread.Connect(this->audio.decodeThread.operator->(), this->video.decodeThread.operator->());
+	this->demuxerThread = new _stdxx_::DemuxerThread(this->demuxer);
+	this->demuxerThread->Connect(this->audio.decodeThread.operator->(), this->video.decodeThread.operator->());
 
 	if(!this->video.streams.IsEmpty())
 		this->SetVideoStreamIndex( (*this->video.streams.begin()).key );
 	if(!this->audio.streams.IsEmpty())
 		this->SetAudioStreamIndex( (*this->audio.streams.begin()).key );
 
-	this->demuxerThread.Start();
+	this->demuxerThread->Start();
 	this->audio.decodeThread->Start();
 	this->video.decodeThread->Start();
 }
@@ -155,10 +156,10 @@ MediaPlayer::~MediaPlayer()
 	this->HaltPlayback();
 
 	//wait for threads to terminate
-	while (this->demuxerThread.IsAlive())
+	while (this->demuxerThread->IsAlive())
 	{
 		this->ShutdownThreads();
-		this->demuxerThread.Join_ms(1);
+		this->demuxerThread->Join_ms(1);
 	}
 	while (this->audio.decodeThread->IsAlive())
 	{
@@ -174,6 +175,61 @@ MediaPlayer::~MediaPlayer()
 	//
 	delete this->demuxer;
 	delete this->video.nextPacket;
+}
+
+//Public methods
+void MediaPlayer::Pause()
+{
+	if(this->isPlaying)
+	{
+		this->HaltPlayback();
+	}
+}
+
+void MediaPlayer::Play()
+{
+	if(!this->isPlaying)
+	{
+		this->isPlaying = true;
+
+		this->StartMasterClock();
+	}
+}
+
+void MediaPlayer::Seek(uint64 ts, const TimeScale &timeScale)
+{
+	const bool wasPlaying = this->isPlaying;
+	this->HaltPlayback();
+
+	this->demuxerThread->Stop();
+	this->audio.decodeThread->Stop();
+	this->video.decodeThread->Stop();
+	while(this->demuxerThread->IsWorking())
+	{
+		this->demuxerThread->Join_ms(1);
+
+		this->audio.decodeThread->FlushInputQueue();
+		this->video.decodeThread->FlushInputQueue();
+	}
+
+	this->demuxer->Seek(ts, timeScale);
+
+	this->audio.decodeThread->Flush();
+	this->video.decodeThread->Flush();
+
+	this->audio.lastPTS = timeScale.Rescale(ts, this->demuxer->GetStream(this->audio.activeStreamIndex)->timeScale);
+	delete this->audio.nextPacket;
+	this->audio.nextPacket = nullptr;
+
+	this->video.frameDelay = 0;
+	delete this->video.nextPacket;
+	this->video.nextPacket = nullptr;
+
+	TimeScale us(1, 1000000);
+	this->masterClock = timeScale.Rescale(ts, us);
+
+	if(wasPlaying)
+		this->Play();
 }
 
 //Eventhandlers
@@ -266,11 +322,15 @@ void MediaPlayer::OnMasterClockTriggered()
 		}
 	}
 
-	//set up next call
-	int64 nextDelay = Math::Min(this->video.frameDelay, audioFrameDelay);
-	nextDelay = Max(nextDelay, int64(1));
+	if(this->isPlaying)
+	{
+		//set up next call
+		int64 nextDelay = Math::Min(this->video.frameDelay, audioFrameDelay);
+		nextDelay = Max(nextDelay, int64(1));
 
-	this->masterClockTimer.OneShot((uint32) (nextDelay * 1000));
+		this->masterClockTimer.timeOut = (uint64) (nextDelay * 1000);
+		this->masterClockTimer.OneShot();
+	}
 }
 
 //Private methods
@@ -285,31 +345,18 @@ void MediaPlayer::HaltPlayback()
 
 void MediaPlayer::ShutdownThreads()
 {
-	this->demuxerThread.Shutdown();
+	this->demuxerThread->Shutdown();
 	this->audio.decodeThread->Shutdown();
 	this->video.decodeThread->Shutdown();
 }
 
-//Public methods
-void MediaPlayer::Pause()
+void MediaPlayer::StartMasterClock()
 {
-	if(this->isPlaying)
-	{
-		this->HaltPlayback();
-	}
-}
+	this->demuxerThread->Work();
+	this->audio.decodeThread->Work();
+	this->video.decodeThread->Work();
 
-void MediaPlayer::Play()
-{
-	if(!this->isPlaying)
-	{
-		this->isPlaying = true;
-
-		this->demuxerThread.Work();
-		this->audio.decodeThread->Work();
-		this->video.decodeThread->Work();
-
-		this->clock.Start();
-		this->masterClockTimer.OneShot(1);
-	}
+	this->clock.Start();
+	this->masterClockTimer.timeOut = 1000;
+	this->masterClockTimer.OneShot();
 }

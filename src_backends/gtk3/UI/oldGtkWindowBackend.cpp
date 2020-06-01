@@ -67,11 +67,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), this->widget);
 		}
 		break;
-		case WindowBackendType::Label:
-		{
-			this->gtkWidget = gtk_label_new(nullptr);
-		}
-		break;
 		case WindowBackendType::ListView:
 		{
 			this->gtkWidget = gtk_list_box_new();
@@ -111,11 +106,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		case WindowBackendType::SearchBox:
 		{
 			this->gtkWidget = gtk_search_entry_new();
-		}
-		break;
-		case WindowBackendType::Slider:
-		{
-			g_signal_connect(this->gtkWidget, u8"value-changed", G_CALLBACK(GtkEventSource::ValueChangedSlot), this->widget);
 		}
 		break;
 		case WindowBackendType::SpinBox:
@@ -251,9 +241,6 @@ void GtkWindowBackend::SetText(const String &text)
 	{
 		case WindowBackendType::CheckBox:
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
-			break;
-		case WindowBackendType::Label:
-			gtk_label_set_text(GTK_LABEL(this->gtkWidget), gtkText);
 			break;
 		case WindowBackendType::RadioButton:
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);

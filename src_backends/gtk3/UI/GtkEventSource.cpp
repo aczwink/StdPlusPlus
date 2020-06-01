@@ -97,6 +97,8 @@ uint64 GtkEventSource::QueryWaitInfo(EventHandling::WaitObjectManager &waitObjec
 	for(uint32 i = 0; i < nEventObjects; i++)
 		waitObjectManager.Add(*this, this->pollFds[i].fd, this->pollFds[i].events);
 
+	if(timeOut < 0)
+		return Unsigned<uint64>::Max();
 	return timeOut * 1000000_u64;
 }
 
@@ -208,11 +210,4 @@ void GtkEventSource::TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer
 {
     NOT_IMPLEMENTED_ERROR; //TODO: next line
 	//l_gtkEvtSrc->DispatchSelectionChangedEvent(*(TreeView *)user_data);
-}
-
-void GtkEventSource::ValueChangedSlot(GtkRange *range, gpointer user_data)
-{
-	Slider *slider = (Slider *) user_data;
-	if(slider->onValueChangedHandler.IsBound())
-		slider->onValueChangedHandler();
 }*/

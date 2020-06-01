@@ -55,6 +55,7 @@ namespace _stdxx_
 		~DecoderThread();
 
 		//Methods
+		void Flush();
 		void FlushInputQueue();
 		void FlushOutputQueue();
 		void SetStreamIndex(uint32 streamIndex);
@@ -90,7 +91,9 @@ namespace _stdxx_
 		inline void Stop()
 		{
 			this->work = false;
+			this->inputPacketQueueLock.Lock();
 			this->inputPacketQueueSignal.Signal();
+			this->inputPacketQueueLock.Unlock();
 		}
 
 	private:
@@ -142,7 +145,13 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		DemuxerThread(StdXX::Multimedia::MediaPlayer *player);
+		DemuxerThread(StdXX::Multimedia::Demuxer *demuxer);
+
+		//Properties
+		inline bool IsWorking() const
+		{
+			return this->working;
+		}
 
 		//Inline
 		inline void Connect(DecoderThread *audioDecodeThread, DecoderThread *videoDecodeThread)
@@ -175,9 +184,13 @@ namespace _stdxx_
 			this->workLock.Unlock();
 		}
 
+		inline void Stop()
+		{
+			this->work = false;
+		}
+
 	private:
 		//Members
-		StdXX::Multimedia::MediaPlayer *player;
 		StdXX::Multimedia::Demuxer *demuxer;
 		bool shutdown;
 		bool work;
@@ -217,13 +230,20 @@ namespace StdXX
 			//Methods
 			void Pause();
 			void Play();
+			void Seek(uint64 ts, const TimeScale& timeScale);
 
-			//Inline
-			inline Demuxer *GetDemuxer()
+			//Properties
+			inline const class Demuxer& Demuxer() const
 			{
-				return this->demuxer;
+				return *this->demuxer;
 			}
 
+			inline uint64 MasterClock() const
+			{
+				return this->masterClock;
+			}
+
+			//Inline
 			inline const Map<uint32, AudioStream*>& GetAudioStreams() const
 			{
 				return this->audio.streams;
@@ -247,7 +267,7 @@ namespace StdXX
 			inline void SetAudioStreamIndex(uint32 streamIndex)
 			{
 				this->audio.activeStreamIndex = streamIndex;
-				this->demuxerThread.SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
+				this->demuxerThread->SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
 				this->audio.decodeThread->SetStreamIndex(this->audio.activeStreamIndex);
 			}
 
@@ -259,7 +279,7 @@ namespace StdXX
 			inline void SetVideoStreamIndex(uint32 streamIndex)
 			{
 				this->video.activeStreamIndex = streamIndex;
-				this->demuxerThread.SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
+				this->demuxerThread->SetStreamIndices(this->video.activeStreamIndex, this->audio.activeStreamIndex);
 				this->video.decodeThread->SetStreamIndex(this->video.activeStreamIndex);
 			}
 
@@ -267,7 +287,7 @@ namespace StdXX
 			//Members
 			SeekableInputStream &inputStream;
 			const Format *format;
-			Demuxer *demuxer;
+			class Demuxer *demuxer;
 			struct
 			{
 				Map<uint32, AudioStream *> streams;
@@ -306,7 +326,7 @@ namespace StdXX
 			uint64 masterClock;
 			Timer masterClockTimer;
 
-			_stdxx_::DemuxerThread demuxerThread;
+			UniquePointer<_stdxx_::DemuxerThread> demuxerThread;
 
 			//Eventhandlers
 			void OnMasterClockTriggered();
@@ -314,6 +334,7 @@ namespace StdXX
 			//Methods
 			void HaltPlayback();
 			void ShutdownThreads();
+			void StartMasterClock();
 		};
 	}
 }

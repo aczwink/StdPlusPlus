@@ -28,21 +28,34 @@ namespace StdXX
     {
 		friend class TimerEventSource;
     public:
+    	//Members
+    	/**
+    	 * In nanoseconds
+    	 */
+    	uint64 timeOut;
+
         //Constructor
         Timer(const Function<void()> &timedOutCallback, TimerEventSource &eventSource = *TimerEventSource::globalSource);
 
         //Destructor
         ~Timer();
 
+        //Properties
+        inline bool IsPeriodic() const
+		{
+        	return this->isPeriodic;
+		}
+
         //Methods
-		void OneShot(uint64 timeOut_usec);
-        void Start(uint64 timeOut_usec);
+		void OneShot();
+        void Start();
         void Stop();
 
 	private:
 		//Members
 		TimerEventSource& eventSource;
 		Function<void()> timedOutCallback;
-		uint64 id;
+		bool isPeriodic;
+		bool isPending;
     };
 }

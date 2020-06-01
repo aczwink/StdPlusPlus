@@ -39,6 +39,8 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3LabelBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3LabelBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3PushButtonBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3PushButtonBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3RedirectContainer.cpp

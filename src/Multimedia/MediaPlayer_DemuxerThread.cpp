@@ -26,9 +26,9 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-DemuxerThread::DemuxerThread(MediaPlayer *player)
+DemuxerThread::DemuxerThread(Demuxer *demuxer)
 {
-	this->player = player;
+	this->demuxer = demuxer;
 	this->shutdown = false;
 	this->work = false;
 	this->working = false;
@@ -39,8 +39,6 @@ DemuxerThread::DemuxerThread(MediaPlayer *player)
 //Private methods
 void DemuxerThread::Run()
 {
-	this->demuxer = this->player->GetDemuxer();
-
 	while(true)
 	{
 		if(this->shutdown)

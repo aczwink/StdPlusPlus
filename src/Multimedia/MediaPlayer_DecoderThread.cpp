@@ -104,7 +104,7 @@ void DecoderThread::Run()
 					const AudioFrame* audioFrame = dynamic_cast<const AudioFrame*>(frame);
 					const AudioBuffer* srcBuffer = audioFrame->GetAudioBuffer();
 
-					const AudioStream* sourceStream = dynamic_cast<const AudioStream*>(this->player->GetDemuxer()->GetStream(this->streamIndex));
+					const AudioStream* sourceStream = dynamic_cast<const AudioStream*>(this->player->Demuxer().GetStream(this->streamIndex));
 					const AudioStream& destStream = dynamic_cast<const AudioStream&>(*this->encodingStream);
 
 					resampledFrame = new AudioFrame(srcBuffer->Resample(*sourceStream->sampleFormat, *destStream.sampleFormat));
@@ -161,7 +161,7 @@ bool DecoderThread::WaitForWork()
 		if(this->work)
 		{
 			if(this->streamIndex != Unsigned<uint32>::Max())
-				this->decoderContext = this->player->GetDemuxer()->GetStream(this->streamIndex)->GetDecoderContext();
+				this->decoderContext = const_cast<Stream *>(this->player->Demuxer().GetStream(this->streamIndex))->GetDecoderContext();
 		}
 
 		return true;
@@ -171,6 +171,15 @@ bool DecoderThread::WaitForWork()
 }
 
 //Public methods
+void DecoderThread::Flush()
+{
+	if(this->decoderContext)
+		this->decoderContext->Reset();
+
+	this->FlushInputQueue();
+	this->FlushOutputQueue();
+}
+
 void DecoderThread::FlushInputQueue()
 {
 	this->inputPacketQueueLock.Lock();
@@ -190,7 +199,7 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 {
 	this->streamIndex = streamIndex;
 
-	const Stream* sourceStream = this->player->GetDemuxer()->GetStream(streamIndex);
+	const Stream* sourceStream = this->player->Demuxer().GetStream(streamIndex);
 	CodingFormatId codingFormatId;
 	switch (sourceStream->codingParameters.dataType)
 	{

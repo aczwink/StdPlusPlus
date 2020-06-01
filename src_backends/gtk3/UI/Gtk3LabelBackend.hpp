@@ -16,35 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include "Std++/OSHandle.hpp"
+#include <Std++/_Backends/UI/LabelBackend.hpp>
+#include <Std++/UI/Controls/Label.hpp>
+#include "Gtk3WidgetBackend.hpp"
 
-namespace StdXX::EventHandling
+namespace _stdxx_
 {
-	class EventSignal
+	class Gtk3LabelBackend : public LabelBackend, public Gtk3WidgetBackend
 	{
 	public:
-		//Constructors
-		/**
-		 * Constructs new waiter.
-		 */
-		EventSignal();
-
-		//Destructor
-		~EventSignal();
+		//Constructor
+		Gtk3LabelBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Label& label);
 
 		//Methods
-		void Clear();
-		void Signal();
+		StdXX::UI::Widget &GetWidget() override;
+		const StdXX::UI::Widget &GetWidget() const override;
+		void SetText(const StdXX::String &text) override;
 
-		//Properties
-		inline OSHandle& Handle()
-		{
-			return this->waitableHandle;
-		}
+		//NOT IMPLEMENTED
+		void Repaint() override;
+		void SetEditable(bool enable) const override;
+		//NOT IMPLEMENTED
 
 	private:
 		//Members
-		OSHandle waitableHandle;
+		StdXX::UI::Label& label;
 	};
 }

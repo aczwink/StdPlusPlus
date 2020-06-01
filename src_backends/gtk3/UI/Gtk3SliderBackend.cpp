@@ -18,10 +18,21 @@
  */
 //Class header
 #include "Gtk3SliderBackend.hpp"
+//Local
+#include <Std++/UI/Events/ValueChangedEvent.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
+
+//Local functions
+static void ValueChangedSlot(GtkRange *range, gpointer user_data)
+{
+	Slider *slider = (Slider *) user_data;
+
+	ValueChangedEvent valueChangedEvent({.u32 = static_cast<uint32>(gtk_range_get_value(range))});
+	slider->Event(valueChangedEvent);
+}
 
 //Constructor
 Gtk3SliderBackend::Gtk3SliderBackend(UIBackend &uiBackend, Slider& slider)
@@ -29,6 +40,9 @@ Gtk3SliderBackend::Gtk3SliderBackend(UIBackend &uiBackend, Slider& slider)
     Gtk3WidgetBackend(uiBackend, gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 100, 1)),
     slider(slider)
 {
+	gtk_scale_set_draw_value(GTK_SCALE(this->GetGtkWidget()), FALSE);
+
+	g_signal_connect(this->GetGtkWidget(), u8"value-changed", G_CALLBACK(ValueChangedSlot), &slider);
 }
 
 //Public methods
