@@ -110,6 +110,12 @@ namespace StdXX
 		}
 
 		//Inline
+		template <typename CastToType>
+		inline bool IsInstanceOf() const
+		{
+			return IS_INSTANCE_OF(this->ptr, CastToType);
+		}
+
 		inline bool IsNull() const
 		{
 			return this->ptr == nullptr;

@@ -103,6 +103,14 @@ namespace StdXX
         	this->codec->WriteCodePoint(codePoint, this->outputStream);
 		}
 
+		inline void WriteFixedLengthString(const String& string, uint32 length, uint32 fillChar = 0)
+		{
+        	ASSERT(string.GetLength() <= length, u8"input string is too long");
+        	this->WriteString(string);
+        	for(uint32 i = 0; i < length - string.GetLength(); i++)
+        		this->WriteCodePoint(fillChar);
+		}
+
 		inline void WriteLine()
 		{
 			this->WriteString(this->lineSeparator);

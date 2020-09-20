@@ -141,10 +141,11 @@ String TextReader::ReadZeroTerminatedString()
 String TextReader::ReadZeroTerminatedString(uint32 length)
 {
 	String result;
-	while (!this->inputStream.IsAtEnd() && length--)
+	while (!this->inputStream.IsAtEnd() && length)
 	{
 		uint8 nBytes;
 		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytes);
+		length--;
 		if (codePoint == 0)
 			break;
 		result += codePoint;
