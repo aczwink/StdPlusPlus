@@ -16,9 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 
 namespace StdXX::Type
 {
     template<typename T> struct RemoveConst { typedef T type; };
     template<typename T> struct RemoveConst<const T> { typedef T type; };
+
+	//RemoveReference
+	template<typename T> struct RemoveReference { typedef T type; };
+	template<typename T> struct RemoveReference<T&> { typedef T type; };
+	template<typename T> struct RemoveReference<T&&> { typedef T type; };
 }

@@ -16,13 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include <Std++/__Globaldependencies.h>
 
 namespace StdXX::Type
 {
+	template <typename... T>
+	struct CommonType : public std::common_type<T...> {};
+
     template <typename T, typename Arg>
     struct IsAssignable : public std::is_assignable<T, Arg> {};
+
+	template <typename T>
+	struct IsIntegral : public std::is_integral<T>{};
+
+	template <typename T>
+	struct IsSigned : public std::is_signed<T>{};
 
     template <typename T, typename Arg> struct IsTriviallyAssignable : public std::is_trivially_assignable<T, Arg> {};
 }

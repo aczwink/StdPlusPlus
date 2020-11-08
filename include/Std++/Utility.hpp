@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include "Type.hpp"
+#include <Std++/Type/Remove_cv.hpp>
 
 namespace StdXX
 {

@@ -19,32 +19,53 @@
 
 #pragma once
 //Local
+#include <Std++/Type/Global.hpp>
+#include <Std++/Type.hpp>
+#include <Std++/Type/Remove_cv.hpp>
 #include "Definitions.h"
 
 #ifdef XPC_BUILDTYPE_DEBUG
 #define ASSERT(expression, message) {if((expression) == 0){StdXX::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
 //extended asserts
-#define ASSERT_EQUALS(expect, got) { if( !( (expect) == (got) ) ){ StdXX::AssertEqualsFailed(expect, got, __FILE__, __LINE__, __FUNCTION__); } }
+#define ASSERT_EQUALS(expect, got) { auto a = (expect); auto b = (got); if( !( a == b ) ){ StdXX::AssertEqualsFailed(a, b, __FILE__, __LINE__, __FUNCTION__); } }
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdXX::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
+
+namespace _stdxx_
+{
+	template <typename T, typename U>
+	struct CommonInteger8ByteExtended_WithoutSimplification : public StdXX::Type::Conditional<
+	        StdXX::Type::IsSigned<T>::value,
+	        typename StdXX::Type::CommonType<int64, typename StdXX::Type::CommonType<T, U>::type>::type,
+	        typename StdXX::Type::CommonType<uint64, typename StdXX::Type::CommonType<T, U>::type>::type
+	>{};
+
+	template <typename T, typename U>
+	struct CommonInteger8ByteExtended : public CommonInteger8ByteExtended_WithoutSimplification<
+			typename StdXX::Type::RemoveConst<typename StdXX::Type::RemoveReference<T>::type>::type,
+			typename StdXX::Type::RemoveConst<typename StdXX::Type::RemoveReference<U>::type>::type
+	>{};
+}
 
 namespace StdXX
 {
 	//Forward declarations
 	class String;
 
-	void AssertEqualsFailed(int32 expected, int32 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName);
-	void AssertEqualsFailed(uint8 expected, uint8 got, const char *fileName, uint32 lineNumber, const char *functionName);
-	void AssertEqualsFailed(uint16 expected, uint16 got, const char *fileName, uint32 lineNumber, const char *functionName);
-	void AssertEqualsFailed(uint32 expected, uint32 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName, uint32 lineNumber, const char *functionName);
-	void AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void AssertFloatsEqualFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
 
-	template <typename T>
-	inline void AssertEqualsFailed(const T& expected, const T& got, const char *fileName, uint32 lineNumber, const char *functionName)
+	template <typename T, typename U>
+	inline typename Type::EnableIf<StdXX::Type::IsIntegral<T>::value>::type AssertEqualsFailed(const T& expected, const U& got, const char *fileName, uint32 lineNumber, const char *functionName)
+	{
+		typedef typename _stdxx_::CommonInteger8ByteExtended<T, U>::type targetType;
+		AssertEqualsFailed(targetType(expected), targetType(got), fileName, lineNumber, functionName);
+	}
+
+	template <typename T, typename U>
+	inline typename Type::EnableIf<!StdXX::Type::IsIntegral<T>::value>::type AssertEqualsFailed(const T& expected, const U& got, const char *fileName, uint32 lineNumber, const char *functionName)
 	{
 		AssertionFailed(u8"expected == got", u8"Expected and received value differ.", fileName, lineNumber, functionName);
 	}

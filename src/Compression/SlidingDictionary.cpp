@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,13 +41,11 @@ SlidingDictionary::~SlidingDictionary()
 //Public methods
 void SlidingDictionary::Copy(uint16 distance, uint16 length, OutputStream &refOutput)
 {
-	uint32 readIndex, nBytesToWrite;
-
-	readIndex = (this->size + this->index - distance) % this->size;
+	uint32 readIndex = (this->size + this->index - distance) % this->size;
 	while(length)
 	{
 		//check all overlaps
-		nBytesToWrite = Math::Min(uint32(length), this->size - readIndex);
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->size - readIndex);
 		nBytesToWrite = Math::Min(nBytesToWrite, this->size - this->index);
 		nBytesToWrite = Math::Min(nBytesToWrite, this->index - readIndex); //we can not overtake what we didnt read yet
 

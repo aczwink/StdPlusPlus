@@ -22,42 +22,26 @@
 #include <Std++/Errorhandling/Errors/AssertionError.hpp>
 #include <Std++/Errorhandling/Errors/NotImplementedError.hpp>
 #include <Std++/Containers/Strings/String.hpp>
+//Namespaces
+using namespace StdXX;
 
 #ifdef XPC_BUILDTYPE_DEBUG
-void StdXX::AssertEqualsFailed(int32 expected, int32 got, const char *fileName, uint32 lineNumber, const char *functionName)
+//Local functions
+static void AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName)
 {
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+	String message = u8"Expected: '" + expected + u8"' but got: '" + got + u8"'.";
+	throw ErrorHandling::AssertionError(u8"expected == got", message, fileName, lineNumber, functionName);
 }
 
+//Namespace functions
 void StdXX::AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName)
 {
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
-}
-
-void StdXX::AssertEqualsFailed(uint8 expected, uint8 got, const char *fileName, uint32 lineNumber, const char *functionName)
-{
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
-}
-
-void StdXX::AssertEqualsFailed(uint16 expected, uint16 got, const char *fileName, uint32 lineNumber, const char *functionName)
-{
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
-}
-
-void StdXX::AssertEqualsFailed(uint32 expected, uint32 got, const char *fileName, uint32 lineNumber, const char *functionName)
-{
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
+	::AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
 }
 
 void StdXX::AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName, uint32 lineNumber, const char *functionName)
 {
-	AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
-}
-
-void StdXX::AssertEqualsFailed(const String& expected, const String& got, const char *fileName, uint32 lineNumber, const char *functionName)
-{
-	String message = u8"Expected: '" + expected + u8"' but got: '" + got + u8"'.";
-	throw ErrorHandling::AssertionError(u8"expected == got", message, fileName, lineNumber, functionName);
+	::AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
 }
 
 void StdXX::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)

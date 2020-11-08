@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,6 +41,13 @@ namespace StdXX
 
 			if(this->index == this->size)
 				this->index = 0;
+		}
+
+		inline void Append(const void* source, uint32 length)
+		{
+			const uint8* src = static_cast<const uint8 *>(source);
+			while(length--)
+				this->Append(*src++);
 		}
 
 	private:
