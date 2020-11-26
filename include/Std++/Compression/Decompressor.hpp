@@ -18,12 +18,12 @@
  */
 #pragma once
 //Local
-#include <Std++/Streams/InputStream.hpp>
+#include <Std++/Streams/ReadOnlyInputStream.hpp>
 #include "CompressionAlgorithm.hpp"
 
 namespace StdXX
 {
-	class STDPLUSPLUS_API Decompressor : public InputStream
+	class STDPLUSPLUS_API Decompressor : public ReadOnlyInputStream
 	{
 	public:
 		//Constructor

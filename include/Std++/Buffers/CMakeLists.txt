@@ -3,5 +3,6 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/FixedSizeBuffer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RingBuffer.hpp
 
 	PARENT_SCOPE)

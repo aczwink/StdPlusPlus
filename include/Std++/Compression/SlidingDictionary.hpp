@@ -19,41 +19,20 @@
 #pragma once
 //Local
 #include <Std++/Streams/OutputStream.hpp>
+#include <Std++/Buffers/RingBuffer.hpp>
 
 namespace StdXX
 {
-	class SlidingDictionary
+	class SlidingDictionary : public RingBuffer
 	{
 	public:
 		//Constructor
-		SlidingDictionary(uint32 size);
-
-		//Destructor
-		~SlidingDictionary();
+		inline SlidingDictionary(uint32 size) : RingBuffer(size)
+		{
+		}
 
 		//Methods
 		void Copy(uint16 distance, uint16 length, StdXX::OutputStream &refOutput);
-
-		//Inline
-		inline void Append(byte b)
-		{
-			this->pBuffer[this->index++] = b;
-
-			if(this->index == this->size)
-				this->index = 0;
-		}
-
-		inline void Append(const void* source, uint32 length)
-		{
-			const uint8* src = static_cast<const uint8 *>(source);
-			while(length--)
-				this->Append(*src++);
-		}
-
-	private:
-		//Members
-		uint32 size;
-		byte *pBuffer;
-		uint32 index;
+		void CopyToTail(uint16 distance, uint16 length);
 	};
 }

@@ -20,14 +20,13 @@
 #include <Std++/Compression/Decompressor.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Streams/ChecksumFunction.hpp>
-#include <Std++/Streams/ReadOnlyInputStream.hpp>
 
 namespace _stdxx_
 {
 	/**
 	 * Based on RFC 1952
 	 */
-	class gzipDecompressor : public StdXX::Decompressor, public StdXX::ReadOnlyInputStream
+	class gzipDecompressor : public StdXX::Decompressor
 	{
 	public:
 		//Constructor
@@ -37,7 +36,6 @@ namespace _stdxx_
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
-		uint32 Skip(uint32 nBytes) override;
 
 	private:
 		//Members

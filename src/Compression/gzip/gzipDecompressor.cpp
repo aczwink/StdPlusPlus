@@ -117,8 +117,3 @@ void gzipDecompressor::EnsureMemberHeaderRead()
 
 	this->memberHeaderRead = true;
 }
-
-uint32 gzipDecompressor::Skip(uint32 nBytes)
-{
-	return ReadOnlyInputStream::Skip(nBytes);
-}

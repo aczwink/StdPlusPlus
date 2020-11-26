@@ -24,38 +24,34 @@
 //Namespaces
 using namespace StdXX;
 
-//Constructor
-SlidingDictionary::SlidingDictionary(uint32 size)
-{
-	this->pBuffer = (byte *)MemAlloc(size);
-	this->size = size;
-	this->index = 0;
-}
-
-//Destructor
-SlidingDictionary::~SlidingDictionary()
-{
-	MemFree(this->pBuffer);
-}
-
 //Public methods
 void SlidingDictionary::Copy(uint16 distance, uint16 length, OutputStream &refOutput)
 {
-	uint32 readIndex = (this->size + this->index - distance) % this->size;
 	while(length)
 	{
-		//check all overlaps
-		uint32 nBytesToWrite = Math::Min(uint32(length), this->size - readIndex);
-		nBytesToWrite = Math::Min(nBytesToWrite, this->size - this->index);
-		nBytesToWrite = Math::Min(nBytesToWrite, this->index - readIndex); //we can not overtake what we didnt read yet
+		uint32 readIndex = this->CalcBackOffsetIndex(distance);
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesToRead(readIndex));
 
 		//exchange bytes
-		refOutput.WriteBytes(&this->pBuffer[readIndex], nBytesToWrite);
-		MemCopy(&this->pBuffer[this->index], &this->pBuffer[readIndex], nBytesToWrite);
+		refOutput.WriteBytes(&this->Data()[readIndex], nBytesToWrite);
+		this->CopyToTail(readIndex, nBytesToWrite);
 
 		//update
 		length -= (uint16)nBytesToWrite;
-		readIndex = (readIndex + nBytesToWrite) % this->size;
-		this->index = (this->index + nBytesToWrite) % this->size;
+	}
+}
+
+void SlidingDictionary::CopyToTail(uint16 distance, uint16 length)
+{
+	while(length)
+	{
+		uint32 readIndex = this->CalcBackOffsetIndex(distance);
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesToRead(readIndex));
+
+		//exchange bytes
+		RingBuffer::CopyToTail(readIndex, nBytesToWrite);
+
+		//update
+		length -= (uint16)nBytesToWrite;
 	}
 }

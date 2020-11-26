@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,13 +24,18 @@
 //Namespaces
 using namespace StdXX;
 
-class UTF16_LE_TextCodec : public TextCodec
+class UTF16_TextCodec : public TextCodec
 {
 public:
+	//Constructor
+	inline UTF16_TextCodec(bool readBigEndian) : readBigEndian(readBigEndian)
+	{
+	}
+
 	//Methods
 	uint32 ReadCodePoint(InputStream &inputStream, uint8& nBytesRead) const override
 	{
-		DataReader reader(false, inputStream);
+		DataReader reader(this->readBigEndian, inputStream);
 
 		uint16 codePoint = reader.ReadUInt16();
 		nBytesRead = 2;
@@ -46,4 +51,8 @@ public:
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
+
+private:
+	//Members
+	bool readBigEndian;
 };

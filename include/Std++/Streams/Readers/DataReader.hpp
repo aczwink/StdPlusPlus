@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,14 +34,16 @@ namespace StdXX
 		//Operators
 		inline DataReader &operator>>(char &c)
 		{
-			this->inputStream.ReadBytes(&c, 1);
+			uint32 nBytesRead = this->inputStream.ReadBytes(&c, 1);
+			ASSERT_EQUALS(1, nBytesRead);
 
 			return *this;
 		}
 
 		inline DataReader &operator>>(byte &b)
 		{
-			this->inputStream.ReadBytes(&b, 1);
+			uint32 nBytesRead = this->inputStream.ReadBytes(&b, 1);
+			ASSERT_EQUALS(1, nBytesRead);
 
 			return *this;
 		}
@@ -72,7 +74,8 @@ namespace StdXX
 		{
 			byte b;
 
-			this->inputStream.ReadBytes(&b, 1);
+			uint32 nBytesRead = this->inputStream.ReadBytes(&b, 1);
+			ASSERT_EQUALS(1, nBytesRead);
 
 			return b;
 		}
@@ -102,7 +105,8 @@ namespace StdXX
 			}
 
 #ifdef XPC_ENDIANNESS_LITTLE
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 #endif
 			return v;
 		}
@@ -126,7 +130,8 @@ namespace StdXX
 #endif
 			}
 #ifdef XPC_ENDIANNESS_LITTLE
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 #endif
 
 			return v;
@@ -146,7 +151,8 @@ namespace StdXX
 		{
 			uint16 v;
 
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 
 			if(this->readBigEndian)
 #ifdef XPC_ENDIANNESS_LITTLE
@@ -199,7 +205,8 @@ namespace StdXX
 		{
 			int64 v;
 
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 
 			return v;
 		}
@@ -208,7 +215,8 @@ namespace StdXX
 		{
 			byte buffer[4];
 
-			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&buffer, sizeof(buffer));
+			ASSERT_EQUALS(sizeof(buffer), nBytesRead);
 
 			return ((uint32)buffer[0] << 24) | ((uint32)buffer[1] << 16) | ((uint32)buffer[2] << 8) | buffer[3];
 		}
@@ -217,7 +225,8 @@ namespace StdXX
 		{
 			uint32 v;
 
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 
 			return v;
 		}
@@ -226,7 +235,8 @@ namespace StdXX
 		{
 			byte buffer[8];
 
-			this->inputStream.ReadBytes(&buffer, sizeof(buffer));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&buffer, sizeof(buffer));
+			ASSERT_EQUALS(sizeof(buffer), nBytesRead);
 
 			return ((uint64)buffer[0] << 56) | ((uint64)buffer[1] << 48) | ((uint64)buffer[2] << 40) | ((uint64)buffer[3] << 32) | ((uint64)buffer[4] << 24) | ((uint64)buffer[5] << 16) | ((uint64)buffer[6] << 8) | buffer[7];
 		}
@@ -235,7 +245,8 @@ namespace StdXX
 		{
 			uint64 v;
 
-			this->inputStream.ReadBytes(&v, sizeof(v));
+			uint32 nBytesRead = this->inputStream.ReadBytes(&v, sizeof(v));
+			ASSERT_EQUALS(sizeof(v), nBytesRead);
 
 			return v;
 		}
