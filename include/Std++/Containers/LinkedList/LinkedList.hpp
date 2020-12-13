@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -202,22 +202,6 @@ namespace StdXX
             this->nElements++;
         }
 
-        void InsertFront(const DataType &refData)
-        {
-            if(!this->head)
-            {
-                this->head = new Node(refData);
-                this->tail = this->head;
-                this->nElements = 1;
-                return;
-            }
-
-            this->head->prev = new Node(refData);
-            this->head->prev->next = this->head;
-            this->head = this->head->prev;
-            this->nElements++;
-        }
-
 		inline DataType &Last()
 		{
 			ASSERT(this->tail, "Can't get last from empty list");
@@ -308,6 +292,16 @@ namespace StdXX
                 this->InsertAfter(index - 1, Move(data));
         }
 
+		inline void InsertFront(const DataType& data)
+		{
+        	this->InsertNodeAtFront(new Node(data));
+		}
+
+		inline void InsertFront(DataType&& data)
+		{
+			this->InsertNodeAtFront(new Node(Forward<DataType>(data)));
+		}
+
 		inline void InsertTail(const DataType &data)
 		{
 			this->InsertNodeAtTail(new Node(data));
@@ -384,6 +378,22 @@ namespace StdXX
 
             return NULL;
         }
+
+		void InsertNodeAtFront(Node* node)
+		{
+			if(!this->head)
+			{
+				this->head = node;
+				this->tail = this->head;
+				this->nElements = 1;
+				return;
+			}
+
+			this->head->prev = node;
+			this->head->prev->next = this->head;
+			this->head = this->head->prev;
+			this->nElements++;
+		}
 
 		void InsertNodeAtTail(Node *node)
 		{

@@ -16,31 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Local
-#include <Std++/Utility.hpp>
 
-namespace _stdxx_
+namespace StdXX
 {
-	template<typename KeyType, typename ValueType>
-	class HashTableEntry
+	inline uint32 CombineHashes(uint32 h1, uint32 h2)
 	{
-	public:
-		//Members
-		KeyType key;
-		ValueType value;
-		HashTableEntry* next;
+		return h1 ^ (h2 << 1);
+	}
 
-		//Constructors
-		template<typename K, typename V>
-		inline HashTableEntry(K &&key, V &&value) : key(StdXX::Forward<K>(key)), value(StdXX::Forward<V>(value)),
-																  next(nullptr)
+	template<typename T>
+	struct HashFunction
+	{
+	};
+
+	template <>
+	struct HashFunction<uint32>
+	{
+		uint32 operator()(uint32 v) const
 		{
+			return v;
 		}
+	};
 
-		//Destructor
-		inline ~HashTableEntry()
+	template <>
+	struct HashFunction<String>
+	{
+		uint32 operator()(const String& string) const
 		{
-			delete this->next;
+			uint32 seed = 0xC70F6907;
+			for(uint32 c : string)
+			{
+				seed = CombineHashes(seed, c);
+			}
+			return seed;
 		}
 	};
 }

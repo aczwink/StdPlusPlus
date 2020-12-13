@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,23 +20,10 @@
 //Local
 #include <Std++/Containers/Container.hpp>
 #include "HashTableEntry.hpp"
+#include "HashFunction.hpp"
 
 namespace StdXX
 {
-	template<typename T>
-	struct HashFunction
-	{
-	};
-
-	template <>
-	struct HashFunction<uint32>
-	{
-		uint32 operator()(uint32 v) const
-		{
-			return v;
-		}
-	};
-
 	/**
 	 * Open hashing implementation.
 	 *
@@ -54,6 +41,14 @@ namespace StdXX
 		{
 		}
 
+		//Destructor
+		inline ~HashMap()
+		{
+			for(uint32 i = 0; i < this->nBuckets; i++)
+				delete this->buckets[i];
+			delete this->buckets;
+		}
+
 		//Operators
 		const ValueType &operator[](const KeyType& key) const
 		{
@@ -63,7 +58,8 @@ namespace StdXX
 		}
 
 		//Methods
-		void Insert(KeyType&& key, ValueType&& value)
+		template<typename K, typename V>
+		void Insert(K&& key, V&& value)
 		{
 			if(this->nBuckets == 0)
 				this->Reserve(16);
@@ -72,7 +68,7 @@ namespace StdXX
 			uint32 hash = hasher(key) % this->nBuckets;
 
 			if(this->buckets[hash] == nullptr)
-				this->buckets[hash] = new Entry(Move(key), Move(value));
+				this->buckets[hash] = new Entry(Forward<K>(key), Forward<V>(value));
 			else
 			{
 				Entry* entry = this->buckets[hash];
@@ -81,7 +77,7 @@ namespace StdXX
 				{
 					if(entry->key == key)
 					{
-						entry->value = Move(value);
+						entry->value = Forward<V>(value);
 						return;
 					}
 
@@ -89,7 +85,7 @@ namespace StdXX
 					entry = entry->next;
 				}
 
-				lastEntry->next = new Entry(Move(key), Move(value));
+				lastEntry->next = new Entry(Forward<K>(key), Forward<V>(value));
 			}
 
 			this->nElements++;
@@ -109,6 +105,13 @@ namespace StdXX
 			this->nBuckets = nBuckets;
 		}
 
+		//Inline
+		inline bool Contains(const KeyType& key) const
+		{
+			const Entry* entry = this->FindEntry(key);
+			return entry != nullptr;
+		}
+
 	private:
 		//Members
 		Entry** buckets;
@@ -117,6 +120,9 @@ namespace StdXX
 		//Methods
 		const Entry* FindEntry(const KeyType& key) const
 		{
+			if(this->nBuckets == 0)
+				return nullptr;
+
 			HashType hasher;
 			uint32 hash = hasher(key) % this->nBuckets;
 

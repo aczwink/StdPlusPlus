@@ -54,9 +54,9 @@ namespace StdXX
 	};
 
 	template <typename T>
-	constexpr T &&Move(T &reference)
+	constexpr typename Type::RemoveReference<T>::type&& Move(T&& reference) noexcept
 	{
-		return (T &&)reference;
+		return static_cast<typename Type::RemoveReference<T>::type&&>(reference);
 	}
 
 	template<typename T>

@@ -14,6 +14,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetNode.hpp
 
 	#HashMap
+	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashFunction.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashMap.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashTableEntry.hpp
 

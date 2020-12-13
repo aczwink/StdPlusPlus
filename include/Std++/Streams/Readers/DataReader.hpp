@@ -69,6 +69,12 @@ namespace StdXX
 			return *this;
 		}
 
+		//Properties
+		inline class InputStream& InputStream()
+		{
+			return this->inputStream;
+		}
+
 		//Inline
 		inline byte ReadByte()
 		{
@@ -192,7 +198,7 @@ namespace StdXX
     private:
         //Members
         bool readBigEndian;
-		InputStream &inputStream;
+		class InputStream &inputStream;
 
 		//Inline
 		inline uint16 Swap16(uint16 v)
