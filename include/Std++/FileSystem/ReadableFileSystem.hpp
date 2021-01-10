@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,6 @@ namespace StdXX::FileSystem
 {
 	struct SpaceInfo
 	{
-		uint64 availableSize;
 		uint64 freeSize;
 		uint64 totalSize;
 	};
@@ -49,16 +48,16 @@ namespace StdXX::FileSystem
 		virtual AutoPointer<const Node> GetNode(const Path& path) const = 0;
 		virtual SpaceInfo QuerySpace() const = 0;
 
-		//Functions
-		/**
-		 * Loads an existing file system in read-only mode.
-		 * The file system must exist.
-		 * @param path
-		 * @return
-		 */
-		static UniquePointer<ReadableFileSystem> LoadFromFile(const Path& path);
-
 		//Inline
+		inline AutoPointer<const Directory> GetDirectory(const Path& path) const
+		{
+			AutoPointer<const Node> node = this->GetNode(path);
+			ASSERT(!node.IsNull(), u8"Node does not exist.");
+			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
+
+			return node.MoveCast<const Directory>();
+		}
+
 		inline AutoPointer<const File> GetFile(const Path& path) const
 		{
 			AutoPointer<const Node> node = this->GetNode(path);

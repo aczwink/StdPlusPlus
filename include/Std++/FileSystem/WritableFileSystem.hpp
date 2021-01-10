@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,13 +56,6 @@ namespace StdXX::FileSystem
 		 * @param path
 		 */
 		static UniquePointer<WritableFileSystem> Create(const String &id, const Path &path);
-		/**
-		 * Loads an existing file system in writable mode.
-		 * The file system must exist.
-		 * @param p
-		 * @return
-		 */
-		static UniquePointer<WritableFileSystem> LoadFromFile(const Path &p);
 
 		//Inline
 		inline AutoPointer<Directory> GetDirectory(const Path& path)

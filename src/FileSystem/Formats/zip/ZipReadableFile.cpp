@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -24,6 +24,7 @@
 #include <Std++/Streams/BufferedInputStream.hpp>
 #include <Std++/Streams/CheckedInputStream.hpp>
 #include <Std++/Compression/Decompressor.hpp>
+#include "AEDecrypter.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -43,10 +44,20 @@ UniquePointer<InputStream> ZipReadableFile::OpenForReading(bool verify) const
 	ChainedInputStream* chain = new ChainedInputStream(
 			new EmbeddedFileInputStream(this->fileDataOffset, this->fileHeader.compressedSize, this->fileSystem.InputStream(), this->fileSystem.StreamLock()));
 
-	if(this->fileHeader.compressionMethod != 0)
+	if(this->fileHeader.compressionMethod == 99)
 	{
 		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
-		chain->Add(Decompressor::Create(this->MapCompressionMethod(), chain->GetEnd()));
+		chain->Add(new AEDecrypter(this->fileHeader.compressedSize, this->fileHeader.compressionMethodData.AE.strength, this->fileSystem.Password(), chain->GetEnd(), verify));
+		if(this->fileHeader.compressionMethodData.AE.actualCompressionMethod)
+			chain->Add(Decompressor::Create(this->MapCompressionMethod(this->fileHeader.compressionMethodData.AE.actualCompressionMethod), chain->GetEnd()));
+
+		if(this->fileHeader.crc32 == 0)
+			verify = false;
+	}
+	else if(this->fileHeader.compressionMethod != 0)
+	{
+		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
+		chain->Add(Decompressor::Create(this->MapCompressionMethod(this->fileHeader.compressionMethod), chain->GetEnd()));
 	}
 
 	if(verify)
@@ -58,9 +69,9 @@ UniquePointer<InputStream> ZipReadableFile::OpenForReading(bool verify) const
 }
 
 //Private methods
-CompressionAlgorithm ZipReadableFile::MapCompressionMethod() const
+CompressionAlgorithm ZipReadableFile::MapCompressionMethod(uint16 compressionMethod) const
 {
-	switch(this->fileHeader.compressionMethod)
+	switch(compressionMethod)
 	{
 		case 8:
 			return CompressionAlgorithm::DEFLATE;

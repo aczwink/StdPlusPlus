@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,6 +31,8 @@ namespace StdXX::FileSystem
 	{
 	public:
 		//Methods
+		using ReadableFileSystem::GetDirectory;
+		using WritableFileSystem::GetDirectory;
 		using ReadableFileSystem::GetNode;
 		using WritableFileSystem::GetNode;
 	};

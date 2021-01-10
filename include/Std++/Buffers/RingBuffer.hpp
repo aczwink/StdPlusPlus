@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,6 +19,7 @@
 //Local
 #include <Std++/Memory.hpp>
 #include <Std++/Mathematics.hpp>
+#include <Std++/Math/Range.hpp>
 
 namespace StdXX
 {
@@ -76,18 +77,26 @@ namespace StdXX
 			return (this->size + this->index - backOffset) % this->size;
 		}
 
-		inline uint32 CalcNumberOfBytesToRead(uint32 readIndex) const
+		inline uint32 CalcNumberOfBytesPossibleToRead(uint32 readIndex) const
 		{
-			//check all overlaps
-			uint32 nBytesToRead = this->size - readIndex;
-			nBytesToRead = Math::Min(nBytesToRead, this->size - this->index);
-			nBytesToRead = Math::Min(nBytesToRead, this->index - readIndex); //we can not overtake what we didnt read yet
+			if(this->index >= readIndex) //we can only read up to the index
+				return this->index - readIndex;
 
-			return nBytesToRead;
+			return this->size - readIndex; //read to end of buffer
+		}
+
+		//Inline
+		inline uint32 CalcNumberOfBytesPossibleToWrite() const
+		{
+			return this->size - this->index;
 		}
 
 		inline void CopyToTail(uint32 readIndex, uint32 nBytesToWrite)
 		{
+			ASSERT(this->index + nBytesToWrite <= this->size, u8"Write index is out of bounds");
+			ASSERT(!Math::Range(readIndex, readIndex + nBytesToWrite)
+				.Overlaps(Math::Range(this->index, this->index + nBytesToWrite)), u8"Read and write indices overlap");
+
 			MemCopy(&this->data[this->index], &this->data[readIndex], nBytesToWrite);
 			this->index = (this->index + nBytesToWrite) % this->size;
 		}

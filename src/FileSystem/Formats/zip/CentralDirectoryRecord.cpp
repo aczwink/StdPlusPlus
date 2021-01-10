@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -63,6 +63,13 @@ NodeType CentralDirectoryRecord::DetermineType() const
 {
     switch(this->versionMadeBy >> 8)
     {
+    	case 0: //MS-DOS and OS/2 (FAT / VFAT / FAT32 file systems)
+		{
+			if(this->externalFileAttributes & 0x10)
+				return NodeType::Directory;
+			return NodeType::File;
+		}
+		break;
         case 3: //UNIX
         {
             switch(this->externalFileAttributes >> 28) //upper 4 bits of st_mode

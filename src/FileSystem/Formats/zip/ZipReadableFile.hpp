@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -46,6 +46,6 @@ namespace _stdxx_
 		ZipFileSystem& fileSystem;
 
 		//Methods
-		StdXX::CompressionAlgorithm MapCompressionMethod() const;
+		StdXX::CompressionAlgorithm MapCompressionMethod(uint16 compressionMethod) const;
 	};
 }

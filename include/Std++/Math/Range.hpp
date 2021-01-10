@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
+
+#include <Std++/Mathematics.hpp>
+
 namespace StdXX::Math
 {
     template<typename DataType>
@@ -47,5 +51,13 @@ namespace StdXX::Math
         {
             return this->end < rhs.start;
         }
+
+        //Inline
+        inline bool Overlaps(const Range<DataType>& other) const
+		{
+        	return Math::IsValueBetween(this->start, other.start, other.end)
+        	or
+        	Math::IsValueBetween(this->end, other.start, other.end);
+		}
     };
 }

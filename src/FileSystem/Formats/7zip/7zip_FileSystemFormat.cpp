@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -56,7 +56,12 @@ float32 SevenZip_FileSystemFormat::Matches(SeekableInputStream & inputStream) co
 	return 0;
 }
 
-RWFileSystem *SevenZip_FileSystemFormat::OpenFileSystem(const Path &fileSystemPath, bool writable) const
+RWFileSystem *SevenZip_FileSystemFormat::OpenFileSystem(const Path &fileSystemPath, const OpenOptions& options) const
+{
+	return nullptr;
+}
+
+ReadableFileSystem *SevenZip_FileSystemFormat::OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const
 {
 	return new SevenZip_FileSystem(fileSystemPath);
 }

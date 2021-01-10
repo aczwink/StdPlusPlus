@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,13 +37,5 @@ UniquePointer<WritableFileSystem> WritableFileSystem::Create(const String &id, c
 	const Format *const& fileSystemFormat = Format::GetFormatById(id);
 	if(fileSystemFormat)
 		return fileSystemFormat->CreateFileSystem(path);
-	return nullptr;
-}
-
-UniquePointer<WritableFileSystem> WritableFileSystem::LoadFromFile(const Path &p)
-{
-	const Format *bestFormat = Format::FindBestFormat(p);
-	if(bestFormat)
-		return bestFormat->OpenFileSystem(p, true);
 	return nullptr;
 }

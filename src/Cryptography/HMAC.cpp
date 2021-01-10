@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,51 +23,103 @@
 //Namespaces
 using namespace StdXX;
 
-void StdXX::Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out)
+class HMAC_HashFunction : public Crypto::HashFunction
 {
-	UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
-	const uint8 blockSize = static_cast<const uint8>(hasher->GetBlockSize());
-	const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
-
-	FixedArray<uint8> realKey(blockSize);
-	if(keySize > blockSize)
+public:
+	//Constructor
+	HMAC_HashFunction(const uint8 *key, uint8 keySize, Crypto::HashAlgorithm hashAlgorithm)
+		: hashAlgorithm(hashAlgorithm)
 	{
-		hasher->Update(key, keySize);
-		hasher->Finish();
-		hasher->StoreDigest(&realKey[0]);
-		keySize = digestSize;
+		UniquePointer<HashFunction> hasher = HashFunction::CreateInstance(hashAlgorithm);
+		const uint8 blockSize = static_cast<const uint8>(hasher->GetBlockSize());
+		const uint8 digestSize = static_cast<const uint8>(hasher->GetDigestSize());
+
+		FixedArray<uint8> realKey(blockSize);
+		if(keySize > blockSize)
+		{
+			hasher->Update(key, keySize);
+			hasher->Finish();
+			hasher->StoreDigest(&realKey[0]);
+			keySize = digestSize;
+		}
+		else
+		{
+			MemCopy(&realKey[0], key, keySize);
+		}
+
+		if(keySize < blockSize)
+			MemZero(&realKey[0] + keySize, blockSize - keySize); //pad with zeros
+
+		//produce inner and outer key
+		FixedArray<uint8> innerKey(blockSize);
+		this->outerKey.Resize(blockSize);
+
+		for(uint8 i = 0; i < blockSize; i++)
+		{
+			innerKey[i] = realKey[i] xor 0x36;
+			outerKey[i] = realKey[i] xor 0x5C;
+		}
+
+		this->innerHasher = HashFunction::CreateInstance(hashAlgorithm);
+		this->innerHasher->Update(&innerKey[0], blockSize);
 	}
-	else
+
+	uint32 GetBlockSize() const override
 	{
-		MemCopy(&realKey[0], key, keySize);
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return 0;
 	}
 
-	if(keySize < blockSize)
-		MemZero(&realKey[0] + keySize, blockSize - keySize); //pad with zeros
-
-	//produce inner and outer key
-	FixedArray<uint8> innerKey(blockSize);
-	FixedArray<uint8> outerKey(blockSize);
-
-	for(uint8 i = 0; i < blockSize; i++)
+	uint32 GetDigestSize() const override
 	{
-		innerKey[i] = realKey[i] xor 0x36;
-		outerKey[i] = realKey[i] xor 0x5C;
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return 0;
 	}
 
-	//hash inner
-	FixedArray<uint8> tmp(digestSize);
+	void Finish() override
+	{
+		//hash inner
+		FixedArray<uint8> tmp(this->innerHasher->GetDigestSize());
 
-	hasher = HashFunction::CreateInstance(hashAlgorithm);
-	hasher->Update(&innerKey[0], blockSize);
-	hasher->Update(msg, msgSize);
-	hasher->Finish();
-	hasher->StoreDigest(&tmp[0]);
+		this->innerHasher->Finish();
+		this->innerHasher->StoreDigest(&tmp[0]);
 
-	//hash outer
-	hasher = HashFunction::CreateInstance(hashAlgorithm);
-	hasher->Update(&outerKey[0], blockSize);
-	hasher->Update(&tmp[0], digestSize);
-	hasher->Finish();
-	hasher->StoreDigest(out);
+		//hash outer
+		this->outerHasher = HashFunction::CreateInstance(this->hashAlgorithm);
+		this->outerHasher->Update(&outerKey[0], this->innerHasher->GetBlockSize());
+		this->outerHasher->Update(&tmp[0], this->innerHasher->GetDigestSize());
+		this->outerHasher->Finish();
+	}
+
+	void StoreDigest(void *target) const override
+	{
+		this->outerHasher->StoreDigest(target);
+	}
+
+	void Update(const void *buffer, uint32 size) override
+	{
+		this->innerHasher->Update(buffer, size);
+	}
+
+private:
+	//Members
+	Crypto::HashAlgorithm hashAlgorithm;
+	UniquePointer<Crypto::HashFunction> innerHasher;
+	DynamicArray<uint8> outerKey;
+	UniquePointer<Crypto::HashFunction> outerHasher;
+};
+
+//Namespace functions
+UniquePointer<Crypto::HashFunction> Crypto::CreateHMAC(const uint8 *key, uint8 keySize, Crypto::HashAlgorithm hashAlgorithm)
+{
+	return new HMAC_HashFunction(key, keySize, hashAlgorithm);
+}
+
+void Crypto::HMAC(const uint8 *key, uint8 keySize, const uint8 *msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out)
+{
+	HMAC_HashFunction hashFunction(key, keySize, hashAlgorithm);
+
+	hashFunction.Update(msg, msgSize);
+	hashFunction.Finish();
+	hashFunction.StoreDigest(out);
 }

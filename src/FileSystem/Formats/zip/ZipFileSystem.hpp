@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -38,7 +38,7 @@ namespace _stdxx_
 	public:
 		//Constructors
 		ZipFileSystem(const StdXX::FileSystem::Path &path);
-		ZipFileSystem(const StdXX::FileSystem::Path& path, uint64 endOfCentralDirectoryOffset, bool writable);
+		ZipFileSystem(const StdXX::FileSystem::Path& path, const StdXX::FileSystem::OpenOptions& openOptions, uint64 endOfCentralDirectoryOffset, bool writable);
 
 		//Properties
 		inline StdXX::SeekableInputStream& InputStream()
@@ -46,6 +46,11 @@ namespace _stdxx_
 			if(this->readOnlyInputStream.IsNull())
 				return *this->writableStream;
 			return *this->readOnlyInputStream;
+		}
+
+		inline const StdXX::String& Password() const
+		{
+			return this->password;
 		}
 
 		inline StdXX::Mutex& StreamLock()
@@ -75,6 +80,7 @@ namespace _stdxx_
 		StdXX::UniquePointer<StdXX::FileUpdateStream> writableStream;
 		StdXX::Mutex streamLock;
 		StdXX::AutoPointer<ZipDirectory> root;
+		StdXX::String password;
 
 		//Methods
 		/**

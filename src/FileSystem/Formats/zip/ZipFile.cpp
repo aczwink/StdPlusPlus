@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,11 +19,7 @@
 //Class header
 #include "ZipFile.hpp"
 //Local
-#include <Std++/Streams/BufferedInputStream.hpp>
-#include <Std++/Streams/Readers/DataReader.hpp>
-#include <Std++/FileSystem/EmbeddedFileInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
-#include <Std++/Compression/Decompressor.hpp>
 #include <Std++/Streams/CheckedInputStream.hpp>
 #include "Zip.hpp"
 #include "ZipFileSystem.hpp"
@@ -47,8 +43,11 @@ StdXX::UniquePointer<StdXX::OutputStream> _stdxx_::ZipFile::OpenForWriting() {
 	return StdXX::UniquePointer<StdXX::OutputStream>();
 }
 
-StdXX::NodeInfo _stdxx_::ZipFile::QueryInfo() const {
-	//size = this->fileHeader.uncompressedSize;
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::NodeInfo();
+NodeInfo ZipFile::QueryInfo() const
+{
+	//TODO: last mod time and permissions
+	return {
+		.size = this->fileHeader.uncompressedSize,
+		.storedSize = this->fileHeader.compressedSize,
+	};
 }

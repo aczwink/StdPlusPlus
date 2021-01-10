@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -33,6 +33,15 @@ namespace _stdxx_
         uint32 compressedSize;
         uint32 uncompressedSize;
         StdXX::FileSystem::Path path;
+
+        union
+		{
+			struct
+			{
+				uint8 strength;
+				uint16 actualCompressionMethod;
+			} AE;
+		} compressionMethodData;
 
         //Constructor
         LocalFileHeader(StdXX::InputStream& inputStream);

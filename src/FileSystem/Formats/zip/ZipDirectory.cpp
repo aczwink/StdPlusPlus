@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -53,10 +53,5 @@ bool _stdxx_::ZipDirectory::Exists(const Path &path) const {
 bool _stdxx_::ZipDirectory::IsEmpty() const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return false;
-}
-
-StdXX::NodeInfo _stdxx_::ZipDirectory::QueryInfo() const {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::NodeInfo();
 }
 //END TODO NOT IMPLEMENTED

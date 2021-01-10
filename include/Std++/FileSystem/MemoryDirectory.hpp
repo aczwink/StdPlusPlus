@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,6 +33,7 @@ namespace StdXX::FileSystem
 		AutoPointer<Node> GetChild(const String &name) override;
 		AutoPointer<const Node> GetChild(const String &name) const override;
 		bool IsEmpty() const override;
+		NodeInfo QueryInfo() const override;
 
 		//For range-based loop
 		DirectoryIterator begin() const override;

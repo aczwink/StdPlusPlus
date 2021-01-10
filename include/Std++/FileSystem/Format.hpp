@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,11 @@
 
 namespace StdXX::FileSystem
 {
+	struct OpenOptions
+	{
+		Optional<String> password;
+	};
+
 	class Format
 	{
 	public:
@@ -31,7 +36,8 @@ namespace StdXX::FileSystem
 		virtual String GetId() const = 0;
 		virtual String GetName() const = 0;
 		virtual float32 Matches(SeekableInputStream &inputStream) const = 0;
-		virtual RWFileSystem *OpenFileSystem(const Path &fileSystemPath, bool writable) const = 0;
+		virtual RWFileSystem *OpenFileSystem(const Path &fileSystemPath, const OpenOptions& options) const = 0;
+		virtual ReadableFileSystem *OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const = 0;
 
 		//Functions
 		static const Format* FindBestFormat(const Path& path);

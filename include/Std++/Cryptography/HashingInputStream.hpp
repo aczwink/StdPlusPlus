@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,46 +23,33 @@
 #include "Std++/Streams/InputStream.hpp"
 #include "HashFunction.hpp"
 
-namespace StdXX
+namespace StdXX::Crypto
 {
-	namespace Crypto
+	/**
+	 * This stream takes an underlying stream and returns its data as is.
+	 * However, all data that passes this stream is piped through a hasher.
+	 * The hash value can then be easily retrieved at any state.
+	 * This is more convenient because when processing the underlying stream you probably want to skip data for example,
+	 * however still need it because of the hash value.
+	 */
+	class STDPLUSPLUS_API HashingInputStream : public InputStream
 	{
-		/**
-		 * This stream takes an underlying stream and returns its data as is.
-		 * However, all data that passes this stream is piped through a hasher.
-		 * The hash value can then be easily retrieved at any state.
-		 * This is more convenient because when processing the underlying stream you probably want to skip data for example,
-		 * however still need it because of the hash value.
-		 */
-		class STDPLUSPLUS_API HashingInputStream : public InputStream
+	public:
+		//Constructor
+		inline HashingInputStream(InputStream &inputStream, HashFunction* hasher) : inputStream(inputStream)
 		{
-		public:
-			//Constructor
-			inline HashingInputStream(InputStream &inputStream, HashAlgorithm algorithm) : inputStream(inputStream), algorithm(algorithm)
-			{
-				this->hasher = HashFunction::CreateInstance(this->algorithm);
-			}
+			this->hasher = hasher;
+		}
 
-			//Methods
-			uint32 GetBytesAvailable() const override;
-			bool IsAtEnd() const override;
-			uint32 ReadBytes(void *destination, uint32 count) override;
-			uint32 Skip(uint32 nBytes) override;
+		//Methods
+		uint32 GetBytesAvailable() const override;
+		bool IsAtEnd() const override;
+		uint32 ReadBytes(void *destination, uint32 count) override;
+		uint32 Skip(uint32 nBytes) override;
 
-			//Inline
-			inline UniquePointer<HashFunction> Reset()
-			{
-				UniquePointer<HashFunction> tmp = Move(this->hasher);
-				this->hasher = HashFunction::CreateInstance(this->algorithm);
-
-				return tmp;
-			}
-
-		private:
-			//Members
-			InputStream &inputStream;
-			HashAlgorithm algorithm;
-			UniquePointer<HashFunction> hasher;
-		};
-	}
+	private:
+		//Members
+		InputStream &inputStream;
+		HashFunction* hasher;
+	};
 }

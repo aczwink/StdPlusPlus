@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -29,6 +29,10 @@ namespace _stdxx_
 		StdXX::String GetId() const override;
 		StdXX::String GetName() const override;
 		float32 Matches(StdXX::SeekableInputStream & inputStream) const override;
-		StdXX::FileSystem::RWFileSystem *OpenFileSystem(const StdXX::FileSystem::Path &fileSystemPath, bool writable) const override;
+
+		StdXX::FileSystem::RWFileSystem *OpenFileSystem(const StdXX::FileSystem::Path &fileSystemPath,
+														const StdXX::FileSystem::OpenOptions& options) const override;
+		StdXX::FileSystem::ReadableFileSystem *OpenFileSystemReadOnly(const StdXX::FileSystem::Path &fileSystemPath,
+																const StdXX::FileSystem::OpenOptions& options) const override;
 	};
 }

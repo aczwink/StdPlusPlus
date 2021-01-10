@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -108,6 +108,21 @@ void LocalFileHeader::ReadExtraFields(uint16 size, InputStream &inputStream)
                 }
             }
             break;
+        	case 0x9901: //WinZip AES https://www.winzip.com/win/en/aes_info.html
+			{
+				ASSERT_EQUALS(7, headerSize);
+				uint16 version = dataReader.ReadUInt16();
+				ASSERT((version == 1) || (version == 2), u8"REPORT THIS PLEASE!");
+
+				TextReader asciiReader(inputStream, TextCodecType::ASCII);
+				ASSERT_EQUALS(u8"AE", asciiReader.ReadString(2));
+
+				uint8 strength = dataReader.ReadByte();
+				ASSERT((strength == 1) || (strength == 2) || (strength == 3), u8"REPORT THIS PLEASE!");
+				this->compressionMethodData.AE.strength = strength;
+				this->compressionMethodData.AE.actualCompressionMethod = dataReader.ReadUInt16();
+			}
+			break;
             default:
                 NOT_IMPLEMENTED_ERROR; //TODO: implement me
                 /*

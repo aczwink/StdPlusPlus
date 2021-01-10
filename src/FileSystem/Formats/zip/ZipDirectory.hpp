@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -39,7 +39,6 @@ namespace _stdxx_
 		void CreateSubDirectory(const StdXX::String &name, const StdXX::FileSystem::NodePermissions* permissions) override;
 		bool Exists(const StdXX::FileSystem::Path &path) const override;
 		bool IsEmpty() const override;
-		StdXX::NodeInfo QueryInfo() const override;
 
 	private:
 		//Members

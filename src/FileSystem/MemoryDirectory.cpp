@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,6 +56,14 @@ AutoPointer<const Node> MemoryDirectory::GetChild(const String &name) const
 bool MemoryDirectory::IsEmpty() const
 {
 	return this->children.IsEmpty();
+}
+
+NodeInfo MemoryDirectory::QueryInfo() const
+{
+	return {
+		.size = 0,
+		.storedSize = 0,
+	};
 }
 
 //For range-based loop

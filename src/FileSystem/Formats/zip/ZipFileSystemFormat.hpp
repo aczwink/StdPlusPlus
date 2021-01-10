@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -52,11 +52,16 @@ namespace _stdxx_
 			return 0;
 		}
 
-		StdXX::FileSystem::RWFileSystem *OpenFileSystem(const StdXX::FileSystem::Path &fileSystemPath, bool writable) const override;
+		StdXX::FileSystem::RWFileSystem *OpenFileSystem(const StdXX::FileSystem::Path &fileSystemPath,
+												  const StdXX::FileSystem::OpenOptions& options) const override;
+		StdXX::FileSystem::ReadableFileSystem *OpenFileSystemReadOnly(const StdXX::FileSystem::Path &fileSystemPath,
+																const StdXX::FileSystem::OpenOptions& options) const override;
 
 	private:
 		//Methods
 		uint64 FindEndOfCentralDirectoryOffset(StdXX::SeekableInputStream& inputStream) const;
+		StdXX::FileSystem::RWFileSystem *OpenFileSystem(const StdXX::FileSystem::Path &fileSystemPath,
+														const StdXX::FileSystem::OpenOptions& options, bool writable) const;
 		bool ValidateEndOfCentralDirectory(const StdXX::FixedSizeBuffer& buffer, uint32 offset) const;
 	};
 }

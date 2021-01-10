@@ -10,6 +10,8 @@ set(SOURCE_FILES
 	#gzip
 
 	#zip
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/AEDecrypter.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zip/AEDecrypter.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/CentralDirectoryRecord.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/zip/EndOfCentralDirectory.cpp

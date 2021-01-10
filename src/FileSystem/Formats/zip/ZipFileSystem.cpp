@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -43,9 +43,12 @@ ZipFileSystem::ZipFileSystem(const Path &path)
 	this->writableStream = new FileUpdateStream(path);
 }
 
-ZipFileSystem::ZipFileSystem(const Path &path, uint64 endOfCentralDirectoryOffset, bool writable)
+ZipFileSystem::ZipFileSystem(const Path &path, const OpenOptions& openOptions, uint64 endOfCentralDirectoryOffset, bool writable)
 	: root(new ZipDirectory(*this)), isFlushed(true)
 {
+	if(openOptions.password.HasValue())
+		this->password = *openOptions.password;
+
 	if(writable)
 		this->writableStream = new FileUpdateStream(path);
 	else
@@ -91,8 +94,10 @@ void ZipFileSystem::Move(const Path &from, const Path &to)
 
 SpaceInfo ZipFileSystem::QuerySpace() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return {};
+	return {
+		.freeSize = 0,
+		.totalSize = this->readOnlyInputStream->QuerySize(),
+	};
 }
 
 //Private methods

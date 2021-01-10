@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -58,7 +58,6 @@ AutoPointer<const Directory> ContainerFileSystem::GetRoot() const
 SpaceInfo ContainerFileSystem::QuerySpace() const
 {
 	return {
-		.availableSize = 0,
 		.freeSize = 0,
 		.totalSize = this->containerInputStream->QuerySize()
 	};

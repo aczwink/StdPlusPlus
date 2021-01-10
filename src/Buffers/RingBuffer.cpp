@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -26,14 +26,18 @@ using namespace StdXX;
 //Public methods
 void RingBuffer::Read(void* destination, uint16 distance, uint16 length) const
 {
+	ASSERT(length <= distance, u8"Can't overread");
+	ASSERT(distance < this->size, u8"Can't overread");
+
 	uint8* dest = static_cast<uint8 *>(destination);
 	while (length)
 	{
 		uint32 readIndex = this->CalcBackOffsetIndex(distance);
-		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcBackOffsetIndex(readIndex));
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesPossibleToRead(readIndex));
 		MemCopy(dest, &this->data[readIndex], nBytesToWrite);
 
 		//update
+		dest += nBytesToWrite;
 		distance -= (uint16)nBytesToWrite;
 		length -= (uint16)nBytesToWrite;
 	}

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -31,17 +31,14 @@ RWFileSystem* ZipFileSystemFormat::CreateFileSystem(const Path &fileSystemPath) 
 	return new ZipFileSystem(fileSystemPath);
 }
 
-RWFileSystem *ZipFileSystemFormat::OpenFileSystem(const Path &fileSystemPath, bool writable) const
+RWFileSystem *ZipFileSystemFormat::OpenFileSystem(const Path &fileSystemPath, const OpenOptions& options) const
 {
-	uint64 offset;
-	{
-		FileInputStream fileInputStream(fileSystemPath);
-		offset = this->FindEndOfCentralDirectoryOffset(fileInputStream);
-		if (offset == StdXX::Unsigned<uint64>::Max())
-			return nullptr;
-	}
+	return this->OpenFileSystem(fileSystemPath, options, true);
+}
 
-	return new ZipFileSystem(fileSystemPath, offset, writable);
+ReadableFileSystem *ZipFileSystemFormat::OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const
+{
+	return this->OpenFileSystem(fileSystemPath, options, false);
 }
 
 //Private methods
@@ -69,6 +66,19 @@ uint64 ZipFileSystemFormat::FindEndOfCentralDirectoryOffset(SeekableInputStream 
 	}
 
 	return Unsigned<uint64>::Max();
+}
+
+StdXX::FileSystem::RWFileSystem *ZipFileSystemFormat::OpenFileSystem(const Path &fileSystemPath, const OpenOptions& openOptions, bool writable) const
+{
+	uint64 offset;
+	{
+		FileInputStream fileInputStream(fileSystemPath);
+		offset = this->FindEndOfCentralDirectoryOffset(fileInputStream);
+		if (offset == StdXX::Unsigned<uint64>::Max())
+			return nullptr;
+	}
+
+	return new ZipFileSystem(fileSystemPath, openOptions, offset, writable);
 }
 
 bool ZipFileSystemFormat::ValidateEndOfCentralDirectory(const FixedSizeBuffer &buffer, uint32 offset) const

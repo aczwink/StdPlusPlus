@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,10 +27,13 @@ using namespace StdXX;
 //Public methods
 void SlidingDictionary::Copy(uint16 distance, uint16 length, OutputStream &refOutput)
 {
+	//legacy method: TODO remove as soon as all decompressors have adapted
+
 	while(length)
 	{
 		uint32 readIndex = this->CalcBackOffsetIndex(distance);
-		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesToRead(readIndex));
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesPossibleToRead(readIndex));
+		nBytesToWrite = Math::Min(nBytesToWrite, this->CalcNumberOfBytesPossibleToWrite());
 
 		//exchange bytes
 		refOutput.WriteBytes(&this->Data()[readIndex], nBytesToWrite);
@@ -46,7 +49,8 @@ void SlidingDictionary::CopyToTail(uint16 distance, uint16 length)
 	while(length)
 	{
 		uint32 readIndex = this->CalcBackOffsetIndex(distance);
-		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesToRead(readIndex));
+		uint32 nBytesToWrite = Math::Min(uint32(length), this->CalcNumberOfBytesPossibleToRead(readIndex));
+		nBytesToWrite = Math::Min(nBytesToWrite, this->CalcNumberOfBytesPossibleToWrite());
 
 		//exchange bytes
 		RingBuffer::CopyToTail(readIndex, nBytesToWrite);

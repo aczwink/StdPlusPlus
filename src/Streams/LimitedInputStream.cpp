@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -31,7 +31,7 @@ uint32 LimitedInputStream::GetBytesAvailable() const
 
 bool LimitedInputStream::IsAtEnd() const
 {
-	return this->processed == this->limit;
+	return (this->processed == this->limit) || this->inputStream.IsAtEnd();
 }
 
 uint32 LimitedInputStream::ReadBytes(void * destination, uint32 count)

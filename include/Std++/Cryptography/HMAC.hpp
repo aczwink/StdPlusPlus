@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,7 @@ namespace StdXX
 {
 	namespace Crypto
 	{
+		UniquePointer<HashFunction> CreateHMAC(const uint8* key, uint8 keySize, HashAlgorithm hashAlgorithm);
 		STDPLUSPLUS_API void HMAC(const uint8* key, uint8 keySize, const uint8* msg, uint16 msgSize, HashAlgorithm hashAlgorithm, uint8* out);
 	}
 }

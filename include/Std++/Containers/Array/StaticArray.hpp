@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,6 +33,21 @@ namespace StdXX
 	public:
 		//Members
 		DataType elements[N];
+
+		//Operators
+		constexpr DataType& operator[](uint32 index)
+		{
+			ASSERT(index < N, u8"Index out of bounds");
+
+			return this->elements[index];
+		}
+
+		constexpr const DataType& operator[](uint32 index) const
+		{
+			ASSERT(index < N, u8"Index out of bounds");
+
+			return this->elements[index];
+		}
 
 		//Range-based loop
 		constexpr const DataType* begin() const
