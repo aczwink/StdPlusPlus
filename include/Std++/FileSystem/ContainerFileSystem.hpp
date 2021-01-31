@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,7 @@
 #include "../Streams/SeekableInputStream.hpp"
 #include "ContainerFile.hpp"
 #include "BufferedMetadataFileSystem.hpp"
+#include "ContainerDirectory.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -75,11 +76,23 @@ namespace StdXX::FileSystem
 		bool isFlushed;
 
 		//Methods
-		void AddSourceFile(const Path& filePath, ContainerFile* file);
+		AutoPointer<ContainerDirectory> CreateOrQueryDirectory(const Path& directoryPath);
 		UniquePointer<FileOutputStream> OpenTempContainer();
 		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
 
 		//Inline
+		inline void AddSourceDirectory(const Path& nodePath)
+		{
+			AutoPointer<ContainerDirectory> dir = this->CreateOrQueryDirectory(nodePath.GetParent());
+
+			dir->AddChild(nodePath.GetName(), new ContainerDirectory(nodePath.GetName(), dir.operator->()));
+		}
+
+		inline void AddSourceFile(const Path& nodePath, ContainerFile* node)
+		{
+			this->CreateOrQueryDirectory(nodePath.GetParent())->AddChild(nodePath.GetName(), node);
+		}
+
 		inline void AddSourceFile(const Path& filePath, const ContainerFileHeader& header)
 		{
 			ContainerFile *file = new ContainerFile(header, this);

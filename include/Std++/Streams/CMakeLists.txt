@@ -15,6 +15,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Writers/TextWriter.hpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/BlockInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferedOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp
@@ -26,6 +27,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileUpdateStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/LimitedEndInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NullOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/OutputStream.hpp

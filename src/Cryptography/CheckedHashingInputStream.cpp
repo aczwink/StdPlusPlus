@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,8 +32,7 @@ uint32 CheckedHashingInputStream::GetBytesAvailable() const
 
 bool CheckedHashingInputStream::IsAtEnd() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return false;
+	return this->inputStream.IsAtEnd();
 }
 
 uint32 CheckedHashingInputStream::ReadBytes(void *destination, uint32 count)
@@ -54,7 +53,7 @@ uint32 CheckedHashingInputStream::ReadBytes(void *destination, uint32 count)
 void CheckedHashingInputStream::Finish()
 {
 	this->hasher->Finish();
-	if(this->hasher->GetDigestString().ToLowercase() != this->expectedHash)
+	if(this->hasher->GetDigest() != this->expectedHash)
 		throw ErrorHandling::VerificationFailedException();
 	this->finished = true;
 }

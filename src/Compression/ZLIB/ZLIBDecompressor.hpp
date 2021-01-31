@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/LimitedEndInputStream.hpp>
 #include "../DEFLATE/Inflater.hpp"
 
 //Implemented as of RFC 1950
@@ -26,7 +27,6 @@ namespace _stdxx_
 {
 	class ZLIBDecompressor : public StdXX::Decompressor
 	{
-		class ZLIBWrapperInputStream;
 	public:
 		//Constructor
 		ZLIBDecompressor(StdXX::InputStream& inputStream, bool verify);
@@ -39,8 +39,11 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::UniquePointer<ZLIBWrapperInputStream> wrapperInputStream;
+		StdXX::UniquePointer<StdXX::LimitedEndInputStream> wrapperInputStream;
 		StdXX::UniquePointer<Decompressor> realDecompressor;
 		StdXX::UniquePointer<StdXX::ChecksumFunction> verifier;
+
+		//Methods
+		uint32 ReadChecksum();
 	};
 }

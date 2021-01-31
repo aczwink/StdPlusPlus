@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,11 +26,18 @@ namespace StdXX::Crypto
 	class CheckedHashingInputStream : public ReadOnlyInputStream
 	{
 	public:
-		//Constructor
-		inline CheckedHashingInputStream(InputStream &inputStream, HashAlgorithm algorithm, const String& expectedHash) : inputStream(inputStream)
+		//Constructors
+		inline CheckedHashingInputStream(InputStream &inputStream, HashAlgorithm algorithm, const String& expectedHash)
+			: inputStream(inputStream), expectedHash(HashFunction::HexStringToBytes(expectedHash))
 		{
 			this->hasher = HashFunction::CreateInstance(algorithm);
-			this->expectedHash = expectedHash.ToLowercase();
+			this->finished = false;
+		}
+
+		inline CheckedHashingInputStream(InputStream &inputStream, HashAlgorithm algorithm, const FixedSizeBuffer& expectedHash)
+			: inputStream(inputStream), expectedHash(expectedHash)
+		{
+			this->hasher = HashFunction::CreateInstance(algorithm);
 			this->finished = false;
 		}
 
@@ -43,7 +50,7 @@ namespace StdXX::Crypto
 		//Members
 		InputStream& inputStream;
 		UniquePointer<HashFunction> hasher;
-		String expectedHash;
+		FixedSizeBuffer expectedHash;
 		bool finished;
 
 		//Methods

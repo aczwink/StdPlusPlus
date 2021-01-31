@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include <Std++/Containers/Map/Map.hpp>
 #include "Directory.hpp"
@@ -29,6 +30,9 @@ namespace StdXX::FileSystem
 	{
 	public:
 		//Methods
+		void ChangePermissions(const NodePermissions &newPermissions) override;
+		UniquePointer<OutputStream> CreateFile(const String &name) override;
+		void CreateSubDirectory(const String &name, const NodePermissions *permissions) override;
 		bool Exists(const Path &path) const override;
 		AutoPointer<Node> GetChild(const String &name) override;
 		AutoPointer<const Node> GetChild(const String &name) const override;
@@ -49,5 +53,6 @@ namespace StdXX::FileSystem
 	private:
 		//Members
 		Map<String, AutoPointer<Node>> children;
+		UniquePointer<NodePermissions> permissions;
 	};
 }

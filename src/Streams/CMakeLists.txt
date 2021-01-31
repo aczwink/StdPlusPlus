@@ -20,6 +20,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileUpdateStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/LimitedEndInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LimitedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/NullOutputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ReadOnlyInputStream.cpp

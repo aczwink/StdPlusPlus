@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,9 +30,9 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void ContainerFile::ChangePermissions(const FileSystem::NodePermissions &newPermissions)
+void ContainerFile::ChangePermissions(const NodePermissions &newPermissions)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	this->permissions = newPermissions.Clone();
 }
 
 UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
@@ -61,7 +61,11 @@ UniquePointer<OutputStream> ContainerFile::OpenForWriting()
 
 NodeInfo ContainerFile::QueryInfo() const
 {
-	//size = return this->header.uncompressedSize;
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return NodeInfo();
+	NodeInfo nodeInfo;
+
+	nodeInfo.permissions = this->permissions.IsNull() ? nullptr : this->permissions->Clone();
+	nodeInfo.size = this->header.uncompressedSize;
+	nodeInfo.storedSize = this->header.compressedSize;
+
+	return nodeInfo;
 }

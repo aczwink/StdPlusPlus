@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,11 +27,6 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void ContainerDirectory::ChangePermissions(const FileSystem::NodePermissions &newPermissions)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 {
 	MemoryFile* file = new MemoryFile;
@@ -51,6 +46,6 @@ void ContainerDirectory::CreateSubDirectory(const String &name, const NodePermis
 
 NodeInfo ContainerDirectory::QueryInfo() const
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return NodeInfo();
+	NodeInfo nodeInfo;
+	return nodeInfo;
 }

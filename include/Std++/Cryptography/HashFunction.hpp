@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,9 @@
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Buffers/FixedSizeBuffer.hpp>
+#include <Std++/Containers/Strings/ConstStringIterator.hpp>
+#include <Std++/Mathematics.hpp>
 
 namespace StdXX::Crypto
 {
@@ -62,21 +65,45 @@ namespace StdXX::Crypto
 		//Functions
 		static UniquePointer<HashFunction> CreateInstance(HashAlgorithm algorithm);
 
-		//Inline
-		inline FixedArray<byte> GetDigest() const
+		inline static FixedSizeBuffer HexStringToBytes(const String& string)
 		{
-			FixedArray<byte> digest(this->GetDigestSize());
-			this->StoreDigest(&digest[0]);
+			FixedSizeBuffer buffer(string.GetLength()/2);
+
+			auto it = string.begin();
+			for(uint32 i = 0; i < buffer.Size(); i++)
+			{
+				buffer[i] = FromHexDigit(*it) << 4;
+				++it;
+				buffer[i] |= FromHexDigit(*it);
+				++it;
+			}
+			return buffer;
+		}
+
+		//Inline
+		inline FixedSizeBuffer GetDigest() const
+		{
+			FixedSizeBuffer digest(this->GetDigestSize());
+			this->StoreDigest(digest.Data());
 			return digest;
 		}
 
 		inline String GetDigestString() const
 		{
 			String result;
-			FixedArray<byte> bytes = this->GetDigest();
-			for(byte b : bytes)
-				result += String::HexNumber(b, 2, false);
+			FixedSizeBuffer bytes = this->GetDigest();
+			for(uint32 i = 0; i < bytes.Size(); i++)
+				result += String::HexNumber(bytes.Data()[i], 2, false);
 			return result;
+		}
+
+	private:
+		//Functions
+		inline static uint8 FromHexDigit(uint32 codePoint)
+		{
+			if(Math::IsValueInInterval(char(codePoint), u8'0', u8'9'))
+				return codePoint - u8'0';
+			return codePoint + 10 - u8'a';
 		}
 	};
 }

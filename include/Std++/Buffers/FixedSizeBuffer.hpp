@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -80,6 +80,25 @@ namespace StdXX
 			rhs.size = 0;
 
 			return *this;
+		}
+
+		inline uint8& operator[](uint32 index)
+		{
+			ASSERT(index < this->size, u8"Index out of bounds");
+
+			return this->data[index];
+		}
+
+		inline bool operator==(const FixedSizeBuffer& buffer) const
+		{
+			if(this->size != buffer.size)
+				return false;
+			return MemCmp(this->data, buffer.data, this->size) == 0;
+		}
+
+		inline bool operator!=(const FixedSizeBuffer& buffer) const
+		{
+			return !(*this == buffer);
 		}
 
 		//Properties

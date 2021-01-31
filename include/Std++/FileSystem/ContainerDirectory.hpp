@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include "../Containers/Map/Map.hpp"
 #include "ContainerFile.hpp"
@@ -42,7 +43,6 @@ namespace StdXX::FileSystem
 		}
 
 		//Methods
-		void ChangePermissions(const FileSystem::NodePermissions &newPermissions) override;
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name, const NodePermissions* permissions) override;
 		NodeInfo QueryInfo() const override;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,6 +56,7 @@ namespace StdXX::FileSystem
 		POSIXPermissions(int32 userId, int32 groupId, uint32 encodedMode);
 
 		//Methods
+		NodePermissions *Clone() const override;
 		uint32 EncodeMode() const;
 	};
 }

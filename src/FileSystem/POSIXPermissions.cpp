@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,6 +46,11 @@ POSIXPermissions::POSIXPermissions(int32 userId, int32 groupId, uint32 encodedMo
 }
 
 //Public methods
+NodePermissions *POSIXPermissions::Clone() const
+{
+	return new POSIXPermissions(this->userId, this->groupId, this->EncodeMode());
+}
+
 uint32 POSIXPermissions::EncodeMode() const
 {
 	uint32 encoded = 0;

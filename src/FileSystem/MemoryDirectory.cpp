@@ -26,6 +26,22 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
+void MemoryDirectory::ChangePermissions(const NodePermissions &newPermissions)
+{
+	this->permissions = newPermissions.Clone();
+}
+
+UniquePointer<OutputStream> MemoryDirectory::CreateFile(const String &name)
+{
+	NOT_IMPLEMENTED_ERROR;
+	return UniquePointer<OutputStream>();
+}
+
+void MemoryDirectory::CreateSubDirectory(const String &name, const NodePermissions *permissions)
+{
+	NOT_IMPLEMENTED_ERROR;
+}
+
 bool MemoryDirectory::Exists(const Path &path) const
 {
 	Path leftPart;
@@ -63,6 +79,7 @@ NodeInfo MemoryDirectory::QueryInfo() const
 	return {
 		.size = 0,
 		.storedSize = 0,
+		.permissions = this->permissions.IsNull() ? nullptr : this->permissions->Clone()
 	};
 }
 

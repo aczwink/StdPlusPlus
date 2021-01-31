@@ -64,18 +64,14 @@ SpaceInfo ContainerFileSystem::QuerySpace() const
 }
 
 //Protected methods
-void ContainerFileSystem::AddSourceFile(const Path& filePath, ContainerFile *file)
+AutoPointer<ContainerDirectory> ContainerFileSystem::CreateOrQueryDirectory(const Path& directoryPath)
 {
 	bool flushStatus = this->isFlushed;
-
-	Path directoryPath = filePath.GetParent();
 	this->CreateDirectoryTree(directoryPath);
-	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
-	AutoPointer<ContainerDirectory> containerDirectory = dir.Cast<ContainerDirectory>();
-
-	containerDirectory->AddChild(filePath.GetName(), file);
-
 	this->isFlushed = flushStatus; //the flushed status is not affected by source files
+
+	AutoPointer<Directory> dir = this->GetDirectory(directoryPath);
+	return dir.Cast<ContainerDirectory>();
 }
 
 UniquePointer<FileOutputStream> ContainerFileSystem::OpenTempContainer()

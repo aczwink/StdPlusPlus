@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,9 +21,10 @@
 #include <Std++/FileSystem/DirectoryIterator.hpp>
 #include <Std++/FileSystem/DirectoryWalker.hpp>
 #include <Std++/FileSystem/File.hpp>
-#include <Std++/FileSystem/RWFileSystem.hpp>
 #include <Std++/FileSystem/Format.hpp>
 #include <Std++/FileSystem/Link.hpp>
+#include <Std++/FileSystem/MemoryDirectory.hpp>
 #include <Std++/FileSystem/OSFileSystem.hpp>
 #include <Std++/FileSystem/Path.hpp>
 #include <Std++/FileSystem/POSIXPermissions.hpp>
+#include <Std++/FileSystem/RWFileSystem.hpp>

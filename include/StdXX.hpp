@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -168,33 +168,6 @@
 //Smart Pointers
 #include <Std++/SmartPointers/UniquePointer.hpp>
 
-//Streams
-#include <Std++/Streams/OutputStream.hpp>
-#include <Std++/Streams/BufferedInputStream.hpp>
-#include <Std++/Streams/BufferedOutputStream.hpp>
-#include <Std++/Streams/BufferInputStream.hpp>
-#include <Std++/Streams/BufferOutputStream.hpp>
-#include <Std++/Streams/CConcatenatedInputStream.h>
-#include <Std++/Streams/ChainedInputStream.hpp>
-#include <Std++/Streams/FileInputStream.hpp>
-#include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Cryptography/HashingInputStream.hpp>
-#include <Std++/Cryptography/HashingOutputStream.hpp>
-#include <Std++/Streams/LimitedInputStream.hpp>
-#include <Std++/Streams/NullOutputStream.hpp>
-#include <Std++/Streams/Writers/StdOut.hpp>
-#include <Std++/Streams/StringInputStream.hpp>
-#include <Std++/Streams/StdIn.hpp>
-//Streams/Bitstreams
-#include <Std++/Streams/Bitstreams/CBitInputStream.h>
-#include <Std++/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
-//Readers
-#include <Std++/Streams/Readers/DataReader.hpp>
-#include <Std++/Streams/Readers/TextReader.hpp>
-//Streams/Writers
-#include <Std++/Streams/Writers/DataWriter.hpp>
-#include <Std++/Streams/Writers/TextWriter.hpp>
-
 //Time
 #include <Std++/Time/Clock.hpp>
 #include <Std++/Time/DateTime.hpp>
@@ -270,3 +243,4 @@
 #include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"
 #include "StdXXMultimedia.hpp"
+#include "StdXXStreams.hpp"

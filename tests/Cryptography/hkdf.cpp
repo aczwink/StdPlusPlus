@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,28 +22,6 @@ using namespace StdXX::Crypto;
 
 TEST_SUITE(HKDF)
 {
-	uint8 FromHexDigit(uint32 codePoint)
-	{
-		if(Math::IsValueInInterval(char(codePoint), u8'0', u8'9'))
-			return codePoint - u8'0';
-		return codePoint + 10 - u8'a';
-	}
-
-	FixedArray<uint8> HexStringToBytes(const String& string)
-	{
-		FixedArray<uint8> buffer(string.GetLength()/2);
-
-		auto it = string.begin();
-		for(uint8 i = 0; i < buffer.GetNumberOfElements(); i++)
-		{
-			buffer[i] = FromHexDigit(*it) << 4;
-			++it;
-			buffer[i] |= FromHexDigit(*it);
-			++it;
-		}
-		return buffer;
-	}
-
     TEST_CASE(official_test_vectors) //from https://tools.ietf.org/html/rfc5869
 	{
 		/*
@@ -92,14 +70,14 @@ TEST_SUITE(HKDF)
 
 		for(const auto& testCaseData : testData)
 		{
-			auto ikm = HexStringToBytes(testCaseData.Get<1>());
-			auto salt = HexStringToBytes(testCaseData.Get<2>());
-			auto info = HexStringToBytes(testCaseData.Get<3>());
-			auto expectedKey = HexStringToBytes(testCaseData.Get<5>());
+			auto ikm = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<1>());
+			auto salt = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<2>());
+			auto info = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<3>());
+			auto expectedKey = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<5>());
 
 			FixedArray<uint8> key(testCaseData.Get<4>());
-			HKDF(&ikm[0], ikm.GetNumberOfElements(), &salt[0], salt.GetNumberOfElements(), &info[0],
-				 info.GetNumberOfElements(), testCaseData.Get<0>(), &key[0], key.GetNumberOfElements());
+			HKDF(&ikm[0], ikm.Size(), &salt[0], salt.Size(), &info[0],
+				 info.Size(), testCaseData.Get<0>(), &key[0], key.GetNumberOfElements());
 
 			int32 cmp = MemCmp(&key[0], &expectedKey[0], testCaseData.Get<4>());
 			ASSERT(cmp == 0, u8"HKDF mismatch!");
@@ -138,11 +116,11 @@ TEST_SUITE(HKDF)
 
 		for(const auto& testCaseData : testData)
 		{
-			auto ikm = HexStringToBytes(testCaseData.Get<1>());
-			auto expectedKey = HexStringToBytes(testCaseData.Get<3>());
+			auto ikm = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<1>());
+			auto expectedKey = Crypto::HashFunction::HexStringToBytes(testCaseData.Get<3>());
 
 			FixedArray<uint8> key(testCaseData.Get<2>());
-			HKDF(&ikm[0], ikm.GetNumberOfElements(), nullptr, 0, testCaseData.Get<0>(), &key[0], key.GetNumberOfElements());
+			HKDF(&ikm[0], ikm.Size(), nullptr, 0, testCaseData.Get<0>(), &key[0], key.GetNumberOfElements());
 
 			int32 cmp = MemCmp(&key[0], &expectedKey[0], testCaseData.Get<2>());
 			ASSERT(cmp == 0, u8"HKDF mismatch!");

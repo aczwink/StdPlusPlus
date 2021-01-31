@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -169,6 +169,12 @@ static fuse_mapper_state& GetState()
 	return *(fuse_mapper_state*) fuse_get_context()->private_data;
 }
 
+/*static int fuse_mapper_access(const char *path, int mode)
+{
+	//TODO: implement me!!!
+	return 0;
+}*/
+
 static void *fuse_mapper_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
 {
 	cfg->kernel_cache = 1; //read only file systems can utilize caching, since data never changes
@@ -223,6 +229,13 @@ static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse
 	return 0;
 }
 
+/*static int fuse_mapper_getxattr(const char * path, const char * name, char * value, size_t size)
+{
+	//TODO: implement me
+	errno = ENOTSUP;
+	return -1;
+}*/
+
 static int fuse_mapper_open(const char *path, struct fuse_file_info *fi)
 {
 	AutoPointer<const Node> node = GetState().GetNode(path);
@@ -259,13 +272,13 @@ static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t fill
 	if(node->GetType() != NodeType::Directory)
 		return -ENOENT;
 
-	filler(buf, u8".", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
-	filler(buf, u8"..", NULL, 0, static_cast<fuse_fill_dir_flags>(0));
+	int res = filler(buf, u8".", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
+	res = filler(buf, u8"..", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 
 	AutoPointer<const Directory> dir = node.Cast<const Directory>();
 	for(const String& childName : *dir)
 	{
-		filler(buf, reinterpret_cast<const char *>(childName.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
+		res = filler(buf, reinterpret_cast<const char *>(childName.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
 			   static_cast<fuse_fill_dir_flags>(0));
 	}
 
@@ -299,8 +312,10 @@ void _stdxx_::fuse_MountReadOnly(const Path &mountPoint, const ReadableFileSyste
 		.readlink = fuse_mapper_readlink,
 		.open = fuse_mapper_open,
 		.read = fuse_mapper_read,
+		//.getxattr = fuse_mapper_getxattr,
 		.readdir = fuse_mapper_readdir,
 		.init = fuse_mapper_init,
+		//.access = fuse_mapper_access,
 	};
 
 	fuseArgsCreator args;
