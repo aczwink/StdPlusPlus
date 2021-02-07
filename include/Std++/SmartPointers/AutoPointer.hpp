@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -182,8 +182,22 @@ namespace StdXX
 			return result;
 		}
 
+		inline AutoPointer<typename Type::RemoveConst<ValueType>::type> MoveConstCast()
+		{
+			AutoPointer<typename Type::RemoveConst<ValueType>::type> result;
+			result.pointer = const_cast<typename Type::RemoveConst<ValueType>::type *>(this->pointer);
+			result.controlBlock = this->controlBlock;
+			result.isOwner = this->isOwner;
+
+			this->pointer = nullptr;
+			this->controlBlock = nullptr;
+			this->isOwner = false;
+
+			return result;
+		}
+
 		template <typename TargetType>
-		inline bool IsInstanceOf()
+		inline bool IsInstanceOf() const
 		{
 			return dynamic_cast<TargetType *>(this->pointer) != nullptr;
 		}

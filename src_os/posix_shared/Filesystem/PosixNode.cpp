@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
+/*//Class header
 #include "PosixNode.hpp"
 //Global
 #include <sys/stat.h>
@@ -30,7 +30,7 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void PosixNode::ChangePermissions(const NodePermissions &newPermissions)
+void PosixNode::ChangePermissions(const Permissions &newPermissions)
 {
 	const POSIXPermissions& unixPermissions = dynamic_cast<const POSIXPermissions &>(newPermissions);
 
@@ -45,4 +45,4 @@ void PosixNode::ChangePermissions(const NodePermissions &newPermissions)
 NodeInfo PosixNode::QueryInfo() const
 {
 	return StatQueryFileInfo(this->path);
-}
+}*/

@@ -46,7 +46,7 @@ POSIXPermissions::POSIXPermissions(int32 userId, int32 groupId, uint32 encodedMo
 }
 
 //Public methods
-NodePermissions *POSIXPermissions::Clone() const
+Permissions *POSIXPermissions::Clone() const
 {
 	return new POSIXPermissions(this->userId, this->groupId, this->EncodeMode());
 }

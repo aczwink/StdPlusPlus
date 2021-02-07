@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
+/*//Class header
 #include <Std++/FileSystem/Format.hpp>
 //Local
 #include <Std++/Containers/Array/DynamicArray.hpp>
@@ -72,4 +72,4 @@ const Format *Format::GetFormatById(const String &id)
 void Format::Register(const Format *fileSystemFormat)
 {
 	g_fsFormats.Push(fileSystemFormat);
-}
+}*/

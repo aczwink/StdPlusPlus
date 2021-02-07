@@ -16,26 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/Streams/FileInputStream.hpp>
-#include <Std++/Streams/FileOutputStream.hpp>
-#include <Std++/Multitasking/Mutex.hpp>
-#include "../Streams/SeekableInputStream.hpp"
-#include "ContainerFile.hpp"
-#include "BufferedMetadataFileSystem.hpp"
-#include "ContainerDirectory.hpp"
+#include "Path.hpp"
+#include "ContainerFileSystem.hpp"
+#include "WritableContainerDirectory.hpp"
+#include "BufferedWritableMetadataFileSystem.hpp"
 
 namespace StdXX::FileSystem
 {
 	/**
-	 * A container file system is usually a filesystem stored inside one file (i.e. a zip-file etc.).
-	 * These containers are actually not designed for an in-use filesystem. They are written once and are then used,
-	 * only for data retrieval (read only).
-	 * A typical layout of a container is to write all file headers first and then the data of all files.
-	 * However, when you now want to add a file to the container, you have to create the container again, because you
-	 * need to change the file headers, however, you can not append to them because there is already file data there.
-	 *
 	 * This class manages exactly these containers by using the container file for reading files and when files are
 	 * written to this filesystem, they are buffered in memory and are not flushed to the container.
 	 * As soon as you issue the Flush call, this class will create a temporary file, copy the current filesystem to
@@ -43,60 +32,36 @@ namespace StdXX::FileSystem
 	 * that were written to this filesystem) and then exchanges the two container files.
 	 * On successful exchange, the old filesystem is dropped.
 	 *
-	 * It's important to know these facts, when implementing a ContainerFileSystem. The implications are the following:
+	 * It's important to know these facts, when implementing a ArchiveFileSystem. The implications are the following:
 	 * -All files you read, are read from the original container
 	 * -All files you write are written into memory! (This is especially important if a system has no kind of swap storage)
 	 * -The container never gets corrupted. If your application crashes, the container wasn't modified and is thus still
 	 * stable. Only when you flush, a new container is created and the old one is only deleted if exchanging the
 	 * containers was successful.
-	 *
 	 */
-	class STDPLUSPLUS_API ContainerFileSystem : public BufferedMetadataFileSystem
+	class WritableContainerFileSystem : public ArchiveFileSystem, public BufferedWritableMetadataFileSystem
 	{
-		friend class ContainerDirectory;
-		friend class ContainerFile;
+		friend class WritableContainerDirectory;
 	public:
 		//Constructor
-		ContainerFileSystem(const Path &fileSystemPath);
+		WritableContainerFileSystem(const Path &fileSystemPath);
 
 		//Methods
 		void CreateLink(const Path &linkPath, const Path &linkTargetPath) override;
-		bool Exists(const Path &path) const override;
 		AutoPointer<Directory> GetRoot() override;
-		AutoPointer<const Directory> GetRoot() const override;
 		void Move(const Path &from, const Path &to) override;
-		SpaceInfo QuerySpace() const override;
 
 	protected:
 		//Members
-		AutoPointer<Directory> root;
-		Path fileSystemPath;
-		Mutex containerInputStreamLock;
-		UniquePointer<FileInputStream> containerInputStream;
 		bool isFlushed;
+		Path fileSystemPath;
 
 		//Methods
-		AutoPointer<ContainerDirectory> CreateOrQueryDirectory(const Path& directoryPath);
 		UniquePointer<FileOutputStream> OpenTempContainer();
 		void SwapWithTempContainer(UniquePointer<FileOutputStream> &tempContainer);
 
-		//Inline
-		inline void AddSourceDirectory(const Path& nodePath)
-		{
-			AutoPointer<ContainerDirectory> dir = this->CreateOrQueryDirectory(nodePath.GetParent());
-
-			dir->AddChild(nodePath.GetName(), new ContainerDirectory(nodePath.GetName(), dir.operator->()));
-		}
-
-		inline void AddSourceFile(const Path& nodePath, ContainerFile* node)
-		{
-			this->CreateOrQueryDirectory(nodePath.GetParent())->AddChild(nodePath.GetName(), node);
-		}
-
-		inline void AddSourceFile(const Path& filePath, const ContainerFileHeader& header)
-		{
-			ContainerFile *file = new ContainerFile(header, this);
-			this->AddSourceFile(filePath, file);
-		}
+	private:
+		//Members
+		UniquePointer<FileInputStream> fileInputStream;
 	};
 }

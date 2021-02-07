@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,6 +30,7 @@
 #include <Std++/_Backends/ExtensionManager.hpp>
 #include <Std++/UI/Style/StyleSheet.hpp>
 #include <Std++/Compression/HuffmanDecoder.hpp>
+#include <Std++/FileSystem/FileSystemsManager.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -67,11 +68,7 @@ void ShutdownStdPlusPlus()
 {
 	ShutdownStdPlusPlus_Platform();
 
-	//release file system formats
-	extern DynamicArray<const FileSystem::Format *> g_fsFormats;
-	for(const FileSystem::Format *format : g_fsFormats)
-		delete(format);
-	g_fsFormats.Release();
+	FileSystem::FileSystemsManager::Instance().ReleaseAllFormats();
 
 	//free inflater stuff
 	extern HuffmanDecoder* g_fixedLiteralLengthDecoder;

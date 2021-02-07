@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
-#include <Std++/FileSystem/File.hpp>
-#include "PosixNode.hpp"
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include "Path.hpp"
+#include "Node.hpp"
+#include "File.hpp"
 
-namespace _stdxx_
+namespace StdXX::FileSystem
 {
-	class POSIXFile : public StdXX::FileSystem::File, public PosixNode
+	class ReadableFileSystem
 	{
 	public:
-		//Constructor
-		inline POSIXFile(const StdXX::FileSystem::Path& path) : PosixNode(path)
+		//Inline
+		inline AutoPointer<const Directory> GetDirectory(const Path& path) const
 		{
+			AutoPointer<const Node> node = this->GetNode(path);
+			ASSERT(!node.IsNull(), u8"Node does not exist.");
+			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
+
+			return node.MoveCast<const Directory>();
 		}
 
-		//Methods
-		StdXX::UniquePointer<StdXX::InputStream> OpenForReading(bool verify) const override;
-		StdXX::UniquePointer<StdXX::OutputStream> OpenForWriting() override;
+		inline bool IsDirectory(const Path& path) const
+		{
+			return this->GetNode(path)->GetType() == NodeType::Directory;
+		}
 	};
 }

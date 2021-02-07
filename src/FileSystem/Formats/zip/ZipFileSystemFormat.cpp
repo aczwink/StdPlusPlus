@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "ZipFileSystemFormat.hpp"
 //Local
 #include "EndOfCentralDirectory.hpp"
@@ -89,4 +89,4 @@ bool ZipFileSystemFormat::ValidateEndOfCentralDirectory(const FixedSizeBuffer &b
 
 	uint16 commentLength = dataReader.ReadUInt16();
 	return bufferInputStream.QueryRemainingBytes() == commentLength;
-}
+}*/

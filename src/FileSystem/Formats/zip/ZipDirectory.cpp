@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "ZipDirectory.hpp"
 //Local
 #include <Std++/FileSystem/DirectoryIterator.hpp>
@@ -27,12 +27,12 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void ZipDirectory::ChangePermissions(const FileSystem::NodePermissions &newPermissions)
+void ZipDirectory::ChangePermissions(const FileSystem::Permissions &newPermissions)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void ZipDirectory::CreateSubDirectory(const String &name, const NodePermissions* permissions)
+void ZipDirectory::CreateSubDirectory(const String &name, const Permissions* permissions)
 {
 	this->AddChild(name, new ZipDirectory(this->fileSystem));
 
@@ -54,4 +54,4 @@ bool _stdxx_::ZipDirectory::IsEmpty() const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return false;
 }
-//END TODO NOT IMPLEMENTED
+//END TODO NOT IMPLEMENTED*/

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,39 +18,79 @@
  */
 #pragma once
 //Local
-#include "../SmartPointers/UniquePointer.hpp"
-#include "../Streams/InputStream.hpp"
-#include "Node.hpp"
+#include "OSFileSystem.hpp"
+#include "FileSystemsManager.hpp"
+#include "DirectoryIterator.hpp"
+#include "ReadOnlyFile.hpp"
 
 namespace StdXX::FileSystem
 {
-	class File : virtual public Node
+	class File : public ReadOnlyFile
 	{
 	public:
-		//Abstract
-		virtual UniquePointer<InputStream> OpenForReading(bool verify) const = 0;
-		/*
-		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
-		 * OpenForAppending:
-		 * -Create file in case it does not exist
-		 * -File pos is at end
-		 * -File is of course not truncated
-		 *
-		 * OpenForUpdating: no mode needed because this would do the following:
-		 * -Create file in case it does not exist
-		 * -File pos is at beginning
-		 * -File is of course not truncated
-		 * -File must support streaming
-		 *
-		 */
-		/**
-		 * File is truncated.
-		 *
-		 * @return
-		 */
-		virtual UniquePointer<OutputStream> OpenForWriting() = 0;
+		//Constructors
+		inline File(const Path& path) : File(FileSystemsManager::Instance().OSFileSystem(), path)
+		{
+		}
 
-		//Methods
-		NodeType GetType() const override;
+		inline File(RWFileSystem& fileSystem, const Path& path) : ReadOnlyFile(fileSystem, path), fileSystem(fileSystem)
+		{
+		}
+
+		//Inline
+		inline void CreateDirectory()
+		{
+			this->fileSystem.CreateDirectory(this->path);
+		}
+
+		inline void CreateDirectories()
+		{
+			if(this->path.IsRoot())
+				return;
+			if(!this->Exists())
+			{
+				File parent(this->fileSystem, this->path.GetParent());
+				parent.CreateDirectories();
+				parent.CreateDirectory();
+			}
+			ASSERT_EQUALS(FileType::Directory, this->Type());
+		}
+
+		inline void DeleteFile()
+		{
+			this->fileSystem.DeleteFile(this->path);
+		}
+
+		inline UniquePointer<OutputStream> OpenForWriting()
+		{
+			return this->fileSystem.OpenFileForWriting(this->path);
+		}
+
+		inline void RemoveDirectory()
+		{
+			this->fileSystem.RemoveDirectory(this->path);
+		}
+
+		inline void RemoveChildrenRecursively()
+		{
+			for(const DirectoryEntry& directoryEntry : *this)
+			{
+				File child(this->fileSystem, this->path / directoryEntry.name);
+				if(directoryEntry.type == FileType::Directory)
+					child.RemoveDirectoryRecursively();
+				else
+					child.DeleteFile();
+			}
+		}
+
+		inline void RemoveDirectoryRecursively()
+		{
+			this->RemoveChildrenRecursively();
+			this->RemoveDirectory();
+		}
+
+	private:
+		//Members
+		RWFileSystem& fileSystem;
 	};
 }

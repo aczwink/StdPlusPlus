@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
- //Class header
+/*//Class header
 #include <Std++/FileSystem/DirectoryWalker.hpp>
 //Namespaces
 using namespace StdXX;
@@ -56,4 +56,4 @@ void DirectoryWalker::CorrectIteratorPos()
 				return; //fine, we have a file
 		}
 	}
-}
+}*/

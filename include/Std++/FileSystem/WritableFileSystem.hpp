@@ -18,10 +18,9 @@
  */
 #pragma once
 //Local
-#include <Std++/Streams/OutputStream.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Path.hpp"
-#include "Node.hpp"
+#include "Permissions.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -32,39 +31,37 @@ namespace StdXX::FileSystem
 		virtual ~WritableFileSystem() = default;
 
 		//Abstract
+		/**
+		 *
+		 * @param name
+		 * @param permissions - pass null for default permissions
+		 */
+		virtual void CreateDirectory(const Path& path, const Permissions* permissions = nullptr) = 0;
 		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
 		virtual void CreateLink(const Path& linkPath, const Path& linkTargetPath) = 0;
+		virtual void DeleteFile(const Path& path) = 0;
 		virtual void Flush() = 0;
-		/**
-		 * Get the node identified by path or nullptr if not existent.
+		virtual void Move(const Path &from, const Path &to) = 0;
+		/*
+		 * The following special cases aren't implemented yet. They don't need a convenience class like FileOutputStream.
+		 * OpenForAppending:
+		 * -Create file in case it does not exist
+		 * -File pos is at end
+		 * -File is of course not truncated
 		 *
-		 * @param path - If relative, it should be considered relative to the root.
+		 * OpenForUpdating: no mode needed because this would do the following:
+		 * -Create file in case it does not exist
+		 * -File pos is at beginning
+		 * -File is of course not truncated
+		 * -File must support streaming
+		 *
+		 */
+		/**
+		 * File is truncated.
+		 *
 		 * @return
 		 */
-		virtual AutoPointer<Node> GetNode(const Path& path) = 0;
-		virtual void Move(const Path &from, const Path &to) = 0;
-
-		//Methods
-		void CreateDirectoryTree(const Path &directoryPath);
-
-		//Functions
-		/**
-		 * Create the file system at the given path.
-		 * The path must not refer to an existing node on the filesystem.
-		 * The filesystem is opened in writable mode.
-		 * @param id
-		 * @param path
-		 */
-		static UniquePointer<WritableFileSystem> Create(const String &id, const Path &path);
-
-		//Inline
-		inline AutoPointer<Directory> GetDirectory(const Path& path)
-		{
-			AutoPointer<Node> node = this->GetNode(path);
-			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
-
-			return node.MoveCast<Directory>();
-		}
+		virtual UniquePointer<OutputStream> OpenFileForWriting(const Path& path) = 0;
+		virtual void RemoveDirectory(const Path& path) = 0;
 	};
 }

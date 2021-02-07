@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "ZipReadableFile.hpp"
 //Local
 #include <Std++/Streams/ChainedInputStream.hpp>
@@ -79,3 +79,4 @@ CompressionAlgorithm ZipReadableFile::MapCompressionMethod(uint16 compressionMet
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
+*/

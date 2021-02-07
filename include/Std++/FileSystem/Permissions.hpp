@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/FileSystem/File.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::FileSystem;
+#pragma once
 
-//Public methods
-NodeType File::GetType() const
+namespace StdXX::FileSystem
 {
-	return NodeType::File;
+	class Permissions
+	{
+	public:
+		virtual ~Permissions() = default;
+
+		virtual Permissions* Clone() const = 0;
+	};
 }

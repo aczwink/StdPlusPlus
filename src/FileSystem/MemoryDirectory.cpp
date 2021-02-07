@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
+/*//Class header
 #include <Std++/FileSystem/MemoryDirectory.hpp>
 //Local
 #include <Std++/_Backends/DirectoryIteratorState.hpp>
@@ -26,7 +26,7 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void MemoryDirectory::ChangePermissions(const NodePermissions &newPermissions)
+void MemoryDirectory::ChangePermissions(const Permissions &newPermissions)
 {
 	this->permissions = newPermissions.Clone();
 }
@@ -37,7 +37,7 @@ UniquePointer<OutputStream> MemoryDirectory::CreateFile(const String &name)
 	return UniquePointer<OutputStream>();
 }
 
-void MemoryDirectory::CreateSubDirectory(const String &name, const NodePermissions *permissions)
+void MemoryDirectory::CreateSubDirectory(const String &name, const Permissions *permissions)
 {
 	NOT_IMPLEMENTED_ERROR;
 }
@@ -62,82 +62,8 @@ AutoPointer<Node> MemoryDirectory::GetChild(const String &name)
 	return this->children[name];
 }
 
-AutoPointer<const Node> MemoryDirectory::GetChild(const String &name) const
-{
-	if(!this->children.Contains(name))
-		return nullptr;
-	return this->children[name];
-}
-
 bool MemoryDirectory::IsEmpty() const
 {
 	return this->children.IsEmpty();
 }
-
-NodeInfo MemoryDirectory::QueryInfo() const
-{
-	return {
-		.size = 0,
-		.storedSize = 0,
-		.permissions = this->permissions.IsNull() ? nullptr : this->permissions->Clone()
-	};
-}
-
-//For range-based loop
-DirectoryIterator MemoryDirectory::begin() const
-{
-	class ContainerDirectoryIteratorState : public _stdxx_::DirectoryIteratorState
-	{
-	public:
-		//Constructor
-		ContainerDirectoryIteratorState(const MemoryDirectory &dir)
-				: dir(dir), childrenIterator(dir.children.begin())
-		{
-		}
-
-		//Public methods
-		bool Equals(DirectoryIteratorState *other) const override
-		{
-			if(other == nullptr)
-				return this->IsAtEnd();
-
-			ContainerDirectoryIteratorState *otherTyped = dynamic_cast<ContainerDirectoryIteratorState *>(other);
-			if(otherTyped)
-			{
-				return (&this->dir == &otherTyped->dir) &&
-				       (this->childrenIterator == otherTyped->childrenIterator);
-			}
-
-			return false;
-		}
-
-		String GetCurrent() override
-		{
-			const auto& kv = (*this->childrenIterator);
-			return kv.key;
-		}
-
-		void Next() override
-		{
-			++this->childrenIterator;
-		}
-
-	private:
-		//Members
-		const MemoryDirectory &dir;
-		ConstMapIterator<String, AutoPointer<Node>> childrenIterator;
-
-		//Inline
-		inline bool IsAtEnd() const
-		{
-			return (this->childrenIterator == this->dir.children.end());
-		}
-	};
-
-	return DirectoryIterator(new ContainerDirectoryIteratorState(*this));
-}
-
-DirectoryIterator MemoryDirectory::end() const
-{
-	return DirectoryIterator(nullptr);
-}
+*/

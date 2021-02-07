@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/Multitasking/Mutex.hpp>
-#include "../Streams/SeekableInputStream.hpp"
+#include "Std++/Streams/SeekableInputStream.hpp"
 
 namespace StdXX
 {

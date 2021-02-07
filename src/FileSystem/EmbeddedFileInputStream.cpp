@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,10 +17,9 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/FileSystem/EmbeddedFileInputStream.hpp>
+#include <Std++/FileSystem/Buffered/EmbeddedFileInputStream.hpp>
 //Local
 #include <Std++/Debug.hpp>
-#include <Std++/FileSystem/ContainerFile.hpp>
 #include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;

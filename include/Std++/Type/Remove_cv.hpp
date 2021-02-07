@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,4 +27,13 @@ namespace StdXX::Type
 	template<typename T> struct RemoveReference { typedef T type; };
 	template<typename T> struct RemoveReference<T&> { typedef T type; };
 	template<typename T> struct RemoveReference<T&&> { typedef T type; };
+
+	template<typename T>
+	struct RemoveCVReference
+	{
+		typedef typename RemoveConst<typename RemoveReference<T>::type>::type type;
+	};
+
+	template<typename T>
+	using RemoveCVReference_t = typename RemoveCVReference<T>::type;
 }

@@ -18,30 +18,10 @@
  */
 #pragma once
 //Local
-#include "../Streams/SeekableInputStream.hpp"
-#include "RWFileSystem.hpp"
 
 namespace StdXX::FileSystem
 {
-	struct OpenOptions
-	{
-		Optional<String> password;
-	};
-
 	class Format
 	{
-	public:
-		//Abstract
-		virtual RWFileSystem* CreateFileSystem(const Path &fileSystemPath) const = 0;
-		virtual String GetId() const = 0;
-		virtual String GetName() const = 0;
-		virtual float32 Matches(SeekableInputStream &inputStream) const = 0;
-		virtual RWFileSystem *OpenFileSystem(const Path &fileSystemPath, const OpenOptions& options) const = 0;
-		virtual ReadableFileSystem *OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const = 0;
-
-		//Functions
-		static const Format* FindBestFormat(const Path& path);
-		static const Format* GetFormatById(const String& id);
-		static STDPLUSPLUS_API void Register(const Format *fileSystemFormat);
 	};
 }

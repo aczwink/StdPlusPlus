@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "7zip_FileSystemFormat.hpp"
 //Local
 #include <Std++/Filetypes/UTIConstants.hpp>
@@ -63,5 +63,6 @@ RWFileSystem *SevenZip_FileSystemFormat::OpenFileSystem(const Path &fileSystemPa
 
 ReadableFileSystem *SevenZip_FileSystemFormat::OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const
 {
-	return new SevenZip_FileSystem(fileSystemPath);
-}
+	NOT_IMPLEMENTED_ERROR;
+	//return new SevenZip_FileSystem(fileSystemPath);
+}*/

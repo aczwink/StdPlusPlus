@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+/*
 //Class header
 #include "7zip_FileSystem.hpp"
 //Local
@@ -90,7 +91,7 @@ uint8 SevenZip_FileSystem::ReadArchiveProperties()
 	}
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me*/
-	return -1;
+	/*return -1;
 }
 
 void SevenZip_FileSystem::ReadCodersInfo(CodersInfo& codersInfo, InputStream& inputStream)
@@ -259,9 +260,9 @@ void SevenZip_FileSystem::ReadFolder(Folder& folder, InputStream& inputStream)
 
 void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 {
-	this->containerInputStream->SeekTo(this->baseOffset + offset);
+	this->containerInputStream.SeekTo(this->baseOffset + offset);
 
-	DataReader reader(false, *this->containerInputStream); //7z is little endian
+	DataReader reader(false, this->containerInputStream); //7z is little endian
 
 	PropertyId id = (PropertyId)reader.ReadByte();
 	switch (id)
@@ -269,14 +270,14 @@ void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 	case PropertyId::kEncodedHeader:
 	{
 		StreamsInfo streamsInfo;
-		this->ReadStreamsInfo(streamsInfo, *this->containerInputStream);
+		this->ReadStreamsInfo(streamsInfo, this->containerInputStream);
 
-		this->containerInputStream->SeekTo(this->baseOffset + streamsInfo.packInfo->offset);
+		this->containerInputStream.SeekTo(this->baseOffset + streamsInfo.packInfo->offset);
 		ASSERT(streamsInfo.packInfo->packedStreams.GetNumberOfElements() == 1, u8"Report this please!");
 		ASSERT(streamsInfo.codersInfo->folderInfos.GetNumberOfElements() == 1, u8"Report this please!");
 		ASSERT(streamsInfo.codersInfo->folderInfos[0].folder.coders.GetNumberOfElements() == 1, u8"Report this please!");
 		
-		LimitedInputStream limiter(*this->containerInputStream, streamsInfo.packInfo->packedStreams[0].compressedSize);
+		LimitedInputStream limiter(this->containerInputStream, streamsInfo.packInfo->packedStreams[0].compressedSize);
 		const auto& coder = streamsInfo.codersInfo->folderInfos[0].folder.coders[0];
 
 		UniquePointer<Decompressor> decompressor;
@@ -290,7 +291,7 @@ void SevenZip_FileSystem::ReadHeader(uint64 offset, uint64 size)
 	}
 	break;
 	case PropertyId::kHeader:
-		this->ReadHeaderData(*this->containerInputStream);
+		this->ReadHeaderData(this->containerInputStream);
 	default:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
@@ -319,7 +320,7 @@ void SevenZip_FileSystem::ReadHeaderData(InputStream& inputStream)
 
 void SevenZip_FileSystem::ReadFileSystemHeader()
 {
-	DataReader reader(false, *this->containerInputStream); //7z is little endian
+	DataReader reader(false, this->containerInputStream); //7z is little endian
 	
 	reader.Skip(6); //the signature
 	byte versionMajor = reader.ReadByte();
@@ -330,7 +331,7 @@ void SevenZip_FileSystem::ReadFileSystemHeader()
 	uint64 nextHeaderSize = reader.ReadUInt64();
 	reader.Skip(4); //nextHeaderCRC
 
-	this->baseOffset = this->containerInputStream->GetCurrentOffset();
+	this->baseOffset = this->containerInputStream.GetCurrentOffset();
 	this->ReadHeader(nextHeaderOffset, nextHeaderSize);
 }
 
@@ -451,4 +452,4 @@ uint64 SevenZip_FileSystem::ReadVariableLengthUInt(InputStream& inputStream)
 	result |= (first & mask) << nExtraBytes * 8;
 	
 	return result;
-}
+}*/

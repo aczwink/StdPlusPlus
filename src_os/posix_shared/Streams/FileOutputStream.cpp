@@ -31,7 +31,7 @@ using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Constructor
-FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite, const FileSystem::NodePermissions* permissions) : filePath(path)
+FileOutputStream::FileOutputStream(const FileSystem::Path &path, bool overwrite, const FileSystem::Permissions* permissions) : filePath(path)
 {
 	int flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if(!overwrite)

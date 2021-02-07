@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -22,7 +22,7 @@
 
 namespace StdXX::FileSystem
 {
-	class STDPLUSPLUS_API OSFileSystem : public RWFileSystem
+	class OSFileSystem : public RWFileSystem
 	{
 	public:
 		//Methods
@@ -31,8 +31,5 @@ namespace StdXX::FileSystem
 		void MountReadOnly(const Path& mountPoint, const ReadableFileSystem& fileSystem);
 		Path ToAbsolutePath(const Path &path) const;
 		String ToNativePath(const Path &path) const;
-
-		//Functions
-		static OSFileSystem &GetInstance();
 	};
 }

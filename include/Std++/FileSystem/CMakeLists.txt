@@ -1,29 +1,22 @@
 set(SOURCE_FILES
 	${SOURCE_FILES}
 
+	#Buffered
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/ArchiveFileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/BufferedMetadataFileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/ContainerFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/EmbeddedFileInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/MemoryDirectory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/MemoryFileNode.hpp
+
 	#.
-		${CMAKE_CURRENT_SOURCE_DIR}/BufferedMetadataFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ContainerDirectory.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFile.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/EmbeddedFileInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Directory.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryEnumerator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryWalker.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/File.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RWFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Format.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Node.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/NodeInfo.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Link.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/MemoryDirectory.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/MemoryFile.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/NodePermissions.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/OSFileSystem.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Path.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemsManager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileInfo.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ReadableFileSystem.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/POSIXPermissions.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/URL.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/WritableFileSystem.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ReadOnlyFile.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Path.hpp
 
 	PARENT_SCOPE)

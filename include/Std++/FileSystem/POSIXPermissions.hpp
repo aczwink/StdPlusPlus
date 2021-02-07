@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
-#include "NodePermissions.hpp"
+#include "Permissions.hpp"
 
 namespace StdXX::FileSystem
 {
-	class POSIXPermissions : public NodePermissions
+	class POSIXPermissions : public Permissions
 	{
 		struct POSIXPermission
 		{
@@ -45,7 +45,7 @@ namespace StdXX::FileSystem
 		//Members
 		int32 userId;
 		int32 groupId;
-        bool setUserIdOnExecution;
+		bool setUserIdOnExecution;
 		bool setGroupIdOnExecution;
 		bool sticky;
 		POSIXPermission owner;
@@ -56,7 +56,7 @@ namespace StdXX::FileSystem
 		POSIXPermissions(int32 userId, int32 groupId, uint32 encodedMode);
 
 		//Methods
-		NodePermissions *Clone() const override;
+		Permissions *Clone() const override;
 		uint32 EncodeMode() const;
 	};
 }

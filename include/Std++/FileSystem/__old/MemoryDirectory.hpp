@@ -34,25 +34,11 @@ namespace StdXX::FileSystem
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name, const NodePermissions *permissions) override;
 		bool Exists(const Path &path) const override;
-		AutoPointer<Node> GetChild(const String &name) override;
-		AutoPointer<const Node> GetChild(const String &name) const override;
 		bool IsEmpty() const override;
 		NodeInfo QueryInfo() const override;
 
 		//For range-based loop
 		DirectoryIterator begin() const override;
 		DirectoryIterator end() const override;
-
-		//Inline
-		inline void AddChild(const String& nodeName, Node* node)
-		{
-			ASSERT(!this->children.Contains(nodeName), u8"Can't add child that already exists.");
-			this->children[nodeName] = node;
-		}
-
-	private:
-		//Members
-		Map<String, AutoPointer<Node>> children;
-		UniquePointer<NodePermissions> permissions;
 	};
 }

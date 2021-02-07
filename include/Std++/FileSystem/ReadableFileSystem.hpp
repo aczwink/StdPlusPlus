@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,10 +18,11 @@
  */
 #pragma once
 //Local
+#include <Std++/Optional.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include "Path.hpp"
-#include "Node.hpp"
-#include "File.hpp"
+#include "FileInfo.hpp"
+#include "DirectoryEnumerator.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -38,38 +39,10 @@ namespace StdXX::FileSystem
 		virtual ~ReadableFileSystem() = default;
 
 		//Abstract
-		virtual bool Exists(const Path &path) const = 0;
-		/**
-		 * Get the node identified by path or nullptr if not existent.
-		 *
-		 * @param path - If relative, it should be considered relative to the root.
-		 * @return
-		 */
-		virtual AutoPointer<const Node> GetNode(const Path& path) const = 0;
+		virtual UniquePointer<DirectoryEnumerator> EnumerateChildren(const Path& path) const = 0;
+		virtual UniquePointer<InputStream> OpenFileForReading(const Path& path, bool verify) const = 0;
+		virtual Optional<FileInfo> QueryFileInfo(const Path& path) const = 0;
 		virtual SpaceInfo QuerySpace() const = 0;
-
-		//Inline
-		inline AutoPointer<const Directory> GetDirectory(const Path& path) const
-		{
-			AutoPointer<const Node> node = this->GetNode(path);
-			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == NodeType::Directory, u8"Node is not a directory.");
-
-			return node.MoveCast<const Directory>();
-		}
-
-		inline AutoPointer<const File> GetFile(const Path& path) const
-		{
-			AutoPointer<const Node> node = this->GetNode(path);
-			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node->GetType() == NodeType::File, u8"Node is not a file.");
-
-			return node.MoveCast<const File>();
-		}
-
-		inline bool IsDirectory(const Path& path) const
-		{
-			return this->GetNode(path)->GetType() == NodeType::Directory;
-		}
+		virtual Optional<Path> ReadLinkTarget(const Path& path) const = 0;
 	};
 }

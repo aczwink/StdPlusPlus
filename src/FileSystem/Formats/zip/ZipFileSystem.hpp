@@ -23,6 +23,7 @@
 #include <Std++/FileSystem/BufferedMetadataFileSystem.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Streams/FileUpdateStream.hpp>
+#include <Std++/FileSystem/BufferedWritableMetadataFileSystem.hpp>
 #include "Zip.hpp"
 #include "ZipDirectory.hpp"
 #include "EndOfCentralDirectory.hpp"
@@ -33,8 +34,10 @@ namespace _stdxx_
 	/**
 	 * Implementation based on: APPNOTE.TXT - .ZIP File Format Specification Version: 6.3.6
 	 */
-	class ZipFileSystem : public StdXX::FileSystem::BufferedMetadataFileSystem
+	class ZipFileSystem : public virtual StdXX::FileSystem::BufferedMetadataFileSystem, public virtual StdXX::FileSystem::BufferedWritableMetadataFileSystem,
+						  public virtual StdXX::FileSystem::RWFileSystem
 	{
+		using StdXX::FileSystem::BufferedWritableMetadataFileSystem::GetDirectory;
 	public:
 		//Constructors
 		ZipFileSystem(const StdXX::FileSystem::Path &path);

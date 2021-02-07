@@ -20,17 +20,12 @@
 #include <Std++/FileSystem/WritableFileSystem.hpp>
 //Local
 #include <Std++/FileSystem/Format.hpp>
+#include <Std++/FileSystem/File.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::FileSystem;
 
-//Public methods
-void WritableFileSystem::CreateDirectoryTree(const Path &directoryPath)
-{
-	Path p = directoryPath.IsAbsolute() ? directoryPath.String().SubString(1) : directoryPath;
-	this->GetDirectory(String(u8"/"))->CreateDirectoryTree(p);
-}
-
+/*
 //Class functions
 UniquePointer<WritableFileSystem> WritableFileSystem::Create(const String &id, const Path &path)
 {
@@ -38,4 +33,4 @@ UniquePointer<WritableFileSystem> WritableFileSystem::Create(const String &id, c
 	if(fileSystemFormat)
 		return fileSystemFormat->CreateFileSystem(path);
 	return nullptr;
-}
+}*/

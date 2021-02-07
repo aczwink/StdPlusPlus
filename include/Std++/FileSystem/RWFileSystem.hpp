@@ -18,22 +18,12 @@
  */
 #pragma once
 //Local
-#include "../SmartPointers/AutoPointer.hpp"
-#include "../SmartPointers/UniquePointer.hpp"
-#include "Directory.hpp"
-#include "File.hpp"
 #include "ReadableFileSystem.hpp"
 #include "WritableFileSystem.hpp"
 
 namespace StdXX::FileSystem
 {
-	class STDPLUSPLUS_API RWFileSystem : public ReadableFileSystem, public WritableFileSystem
+	class RWFileSystem : public ReadableFileSystem, public WritableFileSystem
 	{
-	public:
-		//Methods
-		using ReadableFileSystem::GetDirectory;
-		using WritableFileSystem::GetDirectory;
-		using ReadableFileSystem::GetNode;
-		using WritableFileSystem::GetNode;
 	};
 }

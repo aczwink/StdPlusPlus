@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,62 +19,62 @@
 #pragma once
 //Local
 #include <Std++/Tuple.hpp>
-#include "../_Backends/DirectoryIteratorState.hpp"
-#include "../SmartPointers/AutoPointer.hpp"
 #include "Node.hpp"
 
 namespace StdXX::FileSystem
 {
-    class STDPLUSPLUS_API DirectoryIterator
-    {
-    public:
-        //Constructors
-        inline DirectoryIterator(_stdxx_::DirectoryIteratorState *iteratorState) : iteratorState(iteratorState)
+	class DirectoryIterator
+	{
+	public:
+		//Constructors
+		inline DirectoryIterator() = default;
+
+		inline DirectoryIterator(UniquePointer<DirectoryEnumerator>&& enumerator) : enumerator(Move(enumerator))
+		{
+			this->Advance();
+		}
+
+		inline DirectoryIterator(DirectoryIterator &&other) : enumerator(Move(enumerator))
 		{
 		}
 
-		//move ctor
-		inline DirectoryIterator(DirectoryIterator &&other) : iteratorState(other.iteratorState)
+		//Operators
+		inline DirectoryIterator &operator++() //Prefix++
 		{
-            other.iteratorState = nullptr;
-        }
-
-        //Destructor
-        inline ~DirectoryIterator()
-		{
-			if(this->iteratorState)
-				delete this->iteratorState;
-		}
-
-        //Operators
-        inline DirectoryIterator &operator++() //Prefix++
-		{
-			this->iteratorState->Next();
+			this->Advance();
 			return *this;
 		}
 
 		inline bool operator==(const DirectoryIterator &other) const
 		{
-			if(this->iteratorState != nullptr)
-				return this->iteratorState->Equals(other.iteratorState);
-			if(other.iteratorState != nullptr)
-				return other.iteratorState->Equals(this->iteratorState);
-			return true; //both are nullptr
+			return this->enumerator.IsNull() && other.enumerator.IsNull();
 		}
 
-        inline bool operator!=(const DirectoryIterator &other) const
+		inline bool operator!=(const DirectoryIterator &other) const
 		{
 			return !(*this == other);
 		}
 
-        //Inline operators
-        inline String operator*()
-        {
-			return this->iteratorState->GetCurrent();
-        }
+		inline const DirectoryEntry& operator*() const
+		{
+			return this->entry;
+		}
 
-    private:
-        //Members
-		_stdxx_::DirectoryIteratorState *iteratorState;
-    };
+	private:
+		//Members
+		UniquePointer<DirectoryEnumerator> enumerator;
+		DirectoryEntry entry;
+
+		//Inline
+		inline void Advance()
+		{
+			if(!this->enumerator->Next(this->entry))
+			{
+				this->enumerator = nullptr;
+				this->entry = {};
+			}
+			else if((this->entry.name == u8".") || (this->entry.name == u8".."))
+				this->Advance();
+		}
+	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/FileSystem/FileSystemsManager.hpp>
 #include <Std++/FileSystem/OSFileSystem.hpp>
 #include "StringArgument.hpp"
 
@@ -34,7 +35,7 @@ namespace StdXX::CommandLine
 		//Inline
 		FileSystem::Path Value(const MatchResult& matchResult) const
 		{
-			FileSystem::OSFileSystem &osFileSystem = FileSystem::OSFileSystem::GetInstance();
+			FileSystem::OSFileSystem &osFileSystem = FileSystem::FileSystemsManager::Instance().OSFileSystem();
 			return osFileSystem.ToAbsolutePath(osFileSystem.FromNativePath(matchResult.ArgumentValue(*this)));
 		}
 	};

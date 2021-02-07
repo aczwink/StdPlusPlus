@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,14 +17,24 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include "Std++/Containers/Strings/String.hpp"
+#include "Std++/SmartPointers/AutoPointer.hpp"
+#include "Path.hpp"
+#include "NodeInfo.hpp"
 
 namespace StdXX::FileSystem
 {
-	class NodePermissions
+	//Forward declarations
+	class Directory;
+	class RWFileSystem;
+
+	class Node
 	{
 	public:
-		virtual ~NodePermissions() = default;
-
-		virtual NodePermissions* Clone() const = 0;
+		//Abstract
+		virtual void ChangePermissions(const FileSystem::NodePermissions& newPermissions) = 0;
+		virtual NodeType GetType() const = 0;
+		virtual NodeInfo QueryInfo() const = 0;
 	};
 }

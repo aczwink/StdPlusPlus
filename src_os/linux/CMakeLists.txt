@@ -8,6 +8,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/EventQueue.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/EventSignal.cpp
 
+	#FileSystem
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystem/FileSystemsManager.cpp
+
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 

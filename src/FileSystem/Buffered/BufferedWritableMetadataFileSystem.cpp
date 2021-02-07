@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,31 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/FileSystem/MemoryFile.hpp>
+/*//Class header
+#include <Std++/FileSystem/BufferedWritableMetadataFileSystem.hpp>
+//Local
+#include "Shared.hpp"
 //Namespaces
+using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void MemoryFile::ChangePermissions(const StdXX::FileSystem::NodePermissions &newPermissions)
+UniquePointer<OutputStream> BufferedWritableMetadataFileSystem::CreateFile(const Path &filePath)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return this->GetDirectory(filePath.GetParent())->CreateFile(filePath.GetName());
 }
 
-StdXX::UniquePointer<StdXX::InputStream> MemoryFile::OpenForReading(bool verify) const
+AutoPointer<Node> BufferedWritableMetadataFileSystem::GetNode(const Path &path)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return UniquePointer<InputStream>();
-}
-
-StdXX::UniquePointer<StdXX::OutputStream> MemoryFile::OpenForWriting()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return UniquePointer<OutputStream>();
-}
-
-StdXX::NodeInfo MemoryFile::QueryInfo() const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return NodeInfo();
-}
+	return _stdxx_::GetNodeImpl<Node>(path, this->GetRoot());
+}*/

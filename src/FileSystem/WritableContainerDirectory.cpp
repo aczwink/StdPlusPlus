@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/FileSystem/ContainerDirectory.hpp>
+/*//Class header
+#include <Std++/FileSystem/WritableContainerDirectory.hpp>
 //Local
 #include <Std++/FileSystem/DirectoryIterator.hpp>
-#include <Std++/FileSystem/ContainerFileSystem.hpp>
+#include <Std++/FileSystem/WritableContainerFileSystem.hpp>
 #include <Std++/FileSystem/MemoryFile.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
+UniquePointer<OutputStream> WritableContainerDirectory::CreateFile(const String &name)
 {
 	MemoryFile* file = new MemoryFile;
 	this->AddChild(name, file);
@@ -37,15 +37,9 @@ UniquePointer<OutputStream> ContainerDirectory::CreateFile(const String &name)
 	return file->OpenForWriting();
 }
 
-void ContainerDirectory::CreateSubDirectory(const String &name, const NodePermissions* permissions)
+void WritableContainerDirectory::CreateSubDirectory(const String &name, const Permissions* permissions)
 {
-	this->AddChild(name, new ContainerDirectory(name, this));
+	this->AddChild(name, new WritableContainerDirectory(this->fileSystem));
 
 	this->fileSystem->isFlushed = false;
-}
-
-NodeInfo ContainerDirectory::QueryInfo() const
-{
-	NodeInfo nodeInfo;
-	return nodeInfo;
-}
+}*/

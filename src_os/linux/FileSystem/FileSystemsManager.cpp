@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
+//Class header
+#include <Std++/FileSystem/FileSystemsManager.hpp>
 //Local
-#include <Std++/Tuple.hpp>
-#include "Std++/FileSystem/Node.hpp"
-#include "../SmartPointers/AutoPointer.hpp"
+#include <Std++/FileSystem/OSFileSystem.hpp>
+#include "../../posix_shared/Filesystem/POSIXFileSystem.hpp"
 
-//Move declarations
-namespace _stdxx_
+class OSFileSystem &FileSystemsManager::OSFileSystem()
 {
-	class DirectoryIteratorState
+	static class LinuxFileSystem : public _stdxx_::POSIXFileSystem
 	{
-	public:
-		virtual ~DirectoryIteratorState(){}
-		//Abstract
-		virtual bool Equals(DirectoryIteratorState *other) const = 0;
-		virtual StdXX::String GetCurrent() = 0;
-		virtual void Next() = 0;
-	};
+		void HandleNonCompliantUnlinkError() override
+		{
+			if(errno == EISDIR)
+				NOT_IMPLEMENTED_ERROR; //TODO: linux reports EISDIR for directories
+			else
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	} linux_fs;
+
+	return linux_fs;
 }

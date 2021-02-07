@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,23 +18,29 @@
  */
 #pragma once
 //Local
-#include "RWFileSystem.hpp"
+#include <Std++/Compression/CompressionAlgorithm.hpp>
+#include <Std++/Optional.hpp>
+#include "Std++/Definitions.h"
+#include "File.hpp"
 
 namespace StdXX::FileSystem
 {
-	/**
-	 * A filesystem that stores all nodes (but not their content) in memory.
-	 */
-	class BufferedMetadataFileSystem : public RWFileSystem
+	//Forward declarations
+	class ArchiveFileSystem;
+
+	class ContainerFile : public File
 	{
 	public:
-		//Abstract
-		virtual AutoPointer<Directory> GetRoot() = 0;
-		virtual AutoPointer<const Directory> GetRoot() const = 0;
-
 		//Methods
-		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
-		AutoPointer<Node> GetNode(const Path &path) override;
-		AutoPointer<const Node> GetNode(const Path &path) const override;
+		void ChangePermissions(const FileSystem::NodePermissions &newPermissions) override;
+		UniquePointer<InputStream> OpenForReading(bool verify) const override;
+		UniquePointer<OutputStream> OpenForWriting() override;
+		NodeInfo QueryInfo() const override;
+
+	private:
+		//Members
+		ContainerFileHeader header;
+		ArchiveFileSystem* fileSystem;
+		UniquePointer<NodePermissions> permissions;
 	};
 }

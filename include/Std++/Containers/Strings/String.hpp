@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -284,16 +284,13 @@ namespace StdXX
 		 *
 		 * @return Zero-terminated memory block of encoded codepoints
 		 */
-		inline const byte *GetRawZeroTerminatedData() const
+		inline const uint8 *GetRawZeroTerminatedData() const
 		{
-			if(this->sharedResource)
-			{
-				this->Detach();
-				if (this->sharedResource->isUTF8)
-					this->sharedResource->data[this->sharedResource->nElements] = 0;
-				else
-					*((uint16 *)&this->sharedResource->data[this->sharedResource->nElements]) = 0;
-			}
+			this->Detach();
+			if (this->sharedResource->isUTF8)
+				this->sharedResource->data[this->sharedResource->nElements] = 0;
+			else
+				*((uint16 *)&this->sharedResource->data[this->sharedResource->nElements]) = 0;
 
 			return this->data;
 		}

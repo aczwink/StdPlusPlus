@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,9 +23,6 @@
 
 namespace StdXX::FileSystem
 {
-    //Move declarations
-    class DirectoryIterator;
-
 	/**
 	 * Represents a path to a file or directory.
 	 * This class has very much in common with URLs, except that it also supports relative paths.
@@ -52,49 +49,49 @@ namespace StdXX::FileSystem
 	 *
 	 * TODO: example for a relative path
 	 */
-    class STDPLUSPLUS_API Path
-    {
-    public:
-        //Constructors
-        inline Path()
-        {
-        }
+	class Path
+	{
+	public:
+		//Constructors
+		inline Path()
+		{
+		}
 
-        inline Path(const String &refPathString)
-        {
-            this->pathString = refPathString;
-        }
+		inline Path(const String& pathString)
+		{
+			this->pathString = pathString;
+		}
 
-        //Properties
-		inline const class String &String() const
+		//Properties
+		inline const class String& String() const
 		{
 			return this->pathString;
 		}
 
-        //Operators
-        inline Path &operator=(const class String &refPathString)
-        {
-            this->pathString = refPathString;
+		//Operators
+		inline Path &operator=(const class String& pathString)
+		{
+			this->pathString = pathString;
 
-            return *this;
-        }
+			return *this;
+		}
 
-        inline bool operator==(const Path &refRight) const
-        {
-            return this->pathString == refRight.pathString;
-        }
+		inline bool operator==(const Path& right) const
+		{
+			return this->pathString == right.pathString;
+		}
 
-        inline bool operator<(const Path &refRight) const
-        {
-            return this->pathString < refRight.pathString;
-        }
+		inline bool operator<(const Path& right) const
+		{
+			return this->pathString < right.pathString;
+		}
 
-        inline bool operator>(const Path &refRight) const
-        {
-            return this->pathString > refRight.pathString;
-        }
+		inline bool operator>(const Path& right) const
+		{
+			return this->pathString > right.pathString;
+		}
 
-        inline Path operator+(const Path &other)
+		inline Path operator+(const Path& other) const
 		{
 			return Path(this->String() + other.String());
 		}
@@ -106,17 +103,17 @@ namespace StdXX::FileSystem
 		 * @param rhs
 		 * @return
 		 */
-        Path operator/(const Path &rhs) const;
+		Path operator/(const Path &rhs) const;
 
-        inline Path &operator/=(const Path &rhs)
-        {
-        	*this = *this / rhs;
+		inline Path &operator/=(const Path &rhs)
+		{
+			*this = *this / rhs;
 
-            return *this;
-        }
+			return *this;
+		}
 
-        //Methods
-        class String GetFileExtension() const;
+		//Methods
+		class String GetFileExtension() const;
 		/**
 		 * Returns the name of the file or directory that the path refers to.
 		 * Examples:
@@ -127,7 +124,7 @@ namespace StdXX::FileSystem
 		 * Then the name is: "blub"
 		 * @return
 		 */
-        class String GetName() const;
+		class String GetName() const;
 		/**
 		 * Returns the parent path of this path.
 		 * If this path is a directory path, then the parent directory path is returned.
@@ -144,10 +141,10 @@ namespace StdXX::FileSystem
 		 *
 		 * @return
 		 */
-        Path GetParent() const;
-        class String GetTitle() const;
-        Path Normalized() const;
-        Path RelativePath(const Path& relativeTo) const;
+		Path GetParent() const;
+		class String GetTitle() const;
+		Path Normalized() const;
+		Path RelativePath(const Path& relativeTo) const;
 		/**
 		 * Returns the leftmost part of this path and sets the remaining part to the 'subPath' arg.
 		 * Example:
@@ -159,7 +156,7 @@ namespace StdXX::FileSystem
 		 */
 		class String SplitOutmostPathPart(Path &subPath) const;
 
-        //Inline
+		//Inline
 		inline bool IsAbsolute() const
 		{
 			return this->pathString.StartsWith(u8"/");
@@ -175,7 +172,7 @@ namespace StdXX::FileSystem
 			return !this->IsAbsolute();
 		}
 
-        inline bool IsRoot() const
+		inline bool IsRoot() const
 		{
 			return this->pathString.GetLength() == 1 && this->pathString.StartsWith(u8"/");
 		}
@@ -183,7 +180,7 @@ namespace StdXX::FileSystem
 	private:
 		//Members
 		class String pathString;
-    };
+	};
 
 	inline TextWriter &operator<<(TextWriter& textWriter, const Path &path)
 	{

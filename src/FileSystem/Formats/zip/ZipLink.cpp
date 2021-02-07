@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "ZipLink.hpp"
 //Local
 #include <Std++/Streams/Readers/TextReader.hpp>
@@ -40,7 +40,7 @@ Path ZipLink::ReadTarget() const
 	return textReader.ReadStringBySize(this->fileHeader.uncompressedSize);
 }
 
-void ZipLink::ChangePermissions(const FileSystem::NodePermissions &newPermissions)
+void ZipLink::ChangePermissions(const FileSystem::Permissions &newPermissions)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
+}*/

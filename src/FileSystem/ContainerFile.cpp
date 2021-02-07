@@ -16,40 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
+/*//Class header
 #include <Std++/FileSystem/ContainerFile.hpp>
 //Local
 #include <Std++/Compression/Decompressor.hpp>
-#include <Std++/FileSystem/ContainerDirectory.hpp>
+#include <Std++/FileSystem/WritableContainerDirectory.hpp>
 #include <Std++/FileSystem/EmbeddedFileInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Streams/BufferedInputStream.hpp>
-#include <Std++/FileSystem/ContainerFileSystem.hpp>
+#include <Std++/FileSystem/ArchiveFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Public methods
-void ContainerFile::ChangePermissions(const NodePermissions &newPermissions)
+void ContainerFile::ChangePermissions(const Permissions &newPermissions)
 {
 	this->permissions = newPermissions.Clone();
-}
-
-UniquePointer<InputStream> ContainerFile::OpenForReading(bool verify) const
-{
-	InputStream* input = new EmbeddedFileInputStream(
-			this->GetHeader().offset,
-			this->GetHeader().compressedSize, //we only read the data block
-			*this->fileSystem->containerInputStream,
-			this->fileSystem->containerInputStreamLock);
-	if (this->header.compression.HasValue())
-	{
-		ChainedInputStream* chain = new ChainedInputStream(input);
-		chain->Add(new BufferedInputStream(chain->GetEnd())); //add a buffer for performance
-		chain->Add(Decompressor::Create(*this->header.compression, chain->GetEnd(), verify));
-		return chain;
-	}
-	return input;
 }
 
 UniquePointer<OutputStream> ContainerFile::OpenForWriting()
@@ -68,4 +51,4 @@ NodeInfo ContainerFile::QueryInfo() const
 	nodeInfo.storedSize = this->header.compressedSize;
 
 	return nodeInfo;
-}
+}*/

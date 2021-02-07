@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -69,9 +69,9 @@ namespace _stdxx_
 		void AssignMove(U&& rhs)
 		{
 			if (this->isInitialized)
-				this->value = StdXX::Forward<U>(rhs);
+				this->value = StdXX::Move(rhs);
 			else
-				this->Construct(StdXX::Forward<U>(rhs));
+				this->Construct(StdXX::Move(rhs));
 		}
 
 		template <typename... Types>
@@ -98,6 +98,11 @@ namespace StdXX
 		constexpr Optional(const T& value) noexcept : _stdxx_::OptionalBase<T>()
 		{
 			this->Assign(value);
+		}
+
+		constexpr Optional(T&& value) noexcept : _stdxx_::OptionalBase<T>()
+		{
+			this->AssignMove(value);
 		}
 
 		constexpr Optional(const Optional& other) noexcept : _stdxx_::OptionalBase<T>()
@@ -128,7 +133,7 @@ namespace StdXX
         template <typename U = T, typename Type::EnableIf_t<Type::IsTriviallyMoveAssignable_v<U>, bool> = false>
 		Optional &operator=(U&& rhs)
 		{
-			this->AssignMove(StdXX::Forward<U>(rhs));
+			this->AssignMove(StdXX::Move(rhs));
 			return *this;
 		}
 

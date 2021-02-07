@@ -18,48 +18,30 @@
  */
 #pragma once
 //Local
-#include "../Containers/Map/Map.hpp"
+#include "Std++/Containers/Map/Map.hpp"
 #include "ContainerFile.hpp"
 #include "MemoryDirectory.hpp"
 
 namespace StdXX::FileSystem
 {
 	//Forward declarations
-	class ContainerFileSystem;
+	class WritableContainerFileSystem;
 
-	class ContainerDirectory : public MemoryDirectory
+	class WritableContainerDirectory : public MemoryDirectory
 	{
-		friend class ContainerFileSystem;
+		friend class ArchiveFileSystem;
 	public:
 		//Constructors
-		inline ContainerDirectory(ContainerFileSystem *fileSystem) : fileSystem(fileSystem), parent(nullptr)
-		{
-			//this is the root dir
-		}
-
-		inline ContainerDirectory(const String &name, ContainerDirectory *parent) :
-			fileSystem(parent->fileSystem), name(name), parent(parent)
+		inline WritableContainerDirectory(WritableContainerFileSystem *fileSystem) : fileSystem(fileSystem)
 		{
 		}
 
 		//Methods
 		UniquePointer<OutputStream> CreateFile(const String &name) override;
 		void CreateSubDirectory(const String &name, const NodePermissions* permissions) override;
-		NodeInfo QueryInfo() const override;
 
 	private:
 		//Members
-		ContainerFileSystem *fileSystem;
-		String name;
-		ContainerDirectory *parent;
-
-		//Inline
-		inline Path GetPath() const
-		{
-			if(this->parent)
-				return this->parent->GetPath() / this->name;
-
-			return Path(u8"/");
-		}
+		WritableContainerFileSystem *fileSystem;
 	};
 }

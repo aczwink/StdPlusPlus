@@ -23,12 +23,14 @@
 #include <cerrno>
 #include <fuse.h>
 //Local
-#include <Std++/FileSystem/DirectoryIterator.hpp>
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/FileSystem/Link.hpp>
 #include <Std++/FileSystem/Directory.hpp>
+#include <Std++/FileSystem/POSIXPermissions.hpp>
+#include <Std++/Mathematics.hpp>
+#include <Std++/FileSystem/File.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -108,6 +110,12 @@ public:
 	{
 	}
 
+	//Properties
+	inline const ReadableFileSystem& FileSystem() const
+	{
+		return this->fileSystem;
+	}
+
 	//Methods
 	InputStream& GetInputStream(const Path& path, uint64 offset)
 	{
@@ -116,7 +124,7 @@ public:
 
 		if(streamState.inputStream.IsNull())
 		{
-			streamState.inputStream = this->fileSystem.GetFile(path)->OpenForReading(false);
+			streamState.inputStream = this->fileSystem.OpenFileForReading(path, false);
 			streamState.offset = 0;
 		}
 		InputStream* inputStream = streamState.inputStream.operator->();
@@ -132,7 +140,7 @@ public:
 				inputStream->Skip(offset - streamState.offset);
 			else
 			{
-				streamState.inputStream = this->fileSystem.GetFile(path)->OpenForReading(false);
+				streamState.inputStream = this->fileSystem.OpenFileForReading(path, false);
 				inputStream = streamState.inputStream.operator->();
 				streamState.inputStream->Skip(offset);
 			}
@@ -149,14 +157,6 @@ public:
 		this->openInputStreamsLock.Unlock();
 	}
 
-	//Inline
-	inline AutoPointer<const Node> GetNode(const char* path) const
-	{
-		Path p = String(path);
-		AutoPointer<const Node> node = fileSystem.GetNode(p);
-		return node;
-	}
-
 private:
 	//Members
 	const ReadableFileSystem& fileSystem;
@@ -168,6 +168,37 @@ static fuse_mapper_state& GetState()
 {
 	return *(fuse_mapper_state*) fuse_get_context()->private_data;
 }
+
+static void MapPermissions(FileType nodeType, const UniquePointer<Permissions>& permissions, struct stat *stbuf)
+{
+	const POSIXPermissions* posixPermissions = permissions.IsNull() ? nullptr :
+			dynamic_cast<const POSIXPermissions *>(permissions.operator->());
+
+	if(posixPermissions)
+	{
+		stbuf->st_gid = posixPermissions->groupId;
+		stbuf->st_uid = posixPermissions->userId;
+
+		stbuf->st_mode = posixPermissions->EncodeMode();
+	}
+	else
+	{
+		stbuf->st_gid = 0;
+		stbuf->st_uid = 0;
+
+		switch(nodeType)
+		{
+			case FileType::Directory:
+			case FileType::Link:
+				stbuf->st_mode = 0555;
+				break;
+			case FileType::File:
+				stbuf->st_mode = 0444;
+				break;
+		}
+	}
+}
+
 
 /*static int fuse_mapper_access(const char *path, int mode)
 {
@@ -185,44 +216,42 @@ static void *fuse_mapper_init(struct fuse_conn_info *conn, struct fuse_config *c
 
 static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi)
 {
-	AutoPointer<const Node> node = GetState().GetNode(path);
-	if(node.IsNull())
+	Optional<FileInfo> fileInfo = GetState().FileSystem().QueryFileInfo(String(path));
+	if(!fileInfo.HasValue())
 		return -ENOENT;
+	MapPermissions(fileInfo->type, fileInfo->permissions, stbuf);
 
 	//st_dev and st_blksize are ignored (st_ino also)
-	stbuf->st_uid = 0;
-	stbuf->st_gid = 0;
 	stbuf->st_atim = {};
 	stbuf->st_ctim = {};
 
-	NodeInfo info = node->QueryInfo();
-	if(info.lastModifiedTime.HasValue())
+	if(fileInfo->lastModifiedTime.HasValue())
 	{
-		stbuf->st_mtim.tv_sec = info.lastModifiedTime->ToUnixTimestamp();
-		stbuf->st_mtim.tv_nsec = info.lastModifiedTime->Time().NanosecondsSinceStartOfSecond();
+		stbuf->st_mtim.tv_sec = fileInfo->lastModifiedTime->ToUnixTimestamp();
+		stbuf->st_mtim.tv_nsec = fileInfo->lastModifiedTime->Time().NanosecondsSinceStartOfSecond();
 	}
 	else
 		stbuf->st_mtim = {};
 
-	switch (node->GetType())
+	switch (fileInfo->type)
 	{
-		case NodeType::Directory:
-			stbuf->st_mode = S_IFDIR | 0555;
+		case FileType::Directory:
+			stbuf->st_mode |= S_IFDIR;
 			stbuf->st_nlink = 2;
 			stbuf->st_size = 0;
 			stbuf->st_blocks = 0;
 			break;
-		case NodeType::File:
-			stbuf->st_mode = S_IFREG | 0444;
+		case FileType::File:
+			stbuf->st_mode |= S_IFREG;
 			stbuf->st_nlink = 1;
-			stbuf->st_size = info.size;
-			stbuf->st_blocks = info.storedSize / 512;
+			stbuf->st_size = fileInfo->size;
+			stbuf->st_blocks = fileInfo->storedSize / 512;
 			break;
-		case NodeType::Link:
-			stbuf->st_mode = S_IFLNK | 0555;
+		case FileType::Link:
+			stbuf->st_mode |= S_IFLNK;
 			stbuf->st_nlink = 1;
-			stbuf->st_size = info.size;
-			stbuf->st_blocks = info.storedSize / 512;
+			stbuf->st_size = fileInfo->size;
+			stbuf->st_blocks = fileInfo->storedSize / 512;
 			break;
 	}
 
@@ -238,8 +267,7 @@ static int fuse_mapper_getattr(const char *path, struct stat *stbuf, struct fuse
 
 static int fuse_mapper_open(const char *path, struct fuse_file_info *fi)
 {
-	AutoPointer<const Node> node = GetState().GetNode(path);
-	if(node.IsNull())
+	if(!GetState().FileSystem().QueryFileInfo(String(path)).HasValue())
 		return -ENOENT;
 	if ((fi->flags & O_ACCMODE) != O_RDONLY)
 		return -EACCES;
@@ -249,13 +277,11 @@ static int fuse_mapper_open(const char *path, struct fuse_file_info *fi)
 
 static int fuse_mapper_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
-	fuse_mapper_state &state = GetState();
-	Path p = String::CopyRawString(path);
-	AutoPointer<const Node> node = state.GetNode(path);
-	if(node.IsNull())
+	Path p = String(path);
+	fuse_mapper_state& state = GetState();
+
+	if(!state.FileSystem().QueryFileInfo(p).HasValue())
 		return -ENOENT;
-	if(node->GetType() == NodeType::Directory)
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		
 	InputStream& inputStream = state.GetInputStream(p, offset);
 	uint32 nBytesRead = inputStream.ReadBytes(buf, size);
@@ -266,19 +292,17 @@ static int fuse_mapper_read(const char *path, char *buf, size_t size, off_t offs
 
 static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags)
 {
-	AutoPointer<const Node> node = GetState().GetNode(path);
-	if(node.IsNull())
-		return -ENOENT;
-	if(node->GetType() != NodeType::Directory)
+	UniquePointer<DirectoryEnumerator> directoryEnumerator = GetState().FileSystem().EnumerateChildren(String(path));
+	if(directoryEnumerator.IsNull())
 		return -ENOENT;
 
 	int res = filler(buf, u8".", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 	res = filler(buf, u8"..", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 
-	AutoPointer<const Directory> dir = node.Cast<const Directory>();
-	for(const String& childName : *dir)
+	DirectoryEntry directoryEntry;
+	while(directoryEnumerator->Next(directoryEntry))
 	{
-		res = filler(buf, reinterpret_cast<const char *>(childName.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
+		res = filler(buf, reinterpret_cast<const char *>(directoryEntry.name.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
 			   static_cast<fuse_fill_dir_flags>(0));
 	}
 
@@ -287,15 +311,13 @@ static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t fill
 
 static int fuse_mapper_readlink(const char* path, char* buffer, size_t bufferSize)
 {
-	AutoPointer<const Node> node = GetState().GetNode(path);
-	if(node.IsNull())
-		return -ENOENT;
-	if(node->GetType() != NodeType::Link)
+	Path p = String(path);
+
+	Optional<Path> target = GetState().FileSystem().ReadLinkTarget(p);
+	if(!target.HasValue())
 		return -ENOENT;
 
-	AutoPointer<const Link> link = node.Cast<const Link>();
-	Path target = link->ReadTarget();
-	const String& targetString = target.String();
+	const String& targetString = target->String();
 	targetString.ToUTF8();
 
 	uint32 nullByteOffset = Math::Min((uint32)(bufferSize - 1), targetString.GetSize());

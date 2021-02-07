@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -18,19 +18,40 @@
 */
 #pragma once
 //Local
-#include "Path.hpp"
+#include "Format.hpp"
+#include "RWFileSystem.hpp"
 
-namespace StdXX
+namespace StdXX::FileSystem
 {
-	class STDPLUSPLUS_API URL
+	//Forward declarations
+	class OSFileSystem;
+
+	class FileSystemsManager
 	{
 	public:
-		//Constructors
-		URL(const String &url);
+		//Methods
+		class OSFileSystem& OSFileSystem();
+
+		//Functions
+		static inline FileSystemsManager& Instance()
+		{
+			static FileSystemsManager instance;
+			return instance;
+		}
+
+		//Inline
+		inline void ReleaseAllFormats()
+		{
+			for(const Format *format : this->fsFormats)
+				delete(format);
+			this->fsFormats.Release();
+		}
 
 	private:
 		//Members
-		String scheme;
-		FileSystem::Path path;
+		DynamicArray<const Format *> fsFormats;
+
+		//Constructor
+		FileSystemsManager() = default;
 	};
 }

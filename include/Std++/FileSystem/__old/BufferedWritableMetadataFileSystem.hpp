@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,31 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Global
-#include <dirent.h>
 //Local
-#include <Std++/_Backends/DirectoryIteratorState.hpp>
+#include "WritableFileSystem.hpp"
 
-namespace _stdxx_
+namespace StdXX::FileSystem
 {
-	class POSIXDirectoryIteratorState : public DirectoryIteratorState
+	class BufferedWritableMetadataFileSystem : public virtual WritableFileSystem
 	{
 	public:
-		//Constructor
-		POSIXDirectoryIteratorState(const StdXX::FileSystem::Path& path);
-
-		//Destructor
-		~POSIXDirectoryIteratorState();
+		//Abstract
+		virtual AutoPointer<Directory> GetRoot() = 0;
 
 		//Methods
-		bool Equals(DirectoryIteratorState *other) const override;
-		StdXX::String GetCurrent() override;
-		void Next() override;
-
-	private:
-		//Members
-		StdXX::FileSystem::Path path;
-		DIR* dir;
-		dirent* currentEntry;
+		UniquePointer<OutputStream> CreateFile(const Path &filePath) override;
+		AutoPointer<Node> GetNode(const Path &path) override;
 	};
 }

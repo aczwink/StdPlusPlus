@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,8 @@
 #include <Std++/Streams/FileOutputStream.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
+#include <Std++/FileSystem/FileSystemsManager.hpp>
+#include <Std++/FileSystem/File.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::FileSystem;
@@ -31,7 +33,8 @@ using namespace StdXX::FileSystem;
 //Constructor
 ConfigurationFile::ConfigurationFile(const Path &path, bool readOnly)
 {
-	if (!OSFileSystem::GetInstance().Exists(path) && !readOnly)
+	File file(path);
+	if (!file.Exists() && !readOnly)
 	{
 		FileOutputStream file(path);
 	}

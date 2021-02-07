@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "ZipFile.hpp"
 //Local
 #include <Std++/Streams/ChainedInputStream.hpp>
@@ -28,7 +28,7 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Public methods
-void ZipFile::ChangePermissions(const FileSystem::NodePermissions &newPermissions)
+void ZipFile::ChangePermissions(const FileSystem::Permissions &newPermissions)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
@@ -50,4 +50,4 @@ NodeInfo ZipFile::QueryInfo() const
 		.size = this->fileHeader.uncompressedSize,
 		.storedSize = this->fileHeader.compressedSize,
 	};
-}
+}*/

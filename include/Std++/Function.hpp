@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,23 +37,28 @@ namespace _stdxx_
     };
 
     template<typename ReturnType, typename... ArgumentTypes>
-    class CCallableFunction : public Callable<ReturnType, ArgumentTypes...>
+    class CallableFunction : public Callable<ReturnType, ArgumentTypes...>
     {
-    private:
-        //Members
-        ReturnType(*const pFunc)(ArgumentTypes...);
-
     public:
         //Constructor
-        inline CCallableFunction(ReturnType(*const pFunc)(ArgumentTypes...)) : pFunc(pFunc)
+        inline CallableFunction(ReturnType(*const pFunc)(ArgumentTypes...)) : funcPtr(pFunc)
         {
         }
 
         //Methods
         ReturnType Call(ArgumentTypes&&... args)
         {
-            return this->pFunc(StdXX::Forward<ArgumentTypes>(args)...);
+            return this->funcPtr(StdXX::Forward<ArgumentTypes>(args)...);
         }
+
+		CallableFunction* Move(void *destination) override
+		{
+			return pnew (destination)CallableFunction<ReturnType, ArgumentTypes...>(this->funcPtr);
+		}
+
+	private:
+		//Members
+		ReturnType(*const funcPtr)(ArgumentTypes...);
     };
 
     template<typename ReturnType, typename ClassType, typename... ArgumentTypes>
@@ -144,10 +149,10 @@ namespace _stdxx_
 		{
 			void *pMem;
 
-			ASSERT(sizeof(CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
+			ASSERT(sizeof(CallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
 
 			pMem = (void *)this->storage; //we dont want to create mem on heap...
-			this->callObj = new (pMem)CCallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
+			this->callObj = new (pMem)CallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
 		}
 
 		template<typename ReturnTypeInner, typename ClassType, typename... ArgumentTypesInner>

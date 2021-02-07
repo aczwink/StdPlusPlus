@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,14 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/FileSystem/Link.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::FileSystem;
+#pragma once
+//Local
+#include <Std++/Containers/Strings/String.hpp>
+#include "FileInfo.hpp"
 
-//Public methods
-NodeType Link::GetType() const
+namespace StdXX::FileSystem
 {
-	return NodeType::Link;
+	struct DirectoryEntry
+	{
+		String name;
+		FileType type;
+	};
+
+	class DirectoryEnumerator
+	{
+	public:
+		//Destructor
+		virtual ~DirectoryEnumerator() = default;
+
+		//Abstract
+		virtual bool Next(DirectoryEntry& directoryEntry) = 0;
+	};
 }

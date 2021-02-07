@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,7 +19,7 @@
 //Local
 #include <Std++/Compression/CompressionAlgorithm.hpp>
 #include <Std++/Containers/Array/FixedArray.hpp>
-#include <Std++/FileSystem/ContainerFileSystem.hpp>
+#include <Std++/FileSystem/Buffered/ArchiveFileSystem.hpp>
 #include <Std++/Optional.hpp>
 
 namespace _stdxx_
@@ -46,7 +46,7 @@ namespace _stdxx_
 		kDummy = 0x19,
 	};
 
-	class SevenZip_FileSystem : public StdXX::FileSystem::ContainerFileSystem
+	class SevenZip_FileSystem : public StdXX::FileSystem::ArchiveFileSystem, public StdXX::FileSystem::BufferedWritableMetadataFileSystem
 	{
 		struct Coder
 		{
@@ -90,10 +90,12 @@ namespace _stdxx_
 		};
 	public:
 		//Constructor
-		inline SevenZip_FileSystem(const StdXX::FileSystem::Path &fileSystemPath) : StdXX::FileSystem::ContainerFileSystem(fileSystemPath)
+		inline SevenZip_FileSystem(StdXX::SeekableInputStream& seekableInputStream) : StdXX::FileSystem::ContainerFileSystem(seekableInputStream)
 		{
+			NOT_IMPLEMENTED_ERROR;
+			/*
 			if (!this->containerInputStream.IsNull())
-				this->ReadFileSystemHeader();
+				this->ReadFileSystemHeader();*/
 		}
 
 		//Methods

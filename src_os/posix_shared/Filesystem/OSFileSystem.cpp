@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,14 +19,8 @@
 //Class header
 #include <Std++/FileSystem/OSFileSystem.hpp>
 //Global
-#include <climits>
-#include <cstdio>
-#include <sys/stat.h>
 #include <unistd.h>
 //Local
-#include "POSIXDirectory.hpp"
-#include "POSIXFile.hpp"
-#include "PosixStat.hpp"
 #include "../src_backends/fuse3/fuse3.hpp"
 //Namespaces
 using namespace _stdxx_;
@@ -69,62 +63,4 @@ Path OSFileSystem::ToAbsolutePath(const Path &path) const
 	if(path.IsAbsolute())
 		return path.Normalized();
 	return (this->GetWorkingDirectory() / path).Normalized();
-}
-
-//Class functions
-OSFileSystem &OSFileSystem::GetInstance()
-{
-	static class POSIX_FS : public OSFileSystem
-	{
-	public:
-		//Public methods
-		UniquePointer<OutputStream> CreateFile(const Path &filePath) override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return nullptr;
-		}
-
-		void CreateLink(const Path &linkPath, const Path &linkTargetPath) override
-		{
-			int ret = symlink(
-					reinterpret_cast<const char *>(linkTargetPath.String().ToUTF8().GetRawZeroTerminatedData()),
-					reinterpret_cast<const char *>(linkPath.String().ToUTF8().GetRawZeroTerminatedData()));
-			ASSERT_EQUALS(0, ret);
-		}
-
-		bool Exists(const Path &path) const override
-		{
-			Path p = this->ToAbsolutePath(path);
-			struct stat sb{};
-			return stat(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
-		}
-
-		void Flush() override
-		{
-		}
-
-		AutoPointer<Node> GetNode(const Path &path) override
-		{
-			return StatFindNode<Node>(this->ToAbsolutePath(path));
-		}
-
-		AutoPointer<const Node> GetNode(const Path &path) const override
-		{
-			return StatFindNode(this->ToAbsolutePath(path));
-		}
-
-		void Move(const Path &from, const Path &to) override
-		{
-			rename(reinterpret_cast<const char *>(from.String().ToUTF8().GetRawZeroTerminatedData()),
-				   reinterpret_cast<const char *>(to.String().ToUTF8().GetRawZeroTerminatedData()));
-		}
-
-		SpaceInfo QuerySpace() const override
-		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
-			return {};
-		}
-	} posix_fs;
-
-	return posix_fs;
 }

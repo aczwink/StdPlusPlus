@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,25 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include "POSIXFile.hpp"
-//Local
-#include <Std++/Streams/FileInputStream.hpp>
-#include <Std++/FileSystem/POSIXPermissions.hpp>
-#include "PosixStat.hpp"
-//Namespaces
-using namespace _stdxx_;
-using namespace StdXX;
-using namespace StdXX::FileSystem;
+#pragma once
 
-//Public methods
-UniquePointer<InputStream> POSIXFile::OpenForReading(bool verify) const
+namespace StdXX::FileSystem
 {
-	return new FileInputStream(this->path);
-}
+	class MemoryFileNode
+	{
+	public:
+		//Destructor
+		virtual ~MemoryFileNode() = default;
 
-UniquePointer<OutputStream> POSIXFile::OpenForWriting()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return nullptr;
+		//Abstract
+		virtual const FileInfo& Info() const = 0;
+	};
 }

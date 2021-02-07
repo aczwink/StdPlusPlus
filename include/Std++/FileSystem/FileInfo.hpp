@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,12 +21,21 @@
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/Time/DateTime.hpp>
 #include <Std++/Optional.hpp>
-#include "NodePermissions.hpp"
+#include "Permissions.hpp"
 
-namespace StdXX
+namespace StdXX::FileSystem
 {
-	struct NodeInfo
+	enum class FileType
 	{
+		Directory,
+		File,
+		Link
+	};
+
+	struct FileInfo
+	{
+		FileType type;
+
 		/**
 		 * The size of the content of the file/link/directory.
 		 */
@@ -36,7 +45,7 @@ namespace StdXX
 		 * The last modified time is not stored by all filesystems.
 		 * Also not all operating system can guarantee a precision smaller than seconds (or not even seconds).
 		 */
-		 Optional<DateTime> lastModifiedTime;
+		Optional<DateTime> lastModifiedTime;
 
 		/**
 		 * The number of bytes that the node occupies on the file system.
@@ -44,6 +53,35 @@ namespace StdXX
 		 */
 		uint64 storedSize;
 
-		UniquePointer<FileSystem::NodePermissions> permissions;
+		UniquePointer<Permissions> permissions;
+
+		//Constructors
+		FileInfo() = default;
+
+		inline FileInfo(FileType fileType)
+		{
+			this->type = fileType;
+		}
+
+		inline FileInfo(const FileInfo& other)
+		{
+			*this = other;
+		}
+
+		FileInfo(FileInfo&&) = default;
+
+		//Operators
+		FileInfo& operator=(const FileInfo& other)
+		{
+			this->type = other.type;
+			this->size = other.size;
+			this->lastModifiedTime = other.lastModifiedTime;
+			this->storedSize = other.storedSize;
+			this->permissions = other.permissions.IsNull() ? nullptr : other.permissions->Clone();
+
+			return *this;
+		}
+
+		FileInfo& operator=(FileInfo&& other) = default;
 	};
 }

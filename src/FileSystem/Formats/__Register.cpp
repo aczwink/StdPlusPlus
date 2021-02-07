@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,16 +17,16 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include "7zip/7zip_FileSystemFormat.hpp"
+/*#include "7zip/7zip_FileSystemFormat.hpp"
 #include "zip/ZipFileSystemFormat.hpp"
 //Namespaces
-using namespace StdXX::FileSystem;
+using namespace StdXX::FileSystem;*/
 
 namespace _stdxx_
 {
 	void RegisterFileSystemFormats()
 	{
-		Format::Register(new SevenZip_FileSystemFormat);
-		Format::Register(new ZipFileSystemFormat);
+		/*Format::Register(new SevenZip_FileSystemFormat);
+		Format::Register(new ZipFileSystemFormat);*/
 	}
 }
