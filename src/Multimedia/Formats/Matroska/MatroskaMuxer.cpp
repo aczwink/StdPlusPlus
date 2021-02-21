@@ -38,7 +38,7 @@ MatroskaMuxer::MatroskaMuxer(const Format &refFormat, SeekableOutputStream &refO
 void MatroskaMuxer::BeginElement(MatroskaId id)
 {
 	this->WriteId(id);
-	this->elementSizeOffsets.Push(this->outputStream.GetCurrentOffset());
+	this->elementSizeOffsets.Push(this->outputStream.QueryCurrentOffset());
 
 	DataWriter dataWriter(true, this->outputStream);
 	dataWriter.WriteUInt64(0); //we write size always as 64bit value because we don't know the size upfront
@@ -64,7 +64,7 @@ void MatroskaMuxer::EndElement()
 {
 	uint64 currentOffset, sizeOffset;
 
-	currentOffset = this->outputStream.GetCurrentOffset();
+	currentOffset = this->outputStream.QueryCurrentOffset();
 	sizeOffset = this->elementSizeOffsets.Pop();
 
 	//write size
@@ -108,7 +108,7 @@ uint64 MatroskaMuxer::PrepareMetaSeekEntry(MatroskaId id)
 
 	//keep enough space for SeekPosition
 	this->BeginElement(MATROSKA_ID_SEEKPOSITION);
-	offset = this->outputStream.GetCurrentOffset();
+	offset = this->outputStream.QueryCurrentOffset();
 	dataWriter.WriteUInt64(0);
 	this->EndElement();
 
@@ -298,7 +298,7 @@ void MatroskaMuxer::Finalize()
 		this->EndElement();
 
 	//Cueing data
-	this->metaSeekInfoOffsets.cueingDataOffset = this->outputStream.GetCurrentOffset();
+	this->metaSeekInfoOffsets.cueingDataOffset = this->outputStream.QueryCurrentOffset();
 	this->BeginElement(MATROSKA_ID_CUES);
 	this->WriteCuePoints();
 	this->EndElement();
@@ -332,13 +332,13 @@ void MatroskaMuxer::WriteHeader()
 
 	//begin with segment
 	this->BeginElement(MATROSKA_ID_SEGMENT);
-	this->segmentOutputStreamOffset = this->outputStream.GetCurrentOffset();
+	this->segmentOutputStreamOffset = this->outputStream.QueryCurrentOffset();
 
 	//Meta Seek Info
 	this->PrepareMetaSeekInfo();
 
 	//segment information
-	this->metaSeekInfoOffsets.segmentInfoOffset = this->outputStream.GetCurrentOffset();
+	this->metaSeekInfoOffsets.segmentInfoOffset = this->outputStream.QueryCurrentOffset();
 	this->BeginElement(MATROSKA_ID_INFO);
 
 	this->WriteUIntElement(MATROSKA_ID_TIMECODESCALE, this->timeCodeScale.ToFloat());
@@ -349,7 +349,7 @@ void MatroskaMuxer::WriteHeader()
 	this->EndElement();
 
 	//tracks
-	this->metaSeekInfoOffsets.trackInfoOffset = this->outputStream.GetCurrentOffset();
+	this->metaSeekInfoOffsets.trackInfoOffset = this->outputStream.QueryCurrentOffset();
 	this->BeginElement(MATROSKA_ID_TRACKS);
 	for(i = 0; i < this->GetNumberOfStreams(); i++)
 	{
@@ -452,7 +452,7 @@ void MatroskaMuxer::WritePacket(const IPacket& packet)
 			this->EndElement(); //end last cluster
 
 		//Cluster
-		this->currentCluster.beginOffset = this->outputStream.GetCurrentOffset();
+		this->currentCluster.beginOffset = this->outputStream.QueryCurrentOffset();
 		this->BeginElement(MATROSKA_ID_CLUSTER);
 		this->currentCluster.isClusterOpen = true;
 		this->currentCluster.size = 0;
@@ -480,7 +480,7 @@ void MatroskaMuxer::WritePacket(const IPacket& packet)
 		CueEntry &cueEntry = this->cues[transformedPTS];
 
 		cueEntry.clusterOffset = this->currentCluster.beginOffset;
-		cueEntry.relativeOffset = static_cast<uint32>(this->outputStream.GetCurrentOffset() - cueEntry.clusterOffset);
+		cueEntry.relativeOffset = static_cast<uint32>(this->outputStream.QueryCurrentOffset() - cueEntry.clusterOffset);
 		cueEntry.streamIndices.Push(packet.GetStreamIndex());
 	}
 

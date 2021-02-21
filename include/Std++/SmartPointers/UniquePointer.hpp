@@ -58,7 +58,7 @@ namespace StdXX
 		}
 
 		//Operators
-		UniquePointer &operator=(const UniquePointer &rhs) = delete; //Copy assign
+		UniquePointer &operator=(const UniquePointer &rhs) = delete; //CopyFrom assign
 
 		inline UniquePointer &operator=(UniquePointer &&rhs) //Move assign
 		{

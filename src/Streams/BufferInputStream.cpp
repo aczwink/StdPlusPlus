@@ -38,7 +38,7 @@ uint32 BufferInputStream::GetBytesAvailable() const
 	return static_cast<uint32>(this->endPos - this->current);
 }
 
-uint64 BufferInputStream::GetCurrentOffset() const
+uint64 BufferInputStream::QueryCurrentOffset() const
 {
     return this->current - this->pStart;
 }

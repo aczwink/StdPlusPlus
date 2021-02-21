@@ -27,7 +27,7 @@
 //Public methods
 void BMP_Muxer::Finalize()
 {
-	uint64 currentOffset = this->outputStream.GetCurrentOffset();
+	uint64 currentOffset = this->outputStream.QueryCurrentOffset();
 
 	DataWriter dataWriter(false, this->outputStream);
 
@@ -46,7 +46,7 @@ void BMP_Muxer::WriteHeader()
 
 	stream = (VideoStream *)this->GetStream(0);
 
-	this->startOffset = this->outputStream.GetCurrentOffset();
+	this->startOffset = this->outputStream.QueryCurrentOffset();
 
 	DataWriter dataWriter(false, this->outputStream);
 

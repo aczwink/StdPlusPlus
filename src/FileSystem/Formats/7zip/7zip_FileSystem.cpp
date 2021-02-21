@@ -331,7 +331,7 @@ void SevenZip_FileSystem::ReadFileSystemHeader()
 	uint64 nextHeaderSize = reader.ReadUInt64();
 	reader.Skip(4); //nextHeaderCRC
 
-	this->baseOffset = this->containerInputStream.GetCurrentOffset();
+	this->baseOffset = this->containerInputStream.QueryCurrentOffset();
 	this->ReadHeader(nextHeaderOffset, nextHeaderSize);
 }
 

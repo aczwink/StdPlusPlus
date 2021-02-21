@@ -24,7 +24,7 @@
 using namespace StdXX;
 
 //Public methods
-uint64 FileOutputStream::GetCurrentOffset() const
+uint64 FileOutputStream::QueryCurrentOffset() const
 {
     return lseek64(this->fileHandle, 0, SEEK_CUR);
 }

@@ -24,7 +24,7 @@
 using namespace StdXX;
 
 //Public methods
-uint64 FileInputStream::GetCurrentOffset() const
+uint64 FileInputStream::QueryCurrentOffset() const
 {
     return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
 }
@@ -33,7 +33,7 @@ uint64 FileInputStream::QuerySize() const
 {
     uint64 offset, size;
 
-    offset = this->GetCurrentOffset();
+    offset = this->QueryCurrentOffset();
     size = (uint64) lseek64(this->fileHandle, 0, SEEK_END);
     lseek64(this->fileHandle, offset, SEEK_SET);
 
@@ -49,6 +49,6 @@ uint32 FileInputStream::Skip(uint32 nBytes)
 {
     uint64 currentOffset;
 
-    currentOffset = this->GetCurrentOffset();
+    currentOffset = this->QueryCurrentOffset();
     return (uint32)(lseek64(this->fileHandle, nBytes, SEEK_CUR) - currentOffset);
 }

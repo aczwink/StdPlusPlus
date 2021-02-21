@@ -33,7 +33,7 @@ using namespace StdXX;
 ZipReadableFile::ZipReadableFile(const CentralDirectoryRecord &centralDirectoryRecord, ZipFileSystem &fileSystem)
 	: fileSystem(fileSystem), fileHeader(centralDirectoryRecord)
 {
-	this->fileDataOffset = fileSystem.InputStream().GetCurrentOffset();
+	this->fileDataOffset = fileSystem.InputStream().QueryCurrentOffset();
 	LocalFileHeader localFileHeader(fileSystem.InputStream());
 	this->fileDataOffset += localFileHeader.HeaderSize();
 }

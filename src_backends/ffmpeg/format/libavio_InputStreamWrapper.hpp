@@ -56,7 +56,7 @@ namespace _stdxx_
 		inline uint64 SeekTo(uint64 offset)
 		{
 			this->seekableInputStream.SeekTo(offset);
-			return this->seekableInputStream.GetCurrentOffset();
+			return this->seekableInputStream.QueryCurrentOffset();
 		}
 
 	private:

@@ -39,7 +39,7 @@ namespace StdXX
 		//Methods
 		void Flush() override;
 		uint32 GetBytesAvailable() const override;
-		uint64 GetCurrentOffset() const override;
+		uint64 QueryCurrentOffset() const override;
 		uint64 QueryRemainingBytes() const override;
 		uint64 QuerySize() const override;
 		bool IsAtEnd() const override;

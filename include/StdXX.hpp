@@ -239,6 +239,7 @@
 
 
 #include "StdXXCommandLine.hpp"
+#include "StdXXCore.hpp"
 #include "StdXXErrorHandling.hpp"
 #include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"

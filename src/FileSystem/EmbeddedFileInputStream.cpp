@@ -36,7 +36,7 @@ uint32 EmbeddedFileInputStream::GetBytesAvailable() const
 	return baseInputStream.GetBytesAvailable();
 }
 
-uint64 EmbeddedFileInputStream::GetCurrentOffset() const
+uint64 EmbeddedFileInputStream::QueryCurrentOffset() const
 {
 	return this->currentOffset;
 }

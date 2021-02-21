@@ -125,7 +125,7 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
 	        nodeName = centralDirectoryRecord.path.GetName();
 	        dir = this->GetDirectory(centralDirectoryRecord.path.GetParent());
 
-	        uint64 currentOffset = this->InputStream().GetCurrentOffset();
+	        uint64 currentOffset = this->InputStream().QueryCurrentOffset();
 			this->InputStream().SeekTo(centralDirectoryRecord.localFileHeaderOffset);
 	        switch(centralDirectoryRecord.DetermineType())
 	        {

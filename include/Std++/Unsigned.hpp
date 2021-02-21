@@ -73,6 +73,17 @@ namespace StdXX
 			return (uint32)number;
 		}
 
+		static constexpr uint8 FindHighestBitSet(uint32 number)
+		{
+			for(uint32 i = 31; i > 0; i--)
+			{
+				if(number & 0x80000000)
+					return i;
+				number <<= 1;
+			}
+			return Unsigned<uint8>::Max();
+		}
+
 		static constexpr uint32 From4UInt8(uint8 msb, uint8 upperMiddle, uint8 lowerMiddle, uint8 lsb)
 		{
 			return (((msb) << 24) | ((upperMiddle) << 16) | ((lowerMiddle) << 8) | (lsb));

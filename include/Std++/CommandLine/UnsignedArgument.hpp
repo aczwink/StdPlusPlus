@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,26 +18,22 @@
  */
 #pragma once
 //Local
-#include "Argument.hpp"
-#include <Std++/CommandLine/MatchResult.hpp>
+#include "StringArgument.hpp"
 
 namespace StdXX::CommandLine
 {
-	class StringArgument : public Argument
+	class UnsignedArgument : public StringArgument
 	{
 	public:
 		//Constructor
-		inline StringArgument(const String& name, const String& description) : Argument(name, description)
+		inline UnsignedArgument(const String& name, const String& description) : StringArgument(name, description)
 		{
 		}
 
-		//Methods
-		void Match(MatchResult &result) const override;
-
 		//Inline
-		String Value(const MatchResult& matchResult) const
+		uint64 Value(const MatchResult& matchResult) const
 		{
-			return matchResult.ArgumentValue(*this);
+			return StringArgument::Value(matchResult).ToUInt();
 		}
 	};
 }

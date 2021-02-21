@@ -24,14 +24,14 @@
 using namespace StdXX;
 
 //Public methods
-uint64 FileUpdateStream::GetCurrentOffset() const
+uint64 FileUpdateStream::QueryCurrentOffset() const
 {
 	return (uint64)lseek64(this->fileHandle, 0, SEEK_CUR);
 }
 
 uint64 FileUpdateStream::QuerySize() const
 {
-	uint64 offset = this->GetCurrentOffset();
+	uint64 offset = this->QueryCurrentOffset();
 	uint64 size = (uint64) lseek64(this->fileHandle, 0, SEEK_END);
 	lseek64(this->fileHandle, offset, SEEK_SET);
 

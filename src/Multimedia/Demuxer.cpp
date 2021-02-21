@@ -42,7 +42,7 @@ bool Demuxer::FindStreamInfo()
 	ret = true;
 
 	this->refFormat.GetFormatInfo(formatInfo);
-	currentOffset = this->inputStream.GetCurrentOffset();
+	currentOffset = this->inputStream.QueryCurrentOffset();
 
 
 
@@ -169,7 +169,7 @@ void Demuxer::DeriveDurationFromPacketTimestamps()
 
 	const uint32 maxSearchSize = this->GetNumberOfStreams() * 10000;
 
-	currentOffset = this->inputStream.GetCurrentOffset();
+	currentOffset = this->inputStream.QueryCurrentOffset();
 	this->inputStream.SeekTo(this->inputStream.QuerySize() - maxSearchSize);
 
 	for(i = 0; i < this->streams.GetNumberOfElements(); i++)

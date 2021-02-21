@@ -47,7 +47,7 @@ void FileUpdateStream::Flush()
 
 uint64 FileUpdateStream::QueryRemainingBytes() const
 {
-	return this->QuerySize() - this->GetCurrentOffset();
+	return this->QuerySize() - this->QueryCurrentOffset();
 }
 
 uint32 FileUpdateStream::ReadBytes(void *destination, uint32 count)

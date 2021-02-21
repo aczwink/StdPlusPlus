@@ -36,9 +36,9 @@ uint32 StringInputStream::GetBytesAvailable() const
 	return this->bufferInputStream->GetBytesAvailable();
 }
 
-uint64 StringInputStream::GetCurrentOffset() const
+uint64 StringInputStream::QueryCurrentOffset() const
 {
-	return this->bufferInputStream->GetCurrentOffset();
+	return this->bufferInputStream->QueryCurrentOffset();
 }
 
 uint64 StringInputStream::QueryRemainingBytes() const

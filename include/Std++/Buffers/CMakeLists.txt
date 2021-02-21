@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/DynamicByteBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FixedSizeBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RingBuffer.hpp
 

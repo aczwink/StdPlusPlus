@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,13 +26,13 @@ namespace StdXX
 	{
 	public:
 		//Abstract
-		virtual uint64 GetCurrentOffset() const = 0;
+		virtual uint64 QueryCurrentOffset() const = 0;
 		virtual void SeekTo(uint64 offset) = 0;
 
 		//Inline
 		inline void Rewind(uint32 nBytes)
 		{
-			this->SeekTo(this->GetCurrentOffset() - nBytes);
+			this->SeekTo(this->QueryCurrentOffset() - nBytes);
 		}
 	};
 }

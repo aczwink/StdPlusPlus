@@ -34,6 +34,12 @@ namespace StdXX
 		//Members
 		DataType elements[N];
 
+		//Properties
+		constexpr uint32 Size() const
+		{
+			return N;
+		}
+
 		//Operators
 		constexpr DataType& operator[](uint32 index)
 		{

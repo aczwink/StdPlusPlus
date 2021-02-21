@@ -96,7 +96,7 @@ FileInputStream::~FileInputStream()
 //Public methods
 uint64 FileInputStream::QueryRemainingBytes() const
 {
-	return this->QuerySize() - this->GetCurrentOffset();
+	return this->QuerySize() - this->QueryCurrentOffset();
 }
 
 uint32 FileInputStream::ReadBytes(void* destination, uint32 count)

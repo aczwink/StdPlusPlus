@@ -513,7 +513,7 @@ void MatroskaDemuxer::ReadSegment(uint64 segmentOffset, bool isLive)
 	{
 		if (!readSections.Contains(kv.key))
 		{
-			uint64 currentOffset = this->inputStream.GetCurrentOffset();
+			uint64 currentOffset = this->inputStream.QueryCurrentOffset();
 
 			this->inputStream.SeekTo(kv.value);
 			EBML::Element element;

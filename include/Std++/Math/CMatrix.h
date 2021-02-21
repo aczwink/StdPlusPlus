@@ -43,7 +43,7 @@ namespace StdPlusPlus
                 this->pValues = new ScalarType[nRows * nColumns];
             }
 
-            inline CMatrix(const CMatrix &refRight) //Copy constructor
+            inline CMatrix(const CMatrix &refRight) //CopyFrom constructor
             {
                 this->pValues = nullptr;
 
@@ -89,7 +89,7 @@ namespace StdPlusPlus
             }
 
             //Operators
-            CMatrix &operator=(const CMatrix &refRight) //Copy assign
+            CMatrix &operator=(const CMatrix &refRight) //CopyFrom assign
             {
                 if(this->pValues)
                     delete[] this->pValues;

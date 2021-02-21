@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,4 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "Argument.hpp"
-#include <Std++/CommandLine/MatchResult.hpp>
-
-namespace StdXX::CommandLine
-{
-	class StringArgument : public Argument
-	{
-	public:
-		//Constructor
-		inline StringArgument(const String& name, const String& description) : Argument(name, description)
-		{
-		}
-
-		//Methods
-		void Match(MatchResult &result) const override;
-
-		//Inline
-		String Value(const MatchResult& matchResult) const
-		{
-			return matchResult.ArgumentValue(*this);
-		}
-	};
-}
+#include <Std++/Buffers/DynamicByteBuffer.hpp>

@@ -31,7 +31,7 @@ WAVE_Muxer::WAVE_Muxer(const Format &refFormat, SeekableOutputStream &refOutput)
 //Public methods
 void WAVE_Muxer::Finalize()
 {
-	uint32 currentOffset = (uint32)this->outputStream.GetCurrentOffset();
+	uint32 currentOffset = (uint32) this->outputStream.QueryCurrentOffset();
 	DataWriter writer(false, this->outputStream);
 	this->outputStream.SeekTo(this->riffTagSizeOffset);
 	writer.WriteUInt32(currentOffset - 8); //sizeof("RIFF") + sizeof(chunkSize)
@@ -50,7 +50,7 @@ void WAVE_Muxer::WriteHeader()
 	DataWriter writer(false, this->outputStream);
 	//riff chunk
 	writer.WriteUInt32(WAVE_RIFFCHUNK_CHUNKID);
-	this->riffTagSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
+	this->riffTagSizeOffset = (uint32) this->outputStream.QueryCurrentOffset();
 	writer.WriteUInt32(0); //file size
 	writer.WriteUInt32(WAVE_RIFFCHUNK_RIFFTYPE);
 
@@ -66,7 +66,7 @@ void WAVE_Muxer::WriteHeader()
 
 	//data chunk
 	writer.WriteUInt32(WAVE_DATACHUNK_CHUNKID);
-	this->dataChunkSizeOffset = (uint32)this->outputStream.GetCurrentOffset();
+	this->dataChunkSizeOffset = (uint32) this->outputStream.QueryCurrentOffset();
 	writer.WriteUInt32(0); //chunk size
 }
 

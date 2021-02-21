@@ -70,7 +70,7 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 
 	resize = true;
 	pDetectionBuffer = NULL;
-	currentOffset = inputStream.GetCurrentOffset();
+	currentOffset = inputStream.QueryCurrentOffset();
 	detectionBufferSize = DETECTIONBUFFER_MINSIZE;
 	bestScore = 0;
 	pBestFormat = NULL;

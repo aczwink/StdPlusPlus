@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,11 @@
 
 namespace StdXX
 {
+	inline bool IsDecimalDigitChar(uint32 codePoint)
+	{
+		return (codePoint >= u8'0') and (codePoint <= u8'9');
+	}
+
 	inline bool IsWhiteSpaceChar(uint32 codePoint)
 	{
 		switch(codePoint)

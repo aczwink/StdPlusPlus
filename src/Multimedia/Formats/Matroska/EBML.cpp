@@ -78,7 +78,7 @@ void EBML::ParseElementHeader(Element &element, InputStream &inputStream)
 	//check if we can know an offset
 	SeekableInputStream* seekableInputStream = dynamic_cast<SeekableInputStream*>(&inputStream);
 	if (seekableInputStream)
-		element.dataOffset = seekableInputStream->GetCurrentOffset();
+		element.dataOffset = seekableInputStream->QueryCurrentOffset();
 	else
 		element.dataOffset = Unsigned<uint64>::Max();
 

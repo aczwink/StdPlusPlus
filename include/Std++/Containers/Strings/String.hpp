@@ -60,10 +60,10 @@ namespace StdXX
 	 *
 	 * The class defaults to use UTF-16 except on linux where UTF-8 is used, as the whole linux kernel and file system use UTF-8.
 	 *
-	 * This class uses implicitly shared resources with Copy-on-write policy.
+	 * This class uses implicitly shared resources with CopyFrom-on-write policy.
 	 * A null byte is appended to the end of the string only if an object has exclusive access to a resource.
 	 */
-	class STDPLUSPLUS_API String
+	class String
 	{
 		friend class ConstStringIterator;
 
@@ -262,6 +262,11 @@ namespace StdXX
 		String Trim() const;
 
 		//Inline
+		inline bool Contains(const String& subString) const
+		{
+			return this->Find(subString) != Unsigned<uint32>::Max();
+		}
+
 		inline uint32 GetLength() const
 		{
 			return this->length;

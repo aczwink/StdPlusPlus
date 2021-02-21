@@ -45,7 +45,7 @@ namespace _stdxx_
 		inline uint64 SeekTo(uint64 offset)
 		{
 			this->seekableOutputStream.SeekTo(offset);
-			return this->seekableOutputStream.GetCurrentOffset();
+			return this->seekableOutputStream.QueryCurrentOffset();
 		}
 
 		inline uint32 WritePacket(const void* source, uint32 size)

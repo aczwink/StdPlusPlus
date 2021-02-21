@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,8 @@ using namespace StdXX::CommonFileFormats::XML;
 //Public methods
 void Writer::BeginElement(const String &tagName)
 {
+	ASSERT(!tagName.Contains(u8" "), u8"Spaces are not allowed inside element names");
+
 	this->OnAddingChild(NodeType::Element);
 
 	this->Indent();

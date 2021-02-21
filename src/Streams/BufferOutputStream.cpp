@@ -39,7 +39,7 @@ void BufferOutputStream::Flush()
 	//this stream always flushes
 }
 
-uint64 BufferOutputStream::GetCurrentOffset() const
+uint64 BufferOutputStream::QueryCurrentOffset() const
 {
 	return this->pCurrent - this->pStart;
 }

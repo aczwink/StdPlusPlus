@@ -12,5 +12,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/PathArgument.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/StringArgument.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SubCommandArgument.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/UnsignedArgument.hpp
 
 	PARENT_SCOPE)
