@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Streams/CheckedInputStream.hpp>
+#include <Std++/Streams/Checksum/CheckedInputStream.hpp>
 //Local
 #include <Std++/Mathematics.hpp>
 //Namespaces

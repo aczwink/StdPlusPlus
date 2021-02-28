@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,17 +19,17 @@
 //Class Header
 #include <Std++/Streams/BufferedInputStream.hpp>
 //Local
-#include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
 //Namespaces
 using namespace StdXX;
 
 //Constructor
-BufferedInputStream::BufferedInputStream(InputStream &refInputStream, uint32 bufferSize) : inputStream(refInputStream)
+BufferedInputStream::BufferedInputStream(InputStream& inputStream, uint32 bufferSize) : inputStream(inputStream)
 {
 	this->buffer = (byte *)MemAlloc(bufferSize);
-	this->pEnd = this->buffer + bufferSize;
-	this->current = this->pEnd;
+	this->end = this->buffer + bufferSize;
+	this->current = this->end;
+	this->bufferSize = bufferSize;
 }
 
 //Destructor
@@ -41,13 +41,13 @@ BufferedInputStream::~BufferedInputStream()
 //Private methods
 void BufferedInputStream::FillBufferIfEmpty()
 {
-	if(this->current == this->pEnd)
+	if(this->current == this->end)
 	{
 		uint32 bytesToRead = this->inputStream.GetBytesAvailable();
-		if(bytesToRead == 0)
-			bytesToRead = uint32(this->pEnd - this->buffer);
+		if((bytesToRead == 0) || (bytesToRead > this->bufferSize))
+			bytesToRead = this->bufferSize;
 
-		this->pEnd = this->buffer + this->inputStream.ReadBytes(this->buffer, bytesToRead);
+		this->end = this->buffer + this->inputStream.ReadBytes(this->buffer, bytesToRead);
 		this->current = this->buffer;
 	}
 }
@@ -55,12 +55,12 @@ void BufferedInputStream::FillBufferIfEmpty()
 //Public methods
 uint32 BufferedInputStream::GetBytesAvailable() const
 {
-	return static_cast<uint32>(this->pEnd - this->current);
+	return static_cast<uint32>(this->end - this->current) + this->inputStream.GetBytesAvailable();
 }
 
 bool BufferedInputStream::IsAtEnd() const
 {
-	return this->current == this->pEnd && this->inputStream.IsAtEnd();
+	return (this->current == this->end) && this->inputStream.IsAtEnd();
 }
 
 uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)
@@ -70,10 +70,10 @@ uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)
 	while(count)
 	{
 		this->FillBufferIfEmpty();
-		if(this->current == this->pEnd) //if we are still at the end, after rebuffering
+		if(this->current == this->end) //if we are still at the end, after rebuffering
 			return nReadBytes; //no more bytes available
 
-		uint32 size = uint32(this->pEnd - this->current);
+		uint32 size = uint32(this->end - this->current);
 		if(size > count)
 			size = count;
 
@@ -85,28 +85,4 @@ uint32 BufferedInputStream::ReadBytes(void *destination, uint32 count)
 	}
 
 	return nReadBytes;
-}
-
-uint32 BufferedInputStream::Skip(uint32 nBytes)
-{
-	uint32 size, nBytesSkipped;
-
-	nBytesSkipped = 0;
-	while(nBytes)
-	{
-		this->FillBufferIfEmpty();
-		if(this->current == this->pEnd)
-			break;
-
-		size = uint32(this->pEnd - this->current);
-		if(size > nBytes)
-			size = nBytes;
-
-		this->current += size;
-		nBytes -= size;
-
-		nBytesSkipped += size;
-	}
-
-	return nBytesSkipped;
 }

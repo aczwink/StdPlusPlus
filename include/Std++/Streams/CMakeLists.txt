@@ -4,6 +4,11 @@ set(SOURCE_FILES
 	#Bitstreams
 	${CMAKE_CURRENT_SOURCE_DIR}/Bitstreams/BitInputStreamBitReversed.hpp
 
+	#Checksum
+	${CMAKE_CURRENT_SOURCE_DIR}/Checksum/CheckedInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Checksum/ChecksumFunction.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Checksum/ChecksumInputStream.hpp
+
 	#Readers
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/TextReader.hpp
@@ -21,8 +26,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ChainedInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/CheckedInputStream.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/ChecksumFunction.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileUpdateStream.hpp

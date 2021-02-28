@@ -230,7 +230,7 @@
 #include <Std++/Char.hpp>
 #include <Std++/CommonFileFormats/ConfigurationFile.hpp>
 #include <Std++/Function.hpp>
-#include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/Checksum/ChecksumFunction.hpp>
 #include <Std++/Tuple.hpp>
 #include <Std++/Float.hpp>
 #include <Std++/Signed.hpp>

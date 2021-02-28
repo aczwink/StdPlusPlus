@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/Checksum/ChecksumFunction.hpp>
 #include <Std++/Streams/LimitedEndInputStream.hpp>
 #include "../DEFLATE/Inflater.hpp"
 

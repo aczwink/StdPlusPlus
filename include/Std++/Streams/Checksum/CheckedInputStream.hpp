@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,34 +17,34 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Compression/Decompressor.hpp>
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Streams/Checksum/ChecksumFunction.hpp>
+#include "ChecksumFunction.hpp"
+#include "Std++/Streams/InputStream.hpp"
+#include "Std++/Streams/ReadOnlyInputStream.hpp"
 
-namespace _stdxx_
+namespace StdXX
 {
-	/**
-	 * Based on RFC 1952
-	 */
-	class gzipDecompressor : public StdXX::Decompressor
+	class STDPLUSPLUS_API CheckedInputStream : public ReadOnlyInputStream
 	{
 	public:
 		//Constructor
-		gzipDecompressor(InputStream& inputStream, bool verify);
+		inline CheckedInputStream(InputStream &inputStream, ChecksumAlgorithm algorithm, uint64 expectedChecksum)
+		    : inputStream(inputStream), expectedChecksum(expectedChecksum)
+		{
+		    this->finished = false;
+			this->checkFunc = ChecksumFunction::CreateInstance(algorithm);
+		}
 
 		//Methods
+        bool Finish();
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
 
 	private:
 		//Members
-		bool memberHeaderRead;
-		bool reachedEnd;
-		StdXX::UniquePointer<StdXX::Decompressor> inflater;
-		StdXX::UniquePointer<StdXX::ChecksumFunction> crc;
-
-		//Methods
-		void EnsureMemberHeaderRead();
+		InputStream &inputStream;
+        uint64 expectedChecksum;
+        bool finished;
+		UniquePointer<ChecksumFunction> checkFunc;
 	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -151,6 +151,26 @@ String TextReader::ReadZeroTerminatedString(uint32 length)
 		result += codePoint;
 	}
 	this->inputStream.Skip(length); //skip the remaining bytes
+
+	return result;
+}
+
+String TextReader::ReadZeroTerminatedStringBySize(uint32 size)
+{
+	String result;
+	while(!this->inputStream.IsAtEnd() && (size > 0))
+	{
+		uint8 nBytesRead;
+		uint32 codePoint = this->codec->ReadCodePoint(this->inputStream, nBytesRead);
+		ASSERT(nBytesRead <= size, u8"REPORT THIS PLEASE!");
+		size -= nBytesRead;
+
+		if(codePoint == 0)
+			break;
+
+		result += codePoint;
+	}
+	this->inputStream.Skip(size); //skip remaining bytes
 
 	return result;
 }

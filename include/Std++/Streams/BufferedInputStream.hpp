@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,15 +18,16 @@
  */
 #pragma once
 //Local
-#include "InputStream.hpp"
+#include <Std++/Constants.hpp>
+#include "ReadOnlyInputStream.hpp"
 
 namespace StdXX
 {
-    class STDPLUSPLUS_API BufferedInputStream : public InputStream
+    class BufferedInputStream : public ReadOnlyInputStream
     {
     public:
         //Constructor
-        BufferedInputStream(InputStream &refInputStream, uint32 bufferSize = 4096);
+        BufferedInputStream(InputStream& inputStream, uint32 bufferSize = c_io_blockSize);
 
         //Destructor
         ~BufferedInputStream();
@@ -34,16 +35,15 @@ namespace StdXX
         //Methods
         uint32 GetBytesAvailable() const override;
         bool IsAtEnd() const override;
-        byte PeekByte();
         uint32 ReadBytes(void *destination, uint32 count) override;
-        uint32 Skip(uint32 nBytes) override;
 
     private:
         //Members
         InputStream &inputStream;
         byte *buffer;
         byte *current;
-        byte *pEnd;
+        byte *end;
+        uint32 bufferSize;
 
         //Methods
         void FillBufferIfEmpty();

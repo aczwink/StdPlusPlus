@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,27 +17,24 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/Checksum/ChecksumFunction.hpp>
 
 namespace _stdxx_
 {
-	class ADLER32ChecksumFunction : public StdXX::ChecksumFunction
+	class CRC32ChecksumFunction : public StdXX::ChecksumFunction
 	{
 	public:
 		//Constructor
-		inline ADLER32ChecksumFunction() : a(1), b(0)
-		{
-		}
-
+		CRC32ChecksumFunction();
+		
 		//Methods
-        uint64 GetChecksum() const override;
-		uint8 GetChecksumSize() const override;
 		void Finish() override;
-		void Update(const void *buffer, uint32 size) override;
+        uint64 GetChecksum() const override;
+        uint8 GetChecksumSize() const override;
+		void Update(const void * buffer, uint32 size) override;
 
     private:
 		//Members
-		uint32 a;
-		uint32 b;
+		uint32 crc;
 	};
 }

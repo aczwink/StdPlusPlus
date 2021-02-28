@@ -39,7 +39,9 @@
 //Streams/Bitstreams
 #include <Std++/Streams/Bitstreams/CBitInputStream.h>
 #include <Std++/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
-//Readers
+//Streams/Checksums
+#include <Std++/Streams/Checksum/ChecksumInputStream.hpp>
+//Streams/Readers
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 //Streams/Writers

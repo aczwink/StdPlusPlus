@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -76,6 +76,7 @@ namespace StdXX
 		 * @return
 		 */
 		String ReadZeroTerminatedString(uint32 length);
+		String ReadZeroTerminatedStringBySize(uint32 size);
 
 		//Inline
 		inline bool IsAtEnd() const

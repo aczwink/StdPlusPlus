@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,35 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
+#include <Std++/Streams/ReadOnlyInputStream.hpp>
 #include "ChecksumFunction.hpp"
-#include "InputStream.hpp"
-#include "ReadOnlyInputStream.hpp"
 
 namespace StdXX
 {
-	class STDPLUSPLUS_API CheckedInputStream : public ReadOnlyInputStream
+	class ChecksumInputStream : public ReadOnlyInputStream
 	{
 	public:
-		//Constructor
-		inline CheckedInputStream(InputStream &inputStream, ChecksumAlgorithm algorithm, uint64 expectedChecksum)
-		    : inputStream(inputStream), expectedChecksum(expectedChecksum)
+		//Constructors
+		inline ChecksumInputStream(InputStream &baseInputStream, ChecksumAlgorithm algorithm)
+			: baseInputStream(baseInputStream)
 		{
-		    this->finished = false;
 			this->checkFunc = ChecksumFunction::CreateInstance(algorithm);
 		}
 
+		inline ChecksumInputStream(InputStream &baseInputStream, UniquePointer<ChecksumFunction>&& checkFunc)
+				: baseInputStream(baseInputStream), checkFunc(Move(checkFunc))
+		{
+		}
+
 		//Methods
-        bool Finish();
 		uint32 GetBytesAvailable() const override;
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
 
+		//Inline
+		inline uint64 Finish()
+		{
+			this->checkFunc->Finish();
+			return this->checkFunc->GetChecksum();
+		}
+
 	private:
 		//Members
-		InputStream &inputStream;
-        uint64 expectedChecksum;
-        bool finished;
+		InputStream &baseInputStream;
 		UniquePointer<ChecksumFunction> checkFunc;
 	};
 }

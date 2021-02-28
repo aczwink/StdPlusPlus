@@ -4,7 +4,9 @@ set(SOURCE_FILES
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/ADLER32ChecksumFunction.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ADLER32ChecksumFunction.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/CheckedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ChecksumFunction.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ChecksumInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CRC32ChecksumFunction.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CRC32ChecksumFunction.hpp
 

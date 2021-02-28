@@ -17,7 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
-#include <Std++/Streams/CheckedInputStream.hpp>
+#include <Std++/Streams/Checksum/CheckedInputStream.hpp>
 
 namespace StdXX
 {

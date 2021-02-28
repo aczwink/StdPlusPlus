@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/Streams/ChecksumFunction.hpp>
+#include <Std++/Streams/Checksum/ChecksumFunction.hpp>
 //Local
 #include <Std++/Constants.hpp>
 #include "ADLER32ChecksumFunction.hpp"
