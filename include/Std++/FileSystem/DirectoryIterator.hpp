@@ -19,7 +19,6 @@
 #pragma once
 //Local
 #include <Std++/Tuple.hpp>
-#include "Node.hpp"
 
 namespace StdXX::FileSystem
 {

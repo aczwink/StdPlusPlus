@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,6 +20,7 @@
 #include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 //Local
 #include <Std++/Containers/Strings/ConstStringIterator.hpp>
+#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
@@ -27,7 +28,19 @@ using namespace StdXX::CommonFileFormats;
 //Public methods
 bool CSVReader::ReadCell(String &cell)
 {
-	cell = String();
+	uint32 minLength = Math::Min(this->dialect.lineSeparator.GetLength(), this->dialect.quote.GetLength());
+	minLength = Math::Min(minLength, this->dialect.separator.GetLength());
+
+	String tmp;
+	for(uint32 i = 0; i < minLength; i++)
+		tmp += this->reader.ReadCodePoint();
+	//TODO: FIX THIS
+	TODO FIX THIS
+
+
+
+
+
 
 	String tmp;
 	bool sepMatch = false;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,67 +19,52 @@
 #pragma once
 //Local
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
-#include "Directory.hpp"
 #include "DirectoryIterator.hpp"
-#include "File.hpp"
 
 namespace StdXX::FileSystem
 {
-	class STDPLUSPLUS_API DirectoryWalker
+	class DirectoryWalker
 	{
 		struct WalkerState
 		{
-			AutoPointer<const Directory> directory;
-			AutoPointer<DirectoryIterator> iterator;
+			UniquePointer<DirectoryIterator> iterator;
 			Path path;
 
-			/*inline WalkerState()
+			inline WalkerState(UniquePointer<DirectoryIterator>&& iterator, const Path& path) : iterator(Move(iterator)), path(path)
 			{
-			}*/
-
-			inline WalkerState(AutoPointer<const Directory> &&directory, AutoPointer<DirectoryIterator> &&iterator, const Path& path) : path(path)
-			{
-				this->directory = Move(directory);
-				this->iterator = Move(iterator);
 			}
-
-			WalkerState(const WalkerState&) = default;
 
 			inline WalkerState(WalkerState &&rhs)
 			{
-				this->directory = Move(rhs.directory);
 				this->iterator = Move(rhs.iterator);
 				this->path = Move(rhs.path);
-			}
-
-			inline WalkerState &operator=(const WalkerState &rhs)
-			{
-				this->directory = rhs.directory;
-				this->iterator = rhs.iterator;
-				this->path = rhs.path;
-
-				return *this;
 			}
 
 			inline WalkerState &operator=(WalkerState &&rhs)
 			{
-				this->directory = Move(rhs.directory);
 				this->iterator = Move(rhs.iterator);
 				this->path = Move(rhs.path);
 
 				return *this;
 			}
 
+			WalkerState(const WalkerState&) = delete;
+			WalkerState &operator=(const WalkerState &rhs) = delete;
+
 			inline bool operator==(const WalkerState &rhs) const
 			{
-				return this->directory == rhs.directory && *this->iterator == *rhs.iterator;
+				return *this->iterator == *rhs.iterator;
 			}
 		};
 	public:
-		//Constructor
-		inline DirectoryWalker(AutoPointer<const Directory> directory)
+		//Constructors
+		inline DirectoryWalker(const ReadableFileSystem& fileSystem) : fileSystem(fileSystem)
 		{
-			this->AddState(directory, String(u8""));
+		}
+
+		inline DirectoryWalker(const ReadableFileSystem& fileSystem, const Path& path) : fileSystem(fileSystem)
+		{
+			this->AddState(path);
 			this->CorrectIteratorPos();
 		}
 
@@ -102,10 +87,10 @@ namespace StdXX::FileSystem
 		inline Path operator*()
 		{
 			WalkerState& topState = this->states.Last();
-			String s = *(*topState.iterator);
+			DirectoryEntry s = *(*topState.iterator);
 			if(topState.path.String().IsEmpty())
-				return s;
-			return topState.path / s;
+				return s.name;
+			return topState.path / s.name;
 		}
 
 		inline DirectoryWalker &operator++() //Prefix++
@@ -117,19 +102,17 @@ namespace StdXX::FileSystem
 
 	private:
 		//Members
+		const ReadableFileSystem& fileSystem;
 		LinkedList<WalkerState> states;
 
 		//Methods
 		void CorrectIteratorPos();
 
 		//Inline
-		inline void AddState(AutoPointer<const Directory> directory, const Path& path)
+		inline void AddState(const Path& path)
 		{
-			if(!directory.IsNull())
-			{
-				DirectoryIterator it = directory->begin();
-				this->states.InsertTail(WalkerState(Move(directory), new DirectoryIterator(Move(it)), path));
-			}
+			UniquePointer<DirectoryEnumerator> enumerator = this->fileSystem.EnumerateChildren(path);
+			this->states.InsertTail(WalkerState(new DirectoryIterator(Move(enumerator)), path));
 		}
 	};
 
@@ -137,23 +120,24 @@ namespace StdXX::FileSystem
 	{
 	public:
 		//Constructor
-		inline DirectoryWalkerWrapper(AutoPointer<const Directory> directory) : directory(directory)
+		inline DirectoryWalkerWrapper(const ReadableFileSystem& fileSystem, const Path& path) : fileSystem(fileSystem), path(path)
 		{
 		}
 
 		//For range-based loop
 		inline DirectoryWalker begin() const
 		{
-			return DirectoryWalker(this->directory);
+			return DirectoryWalker(this->fileSystem, this->path);
 		}
 
 		inline DirectoryWalker end() const
 		{
-			return DirectoryWalker(nullptr);
+			return DirectoryWalker(this->fileSystem);
 		}
 
 	private:
 		//Members
-		AutoPointer<const Directory> directory;
+		const ReadableFileSystem& fileSystem;
+		Path path;
 	};
 }

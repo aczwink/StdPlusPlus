@@ -56,6 +56,11 @@ namespace StdXX::FileSystem
 			ASSERT_EQUALS(FileType::Directory, this->Type());
 		}
 
+		inline void CreateLink(const Path& linkTargetPath)
+		{
+			this->fileSystem.CreateLink(this->path, linkTargetPath);
+		}
+
 		inline void DeleteFile()
 		{
 			this->fileSystem.DeleteFile(this->path);

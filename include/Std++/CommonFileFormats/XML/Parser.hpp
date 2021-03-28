@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -138,7 +138,10 @@ namespace StdXX::CommonFileFormats::XML
 
 		inline void UpdateLookAhead()
 		{
-			this->lookaheads[this->currentLookaheadIndex] = this->textReader->ReadCodePoint();
+			if(this->textReader->IsAtEnd())
+				this->lookaheads[this->currentLookaheadIndex] = 0;
+			else
+				this->lookaheads[this->currentLookaheadIndex] = this->textReader->ReadCodePoint();
 			this->currentLookaheadIndex = (this->currentLookaheadIndex + 1) % 4;
 		}
 	};

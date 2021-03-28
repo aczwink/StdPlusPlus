@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -139,6 +139,11 @@ namespace StdXX::Serialization
 			}
 			else
 				this->elementStack.Push(this->FirstChildElementWithTagName(*this->elementStack.Last(), tagName));
+		}
+
+		inline bool HasAttribute(const String& name) const
+		{
+			return this->elementStack.Last()->HasAttribute(name);
 		}
 
 		inline bool HasChildElement(const String& tagName) const

@@ -26,8 +26,6 @@
 #include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
-#include <Std++/FileSystem/Link.hpp>
-#include <Std++/FileSystem/Directory.hpp>
 #include <Std++/FileSystem/POSIXPermissions.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/FileSystem/File.hpp>

@@ -9,7 +9,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/POSIXDirectoryEnumerator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/POSIXDirectoryEnumerator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PosixLink.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/PosixLink.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PosixNode.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PosixNode.hpp
 

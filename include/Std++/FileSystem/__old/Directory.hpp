@@ -49,11 +49,9 @@ namespace StdXX::FileSystem
 		 */
 		virtual AutoPointer<Node> GetChild(const String &name) = 0;
 		virtual AutoPointer<const Node> GetChild(const String &name) const = 0;
-		virtual bool IsEmpty() const = 0;
 
 		//Methods
 		NodeType GetType() const override;
-		DirectoryWalkerWrapper WalkFiles();
 
 		//Inline
 		inline AutoPointer<Directory> GetSubDirectory(const String& name)

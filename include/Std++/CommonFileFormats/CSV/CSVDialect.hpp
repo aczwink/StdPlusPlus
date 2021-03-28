@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,26 +20,23 @@
 //Local
 #include <Std++/Containers/Strings/String.hpp>
 
-namespace StdXX
+namespace StdXX::CommonFileFormats
 {
-	namespace CommonFileFormats
+	class CSVDialect
 	{
-		class CSVDialect
+	public:
+		//Members
+		String separator;
+		String lineSeparator;
+		String quote;
+
+		//Constructor
+		CSVDialect(const String &separator, const String &lineSeparator, const String& quote) : separator(separator),
+			lineSeparator(lineSeparator), quote(quote)
 		{
-		public:
-			//Members
-			String separator;
-			String lineSeparator;
-			String quote;
+		}
+	};
 
-			//Constructor
-			CSVDialect(const String &separator, const String &lineSeparator, const String& quote) : separator(separator),
-			    lineSeparator(lineSeparator), quote(quote)
-			{
-			}
-		};
-
-		//Instances
-		static CSVDialect csvDialect_excel(u8",", u8"\r\n", u8"\"");
-	}
+	//Instances
+	static CSVDialect csvDialect_excel(u8",", u8"\r\n", u8"\"");
 }

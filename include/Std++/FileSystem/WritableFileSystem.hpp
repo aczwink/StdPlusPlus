@@ -38,6 +38,10 @@ namespace StdXX::FileSystem
 		 */
 		virtual void CreateDirectory(const Path& path, const Permissions* permissions = nullptr) = 0;
 		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
+		/**
+		 * Creates a link at \p linkPath whichs points to \p linkTargetPath.
+		 * I.e. the contents of the link referred to by \p linkPath is the string resembled by \p linkTargetPath
+		 */
 		virtual void CreateLink(const Path& linkPath, const Path& linkTargetPath) = 0;
 		virtual void DeleteFile(const Path& path) = 0;
 		virtual void Flush() = 0;

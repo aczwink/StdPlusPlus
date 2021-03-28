@@ -56,9 +56,19 @@ namespace StdXX
 		}
 
 		//Range-based loop
+		constexpr DataType* begin()
+		{
+			return this->elements;
+		}
+
 		constexpr const DataType* begin() const
 		{
 			return this->elements;
+		}
+
+		constexpr DataType* end()
+		{
+			return this->elements + N;
 		}
 
 		constexpr const DataType* end() const

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,25 +21,22 @@
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include "CSVDialect.hpp"
 
-namespace StdXX
+namespace StdXX::CommonFileFormats
 {
-	namespace CommonFileFormats
+	class CSVReader
 	{
-		class STDPLUSPLUS_API CSVReader
+	public:
+		//Constructor
+		inline CSVReader(TextReader &reader, const CSVDialect &dialect) : reader(reader), dialect(dialect)
 		{
-		public:
-			//Constructor
-			inline CSVReader(TextReader &reader, const CSVDialect &dialect) : reader(reader), dialect(dialect)
-			{
-			}
+		}
 
-			//Methods
-			bool ReadCell(String &cell);
+		//Methods
+		bool ReadCell(String &cell);
 
-		private:
-			//Members
-			TextReader &reader;
-			const CSVDialect &dialect;
-		};
-	}
+	private:
+		//Members
+		TextReader &reader;
+		const CSVDialect &dialect;
+	};
 }

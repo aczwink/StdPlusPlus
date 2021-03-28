@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -188,6 +188,34 @@ uint32 String::FindReverse(const String &string, uint32 startPos, uint32 length)
 	}
 
 	return Unsigned<uint32>::Max();
+}
+
+uint64 String::ParseHexNumber() const
+{
+	auto it = this->begin();
+
+	//skip optional +
+	if(*it == u8'+')
+		++it;
+
+	uint64 result = 0;
+	while(it != this->end())
+	{
+		uint32 charValue;
+		if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
+			charValue = *it - u8'0';
+		else if(IsValueInInterval(StdXX::ToLowercase(*it), (uint32)u8'a', (uint32)u8'z'))
+			charValue = StdXX::ToLowercase(*it) - u8'a';
+		else
+			NOT_IMPLEMENTED_ERROR;
+
+		uint64 pos = this->length - it.GetPosition() - 1;
+		result += Power(16_u64, pos) * charValue;
+
+		++it;
+	}
+
+	return result;
 }
 
 String String::Replace(const String &from, const String &to) const

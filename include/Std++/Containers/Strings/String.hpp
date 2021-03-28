@@ -225,6 +225,7 @@ namespace StdXX
 		 * @return
 		 */
 		uint32 FindReverse(const String &string, uint32 startPos = Unsigned<uint32>::Max(), uint32 length = Unsigned<uint32>::Max()) const;
+		uint64 ParseHexNumber() const;
 		String Replace(const String &from, const String &to) const;
 		String Reversed() const;
 		DynamicArray<String> Split(const String &seperator) const;

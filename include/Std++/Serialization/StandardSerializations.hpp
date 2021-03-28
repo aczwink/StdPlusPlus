@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,6 +45,19 @@ namespace StdXX::Serialization
 		serializer << Binding(binding.name, binding.value.String());
 
 		return serializer;
+	}
+
+	template <typename ArchiveType>
+	inline ArchiveType& operator>>(ArchiveType& deserializer, const Binding<uint8>& binding)
+	{
+		uint32 tmp;
+		deserializer & Binding(binding.name, tmp);
+		if(tmp <= Unsigned<uint8>::Max())
+			binding.value = tmp;
+		else
+			NOT_IMPLEMENTED_ERROR;
+
+		return deserializer;
 	}
 
 	template <typename ArchiveType>

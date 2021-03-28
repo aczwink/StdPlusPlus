@@ -17,6 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "DirectoryWalker.hpp"
+
 namespace StdXX::FileSystem
 {
 	class ReadOnlyFile
@@ -34,6 +36,11 @@ namespace StdXX::FileSystem
 			return this->CachedFileInfo().HasValue();
 		}
 
+		inline const FileInfo& Info() const
+		{
+			return *this->CachedFileInfo();
+		}
+
 		inline uint64 Size() const
 		{
 			return this->CachedFileInfo()->size;
@@ -45,9 +52,28 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
+		inline bool IsEmptyDirectory() const
+		{
+			for(const DirectoryEntry& child : *this)
+				return false;
+			return true;
+		}
+
 		inline UniquePointer<InputStream> OpenForReading(bool verify = true) const
 		{
 			return this->fileSystem.OpenFileForReading(this->path, verify);
+		}
+
+		inline StdXX::FileSystem::Path ReadLinkTarget() const
+		{
+			auto value = this->fileSystem.ReadLinkTarget(this->path);
+			ASSERT(value.HasValue(), u8"Can't read link target from non-link");
+			return value.Value();
+		}
+
+		inline DirectoryWalkerWrapper WalkFiles()
+		{
+			return DirectoryWalkerWrapper(this->fileSystem, this->path);
 		}
 
 		//For range-based loop

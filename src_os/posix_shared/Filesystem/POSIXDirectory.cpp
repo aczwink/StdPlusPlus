@@ -41,13 +41,6 @@ bool POSIXDirectory::Exists(const Path &path) const
 	return stat(reinterpret_cast<const char *>(p.String().ToUTF8().GetRawZeroTerminatedData()), &sb) == 0;
 }
 
-bool POSIXDirectory::IsEmpty() const
-{
-	for(const String& child : *this)
-		return false;
-	return true;
-}
-
 //For range-based loop
 StdXX::FileSystem::DirectoryIterator _stdxx_::POSIXDirectory::begin() const
 {

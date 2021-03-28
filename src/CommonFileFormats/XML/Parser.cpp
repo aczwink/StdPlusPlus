@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -195,7 +195,18 @@ String Parser::ReadAttributeValue()
 uint32 Parser::ReadEscapedChar()
 {
 	this->ExpectChar(u8'&');
+
 	String chars;
+	if(this->AcceptChar(u8'#'))
+	{
+		bool hex = this->AcceptChar(u8'x');
+		while (this->Lookahead(0) != u8';')
+			chars += this->ReadNextCodepoint();
+		this->ExpectChar(u8';');
+
+		return hex ? chars.ParseHexNumber() : chars.ToUInt32();
+	}
+
 	for(uint8 i = 0; (i < 4) and (this->Lookahead(0) != u8';'); i++)
 		chars += this->ReadNextCodepoint();
 	this->ExpectChar(u8';');
