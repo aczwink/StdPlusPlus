@@ -236,6 +236,7 @@
 #include <Std++/Signed.hpp>
 #include <Std++/Mathematics.hpp>
 #include <Std++/Optional.hpp>
+#include <Std++/ShutdownManager.hpp>
 
 
 #include "StdXXCommandLine.hpp"

@@ -38,4 +38,25 @@ namespace StdXX::FileSystem
 		//Abstract
 		virtual bool Next(DirectoryEntry& directoryEntry) = 0;
 	};
+
+	class SelfAndParentFiltereredDirectoryEnumerator : public DirectoryEnumerator
+	{
+	public:
+		//Constructor
+		SelfAndParentFiltereredDirectoryEnumerator(UniquePointer<DirectoryEnumerator>&& enumerator) : enumerator(Move(enumerator))
+		{
+		}
+
+		bool Next(DirectoryEntry &directoryEntry) override
+		{
+			bool ret = this->enumerator->Next(directoryEntry);
+			if(ret && ((directoryEntry.name == u8".") || (directoryEntry.name == u8"..")))
+				return this->Next(directoryEntry);
+			return false;
+		}
+
+	private:
+		//Members
+		UniquePointer<DirectoryEnumerator> enumerator;
+	};
 }

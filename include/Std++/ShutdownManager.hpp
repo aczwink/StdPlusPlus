@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,24 +17,42 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include "Std++/Containers/Strings/String.hpp"
-#include "Std++/SmartPointers/AutoPointer.hpp"
-#include "Path.hpp"
-#include "NodeInfo.hpp"
 
-namespace StdXX::FileSystem
+namespace StdXX
 {
-	//Forward declarations
-	class Directory;
-	class RWFileSystem;
-
-	class Node
+	class Releasable
 	{
 	public:
-		//Abstract
-		virtual void ChangePermissions(const FileSystem::NodePermissions& newPermissions) = 0;
-		virtual NodeType GetType() const = 0;
-		virtual NodeInfo QueryInfo() const = 0;
+		virtual void Release() = 0;
+	};
+
+	class ShutdownManager
+	{
+	public:
+		//Functions
+		static ShutdownManager& Instance()
+		{
+			static ShutdownManager instance;
+			return instance;
+		}
+
+		//Inline
+		inline void Register(Releasable* releasable)
+		{
+			this->releasables.Push(releasable);
+		}
+
+		inline void Shutdown()
+		{
+			for(Releasable* releasable : this->releasables)
+				releasable->Release();
+			this->releasables.Release();
+		}
+
+	private:
+		//Members
+		DynamicArray<Releasable*> releasables;
+		//Constructor
+		ShutdownManager() = default;
 	};
 }

@@ -20,7 +20,6 @@
 //Local
 #include "OSFileSystem.hpp"
 #include "FileSystemsManager.hpp"
-#include "DirectoryIterator.hpp"
 #include "ReadOnlyFile.hpp"
 
 namespace StdXX::FileSystem
@@ -38,6 +37,11 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
+		inline void ChangePermissions(const FileSystem::Permissions& newPermissions)
+		{
+			this->fileSystem.ChangePermissions(this->path, newPermissions);
+		}
+
 		inline void CreateDirectory()
 		{
 			this->fileSystem.CreateDirectory(this->path);

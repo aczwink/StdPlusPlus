@@ -19,7 +19,9 @@
 #pragma once
 //Local
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
-#include "DirectoryIterator.hpp"
+#include <Std++/FileSystem/Path.hpp>
+#include "ReadableFileSystem.hpp"
+#include <Std++/EnumeratorIterator.hpp>
 
 namespace StdXX::FileSystem
 {
@@ -27,34 +29,18 @@ namespace StdXX::FileSystem
 	{
 		struct WalkerState
 		{
-			UniquePointer<DirectoryIterator> iterator;
+			UniquePointer<DirectoryEnumerator> enumerator;
 			Path path;
 
-			inline WalkerState(UniquePointer<DirectoryIterator>&& iterator, const Path& path) : iterator(Move(iterator)), path(path)
+			inline WalkerState(UniquePointer<DirectoryEnumerator>&& enumerator, const Path& path) : enumerator(Move(enumerator)), path(path)
 			{
 			}
 
-			inline WalkerState(WalkerState &&rhs)
-			{
-				this->iterator = Move(rhs.iterator);
-				this->path = Move(rhs.path);
-			}
-
-			inline WalkerState &operator=(WalkerState &&rhs)
-			{
-				this->iterator = Move(rhs.iterator);
-				this->path = Move(rhs.path);
-
-				return *this;
-			}
+			WalkerState(WalkerState&&) = default;
+			WalkerState &operator=(WalkerState&&) = default;
 
 			WalkerState(const WalkerState&) = delete;
-			WalkerState &operator=(const WalkerState &rhs) = delete;
-
-			inline bool operator==(const WalkerState &rhs) const
-			{
-				return *this->iterator == *rhs.iterator;
-			}
+			WalkerState &operator=(const WalkerState&) = delete;
 		};
 	public:
 		//Constructors
@@ -65,54 +51,21 @@ namespace StdXX::FileSystem
 		inline DirectoryWalker(const ReadableFileSystem& fileSystem, const Path& path) : fileSystem(fileSystem)
 		{
 			this->AddState(path);
-			this->CorrectIteratorPos();
 		}
 
-		//Inline operators
-		inline bool operator==(const DirectoryWalker &rhs) const
-		{
-			if(this->states.IsEmpty())
-				return rhs.states.IsEmpty();
-			if(rhs.states.IsEmpty())
-				return false;
-
-			return this->states.Last() == rhs.states.Last();
-		}
-
-		inline bool operator!=(const DirectoryWalker &rhs) const
-		{
-			return !(*this == rhs);
-		}
-
-		inline Path operator*()
-		{
-			WalkerState& topState = this->states.Last();
-			DirectoryEntry s = *(*topState.iterator);
-			if(topState.path.String().IsEmpty())
-				return s.name;
-			return topState.path / s.name;
-		}
-
-		inline DirectoryWalker &operator++() //Prefix++
-		{
-			this->states.Last().iterator->operator++();
-			this->CorrectIteratorPos();
-			return *this;
-		}
+		//Methods
+		bool Next(Path& entry);
 
 	private:
 		//Members
 		const ReadableFileSystem& fileSystem;
 		LinkedList<WalkerState> states;
 
-		//Methods
-		void CorrectIteratorPos();
-
 		//Inline
 		inline void AddState(const Path& path)
 		{
-			UniquePointer<DirectoryEnumerator> enumerator = this->fileSystem.EnumerateChildren(path);
-			this->states.InsertTail(WalkerState(new DirectoryIterator(Move(enumerator)), path));
+			UniquePointer<DirectoryEnumerator> enumerator = new SelfAndParentFiltereredDirectoryEnumerator(this->fileSystem.EnumerateChildren(path));
+			this->states.InsertTail(WalkerState(Move(enumerator), path));
 		}
 	};
 
@@ -125,14 +78,14 @@ namespace StdXX::FileSystem
 		}
 
 		//For range-based loop
-		inline DirectoryWalker begin() const
+		inline EnumeratorIterator<DirectoryWalker, Path> begin() const
 		{
-			return DirectoryWalker(this->fileSystem, this->path);
+			return UniquePointer<DirectoryWalker>(new DirectoryWalker(this->fileSystem, this->path));
 		}
 
-		inline DirectoryWalker end() const
+		inline EnumeratorIterator<DirectoryWalker, Path> end() const
 		{
-			return DirectoryWalker(this->fileSystem);
+			return {};
 		}
 
 	private:

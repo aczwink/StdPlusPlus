@@ -31,6 +31,7 @@ namespace StdXX::FileSystem
 		virtual ~WritableFileSystem() = default;
 
 		//Abstract
+		virtual void ChangePermissions(const Path& path, const FileSystem::Permissions& newPermissions) = 0;
 		/**
 		 *
 		 * @param name

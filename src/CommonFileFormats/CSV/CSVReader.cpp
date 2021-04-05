@@ -20,78 +20,81 @@
 #include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 //Local
 #include <Std++/Containers/Strings/ConstStringIterator.hpp>
-#include <Std++/Mathematics.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
 
 //Public methods
-bool CSVReader::ReadCell(String &cell)
+CSVReader::CellReadingResult CSVReader::ReadCell(String &cell)
 {
-	uint32 minLength = Math::Min(this->dialect.lineSeparator.GetLength(), this->dialect.quote.GetLength());
-	minLength = Math::Min(minLength, this->dialect.separator.GetLength());
-
 	String tmp;
-	for(uint32 i = 0; i < minLength; i++)
-		tmp += this->reader.ReadCodePoint();
-	//TODO: FIX THIS
-	TODO FIX THIS
-
-
-
-
-
-
-	String tmp;
-	bool sepMatch = false;
-	auto sepIterator = this->dialect.separator.begin();
-	bool lsepMatch = false;
-	auto lsepIterator = this->dialect.lineSeparator.begin();
 	while (!this->reader.IsAtEnd())
 	{
 		uint32 codePoint = this->reader.ReadCodePoint();
-		//check if tmp is still valid
-		if (sepMatch)
-		{
-			if (codePoint != *sepIterator)
-			{
-				cell += tmp;
-				tmp = String();
-				sepMatch = false;
-				sepIterator = this->dialect.separator.begin();
-			}
-		}
-		if (lsepMatch)
-		{
-			if (codePoint != *lsepIterator)
-			{
-				cell += tmp;
-				tmp = String();
-				lsepMatch = false;
-				lsepIterator = this->dialect.lineSeparator.begin();
-			}
-		}
+		tmp += codePoint;
 
-		//check if codePoint is part of iterator		
-		bool consumed = false;
-		if (codePoint == *sepIterator)
+		if(tmp == this->dialect.quote)
+			return this->ReadQuotedString(cell);
+		else if(tmp.EndsWith(this->dialect.separator))
 		{
-			++sepIterator;
-			if (sepIterator == this->dialect.separator.end())
-				return true;
-			consumed = true;
+			cell = tmp.SubString(0, tmp.GetLength() - this->dialect.separator.GetLength());
+			return CellReadingResult::NormalCell;
 		}
-		if (codePoint == *lsepIterator)
+		else if(tmp.EndsWith(this->dialect.lineSeparator))
 		{
-			++lsepIterator;
-			if (lsepIterator == this->dialect.lineSeparator.end())
-				return true;
-			consumed = true;
+			cell = tmp.SubString(0, tmp.GetLength() - this->dialect.lineSeparator.GetLength());
+			return CellReadingResult::LastCellInRow;
 		}
-
-		if (!consumed)
-			cell += codePoint;
 	}
 
-	return false;
+	NOT_IMPLEMENTED_ERROR;
+}
+
+DynamicArray<String> CSVReader::ReadRow()
+{
+	String cell;
+	DynamicArray<String> result;
+
+	while(this->ReadCell(cell) != CellReadingResult::LastCellInRow)
+		result.Push(cell);
+	result.Push(cell);
+
+
+	return result;
+}
+
+//Private methods
+CSVReader::CellReadingResult CSVReader::ReadCellEnding()
+{
+	String tmp;
+	while (!this->reader.IsAtEnd())
+	{
+		uint32 codePoint = this->reader.ReadCodePoint();
+		tmp += codePoint;
+
+		if(tmp == this->dialect.separator)
+			return CellReadingResult::NormalCell;
+		else if(tmp == this->dialect.lineSeparator)
+			return CellReadingResult::LastCellInRow;
+	}
+
+	NOT_IMPLEMENTED_ERROR;
+}
+
+CSVReader::CellReadingResult CSVReader::ReadQuotedString(String &cell)
+{
+	String tmp;
+	while (!this->reader.IsAtEnd())
+	{
+		uint32 codePoint = this->reader.ReadCodePoint();
+		tmp += codePoint;
+
+		if(tmp.EndsWith(this->dialect.quote))
+		{
+			cell = tmp.SubString(0, tmp.GetLength() - this->dialect.quote.GetLength());
+			return this->ReadCellEnding();
+		}
+	}
+
+	NOT_IMPLEMENTED_ERROR;
 }

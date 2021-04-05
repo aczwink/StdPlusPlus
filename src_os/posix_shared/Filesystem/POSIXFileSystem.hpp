@@ -46,6 +46,11 @@ namespace _stdxx_
 	{
 	public:
 		//Public methods
+		void ChangePermissions(const Path &path, const Permissions &newPermissions) override
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+
 		void CreateDirectory(const Path& path, const Permissions* permissions)
 		{
 			uint32 permissionFlags = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;

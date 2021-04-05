@@ -11,7 +11,6 @@ set(SOURCE_FILES
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryEnumerator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryWalker.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/File.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemsManager.hpp

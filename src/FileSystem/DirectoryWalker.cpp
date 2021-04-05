@@ -16,44 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*//Class header
+//Class header
 #include <Std++/FileSystem/DirectoryWalker.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::FileSystem;
 
 //Private methods
-void DirectoryWalker::CorrectIteratorPos()
+bool DirectoryWalker::Next(Path &entry)
 {
+	DirectoryEntry directoryEntry;
+
 	while(!this->states.IsEmpty())
 	{
-		WalkerState &state = this->states.Last();
-		if(*state.iterator == state.directory->end())
+		WalkerState& topState = this->states.Last();
+		if(!topState.enumerator->Next(directoryEntry))
 		{
 			this->states.PopTail();
 			continue;
 		}
 
-		while(*state.iterator != state.directory->end())
+		if(directoryEntry.type == FileType::Directory)
 		{
-			String childName = state.iterator->operator*();
-			if (state.directory->HasSubDirectory(childName))
-			{
-				AutoPointer<const Directory> subdir = state.directory->GetSubDirectory(childName);
-				Path subPath;
-				if(state.path.String().IsEmpty())
-					subPath = childName;
-				else
-					subPath = state.path / childName;
+			Path subPath;
+			if(topState.path.String().IsEmpty())
+				subPath = directoryEntry.name;
+			else
+				subPath = topState.path / directoryEntry.name;
 
-				state.iterator->operator++(); //advance the sub dir on current level
-				if(*state.iterator == state.directory->end())
-					this->states.PopTail();
-
-				this->AddState(Move(subdir), Move(subPath)); //add sub dir
-				break; //check new state
-			} else
-				return; //fine, we have a file
+			this->AddState(subPath);
+		}
+		else
+		{
+			if(topState.path.String().IsEmpty())
+				entry = directoryEntry.name;
+			else
+				entry = topState.path / directoryEntry.name;
+			return true; //fine, we have a file
 		}
 	}
-}*/
+
+	return false;
+}

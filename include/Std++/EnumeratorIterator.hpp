@@ -18,62 +18,61 @@
  */
 #pragma once
 //Local
-#include <Std++/Tuple.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
 
-namespace StdXX::FileSystem
+namespace StdXX
 {
-	class DirectoryIterator
+	template<typename EnumeratorType, typename EntryType>
+	class EnumeratorIterator
 	{
 	public:
 		//Constructors
-		inline DirectoryIterator() = default;
+		inline EnumeratorIterator() = default;
 
-		inline DirectoryIterator(UniquePointer<DirectoryEnumerator>&& enumerator) : enumerator(Move(enumerator))
+		inline EnumeratorIterator(UniquePointer<EnumeratorType>&& enumerator) : enumerator(Move(enumerator))
 		{
 			this->Advance();
 		}
 
-		inline DirectoryIterator(DirectoryIterator &&other) : enumerator(Move(enumerator))
+		inline EnumeratorIterator(EnumeratorIterator &&other) : enumerator(Move(other.enumerator)), entry(other.entry)
 		{
 		}
 
 		//Operators
-		inline DirectoryIterator &operator++() //Prefix++
+		inline EnumeratorIterator &operator++() //Prefix++
 		{
 			this->Advance();
 			return *this;
 		}
 
-		inline bool operator==(const DirectoryIterator &other) const
+		inline bool operator==(const EnumeratorIterator &other) const
 		{
-			return this->enumerator.IsNull() && other.enumerator.IsNull();
+			return this->enumerator == other.enumerator;
 		}
 
-		inline bool operator!=(const DirectoryIterator &other) const
+		inline bool operator!=(const EnumeratorIterator &other) const
 		{
 			return !(*this == other);
 		}
 
-		inline const DirectoryEntry& operator*() const
+		inline const EntryType& operator*() const
 		{
 			return this->entry;
 		}
 
 	private:
 		//Members
-		UniquePointer<DirectoryEnumerator> enumerator;
-		DirectoryEntry entry;
+		UniquePointer<EnumeratorType> enumerator;
+		EntryType entry;
 
 		//Inline
-		inline void Advance()
+		virtual void Advance()
 		{
 			if(!this->enumerator->Next(this->entry))
 			{
 				this->enumerator = nullptr;
-				this->entry = {};
+				this->entry = EntryType();
 			}
-			else if((this->entry.name == u8".") || (this->entry.name == u8".."))
-				this->Advance();
 		}
 	};
 }

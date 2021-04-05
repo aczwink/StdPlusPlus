@@ -31,6 +31,7 @@
 #include <Std++/UI/Style/StyleSheet.hpp>
 #include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/FileSystem/FileSystemsManager.hpp>
+#include <Std++/ShutdownManager.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -66,6 +67,8 @@ void InitStdPlusPlus()
 
 void ShutdownStdPlusPlus()
 {
+	ShutdownManager::Instance().Shutdown();
+
 	ShutdownStdPlusPlus_Platform();
 
 	FileSystem::FileSystemsManager::Instance().ReleaseAllFormats();

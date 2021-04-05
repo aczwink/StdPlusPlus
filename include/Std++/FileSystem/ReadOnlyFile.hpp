@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "DirectoryWalker.hpp"
 
 namespace StdXX::FileSystem
@@ -77,14 +76,14 @@ namespace StdXX::FileSystem
 		}
 
 		//For range-based loop
-		DirectoryIterator begin() const
+		EnumeratorIterator<DirectoryEnumerator, DirectoryEntry> begin() const
 		{
-			return DirectoryIterator(this->fileSystem.EnumerateChildren(this->path));
+			return {new SelfAndParentFiltereredDirectoryEnumerator(this->fileSystem.EnumerateChildren(this->path))};
 		}
 
-		DirectoryIterator end() const
+		EnumeratorIterator<DirectoryEnumerator, DirectoryEntry> end() const
 		{
-			return DirectoryIterator();
+			return {};
 		}
 
 	protected:

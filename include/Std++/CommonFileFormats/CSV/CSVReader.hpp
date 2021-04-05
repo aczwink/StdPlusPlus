@@ -26,17 +26,28 @@ namespace StdXX::CommonFileFormats
 	class CSVReader
 	{
 	public:
+		enum class CellReadingResult
+		{
+			LastCellInRow,
+			NormalCell,
+		};
+
 		//Constructor
 		inline CSVReader(TextReader &reader, const CSVDialect &dialect) : reader(reader), dialect(dialect)
 		{
 		}
 
 		//Methods
-		bool ReadCell(String &cell);
+		CellReadingResult ReadCell(String &cell);
+		DynamicArray<String> ReadRow();
 
 	private:
 		//Members
 		TextReader &reader;
 		const CSVDialect &dialect;
+
+		//Private methods
+		CellReadingResult ReadCellEnding();
+		CellReadingResult ReadQuotedString(String &cell);
 	};
 }
