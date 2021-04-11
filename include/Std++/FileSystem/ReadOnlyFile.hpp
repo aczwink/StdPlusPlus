@@ -40,6 +40,11 @@ namespace StdXX::FileSystem
 			return *this->CachedFileInfo();
 		}
 
+		inline const class Path& Path() const
+		{
+			return this->path;
+		}
+
 		inline uint64 Size() const
 		{
 			return this->CachedFileInfo()->size;
@@ -51,6 +56,11 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
+		inline void InvalidateCache()
+		{
+			this->hasFileInfoCached = false;
+		}
+
 		inline bool IsEmptyDirectory() const
 		{
 			for(const DirectoryEntry& child : *this)
@@ -88,7 +98,7 @@ namespace StdXX::FileSystem
 
 	protected:
 		//Members
-		Path path;
+		class Path path;
 
 	private:
 		//Members

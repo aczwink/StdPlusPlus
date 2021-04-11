@@ -18,6 +18,9 @@
  */
 #pragma once
 //Local
+#include <Std++/Errorhandling/Exceptions/FileAlreadyExistsException.hpp>
+#include <Std++/Errorhandling/Exceptions/PermissionDeniedException.hpp>
+#include <Std++/Errorhandling/Errors/IllegalCodePathError.hpp>
 #include "OSFileSystem.hpp"
 #include "FileSystemsManager.hpp"
 #include "ReadOnlyFile.hpp"
@@ -28,11 +31,11 @@ namespace StdXX::FileSystem
 	{
 	public:
 		//Constructors
-		inline File(const Path& path) : File(FileSystemsManager::Instance().OSFileSystem(), path)
+		inline File(const class Path& path) : File(FileSystemsManager::Instance().OSFileSystem(), path)
 		{
 		}
 
-		inline File(RWFileSystem& fileSystem, const Path& path) : ReadOnlyFile(fileSystem, path), fileSystem(fileSystem)
+		inline File(RWFileSystem& fileSystem, const class Path& path) : ReadOnlyFile(fileSystem, path), fileSystem(fileSystem)
 		{
 		}
 
@@ -44,7 +47,20 @@ namespace StdXX::FileSystem
 
 		inline void CreateDirectory()
 		{
-			this->fileSystem.CreateDirectory(this->path);
+			auto result = this->fileSystem.CreateDirectory(this->path);
+			if(result.HasValue())
+			{
+				switch(*result)
+				{
+					case Errors::CreateDirectoryError::FileExists:
+						throw ErrorHandling::FileAlreadyExistsException(this->path);
+					case Errors::CreateDirectoryError::PermissionsDenied:
+						throw ErrorHandling::PermissionDeniedException(this->path);
+					default:
+						RAISE(ErrorHandling::IllegalCodePathError);
+				}
+			}
+			this->InvalidateCache();
 		}
 
 		inline void CreateDirectories()
@@ -55,12 +71,12 @@ namespace StdXX::FileSystem
 			{
 				File parent(this->fileSystem, this->path.GetParent());
 				parent.CreateDirectories();
-				parent.CreateDirectory();
+				this->CreateDirectory();
 			}
 			ASSERT_EQUALS(FileType::Directory, this->Type());
 		}
 
-		inline void CreateLink(const Path& linkTargetPath)
+		inline void CreateLink(const class Path& linkTargetPath)
 		{
 			this->fileSystem.CreateLink(this->path, linkTargetPath);
 		}

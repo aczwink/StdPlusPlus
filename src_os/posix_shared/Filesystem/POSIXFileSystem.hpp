@@ -51,7 +51,7 @@ namespace _stdxx_
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 
-		void CreateDirectory(const Path& path, const Permissions* permissions)
+		Optional<Errors::CreateDirectoryError> CreateDirectory(const Path& path, const Permissions* permissions)
 		{
 			uint32 permissionFlags = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 			if(permissions)
@@ -66,9 +66,9 @@ namespace _stdxx_
 				switch(errno)
 				{
 					case EACCES:
-						throw ErrorHandling::PermissionDeniedException(path);
+						return Errors::CreateDirectoryError::PermissionsDenied;
 					case EEXIST:
-						NOT_IMPLEMENTED_ERROR; //TODO: implement me
+						return Errors::CreateDirectoryError::FileExists;
 					case ELOOP:
 						NOT_IMPLEMENTED_ERROR; //TODO: implement me
 					case EMLINK:
@@ -85,6 +85,8 @@ namespace _stdxx_
 						NOT_IMPLEMENTED_ERROR; //TODO: implement me
 				}
 			}
+
+			return {};
 		}
 
 		UniquePointer<OutputStream> CreateFile(const Path &filePath) override

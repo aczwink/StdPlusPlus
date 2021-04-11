@@ -52,7 +52,7 @@ namespace StdXX::FileSystem
 			bool ret = this->enumerator->Next(directoryEntry);
 			if(ret && ((directoryEntry.name == u8".") || (directoryEntry.name == u8"..")))
 				return this->Next(directoryEntry);
-			return false;
+			return ret;
 		}
 
 	private:

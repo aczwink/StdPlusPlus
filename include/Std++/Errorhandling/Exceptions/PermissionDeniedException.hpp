@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,7 +38,7 @@ namespace StdXX::ErrorHandling
 		//Inline
 		inline String Description() const override
 		{
-			return u8"Permission to node \"" + this->path.String() + u8"\" was denied.";
+			return u8"Permission to file \"" + this->path.String() + u8"\" was denied.";
 		}
 	};
 }

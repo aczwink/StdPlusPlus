@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
+#include <StdXXTest.hpp>
 using namespace StdXX;
 
 static void UnixTimeStampEquals(int64 unixTimeStamp, int64 year, uint8 month, uint8 day, uint8 hours, uint8 minutes, uint8 seconds)

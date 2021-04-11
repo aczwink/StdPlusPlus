@@ -119,7 +119,7 @@ endif()
 #---INSTALLATION---
 
 #install target
-install(TARGETS Std++ Std++Static EXPORT StdPlusPlusConfig
+install(TARGETS Std++ Std++Static Std++Test EXPORT StdPlusPlusConfig
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         )

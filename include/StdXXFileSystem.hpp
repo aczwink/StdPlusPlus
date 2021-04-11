@@ -26,4 +26,5 @@
 #include <Std++/FileSystem/OSFileSystem.hpp>
 #include <Std++/FileSystem/Path.hpp>
 #include <Std++/FileSystem/POSIXPermissions.hpp>
+#include <Std++/FileSystem/TempDirectory.hpp>
 #include <Std++/FileSystem/RWFileSystem.hpp>

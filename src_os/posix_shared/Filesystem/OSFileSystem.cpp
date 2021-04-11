@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/FileSystem/OSFileSystem.hpp>
 //Global
+#include <stdio.h>
 #include <unistd.h>
 //Local
 #include "../src_backends/fuse3/fuse3.hpp"
@@ -32,6 +33,11 @@ Path OSFileSystem::FromNativePath(const String &nativePath) const
 {
 	//no changes needed here
 	return nativePath;
+}
+
+Path OSFileSystem::GetTempPath() const
+{
+	return String(P_tmpdir);
 }
 
 Path OSFileSystem::GetWorkingDirectory() const

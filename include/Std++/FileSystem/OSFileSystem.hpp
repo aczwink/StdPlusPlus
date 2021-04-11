@@ -27,6 +27,7 @@ namespace StdXX::FileSystem
 	public:
 		//Methods
 		Path FromNativePath(const String &nativePath) const;
+		Path GetTempPath() const;
 		Path GetWorkingDirectory() const;
 		void MountReadOnly(const Path& mountPoint, const ReadableFileSystem& fileSystem);
 		Path ToAbsolutePath(const Path &path) const;

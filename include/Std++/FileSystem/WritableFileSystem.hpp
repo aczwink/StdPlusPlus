@@ -19,11 +19,21 @@
 #pragma once
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/Optional.hpp>
 #include "Path.hpp"
 #include "Permissions.hpp"
 
 namespace StdXX::FileSystem
 {
+	namespace Errors
+	{
+		enum class CreateDirectoryError
+		{
+			FileExists,
+			PermissionsDenied,
+		};
+	}
+
 	class WritableFileSystem
 	{
 	public:
@@ -37,7 +47,7 @@ namespace StdXX::FileSystem
 		 * @param name
 		 * @param permissions - pass null for default permissions
 		 */
-		virtual void CreateDirectory(const Path& path, const Permissions* permissions = nullptr) = 0;
+		virtual Optional<Errors::CreateDirectoryError> CreateDirectory(const Path& path, const Permissions* permissions = nullptr) = 0;
 		virtual UniquePointer<OutputStream> CreateFile(const Path &filePath) = 0;
 		/**
 		 * Creates a link at \p linkPath whichs points to \p linkTargetPath.

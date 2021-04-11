@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++Test.hpp>
+#include <StdXXTest.hpp>
 //Namespaces
 using namespace StdXX;
 

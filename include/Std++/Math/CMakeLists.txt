@@ -3,6 +3,7 @@ set(SOURCE_FILES
 
 	#Distributions
 	${CMAKE_CURRENT_SOURCE_DIR}/Distributions/UniformRealDistribution.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Distributions/UniformUnsignedDistribution.hpp
 
 	#RandomBitGenerators
 	${CMAKE_CURRENT_SOURCE_DIR}/RandomBitGenerators/LinearCongruentialGenerator.hpp
