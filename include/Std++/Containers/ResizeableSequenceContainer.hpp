@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,9 @@
 #include <Std++/Memory.hpp>
 #include <Std++/Utility.hpp>
 #include <Std++/Type.hpp>
+#include <Std++/Mathematics.hpp>
+#include <Std++/Signed.hpp>
+#include <Std++/Unsigned.hpp>
 #include "Container.hpp"
 
 namespace StdXX
@@ -34,7 +37,6 @@ namespace StdXX
         //Constructor
         ResizeableSequenceContainer()
         {
-            this->elementsAllocInterval = 0;
             this->capacity = 0;
             this->data = nullptr;
         }
@@ -56,8 +58,7 @@ namespace StdXX
 			{
 				this->data[i] = rhs.data[i];
 			}
-			
-			this->elementsAllocInterval = rhs.elementsAllocInterval;
+
 			this->nElements = rhs.nElements;
 			
 			return *this;
@@ -72,8 +73,6 @@ namespace StdXX
 
 			this->capacity = rhs.capacity;
 			rhs.capacity = 0;
-
-			this->elementsAllocInterval = rhs.elementsAllocInterval;
 
 			this->nElements = rhs.nElements;
 			rhs.nElements = 0;
@@ -115,11 +114,6 @@ namespace StdXX
             return this->nElements * sizeof(DataType);
         }
 
-        inline void SetAllocationInterval(uint32 nElementsPerInterval)
-        {
-            this->elementsAllocInterval = nElementsPerInterval;
-        }
-
     protected:
         //Members
         DataType *data;
@@ -133,14 +127,13 @@ namespace StdXX
 	private:
 		//Members
 		uint32 capacity;
-		uint32 elementsAllocInterval;
 
 		//Inline
 		template <typename T = DataType>
 		typename Type::EnableIf<Type::IsTrivial<T>::value, void>::type
 		inline AllocateContainer(uint32 requiredNumberOfElements)
 		{
-			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
+			uint32 newElementsCount = this->CalculateNewCapacity(requiredNumberOfElements);
 			DataType *pNewBuffer = (DataType *)MemRealloc(this->data, newElementsCount * sizeof(DataType));
 			ASSERT(pNewBuffer, u8"If you see this, report it to StdXX");
 
@@ -152,7 +145,7 @@ namespace StdXX
 		typename Type::EnableIf<!Type::IsTrivial<T>::value, void>::type
 		inline AllocateContainer(uint32 requiredNumberOfElements)
 		{
-			uint32 newElementsCount = this->GetAllocationElementsCount(requiredNumberOfElements);
+			uint32 newElementsCount = this->CalculateNewCapacity(requiredNumberOfElements);
 			DataType *newBuffer = new DataType[newElementsCount];
 			ASSERT(newBuffer, u8"If you see this, report it to StdXX");
 
@@ -178,21 +171,15 @@ namespace StdXX
 			delete[] this->data;
 		};
 
-		inline uint32 GetAllocationElementsCount(uint32 requiredNumberOfElements)
+		inline uint32 CalculateNewCapacity(uint32 requiredNumberOfElements)
 		{
-			if(this->elementsAllocInterval == 0)
-			{
-				uint32 newNElements = 2 * this->capacity;
-				if(newNElements < requiredNumberOfElements)
-					newNElements = requiredNumberOfElements;
-				return newNElements;
-			}
+			uint32 newCapacity = Math::Max(this->capacity, 32_u32);
+			if(requiredNumberOfElements >= Signed<int32>::Max())
+				newCapacity = Unsigned<uint32>::Max();
+			while(newCapacity < requiredNumberOfElements)
+				newCapacity <<= 1;
 
-			uint32 nAllocationIntervals = requiredNumberOfElements / this->elementsAllocInterval;
-			if(requiredNumberOfElements % this->elementsAllocInterval)
-				nAllocationIntervals++;
-
-			return nAllocationIntervals * this->elementsAllocInterval;
+			return newCapacity;
 		}
     };
 }

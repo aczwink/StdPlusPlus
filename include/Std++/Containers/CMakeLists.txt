@@ -33,8 +33,7 @@ set(SOURCE_FILES
 	#Strings
 		${CMAKE_CURRENT_SOURCE_DIR}/Strings/ConstStringIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/FixedCharLengthString.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Strings/VariableCharLengthString.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Strings/UTF32String.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Strings/UTF32String.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/ResizeableString.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/String.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Strings/StringUtil.h

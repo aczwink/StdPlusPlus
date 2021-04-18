@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,10 +33,7 @@ namespace StdXX
         //friend class DynamicArray;
     public:
         //Constructors
-        inline DynamicArray()
-        {
-            this->SetAllocationInterval(0);
-        }
+        inline DynamicArray() = default;
 
 		inline DynamicArray(const BinaryTreeSet<DataType>& binaryTreeSet)
 		{

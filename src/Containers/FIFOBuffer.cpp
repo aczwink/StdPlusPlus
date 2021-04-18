@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,7 +28,6 @@ FIFOBuffer::FIFOBuffer()
 {
 	this->pCurrentFront = NULL;
 	this->pCurrentTail = NULL;
-	this->SetAllocationInterval(1024);
 }
 
 //Operators
