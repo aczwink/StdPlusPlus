@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,6 +36,9 @@ String Parser::GetErrorText() const
 		{
 			case MatchResult::ArgumentParseError::MissingPositionalArgument:
 				lines.Push(u8"Missing positional argument: " + t.Get<1>()->Name());
+				break;
+			case MatchResult::ArgumentParseError::WrongArgumentFormat:
+				lines.Push(u8"Wrong format for argument: " + t.Get<1>()->Name());
 				break;
 			default:
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me

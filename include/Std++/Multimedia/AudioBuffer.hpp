@@ -74,6 +74,7 @@ namespace StdXX
 
 			//Methods
 			void AllocateMemory(const AudioSampleFormat &sampleFormat);
+			void ResampleSingleSample(const void* source, void* dest, AudioSampleType sourceSampleType, AudioSampleType targetSampleType) const;
         };
     }
 }

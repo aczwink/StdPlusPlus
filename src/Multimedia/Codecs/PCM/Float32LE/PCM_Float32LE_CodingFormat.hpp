@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,26 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/__Globaldependencies.h>
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX::Type
+class PCM_Float32LE_CodingFormat : public CodingFormat
 {
-	template <typename... T>
-	struct CommonType : public std::common_type<T...> {};
+public:
+	//Methods
+	CodingFormatId GetId() const override
+	{
+		return CodingFormatId::PCM_Float32LE;
+	}
 
-    template <typename T, typename Arg>
-    struct IsAssignable : public std::is_assignable<T, Arg> {};
-
-	template <typename T>
-	struct IsIntegral : public std::is_integral<T>{};
-
-	template <typename T>
-	struct IsSigned : public std::is_signed<T>{};
-
-    template <typename T, typename Arg> struct IsTriviallyAssignable : public std::is_trivially_assignable<T, Arg> {};
-
-    template<typename T>
-    struct UnderlyingType : public std::underlying_type<T>{};
-}
+	String GetName() const override
+	{
+		return u8"PCM 32-bit IEEE Floating-point little-endian interleaved channels (in range [-1, 1])";
+	}
+};

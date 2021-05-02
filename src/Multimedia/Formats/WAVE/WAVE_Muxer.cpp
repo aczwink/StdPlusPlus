@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -57,7 +57,7 @@ void WAVE_Muxer::WriteHeader()
 	//format chunk
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
-	writer.WriteUInt16((uint16)(stream->codingParameters.codingFormat->GetId()));
+	writer.WriteUInt16(this->MapCodingFormatId(stream->codingParameters.codingFormat->GetId()));
 	writer.WriteUInt16(stream->sampleFormat->nChannels);
 	writer.WriteUInt32(stream->codingParameters.audio.sampleRate);
 	writer.WriteUInt32(stream->codingParameters.audio.sampleRate * blockAlign);
@@ -80,12 +80,28 @@ uint16 WAVE_Muxer::GetBitsPerSample(CodingFormatId codingFormatId) const
 {
 	switch(codingFormatId)
 	{
-		//case CodingFormatId::PCM_Float32LE:
-			//return 32;
+		case CodingFormatId::PCM_Float32LE:
+			return 32;
 		case CodingFormatId::PCM_S16LE:
 			return 16;
+		case CodingFormatId::PCM_U8:
+			return 8;
 	}
 
+	NOT_IMPLEMENTED_ERROR;
+	return 0;
+}
+
+uint16 WAVE_Muxer::MapCodingFormatId(CodingFormatId codingFormatId) const
+{
+	switch (codingFormatId)
+	{
+		case CodingFormatId::PCM_Float32LE:
+			return 3;
+		case CodingFormatId::PCM_S16LE:
+		case CodingFormatId::PCM_U8:
+			return 1;
+	}
 	NOT_IMPLEMENTED_ERROR;
 	return 0;
 }

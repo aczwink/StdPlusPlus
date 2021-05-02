@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -42,6 +42,12 @@ libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Str
 	//set what some codecs don't have in its encoded data
 	switch (stream.codingParameters.dataType)
 	{
+		case DataType::Audio:
+		{
+			AudioStream& audioStream = (AudioStream&)stream;
+			this->codecContext->channels = audioStream.sampleFormat->nChannels;
+		}
+		break;
 	case DataType::Video:
 	{
 		VideoStream &videoStream = (VideoStream &)stream;

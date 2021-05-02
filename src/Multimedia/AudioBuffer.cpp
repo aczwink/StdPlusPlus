@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,7 +42,6 @@ AudioBuffer *AudioBuffer::Resample(const AudioSampleFormat &fromFormat, const Au
 	AudioBuffer* result = new AudioBuffer(this->GetNumberOfSamplesPerChannel(), toFormat);
 
 	ASSERT(fromFormat.nChannels == toFormat.nChannels, u8"TODO: implement channel mixing");
-	ASSERT(fromFormat.sampleType == AudioSampleType::Float && toFormat.sampleType == AudioSampleType::S16, u8"TODO: implement correct sample type conversion");
 
 	for (uint8 ch = 0; ch < fromFormat.nChannels; ch++)
 	{
@@ -52,13 +51,11 @@ AudioBuffer *AudioBuffer::Resample(const AudioSampleFormat &fromFormat, const Au
 		{
 			const byte* src = (const byte*)this->GetPlane(srcChannel.planeIndex);
 			src += i * this->GetPlaneBlockSize(srcChannel.planeIndex) + srcChannel.offset;
-			float32 src_sample = *(const float32*)src;
 
 			byte* dst = (byte*)result->GetPlane(destChannel.planeIndex);
 			dst += i * result->GetPlaneBlockSize(destChannel.planeIndex) + destChannel.offset;
 
-			int16* dst_typed = (int16*)dst;
-			*dst_typed = Math::Clamp(int16(src_sample * Signed<int16>::Max()), Signed<int16>::Min(), Signed<int16>::Max());
+			this->ResampleSingleSample(src, dst, fromFormat.sampleType, toFormat.sampleType);
 		}
 	}
 
@@ -83,73 +80,51 @@ void AudioBuffer::AllocateMemory(const AudioSampleFormat &sampleFormat)
 	}
 }
 
-/*
-//Constructors
-template<typename SampleType>
-AudioBuffer<SampleType>::AudioBuffer(const AbstractAudioBuffer &refBuffer) : AbstractAudioBuffer(refBuffer.GetChannelLayout(), refBuffer.GetNumberOfSamplesPerChannel())
+void AudioBuffer::ResampleSingleSample(const void *source, void *dest, AudioSampleType sourceSampleType, AudioSampleType targetSampleType) const
 {
-	switch(refBuffer.GetSampleType())
+	switch(sourceSampleType)
 	{
-		case AudioSampleFormat::Float32:
-			this->Resample((const AudioBuffer<float32> &)refBuffer);
+		case AudioSampleType::Float:
+		{
+			switch(targetSampleType)
+			{
+				case AudioSampleType::S16:
+				{
+					float32 src_sample = *(const float32*)source;
+					int16* dst_typed = (int16*)dest;
+					*dst_typed = Math::Clamp(int16(src_sample * Signed<int16>::Max()), Signed<int16>::Min(), Signed<int16>::Max());
+				}
+				break;
+				default:
+					NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
+		}
+		break;
+		case AudioSampleType::S16:
+		{
+			switch(targetSampleType)
+			{
+				case AudioSampleType::S16:
+					*(int16*)dest = *(const int16*)source;
+					break;
+				default:
+					NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
+		}
+		break;
+		case AudioSampleType::U8:
+		{
+			switch(targetSampleType)
+			{
+				case AudioSampleType::U8:
+					*(uint8*)dest = *(const uint8*)source;
+				break;
+				default:
+					NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			}
+		}
 			break;
 		default:
-			NOT_IMPLEMENTED_ERROR;
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
 }
-
-//Resampling
-template<>
-template<>
-void AudioBuffer<float32>::Resample(const AudioBuffer<float32>& refBuffer)
-{
-	const float32 *pInput;
-	float32 *pOutput;
-
-	this->AllocateMemory();
-
-	for(uint8 ch = 0; ch < this->GetNumberOfChannels(); ch++)
-	{
-		pInput = refBuffer.GetChannel((Channel)ch);
-		pOutput = this->GetChannel((Channel)ch);
-
-		MemCopy(pOutput, pInput, this->GetChannelSize());
-	}
-}
-
-template<>
-template<>
-void AudioBuffer<int16>::Resample(const AudioBuffer<float32>& refBuffer)
-{
-	const float32 *pInput;
-	int16 *pOutput;
-
-	this->AllocateMemory();
-
-	for(uint8 ch = 0; ch < this->GetNumberOfChannels(); ch++)
-	{
-		pInput = refBuffer.GetChannel((Channel)ch);
-		pOutput = this->GetChannel((Channel)ch);
-		for(uint32 i = 0; i < this->GetNumberOfSamplesPerChannel(); i++)
-		{
-			pOutput[i] = (int16)(pInput[i] * Integer<int16>::Max());
-		}
-	}
-}
-
-//Public methods
-template<>
-AudioSampleFormat AudioBuffer<float32>::GetSampleType() const
-{
-	return AudioSampleFormat::Float32;
-}
-template<>
-AudioSampleFormat AudioBuffer<int16>::GetSampleType() const
-{
-	return AudioSampleFormat::S16;
-}
-
-//Explicit instantiation
-template STDPLUSPLUS_API class StdXX::format::AudioBuffer<float32>;
-template STDPLUSPLUS_API class StdXX::format::AudioBuffer<int16>;
-*/

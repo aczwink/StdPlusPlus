@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -107,7 +107,10 @@ void ffmpeg_Extension::LoadCodingFormatIdMap()
 	//audio
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_AC3, CodingFormatId::AC3); //ac3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16BE, CodingFormatId::PCM_S16BE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S8, CodingFormatId::PCM_S8);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_U8, CodingFormatId::PCM_U8);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_VORBIS, CodingFormatId::Vorbis);
 
 	//video

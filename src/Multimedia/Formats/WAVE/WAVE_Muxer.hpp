@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -40,4 +40,5 @@ private:
 
 	//Methods
 	uint16 GetBitsPerSample(CodingFormatId codingFormatId) const;
+	uint16 MapCodingFormatId(CodingFormatId codingFormatId) const;
 };

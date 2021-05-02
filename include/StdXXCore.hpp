@@ -16,4 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Buffers
 #include <Std++/Buffers/DynamicByteBuffer.hpp>
+
+//Containers
+#include <Std++/Containers/Container.hpp>
+#include <Std++/Containers/Flags.hpp>
+//Containers/Array
+#include <Std++/Containers/Array/FixedArray.hpp>
+#include <Std++/Containers/Array/StaticArray.hpp>
+//BinaryTreeSet
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
+//HashMap
+#include <Std++/Containers/HashMap/HashMap.hpp>
+//LinkedList
+#include <Std++/Containers/LinkedList/LinkedList.hpp>
+//Map
+#include <Std++/Containers/Map/BijectiveMap.hpp>
+#include <Std++/Containers/Map/Map.hpp>
+//Strings
+#include <Std++/Containers/Strings/String.hpp>
+//Tables
+#include <Std++/Containers/Table/FixedTable.hpp>
+#include <Std++/Containers/FIFOBuffer.hpp>

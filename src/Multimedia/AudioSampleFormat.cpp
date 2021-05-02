@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -84,6 +84,8 @@ uint8 AudioSampleFormat::GetSampleSize() const
 {
 	switch (this->sampleType)
 	{
+	case AudioSampleType::U8:
+		return 1;
 	case AudioSampleType::S16:
 		return 2;
 	case AudioSampleType::Float:

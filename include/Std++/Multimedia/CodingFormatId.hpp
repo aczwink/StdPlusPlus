@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,39 +20,36 @@
 //Local
 #include <Std++/Definitions.h>
 
-/*
-Mircosoft FourCCs:
-http://www.faqs.org/rfcs/rfc2361.html
-https://msdn.microsoft.com/de-de/library/windows/desktop/bb970509(v=vs.85).aspx
-*/
 //FourCCs are always little endian
 #define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
 
 namespace StdXX::Multimedia
 {
-	/*
-	 * In order to not break binary-compatibility, assign each enumerator a unique value!
-	 */
+	//TODO: Because of binary-compatibility this enum should only be internal. Users should instead use a binary-compatible coding format representation (like string, UTI? etc.)
 	enum class CodingFormatId
 	{
 		Unknown = -1,
 
 		//Audio codecs
-		AC3 = FOURCC(u8"~AC3"),
-		AAC = 0xFF, //https://docs.microsoft.com/en-us/windows/desktop/medfound/audio-subtype-guids
-		MP3 = 0x55,
-		PCM_S16LE = 1,
-		Vorbis = 0x566F, //"Vo"
+		AC3,
+		AAC,
+		MP3,
+		PCM_Float32LE,
+		PCM_S16BE,
+		PCM_S16LE,
+		PCM_S8,
+		PCM_U8,
+		Vorbis,
 
-		//Subtitle codecs (we use fourcc here though that isn't standard of course)
-		UTF8PlainText = FOURCC(u8"UTF8"),
+		//Subtitle codecs
+		UTF8PlainText,
 
 		//Video codecs
-		RawVideo = 0,
-		H264 = FOURCC(u8"H264"),
-		MPEG4Part2 = FOURCC(u8"FMP4"),
-		MS_MPEG4Part2V2 = FOURCC(u8"MP42"),
-		PNG = FOURCC(u8"png "),
-		Theora = FOURCC(u8"theo")
+		RawVideo,
+		H264,
+		MPEG4Part2,
+		MS_MPEG4Part2V2,
+		PNG,
+		Theora,
 	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 //Local
 #include "__Globaldependencies.h"
 #include "Definitions.h"
+#include "Unsigned.hpp"
 //Definitions
 #ifdef XPC_BUILDTYPE_DEBUG
 #define MemAlloc(size) MemAllocDebug(size, __FILE__, __LINE__)
@@ -141,12 +142,37 @@ namespace StdXX
 		MemFree(((byte *)pMem) - offset);
 	}
 
-    inline void MemSet(void *pDest, byte value, uint32 size)
+    inline void MemSet(void *destination, uint8 value, uint32 size)
     {
-        byte *pCurrent = (byte *)pDest;
+		uint8 *current = (uint8 *)destination;
 
-        while(size--)
-            *pCurrent++ = value;
+		//align on 8 bytes
+        while( (uint64(current) & 0x7) && size-- )
+            *current++ = value;
+
+        uint64* current64 = reinterpret_cast<uint64 *>(current);
+        const uint32 v32 = Unsigned<uint32>::From4UInt8(value, value, value, value);
+        const uint64 v64 = Unsigned<uint64>::Concat(v32, v32);
+        while(size > 32)
+		{
+        	current64[0] = v64;
+        	current64[1] = v64;
+        	current64[2] = v64;
+        	current64[3] = v64;
+
+        	current64 += 4;
+        	size -= 32;
+		}
+        while(size > 8)
+		{
+        	*current64++ = v64;
+        	size -= 8;
+		}
+
+        //rest
+        current = reinterpret_cast<uint8 *>(current64);
+		while(size--)
+			*current++ = value;
     }
 
     inline void MemZero(void *pDest, uint32 size)

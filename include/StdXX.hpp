@@ -33,26 +33,6 @@
 #include <Std++/Compute/CommandQueue.hpp>
 #include <Std++/Compute/DeviceContext.hpp>
 
-//Containers
-#include <Std++/Containers/Container.hpp>
-//Containers/Array
-#include <Std++/Containers/Array/FixedArray.hpp>
-#include <Std++/Containers/Array/StaticArray.hpp>
-//BinaryTreeSet
-#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
-//HashMap
-#include <Std++/Containers/HashMap/HashMap.hpp>
-//LinkedList
-#include <Std++/Containers/LinkedList/LinkedList.hpp>
-//Map
-#include <Std++/Containers/Map/BijectiveMap.hpp>
-#include <Std++/Containers/Map/Map.hpp>
-//Strings
-#include <Std++/Containers/Strings/String.hpp>
-//Tables
-#include <Std++/Containers/Table/FixedTable.hpp>
-#include <Std++/Containers/FIFOBuffer.hpp>
-
 //Cryptography
 #include <Std++/Cryptography/BlockCipher.hpp>
 #include <Std++/Cryptography/BlockDecipher.hpp>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "Binding.hpp"
+#include <Std++/Containers/Array/StaticArray.hpp>
 
 namespace StdXX::Serialization
 {

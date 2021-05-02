@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -86,9 +86,10 @@ namespace StdXX
 			return b;
 		}
 
-		inline uint32 ReadBytes(void* destination, uint32 nBytes)
+		inline void ReadBytes(void* destination, uint32 nBytes)
 		{
-			return this->inputStream.ReadBytes(destination, nBytes);
+			uint32 nBytesRead = this->inputStream.ReadBytes(destination, nBytes);
+			ASSERT_EQUALS(nBytes, nBytesRead);
 		}
 
 		inline float32 ReadFloat32()

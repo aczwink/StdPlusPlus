@@ -63,14 +63,12 @@ UniquePointer<SeekableInputStream> DynamicByteBuffer::CreateInputStream() const
 		//Methods
 		uint32 GetBytesAvailable() const override
 		{
-			NOT_IMPLEMENTED_ERROR;
-			return 0;
+			return this->buffer.size - this->offset;
 		}
 
 		bool IsAtEnd() const override
 		{
-			NOT_IMPLEMENTED_ERROR;
-			return false;
+			return this->offset >= this->buffer.size;
 		}
 
 		uint32 ReadBytes(void *destination, uint32 count) override

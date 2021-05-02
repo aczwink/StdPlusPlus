@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,25 +17,29 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include <Std++/__Globaldependencies.h>
 
-namespace StdXX::Type
+namespace StdXX
 {
-	template <typename... T>
-	struct CommonType : public std::common_type<T...> {};
+	template<typename EnumType, typename EncodedType = typename Type::UnderlyingType<EnumType>::type>
+	class Flags
+	{
+	public:
+		//Members
+		EncodedType encodedFlags;
 
-    template <typename T, typename Arg>
-    struct IsAssignable : public std::is_assignable<T, Arg> {};
+		//Constructors
+		inline Flags() : encodedFlags()
+		{
+		}
 
-	template <typename T>
-	struct IsIntegral : public std::is_integral<T>{};
+		inline Flags(EncodedType encodedFlags) : encodedFlags(encodedFlags)
+		{
+		}
 
-	template <typename T>
-	struct IsSigned : public std::is_signed<T>{};
-
-    template <typename T, typename Arg> struct IsTriviallyAssignable : public std::is_trivially_assignable<T, Arg> {};
-
-    template<typename T>
-    struct UnderlyingType : public std::underlying_type<T>{};
+		//Inline
+		inline bool IsSet(EnumType value) const
+		{
+			return (this->encodedFlags & static_cast<EncodedType>(value)) != 0;
+		}
+	};
 }

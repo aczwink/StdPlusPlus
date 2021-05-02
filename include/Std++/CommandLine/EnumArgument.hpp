@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include "Argument.hpp"
+#include "MatchResult.hpp"
 
 namespace StdXX::CommandLine
 {
@@ -32,6 +33,23 @@ namespace StdXX::CommandLine
 		}
 
 		//Methods
+		void Match(MatchResult &result) const override
+		{
+			if(result.IsAtEnd())
+				result.AddArgumentError(MatchResult::ArgumentParseError::MissingPositionalArgument, this);
+			else
+			{
+				const String& value = result.Next();
+				if(this->enumMap.Contains(value))
+				{
+					result.Activate(this, value);
+					result.Advance();
+				}
+				else
+					result.AddArgumentError(MatchResult::ArgumentParseError::WrongArgumentFormat, this);
+			}
+		}
+
 		String ToString() const override
 		{
 			String values;
@@ -47,6 +65,11 @@ namespace StdXX::CommandLine
 		{
 			this->enumMap.Insert(string, enumValue);
 			this->descriptionMap.Insert(string, description);
+		}
+
+		EnumType Value(const MatchResult& matchResult) const
+		{
+			return this->enumMap.Get(matchResult.ArgumentValue(*this));
 		}
 
 	private:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -49,16 +49,24 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, AVCodec *co
 			ASSERT(audioStream.sampleFormat.HasValue(), u8"You must give a sample format.");
 			switch (audioStream.sampleFormat->sampleType)
 			{
-			case AudioSampleType::S16:
-			{
-				if (audioStream.sampleFormat->IsPlanar())
-					this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16P;
-				else
-					this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
-			}
-			break;
-			default:
-				NOT_IMPLEMENTED_ERROR;
+				case AudioSampleType::S16:
+				{
+					if (audioStream.sampleFormat->IsPlanar())
+						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16P;
+					else
+						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
+				}
+				break;
+				case AudioSampleType::U8:
+				{
+					if (audioStream.sampleFormat->IsPlanar())
+						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8P;
+					else
+						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8;
+				}
+				break;
+				default:
+					NOT_IMPLEMENTED_ERROR;
 			}
 			
 			//AV_SAMPLE_FMT_FLTP

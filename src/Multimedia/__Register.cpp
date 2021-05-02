@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,10 @@
 #include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
 #include "Codecs/Xiph/Vorbis_CodingFormat.hpp"
 #include "Codecs/AC3_CodingFormat.hpp"
+#include "Codecs/PCM/Float32LE/PCM_Float32LE_CodingFormat.hpp"
+#include "Codecs/PCM/U8/PCM_U8_CodingFormat.hpp"
+#include "Codecs/PCM/S16BE/PCM_S16BE_CodingFormat.hpp"
+#include "Codecs/PCM/S8/PCM_S8_CodingFormat.hpp"
 
 //Subtitle coding formats
 #include "Codecs/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp"
@@ -48,7 +52,11 @@ void MultimediaRegisterCodecsAndFormats()
 	CodingFormat::Register(new AAC_CodingFormat);
 	CodingFormat::Register(new AC3_CodingFormat);
 	CodingFormat::Register(new MP3_CodingFormat);
+	CodingFormat::Register(new PCM_Float32LE_CodingFormat);
+	CodingFormat::Register(new PCM_S16BE_CodingFormat);
 	CodingFormat::Register(new PCM_S16LE_CodingFormat);
+	CodingFormat::Register(new PCM_S8_CodingFormat);
+	CodingFormat::Register(new PCM_U8_CodingFormat);
 	CodingFormat::Register(new Vorbis_CodingFormat);
 
 
