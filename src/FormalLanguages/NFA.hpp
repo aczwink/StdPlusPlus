@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "DFA.hpp"
 
 namespace _stdxx_
@@ -42,7 +42,7 @@ namespace _stdxx_
 
     private:
         //Members
-        StdXX::Map<InputSymbolType, StdXX::BinaryTreeSet<NFAState<InputSymbolType> *>> transitions;
+        StdXX::BinaryTreeMap<InputSymbolType, StdXX::BinaryTreeSet<NFAState<InputSymbolType> *>> transitions;
     };
 
     template<typename InputSymbolType>
@@ -61,7 +61,7 @@ namespace _stdxx_
         {
             DFA<InputSymbolType>* dfa = new DFA<InputSymbolType>();
             StdXX::DynamicArray<DFAState<InputSymbolType> *> unmarkedStates;
-            StdXX::Map<DFAState<InputSymbolType> *, StdXX::BinaryTreeSet<NFAState<InputSymbolType> *>> dfaToNFAStatesMap;
+            StdXX::BinaryTreeMap<DFAState<InputSymbolType> *, StdXX::BinaryTreeSet<NFAState<InputSymbolType> *>> dfaToNFAStatesMap;
 
             //create dfa start state
             DFAState<InputSymbolType> *dfaStartState = new DFAState<InputSymbolType>();

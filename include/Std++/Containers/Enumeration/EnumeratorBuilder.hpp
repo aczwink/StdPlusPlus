@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,29 +17,28 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Containers/Optional.hpp>
-#include "AudioSampleFormat.hpp"
-#include "Stream.hpp"
-#include "EnumTypes.hpp"
+#include <Std++/Debug.hpp>
+#include "EnumeratorIterator.hpp"
+#include "Enumerator.hpp"
 
-namespace StdXX::Multimedia
+namespace StdXX
 {
-	class STDPLUSPLUS_API AudioStream : public Stream
+	template<typename InputType, typename OutputType>
+	class EnumeratorBuilder
 	{
 	public:
-		//Members
-		Optional<AudioSampleFormat> sampleFormat;
+		//Methods
+		virtual Enumerator<OutputType>* CreateEnumerator(Enumerator<InputType>* input) const = 0;
 
-		//Constructor
-		inline AudioStream()
+		//For range-based loop
+		EnumeratorIterator<Enumerator<OutputType>, OutputType> begin() const
 		{
-			this->codingParameters.dataType = DataType::Audio;
+			return {this->CreateEnumerator(nullptr)};
 		}
 
-	private:
-		//Methods
-		bool AllDecoderInfoIsAvailable();
+		EnumeratorIterator<Enumerator<OutputType>, OutputType> end() const
+		{
+			return {};
+		}
 	};
 }

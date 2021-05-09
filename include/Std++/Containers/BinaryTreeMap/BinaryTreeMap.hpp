@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,18 +19,20 @@
 
 #pragma once
 //Local
+#include <Std++/Containers/Enumeration/EnumeratorBuilder.hpp>
 #include "../Container.hpp"
 #include "MapNode.hpp"
 #include "MapIterator.hpp"
 #include "Std++/Debug.hpp"
+#include "BinaryTreeMapEnumerator.hpp"
 
 namespace StdXX
 {
     //Implemented as Red-Black Tree
     template<typename KeyType, typename ValueType>
-    class Map : public Container
+    class BinaryTreeMap : public Container
     {
-        //typedef Map<KeyType, ValueType> Map;
+        //typedef BinaryTreeMap<KeyType, ValueType> BinaryTreeMap;
         typedef MapNode<KeyType, ValueType> Node;
 
 		friend class ConstMapIterator<KeyType, ValueType>;
@@ -40,25 +42,25 @@ namespace StdXX
 		typedef ConstMapIterator<KeyType, ValueType> ConstIterator;
 
         //Constructors
-        Map()
+        BinaryTreeMap()
         {
             this->root = nullptr;
         }
 
-        Map(const Map &refOther) //copy ctor
+        BinaryTreeMap(const BinaryTreeMap &refOther) //copy ctor
         {
 			this->root = nullptr;
             *this = refOther;
         }
 
-        Map(Map &&refOther) //move ctor
+        BinaryTreeMap(BinaryTreeMap &&refOther) //move ctor
         {
             this->root = nullptr;
-            *this = (Map &&)refOther; //forward
+            *this = (BinaryTreeMap &&)refOther; //forward
         }
 
         //Destructor
-        ~Map()
+        ~BinaryTreeMap()
         {
             this->Release();
         }
@@ -83,7 +85,7 @@ namespace StdXX
             return this->Get(key);
         }
 
-        Map &operator=(const Map &refMap) //copy assign
+        BinaryTreeMap &operator=(const BinaryTreeMap &refMap) //copy assign
         {
             this->Release();
 
@@ -95,7 +97,7 @@ namespace StdXX
             return *this;
         }
 
-        Map &operator=(Map&& other) //move assign
+        BinaryTreeMap &operator=(BinaryTreeMap&& other) //move assign
         {
             this->Release();
 
@@ -108,7 +110,7 @@ namespace StdXX
         }
 
 	    //Logical operators
-	    bool operator==(const Map& other) const
+	    bool operator==(const BinaryTreeMap& other) const
 	    {
 		    if (this->nElements != other.nElements)
 			    return false;
@@ -160,6 +162,11 @@ namespace StdXX
         {
             return this->FindNode(refKey) != nullptr;
         }
+
+        inline _stdxx_::BinaryTreeMapEnumeratorBuilder<KeyType, ValueType> Entries() const
+		{
+        	return {*this};
+		}
 
         inline Iterator Find(const KeyType &key)
         {

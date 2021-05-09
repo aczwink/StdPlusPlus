@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -18,7 +18,7 @@
 */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/Type/TypeIndex.hpp>
 #include "../__InitAndShutdown.h"
 #include "Extension.hpp"
@@ -60,7 +60,7 @@ namespace _stdxx_
 
 	private:
 		//Members
-		StdXX::Map<StdXX::Type::TypeIndex, Extension *> extensions;
+		StdXX::BinaryTreeMap<StdXX::Type::TypeIndex, Extension *> extensions;
 
 		inline void ReleaseAll()
 		{

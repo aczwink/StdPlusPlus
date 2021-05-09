@@ -22,18 +22,21 @@
 //Containers
 #include <Std++/Containers/Container.hpp>
 #include <Std++/Containers/Flags.hpp>
-//Containers/Array
+//Array
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Containers/Array/StaticArray.hpp>
+//BinaryTreeMap
+#include <Std++/Containers/BinaryTreeMap/BijectiveMap.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 //BinaryTreeSet
 #include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
+//Enumeration
+#include <Std++/Containers/Enumeration/AnyEnumeratorBuilder.hpp>
+#include <Std++/Containers/Enumeration/MapEnumerator.hpp>
 //HashMap
 #include <Std++/Containers/HashMap/HashMap.hpp>
 //LinkedList
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
-//Map
-#include <Std++/Containers/Map/BijectiveMap.hpp>
-#include <Std++/Containers/Map/Map.hpp>
 //Strings
 #include <Std++/Containers/Strings/String.hpp>
 //Tables

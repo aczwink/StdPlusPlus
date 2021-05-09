@@ -43,7 +43,7 @@ private:
 	DynamicArray<Element*> elementStack;
 
 	//Parser callbacks
-	void OnBeginElement(String &&elementName, Map<String, String> &&attributes) override;
+	void OnBeginElement(String &&elementName, BinaryTreeMap<String, String> &&attributes) override;
 	void OnEndElement(String &&elementName) override;
 	void OnText(String &&text) override;
 };

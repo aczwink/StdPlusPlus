@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,29 +17,28 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-//Local
-#include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Containers/Optional.hpp>
-#include "AudioSampleFormat.hpp"
-#include "Stream.hpp"
-#include "EnumTypes.hpp"
 
-namespace StdXX::Multimedia
+namespace _stdxx_
 {
-	class STDPLUSPLUS_API AudioStream : public Stream
+	class AnyBuilder
 	{
-	public:
-		//Members
-		Optional<AudioSampleFormat> sampleFormat;
-
-		//Constructor
-		inline AudioStream()
-		{
-			this->codingParameters.dataType = DataType::Audio;
-		}
-
-	private:
-		//Methods
-		bool AllDecoderInfoIsAvailable();
 	};
+}
+
+namespace StdXX
+{
+	inline _stdxx_::AnyBuilder Any()
+	{
+		return {};
+	}
+
+	template<typename EnumeratorType>
+	bool operator>>(const EnumeratorType& lhs, const _stdxx_::AnyBuilder& rhs)
+	{
+		auto it = lhs.CreateEnumerator(nullptr);
+		bool result = it->MoveForward();
+		delete it;
+
+		return result;
+	}
 }

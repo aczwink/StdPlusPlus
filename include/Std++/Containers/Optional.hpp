@@ -19,9 +19,9 @@
 #pragma once
 //Local
 #include <Std++/Type/Assignable.hpp>
-#include "Debug.hpp"
-#include "Memory.hpp"
-#include "Utility.hpp"
+#include "Std++/Debug.hpp"
+#include "Std++/Memory.hpp"
+#include "Std++/Utility.hpp"
 
 namespace _stdxx_
 {
@@ -46,8 +46,15 @@ namespace _stdxx_
 		//Destructor
 		~OptionalStorage()
 		{
+			this->Reset();
+		}
+
+	protected:
+		//Inline
+		inline void Reset()
+		{
 			if (this->isInitialized)
-				value.~T();
+				this->value.~T();
 		}
 	};
 
@@ -77,7 +84,7 @@ namespace _stdxx_
 		template <typename... Types>
 		T& Construct(Types&&... args)
 		{
-			pnew(&this->value) T(StdXX::Move(args)...);
+			pnew(&this->value) T(StdXX::Forward<Types...>(args)...);
 			this->isInitialized = true;
 			return this->value;
 		}
@@ -120,8 +127,8 @@ namespace StdXX
 			return *this;
 		}
 
-		template <typename Type::EnableIf_t<Type::IsMoveAssignable_v<T>, bool> = false>
-		constexpr Optional<T>& operator=(Optional<T>&& other)
+		template<typename U = T, typename Type::EnableIf_t<Type::IsMoveAssignable_v<U>, bool> = false>
+		Optional<T>& operator=(Optional<U>&& other)
 		{
 			if (other.isInitialized)
 				this->AssignMove(other.Value());
@@ -172,6 +179,13 @@ namespace StdXX
 		}
 
 		//Methods
+		template<typename... Args>
+		T& Emplace(Args&&... args)
+		{
+			this->Reset();
+			return this->template Construct(StdXX::Forward<Args...>(args...));
+		}
+
 		constexpr bool HasValue() const noexcept
 		{
 			return this->isInitialized;

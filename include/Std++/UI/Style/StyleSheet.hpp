@@ -65,7 +65,7 @@ namespace StdXX
 		private:
 			//Members
 			DynamicArray<StyleRule> rules;
-			Map<String, StyleValue> variables;
+			BinaryTreeMap<String, StyleValue> variables;
 
 			//Methods
 			void ParseProperties(StyleRule& rule, _stdxx_::StdXXCSSLexer& lexer) const;

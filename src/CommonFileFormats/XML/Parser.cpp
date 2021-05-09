@@ -47,7 +47,7 @@ void Parser::ParseBeginElement(ParserCallbacks& callbacks)
 	this->ExpectChar(u8'<');
 	String elementName = this->ParseName();
 
-	Map<String, String> attributes = this->ReadAttributes();
+	BinaryTreeMap<String, String> attributes = this->ReadAttributes();
 
 	bool empty = this->AcceptChar(u8'/');
 	this->ExpectChar(u8'>');
@@ -148,9 +148,9 @@ void Parser::ParseNext(ParserCallbacks& callbacks)
 		this->ParseText(callbacks);
 }
 
-Map<String, String> Parser::ReadAttributes()
+BinaryTreeMap<String, String> Parser::ReadAttributes()
 {
-	Map<String, String> attributes;
+	BinaryTreeMap<String, String> attributes;
 	while (true)
 	{
 		this->SkipWhitespaces();
@@ -240,7 +240,7 @@ void Parser::ReadProlog()
 	String xmlName = this->ParseName();
 	ASSERT(xmlName == u8"xml", "If you see this, report to StdXX");
 
-	Map<String, String> attributes = this->ReadAttributes();
+	BinaryTreeMap<String, String> attributes = this->ReadAttributes();
 
 	//version
 	ASSERT(attributes.Contains("version"), "If you see this, report to StdXX");

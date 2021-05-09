@@ -43,7 +43,7 @@ Document *DOMReader::Parse()
 }
 
 //Parser callbacks
-void DOMReader::OnBeginElement(String &&elementName, Map<String, String> &&attributes)
+void DOMReader::OnBeginElement(String &&elementName, BinaryTreeMap<String, String> &&attributes)
 {
 	Element* element = new Element(Move(elementName), Move(attributes));
 

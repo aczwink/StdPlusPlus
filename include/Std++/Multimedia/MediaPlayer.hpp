@@ -244,17 +244,17 @@ namespace StdXX
 			}
 
 			//Inline
-			inline const Map<uint32, AudioStream*>& GetAudioStreams() const
+			inline const BinaryTreeMap<uint32, AudioStream*>& GetAudioStreams() const
 			{
 				return this->audio.streams;
 			}
 
-			inline const Map<uint32, SubtitleStream*>& GetSubtitleStreams() const
+			inline const BinaryTreeMap<uint32, SubtitleStream*>& GetSubtitleStreams() const
 			{
 				return this->subtitleStreams;
 			}
 
-			inline const Map<uint32, VideoStream*>& GetVideoStreams() const
+			inline const BinaryTreeMap<uint32, VideoStream*>& GetVideoStreams() const
 			{
 				return this->video.streams;
 			}
@@ -290,7 +290,7 @@ namespace StdXX
 			class Demuxer *demuxer;
 			struct
 			{
-				Map<uint32, AudioStream *> streams;
+				BinaryTreeMap<uint32, AudioStream *> streams;
 				uint32 activeStreamIndex;
 				Packet *nextPacket;
 
@@ -303,10 +303,10 @@ namespace StdXX
 				uint64 lastPTS;
 				UniquePointer<_stdxx_::DecoderThread> decodeThread;
 			} audio;
-			Map<uint32, SubtitleStream *> subtitleStreams;
+			BinaryTreeMap<uint32, SubtitleStream *> subtitleStreams;
 			struct
 			{
-				Map<uint32, VideoStream *> streams;
+				BinaryTreeMap<uint32, VideoStream *> streams;
 				uint32 activeStreamIndex;
 				Packet *nextPacket;
 				/**

@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Math/Size.hpp>
-#include <Std++/Optional.hpp>
+#include <Std++/Containers/Optional.hpp>
 #include "Stream.hpp"
 #include "PixelFormat.hpp"
 

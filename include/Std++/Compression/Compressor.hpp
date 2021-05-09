@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Streams/OutputStream.hpp>
-#include <Std++/Optional.hpp>
+#include <Std++/Containers/Optional.hpp>
 #include "CompressionAlgorithm.hpp"
 
 namespace StdXX

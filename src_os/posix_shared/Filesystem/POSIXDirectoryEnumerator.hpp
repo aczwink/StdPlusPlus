@@ -34,10 +34,12 @@ namespace _stdxx_
 		~POSIXDirectoryEnumerator();
 
 		//Methods
-		bool Next(StdXX::FileSystem::DirectoryEntry& directoryEntry);
+		const StdXX::FileSystem::DirectoryEntry &GetCurrent() const override;
+		bool MoveForward() override;
 
 	private:
 		//Members
 		DIR* dir;
+		StdXX::FileSystem::DirectoryEntry directoryEntry;
 	};
 }

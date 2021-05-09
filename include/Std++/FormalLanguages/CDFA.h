@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 //Local
 #include "../Containers/Array/DynamicArray.hpp"
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
-#include "../Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "../FileSystem/Path.hpp"
 #include "Std++/Debug.hpp"
 
@@ -31,7 +31,7 @@ namespace StdXX
     private:
         //Members
         bool isAccepting;
-        Map<uint32, CDFAState *> transitions;
+        BinaryTreeMap<uint32, CDFAState *> transitions;
     public:
         //Constructor
         inline CDFAState()

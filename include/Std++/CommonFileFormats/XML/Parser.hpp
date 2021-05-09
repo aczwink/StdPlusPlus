@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/Streams/InputStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
@@ -34,7 +34,7 @@ namespace StdXX::CommonFileFormats::XML
 	{
 	public:
 		//Abstract
-		virtual void OnBeginElement(String&& elementName, Map<String, String>&& attributes) = 0;
+		virtual void OnBeginElement(String&& elementName, BinaryTreeMap<String, String>&& attributes) = 0;
 		virtual void OnEndElement(String&& elementName) = 0;
 		virtual void OnText(String&& text) = 0;
 	};
@@ -62,7 +62,7 @@ namespace StdXX::CommonFileFormats::XML
 		void ParseText(ParserCallbacks& callbacks);
 		String ParseName();
 		void ParseNext(ParserCallbacks& callbacks);
-		Map<String, String> ReadAttributes();
+		BinaryTreeMap<String, String> ReadAttributes();
 		String ReadAttributeValue();
 		uint32 ReadEscapedChar();
 		void ReadProlog();

@@ -59,7 +59,7 @@ public:
 private:
 	//Members
 	_stdxx_::CodingFormatIdMap<String> codecIdMap;
-	Map<uint64, TrackInfo> tracks;
+	BinaryTreeMap<uint64, TrackInfo> tracks;
 	TimeIndex<Matroska::CuePoint> cues;
 	struct
 	{

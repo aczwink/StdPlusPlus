@@ -471,7 +471,7 @@ uint8 MatroskaDemuxer::ReadBlockHeader(bool simple, uint32 blockSize)
 
 void MatroskaDemuxer::ReadSegment(uint64 segmentOffset, bool isLive)
 {
-	Map<uint64, uint64> idOffsetMap;
+	BinaryTreeMap<uint64, uint64> idOffsetMap;
 	BinaryTreeSet<uint64> readSections;
 	bool foundCluster = false;
 	while (!foundCluster)

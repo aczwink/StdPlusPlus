@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/Array/DynamicArray.hpp>
 #include <Std++/Multimedia/TimeIndex.hpp>
@@ -178,7 +178,7 @@ namespace Matroska
 	//Functions
 	_stdxx_::CodingFormatIdMap<String> GetCodingFormatMap();
 	void ReadCuesData(const EBML::Element &cuesElement, Multimedia::TimeIndex<CuePoint> &index, SeekableInputStream &inputStream);
-	void ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream);
+	void ReadSeekHeadData(const EBML::Element &seekHead, BinaryTreeMap<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream);
 	void ReadSegmentInfoData(const EBML::Element &info, SegmentInfo &segmentInfo, SeekableInputStream &inputStream);
 	void ReadTrackData(const EBML::Element &tracksElement, DynamicArray<Track> &tracks, SeekableInputStream &inputStream);
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -26,7 +26,7 @@ extern "C"
 #include <Std++/Multimedia/DecoderContext.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
-#include <Std++/Containers/Map/BijectiveMap.hpp>
+#include <Std++/Containers/BinaryTreeMap/BijectiveMap.hpp>
 
 namespace _stdxx_
 {

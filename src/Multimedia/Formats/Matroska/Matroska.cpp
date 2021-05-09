@@ -232,7 +232,7 @@ void Matroska::ReadCuesData(const EBML::Element &cuesElement, TimeIndex<CuePoint
 	cuesReader.Verify();
 }
 
-void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, Map<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream)
+void Matroska::ReadSeekHeadData(const EBML::Element &seekHead, BinaryTreeMap<uint64, uint64> &idOffsetMap, uint64 segmentOffset, SeekableInputStream &inputStream)
 {
 	EBML::MasterReader seekHeadReader(seekHead, inputStream);
 	while (seekHeadReader.HasMore())

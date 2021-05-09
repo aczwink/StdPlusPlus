@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap//BinaryTreeMap.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Streams/OutputStream.hpp>
 
@@ -28,7 +28,7 @@ namespace StdXX
 	{
 	public:
 		//Inline
-		inline const Map<String, String>& GetFields() const
+		inline const BinaryTreeMap<String, String>& GetFields() const
 		{
 			return this->fields;
 		}
@@ -40,7 +40,7 @@ namespace StdXX
 
 	private:
 		//Members
-		Map<String, String> fields;
+		BinaryTreeMap<String, String> fields;
 	};
 
 	//Stream operators

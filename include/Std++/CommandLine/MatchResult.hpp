@@ -18,7 +18,7 @@
  */
 #pragma once
 
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "Option.hpp"
 #include "Argument.hpp"
 
@@ -128,8 +128,8 @@ namespace StdXX::CommandLine
 		//Members
 		uint32 index;
 		const FixedArray<String> &args;
-		Map<const Argument*, String> activatedArgs;
-		Map<const Option*, String> activatedOptions;
+		BinaryTreeMap<const Argument*, String> activatedArgs;
+		BinaryTreeMap<const Option*, String> activatedOptions;
 		DynamicArray<String> extraParameters;
 		DynamicArray<Tuple<ArgumentParseError, const Argument*>> argParsingErrors;
 		DynamicArray<Tuple<OptionParseError, const Option*>> optParsingErrors;

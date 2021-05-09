@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 
 namespace StdXX::FileSystem
 {
@@ -72,7 +72,7 @@ namespace StdXX::FileSystem
 
 	private:
 		//Members
-		Map<String, AutoPointer<MemoryFileNode>> children;
+		BinaryTreeMap<String, AutoPointer<MemoryFileNode>> children;
 		FileInfo fileInfo;
 	};
 }

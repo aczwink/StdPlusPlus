@@ -47,7 +47,7 @@ private:
 		uint64 pts;
 		uint64 basePTS;
 	} currentCluster;
-	Map<uint64, CueEntry> cues;
+	BinaryTreeMap<uint64, CueEntry> cues;
 
 	//meta seeking
 	uint64 segmentOutputStreamOffset;

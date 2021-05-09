@@ -20,12 +20,12 @@
 //Local
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
 #include <Std++/FileSystem/Path.hpp>
+#include <Std++/Containers/Enumeration/EnumeratorIterator.hpp>
 #include "ReadableFileSystem.hpp"
-#include <Std++/EnumeratorIterator.hpp>
 
 namespace StdXX::FileSystem
 {
-	class DirectoryWalker
+	class DirectoryWalker : public Enumerator<Path>
 	{
 		struct WalkerState
 		{
@@ -54,12 +54,14 @@ namespace StdXX::FileSystem
 		}
 
 		//Methods
-		bool Next(Path& entry);
+		const Path &GetCurrent() const override;
+		bool MoveForward() override;
 
 	private:
 		//Members
 		const ReadableFileSystem& fileSystem;
 		LinkedList<WalkerState> states;
+		Path currentPath;
 
 		//Inline
 		inline void AddState(const Path& path)

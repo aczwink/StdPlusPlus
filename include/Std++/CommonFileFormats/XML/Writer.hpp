@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,6 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
 #include <Std++/Streams/OutputStream.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
 #include "Node.hpp"

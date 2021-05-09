@@ -65,6 +65,11 @@ namespace StdXX
 		}
 
 		//Properties
+		inline const uint8* Data() const
+		{
+			return this->data;
+		}
+
 		inline uint32 Size() const
 		{
 			return this->size;
@@ -100,6 +105,12 @@ namespace StdXX
 			this->capacity = 0;
 		}
 
+		inline void Resize(uint32 size)
+		{
+			this->EnsureSize(size);
+			this->size = size;
+		}
+
 	private:
 		//Members
 		uint8* data;
@@ -108,12 +119,5 @@ namespace StdXX
 
 		//Methods
 		void EnsureSize(uint32 size);
-
-		//Inline
-		inline void Resize(uint32 size)
-		{
-			this->EnsureSize(size);
-			this->size = size;
-		}
 	};
 }

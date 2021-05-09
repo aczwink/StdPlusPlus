@@ -34,7 +34,12 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 		}
 
 		//Public methods
-		bool Next(DirectoryEntry &directoryEntry) override
+		const DirectoryEntry &GetCurrent() const override
+		{
+			return this->directoryEntry;
+		}
+
+		bool MoveForward() override
 		{
 			if(this->first)
 				this->first = false;
@@ -44,8 +49,8 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 			if(this->IsAtEnd())
 				return false;
 
-			directoryEntry.name = (*this->childrenIterator).key;
-			directoryEntry.type = this->DeriveType((*this->childrenIterator).value);
+			this->directoryEntry.name = (*this->childrenIterator).key;
+			this->directoryEntry.type = this->DeriveType((*this->childrenIterator).value);
 
 			return true;
 		}
@@ -55,6 +60,7 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 		const MemoryDirectory &dir;
 		bool first;
 		ConstMapIterator<String, AutoPointer<MemoryFileNode>> childrenIterator;
+		DirectoryEntry directoryEntry;
 
 		//Inline
 		inline bool IsAtEnd() const
@@ -97,7 +103,7 @@ AutoPointer<const MemoryFileNode> BufferedMetadataFileSystem::FindNode(const Pat
 	if (leftPath.IsAbsolute()) //skip root slash
 		leftPath = leftPath.String().SubString(1);
 	AutoPointer <const MemoryFileNode> node = this->GetRoot();
-	while (true)
+	do
 	{
 		Path remaining;
 		String name = leftPath.SplitOutmostPathPart(remaining);
@@ -105,10 +111,8 @@ AutoPointer<const MemoryFileNode> BufferedMetadataFileSystem::FindNode(const Pat
 
 		ASSERT(node.IsInstanceOf<const MemoryDirectory>(), u8"Only directories can have children");
 		node = node.template Cast<const MemoryDirectory>()->GetChild(name);
-
-		if (leftPath.String().IsEmpty())
-			break;
 	}
+	while ( !(node.IsNull() || leftPath.String().IsEmpty()) );
 
 	return node;
 }

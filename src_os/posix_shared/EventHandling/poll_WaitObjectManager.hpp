@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,7 @@
 #include <Std++/EventHandling/WaitObjectManager.hpp>
 #include <Std++/Containers/Array/DynamicArray.hpp>
 #include <Std++/Math/Range.hpp>
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 
 namespace _stdxx_
 {
@@ -50,6 +50,6 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::DynamicArray<pollfd> pollfds;
-		StdXX::Map<const StdXX::EventHandling::EventSource*, StdXX::Math::Range<uint32>> ranges;
+		StdXX::BinaryTreeMap<const StdXX::EventHandling::EventSource*, StdXX::Math::Range<uint32>> ranges;
 	};
 }

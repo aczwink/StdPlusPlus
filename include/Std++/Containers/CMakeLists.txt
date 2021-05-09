@@ -8,10 +8,26 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/FixedArray.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Array/StaticArray.hpp
 
+	#BinaryTreeMap
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeMap/BijectiveMap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeMap/BinaryTreeMap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeMap/BinaryTreeMapEnumerator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeMap/MapIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeMap/MapNode.hpp
+
 	#BinaryTreeSet
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/BinaryTreeSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetNode.hpp
+
+	#Enumeration
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/AnyEnumeratorBuilder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/Enumerator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/EnumeratorBuilder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/EnumeratorIterator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/MapEnumerator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/PipeEnumerator.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/SourceEnumeratorBuilder.hpp
 
 	#HashMap
 	${CMAKE_CURRENT_SOURCE_DIR}/HashMap/HashFunction.hpp
@@ -23,12 +39,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedListConstIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedListIterator.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/LinkedList/LinkedListNode.hpp
-
-	#Map
-	${CMAKE_CURRENT_SOURCE_DIR}/Map/BijectiveMap.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Map/Map.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Map/MapIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Map/MapNode.hpp
 
 	#Strings
 		${CMAKE_CURRENT_SOURCE_DIR}/Strings/ConstStringIterator.hpp
@@ -46,6 +56,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/FIFOBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Flags.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/KeyValuePair.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Optional.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/OrderedRangeSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PriorityQueue.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ResizeableSequenceContainer.hpp

@@ -72,7 +72,7 @@ namespace StdXX
 
 		private:
 			//Members
-			Map<String, StyleValue> properties;
+			BinaryTreeMap<String, StyleValue> properties;
 		};
 	}
 }

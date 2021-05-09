@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,12 +25,12 @@ namespace StdXX
     template<typename KeyType, typename ValueType>
     class MapNode;
     template<typename KeyType, typename ValueType>
-    class Map;
+    class BinaryTreeMap;
 
     template<typename KeyType, typename ValueType>
     class ConstMapIterator
     {
-        friend class Map < KeyType, ValueType > ;
+        friend class BinaryTreeMap < KeyType, ValueType > ;
         typedef MapNode<KeyType, ValueType> Node;
     public:
         //Operators
@@ -97,11 +97,11 @@ namespace StdXX
 
 	private:
 		//Members
-		const Map<KeyType, ValueType> &map;
+		const BinaryTreeMap<KeyType, ValueType> &map;
 		const Node *currentNode;
 
 		//Constructor
-		ConstMapIterator(const Map<KeyType, ValueType> &refMap, const Node *pNode) : map(refMap)
+		ConstMapIterator(const BinaryTreeMap<KeyType, ValueType> &refMap, const Node *pNode) : map(refMap)
 		{
 			this->currentNode = pNode;
 		}
@@ -112,15 +112,15 @@ namespace StdXX
     template<typename KeyType, typename ValueType>
     class MapIterator
 	{
-		friend class Map < KeyType, ValueType > ;
+		friend class BinaryTreeMap < KeyType, ValueType > ;
 		typedef MapNode<KeyType, ValueType> Node;
 	private:
 		//Members
-		Map<KeyType, ValueType> &map;
+		BinaryTreeMap<KeyType, ValueType> &map;
 		Node *currentNode;
 
 		//Constructor
-		MapIterator(Map<KeyType, ValueType> &refMap, Node *pNode) : map(refMap)
+		MapIterator(BinaryTreeMap<KeyType, ValueType> &refMap, Node *pNode) : map(refMap)
 		{
 			this->currentNode = pNode;
 		}

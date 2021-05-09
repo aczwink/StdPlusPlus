@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -50,6 +50,11 @@ namespace StdXX::Type
 	//IsConst
 	template<class T> struct IsConst : public BoolConstant<false>{};
 	template<class T> struct IsConst<const T> : public BoolConstant<true>{};
+
+	//IsReference
+	template <typename T> struct IsReference : BoolConstant<false>{};
+	template <typename T> struct IsReference<T&> : BoolConstant<true>{};
+	template <typename T> struct IsReference<T&&> : BoolConstant<true>{};
 
 	//IsSameType
 	template<typename T1, typename T2> struct IsSameType : public BoolConstant<false>{};

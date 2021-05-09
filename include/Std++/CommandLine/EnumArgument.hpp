@@ -74,7 +74,7 @@ namespace StdXX::CommandLine
 
 	private:
 		//Members
-		Map<String, EnumType> enumMap;
-		Map<String, String> descriptionMap;
+		BinaryTreeMap<String, EnumType> enumMap;
+		BinaryTreeMap<String, String> descriptionMap;
 	};
 }

@@ -23,7 +23,7 @@
 #include <cerrno>
 #include <fuse.h>
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/Multitasking/Mutex.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
 #include <Std++/FileSystem/POSIXPermissions.hpp>
@@ -158,7 +158,7 @@ public:
 private:
 	//Members
 	const ReadableFileSystem& fileSystem;
-	Map<Path, StreamState> openInputStreams;
+	BinaryTreeMap<Path, StreamState> openInputStreams;
 	Mutex openInputStreamsLock;
 };
 
@@ -297,10 +297,12 @@ static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t fill
 	int res = filler(buf, u8".", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 	res = filler(buf, u8"..", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 
-	DirectoryEntry directoryEntry;
-	while(directoryEnumerator->Next(directoryEntry))
+	while(true)
 	{
-		res = filler(buf, reinterpret_cast<const char *>(directoryEntry.name.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
+		if(!directoryEnumerator->MoveForward())
+			break;
+
+		res = filler(buf, reinterpret_cast<const char *>(directoryEnumerator->GetCurrent().name.ToUTF8().GetRawZeroTerminatedData()), nullptr, 0,
 			   static_cast<fuse_fill_dir_flags>(0));
 	}
 

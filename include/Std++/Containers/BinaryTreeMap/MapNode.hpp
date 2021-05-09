@@ -26,7 +26,7 @@ namespace StdXX
 {
     //Move declarations
     template<typename KeyType, typename ValueType>
-    class Map;
+    class BinaryTreeMap;
 
     template<typename KeyType, typename ValueType>
     class MapNode

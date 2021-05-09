@@ -22,20 +22,24 @@
 using namespace StdXX;
 using namespace StdXX::FileSystem;
 
-//Private methods
-bool DirectoryWalker::Next(Path &entry)
+//Public methods
+const Path &DirectoryWalker::GetCurrent() const
 {
-	DirectoryEntry directoryEntry;
+	return this->currentPath;
+}
 
+bool DirectoryWalker::MoveForward()
+{
 	while(!this->states.IsEmpty())
 	{
 		WalkerState& topState = this->states.Last();
-		if(!topState.enumerator->Next(directoryEntry))
+		if(!topState.enumerator->MoveForward())
 		{
 			this->states.PopTail();
 			continue;
 		}
 
+		const DirectoryEntry& directoryEntry = topState.enumerator->GetCurrent();
 		if(directoryEntry.type == FileType::Directory)
 		{
 			Path subPath;
@@ -49,10 +53,11 @@ bool DirectoryWalker::Next(Path &entry)
 		else
 		{
 			if(topState.path.String().IsEmpty())
-				entry = directoryEntry.name;
+				this->currentPath = directoryEntry.name;
 			else
-				entry = topState.path / directoryEntry.name;
-			return true; //fine, we have a file
+				this->currentPath = topState.path / directoryEntry.name;
+
+			return true;
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Node.hpp"
-#include "Std++/Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "Std++/Containers/LinkedList/LinkedList.hpp"
 #include "Std++/Containers/Strings/String.hpp"
 
@@ -34,7 +34,7 @@ namespace StdXX::CommonFileFormats::XML
 			this->name = name;
 		}
 
-		inline Element(String&& name, Map<String, String>&& attributes)
+		inline Element(String&& name, BinaryTreeMap<String, String>&& attributes)
 		{
 			this->name = Move(name);
 			this->attributes = Move(attributes);
@@ -74,7 +74,7 @@ namespace StdXX::CommonFileFormats::XML
 			return this->attributes[refKey];
 		}
 
-		inline Map<String, String> &GetAttributes()
+		inline BinaryTreeMap<String, String> &GetAttributes()
 		{
 			return this->attributes;
 		}
@@ -124,6 +124,6 @@ namespace StdXX::CommonFileFormats::XML
 		//Members
 		String name;
 		LinkedList<Node *> children;
-		Map<String, String> attributes;
+		BinaryTreeMap<String, String> attributes;
 	};
 }

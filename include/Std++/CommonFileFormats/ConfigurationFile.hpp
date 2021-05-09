@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 
 #pragma once
 //Local
-#include "Std++/Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "Std++/Containers/Strings/StringUtil.h"
 #include "Std++/Definitions.h"
 #include "Std++/FileSystem/Path.hpp"
@@ -83,7 +83,7 @@ namespace StdXX
 		//Members
 		bool readOnly;
 		FileSystem::Path path;
-		Map<String, Map<String, String>> sections;
+		BinaryTreeMap<String, BinaryTreeMap<String, String>> sections;
 		//Methods
 		String ReadKey(InputStream &refInput);
 		String ReadSectionTitle(InputStream &refInput);

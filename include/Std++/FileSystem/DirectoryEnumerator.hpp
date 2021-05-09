@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Containers/Enumeration/Enumerator.hpp>
 #include "FileInfo.hpp"
 
 namespace StdXX::FileSystem
@@ -29,14 +30,8 @@ namespace StdXX::FileSystem
 		FileType type;
 	};
 
-	class DirectoryEnumerator
+	class DirectoryEnumerator : public Enumerator<DirectoryEntry>
 	{
-	public:
-		//Destructor
-		virtual ~DirectoryEnumerator() = default;
-
-		//Abstract
-		virtual bool Next(DirectoryEntry& directoryEntry) = 0;
 	};
 
 	class SelfAndParentFiltereredDirectoryEnumerator : public DirectoryEnumerator
@@ -47,11 +42,17 @@ namespace StdXX::FileSystem
 		{
 		}
 
-		bool Next(DirectoryEntry &directoryEntry) override
+		//Methods
+		const DirectoryEntry &GetCurrent() const override
 		{
-			bool ret = this->enumerator->Next(directoryEntry);
-			if(ret && ((directoryEntry.name == u8".") || (directoryEntry.name == u8"..")))
-				return this->Next(directoryEntry);
+			return this->enumerator->GetCurrent();
+		}
+
+		bool MoveForward() override
+		{
+			bool ret = this->enumerator->MoveForward();
+			if(ret and ((this->enumerator->GetCurrent().name == u8".") || (this->enumerator->GetCurrent().name == u8"..")))
+				return this->MoveForward();
 			return ret;
 		}
 

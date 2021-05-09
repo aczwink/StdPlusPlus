@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 #include "../Definitions.h"
 #include "../Containers/Array/DynamicArray.hpp"
 #include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
-#include "../Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "../FileSystem/Path.hpp"
 #include "CCharSet.h"
 #include "CDFA.h"
@@ -40,7 +40,7 @@ namespace StdXX
             this->isAccepting = false;
         }
 
-        inline const Map<uint32, BinaryTreeSet<CNFAState *>> &GetTransitions() const
+        inline const BinaryTreeMap<uint32, BinaryTreeSet<CNFAState *>> &GetTransitions() const
         {
             return this->transitions;
         }

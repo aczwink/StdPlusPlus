@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "Map.hpp"
+#include "BinaryTreeMap.hpp"
 
 namespace StdXX
 {
@@ -49,29 +49,29 @@ namespace StdXX
 		}
 
 		//For range-based loop
-		typename Map<T1, T2>::Iterator begin()
+		typename BinaryTreeMap<T1, T2>::Iterator begin()
 		{
 			return this->map.begin();
 		}
 
-		typename Map<T1, T2>::ConstIterator begin() const
+		typename BinaryTreeMap<T1, T2>::ConstIterator begin() const
 		{
 			return this->map.begin();
 		}
 
-		typename Map<T1, T2>::Iterator end()
+		typename BinaryTreeMap<T1, T2>::Iterator end()
 		{
 			return this->map.end();
 		}
 
-		typename Map<T1, T2>::ConstIterator end() const
+		typename BinaryTreeMap<T1, T2>::ConstIterator end() const
 		{
 			return this->map.end();
 		}
 
 	private:
 		//Members
-		Map<T1, T2> map;
-		Map<T2, T1> back;
+		BinaryTreeMap<T1, T2> map;
+		BinaryTreeMap<T2, T1> back;
 	};
 }

@@ -40,7 +40,12 @@ POSIXDirectoryEnumerator::~POSIXDirectoryEnumerator()
 }
 
 //Public methods
-bool POSIXDirectoryEnumerator::Next(DirectoryEntry& directoryEntry)
+const DirectoryEntry &POSIXDirectoryEnumerator::GetCurrent() const
+{
+	return this->directoryEntry;
+}
+
+bool POSIXDirectoryEnumerator::MoveForward()
 {
 	dirent* currentEntry = readdir(this->dir);
 	if(currentEntry)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "../Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "../Containers/Strings/String.hpp"
 #include "../Definitions.h"
 
@@ -35,7 +35,7 @@ namespace StdXX
             uint8 trackNumber; //1-based
             uint16 year;
 
-            Map<String, String> additionalTags;
+            BinaryTreeMap<String, String> additionalTags;
         };
     }
 }

@@ -22,7 +22,7 @@
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/CommonFileFormats/XML/TextNode.hpp>
 #include "Std++/CommonFileFormats/XML/Document.hpp"
-#include <Std++/Optional.hpp>
+#include <Std++/Containers/Optional.hpp>
 #include "Binding.hpp"
 
 namespace StdXX::Serialization

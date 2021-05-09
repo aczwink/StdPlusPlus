@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "Argument.hpp"
 #include "Option.hpp"
 
@@ -33,7 +33,7 @@ namespace StdXX::CommandLine
 		}
 
 		//Properties
-		inline const Map<String, const Option*>& LongOptionsMap() const
+		inline const BinaryTreeMap<String, const Option*>& LongOptionsMap() const
 		{
 			return this->longNameOptionsMap;
 		}
@@ -64,8 +64,8 @@ namespace StdXX::CommandLine
 
 	protected:
 		//Members
-		Map<uint32, const Option*> shortNameOptionsMap;
-		Map<String, const Option*> longNameOptionsMap;
+		BinaryTreeMap<uint32, const Option*> shortNameOptionsMap;
+		BinaryTreeMap<String, const Option*> longNameOptionsMap;
 		DynamicArray<const Argument*> positionalArgs;
 	};
 }

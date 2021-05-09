@@ -43,7 +43,7 @@ JsonValue &JsonValue::operator=(const JsonValue &rhs)
 			this->value.array = new DynamicArray<JsonValue>(*rhs.value.array);
 			break;
 		case JsonType::Object:
-			this->value.object = new Map<String, JsonValue>(*rhs.value.object);
+			this->value.object = new BinaryTreeMap<String, JsonValue>(*rhs.value.object);
 			break;
 	}
 

@@ -21,7 +21,7 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/SmartPointers/AutoPointer.hpp>
 #include <Std++/SmartPointers/UniquePointer.hpp>
-#include <Std++/Optional.hpp>
+#include <Std++/Containers/Optional.hpp>
 #include "Pixmap.hpp"
 
 namespace StdXX

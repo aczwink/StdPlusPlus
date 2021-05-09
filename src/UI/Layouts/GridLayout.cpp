@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,8 +19,7 @@
 //Class header
 #include <Std++/UI/Layouts/GridLayout.hpp>
 //Local
-#include <Std++/Containers/Map/Map.hpp>
-#include <Std++/Streams/Writers/StdOut.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 //Namespaces
 using namespace StdXX;
@@ -169,7 +168,7 @@ void GridLayout::DistributeLeftOverSize(const CompositeWidget &refContainer, con
 	uint16 col, row, partSize, nExpandColParts, nExpandRowParts, nGrowColParts, nGrowRowParts, max, maxIdx;
 	Math::SizeD leftOver;
 	Math::RectD rc;
-	Map<uint16, uint8> expandCols, expandRows, growCols, growRows;
+	BinaryTreeMap<uint16, uint8> expandCols, expandRows, growCols, growRows;
 
 	rc = this->GetPlacementRect(refContainer);
 

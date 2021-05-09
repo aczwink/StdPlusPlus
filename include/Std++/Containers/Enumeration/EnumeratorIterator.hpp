@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++//Containers/Optional.hpp>
 
 namespace StdXX
 {
@@ -34,7 +35,7 @@ namespace StdXX
 			this->Advance();
 		}
 
-		inline EnumeratorIterator(EnumeratorIterator &&other) : enumerator(Move(other.enumerator)), entry(other.entry)
+		inline EnumeratorIterator(EnumeratorIterator &&other) : enumerator(Move(other.enumerator))
 		{
 		}
 
@@ -57,22 +58,18 @@ namespace StdXX
 
 		inline const EntryType& operator*() const
 		{
-			return this->entry;
+			return this->enumerator->GetCurrent();
 		}
 
 	private:
 		//Members
 		UniquePointer<EnumeratorType> enumerator;
-		EntryType entry;
 
 		//Inline
 		virtual void Advance()
 		{
-			if(!this->enumerator->Next(this->entry))
-			{
+			if(!this->enumerator->MoveForward())
 				this->enumerator = nullptr;
-				this->entry = EntryType();
-			}
 		}
 	};
 }

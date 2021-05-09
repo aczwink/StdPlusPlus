@@ -28,6 +28,9 @@ namespace StdXX::Type
     template <typename T, typename Arg>
     struct IsAssignable : public std::is_assignable<T, Arg> {};
 
+	template<typename T>
+	struct IsDefaultConstructible : std::is_constructible<T> {};
+
 	template <typename T>
 	struct IsIntegral : public std::is_integral<T>{};
 

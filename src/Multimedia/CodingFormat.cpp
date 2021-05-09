@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,13 +19,13 @@
 //Class header
 #include <Std++/Multimedia/CodingFormat.hpp>
 //Local
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Global variables
-Map<CodingFormatId, CodingFormat *> g_codingFormats;
+BinaryTreeMap<CodingFormatId, CodingFormat *> g_codingFormats;
 
 //Public methods
 void CodingFormat::AddDecoder(Decoder *decoder, float32 quality)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Tuple.hpp>
 #include "../Containers/PriorityQueue.hpp"
-#include "../Containers/Map/Map.hpp"
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "../__InitAndShutdown.h"
 
 namespace StdXX

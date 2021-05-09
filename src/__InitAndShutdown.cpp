@@ -19,12 +19,9 @@
 //Corresponding header
 #include <Std++/__InitAndShutdown.h>
 //Local
-#include <Std++/Debug.hpp>
 #include <Std++/Memory.hpp>
-#include <Std++/Containers/Map/Map.hpp>
 #include <Std++/EventHandling/EventQueue.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/FileSystem/Format.hpp>
 #include <Std++/_Backends/UI/UIBackend.hpp>
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>

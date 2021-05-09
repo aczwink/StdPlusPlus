@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
-#include <Std++/Containers/Map/Map.hpp>
+#include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 
 namespace StdXX
@@ -103,7 +103,7 @@ namespace StdXX
 			inline const JsonValue &operator[](const String& key) const
 			{
 				ASSERT(this->type == JsonType::Object, u8"Can only access objects by key");
-				const Map<String, JsonValue>& map = *this->value.object;
+				const BinaryTreeMap<String, JsonValue>& map = *this->value.object;
 				return map[key];
 			}
 
@@ -136,7 +136,7 @@ namespace StdXX
 				return defaultValue;
 			}
 
-			inline const Map<String, JsonValue>& MapValue() const
+			inline const BinaryTreeMap<String, JsonValue>& MapValue() const
 			{
 				ASSERT(this->type == JsonType::Object, u8"Only objects have maps.");
 				return *this->value.object;
@@ -178,7 +178,7 @@ namespace StdXX
 			{
 				JsonValue value;
 				value.type = JsonType::Object;
-				value.value.object = new Map<String, JsonValue>();
+				value.value.object = new BinaryTreeMap<String, JsonValue>();
 				return value;
 			}
 
@@ -190,7 +190,7 @@ namespace StdXX
 				bool boolean;
 				float64 number;
 				DynamicArray<JsonValue>* array;
-				Map<String, JsonValue>* object;
+				BinaryTreeMap<String, JsonValue>* object;
 			} value;
 			String stringValue;
 

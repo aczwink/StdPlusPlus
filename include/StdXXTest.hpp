@@ -108,7 +108,7 @@ namespace StdPlusPlusTest
     	uint32 nTestsTotallyExecuted;
         uint32 nSuccessfulTests;
 	    const char* currentTestSuite;
-	    StdXX::Map<StdXX::String, StdXX::DynamicArray<Test>> testSuites;
+	    StdXX::BinaryTreeMap<StdXX::String, StdXX::DynamicArray<Test>> testSuites;
 
 	    //Constructor
 	    inline TestManager()
