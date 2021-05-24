@@ -135,8 +135,9 @@ void LocalFileHeader::ReadExtraFields(uint16 size, InputStream &inputStream)
 void LocalFileHeader::ReadPath(uint16 fileNameSize, InputStream& inputStream)
 {
     TextCodecType textEncoding = TextCodecType::CP437;
-    if(Unsigned<uint16>::IsBitSet(this->generalPurposeBitFlag, 11))
-        textEncoding = TextCodecType::UTF8;
+    NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+    //if(Unsigned<uint16>::IsBitSet(this->generalPurposeBitFlag, 11))
+        //textEncoding = TextCodecType::UTF8;
 
     //read file name
     TextReader textReader(inputStream, textEncoding);

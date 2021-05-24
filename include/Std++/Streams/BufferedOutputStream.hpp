@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,7 +23,7 @@
 
 namespace StdXX
 {
-	class STDPLUSPLUS_API BufferedOutputStream : public OutputStream
+	class BufferedOutputStream : public OutputStream
 	{
 	public:
 		//Constructor
@@ -42,5 +42,12 @@ namespace StdXX
 		byte* buffer;
 		uint32 offset;
 		const uint32 bufferSize;
+
+		//Inline
+		inline void WriteBufferToBaseStream()
+		{
+			this->outputStream.WriteBytes(this->buffer, this->offset);
+			this->offset = 0;
+		}
 	};
 }

@@ -144,6 +144,11 @@ namespace StdXX
 			return v;
 		}
 
+		inline int8 ReadInt8()
+		{
+			return this->ReadByte();
+		}
+
 		inline int16 ReadInt16()
 		{
 			return this->ReadUInt16();

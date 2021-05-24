@@ -17,11 +17,12 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Buffers
+#include <Std++/Buffers/Bitfield.hpp>
 #include <Std++/Buffers/DynamicByteBuffer.hpp>
+#include <Std++/Buffers/Flags.hpp>
 
 //Containers
 #include <Std++/Containers/Container.hpp>
-#include <Std++/Containers/Flags.hpp>
 //Array
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Containers/Array/StaticArray.hpp>

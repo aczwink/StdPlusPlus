@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,9 +39,7 @@ BufferedOutputStream::~BufferedOutputStream()
 //Public methods
 void BufferedOutputStream::Flush()
 {
-	this->outputStream.WriteBytes(this->buffer, this->offset);
-	this->offset = 0;
-
+	this->WriteBufferToBaseStream();
 	this->outputStream.Flush();
 }
 
@@ -61,7 +59,7 @@ uint32 BufferedOutputStream::WriteBytes(const void *source, uint32 size)
 		this->offset += bytesToWrite;
 
 		if(this->offset == this->bufferSize)
-			this->Flush();
+			this->WriteBufferToBaseStream();
 	}
 
 	return bytesWritten;
