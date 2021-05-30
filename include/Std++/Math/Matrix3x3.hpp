@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -55,28 +55,28 @@ namespace StdXX::Math
 
 		inline vec3 &operator[](uint8 x)
 		{
-			ASSERT(x < 3, "Column must be < 3");
+			ASSERT(x < 3, u8"Column must be < 3");
 
 			return this->columns[x];
 		}
 
 		inline const vec3 &operator[](uint8 x) const
 		{
-			ASSERT(x < 3, "Column must be < 3");
+			ASSERT(x < 3, u8"Column must be < 3");
 
 			return this->columns[x];
 		}
 
 		inline ScalarType &operator()(uint8 y, uint8 x)
 		{
-			ASSERT(x < 3, "Column must be < 3");
+			ASSERT(x < 3, u8"Column must be < 3");
 
 			return this->columns[x][y];
 		}
 
 		inline const ScalarType &operator()(uint8 y, uint8 x) const
 		{
-			ASSERT(x < 3, "Column must be < 3");
+			ASSERT(x < 3, u8"Column must be < 3");
 
 			return this->columns[x][y];
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,7 +46,7 @@ Gtk3WindowBackend::Gtk3WindowBackend(UIBackend& backend, Window& window) : Windo
 
 	GtkWidget* gtkWidget = this->GetGtkWidget();
 
-	g_signal_connect(gtkWidget, u8"delete-event", G_CALLBACK(CloseSlot), this);
+	g_signal_connect(gtkWidget, "delete-event", G_CALLBACK(CloseSlot), this);
 }
 
 //Public methods

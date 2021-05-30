@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -48,14 +48,14 @@ namespace StdXX::Math
 		//Access operators
 		inline ScalarType &operator[](uint8 idx)
 		{
-			ASSERT(idx < 2, "Column must be < 2");
+			ASSERT(idx < 2, u8"Column must be < 2");
 
 			return this->e[idx];
 		}
 
 		inline const ScalarType &operator[](uint8 idx) const
 		{
-			ASSERT(idx < 2, "Column must be < 2");
+			ASSERT(idx < 2, u8"Column must be < 2");
 
 			return this->e[idx];
 		}

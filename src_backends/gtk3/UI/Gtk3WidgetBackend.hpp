@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,7 +43,7 @@ namespace _stdxx_
         //Functions
         static inline Gtk3WidgetBackend* Gtk3WidgetBackendFromGtkWidget(GtkWidget* gtkWidget)
         {
-            return static_cast<Gtk3WidgetBackend *>(g_object_get_data(G_OBJECT(gtkWidget), u8"Std++"));
+            return static_cast<Gtk3WidgetBackend *>(g_object_get_data(G_OBJECT(gtkWidget), "Std++"));
         }
 
 		//Inline

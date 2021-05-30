@@ -101,7 +101,7 @@ namespace StdXX::Crypto
 		//Functions
 		inline static uint8 FromHexDigit(uint32 codePoint)
 		{
-			if(Math::IsValueInInterval(char(codePoint), u8'0', u8'9'))
+			if(Math::IsValueInInterval(char8_t(codePoint), u8'0', u8'9'))
 				return codePoint - u8'0';
 			return codePoint + 10 - u8'a';
 		}

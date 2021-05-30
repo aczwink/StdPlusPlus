@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,7 +47,7 @@ namespace StdXX
 			//Inline
 			inline Packet GetParsedFrame()
 			{
-				ASSERT(this->IsFrameReady(), "If you see this, report to Std++");
+				ASSERT(this->IsFrameReady(), u8"If you see this, report to Std++");
 
 				return parsedFrames.PopFront();
 			}

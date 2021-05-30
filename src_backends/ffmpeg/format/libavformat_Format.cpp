@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -61,7 +61,7 @@ void libavformat_Format::GetFormatInfo(FormatInfo &formatInfo) const
 
 String libavformat_Format::GetName() const
 {
-	return this->avOutputFormat->long_name + String(u8" via libavformat (ffmpeg)");
+	return String(this->avOutputFormat->long_name) + u8" via libavformat (ffmpeg)";
 }
 
 float32 libavformat_Format::Matches(BufferInputStream& buffer) const

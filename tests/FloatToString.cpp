@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,10 +22,10 @@ using namespace StdXX;
 #include <cstdio>
 #include <clocale>
 
-static void test(const char* numberString)
+static void test(const char8_t* numberString)
 {
 	double stdpp = String(numberString).ToFloat();
-	double std = strtod(numberString, nullptr);
+	double std = strtod(reinterpret_cast<const char *>(numberString), nullptr);
 
 	if(stdpp != std)
 	{

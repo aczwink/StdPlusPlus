@@ -294,8 +294,8 @@ static int fuse_mapper_readdir(const char *path, void *buf, fuse_fill_dir_t fill
 	if(directoryEnumerator.IsNull())
 		return -ENOENT;
 
-	int res = filler(buf, u8".", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
-	res = filler(buf, u8"..", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
+	int res = filler(buf, ".", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
+	res = filler(buf, "..", nullptr, 0, static_cast<fuse_fill_dir_flags>(0));
 
 	while(true)
 	{

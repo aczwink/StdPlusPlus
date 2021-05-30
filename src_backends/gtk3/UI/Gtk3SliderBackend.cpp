@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,7 +42,7 @@ Gtk3SliderBackend::Gtk3SliderBackend(UIBackend &uiBackend, Slider& slider)
 {
 	gtk_scale_set_draw_value(GTK_SCALE(this->GetGtkWidget()), FALSE);
 
-	g_signal_connect(this->GetGtkWidget(), u8"value-changed", G_CALLBACK(ValueChangedSlot), &slider);
+	g_signal_connect(this->GetGtkWidget(), "value-changed", G_CALLBACK(ValueChangedSlot), &slider);
 }
 
 //Public methods

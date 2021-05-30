@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,13 +22,32 @@ using namespace StdXX::Math;
 
 TEST_SUITE(NaturalTest)
 {
-	TEST_CASE(multiplication)
+	TEST_CASE(addition1)
 	{
-		Natural n1 = 29461;
-		Natural n2 = 36089725;
+		Natural e20(u8"100000000000000000000");
+		ASSERT_EQUALS(Natural(u8"200000000000000000000"), e20 + e20);
+	}
 
-		Natural result = n1 * n2;
-		ASSERT_EQUALS(1063239388225, result.RoundDown());
+	TEST_CASE(addition2)
+	{
+		Natural n1(Unsigned<uint64>::Max());
+		Natural n2(1);
+		Natural sum = n1 + n2;
+
+		ASSERT_EQUALS(Power(Natural(2), Natural(64)), sum);
+	}
+
+	TEST_CASE(comparion)
+	{
+		Natural n0;
+
+		ASSERT_TRUE(n0 <= n0);
+	}
+
+	TEST_CASE(fromToString)
+	{
+		Natural n1000(u8"1000");
+		ASSERT_EQUALS(u8"1000", n1000.ToString());
 	}
 
 	TEST_CASE(leftShift)
@@ -36,5 +55,14 @@ TEST_SUITE(NaturalTest)
 		Natural n1 = 29461;
 		Natural result = n1 << 0;
 		ASSERT_EQUALS(n1, result);
+	}
+
+	TEST_CASE(multiplication)
+	{
+		Natural n1 = 29461;
+		Natural n2 = 36089725;
+
+		Natural result = n1 * n2;
+		ASSERT_EQUALS(1063239388225, result.RoundDown());
 	}
 };

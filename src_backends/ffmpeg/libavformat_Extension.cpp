@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,6 +31,6 @@ void libavformat_Extension::Load()
 	this->LoadCodingFormatIdMap();
 	this->LoadPatentedCodingFormatIdMap();
 
-	StdXX::Multimedia::Format::Register(new libavformat_Format(u8"avi"));
-	StdXX::Multimedia::Format::Register(new libavformat_Format(u8"mp4"));
+	StdXX::Multimedia::Format::Register(new libavformat_Format("avi"));
+	StdXX::Multimedia::Format::Register(new libavformat_Format("mp4"));
 }

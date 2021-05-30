@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,4 +17,4 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-typedef void *(*GL_EXT_LOADER)(const char *extensionName);
+typedef void *(*GL_EXT_LOADER)(const char8_t* extensionName);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,41 +22,46 @@
 
 namespace StdXX
 {
-    //Move declarations
+    //Forward declarations
     template<typename DataType>
     class BinaryTreeSet;
-    template<typename DataType>
-    class CFiniteSetIterator;
 
     template<typename DataType>
-    class FiniteSetNode
+    class BinaryTreeSetNode
     {
-        typedef FiniteSetNode<DataType> Node;
+        typedef BinaryTreeSetNode<DataType> Node;
     public:
         //Members
-        Node *pLeft;
-        Node *pRight;
-        Node *pParent;
+        Node* left;
+        Node* right;
+        Node* parent;
         DataType value;
         int8 balance;
 
-        //Constructor
-        FiniteSetNode(const DataType &refValue, Node *pParent)
+        //Constructors
+        BinaryTreeSetNode(const DataType& value, Node* parent) : value(value)
         {
-            this->pLeft = NULL;
-            this->pRight = NULL;
-            this->pParent = pParent;
-            this->value = refValue;
+            this->left = nullptr;
+            this->right = nullptr;
+            this->parent = parent;
             this->balance = 0;
         }
 
+		BinaryTreeSetNode(DataType&& value, Node* parent) : value(Move(value))
+		{
+			this->left = nullptr;
+			this->right = nullptr;
+			this->parent = parent;
+			this->balance = 0;
+		}
+
         //Destructor
-        ~FiniteSetNode()
+        ~BinaryTreeSetNode()
         {
-            if(this->pLeft)
-                delete this->pLeft;
-            if(this->pRight)
-                delete this->pRight;
+            if(this->left)
+                delete this->left;
+            if(this->right)
+                delete this->right;
         }
 
         //Methods
@@ -65,8 +70,8 @@ namespace StdXX
             Node *pNode;
 
             pNode = (Node *)this;
-            while(pNode->pLeft)
-                pNode = pNode->pLeft;
+            while(pNode->left)
+                pNode = pNode->left;
 
             return pNode;
         }
@@ -76,8 +81,8 @@ namespace StdXX
             Node *pNode;
 
             pNode = (Node *)this;
-            while(pNode->pRight)
-                pNode = pNode->pRight;
+            while(pNode->right)
+                pNode = pNode->right;
 
             return pNode;
         }
@@ -98,21 +103,21 @@ namespace StdXX
             Node *pNode, *pRight, *pParent;
 
             pNode = this;
-            pRight = this->pRight;
-            pParent = this->pParent;
+            pRight = this->right;
+            pParent = this->parent;
             if(pParent)
             {
-                if(pParent->pLeft == pNode)
-                    pParent->pLeft = pRight;
+                if(pParent->left == pNode)
+                    pParent->left = pRight;
                 else
-                    pParent->pRight = pRight;
+                    pParent->right = pRight;
             }
-            pRight->pParent = pParent;
-            pNode->pParent = pRight;
-            pNode->pRight = pRight->pLeft;
-            if(pNode->pRight)
-                pNode->pRight->pParent = pNode;
-            pRight->pLeft = pNode;
+            pRight->parent = pParent;
+            pNode->parent = pRight;
+            pNode->right = pRight->left;
+            if(pNode->right)
+                pNode->right->parent = pNode;
+            pRight->left = pNode;
         }
 
         /*
@@ -131,21 +136,21 @@ namespace StdXX
             Node *pNode, *pLeft, *pParent;
 
             pNode = this;
-            pLeft = this->pLeft;
-            pParent = this->pParent;
+            pLeft = this->left;
+            pParent = this->parent;
             if(pParent)
             {
-                if(pParent->pLeft == pNode)
-                    pParent->pLeft = pLeft;
+                if(pParent->left == pNode)
+                    pParent->left = pLeft;
                 else
-                    pParent->pRight = pLeft;
+                    pParent->right = pLeft;
             }
-            pLeft->pParent = pParent;
-            pNode->pParent = pLeft;
-            pNode->pLeft = pLeft->pRight;
-            if(pNode->pLeft)
-                pNode->pLeft->pParent = pNode;
-            pLeft->pRight = pNode;
+            pLeft->parent = pParent;
+            pNode->parent = pLeft;
+            pNode->left = pLeft->right;
+            if(pNode->left)
+                pNode->left->parent = pNode;
+            pLeft->right = pNode;
         }
     };
 }

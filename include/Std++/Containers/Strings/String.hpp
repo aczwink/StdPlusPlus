@@ -142,6 +142,19 @@ namespace StdXX
 			this->length = this->CountUTF8Length(reinterpret_cast<const uint8 *>(utf8Literal), this->size);
 		}
 
+		/**
+		 * This constructor assumes that the pointer is valid throughout the lifetime of the string object.
+		 * It does NOT copy the string but reference it.
+		 * For a copy instead use String::CopyRawString.
+		 *
+		 * @param utf8Literal A zero terminated string of chars encoded in UTF-8.
+		 */
+		inline String(const char8_t* utf8Literal) : sharedResource(nullptr),
+			data(reinterpret_cast<const uint8 *>(utf8Literal))
+		{
+			this->length = this->CountUTF8Length(reinterpret_cast<const uint8 *>(utf8Literal), this->size);
+		}
+
 		//Destructor
 		~String()
 		{
@@ -537,10 +550,10 @@ namespace StdXX
 	//Operators
 	inline bool operator==(const char *utf8, const String &rhs)
 	{
-		return rhs == utf8;
+		return rhs.operator==(utf8);
 	}
 
-	inline String operator+(const char *utf8, const String &rhs)
+	inline String operator+(const char8_t *utf8, const String &rhs)
 	{
 		return String(utf8) + rhs;
 	}

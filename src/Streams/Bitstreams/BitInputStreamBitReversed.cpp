@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,7 +35,7 @@ BitInputStreamBitReversed::BitInputStreamBitReversed(InputStream &refInput) : in
 //Public methods
 uint64 BitInputStreamBitReversed::Get(uint8 nBits)
 {
-	ASSERT(nBits <= 64, "If you see this, report to StdXX");
+	ASSERT(nBits <= 64, u8"If you see this, report to StdXX");
 
 	this->EnsureBufferFilled(nBits);
 
@@ -72,7 +72,7 @@ void BitInputStreamBitReversed::EnsureBufferFilled(uint8 nBits)
 
 	while(this->validBitsInBuffer < nBits)
 	{
-		ASSERT(this->validBitsInBuffer + 8 <= 64, "If you see this, report to StdXX");
+		ASSERT(this->validBitsInBuffer + 8 <= 64, u8"If you see this, report to StdXX");
 
 		if(this->inputStream.IsAtEnd())
 			break;

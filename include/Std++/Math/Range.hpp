@@ -53,6 +53,11 @@ namespace StdXX::Math
         }
 
         //Inline
+        inline bool ContainsEndInclusive(DataType value) const
+		{
+			return Math::IsValueInInterval(value, this->start, this->end);
+		}
+
         inline bool Overlaps(const Range<DataType>& other) const
 		{
         	return Math::IsValueBetween(this->start, other.start, other.end)

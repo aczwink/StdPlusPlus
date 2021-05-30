@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -74,7 +74,7 @@ uint32 BufferInputStream::ReadBytes(void *pDestination, uint32 count)
 
 void BufferInputStream::SeekTo(uint64 offset)
 {
-    ASSERT(this->pStart + offset <= this->endPos, "If you see this, report to StdXX");
+    ASSERT(this->pStart + offset <= this->endPos, u8"If you see this, report to StdXX");
 
     this->current = this->pStart + offset;
 }

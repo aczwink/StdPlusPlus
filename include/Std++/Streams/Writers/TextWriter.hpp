@@ -86,6 +86,12 @@ namespace StdXX
 		    return *this;
 	    }
 
+		inline TextWriter &operator<<(const char8_t* string)
+		{
+			*this << String(string);
+			return *this;
+		}
+
 	    inline TextWriter &operator<<(const String &string)
 	    {
 		    this->WriteString(string);

@@ -55,6 +55,16 @@ namespace StdXX
 			return this->elements[index];
 		}
 
+		bool operator==(const StaticArray<DataType, N>& rhs) const
+		{
+			for (uint32 i = 0; i < N; i++)
+			{
+				if (this->elements[i] != rhs.elements[i])
+					return false;
+			}
+			return true;
+		}
+
 		//Range-based loop
 		constexpr DataType* begin()
 		{

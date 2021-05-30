@@ -149,7 +149,7 @@ namespace _stdxx_
 		{
 			void *pMem;
 
-			ASSERT(sizeof(CallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
+			ASSERT(sizeof(CallableFunction<ReturnTypeInner, ArgumentTypesInner...>) <= sizeof(this->storage), u8"Storage too small. Report this as a StdXX bug please");
 
 			pMem = (void *)this->storage; //we dont want to create mem on heap...
 			this->callObj = new (pMem)CallableFunction<ReturnTypeInner, ArgumentTypesInner...>(pFunc);
@@ -160,7 +160,7 @@ namespace _stdxx_
 		{
 			void *pMem;
 
-			ASSERT(sizeof(CallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), "Storage too small. Report this as a StdXX bug please");
+			ASSERT(sizeof(CallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>) <= sizeof(this->storage), u8"Storage too small. Report this as a StdXX bug please");
 
 			pMem = (void *)this->storage; //we dont want to create mem on heap...
 			this->callObj = new (pMem)CallableMethod<ReturnTypeInner, ClassType, ArgumentTypesInner...>(pMethod, pObject);

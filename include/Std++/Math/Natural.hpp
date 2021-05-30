@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,122 +22,126 @@
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Tuple.hpp>
 
-namespace StdXX
+namespace StdXX::Math
 {
-	namespace Math
+	/**
+	 * Does include 0, such that a semiring is formed.
+	 */
+	class Natural
 	{
+	public:
+		//Constructors
 		/**
-		 * Does include 0, such that a semiring is formed.
+		 * Inits the value to zero.
 		 */
-		class STDPLUSPLUS_API Natural
+		inline Natural() : lowValue(0)
 		{
-		public:
-			//Constructor
-			/**
-			 * Inits the value to zero.
-			 */
-			inline Natural() = default;
-			inline Natural(const Natural& other) = default;
-			inline Natural(Natural&& other) = default;
+		}
 
-			inline Natural(uint64 v)
-			{
-				if (v != 0)
-				{
-					this->value.Resize(1);
-					this->value[0] = v;
-				}
-			}
+		inline Natural(const Natural& other) = default;
+		inline Natural(Natural&& other) = default;
+		Natural(const String& string);
 
-			//Properties
-			inline uint64 RoundDown() const
-			{
-				if(this->value.IsEmpty())
-					return 0;
-				if(this->value.GetNumberOfElements() > 1)
-					return Unsigned<uint64>::Max();
-				return this->value[0];
-			}
+		inline Natural(uint64 v) : lowValue(v)
+		{
+		}
 
-			//Assignment operators
-			Natural& operator=(const Natural& other) = default;
-			Natural& operator=(Natural&& other) = default;
-			
-			//Arithmetic operators
-			Natural operator+(const Natural& other) const;
-			Natural operator-(const Natural& other) const;
-			Natural operator*(const Natural& other) const;
-			
-			inline Natural operator/(const Natural& other) const
-			{
-				return this->DivMod(other).Get<0>();
-			}
-			
-			inline Natural& operator+=(const Natural& other)
-			{
-				*this = *this + other;
-				return *this;
-			}
+		//Properties
+		inline uint64 RoundDown() const
+		{
+			if(this->value.IsEmpty())
+				return this->lowValue;
+			return Unsigned<uint64>::Max();
+		}
 
-			inline Natural& operator-=(const Natural& other)
-			{
-				*this = *this - other;
-				return *this;
-			}
+		//Assignment operators
+		Natural& operator=(const Natural& other) = default;
+		Natural& operator=(Natural&& other) = default;
 
-			inline Natural& operator*=(const Natural& other)
-			{
-				*this = *this * other;
-				return *this;
-			}
+		//Arithmetic operators
+		Natural operator+(const Natural& other) const;
+		Natural operator-(const Natural& other) const;
+		Natural operator*(const Natural& other) const;
 
-			inline Natural& operator/=(const Natural& other)
-			{
-				*this = *this / other;
-				return *this;
-			}
+		inline Natural operator/(const Natural& other) const
+		{
+			return this->DivMod(other).Get<0>();
+		}
 
-			inline Natural& operator++() //pre-increment
-			{
-				*this += 1;
-				return *this;
-			}
+		inline Natural& operator+=(const Natural& other)
+		{
+			*this = *this + other;
+			return *this;
+		}
 
-			//Binary operators
-			Natural operator<<(uint64 shift) const;
+		inline Natural& operator-=(const Natural& other)
+		{
+			*this = *this - other;
+			return *this;
+		}
 
-			inline Natural& operator<<=(uint64 shift)
-			{
-				*this = (*this) << shift;
-				return *this;
-			}
+		inline Natural& operator*=(const Natural& other)
+		{
+			*this = *this * other;
+			return *this;
+		}
 
-			//Comparison operators
-			bool operator<(const Natural& other) const;
-			bool operator<=(const Natural& other) const;
+		inline Natural& operator/=(const Natural& other)
+		{
+			*this = *this / other;
+			return *this;
+		}
 
-			inline bool operator==(const Natural& other) const
-			{
-				return this->value == other.value;
-			}
+		inline Natural& operator++() //pre-increment
+		{
+			*this += 1;
+			return *this;
+		}
 
-			inline bool operator!=(const Natural& other) const
-			{
-				return this->value != other.value;
-			}
+		//Binary operators
+		Natural operator<<(uint64 shift) const;
 
-			inline bool operator>=(const Natural& other) const
-			{
-				return other <= *this;
-			}
+		inline Natural& operator<<=(uint64 shift)
+		{
+			*this = (*this) << shift;
+			return *this;
+		}
 
-			//Methods
-			Tuple<Natural, Natural> DivMod(const Natural& divisor) const;
-			String ToString() const;
+		//Comparison operators
+		bool operator<(const Natural& other) const;
 
-		private:
-			//Members
-			DynamicArray<uint64> value;
-		};
-	}
+		inline bool operator>(const Natural& other) const
+		{
+			return other < *this;
+		}
+
+		inline bool operator<=(const Natural& other) const
+		{
+			return !(*this > other);
+		}
+
+		inline bool operator==(const Natural& other) const
+		{
+			return this->value == other.value;
+		}
+
+		inline bool operator!=(const Natural& other) const
+		{
+			return this->value != other.value;
+		}
+
+		inline bool operator>=(const Natural& other) const
+		{
+			return other <= *this;
+		}
+
+		//Methods
+		Tuple<Natural, Natural> DivMod(const Natural& divisor) const;
+		String ToString() const;
+
+	private:
+		//Members
+		DynamicArray<uint64> value;
+		uint64 lowValue;
+	};
 }

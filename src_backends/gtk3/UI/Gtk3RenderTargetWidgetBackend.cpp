@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -49,7 +49,7 @@ Gtk3RenderTargetWidgetBackend::Gtk3RenderTargetWidgetBackend(UIBackend &uiBacken
 {
 	gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(this->GetGtkWidget()), true);
 
-	g_signal_connect(this->GetGtkWidget(), u8"render", G_CALLBACK(RenderSlot), &renderTargetWidget);
+	g_signal_connect(this->GetGtkWidget(), "render", G_CALLBACK(RenderSlot), &renderTargetWidget);
 }
 
 //Public methods

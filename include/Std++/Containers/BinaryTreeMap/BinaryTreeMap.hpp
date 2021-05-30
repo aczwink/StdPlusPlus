@@ -129,7 +129,7 @@ namespace StdXX
         inline const ValueType& Get(const KeyType& key) const
 		{
 			Node* node = this->FindNode(key);
-			ASSERT(node, "A non-existant key of const map was accessed.");
+			ASSERT(node, u8"A non-existant key of const map was accessed.");
 
 			return node->keyValuePair.value;
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,7 +42,7 @@ public:
 		//ALboolean enumeration = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
 		//this->devicesListString = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
 
-		this->devicesListString = u8"OpenAL Soft\0\0";
+		this->devicesListString = "OpenAL Soft\0\0";
 		this->current = this->devicesListString;
 	}
 

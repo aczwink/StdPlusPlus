@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ namespace StdXX
 	{
 	public:
 		//Functions
-		static void *LoadWindowSystemOpenGLExtension(const char *extensionName);
+		static void *LoadWindowSystemOpenGLExtension(const char8_t* extensionName);
 	};
 }
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -64,28 +64,28 @@ namespace StdXX
             //Inline operators
             inline float32 &operator()(uint8 row, uint8 col)
             {
-                ASSERT(col < 4, "Column must be < 4");
+                ASSERT(col < 4, u8"Column must be < 4");
 
                 return this->columns[col][row];
             }
 
             inline const float32 &operator()(uint8 row, uint8 col) const
             {
-                ASSERT(col < 4, "Column must be < 4");
+                ASSERT(col < 4, u8"Column must be < 4");
 
                 return this->columns[col][row];
             }
 
             inline vec4 &operator[](uint8 col)
             {
-                ASSERT(col < 4, "Column must be < 4");
+                ASSERT(col < 4, u8"Column must be < 4");
 
                 return this->columns[col];
             }
 
             inline const vec4 &operator[](uint8 col) const
             {
-                ASSERT(col < 4, "Column must be < 4");
+                ASSERT(col < 4, u8"Column must be < 4");
 
                 return this->columns[col];
             }

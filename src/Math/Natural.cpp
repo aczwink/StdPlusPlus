@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,15 +19,31 @@
  //Class header
 #include <Std++/Math/Natural.hpp>
 //Local
+#include <Std++/Containers/Strings/ConstStringIterator.hpp>
 #include <Std++/Containers/Strings/String.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Math;
 
+//Constructor
+Natural::Natural(const String &string) : lowValue(0)
+{
+	uint32 pos = 0;
+	for(uint32 codePoint : string)
+	{
+		if(!IsValueInInterval(codePoint, (uint32)u8'0', (uint32)u8'9'))
+			NOT_IMPLEMENTED_ERROR;
+
+		uint32 exponent = string.GetLength() - pos - 1;
+		*this += Power(Natural(10), Natural(exponent)) * (codePoint - u8'0');
+		pos++;
+	}
+}
+
 //Operators
 Math::Natural Math::Natural::operator+(const Natural& other) const
 {
-	Natural result;
+	Natural result = this->lowValue + other.lowValue;
 	uint32 index = 0;
 	bool carry = false;
 	while (true)
@@ -92,7 +108,7 @@ Math::Natural Math::Natural::operator-(const Natural& other) const
 
 Math::Natural Math::Natural::operator*(const Natural& other) const
 {
-	Natural result;
+	Natural result = this->lowValue * other.lowValue;
 	for (uint64 i = 0; i < other.value.GetNumberOfElements(); i++)
 	{
 		for (uint8 j = 0; j < 64; j++)
@@ -150,29 +166,7 @@ bool Math::Natural::operator<(const Natural& other) const
 		if (this->value[i] > other.value[i])
 			return false;
 	}
-	return false;
-}
-
-bool Math::Natural::operator<=(const Natural& other) const
-{
-	if (this->value.GetNumberOfElements() < other.value.GetNumberOfElements())
-		return true; //this is less
-	if (this->value.GetNumberOfElements() > other.value.GetNumberOfElements())
-		return false; //this is greater
-
-	uint32 index = this->value.GetNumberOfElements() - 1;
-	while (true)
-	{
-		if (this->value[index] < other.value[index])
-			break; //this is less
-		if (this->value[index] > other.value[index])
-			return false; //this is greater
-
-		//this[index] = other[index], continue with lower significant values
-		if (index-- == 0)
-			break;
-	}
-	return true;
+	return this->lowValue < other.lowValue;
 }
 
 //Public methods
@@ -217,7 +211,7 @@ Tuple<Math::Natural, Math::Natural> Math::Natural::DivMod(const Natural& divisor
 String Math::Natural::ToString() const
 {
 	if (this->value.IsEmpty())
-		return u8"0";
+		return String::Number(this->lowValue);
 
 	const Natural radix = 10;
 

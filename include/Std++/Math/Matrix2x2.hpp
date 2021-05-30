@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,21 +45,21 @@ namespace StdXX::Math
 		//Inline operators
 		inline ScalarType &operator()(uint8 row, uint8 col)
 		{
-			ASSERT(col < 2, "Column must be < 2");
+			ASSERT(col < 2, u8"Column must be < 2");
 
 			return this->columns[col][row];
 		}
 
 		inline const float32 &operator()(uint8 row, uint8 col) const
 		{
-			ASSERT(col < 2, "Column must be < 2");
+			ASSERT(col < 2, u8"Column must be < 2");
 
 			return this->columns[col][row];
 		}
 
 		inline vec2 &operator[](uint8 col)
 		{
-			ASSERT(col < 2, "Column must be < 2");
+			ASSERT(col < 2, u8"Column must be < 2");
 
 			return this->columns[col];
 		}

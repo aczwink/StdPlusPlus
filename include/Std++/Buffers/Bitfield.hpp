@@ -56,6 +56,8 @@ namespace StdXX
 
 		inline void Set(uint8 bitPos, uint8 nBits, T newValue)
 		{
+			newValue <<= bitPos;
+
 			T mask = ((1 << nBits) - 1) << bitPos;
 			ASSERT_EQUALS(newValue, newValue & mask); //check for overflow
 

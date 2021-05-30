@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -44,9 +44,9 @@ void StdXX::AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName
 	::AssertEqualsFailed(String::Number(expected), String::Number(got), fileName, lineNumber, functionName);
 }
 
-void StdXX::AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
+void StdXX::AssertionFailed(const char* context, const char8_t* message, const char *pFileName, uint32 lineNumber, const char *pFunctionName)
 {
-	throw ErrorHandling::AssertionError(pContext, pMessage, pFileName, lineNumber, pFunctionName);
+	throw ErrorHandling::AssertionError(context, message, pFileName, lineNumber, pFunctionName);
 }
 
 void StdXX::AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName)

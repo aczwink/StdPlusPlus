@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -70,7 +70,7 @@ namespace StdXX
 		{
 			Node *pNode = this->FindNode(index);
 
-			ASSERT(pNode, "Index out of bounds");
+			ASSERT(pNode, u8"Index out of bounds");
 
 			return pNode->data;
 		}
@@ -79,7 +79,7 @@ namespace StdXX
 		{
 			Node *pNode = ((LinkedList<DataType> *)this)->FindNode(index);
 
-			ASSERT(pNode, "Index out of bounds");
+			ASSERT(pNode, u8"Index out of bounds");
 
 			return pNode->data;
 		}

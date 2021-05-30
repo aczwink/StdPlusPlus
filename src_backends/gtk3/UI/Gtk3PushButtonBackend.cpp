@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,7 +35,7 @@ Gtk3PushButtonBackend::Gtk3PushButtonBackend(StdXX::UIBackend &uiBackend, PushBu
     : PushButtonBackend(uiBackend), Gtk3WidgetBackend(uiBackend, gtk_button_new()), WidgetBackend(uiBackend),
     pushButton(pushButton)
 {
-	g_signal_connect(this->GetGtkWidget(), u8"clicked", G_CALLBACK(ClickedSlot), &pushButton);
+	g_signal_connect(this->GetGtkWidget(), "clicked", G_CALLBACK(ClickedSlot), &pushButton);
 }
 
 //Public methods

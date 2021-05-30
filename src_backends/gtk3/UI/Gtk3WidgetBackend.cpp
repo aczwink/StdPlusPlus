@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,9 +43,9 @@ Gtk3WidgetBackend::Gtk3WidgetBackend(StdXX::UIBackend &uiBackend, GtkWidget *gtk
         gtk_widget_show(gtkWidget); //default to show
         */
 
-    g_object_set_data(G_OBJECT(gtkWidget), u8"Std++", this);
+    g_object_set_data(G_OBJECT(gtkWidget), "Std++", this);
 
-	g_signal_connect(gtkWidget, u8"size-allocate", G_CALLBACK(SizeAllocateSlot), this);
+	g_signal_connect(gtkWidget, "size-allocate", G_CALLBACK(SizeAllocateSlot), this);
 }
 
 //Public methods

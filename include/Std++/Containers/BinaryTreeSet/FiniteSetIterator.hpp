@@ -22,7 +22,7 @@ namespace StdXX
 {
     //Move declarations
     template<typename ValueType>
-    class FiniteSetNode;
+    class BinaryTreeSetNode;
     template<typename ValueType>
     class BinaryTreeSet;
 
@@ -31,7 +31,7 @@ namespace StdXX
     {
         friend class BinaryTreeSet <ValueType >;
         typedef BinaryTreeSet<ValueType> Set;
-        typedef FiniteSetNode<ValueType> Node;
+        typedef BinaryTreeSetNode<ValueType> Node;
     private:
         //Members
         const Set &refSet;
@@ -56,13 +56,13 @@ namespace StdXX
 
             if(this->pCurrentNode)
             {
-                if(this->pCurrentNode->pRight)
+                if(this->pCurrentNode->right)
                 {
-                    this->pCurrentNode = (Node *)this->pCurrentNode->pRight->GetFirst();
+                    this->pCurrentNode = (Node *)this->pCurrentNode->right->GetFirst();
                 }
                 else
                 {
-                    while((pParent = (Node *)this->pCurrentNode->pParent) && pParent->pRight == this->pCurrentNode)
+                    while((pParent = (Node *)this->pCurrentNode->parent) && pParent->right == this->pCurrentNode)
                         this->pCurrentNode = pParent;
                     this->pCurrentNode = pParent;
                 }

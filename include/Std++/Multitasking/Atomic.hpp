@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -84,13 +84,13 @@ namespace StdXX
         //Operators
         inline Atomic& operator=(T v) noexcept
         {
-			__atomic_store_n(&this->native, v, std::memory_order_seq_cst);
+			__atomic_store_n(&this->native, v, (int)std::memory_order_seq_cst);
             return *this;
         }
 
 	    inline T operator*() const
 	    {
-		    return __atomic_load_n(&this->native, std::memory_order_seq_cst);
+		    return __atomic_load_n(&this->native, (int)std::memory_order_seq_cst);
 	    }
 
         inline T operator++(int) //Postfix
@@ -105,7 +105,7 @@ namespace StdXX
 
         inline T operator--() //Prefix
         {
-			return __atomic_sub_fetch(&this->native, 1, std::memory_order_seq_cst);
+			return __atomic_sub_fetch(&this->native, 1, (int)std::memory_order_seq_cst);
         }
 
 		inline operator T() const noexcept
@@ -116,12 +116,12 @@ namespace StdXX
 		//Inline
 		inline T FetchAdd(T operand)
 		{
-			return __atomic_fetch_add(&this->native, operand, std::memory_order_seq_cst);
+			return __atomic_fetch_add(&this->native, operand, (int)std::memory_order_seq_cst);
 		}
 
 		inline T FetchSub(T operand) noexcept
 		{
-	    	return __atomic_fetch_sub(&this->native, operand, std::memory_order_seq_cst);
+	    	return __atomic_fetch_sub(&this->native, operand, (int)std::memory_order_seq_cst);
 		}
 
     private:

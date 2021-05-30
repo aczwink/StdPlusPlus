@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,7 +24,7 @@
 void *operator new(size_t size)
 {
 	const char *fileName = __file__;
-	__file__ = u8"???";
+	__file__ = "???";
 
 	int lineNumber = __line__;
 	__line__ = -1;
@@ -35,7 +35,7 @@ void *operator new(size_t size)
 void *operator new[](size_t size)
 {
 	const char *fileName = __file__;
-	__file__ = u8"???";
+	__file__ = "???";
 
 	int lineNumber = __line__;
 	__line__ = -1;
@@ -46,7 +46,7 @@ void *operator new[](size_t size)
 void *operator new(size_t size, std::align_val_t al)
 {
 	const char *fileName = __file__;
-	__file__ = u8"???";
+	__file__ = "???";
 
 	int lineNumber = __line__;
 	__line__ = -1;
@@ -57,7 +57,7 @@ void *operator new(size_t size, std::align_val_t al)
 void *operator new[](size_t size, std::align_val_t al)
 {
 	const char *fileName = __file__;
-	__file__ = u8"???";
+	__file__ = "???";
 
 	int lineNumber = __line__;
 	__line__ = -1;

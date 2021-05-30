@@ -844,7 +844,7 @@ String String::CopyUtf8Bytes(const uint8 *utf8, uint32 size)
 
 String String::FormatBinaryPrefixed(uint64 byteSize, const String &suffix)
 {
-	static const char * prefixes[] = {u8"", u8"Ki", u8"Mi", u8"Gi"};
+	static const char8_t* prefixes[] = {u8"", u8"Ki", u8"Mi", u8"Gi"};
 	uint32 i;
 	float64 scaled = byteSize;
 	for(i = 0; i < sizeof(prefixes)/sizeof(prefixes[0]); i++)

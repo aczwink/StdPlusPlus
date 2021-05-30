@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,7 +34,7 @@ using namespace StdXX;
 #endif
 
 //Class functions
-void *OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension(const char *extensionName)
+void *OpenGL3CoreBackend::LoadWindowSystemOpenGLExtension(const char8_t* extensionName)
 {
 #ifdef _STDPP_WINDOWSYSTEM_COCOA
 	uint32 len = GetStringLength(extensionName);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,6 +26,7 @@
 
 #ifdef XPC_BUILDTYPE_DEBUG
 #define ASSERT(expression, message) {if((expression) == 0){StdXX::AssertionFailed(#expression, message, __FILE__, __LINE__, __FUNCTION__);}}
+#define ASSERT_TRUE(expression) ASSERT(expression, u8"Value was expected to be true but is not.")
 //extended asserts
 #define ASSERT_EQUALS(expect, got) { auto a = (expect); auto b = (got); if( !( a == b ) ){ StdXX::AssertEqualsFailed(a, b, __FILE__, __LINE__, __FUNCTION__); } }
 #define ASSERT_FLOATS_EQUAL_64(expect, got, epsilon) if(Float<float64>::AlmostEqual(expect, got, epsilon) == false){StdXX::AssertionFailed(expect, got, epsilon, __FILE__, __LINE__, __FUNCTION__);}
@@ -53,8 +54,8 @@ namespace StdXX
 
 	void AssertEqualsFailed(int64 expected, int64 got, const char *fileName, uint32 lineNumber, const char *functionName);
 	void AssertEqualsFailed(uint64 expected, uint64 got, const char *fileName, uint32 lineNumber, const char *functionName);
-	void AssertionFailed(const char *pContext, const char *pMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
-	void AssertionFailed(const char *pContext, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
+	void AssertionFailed(const char* context, const char8_t* message, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
+	void AssertionFailed(const char* context, const String &refMessage, const char *pFileName, uint32 lineNumber, const char *pFunctionName);
 	void AssertFloatsEqualFailed(float64 expect, float64 got, float64 epsilon, const char *fileName, uint32 lineNumber, const char *functionName);
 
 	template <typename T, typename U>
@@ -67,7 +68,7 @@ namespace StdXX
 	template <typename T, typename U>
 	inline typename Type::EnableIf<!StdXX::Type::IsIntegral<T>::value>::type AssertEqualsFailed(const T& expected, const U& got, const char *fileName, uint32 lineNumber, const char *functionName)
 	{
-		AssertionFailed(u8"expected == got", u8"Expected and received value differ.", fileName, lineNumber, functionName);
+		AssertionFailed("expected == got", u8"Expected and received value differ.", fileName, lineNumber, functionName);
 	}
 }
 #else

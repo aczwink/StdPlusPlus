@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,7 +43,7 @@ Thread::~Thread()
 //Public methods
 void Thread::Start()
 {
-	ASSERT(this->systemHandle == nullptr, "Can't start an already started thread");
+	ASSERT(this->systemHandle == nullptr, u8"Can't start an already started thread");
 
 	pthread_t threadId;
 	pthread_create(&threadId, nullptr, RunThreadByCFunction, new Function<int32()>(&Thread::ThreadMain, this));

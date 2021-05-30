@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 //Local
 #include <Std++/Utility.hpp>
 #include "../Container.hpp"
-#include "FiniteSetNode.hpp"
+#include "BinaryTreeSetNode.hpp"
 #include "FiniteSetIterator.hpp"
 //Definitions
 #define BALANCE(pNode) ((Node *)pNode)->balance
@@ -32,7 +32,7 @@ namespace StdXX
     class BinaryTreeSet : public Container
     {
         typedef BinaryTreeSet<DataType> Set;
-        typedef FiniteSetNode<DataType> Node;
+        typedef BinaryTreeSetNode<DataType> Node;
         typedef CConstFiniteSetIterator<DataType> ConstIterator;
     public:
         //Constructors
@@ -98,154 +98,15 @@ namespace StdXX
             return this->FindNode(refElement) != nullptr;
         }
 
-        /*
-         * The implementation of this method is a modified version of a piece of code of the following work,
-         * which was released under GNU Lesser General Public License
-         * as published by the Free Software Foundation version 2.1:
-         *
-         * avltree - Implements an AVL tree with parent pointers.
-         *
-         * Copyright (C) 2010-2014 Franck Bui-Huu <fbuihuu@gmail.com>
-         *
-         * https://github.com/fbuihuu/libtree
-         */
-        void Insert(const DataType &refValue)
-        {
-            Node *pNode, *pInsertedNode, *pParent, *pUnbalanced;
+        void Insert(const DataType& value)
+		{
+        	this->InsertNode(value);
+		}
 
-            if(this->pRoot == NULL)
-            {
-                this->pRoot = new Node(refValue, NULL);
-                this->nElements = 1;
-                return;
-            }
-
-            pNode = this->pRoot;
-            pInsertedNode = NULL;
-            pUnbalanced = pNode;
-
-            while(pNode)
-            {
-                if(pNode->balance != 0)
-                    pUnbalanced = pNode;
-
-                if(pNode->value < refValue) //insert in right subtree
-                {
-                    if(pNode->pRight) //continue in right subtree
-                    {
-                        pNode = (Node *)pNode->pRight;
-                    }
-                    else
-                    {
-                        //insert (key,value) as leaf
-                        pNode->pRight = new Node(refValue, pNode);
-                        pInsertedNode = (Node *)pNode->pRight;
-                        break;
-                    }
-                }
-                else if(pNode->value > refValue) //insert in left subtree
-                {
-                    if(pNode->pLeft) //continue in left subtree
-                    {
-                        pNode = (Node *)pNode->pLeft;
-                    }
-                    else
-                    {
-                        //insert (key,value) as leaf
-                        pNode->pLeft = new Node(refValue, pNode);
-                        pInsertedNode = (Node *)pNode->pLeft;
-                        break;
-                    }
-                }
-                else //overwrite old node and return it, no need to rebalance
-                {
-                    pNode->value = refValue;
-                    return;
-                }
-            }
-
-            this->nElements++;
-
-            //Update Balances
-            pNode = pInsertedNode;
-            pParent = (Node *)pNode->pParent;
-            while(true)
-            {
-                if(pParent->pLeft == pNode)
-                    pParent->balance--;
-                else
-                    pParent->balance++;
-
-                if(pParent == pUnbalanced)
-                    break;
-
-                pNode = pParent;
-                pParent = (Node *)pParent->pParent;
-            }
-
-            if(pUnbalanced->balance == -2)
-            {
-                if(BALANCE(pUnbalanced->pLeft) == -1)
-                {
-                    pUnbalanced->balance = 0;
-                    BALANCE(pUnbalanced->pLeft) = 0;
-                }
-                else
-                {
-                    if(BALANCE(pUnbalanced->pLeft->pRight) == 1)
-                    {
-                        pUnbalanced->balance = 0;
-                        BALANCE(pUnbalanced->pLeft) = -1;
-                    }
-                    else if(BALANCE(pUnbalanced->pLeft->pRight) == 0)
-                    {
-                        pUnbalanced->balance = 0;
-                        BALANCE(pUnbalanced->pLeft) = 0;
-                    }
-                    else if(BALANCE(pUnbalanced->pLeft->pRight) == -1)
-                    {
-                        pUnbalanced->balance = 1;
-                        BALANCE(pUnbalanced->pLeft) = 0;
-                    }
-                    BALANCE(pUnbalanced->pLeft->pRight) = 0;
-
-                    pUnbalanced->pLeft->RotateLeft();
-                }
-                pUnbalanced->RotateRight();
-            }
-            else if(pUnbalanced->balance == 2)
-            {
-                if(BALANCE(pUnbalanced->pRight) == 1)
-                {
-                    pUnbalanced->balance = 0;
-                    BALANCE(pUnbalanced->pRight) = 0;
-                }
-                else
-                {
-                    if(BALANCE(pUnbalanced->pRight->pLeft) == 1)
-                    {
-                        pUnbalanced->balance = -1;
-                        BALANCE(pUnbalanced->pRight) = 0;
-                    }
-                    else if(BALANCE(pUnbalanced->pRight->pLeft) == 0)
-                    {
-                        pUnbalanced->balance = 0;
-                        BALANCE(pUnbalanced->pRight) = 0;
-                    }
-                    else if(BALANCE(pUnbalanced->pRight->pLeft) == -1)
-                    {
-                        pUnbalanced->balance = 0;
-                        BALANCE(pUnbalanced->pRight) = 1;
-                    }
-                    BALANCE(pUnbalanced->pRight->pLeft) = 0;
-                    pUnbalanced->pRight->RotateRight();
-                }
-                pUnbalanced->RotateLeft();
-            }
-
-            if(this->pRoot->pParent)
-                this->pRoot = (Node *)this->pRoot->pParent;
-        }
+		void Insert(DataType&& value)
+		{
+        	this->InsertNode(Move(value));
+		}
 
         bool IsSubsetOf(const Set &refSet) const
         {
@@ -285,9 +146,9 @@ namespace StdXX
             while(pNode)
             {
                 if(value < pNode->value)
-                    pNode = pNode->pLeft;
+                    pNode = pNode->left;
                 else if(value > pNode->value)
-                    pNode = pNode->pRight;
+                    pNode = pNode->right;
                 else
                     break;
             }
@@ -297,9 +158,9 @@ namespace StdXX
                 bool isLeftChild;
 
                 pNodeToDelete = pNode;
-                pParent = pNode->pParent;
-                pLeft = pNode->pLeft;
-                pRight = pNode->pRight;
+                pParent = pNode->parent;
+                pLeft = pNode->left;
+                pRight = pNode->right;
 
                 if(!pLeft)
                     pNext = pRight;
@@ -310,11 +171,11 @@ namespace StdXX
 
                 if(pParent)
                 {
-                    isLeftChild = pParent->pLeft == pNode;
+                    isLeftChild = pParent->left == pNode;
                     if(isLeftChild)
-                        pParent->pLeft = pNext;
+                        pParent->left = pNext;
                     else
-                        pParent->pRight = pNext;
+                        pParent->right = pNext;
                 }
                 else
                 {
@@ -324,25 +185,25 @@ namespace StdXX
                 if(pLeft && pRight) //Node has 2 subtrees
                 {
                     pNext->balance = pNode->balance;
-                    pNext->pLeft = pLeft;
-                    pLeft->pParent = pNext;
+                    pNext->left = pLeft;
+                    pLeft->parent = pNext;
 
                     if(pNext == pRight)
                     {
-                        pNext->pParent = pParent;
+                        pNext->parent = pParent;
                         pParent = pNext;
-                        pNode = pParent->pRight;
+                        pNode = pParent->right;
                         isLeftChild = false;
                     }
                     else
                     {
-                        pParent = pNext->pParent;
-                        pNext->pParent = pNode->pParent;
-                        pNode = pNext->pRight;
-                        pParent->pLeft = pNode;
+                        pParent = pNext->parent;
+                        pNext->parent = pNode->parent;
+                        pNode = pNext->right;
+                        pParent->left = pNode;
                         isLeftChild = true;
-                        pNext->pRight = pRight;
-                        pRight->pParent = pNext;
+                        pNext->right = pRight;
+                        pRight->parent = pNext;
                     }
                 }
                 else
@@ -351,35 +212,35 @@ namespace StdXX
                 }
 
                 if(pNode)
-                    pNode->pParent = pParent;
+                    pNode->parent = pParent;
 
                 while(pParent)
                 {
                     pNode = pParent;
-                    pParent = pParent->pParent;
+                    pParent = pParent->parent;
 
                     if(isLeftChild)
                     {
-                        isLeftChild = pParent && pParent->pLeft == pNode;
+                        isLeftChild = pParent && pParent->left == pNode;
 
                         pNode->balance++;
                         if(pNode->balance == 0)
                             continue;
                         if(pNode->balance == 1)
                         {
-                            if(this->pRoot->pParent)
-                                this->pRoot = this->pRoot->pParent;
+                            if(this->pRoot->parent)
+                                this->pRoot = this->pRoot->parent;
                             goto end;
                         }
-                        pRight = pNode->pRight;
+                        pRight = pNode->right;
 
                         if(pRight->balance == 0)
                         {
                             pNode->balance = 1;
                             pRight->balance = -1;
                             pNode->RotateLeft();
-                            if(this->pRoot->pParent)
-                                this->pRoot = this->pRoot->pParent;
+                            if(this->pRoot->parent)
+                                this->pRoot = this->pRoot->parent;
                             goto end;
                         }
                         else if(pRight->balance == 1)
@@ -389,22 +250,22 @@ namespace StdXX
                         }
                         else if(pRight->balance == -1)
                         {
-                            if(pRight->pLeft->balance == 1)
+                            if(pRight->left->balance == 1)
                             {
                                 pNode->balance = -1;
                                 pRight->balance = 0;
                             }
-                            else if(pRight->pLeft->balance == 0)
+                            else if(pRight->left->balance == 0)
                             {
                                 pNode->balance = 0;
                                 pRight->balance = 0;
                             }
-                            else if(pRight->pLeft->balance == -1)
+                            else if(pRight->left->balance == -1)
                             {
                                 pNode->balance = 0;
                                 pRight->balance = 1;
                             }
-                            pRight->pLeft->balance = 0;
+                            pRight->left->balance = 0;
 
                             pRight->RotateRight();
                         }
@@ -412,26 +273,26 @@ namespace StdXX
                     }
                     else
                     {
-                        isLeftChild = pParent && pParent->pLeft == pNode;
+                        isLeftChild = pParent && pParent->left == pNode;
 
                         pNode->balance--;
                         if(pNode->balance == 0)
                             continue;
                         if(pNode->balance == -1)
                         {
-                            if(this->pRoot->pParent)
-                                this->pRoot = this->pRoot->pParent;
+                            if(this->pRoot->parent)
+                                this->pRoot = this->pRoot->parent;
                             goto end;
                         }
-                        pLeft = pNode->pLeft;
+                        pLeft = pNode->left;
 
                         if(pLeft->balance == 0)
                         {
                             pNode->balance = -1;
                             pLeft->balance = 1;
                             pNode->RotateRight();
-                            if(this->pRoot->pParent)
-                                this->pRoot = this->pRoot->pParent;
+                            if(this->pRoot->parent)
+                                this->pRoot = this->pRoot->parent;
                             goto end;
                         }
                         else if(pLeft->balance == -1)
@@ -441,22 +302,22 @@ namespace StdXX
                         }
                         else if(pLeft->balance == 1)
                         {
-                            if(pLeft->pRight->balance == 1)
+                            if(pLeft->right->balance == 1)
                             {
                                 pNode->balance = 0;
                                 pLeft->balance = -1;
                             }
-                            else if(pLeft->pRight->balance == 0)
+                            else if(pLeft->right->balance == 0)
                             {
                                 pNode->balance = 0;
                                 pLeft->balance = 0;
                             }
-                            else if(pLeft->pRight->balance == -1)
+                            else if(pLeft->right->balance == -1)
                             {
                                 pNode->balance = 1;
                                 pLeft->balance = 0;
                             }
-                            pLeft->pRight->balance = 0;
+                            pLeft->right->balance = 0;
 
                             pLeft->RotateLeft();
                         }
@@ -465,11 +326,11 @@ namespace StdXX
                 }
                 end:;
                 this->nElements--;
-                pNodeToDelete->pLeft = NULL;
-                pNodeToDelete->pRight = NULL;
+                pNodeToDelete->left = NULL;
+                pNodeToDelete->right = NULL;
                 delete pNodeToDelete;
-                if(this->pRoot && this->pRoot->pParent)
-                    this->pRoot = this->pRoot->pParent;
+                if(this->pRoot && this->pRoot->parent)
+                    this->pRoot = this->pRoot->parent;
             }
         }
 
@@ -493,28 +354,178 @@ namespace StdXX
             return ConstIterator(*this, nullptr);
         }
 
-		private:
-			//Members
-			Node *pRoot;
+    private:
+    	//Members
+    	Node *pRoot;
 
-			//Methods
-			Node *FindNode(const DataType &refValue) const
+        //Methods
+        Node *FindNode(const DataType &refValue) const
+        {
+			Node *pNode;
+
+			pNode = this->pRoot;
+			while (pNode)
 			{
-				Node *pNode;
-
-				pNode = this->pRoot;
-				while (pNode)
-				{
-					if (refValue < pNode->value)
-						pNode = (Node *)pNode->pLeft;
-					else if (refValue > pNode->value)
-						pNode = (Node *)pNode->pRight;
-					else
-						break;
-				}
-
-				return pNode;
+				if (refValue < pNode->value)
+					pNode = (Node *)pNode->left;
+				else if (refValue > pNode->value)
+					pNode = (Node *)pNode->right;
+				else
+					break;
 			}
+
+			return pNode;
+		}
+
+		/*
+		 * The implementation of this method is a modified version of a piece of code of the following work,
+		 * which was released under GNU Lesser General Public License
+		 * as published by the Free Software Foundation version 2.1:
+		 *
+		 * avltree - Implements an AVL tree with parent pointers.
+		 *
+		 * Copyright (C) 2010-2014 Franck Bui-Huu <fbuihuu@gmail.com>
+		 *
+		 * https://github.com/fbuihuu/libtree
+		 */
+		template<typename T>
+		void InsertNode(T&& value)
+		{
+			Node *pNode, *pInsertedNode, *pParent, *pUnbalanced;
+
+			if(this->pRoot == NULL)
+			{
+				this->pRoot = new Node(Forward<T>(value), NULL);
+				this->nElements = 1;
+				return;
+			}
+
+			pNode = this->pRoot;
+			pInsertedNode = NULL;
+			pUnbalanced = pNode;
+
+			while(pNode)
+			{
+				if(pNode->balance != 0)
+					pUnbalanced = pNode;
+
+				if(pNode->value < value) //insert in right subtree
+				{
+					if(pNode->right) //continue in right subtree
+					{
+						pNode = (Node *)pNode->right;
+					}
+					else
+					{
+						//insert (key,value) as leaf
+						pNode->right = new Node(Forward<T>(value), pNode);
+						pInsertedNode = (Node *)pNode->right;
+						break;
+					}
+				}
+				else if(pNode->value > value) //insert in left subtree
+				{
+					if(pNode->left) //continue in left subtree
+					{
+						pNode = (Node *)pNode->left;
+					}
+					else
+					{
+						//insert (key,value) as leaf
+						pNode->left = new Node(Forward<T>(value), pNode);
+						pInsertedNode = (Node *)pNode->left;
+						break;
+					}
+				}
+				else //overwrite old node and return it, no need to rebalance
+				{
+					pNode->value = value;
+					return;
+				}
+			}
+
+			this->nElements++;
+
+			//Update Balances
+			pNode = pInsertedNode;
+			pParent = (Node *)pNode->parent;
+			while(true)
+			{
+				if(pParent->left == pNode)
+					pParent->balance--;
+				else
+					pParent->balance++;
+
+				if(pParent == pUnbalanced)
+					break;
+
+				pNode = pParent;
+				pParent = (Node *)pParent->parent;
+			}
+
+			if(pUnbalanced->balance == -2)
+			{
+				if(BALANCE(pUnbalanced->left) == -1)
+				{
+					pUnbalanced->balance = 0;
+					BALANCE(pUnbalanced->left) = 0;
+				}
+				else
+				{
+					if(BALANCE(pUnbalanced->left->right) == 1)
+					{
+						pUnbalanced->balance = 0;
+						BALANCE(pUnbalanced->left) = -1;
+					}
+					else if(BALANCE(pUnbalanced->left->right) == 0)
+					{
+						pUnbalanced->balance = 0;
+						BALANCE(pUnbalanced->left) = 0;
+					}
+					else if(BALANCE(pUnbalanced->left->right) == -1)
+					{
+						pUnbalanced->balance = 1;
+						BALANCE(pUnbalanced->left) = 0;
+					}
+					BALANCE(pUnbalanced->left->right) = 0;
+
+					pUnbalanced->left->RotateLeft();
+				}
+				pUnbalanced->RotateRight();
+			}
+			else if(pUnbalanced->balance == 2)
+			{
+				if(BALANCE(pUnbalanced->right) == 1)
+				{
+					pUnbalanced->balance = 0;
+					BALANCE(pUnbalanced->right) = 0;
+				}
+				else
+				{
+					if(BALANCE(pUnbalanced->right->left) == 1)
+					{
+						pUnbalanced->balance = -1;
+						BALANCE(pUnbalanced->right) = 0;
+					}
+					else if(BALANCE(pUnbalanced->right->left) == 0)
+					{
+						pUnbalanced->balance = 0;
+						BALANCE(pUnbalanced->right) = 0;
+					}
+					else if(BALANCE(pUnbalanced->right->left) == -1)
+					{
+						pUnbalanced->balance = 0;
+						BALANCE(pUnbalanced->right) = 1;
+					}
+					BALANCE(pUnbalanced->right->left) = 0;
+					pUnbalanced->right->RotateRight();
+				}
+				pUnbalanced->RotateLeft();
+			}
+
+			if(this->pRoot->parent)
+				this->pRoot = (Node *)this->pRoot->parent;
+		}
     };
 }
 

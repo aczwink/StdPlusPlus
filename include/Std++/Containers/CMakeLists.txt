@@ -18,7 +18,7 @@ set(SOURCE_FILES
 	#BinaryTreeSet
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/BinaryTreeSet.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetIterator.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/FiniteSetNode.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryTreeSet/BinaryTreeSetNode.hpp
 
 	#Enumeration
 	${CMAKE_CURRENT_SOURCE_DIR}/Enumeration/AnyEnumeratorBuilder.hpp
