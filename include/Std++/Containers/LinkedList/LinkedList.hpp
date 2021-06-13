@@ -34,6 +34,7 @@ namespace StdXX
         typedef LinkedListNode<DataType> Node;
 
 		friend class LinkedListIterator<DataType>;
+		friend class LinkedListConstIterator<DataType>;
 
     public:
         //Constructors
@@ -157,14 +158,14 @@ namespace StdXX
             Node *pNode;
 
             pNode = this->FindNode(index);
-            ASSERT(pNode, "Index out of bounds");
+            ASSERT(pNode, u8"Index out of bounds");
 
             return pNode->data;
         }
 
         inline const DataType &GetFront() const
         {
-            ASSERT(this->head, "Can't get front from empty list");
+            ASSERT(this->head, u8"Can't get front from empty list");
 
             return this->head->data;
         }

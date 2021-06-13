@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Definitions.h>
+#include <Std++/Debug.hpp>
 
 namespace StdXX
 {

@@ -84,6 +84,7 @@
 #include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/Compression/Compressor.hpp>
 #include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Compression/IndexedSlidingDictionary.hpp>
 #include <Std++/Compression/SlidingDictionary.hpp>
 
 //Debugging

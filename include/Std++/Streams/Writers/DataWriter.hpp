@@ -77,6 +77,16 @@ namespace StdXX
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me
 		}
 
+		inline void WriteInt8(int8 value)
+		{
+			this->WriteByte(value);
+		}
+
+		inline void WriteInt32(int32 value)
+		{
+			this->WriteUInt32(value);
+		}
+
 		inline void WriteUInt16(uint16 value)
 		{
 			if(this->writeBigEndian)

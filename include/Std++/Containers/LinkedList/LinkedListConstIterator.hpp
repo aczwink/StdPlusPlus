@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,8 +56,16 @@ namespace StdXX
 
         LinkedListConstIterator &operator--() //Prefix --
         {
-            this->node = this->node->prev;
-            this->index--;
+        	if(this->node == nullptr)
+			{
+				this->node = this->list->tail;
+				this->index = this->list->GetNumberOfElements() - 1;
+			}
+        	else
+			{
+        		this->node = this->node->prev;
+				this->index--;
+			}
 
             return *this;
         }

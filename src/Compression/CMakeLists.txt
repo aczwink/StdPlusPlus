@@ -19,6 +19,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Compressor.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Decompressor.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HuffmanDecoder.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/IndexedSlidingDictionary.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SlidingDictionary.cpp
 
 	PARENT_SCOPE)

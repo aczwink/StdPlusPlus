@@ -64,6 +64,13 @@ namespace StdXX
 			return this->data[index];
 		}
 
+		inline bool operator==(const DynamicByteBuffer& other) const
+		{
+			if(this->size != other.size)
+				return false;
+			return MemCmp(this->data, other.data, this->size) == 0;
+		}
+
 		//Properties
 		inline const uint8* Data() const
 		{

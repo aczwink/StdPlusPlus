@@ -45,6 +45,11 @@ namespace StdXX
 			return this->data;
 		}
 
+		inline uint32 Size() const
+		{
+			return this->size;
+		}
+
 		//Methods
 		/**
 		 * Reads bytes from this buffer by going 'distance' bytes back from the current ring buffer position and then reading 'length' bytes forward.

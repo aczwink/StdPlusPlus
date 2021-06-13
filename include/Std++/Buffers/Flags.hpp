@@ -32,14 +32,31 @@ namespace StdXX
 		{
 		}
 
+		inline Flags(EnumType flag) : encodedFlags(static_cast<EncodedType>(flag))
+		{
+		}
+
 		inline Flags(EncodedType encodedFlags) : encodedFlags(encodedFlags)
 		{
 		}
+
+		//Operators
+		bool operator==(const Flags<EnumType, EncodedType>&) const = default;
 
 		//Inline
 		inline bool IsSet(EnumType value) const
 		{
 			return (this->encodedFlags & static_cast<EncodedType>(value)) != 0;
+		}
+
+		inline void SetFlag(EnumType flag)
+		{
+			this->encodedFlags |= static_cast<EncodedType>(flag);
+		}
+
+		inline Flags WithFlag(EnumType flag) const
+		{
+			return this->encodedFlags | static_cast<EncodedType>(flag);
 		}
 	};
 }

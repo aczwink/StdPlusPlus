@@ -126,14 +126,6 @@ namespace StdXX
 	    }
 
         //Methods
-        inline const ValueType& Get(const KeyType& key) const
-		{
-			Node* node = this->FindNode(key);
-			ASSERT(node, u8"A non-existant key of const map was accessed.");
-
-			return node->keyValuePair.value;
-		}
-
 		inline void Insert(const KeyType& key, const ValueType& value)
 		{
 			this->InsertNode(KeyValuePair<KeyType, ValueType>(key, value));
@@ -178,13 +170,29 @@ namespace StdXX
             return ConstIterator(*this, this->FindNode(refKey));
         }
 
+		inline ValueType& Get(const KeyType& key)
+		{
+			Node* node = this->FindNode(key);
+			ASSERT(node, u8"A non-existant key of map was accessed.");
+
+			return node->keyValuePair.value;
+		}
+
+		inline const ValueType& Get(const KeyType& key) const
+		{
+			Node* node = this->FindNode(key);
+			ASSERT(node, u8"A non-existant key of map was accessed.");
+
+			return node->keyValuePair.value;
+		}
+
 		inline void Remove(const KeyType& key)
 		{
 			Node* node = this->FindNode(key);
 			this->RemoveNodeLinks(node);
 
 			this->nElements--;
-			if(this->root && this->root->parent)
+			while(this->root && this->root->parent)
 				this->root = this->root->parent;
 			node->left = nullptr;
 			node->right = nullptr;
