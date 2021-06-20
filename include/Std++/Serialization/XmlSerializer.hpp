@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -117,6 +117,11 @@ namespace StdXX::Serialization
 		}
 
 		inline void operator<<(const char* value)
+		{
+			*this << String(value);
+		}
+
+		inline void operator<<(const char8_t* value)
 		{
 			*this << String(value);
 		}

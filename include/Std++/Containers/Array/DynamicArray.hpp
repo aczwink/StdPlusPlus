@@ -175,6 +175,15 @@ namespace StdXX
 			return this->nElements++;
 		}
 
+		void Remove(uint32 index)
+		{
+			ASSERT(index < this->nElements, u8"Index out of bounds");
+
+			for(uint32 i = index + 1; i < this->GetNumberOfElements(); i++)
+				this->data[i-1] = Move(this->data[i]);
+			this->Resize(this->GetNumberOfElements() - 1);
+		}
+
         inline void Resize(uint32 nElements)
         {
             this->EnsureCapacity(nElements);
