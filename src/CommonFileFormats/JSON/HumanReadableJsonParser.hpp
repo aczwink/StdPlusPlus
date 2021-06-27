@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -65,7 +65,10 @@ namespace _stdxx_
 
 		inline void UpdateLookahead()
 		{
-			this->lookahead = this->textReader.ReadCodePoint();
+			if(this->textReader.IsAtEnd())
+				this->lookahead = 0;
+			else
+				this->lookahead = this->textReader.ReadCodePoint();
 		}
 	};
 }

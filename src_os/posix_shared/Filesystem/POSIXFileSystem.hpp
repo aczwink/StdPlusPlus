@@ -48,7 +48,14 @@ namespace _stdxx_
 		//Public methods
 		void ChangePermissions(const Path &path, const Permissions &newPermissions) override
 		{
-			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			const POSIXPermissions& unixPermissions = dynamic_cast<const POSIXPermissions &>(newPermissions);
+
+			const char* pathPtr = reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData());
+			int ret = chmod(pathPtr, unixPermissions.EncodeMode());
+			ASSERT(ret == 0, u8"REPORT THIS PLEASE!");
+
+			ret = chown(pathPtr, unixPermissions.userId, unixPermissions.groupId);
+			ASSERT_EQUALS(0, ret);
 		}
 
 		Optional<Errors::CreateDirectoryError> CreateDirectory(const Path& path, const Permissions* permissions)
@@ -190,14 +197,14 @@ namespace _stdxx_
 			FileInfo info{};
 
 			//type
-			/*if(S_ISDIR(sb.st_mode))
+			if(S_ISDIR(sb.st_mode))
 				info.type = FileType::Directory;
 			else if(S_ISLNK(sb.st_mode))
 				info.type = FileType::Link;
 			else if(S_ISREG(sb.st_mode))
 				info.type = FileType::File;
 			else
-				NOT_IMPLEMENTED_ERROR;*/
+				NOT_IMPLEMENTED_ERROR;
 
 			//set file size
 			info.size = static_cast<uint64>(sb.st_size);
@@ -232,7 +239,12 @@ namespace _stdxx_
 
 		Optional<Path> ReadLinkTarget(const Path& path) const
 		{
-			NOT_IMPLEMENTED_ERROR;
+			char buffer[4096];
+			ssize_t nBytesInBuffer = readlink(reinterpret_cast<const char *>(path.String().ToUTF8().GetRawZeroTerminatedData()), buffer, sizeof(buffer));
+			ASSERT(nBytesInBuffer != -1, u8"REPORT THIS PLEASE!");
+			ASSERT(nBytesInBuffer < sizeof(buffer), u8"REPORT THIS PLEASE!");
+
+			return {String::CopyUtf8Bytes(reinterpret_cast<const uint8 *>(buffer), nBytesInBuffer)};
 		}
 
 		void RemoveDirectory(const Path &path) override
