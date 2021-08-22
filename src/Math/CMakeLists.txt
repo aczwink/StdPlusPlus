@@ -6,6 +6,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Geometry/ObjectIntersection.cpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/BinaryFloat.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DecimalFloat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Degree.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matrix2x2.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matrix3x3.cpp

@@ -36,6 +36,9 @@ namespace StdXX
 		{
 		}
 
+		//Operators
+		bool operator==(const Bitfield&) const = default;
+
 		//Inline
 		inline T Extract(uint8 bitPos, uint8 nBits) const
 		{

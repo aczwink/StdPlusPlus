@@ -69,6 +69,21 @@ namespace StdXX
 		}
 
 		template<typename T>
+		constexpr T Log(const T& base, const T& value)
+		{
+			T temp = value;
+			T result = 0;
+			T zero = 0;
+			while(temp != zero)
+			{
+				temp /= base;
+				++result;
+			}
+
+			return result;
+		}
+
+		template<typename T>
 		constexpr T Max(const T &a, const T &b)
 		{
 			return ((a) > (b)) ? (a) : (b);

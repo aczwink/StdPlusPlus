@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -242,7 +242,8 @@ StyleValue StyleSheet::ParseValue(const String& value) const
 	//check for "rem" length
 	if (value.EndsWith(u8"rem"))
 	{
-		return value.SubString(0, value.GetLength() - 3).ToFloat() * 16; //TODO: 16px default root element font size. this should be of course dependant on root
+		NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+		//return value.SubString(0, value.GetLength() - 3).ToFloat() * 16; //TODO: 16px default root element font size. this should be of course dependant on root
 	}
 
 	return value;

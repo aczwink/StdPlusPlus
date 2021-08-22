@@ -62,21 +62,6 @@
 //Internationalization
 #include <Std++/Internationalization/TimeZone.hpp>
 
-//Mathematics
-#include <Std++/Math/Degree.hpp>
-#include <Std++/Math/Integer.hpp>
-#include <Std++/Math/Natural.hpp>
-#include <Std++/Math/RandomBitGenerator.hpp>
-#include <Std++/Math/Quaternion.hpp>
-#include <Std++/Math/Radian.hpp>
-#include <Std++/Math/Size.hpp>
-#include <Std++/Math/Matrix3x3.hpp>
-#include <Std++/Math/Matrix4x4.hpp>
-#include <Std++/Math/Vector2/Vector2.hpp>
-#include <Std++/Math/Vector2/Vector2.inl>
-#include <Std++/Math/Vector3.hpp>
-#include <Std++/Math/Vector4/Vector4.inl>
-
 //CodeAnalysis
 #include <Std++/CodeAnalysis/Program.hpp>
 
@@ -96,18 +81,6 @@
 
 //Internationalization
 #include <Std++/Internationalization/Locale.hpp>
-
-//Math
-#include <Std++/Math/CComplex.h>
-#include <Std++/Math/Rational.hpp>
-#include <Std++/Math/CMatrix.h>
-//Math/Distributions
-#include <Std++/Math/Distributions/UniformRealDistribution.hpp>
-//Math/Geometry
-#include <Std++/Math/Geometry/AxisAlignedBox.hpp>
-#include <Std++/Math/Geometry/ObjectIntersection.hpp>
-//Math/RandomBitGenerators
-#include <Std++/Math/RandomBitGenerators/LinearCongruentialGenerator.hpp>
 
 //Multitasking
 #include <Std++/Multitasking/ConditionVariable.hpp>
@@ -225,5 +198,6 @@
 #include "StdXXErrorHandling.hpp"
 #include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"
+#include "StdXXMath.hpp"
 #include "StdXXMultimedia.hpp"
 #include "StdXXStreams.hpp"

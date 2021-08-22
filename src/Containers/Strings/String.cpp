@@ -312,126 +312,6 @@ String String::SubString(uint32 startPos, uint32 length) const
 	return result;
 }
 
-float64 String::ToFloat() const
-{
-	char *currentLocale = setlocale(LC_NUMERIC, "C");
-	float64 result = strtod((const char*)this->ToUTF8().GetRawZeroTerminatedData(), nullptr);
-	setlocale(LC_NUMERIC, currentLocale);
-
-	return result;
-	/*
-	 * TODO: the below code does not work correctly for many constellations (see tests).
-	 * The code has to be fixed before being able to be used.
-	 * Check for instance this: https://www.exploringbinary.com/how-glibc-strtod-works/
-	 */
-
-	if(this->data == nullptr || *this->data == 0)
-		return 0; //filter out empty strings
-
-	auto it = this->begin();
-	//skip leading white spaces
-	while(IsWhiteSpaceChar(*it))
-		++it;
-
-	//parse sign
-	int8 sign = 1;
-	if(*it == u8'-')
-	{
-		++it;
-		sign = -1;
-	}
-	else if (*it == u8'+')
-		++it;
-
-	//parse the integer part
-	float64 integerPart = 0;
-	while(it != this->end())
-	{
-		if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
-		{
-			integerPart = integerPart * 10 + (*it - u8'0');
-
-			++it;
-			continue;
-		}
-		switch(*it)
-		{
-			case u8'.':
-			case u8'e':
-			case u8'E':
-				goto parseFrac;
-				break;
-			default:
-				//weird symbol
-			NOT_IMPLEMENTED_ERROR;
-		}
-	}
-
-	parseFrac:
-	//parse fraction part
-	float64 fractionPart = 0;
-	uint32 divisor = 1;
-	if(*it == u8'.')
-	{
-		++it;
-		while(it != this->end())
-		{
-			if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
-			{
-				fractionPart = fractionPart*10 + (*it - u8'0');
-				divisor *= 10;
-			}
-			else if(*it == u8'e' || *it == u8'E')
-			{
-				break;
-			}
-			else
-			{
-				//weird symbol
-				NOT_IMPLEMENTED_ERROR;
-			}
-			++it;
-		}
-	}
-
-	//parse exponent
-	float64 base = 1;
-	if(*it == u8'e' || *it == u8'E')
-	{
-		++it;
-
-		//parse the exp sign
-		int8 expSign = 1;
-		if(*it == u8'-')
-		{
-			++it;
-			expSign = -1;
-		}
-		else if (*it == u8'+')
-			++it;
-
-		int16 exp = 0;
-		while(it != this->end())
-		{
-			if(IsValueInInterval(*it, (uint32)u8'0', (uint32)u8'9'))
-			{
-				exp = exp * 10 + (*it - u8'0');
-			}
-			else
-			{
-				//weird symbol
-				NOT_IMPLEMENTED_ERROR;
-			}
-
-			++it;
-		}
-
-		base = pow(10.0, exp * expSign);
-	}
-
-	return sign * (integerPart + fractionPart / divisor) * base;
-}
-
 int64 String::ToInt() const
 {
 	if (this->StartsWith(u8"-"))
@@ -684,10 +564,12 @@ void String::Detach() const
 
 				this->size = targetSize;
 			}
-
-			this->data = this->sharedResource->data;
-			this->sharedResource->nElements = this->size;
 		}
+		else
+			this->sharedResource->EnsureCapacity(this->size);
+
+		this->data = this->sharedResource->data;
+		this->sharedResource->nElements = this->size;
 	}
 }
 

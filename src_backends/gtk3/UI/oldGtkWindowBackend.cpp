@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,28 +26,6 @@
 #include "GtkEventSource.hpp"
 //Namespaces
 using namespace _stdpp;
-
-struct FileChooserData
-{
-	const Function<bool(Path &)> *callback;
-	GtkWidget *acceptButton;
-};
-
-//Local functions
-static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
-{
-	bool accept = false;
-	FileChooserData *fcd = static_cast<FileChooserData *>(user_data);
-	char *fileName = gtk_file_chooser_get_filename(fileChooser);
-	if(fileName)
-	{
-		Path path = String(fileName);
-		accept = (*fcd->callback)(path);
-		g_free(fileName);
-	}
-
-	gtk_widget_set_sensitive(fcd->acceptButton, accept);
-};
 
 //Constructor
 GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendType type, Widget *widget, const GtkWindowBackend *parentBackend) : WindowBackend(uiBackend, type, widget)
@@ -187,32 +165,6 @@ bool GtkWindowBackend::IsChecked() const
 
 void GtkWindowBackend::Paint()
 {
-}
-
-Path GtkWindowBackend::SelectExistingDirectory(const String &title, const Function<bool(Path &)> callback) const
-{
-	GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)title.ToUTF8().GetRawZeroTerminatedData(), GTK_WINDOW(this->gtkWidget), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, "Cancel", GTK_RESPONSE_CANCEL, "Select", GTK_RESPONSE_ACCEPT, nullptr);
-
-	FileChooserData fcd;
-	fcd.callback = &callback;
-	fcd.acceptButton = gtk_dialog_get_widget_for_response(GTK_DIALOG(fileChooserDialog), GTK_RESPONSE_ACCEPT);
-	g_signal_connect(fileChooserDialog, "selection-changed", G_CALLBACK(SelectionChanged), (gpointer)&fcd);
-
-	gint result = gtk_dialog_run(GTK_DIALOG(fileChooserDialog));
-	String fileName;
-	if(result == GTK_RESPONSE_ACCEPT)
-	{
-		char *pFileName;
-
-		pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserDialog));
-		fileName = String::CopyRawString(pFileName);
-
-		g_free(pFileName);
-	}
-
-	gtk_widget_destroy(fileChooserDialog);
-
-	return fileName;
 }
 
 void GtkWindowBackend::SetBounds(const Rect &area)

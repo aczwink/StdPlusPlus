@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Math/BinaryFloat.hpp>
 #include "__Globaldependencies.h"
 #include "Definitions.h"
 #include "Mathematics.hpp"
@@ -27,17 +28,6 @@ namespace StdXX
     template<typename T>
     class Float
     {
-    };
-
-    template<>
-    class Float<float32>
-    {
-    public:
-        //Expressions
-        static constexpr float32 Infinity()
-        {
-            return INFINITY;
-        }
     };
 
     template<>
@@ -93,6 +83,29 @@ namespace StdXX
 		static constexpr uint8 NumberOfDigitsInMantissa()
 		{
 			return DBL_MANT_DIG;
+		}
+
+		static float64 Parse(const String& string)
+		{
+			Math::DecimalFloat decimalFloat(string);
+			Math::BinaryFloat binaryFloat(decimalFloat, 53);
+			return binaryFloat.ClampTo64Bit();
+		}
+	};
+
+	template<>
+	class Float<float32>
+	{
+	public:
+		//Expressions
+		static constexpr float32 Infinity()
+		{
+			return INFINITY;
+		}
+
+		static float32 Parse(const String& string)
+		{
+			return (float32)Float<float64>::Parse(string);
 		}
 	};
 }

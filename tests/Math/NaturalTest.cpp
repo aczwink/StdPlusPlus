@@ -63,6 +63,15 @@ TEST_SUITE(NaturalTest)
 		Natural n2 = 36089725;
 
 		Natural result = n1 * n2;
-		ASSERT_EQUALS(1063239388225, result.RoundDown());
+		ASSERT_EQUALS(1063239388225, result.ClampTo64Bit());
+	}
+
+	TEST_CASE(division)
+	{
+		auto pow64 = Power(Natural(10), Natural(64));
+		auto pow65 = pow64 * 10;
+		auto pow65div10 = pow65 / 10;
+
+		ASSERT_EQUALS(pow64, pow65div10);
 	}
 };

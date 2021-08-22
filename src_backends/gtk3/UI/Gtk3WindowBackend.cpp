@@ -26,6 +26,12 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
+struct FileChooserData
+{
+	const Function<bool(FileSystem::Path &)> *callback;
+	GtkWidget *acceptButton;
+};
+
 //Local functions
 static gboolean CloseSlot(GtkWidget* gtkWidget, GdkEvent* gdkEvent, gpointer user_data)
 {
@@ -36,6 +42,21 @@ static gboolean CloseSlot(GtkWidget* gtkWidget, GdkEvent* gdkEvent, gpointer use
 
 	return event.WasAccepted();
 }
+
+static void SelectionChanged(GtkFileChooser *fileChooser, gpointer user_data)
+{
+	bool accept = false;
+	FileChooserData *fcd = static_cast<FileChooserData *>(user_data);
+	char *fileName = gtk_file_chooser_get_filename(fileChooser);
+	if(fileName)
+	{
+		FileSystem::Path path = String(fileName);
+		accept = (*fcd->callback)(path);
+		g_free(fileName);
+	}
+
+	gtk_widget_set_sensitive(fcd->acceptButton, accept);
+};
 
 
 //Constructor
@@ -87,6 +108,32 @@ void Gtk3WindowBackend::Maximize()
 	gtk_window_maximize(GTK_WINDOW(this->GetGtkWidget()));
 }
 
+FileSystem::Path Gtk3WindowBackend::SelectExistingDirectory(const String &title, const Function<bool(FileSystem::Path &)> callback) const
+{
+	GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)title.ToUTF8().GetRawZeroTerminatedData(), GTK_WINDOW(this->GetGtkWidget()), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, "Cancel", GTK_RESPONSE_CANCEL, "Select", GTK_RESPONSE_ACCEPT, nullptr);
+
+	FileChooserData fcd;
+	fcd.callback = &callback;
+	fcd.acceptButton = gtk_dialog_get_widget_for_response(GTK_DIALOG(fileChooserDialog), GTK_RESPONSE_ACCEPT);
+	g_signal_connect(fileChooserDialog, "selection-changed", G_CALLBACK(SelectionChanged), (gpointer)&fcd);
+
+	gint result = gtk_dialog_run(GTK_DIALOG(fileChooserDialog));
+	String fileName;
+	if(result == GTK_RESPONSE_ACCEPT)
+	{
+		char *pFileName;
+
+		pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserDialog));
+		fileName = String::CopyRawString(pFileName);
+
+		g_free(pFileName);
+	}
+
+	gtk_widget_destroy(fileChooserDialog);
+
+	return fileName;
+}
+
 void Gtk3WindowBackend::SetTitle(const String &title)
 {
     gtk_window_set_title(GTK_WINDOW(this->GetGtkWidget()), reinterpret_cast<const gchar *>(title.ToUTF8().GetRawZeroTerminatedData()));
@@ -125,12 +172,6 @@ void _stdxx_::Gtk3WindowBackend::SetBounds(const StdXX::Math::RectD &bounds) {
 
 void _stdxx_::Gtk3WindowBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-StdXX::FileSystem::Path _stdxx_::Gtk3WindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(
-        StdXX::FileSystem::Path &)> callback) const {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return StdXX::FileSystem::Path();
 }
 
 void _stdxx_::Gtk3WindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, _stdxx_::MenuBarBackend *menuBarBackend) {

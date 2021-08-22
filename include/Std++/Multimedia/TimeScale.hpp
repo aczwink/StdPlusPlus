@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -38,7 +38,7 @@ namespace StdXX::Multimedia
 		//Inline
 		inline uint64 Rescale(uint64 ts) const
 		{
-			return (ts / *this).RoundDown();
+			return (ts / *this).DivideAndRoundDown();
 		}
 
 		inline uint64 Rescale(uint64 ts, const TimeScale& targetTimeScale) const
@@ -49,7 +49,7 @@ namespace StdXX::Multimedia
 			Rational<Math::Natural> target(targetTimeScale.numerator, targetTimeScale.denominator);
 			Rational<Math::Natural> source(this->numerator, this->denominator);
 
-			return (Math::Natural(ts) * source * target.Reciprocal()).RoundDown().RoundDown();
+			return (Math::Natural(ts) * source * target.Reciprocal()).DivideAndRoundDown().ClampTo64Bit();
 		}
 	};
 }

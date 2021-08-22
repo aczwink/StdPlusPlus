@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,6 +35,7 @@ namespace _stdxx_
         StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
 	    void Maximize() override;
+		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
         void SetTitle(const StdXX::String &title) override;
 	    void Show(bool visible) override;
 
@@ -43,7 +44,6 @@ namespace _stdxx_
         void Repaint() override;
         void SetBounds(const StdXX::Math::RectD &bounds) override;
         void SetEditable(bool enable) const override;
-        StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
         void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;

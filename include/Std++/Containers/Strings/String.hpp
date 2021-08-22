@@ -252,7 +252,6 @@ namespace StdXX
 		 * @return
 		 */
 		String SubString(uint32 startPos, uint32 length = Unsigned<uint32>::Max()) const;
-		float64 ToFloat() const;
 		int64 ToInt() const;
 		String ToLowercase() const;
 		uint64 ToUInt() const;
@@ -331,11 +330,6 @@ namespace StdXX
 				this->sharedResource->Release();
 				this->sharedResource = nullptr;
 			}
-		}
-
-		inline float32 ToFloat32() const
-		{
-			return static_cast<float32>(this->ToFloat());
 		}
 
 		inline int32 ToInt32() const

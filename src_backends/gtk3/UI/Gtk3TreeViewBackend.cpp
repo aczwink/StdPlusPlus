@@ -25,6 +25,40 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
+//Local functions
+static void SelectionChangedSlot(GtkTreeSelection* treeSelection, gpointer user_data)
+{
+	TreeView& treeView = *(TreeView *) user_data;
+	auto controller = treeView.GetController();
+
+	GtkTreeModel* treeModel;
+	GList* list = gtk_tree_selection_get_selected_rows(treeSelection, &treeModel);
+	GList* iter = list;
+
+	LinkedList<ControllerIndex> selection;
+	while(iter)
+	{
+		GtkTreePath* treePath = static_cast<GtkTreePath *>(iter->data);
+
+		gint depth;
+		gint* indices = gtk_tree_path_get_indices_with_depth(treePath, &depth);
+		ControllerIndex index;
+		while(depth--)
+		{
+			index = controller->GetChildIndex(*indices, Unsigned<uint32>::Max(), index);
+			indices++;
+		}
+		selection.InsertTail(index);
+
+		iter = iter->next;
+	}
+
+	g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
+
+	SelectionChangedEvent event(Move(selection));
+	treeView.Event(event);
+}
+
 //Constructor
 Gtk3TreeViewBackend::Gtk3TreeViewBackend(UIBackend& uiBackend, TreeView& treeView) : ViewBackend(uiBackend),
 	Gtk3WidgetBackend(uiBackend, gtk_tree_view_new()), WidgetBackend(uiBackend), treeView(treeView)
@@ -35,6 +69,9 @@ Gtk3TreeViewBackend::Gtk3TreeViewBackend(UIBackend& uiBackend, TreeView& treeVie
 	gtk_widget_set_vexpand(gtkWidget, TRUE);
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(gtkWidget), true);
+
+	GtkTreeSelection* treeSelection = gtk_tree_view_get_selection(GTK_TREE_VIEW(gtkWidget));
+	g_signal_connect(treeSelection, "changed", G_CALLBACK(SelectionChangedSlot), &treeView);
 
 	gtk_widget_show_all(gtkWidget); //default is show
 }

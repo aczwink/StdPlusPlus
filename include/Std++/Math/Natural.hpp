@@ -29,29 +29,112 @@ namespace StdXX::Math
 	 */
 	class Natural
 	{
+		template<uint8 staticSegmentsCount>
+		class NaturalStorage
+		{
+		public:
+			//Constructor
+			inline NaturalStorage() : lowValue(), nValidLowSegments(0)
+			{
+			}
+
+			//Operators
+			inline bool operator==(const NaturalStorage& rhs) const
+			{
+				return (this->nValidLowSegments == rhs.nValidLowSegments) and this->LowValuesEqual(rhs) and (this->highValue == rhs.highValue);
+			}
+
+			//Inline
+			inline void AddSegment(uint64 segmentValue)
+			{
+				if( this->nValidLowSegments < staticSegmentsCount )
+					this->lowValue[this->nValidLowSegments++] = segmentValue;
+				else
+					this->highValue.Push(segmentValue);
+			}
+
+			inline uint64 ClampTo64Bit() const
+			{
+				if(this->nValidLowSegments == 0)
+					return 0;
+				if(this->highValue.IsEmpty() and (this->nValidLowSegments == 1))
+					return this->lowValue[0];
+				return Unsigned<uint64>::Max();
+			}
+
+			inline void DropLeadingZeros()
+			{
+				while (!this->highValue.IsEmpty() and (this->highValue.Last() == 0))
+					this->highValue.Pop();
+				if(this->highValue.IsEmpty())
+				{
+					while( (this->nValidLowSegments > 0) and (this->lowValue[this->nValidLowSegments - 1] == 0) )
+						this->nValidLowSegments--;
+				}
+			}
+
+			inline uint32 GetNumberOfSegments() const
+			{
+				return this->highValue.GetNumberOfElements() + this->nValidLowSegments;
+			}
+
+			inline uint64 GetSegment(uint32 index) const
+			{
+				return (index < staticSegmentsCount) ? this->lowValue[index] : this->highValue[index - staticSegmentsCount];
+			}
+
+			inline void SetNumberOfSegments(uint32 count)
+			{
+				if(count <= staticSegmentsCount)
+					this->nValidLowSegments = count;
+				else
+				{
+					this->nValidLowSegments = staticSegmentsCount;
+					this->highValue.Resize(count - staticSegmentsCount);
+					for(uint32 i = 0; i < count - staticSegmentsCount; i++)
+						this->highValue[i] = 0;
+				}
+			}
+
+			inline void SetSegment(uint32 index, uint64 segmentValue)
+			{
+				if(index < staticSegmentsCount)
+					this->lowValue[index] = segmentValue;
+				else
+					this->highValue[index - staticSegmentsCount] = segmentValue;
+			}
+
+		private:
+			//Members
+			DynamicArray<uint64> highValue;
+			uint64 lowValue[staticSegmentsCount];
+			uint8 nValidLowSegments;
+
+			//Inline
+			inline bool LowValuesEqual(const NaturalStorage& other) const
+			{
+				for(uint8 i = 0; i < this->nValidLowSegments; i++)
+				{
+					if(this->lowValue[i] != other.lowValue[i])
+						return false;
+				}
+				return true;
+			}
+		};
 	public:
 		//Constructors
 		/**
 		 * Inits the value to zero.
 		 */
-		inline Natural() : lowValue(0)
-		{
-		}
-
+		inline Natural() = default;
 		inline Natural(const Natural& other) = default;
 		inline Natural(Natural&& other) = default;
 		Natural(const String& string);
 
-		inline Natural(uint64 v) : lowValue(v)
+		inline Natural(uint64 v)
 		{
-		}
-
-		//Properties
-		inline uint64 RoundDown() const
-		{
-			if(this->value.IsEmpty())
-				return this->lowValue;
-			return Unsigned<uint64>::Max();
+			if(v != 0)
+				this->storage.AddSegment(v);
 		}
 
 		//Assignment operators
@@ -66,6 +149,11 @@ namespace StdXX::Math
 		inline Natural operator/(const Natural& other) const
 		{
 			return this->DivMod(other).Get<0>();
+		}
+
+		inline Natural operator%(const Natural& other) const
+		{
+			return this->DivMod(other).Get<1>();
 		}
 
 		inline Natural& operator+=(const Natural& other)
@@ -98,6 +186,12 @@ namespace StdXX::Math
 			return *this;
 		}
 
+		inline Natural& operator--() //pre-increment
+		{
+			*this -= 1;
+			return *this;
+		}
+
 		//Binary operators
 		Natural operator<<(uint64 shift) const;
 
@@ -122,12 +216,12 @@ namespace StdXX::Math
 
 		inline bool operator==(const Natural& other) const
 		{
-			return this->value == other.value;
+			return this->storage == other.storage;
 		}
 
 		inline bool operator!=(const Natural& other) const
 		{
-			return this->value != other.value;
+			return !(this->storage == other.storage);
 		}
 
 		inline bool operator>=(const Natural& other) const
@@ -139,9 +233,19 @@ namespace StdXX::Math
 		Tuple<Natural, Natural> DivMod(const Natural& divisor) const;
 		String ToString() const;
 
+		//Inline
+		inline uint64 ClampTo64Bit() const
+		{
+			return this->storage.ClampTo64Bit();
+		}
+
+		inline bool IsEven() const
+		{
+			return (this->storage.GetSegment(0) & 1) == 0;
+		}
+
 	private:
 		//Members
-		DynamicArray<uint64> value;
-		uint64 lowValue;
+		NaturalStorage<1> storage;
 	};
 }

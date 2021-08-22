@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -70,6 +70,22 @@ namespace StdXX::Math
         }
 
         //Inline operators
+        inline bool operator<(const Rational& rhs) const
+		{
+        	auto l = this->DivideAndRoundDown();
+        	auto r = rhs.DivideAndRoundDown();
+        	if(l < r)
+        		return true;
+        	if(l > r)
+        		return false;
+        	return this->Remainder() < rhs.Remainder();
+		}
+
+		inline bool operator>(const Rational& rhs) const
+		{
+        	return rhs < *this;
+		}
+
         inline bool operator==(const Rational &refRight) const
         {
             return this->isNegative == refRight.isNegative && this->numerator == refRight.numerator && this->denominator == refRight.denominator;
@@ -94,6 +110,16 @@ namespace StdXX::Math
         }
 
         //Inline
+		inline NaturalType DivideAndRoundDown() const
+		{
+			return this->numerator / this->denominator;
+		}
+
+		inline NaturalType Remainder() const
+		{
+        	return this->numerator % this->denominator;
+		}
+
         inline Rational Reciprocal() const
         {
             return Rational(this->denominator, this->numerator);
@@ -114,11 +140,6 @@ namespace StdXX::Math
 
             return result;
         }
-
-        inline NaturalType RoundDown() const
-		{
-        	return this->numerator / this->denominator;
-		}
 
 		inline float64 ToFloat() const
 		{

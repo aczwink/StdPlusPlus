@@ -9,7 +9,7 @@ set(TEST_FILES
 	${TEST_FILES}
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/FloatToString.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DecimalToString.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/lzma.cpp
 
 	PARENT_SCOPE)

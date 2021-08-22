@@ -38,7 +38,8 @@ TextReader &TextReader::operator>>(float32 &f)
 {
 	String tmp;
 	*this >> tmp;
-	f = tmp.ToFloat32();
+	NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+	//f = tmp.ToFloat32();
 
 	return *this;
 }
