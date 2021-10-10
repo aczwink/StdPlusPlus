@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -80,14 +80,6 @@ public:
 				codePoint |= (b[2] & 0x3F) << 6;
 				codePoint |= b[3] & 0x3F;
 			}
-			else
-			{
-				//3 byte
-				this->inputStream.ReadBytes(&b[1], 2);
-				codePoint = (uint32) ((b[0] & 0xF) << 12);
-				codePoint |= (b[1] & 0x3F) << 6;
-				codePoint |= b[2] & 0x3F;
-			}
 		}
 		*/
 
@@ -126,10 +118,12 @@ public:
 			dataWriter.WriteByte(static_cast<byte>(0x80 | ((codePoint >> 6) & 0x3F)));
 			dataWriter.WriteByte(static_cast<byte>(0x80 | (codePoint & 0x3F)));
 		}
-		else if(codePoint <= 0x10FFFF)
+		else if(codePoint <= UNICODE_MAX)
 		{
-			//4 bytes
-			NOT_IMPLEMENTED_ERROR;
+			dataWriter.WriteByte(0xF0 | (codePoint >> 18));
+			dataWriter.WriteByte(0x80 | ((codePoint >> 12) & 0x3F));
+			dataWriter.WriteByte(0x80 | ((codePoint >> 6) & 0x3F));
+			dataWriter.WriteByte(0x80 | (codePoint & 0x3F));
 		}
 		else
 		{

@@ -476,6 +476,8 @@ uint32 String::DecodeUTF8(const uint8 *src, uint8 &nBytes) const
 	uint8 b1 = *src++;
 	if(b1 & 0x80_u8)
 	{
+		ASSERT(b1 & 0x40, u8"Bit 6 must be set if bit 7 is also");
+
 		//2 bytes or more...
 		uint8 b2 = *src++;
 		ASSERT((b2 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
@@ -488,18 +490,22 @@ uint32 String::DecodeUTF8(const uint8 *src, uint8 &nBytes) const
 
 			if(b1 & 0x10_u8)
 			{
-				//4 bytes
-				NOT_IMPLEMENTED_ERROR;
+				uint8 b4 = *src++;
+				ASSERT((b4 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+				nBytes = 4;
+				return (uint32(b1 & 0x7_u8) << 18_u32) |
+					(uint32(b2 & 0x3F_u8) << 12_u32) |
+					(uint32(b3 & 0x3F_u8) << 6_u32) |
+					(b4 & 0x3F_u8);
 			}
 
 			//3 byte
-			ASSERT((b1 & 0xF0_u8) == 0xE0_u8, u8"Illegal encoding.");
 			nBytes = 3;
 			return (uint32(b1 & 0xF_u8) << 12_u32) | (uint32(b2 & 0x3F_u8) << 6_u32) | (b3 & 0x3F_u8);
 		}
 
 		//2 byte
-		ASSERT((b1 & 0x60_u8) == 0x40_u8, u8"Illegal encoding.");
 		nBytes = 2;
 		return (uint32(b1 & 0x1F_u8) << 6_u32) | (b2 & 0x3F_u8);
 	}
