@@ -621,10 +621,15 @@ uint8 String::EncodeUTF8(uint32 codePoint, byte *dest) const
 		return 3;
 	}
 
-	if(codePoint <= 0x10FFFF)
+	if(codePoint <= UNICODE_MAX)
 	{
 		//4 bytes
-		NOT_IMPLEMENTED_ERROR;
+		*dest++ = static_cast<byte>(0xF0 | (codePoint >> 18));
+		*dest++ = static_cast<byte>(0x80 | ((codePoint >> 12) & 0x3F));
+		*dest++ = static_cast<byte>(0x80 | ((codePoint >> 6) & 0x3F));
+		*dest++ = static_cast<byte>(0x80 | (codePoint & 0x3F));
+
+		return 4;
 	}
 
 	NOT_IMPLEMENTED_ERROR; //illegal code point

@@ -36,6 +36,8 @@ public:
 		uint8 b1 = reader.ReadByte();
 		if(b1 & 0x80_u8)
 		{
+			ASSERT(b1 & 0x40, u8"Bit 6 must be set if bit 7 is also");
+
 			//2 bytes or more...
 			uint8 b2 = reader.ReadByte();
 			ASSERT((b2 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
@@ -48,18 +50,22 @@ public:
 
 				if(b1 & 0x10_u8)
 				{
-					//4 bytes
-					NOT_IMPLEMENTED_ERROR;
+					uint8 b4 = reader.ReadByte();
+					ASSERT((b4 & 0xC0_u8) == 0x80_u8, u8"Illegal encoding.");
+
+					nBytesRead = 4;
+					return (uint32(b1 & 0x7_u8) << 18_u32) |
+						   (uint32(b2 & 0x3F_u8) << 12_u32) |
+						   (uint32(b3 & 0x3F_u8) << 6_u32) |
+						   (b4 & 0x3F_u8);
 				}
 
 				//3 byte
-				ASSERT((b1 & 0xF0_u8) == 0xE0_u8, u8"Illegal encoding.");
 				nBytesRead = 3;
 				return (uint32(b1 & 0xF_u8) << 12_u32) | (uint32(b2 & 0x3F_u8) << 6_u32) | (b3 & 0x3F_u8);
 			}
 
 			//2 byte
-			ASSERT((b1 & 0x60_u8) == 0x40_u8, u8"Illegal encoding.");
 			nBytesRead = 2;
 			return (uint32(b1 & 0x1F_u8) << 6_u32) | (b2 & 0x3F_u8);
 		}
@@ -67,21 +73,6 @@ public:
 		nBytesRead = 1;
 		return b1;
 	}
-
-	/*
-	if(b[0] & 0x20)
-		{
-			if(b[0] & 0x10)
-			{
-				//4 byte
-				this->inputStream.ReadBytes(&b[1], 3);
-				codePoint = (uint32) ((b[0] & 0xF) << 18);
-				codePoint |= (b[1] & 0x3F) << 12;
-				codePoint |= (b[2] & 0x3F) << 6;
-				codePoint |= b[3] & 0x3F;
-			}
-		}
-		*/
 
 	void WriteCodePoint(uint32 codePoint, OutputStream &outputStream) const override
 	{

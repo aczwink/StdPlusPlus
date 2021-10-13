@@ -118,6 +118,8 @@ public:
 	InputStream& GetInputStream(const Path& path, uint64 offset)
 	{
 		this->openInputStreamsLock.Lock();
+		path.String().GetRawZeroTerminatedData(); //because the string is saved inside a openInputStreams, it must have its own memory
+
 		StreamState& streamState = this->openInputStreams[path];
 
 		if(streamState.inputStream.IsNull())
