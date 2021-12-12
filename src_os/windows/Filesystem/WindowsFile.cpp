@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "WindowsFile.hpp"
 //Namespaces
 using namespace _stdxx_;
@@ -46,3 +46,4 @@ UniquePointer<OutputStream> WindowsFile::OpenForWriting()
 	NOT_IMPLEMENTED_ERROR;
 	return UniquePointer<OutputStream>();
 }
+*/

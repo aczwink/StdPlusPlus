@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -62,27 +62,20 @@ namespace StdXX
 #endif
 #ifdef XPC_COMPILER_MSVC
 	public:
-		//Constructor
-		inline AtomicFlag() : native(0)
-		{
-		}
-
 		//Inline
 		inline void Clear()
 		{
-			_Compiler_barrier();
-			volatile unsigned long* target = (volatile unsigned long*)&this->native;
-			*target = 0;
+			this->flag.clear();
 		}
 
 		inline bool TestAndSet()
 		{
-			return _interlockedbittestandset(&this->native, 0) != 0;
+			return this->flag.test_and_set();
 		}
 
 	private:
 		//Members
-		long native;
+		std::atomic_flag flag;
 #endif
 	};
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/UI/Window.hpp>
+#include <Std++/FileSystem/Path.hpp>
 #include "CommCtrlContainerBackend.hpp"
 #include "Win32Window.hpp"
 #include "../Imports.h"
@@ -50,7 +51,8 @@ namespace _stdxx_
 		void Maximize() override;
 		void OnMessage(WinMessageEvent& event) override;
         void Repaint() override;
-        Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const override;
+        FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(FileSystem::Path &)> callback) const override;
+		virtual StdXX::FileSystem::Path SelectExistingFile(const StdXX::String& title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::FileSystem::Path& initialPath) const override;
         void SetBounds(const StdXX::Math::RectD &area) override;
 		void SetEditable(bool enable) const override;
 		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
@@ -64,6 +66,7 @@ namespace _stdxx_
 		Window *window;
 		bool showFirstTime;
 		bool maximizeWindow;
+
 		//HWND hWndReal; //the Up-Down-Control (i.e. this->hWnd is the buddy) for SpinBoxes
 	};
 }

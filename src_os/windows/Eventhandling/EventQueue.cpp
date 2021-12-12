@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,10 +22,22 @@
 #include <Windows.h>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::EventHandling;
 //Definitions
 #define THIS ((DynamicArray<HANDLE> *)this->internal)
 
 //Private methods
+void EventQueue::System_Init()
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+void EventQueue::System_WaitForEvents(uint64 timeOut)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
+/*//Private methods
 void EventQueue::System_CollectWaitObjects()
 {
 	THIS->Resize(0);
@@ -60,4 +72,4 @@ void EventQueue::System_WaitForEvents(uint64 timeOut)
 	if (!THIS->IsEmpty())
 		handles = &(*THIS)[0];
 	MsgWaitForMultipleObjectsEx(THIS->GetNumberOfElements(), handles, waitTime, QS_ALLINPUT, MWMO_INPUTAVAILABLE);
-}
+}*/

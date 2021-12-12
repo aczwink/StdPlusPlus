@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,6 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 #include "../../../src/UI/Render Targets/IRenderTarget.h"
 #include "CDropTarget.h"

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Streams/OutputStream.hpp>
 #include "Binding.hpp"
+#include "General.hpp"
 
 namespace StdXX::Serialization
 {
@@ -51,7 +52,9 @@ namespace StdXX::Serialization
 		}
 
 		template <typename T>
-		inline JSONSerializer& operator<<(const Binding<T>& binding)
+		inline
+		Type::EnableIf_t<HasArchiveFunction<JSONSerializer, T>::value, JSONSerializer&>
+		operator<<(const Binding<T>& binding)
 		{
 			this->objectStack.Push(CommonFileFormats::JsonValue::Object());
 			Archive(*this, binding.value);
@@ -61,7 +64,9 @@ namespace StdXX::Serialization
 		}
 
 		template <typename T>
-		inline JSONSerializer& operator<<(const T& value)
+		inline
+		Type::EnableIf_t<HasArchiveFunction<JSONSerializer, T>::value, JSONSerializer&>
+		operator<<(const T& value)
 		{
 			this->objectStack.Push(CommonFileFormats::JsonValue::Object());
 			Archive(*this, const_cast<T&>(value));

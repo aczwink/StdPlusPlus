@@ -98,12 +98,12 @@ namespace StdXX::Serialization
     {
         return operator>><JSONDeserializer>(deserializer, binding);
     }
-    inline XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<FileSystem::Path>& binding)
+    inline XMLDeserializer& operator>>(XMLDeserializer& deserializer, const Binding<FileSystem::Path>& binding)
     {
-        return operator>><XmlDeserializer>(deserializer, binding);
+        return operator>><XMLDeserializer>(deserializer, binding);
     }
-    inline XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<DateTime>& binding)
+    inline XMLDeserializer& operator>>(XMLDeserializer& deserializer, const Binding<DateTime>& binding)
     {
-        return operator>><XmlDeserializer>(deserializer, binding);
+        return operator>><XMLDeserializer>(deserializer, binding);
     }
 }

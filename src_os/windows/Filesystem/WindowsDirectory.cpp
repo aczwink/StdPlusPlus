@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
-//Class header
+/*//Class header
 #include "WindowsDirectory.hpp"
 //Global
 #include <Windows.h>
@@ -212,4 +212,4 @@ uint64 _stdxx_::WindowsDirectory::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return uint64();
-}
+}*/

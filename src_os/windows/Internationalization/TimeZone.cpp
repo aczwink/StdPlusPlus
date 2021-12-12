@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -70,7 +70,7 @@ DateTime TimeZone::Translate(const DateTime &dt) const
 #if WINVER >= _WIN32_WINNT_WIN8
 	DYNAMIC_TIME_ZONE_INFORMATION dtzi;
 	EnumDynamicTimeZoneInformation((DWORD)this->osHandle, &dtzi);
-	GetTimeZoneInformationForYear(dt.GetDate().GetYear(), &dtzi, &tzi);
+	GetTimeZoneInformationForYear(dt.Date().Year(), &dtzi, &tzi);
 #else
 	NOT_IMPLEMENTED_ERROR; //TODO: Time zone from registry key (see above)
 #endif
@@ -80,8 +80,8 @@ DateTime TimeZone::Translate(const DateTime &dt) const
 		//DST is used in that time zone
 		ASSERT(tzi.DaylightDate.wYear == 0, u8"As GetTimeZoneInformationForYear gives an information on one year, this should always be a relative date?!");
 		//relative-date
-		DateTime dst = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.DaylightDate, dt.GetDate().GetYear());
-		DateTime std = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.StandardDate, dt.GetDate().GetYear());
+		DateTime dst = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.DaylightDate, dt.Date().Year());
+		DateTime std = TimeZoneDescriptionRelativeSystemTimeToDateTime(tzi.StandardDate, dt.Date().Year());
 		bool isDST = dt >= dst && dt < std; //std should be > then dst
 
 		if (isDST)
@@ -94,7 +94,7 @@ DateTime TimeZone::Translate(const DateTime &dt) const
 	}
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return DateTime::FromUnixTimeStampWithMilliSeconds(0);
+	return DateTime::FromUnixTimeStamp(0);
 }
 
 //Class functions

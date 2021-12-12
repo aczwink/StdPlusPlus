@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,11 +23,6 @@
 #include <Windows.h>
 #endif
 
-//Prototypes
-#ifdef XPC_BUILDTYPE_DEBUG
-STDPLUSPLUS_API void StartUserMemoryLogging();
-#endif
-
 //Local functions
 static void ReportError(const String &message1, const String &message2)
 {
@@ -47,9 +42,6 @@ int32 _StdPlusPlusMain(const String &programName, const FixedArray<String> &args
     int32 exitCode = -1;
 
     InitStdPlusPlus();
-#ifdef XPC_BUILDTYPE_DEBUG
-    StartUserMemoryLogging();
-#endif
     try
     {
         exitCode = Main(programName, args);

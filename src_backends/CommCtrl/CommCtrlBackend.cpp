@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -60,14 +60,14 @@ DrawableWidgetBackend* CommCtrlBackend::CreateDrawableWidgetBackend(UI::Widget &
 	return new Win32DrawableWidget(*this, widget);
 }
 
-EventSource *CommCtrlBackend::CreateEventSource()
+EventHandling::EventSource *CommCtrlBackend::CreateEventSource()
 {
 	return new WindowsMessageQueueEventSource;
 }
 
-GroupBoxBackend *CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox * groupBox)
+GroupBoxBackend *CommCtrlBackend::CreateGroupBoxBackend(UI::GroupBox& groupBox)
 {
-	return new CommCtrlGroupBoxBackend(*this, groupBox);
+	return new CommCtrlGroupBoxBackend(*this, &groupBox);
 }
 
 HeaderViewBackend * CommCtrlBackend::CreateHeaderViewBackend(UI::HeaderView & headerView)
@@ -75,9 +75,9 @@ HeaderViewBackend * CommCtrlBackend::CreateHeaderViewBackend(UI::HeaderView & he
 	return new CommCtrlHeaderViewBackend(*this, headerView);
 }
 
-LabelBackend *CommCtrlBackend::CreateLabelBackend(UI::Label *label)
+LabelBackend *CommCtrlBackend::CreateLabelBackend(UI::Label& label)
 {
-	return new CommCtrlLabelBackend(*this, label);
+	return new CommCtrlLabelBackend(*this, &label);
 }
 
 MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
@@ -85,19 +85,19 @@ MenuBarBackend *CommCtrlBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 	return new CommCtrlMenuBarBackend(menuBar);
 }
 
-PushButtonBackend *CommCtrlBackend::CreatePushButtonBackend(UI::PushButton * pushButton)
+PushButtonBackend *CommCtrlBackend::CreatePushButtonBackend(UI::PushButton& pushButton)
 {
-	return new CommCtrlPushButtonBackend(*this, pushButton);
+	return new CommCtrlPushButtonBackend(*this, &pushButton);
 }
 
-WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget)
+WidgetBackend *CommCtrlBackend::CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget)
 {
-	return new CommCtrlRenderTargetWidgetBackend(*this, renderTargetWidget);
+	return new CommCtrlRenderTargetWidgetBackend(*this, &renderTargetWidget);
 }
 
-SliderBackend *CommCtrlBackend::CreateSliderBackend(UI::Slider *slider)
+SliderBackend *CommCtrlBackend::CreateSliderBackend(UI::Slider& slider)
 {
-	return new CommCtrlSliderBackend(*this, slider);
+	return new CommCtrlSliderBackend(*this, &slider);
 }
 
 SpinBoxBackend *CommCtrlBackend::CreateSpinBoxBackend(UI::SpinBox *spinBox)
@@ -132,7 +132,7 @@ ViewBackend * CommCtrlBackend::CreateTreeViewBackend(UI::TreeView & treeView)
 	return nullptr;
 }
 
-WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window * window)
+WindowBackend * CommCtrlBackend::CreateWindowBackend(UI::Window* window)
 {
 	return new CommCtrlWindowBackend(*this, window);
 }
@@ -222,7 +222,7 @@ void CommCtrlBackend::LoadStyles() const
 	CloseThemeData(hTheme);
 
 	//load styles
-	const char* c_style = {
+	String c_style = {
 #include "resources/win.css"
 	};
 	s.Parse(c_style);

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -17,6 +17,7 @@
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
 //Local
+/*
 #include <Std++/Filesystem/Directory.hpp>
 namespace _stdxx_
 {
@@ -41,4 +42,4 @@ namespace _stdxx_
 		virtual StdXX::DirectoryIterator begin() const override;
 		virtual StdXX::DirectoryIterator end() const override;
 	};
-}
+}*/

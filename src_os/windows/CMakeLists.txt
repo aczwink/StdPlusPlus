@@ -3,9 +3,10 @@ set(SOURCE_FILES
 
 	#EventHandling
 	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventQueue.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventWaiter.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Eventhandling/EventSignal.cpp
 	
 	#FileSystem
+	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/FileSystemsManager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/OSFileSystem.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsDirectory.hpp
@@ -13,10 +14,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsRoot.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Filesystem/WindowsRoot.hpp
+	
+	#Internationalization
+	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.cpp
 
-		#Internationalization
-		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/Locale.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.cpp
+	#Memory
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory/MemoryManager.cpp
 		
 		#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
@@ -28,7 +32,7 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Rendering/CDeviceContext.cpp
 
 		#Streams
-		${CMAKE_CURRENT_SOURCE_DIR}/Streams/CFileInputStream.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileInputStream.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Streams/FileOutputStream.cpp
 
 		#Time

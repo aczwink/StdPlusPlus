@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -63,7 +63,9 @@ void CommCtrlSpinBoxBackend::OnMessage(WinMessageEvent& event)
 			Variant value;
 			value.i32 = text.ToInt32();
 
-			this->spinBox->Event(ValueChangedEvent(value));
+			ValueChangedEvent vce(value);
+			this->spinBox->Event(vce);
+
 			event.consumed = true;
 			event.result = 0;
 		}

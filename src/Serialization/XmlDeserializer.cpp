@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,7 +24,7 @@ using namespace StdXX::CommonFileFormats::XML;
 using namespace StdXX::Serialization;
 
 //Private methods
-const Element *XmlDeserializer::FirstChildElementWithTagName(const Element &element, const String &tagName) const
+const Element *XMLDeserializer::FirstChildElementWithTagName(const Element &element, const String &tagName) const
 {
 	for(const Node* node : element.Children())
 	{

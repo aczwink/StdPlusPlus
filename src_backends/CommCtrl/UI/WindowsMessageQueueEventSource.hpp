@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -35,9 +35,10 @@ public:
 	WindowsMessageQueueEventSource();
 
 	//Methods
+	virtual bool CheckWaitResults(const StdXX::EventHandling::WaitResult& waitResults) override;
 	void DispatchPendingEvents() override;
-	uint64 GetMaxTimeout() const override;
-	void VisitWaitObjects(const StdXX::Function<void (_stdxx_::WaitObjHandle, bool)>& visitFunc) override;
+	virtual bool HasPendingEvents() const override;
+	virtual uint64 QueryWaitInfo(StdXX::EventHandling::WaitObjectManager& waitObjectManager) override;
 
 	//Functions
 	static _stdxx_::CommCtrlWidgetBackend *GetAttachedBackend(HWND hWnd);

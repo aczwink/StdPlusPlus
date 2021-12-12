@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -52,7 +52,7 @@ void Thread::Join(uint64 duration)
 
 void Thread::Start()
 {
-	ASSERT(this->systemHandle == nullptr, "Can't start an already started thread");
+	ASSERT(this->systemHandle == nullptr, u8"Can't start an already started thread");
 	
 	DWORD threadId;
 	

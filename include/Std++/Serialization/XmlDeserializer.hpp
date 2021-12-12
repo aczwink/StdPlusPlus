@@ -24,14 +24,15 @@
 #include "Std++/CommonFileFormats/XML/Document.hpp"
 #include <Std++/Containers/Optional.hpp>
 #include "Binding.hpp"
+#include "General.hpp"
 
 namespace StdXX::Serialization
 {
-	class XmlDeserializer
+	class XMLDeserializer
 	{
 	public:
 		//Constructor
-		inline XmlDeserializer(InputStream& inputStream) : inputStream(inputStream)
+		inline XMLDeserializer(InputStream& inputStream) : inputStream(inputStream)
 		{
 			this->document = CommonFileFormats::XML::Document::Parse(this->inputStream);
 			this->inAttributes = false;
@@ -39,12 +40,12 @@ namespace StdXX::Serialization
 
 		//Operators
 		template <typename T>
-		inline XmlDeserializer& operator&(const Binding<T>& binding)
+		inline XMLDeserializer& operator&(const Binding<T>& binding)
 		{
 			return *this >> binding;
 		}
 
-		XmlDeserializer& operator>>(const Binding<bool>& binding)
+		XMLDeserializer& operator>>(const Binding<bool>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
 			String string = this->FetchStringValue();
@@ -59,7 +60,7 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
-		XmlDeserializer& operator>>(const Binding<int32>& binding)
+		XMLDeserializer& operator>>(const Binding<int32>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
 			binding.value = this->FetchStringValue().ToInt32();
@@ -68,7 +69,7 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
-        XmlDeserializer& operator>>(const Binding<uint32>& binding)
+        XMLDeserializer& operator>>(const Binding<uint32>& binding)
         {
             this->EnterElementOrAttribute(binding.name);
             binding.value = this->FetchStringValue().ToUInt();
@@ -77,7 +78,7 @@ namespace StdXX::Serialization
             return *this;
         }
 
-		XmlDeserializer& operator>>(const Binding<uint64>& binding)
+		XMLDeserializer& operator>>(const Binding<uint64>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
 			binding.value = this->FetchStringValue().ToUInt();
@@ -86,7 +87,7 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
-		XmlDeserializer& operator>>(const Binding<String>& binding)
+		XMLDeserializer& operator>>(const Binding<String>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
 			binding.value = this->FetchStringValue();
@@ -96,7 +97,7 @@ namespace StdXX::Serialization
 		}
 
 		template<typename T>
-		XmlDeserializer& operator>>(const Binding<Optional<T>>& binding)
+		XMLDeserializer& operator>>(const Binding<Optional<T>>& binding)
 		{
 			bool contain = false;
 			if(this->inAttributes)
@@ -115,7 +116,9 @@ namespace StdXX::Serialization
 		}
 
 		template <typename T>
-		XmlDeserializer& operator>>(const Binding<T>& binding)
+		inline
+		Type::EnableIf_t<HasArchiveFunction<XMLDeserializer, T>::value, XMLDeserializer&>
+		operator>>(const Binding<T>& binding)
 		{
 			this->EnterElementOrAttribute(binding.name);
 			Archive(*this, binding.value);

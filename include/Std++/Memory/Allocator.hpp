@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//corresponding header
-#include <Std++/Memory.hpp>
+#pragma once
 //Local
-#include <Std++/Mathematics.hpp>
+#include <Std++/Definitions.h>
 
-//Namespace functions
-void StdXX::MemMove(void *destination, const void *source, uint32 size)
+namespace StdXX::Memory
 {
-	const uint8* src = static_cast<const uint8 *>(source);
-	uint8* dest = static_cast<uint8 *>(destination);
-
-	if(Math::IsValueInInterval((const uint8*)dest, src, src+size))
+	class Allocator
 	{
-		//overlap, copy from end
-		src += size - 1;
-		dest += size - 1;
-		while(size--)
-		{
-			*dest-- = *src--;
-		}
-		return;
-	}
-
-	MemCopy(destination, source, size);
+	public:
+		//Abstract
+		virtual void* Allocate(uint32 size) = 0;
+		virtual void Free(void* mem) = 0;
+		virtual void* Reallocate(void* mem, uint32 size) = 0;
+	};
 }

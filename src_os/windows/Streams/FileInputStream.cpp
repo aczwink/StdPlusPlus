@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,18 +21,17 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
-#include <Std++/ErrorHandling/FileNotFoundException.hpp>
-#include <Std++/Filesystem/OSFileSystem.hpp>
+#include <Std++/Errorhandling/Exceptions/FileNotFoundException.hpp>
+#include <Std++/FileSystem/FileSystemsManager.hpp>
+#include <Std++/FileSystem/OSFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Constructor
 FileInputStream::FileInputStream(const Path &path)
 {
-	this->hitEnd = false;
-
-	String nativePath = OSFileSystem::GetInstance().ToNativePath(path);
+	String nativePath = FileSystemsManager::Instance().OSFileSystem().ToNativePath(path);
 	this->pFileHandle = CreateFileW((LPCWSTR)nativePath.GetRawZeroTerminatedData(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if(this->pFileHandle == INVALID_HANDLE_VALUE)
@@ -55,7 +54,7 @@ FileInputStream::~FileInputStream()
 }
 
 //Public methods
-uint64 FileInputStream::GetCurrentOffset() const
+uint64 FileInputStream::QueryCurrentOffset() const
 {
 	LARGE_INTEGER offset, result;
 
@@ -66,19 +65,19 @@ uint64 FileInputStream::GetCurrentOffset() const
 	return result.QuadPart;
 }
 
-uint64 FileInputStream::GetRemainingBytes() const
+uint64 FileInputStream::QueryRemainingBytes() const
 {
-	return this->GetSize() - this->GetCurrentOffset();
+	return this->QuerySize() - this->QueryCurrentOffset();
 }
 
-uint64 FileInputStream::GetSize() const
+uint64 FileInputStream::QuerySize() const
 {
 	uint64 offset;
 	LARGE_INTEGER moveOffset, size;
 
 	moveOffset.QuadPart = 0;
 
-	offset = this->GetCurrentOffset();
+	offset = this->QueryCurrentOffset();
 	SetFilePointerEx(this->pFileHandle, moveOffset, &size, FILE_END);
 
 	//restore old pos
@@ -93,12 +92,11 @@ uint32 FileInputStream::ReadBytes(void *pDestination, uint32 count)
 	DWORD nReadBytes;
 
 	ReadFile(this->pFileHandle, pDestination, count, &nReadBytes, nullptr);
-	this->hitEnd = nReadBytes == 0;
 
 	return nReadBytes;
 }
 
-void FileInputStream::SetCurrentOffset(uint64 offset)
+void FileInputStream::SeekTo(uint64 offset)
 {
 	LARGE_INTEGER liOffset;
 
@@ -112,7 +110,7 @@ uint32 FileInputStream::Skip(uint32 nBytes)
 	uint64 currentOffset;
 	LARGE_INTEGER liOffset, newFilePointer;
 
-	currentOffset = this->GetCurrentOffset();
+	currentOffset = this->QueryCurrentOffset();
 
 	liOffset.QuadPart = nBytes;
 

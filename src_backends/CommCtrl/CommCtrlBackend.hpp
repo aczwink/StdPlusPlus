@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,17 +45,17 @@ namespace StdXX
 
 		_stdxx_::CheckBoxBackend * CreateCheckBoxBackend(UI::CheckBox * checkBox) override;
 		_stdxx_::DrawableWidgetBackend * CreateDrawableWidgetBackend(UI::Widget & widget) override;
-		EventSource *CreateEventSource() override;
-		_stdxx_::GroupBoxBackend * CreateGroupBoxBackend(UI::GroupBox * groupBox) override;
+		StdXX::EventHandling::EventSource *CreateEventSource() override;
+		_stdxx_::GroupBoxBackend * CreateGroupBoxBackend(UI::GroupBox& groupBox) override;
 		_stdxx_::HeaderViewBackend * CreateHeaderViewBackend(UI::HeaderView & headerView) override;
-		_stdxx_::LabelBackend * CreateLabelBackend(UI::Label * label) override;
+		_stdxx_::LabelBackend * CreateLabelBackend(UI::Label& label) override;
 		_stdxx_::MenuBarBackend *CreateMenuBarBackend(UI::MenuBar *menuBar) override;
-		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton * pushButton) override;
-		_stdxx_::WidgetBackend * CreateRenderTargetWidgetBackend(UI::RenderTargetWidget * renderTargetWidget) override;
+		_stdxx_::PushButtonBackend * CreatePushButtonBackend(UI::PushButton& pushButton) override;
+		_stdxx_::WidgetBackend * CreateRenderTargetWidgetBackend(UI::RenderTargetWidget& renderTargetWidget) override;
 		_stdxx_::ContentAreaWidgetBackend* CreateScrollAreaBackend(UI::ScrollArea * scrollArea) override;
 		_stdxx_::WidgetBackend * CreateSearchBoxBackend(UI::SearchBox & searchBox) override;
 		_stdxx_::ViewBackend * CreateSelectBoxBackend(UI::SelectBox & selectBox) override;
-		_stdxx_::SliderBackend * CreateSliderBackend(UI::Slider * slider) override;
+		_stdxx_::SliderBackend * CreateSliderBackend(UI::Slider& slider) override;
 		_stdxx_::SpinBoxBackend * CreateSpinBoxBackend(UI::SpinBox * spinBox) override;
 		_stdxx_::ViewBackend * CreateTableViewBackend(UI::TableView & treeView) override;
 		_stdxx_::ViewBackend * CreateTreeViewBackend(UI::TreeView & treeView) override;

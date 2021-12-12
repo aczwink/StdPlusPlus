@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -30,6 +30,7 @@
 #include "../Imports.h"
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::EventHandling;
 using namespace StdXX::Math;
 using namespace StdXX::UI;
 using namespace _stdxx_;
@@ -60,14 +61,14 @@ void WindowsMessageQueueEventSource::DispatchPendingEvents()
 	}
 }
 
-uint64 WindowsMessageQueueEventSource::GetMaxTimeout() const
+/*uint64 WindowsMessageQueueEventSource::GetMaxTimeout() const
 {
 	return Unsigned<uint64>::Max();
 }
 
 void WindowsMessageQueueEventSource::VisitWaitObjects(const Function<void(_stdxx_::WaitObjHandle, bool)>& visitFunc)
 {
-}
+}*/
 
 //Private methods
 	//if(input.header.dwType == RIM_TYPEKEYBOARD)
@@ -154,6 +155,24 @@ void WindowsMessageQueueEventSource::DispatchNotificationEvent(Widget &refWidget
 	}
 	break;
 	}
+}
+
+bool WindowsMessageQueueEventSource::CheckWaitResults(const WaitResult& waitResults)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return false;
+}
+
+bool WindowsMessageQueueEventSource::HasPendingEvents() const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return false;
+}
+
+uint64 WindowsMessageQueueEventSource::QueryWaitInfo(WaitObjectManager& waitObjectManager)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return uint64();
 }
 
 //Class functions

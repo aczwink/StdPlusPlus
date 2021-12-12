@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,15 +21,16 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/Containers/Strings/UTF-16/UTF16String.hpp>
+#include <Std++/Filesystem/FileSystemsManager.hpp>
 #include <Std++/Filesystem/OSFileSystem.hpp>
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Constructor
-FileOutputStream::FileOutputStream(const Path& path, bool overwrite)
+FileOutputStream::FileOutputStream(const Path& path, bool overwrite, const Permissions* permissions)
 {
-	String nativePath = OSFileSystem::GetInstance().ToNativePath(path);
+	String nativePath = FileSystemsManager::Instance().OSFileSystem().ToNativePath(path);
 	OutputDebugStringW((LPCWSTR)nativePath.ToUTF16().GetRawZeroTerminatedData());
 	this->pFileHandle = CreateFileW((LPCWSTR)nativePath.ToUTF16().GetRawZeroTerminatedData(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, overwrite ? CREATE_ALWAYS : CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (this->pFileHandle == INVALID_HANDLE_VALUE)
@@ -55,7 +56,7 @@ void FileOutputStream::Flush()
 	FlushFileBuffers(this->pFileHandle);
 }
 
-uint64 FileOutputStream::GetCurrentOffset() const
+uint64 FileOutputStream::QueryCurrentOffset() const
 {
 	LARGE_INTEGER offset, result;
 
@@ -66,7 +67,7 @@ uint64 FileOutputStream::GetCurrentOffset() const
 	return result.QuadPart;
 }
 
-void FileOutputStream::SetCurrentOffset(uint64 offset)
+void FileOutputStream::SeekTo(uint64 offset)
 {
 	LARGE_INTEGER liOffset;
 

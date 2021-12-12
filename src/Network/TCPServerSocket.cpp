@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -136,6 +136,7 @@ UniquePointer<TCPSocket> TCPServerSocket::WaitForIncomingConnections(uint64 time
 	while(true)
 	{
 #ifdef XPC_OS_WINDOWS
+		bool timedOut = false;
 		NOT_IMPLEMENTED_ERROR;
 #else
 		bool timedOut = poll(&fd, 1, timeOut32Bit) == 0;

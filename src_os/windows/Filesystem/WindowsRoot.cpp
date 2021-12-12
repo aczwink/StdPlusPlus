@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+/*
 //Class header
 #include "WindowsRoot.hpp"
 //Global
@@ -195,4 +196,4 @@ uint64 _stdxx_::WindowsRoot::GetSize() const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return uint64();
-}
+}*/

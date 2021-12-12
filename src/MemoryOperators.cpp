@@ -18,55 +18,41 @@
  */
  //corresponding header
 #include <Std++/Memory.hpp>
+//Namespaces
+using namespace StdXX::Memory;
 
 #ifdef XPC_BUILDTYPE_DEBUG
 #undef new
 void *operator new(size_t size)
 {
-	const char *fileName = __file__;
-	__file__ = "???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
+	void* ptr = MemoryManager::GlobalAllocator().Allocate(size);
+	_stdxx_::TrySetMemoryContext("???", -1);
+	return ptr;
 }
 
 void *operator new[](size_t size)
 {
-	const char *fileName = __file__;
-	__file__ = "???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocDebug((uint32)size, fileName, lineNumber);
+	void* ptr = MemoryManager::GlobalAllocator().Allocate(size);
+	_stdxx_::TrySetMemoryContext("???", -1);
+	return ptr;
 }
 
 void *operator new(size_t size, std::align_val_t al)
 {
-	const char *fileName = __file__;
-	__file__ = "???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
+	uint8 alignment = (uint8)al;
+	void* ptr = MemoryManager::GlobalAllocator().Allocate(_stdxx_::ComputeSizeWithAlignment(size, alignment));
+	_stdxx_::TrySetMemoryContext("???", -1);
+	return _stdxx_::SaveAlignmentOffsetAndAlignMemory(ptr, alignment);
 }
 
 void *operator new[](size_t size, std::align_val_t al)
 {
-	const char *fileName = __file__;
-	__file__ = "???";
-
-	int lineNumber = __line__;
-	__line__ = -1;
-
-	return StdXX::MemAllocAlignedDebug((uint32)size, (uint8)al, fileName, lineNumber);
+	uint8 alignment = (uint8)al;
+	void* ptr = MemoryManager::GlobalAllocator().Allocate(_stdxx_::ComputeSizeWithAlignment(size, alignment));
+	_stdxx_::TrySetMemoryContext("???", -1);
+	return _stdxx_::SaveAlignmentOffsetAndAlignMemory(ptr, alignment);
 }
 
-const char *__file__;
-int __line__;
 #else
 void *operator new(size_t size)
 {

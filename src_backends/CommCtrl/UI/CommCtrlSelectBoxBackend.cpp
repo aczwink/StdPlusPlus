@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -126,7 +126,7 @@ void CommCtrlSelectBoxBackend::SetHint(const StdXX::String & text)
 
 void CommCtrlSelectBoxBackend::UpdateSelection() const
 {
-	const auto& selection = this->selectBox.GetSelectionController().GetSelectedIndexes();
+	const auto& selection = this->selectBox.SelectionController().GetSelectedIndexes();
 	WPARAM index = -1;
 	if (!selection.IsEmpty())
 		index = selection.GetFront().GetRow();

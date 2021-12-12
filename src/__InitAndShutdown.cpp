@@ -28,6 +28,8 @@
 #include <Std++/UI/Style/StyleSheet.hpp>
 #include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/FileSystem/FileSystemsManager.hpp>
+#include <Std++/Memory/MemoryManager.hpp>
+#include <Std++/Memory/MemoryTrackingAllocator.hpp>
 #include <Std++/ShutdownManager.hpp>
 //Namespaces
 using namespace _stdxx_;
@@ -42,9 +44,18 @@ namespace _stdxx_
 	void RegisterFileSystemFormats();
 }
 
+#ifdef XPC_BUILDTYPE_DEBUG
+UniquePointer<Memory::MemoryTrackingAllocator> memoryTrackingAllocator;
+#endif
+
 //Global functions
 void InitStdPlusPlus()
 {
+#ifdef XPC_BUILDTYPE_DEBUG
+	memoryTrackingAllocator = new Memory::MemoryTrackingAllocator(Memory::MemoryManager::GlobalAllocator());
+	Memory::MemoryManager::GlobalAllocator(*memoryTrackingAllocator);
+#endif
+
 	void RegisterAudioBackends();
 	RegisterAudioBackends();
 	void RegisterComputeBackends();
@@ -89,7 +100,9 @@ void ShutdownStdPlusPlus()
 	ExtensionManager::GetRootInstance().ReleaseAll();
 
 #ifdef XPC_BUILDTYPE_DEBUG
-    //look for memory leaks
-	DebugDumpMemoryLeaks();
+	//look for memory leaks
+	memoryTrackingAllocator->DumpMemoryLeaks();
+	Memory::MemoryManager::GlobalAllocator(Memory::MemoryManager::ProcessSystemAllocator());
+	memoryTrackingAllocator = nullptr;
 #endif
 }

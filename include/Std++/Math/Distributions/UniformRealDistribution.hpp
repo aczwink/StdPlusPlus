@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,8 +30,10 @@ namespace StdXX
 		public:
 			//Constructor
 			inline UniformRealDistribution(RandomBitGenerator<GeneratorNatType>& randomBitGenerator, RealType min, RealType max)
-			: randomBitGenerator(randomBitGenerator), min(min), max(max)
+				: randomBitGenerator(randomBitGenerator)
 			{
+				this->min = min;
+				this->max = max;
 			}
 
 			//Inline

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,4 +22,5 @@
 #include <cmath>
 #include <cfloat>
 #include <new>
+#include <typeinfo>
 #include <type_traits>

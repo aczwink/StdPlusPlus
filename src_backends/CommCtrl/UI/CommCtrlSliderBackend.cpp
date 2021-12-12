@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -55,7 +55,8 @@ void CommCtrlSliderBackend::OnMessage(WinMessageEvent& event)
 		Variant value;
 		value.u32 = this->GetPosition();
 
-		this->slider->Event(ValueChangedEvent(value));
+		ValueChangedEvent vce(value);
+		this->slider->Event(vce);
 	}
 	break;
 	default:

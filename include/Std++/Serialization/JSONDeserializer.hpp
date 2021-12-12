@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 //Local
 #include <Std++/Type/Remove_cv.hpp>
 #include "Binding.hpp"
+#include "General.hpp"
 
 namespace StdXX::Serialization
 {
@@ -90,7 +91,9 @@ namespace StdXX::Serialization
 		}
 
 		template <typename T>
-		JSONDeserializer& operator>>(const Binding<T>& binding)
+		inline
+		Type::EnableIf_t<HasArchiveFunction<JSONDeserializer, T>::value, JSONDeserializer&>
+		operator>>(const Binding<T>& binding)
 		{
 			CommonFileFormats::JsonValue& parent = *this->objectStack.Last();
 			this->objectStack.Push(&parent[binding.name]);

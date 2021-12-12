@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//corresponding header
-#include <Std++/Memory.hpp>
+#pragma once
 //Local
-#include <Std++/Mathematics.hpp>
+#include <Std++/Type.hpp>
 
-//Namespace functions
-void StdXX::MemMove(void *destination, const void *source, uint32 size)
+namespace StdXX::Serialization
 {
-	const uint8* src = static_cast<const uint8 *>(source);
-	uint8* dest = static_cast<uint8 *>(destination);
+    template <typename, typename, typename = void>
+    struct HasArchiveFunction : Type::BoolConstant<false> {};
 
-	if(Math::IsValueInInterval((const uint8*)dest, src, src+size))
-	{
-		//overlap, copy from end
-		src += size - 1;
-		dest += size - 1;
-		while(size--)
-		{
-			*dest-- = *src--;
-		}
-		return;
-	}
-
-	MemCopy(destination, source, size);
+    template <typename ArchiveType, typename T>
+    struct HasArchiveFunction<ArchiveType, T, decltype( Archive(std::declval<ArchiveType&>(), std::declval<T&>()), void())> : Type::BoolConstant<true> {};
 }

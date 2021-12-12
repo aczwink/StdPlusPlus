@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -165,7 +165,8 @@ void CommCtrlWindowBackend::OnMessage(WinMessageEvent& event)
 		GetWindowRect(event.hWnd, &rcWindow);
 
 		SizeD newSize(rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
-		WindowResizedEvent e(newSize);
+		RectD newBounds(rcWindow.left, rcWindow.bottom, newSize.width, newSize.height);
+		WidgetBoundsChangedEvent e(newBounds);
 		this->window->Event(e);
 		event.consumed = true;
 		event.result = 0;
@@ -230,10 +231,16 @@ void CommCtrlWindowBackend::Repaint()
 	}
 }*/
 
-Path CommCtrlWindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::Path &)> callback) const
+FileSystem::Path CommCtrlWindowBackend::SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(FileSystem::Path &)> callback) const
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return Path();
+    return FileSystem::Path();
+}
+
+StdXX::FileSystem::Path _stdxx_::CommCtrlWindowBackend::SelectExistingFile(const StdXX::String& title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>>& filters, const StdXX::FileSystem::Path& initialPath) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return StdXX::FileSystem::Path();
 }
 
 void CommCtrlWindowBackend::SetBounds(const RectD &bounds)

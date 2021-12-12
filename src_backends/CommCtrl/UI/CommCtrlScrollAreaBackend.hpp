@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,7 +21,7 @@
 #include <Std++/UI/Containers/ScrollArea.hpp>
 #include "CommCtrlContainerBackend.hpp"
 #include "Win32Window.hpp"
-#include "../Import.hpp"
+#include "../Imports.h"
 
 namespace _stdxx_
 {

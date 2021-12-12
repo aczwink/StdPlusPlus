@@ -2,6 +2,6 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/XmlDeserializer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/XMLDeserializer.cpp
 
 	PARENT_SCOPE)

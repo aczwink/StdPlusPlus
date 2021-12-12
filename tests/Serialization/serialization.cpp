@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -91,7 +91,7 @@ TEST_SUITE(SerializationTests)
 		serializer << Binding{u8"TestObj", obj};
 
 		TestObj2 obj2{};
-		XmlDeserializer deserializer(buffer);
+		XMLDeserializer deserializer(buffer);
 		deserializer >> Binding{u8"TestObj", obj2};
 
 		ASSERT(obj.i == obj2.i, u8"Binding and deserialization should yield same values");

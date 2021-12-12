@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Math/RandomBitGenerator.hpp>
+#include <Std++/Unsigned.hpp>
 
 namespace StdXX::Math
 {
@@ -29,13 +30,17 @@ namespace StdXX::Math
 	public:
 		//Constructor
 		inline UniformUnsignedDistribution(RandomBitGenerator<GeneratorNatType>& randomBitGenerator)
-				: randomBitGenerator(randomBitGenerator), min(0), max(Unsigned<UnsignedType>::Max())
+			: randomBitGenerator(randomBitGenerator)
 		{
+			this->min = 0;
+			this->max = Unsigned<UnsignedType>::Max();
 		}
 
 		inline UniformUnsignedDistribution(RandomBitGenerator<GeneratorNatType>& randomBitGenerator, UnsignedType min, UnsignedType max)
-				: randomBitGenerator(randomBitGenerator), min(min), max(max)
+			: randomBitGenerator(randomBitGenerator)
 		{
+			this->min = min;
+			this->max = max;
 		}
 
 		//Inline

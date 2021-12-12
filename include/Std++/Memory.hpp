@@ -19,6 +19,8 @@
 
 #pragma once
 //Local
+#include <Std++/Memory/MemoryManager.hpp>
+#include <Std++/Memory/MemoryTrackingAllocator.hpp>
 #include "__Globaldependencies.h"
 #include "Definitions.h"
 #include "Unsigned.hpp"
@@ -26,7 +28,6 @@
 #ifdef XPC_BUILDTYPE_DEBUG
 #define MemAlloc(size) MemAllocDebug(size, __FILE__, __LINE__)
 #define MemAllocAligned(size, alignment) MemAllocAlignedDebug(size, alignment, __FILE__, __LINE__)
-#define MemFree(ptr) MemFreeDebug(ptr)
 #define MemRealloc(ptr, size) MemReallocDebug(ptr, size, __FILE__, __LINE__)
 #else
 #define MemAlloc(size) MemoryAllocate(size)
@@ -34,6 +35,40 @@
 #define MemFree(ptr) MemoryFree(ptr)
 #define MemRealloc(ptr, size) MemoryReallocate(ptr, size)
 #endif
+
+namespace StdXX
+{
+    //Functions
+    inline void* AlignMemoryAddress(void* p, uint8 alignment)
+    {
+        uint8 offset = static_cast<uint8>(alignment - ((alignment - 1u) & (uint64)p));
+        return (uint8*)p + offset;
+    }
+}
+
+namespace _stdxx_
+{
+    inline uint32 ComputeSizeWithAlignment(uint32 size, uint8 alignment)
+    {
+        return size + alignment - 1 + 1; //max error = alignment-1 + one offset byte
+    }
+
+    inline uint8* SaveAlignmentOffsetAndAlignMemory(void* p, uint8 alignment)
+    {
+        uint8* p_aligned = static_cast<uint8*>(StdXX::AlignMemoryAddress(p, alignment));
+        *(p_aligned - 1) = static_cast<uint8>(p_aligned - (uint8*)p); //write the offset to the unaligned memory location
+
+        return p_aligned;
+    }
+
+    inline bool TrySetMemoryContext(const char* fileName, uint32 lineNumber)
+    {
+        StdXX::Memory::MemoryTrackingAllocator* allocator = dynamic_cast<StdXX::Memory::MemoryTrackingAllocator*>(&StdXX::Memory::MemoryManager::GlobalAllocator());
+        if (allocator)
+            allocator->SetContext(fileName, lineNumber);
+        return false;
+    }
+}
 
 namespace StdXX
 {
@@ -46,46 +81,42 @@ namespace StdXX
     const uint16 c_guaranteedMemoryAlignment = __STDCPP_DEFAULT_NEW_ALIGNMENT__;
 
     //Functions
-	inline void *AlignMemoryAddress(void *p, uint8 alignment)
-	{
-		uint8 offset = static_cast<uint8>(alignment - ((alignment - 1u) & (uint64)p));
-		return (uint8 *)p + offset;
-	}
-
 #ifdef XPC_BUILDTYPE_DEBUG
-	STDPLUSPLUS_API void DebugCheckHeapIntegrity();
-    STDPLUSPLUS_API bool DebugDumpMemoryLeaks();
-	STDPLUSPLUS_API void *MemAllocDebug(uint32 size, const char *fileName, uint32 lineNumber);
-	STDPLUSPLUS_API void MemFreeDebug(void *memBlock);
-	STDPLUSPLUS_API void *MemReallocDebug(void *pMem, uint32 size, const char *fileName, uint32 lineNumber);
+    inline void* MemAllocDebug(uint32 size, const char* fileName, uint32 lineNumber)
+    {
+        _stdxx_::TrySetMemoryContext(fileName, lineNumber);
+        return Memory::MemoryManager::GlobalAllocator().Allocate(size);
+    }
 
 	inline void *MemAllocAlignedDebug(uint32 size, uint8 alignment, const char *fileName, uint32 lineNumber)
 	{
-		void *p = MemAllocDebug(size + alignment-1 + 1, fileName, lineNumber); //max error = alignment-1 + one offset byte
-		uint8 *p_aligned = static_cast<uint8 *>(AlignMemoryAddress(p, alignment));
-		*(p_aligned - 1) = static_cast<uint8>(p_aligned - (uint8 *)p); //write the offset to the unaligned memory location
-
-		return p_aligned;
+		void *p = MemAllocDebug(_stdxx_::ComputeSizeWithAlignment(size, alignment), fileName, lineNumber);
+        return _stdxx_::SaveAlignmentOffsetAndAlignMemory(p, alignment);
 	}
+
+    inline void* MemReallocDebug(void* pMem, uint32 size, const char* fileName, uint32 lineNumber)
+    {
+        _stdxx_::TrySetMemoryContext(fileName, lineNumber);
+        return Memory::MemoryManager::GlobalAllocator().Reallocate(pMem, size);
+    }
+
+#else
+    inline void* MemAllocAligned(uint32 size, uint8 alignment)
+    {
+        void* p = MemoryAllocate(_stdxx_::ComputeSizeWithAlignment(size, alignment));
+        return _stdxx_::SaveAlignmentOffsetAndAlignMemory(p, alignment);
+    }
 #endif
+
+    inline void MemFree(void* memBlock)
+    {
+        Memory::MemoryManager::GlobalAllocator().Free(memBlock);
+    }
+
 	void MemMove(void* destination, const void* source, uint32 size);
-    STDPLUSPLUS_API void *MemoryAllocate(uint32 size);
-    STDPLUSPLUS_API void MemoryFree(void *pMem);
-    STDPLUSPLUS_API void *MemoryReallocate(void *pMem, uint32 size);
 	STDPLUSPLUS_API void* VirtualMemoryAllocate(uint32 size, MemoryProtection protection);
 	STDPLUSPLUS_API void VirtualMemoryFree(void* addr, uint32 size);
 	STDPLUSPLUS_API void VirtualMemoryProtect(void *pMemoryRegion, uint32 size, MemoryProtection protection);
-
-#ifndef XPC_BUILDTYPE_DEBUG
-	inline void *MemAllocAligned(uint32 size, uint8 alignment)
-	{
-		void *p = MemoryAllocate(size + alignment-1 + 1); //max error = alignment-1 + one offset byte
-		uint8 *p_aligned = static_cast<uint8 *>(AlignMemoryAddress(p, alignment));
-		*(p_aligned - 1) = static_cast<uint8>(p_aligned - (uint8 *)p); //write the offset to the unaligned memory location
-
-		return p_aligned;
-	}
-#endif
 
     //Inline
     inline int32 MemCmp(const void *pSrc1, const void *pSrc2, uint32 size)
@@ -182,11 +213,6 @@ namespace StdXX
 }
 
 //Override global new/delete
-#ifdef XPC_BUILDTYPE_DEBUG
-extern STDPLUSPLUS_API const char *__file__;
-extern STDPLUSPLUS_API int __line__;
-
-#endif
 void *operator new(size_t size);
 void *operator new[](size_t size);
 void *operator new(size_t size, std::align_val_t al);
@@ -202,5 +228,5 @@ void operator delete[](void *p, size_t size) noexcept;
 #define pnew(ptr) new(ptr)
 
 #ifdef XPC_BUILDTYPE_DEBUG
-#define new (__file__ = __FILE__, __line__ = __LINE__) && 0 ? NULL : new
+#define new _stdxx_::TrySetMemoryContext(__FILE__, __LINE__) ? NULL : new
 #endif

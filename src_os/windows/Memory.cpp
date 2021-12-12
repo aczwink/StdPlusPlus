@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -22,24 +22,6 @@
 #include <Windows.h>
 //Local
 #include <Std++/Debug.hpp>
-
-void *StdXX::MemoryAllocate(uint32 size)
-{
-	return HeapAlloc(GetProcessHeap(), 0, size);
-}
-
-void StdXX::MemoryFree(void *pMem)
-{
-	HeapFree(GetProcessHeap(), 0, pMem);
-}
-
-void *StdXX::MemoryReallocate(void *pMem, uint32 size)
-{
-	if(!pMem)
-		return MemoryAllocate(size);
-
-	return HeapReAlloc(GetProcessHeap(), 0, pMem, size);
-}
 
 void* StdXX::VirtualMemoryAllocate(uint32 size, MemoryProtection protection)
 {

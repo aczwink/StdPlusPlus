@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -28,6 +28,7 @@
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
+using namespace StdXX::FileSystem;
 
 //Local functions
 static String ToAbsolutePath(const String &path)
@@ -60,12 +61,12 @@ Path OSFileSystem::ToAbsolutePath(const Path &path) const
 	if (path.IsAbsolute())
 		return path;
 
-	return ::ToAbsolutePath(path.GetString());
+	return ::ToAbsolutePath(path.String());
 }
 
 String OSFileSystem::ToNativePath(const Path &path) const
 {
-	String winPath = path.GetString();
+	String winPath = path.String();
 
 	//remove the root "/"
 	if (path.IsAbsolute())
@@ -78,7 +79,7 @@ String OSFileSystem::ToNativePath(const Path &path) const
 }
 
 //Class functions
-OSFileSystem &OSFileSystem::GetInstance()
+/*OSFileSystem& OSFileSystem::Instance()
 {
 	static class WindowsFileSystem : public OSFileSystem
 	{
@@ -145,4 +146,4 @@ OSFileSystem &OSFileSystem::GetInstance()
 	} windowsFileSystem;
 
 	return windowsFileSystem;
-}
+}*/

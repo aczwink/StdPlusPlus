@@ -97,8 +97,8 @@ namespace StdXX::Serialization
         return operator>><JSONDeserializer, T, N>(deserializer, binding);
     }
     template <typename T, uint32 N>
-    constexpr XmlDeserializer& operator>>(XmlDeserializer& deserializer, const Binding<StringMapping<T, N>>& binding)
+    constexpr XMLDeserializer& operator>>(XMLDeserializer& deserializer, const Binding<StringMapping<T, N>>& binding)
     {
-        return operator>><XmlDeserializer, T, N>(deserializer, binding);
+        return operator>><XMLDeserializer, T, N>(deserializer, binding);
     }
 }
