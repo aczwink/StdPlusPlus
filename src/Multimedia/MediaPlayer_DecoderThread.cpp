@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -238,7 +238,7 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 	break;
 	}
 	this->encodingStream->timeScale = sourceStream->timeScale;
-	this->encoderContext = CodingFormat::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
+	this->encoderContext = FormatRegistry::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
 }
 
 void DecoderThread::Shutdown()

@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+//Class header
+#include <Std++/Multimedia/FormatRegistry.hpp>
 //Audio coding formats
 #include "Codecs/MPEG/AAC_CodingFormat.hpp"
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
@@ -45,37 +47,65 @@
 #include "Formats/WAVE/WAVE_Format.hpp"
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-void MultimediaRegisterCodecsAndFormats()
+//Constructor
+FormatRegistry::FormatRegistry()
 {
-	//Audio coding formats
-	CodingFormat::Register(new AAC_CodingFormat);
-	CodingFormat::Register(new AC3_CodingFormat);
-	CodingFormat::Register(new MP3_CodingFormat);
-	CodingFormat::Register(new PCM_Float32LE_CodingFormat);
-	CodingFormat::Register(new PCM_S16BE_CodingFormat);
-	CodingFormat::Register(new PCM_S16LE_CodingFormat);
-	CodingFormat::Register(new PCM_S8_CodingFormat);
-	CodingFormat::Register(new PCM_U8_CodingFormat);
-	CodingFormat::Register(new Vorbis_CodingFormat);
+    ShutdownManager::Instance().Register(this);
+    this->RegisterCodingFormats();
+    this->RegisterContainerFormats();
+}
+
+//Public methods
+void FormatRegistry::Release()
+{
+    this->codingFormats.Release();
+    this->formats.Release();
+}
+
+//Private methods
+void FormatRegistry::RegisterCodingFormats()
+{
+    //Audio coding formats
+    this->Register(new AAC_CodingFormat);
+    this->Register(new AC3_CodingFormat);
+    this->Register(new MP3_CodingFormat);
+    this->Register(new PCM_Float32LE_CodingFormat);
+    this->Register(new PCM_S16BE_CodingFormat);
+    this->Register(new PCM_S16LE_CodingFormat);
+    this->Register(new PCM_S8_CodingFormat);
+    this->Register(new PCM_U8_CodingFormat);
+    this->Register(new Vorbis_CodingFormat);
 
 
-	//Subtitle coding formats
-	CodingFormat::Register(new UTF8PlainText_CodingFormat);
+    //Subtitle coding formats
+    this->Register(new UTF8PlainText_CodingFormat);
 
 
-	//Video coding formats
-	CodingFormat::Register(new H264_CodingFormat);
-	CodingFormat::Register(new MPEG4_Part2_CodingFormat);
-	CodingFormat::Register(new MS_MPEG4_Part2_V2_CodingFormat);
-	CodingFormat::Register(new PNG_CodingFormat);
-	CodingFormat::Register(new RawVideo_CodingFormat);
-	CodingFormat::Register(new Theora_CodingFormat);
+    //Video coding formats
+    this->Register(new H264_CodingFormat);
+    this->Register(new MPEG4_Part2_CodingFormat);
+    this->Register(new MS_MPEG4_Part2_V2_CodingFormat);
+    this->Register(new PNG_CodingFormat);
+    this->Register(new RawVideo_CodingFormat);
+    this->Register(new Theora_CodingFormat);
+}
 
+void FormatRegistry::RegisterContainerFormats()
+{
+    this->Register(new BMP_Format);
+    this->Register(new MatroskaVideo);
+    this->Register(new PNG_Format);
+    this->Register(new WAVE_Format);
+}
 
-	//Container formats
-	Format::Register(new BMP_Format);
-	Format::Register(new MatroskaVideo);
-	Format::Register(new PNG_Format);
-	Format::Register(new WAVE_Format);
+//Class functions
+const CodingFormat *FormatRegistry::GetCodingFormatById(CodingFormatId codingFormatId)
+{
+    if(Instance().codingFormats.Contains(codingFormatId))
+        return Instance().codingFormats[codingFormatId].operator->();
+
+    return nullptr;
 }

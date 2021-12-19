@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -36,7 +36,7 @@ namespace StdXX
 		{
 		public:
 			//Destructor
-			virtual ~CodingFormat() {}
+			virtual ~CodingFormat();
 
 			//Abstract
 			virtual CodingFormatId GetId() const = 0;
@@ -49,10 +49,6 @@ namespace StdXX
 			const Decoder *GetBestMatchingDecoder() const;
 			const Encoder *GetBestMatchingEncoder() const;
 			const Parser *GetBestMatchingParser() const;
-
-			//Functions
-			static const CodingFormat *GetCodingFormatById(CodingFormatId codingFormatId);
-			static void Register(CodingFormat *codingFormat);
 
 		private:
 			//Members

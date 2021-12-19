@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,13 +29,11 @@ namespace _stdxx_
         Gtk3PushButtonBackend(StdXX::UIBackend& uiBackend, StdXX::UI::PushButton& pushButton);
 
         //Methods
-        StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
         void SetText(const StdXX::String &text) override;
 
         //NOT IMPLEMENTED
         void Repaint() override;
-        void SetEditable(bool enable) const override;
         //END OF NOT IMPLEMENTED
 
     private:

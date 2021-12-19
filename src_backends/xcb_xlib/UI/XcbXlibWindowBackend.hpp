@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,7 +37,6 @@ namespace _stdxx_
 		//Methods
 		void AddChild(StdXX::UI::Widget *widget) override;
 		WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
-		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void Maximize() override;
 		void SetTitle(const StdXX::String &title) override;
@@ -46,10 +45,8 @@ namespace _stdxx_
 		//NOT IMPLEMENTED
 		StdXX::Math::RectD GetContentAreaBounds() const override;
 		StdXX::Math::SizeD GetSizeHint() const override;
-		void IgnoreEvent() override;
 		void Repaint() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
-		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String &text) override;
 		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title,

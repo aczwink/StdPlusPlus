@@ -31,13 +31,13 @@
 #include <Std++/Memory/MemoryManager.hpp>
 #include <Std++/Memory/MemoryTrackingAllocator.hpp>
 #include <Std++/ShutdownManager.hpp>
+#include <Std++/_Backends/AudioBackend.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 
 //Prototypes
 void InitStdPlusPlus_Platform();
-void MultimediaRegisterCodecsAndFormats();
 void ShutdownStdPlusPlus_Platform();
 namespace _stdxx_
 {
@@ -65,8 +65,6 @@ void InitStdPlusPlus()
 
 	_stdxx_::RegisterFileSystemFormats();
 
-	MultimediaRegisterCodecsAndFormats();
-
 	void RegisterExtensions();
 	RegisterExtensions();
 
@@ -92,6 +90,7 @@ void ShutdownStdPlusPlus()
 	UI::StyleSheet::Global() = {};
 
 	//release backends
+	BackendManager<AudioBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<RenderBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<UIBackend>::GetRootInstance().ReleaseAll();

@@ -21,4 +21,4 @@
 //Namespaces
 using namespace StdXX::Memory;
 
-Allocator* MemoryManager::globalAllocator = &MemoryManager::ProcessSystemAllocator();
+Allocator* MemoryManager::globalAllocator = nullptr;

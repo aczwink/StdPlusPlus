@@ -59,7 +59,6 @@ public:
 	static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data);
 	static bool PaintSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data);
 	static bool ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data);
-	static void ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data);
 	static void TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data);
 	static void ValueChangedSlot(GtkRange *range, gpointer user_data);
 

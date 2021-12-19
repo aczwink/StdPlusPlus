@@ -38,7 +38,7 @@ static gboolean CloseSlot(GtkWidget* gtkWidget, GdkEvent* gdkEvent, gpointer use
 	Gtk3WindowBackend* backend = static_cast<Gtk3WindowBackend *>(user_data);
 
 	Event event(EventType::WindowShouldBeClosed);
-	backend->GetWidget().Event(event);
+	backend->GetEditableWidget().Event(event);
 
 	return event.WasAccepted();
 }
@@ -91,11 +91,6 @@ Math::RectD Gtk3WindowBackend::GetContentAreaBounds() const
     gtk_window_get_size(this->GetGtkWindow(), &width, &height);
 
     return Math::RectD(0, 0, width, height);
-}
-
-Widget &Gtk3WindowBackend::GetWidget()
-{
-    return this->window;
 }
 
 const Widget &Gtk3WindowBackend::GetWidget() const
@@ -158,19 +153,11 @@ void Gtk3WindowBackend::Show(bool visible)
 }
 
 //NOT IMPLEMENTED
-void _stdxx_::Gtk3WindowBackend::IgnoreEvent() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::Gtk3WindowBackend::Repaint() {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::Gtk3WindowBackend::SetBounds(const StdXX::Math::RectD &bounds) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3WindowBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 

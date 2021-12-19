@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,8 +47,13 @@ XcbXlibBackend::~XcbXlibBackend()
 }
 
 //Public methods
-_stdxx_::CheckBoxBackend *_stdxx_::XcbXlibBackend::CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox)
+_stdxx_::CheckBoxBackend *_stdxx_::XcbXlibBackend::CreateCheckBoxBackend(StdXX::UI::CheckBox& checkBox)
 {
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
+ClipboardBackend *XcbXlibBackend::CreateClipboardBackend() {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
@@ -82,7 +87,13 @@ _stdxx_::LabelBackend *_stdxx_::XcbXlibBackend::CreateLabelBackend(StdXX::UI::La
 	return nullptr;
 }
 
-_stdxx_::MenuBackend *_stdxx_::XcbXlibBackend::CreateMenuBackend(StdXX::UI::Menu *menu)
+ViewBackend *XcbXlibBackend::CreateListViewBackend(UI::ListView &listView)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
+_stdxx_::MenuBackend *_stdxx_::XcbXlibBackend::CreateMenuBackend(StdXX::UI::Menu& menu)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
@@ -90,6 +101,12 @@ _stdxx_::MenuBackend *_stdxx_::XcbXlibBackend::CreateMenuBackend(StdXX::UI::Menu
 
 MenuBarBackend *XcbXlibBackend::CreateMenuBarBackend(UI::MenuBar *menuBar)
 {
+	return nullptr;
+}
+
+ProgressBarBackend *XcbXlibBackend::CreateProgressBarBackend(UI::ProgressBar &progressBar)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
 
@@ -134,11 +151,23 @@ _stdxx_::SpinBoxBackend *_stdxx_::XcbXlibBackend::CreateSpinBoxBackend(StdXX::UI
 	return nullptr;
 }
 
+TabContainerBackend *XcbXlibBackend::CreateTabContainerBackend(UI::TabContainer &tabContainer)
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
 _stdxx_::ViewBackend *_stdxx_::XcbXlibBackend::CreateTableViewBackend(StdXX::UI::TableView &treeView)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }
+
+TextEditBackend *XcbXlibBackend::CreateTextEditBackend(UI::TextEdit &textEdit) {
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
 
 _stdxx_::ViewBackend *_stdxx_::XcbXlibBackend::CreateTreeViewBackend(StdXX::UI::TreeView &treeView)
 {

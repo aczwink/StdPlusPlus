@@ -40,7 +40,7 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual void UpdateCheckState() = 0;
 		virtual void SetText(const StdXX::String &text) = 0;
+		virtual void UpdateCheckState() = 0;
 	};
 }

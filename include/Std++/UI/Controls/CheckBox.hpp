@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,34 +28,34 @@ namespace StdXX
         class STDPLUSPLUS_API CheckBox : public Widget
         {
         public:
-            //Dynamic event handlers
-            Function<void()> onToggledHandler;
+        	//Members
+        	Signal<> toggled;
 
             //Constructor
             CheckBox();
 
-			//Methods
-			void Event(UI::Event& e) override;
-
-			//Inline
-			inline bool IsChecked() const
+            //Properties
+			inline bool Checked() const
 			{
 				return this->isChecked;
 			}
 
-			inline void SetChecked(bool isChecked)
+			inline void Checked(bool isChecked)
 			{
 				this->isChecked = isChecked;
 				if(this->checkBoxBackend)
 					this->checkBoxBackend->UpdateCheckState();
 			}
 
-			inline void SetText(const String &text)
+			inline void Text(const String &text)
 			{
 				this->text = text;
 				if(this->checkBoxBackend)
 					this->checkBoxBackend->SetText(text);
 			}
+
+			//Methods
+			void Event(UI::Event& e) override;
 
 		private:
 			//Members

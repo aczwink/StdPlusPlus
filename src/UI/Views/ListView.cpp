@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/UI/Views/ListView.hpp>
+//Local
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -27,7 +29,10 @@ ListView::ListView()
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
+}
 
-	NOT_IMPLEMENTED_ERROR;
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::ListView, this);
+void ListView::RealizeSelf()
+{
+	_stdxx_::ViewBackend* viewBackend = this->_GetUIBackend()->CreateListViewBackend(*this);
+	this->_SetBackend(viewBackend);
 }

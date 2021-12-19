@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,6 +31,13 @@ namespace StdXX
             //Members
             String text;
             Function<void()> triggeredEvent;
+
+            //Constructor
+            inline Action(const String& text, Function<void()> triggeredEvent)
+            {
+                this->text = text;
+                this->triggeredEvent = Move(triggeredEvent);
+            }
         };
     }
 }

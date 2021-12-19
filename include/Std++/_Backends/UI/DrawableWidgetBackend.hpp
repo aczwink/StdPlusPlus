@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -36,7 +36,6 @@ namespace _stdxx_
 		virtual StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter() = 0;
 
 		//Methods
-		StdXX::UI::Widget & GetWidget() override;
 		const StdXX::UI::Widget & GetWidget() const override;
 
 	protected:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,14 +29,12 @@ namespace _stdxx_
         Gtk3SliderBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Slider& slider);
 
         //Methods
-        StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
         void SetPosition(uint32 pos) override;
         void SetRange(uint32 min, uint32 max) override;
 
         //NOT IMPLEMENTED
         void Repaint() override;
-        void SetEditable(bool enable) const override;
         //END OF NOT IMPLEMENTED
 
     private:

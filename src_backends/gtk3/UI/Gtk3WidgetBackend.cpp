@@ -73,11 +73,6 @@ Math::SizeD Gtk3WidgetBackend::GetSizeHint() const
 	return Math::SizeD(nat1, nat2);
 }
 
-void Gtk3WidgetBackend::IgnoreEvent()
-{
-	//obsolete method
-}
-
 void Gtk3WidgetBackend::OnSetAllocation(const GtkAllocation &allocation)
 {
 	const WidgetContainer* parent = this->GetWidget()._GetParentWithBackend();
@@ -97,7 +92,7 @@ void Gtk3WidgetBackend::OnSetAllocation(const GtkAllocation &allocation)
 		newBounds.y() = parent->GetSize().height - newBounds.GetVerticalEnd(); //invert "y"-axis from gtk-coords
 
 	WidgetBoundsChangedEvent event(newBounds);
-	this->GetWidget().Event(event);
+	this->GetEditableWidget().Event(event);
 }
 
 void Gtk3WidgetBackend::SetBounds(const Math::RectD& bounds)

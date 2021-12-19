@@ -18,28 +18,8 @@
  */
 //corresponding header
 #include <Std++/Memory.hpp>
-//Global
-#include <stdlib.h>
 //Local
 #include <Std++/Debug.hpp>
-
-void *StdXX::MemoryAllocate(uint32 size)
-{
-    return malloc(size);
-}
-
-void StdXX::MemoryFree(void *pMem)
-{
-    free(pMem);
-}
-
-void *StdXX::MemoryReallocate(void *pMem, uint32 size)
-{
-    if(!pMem)
-        return MemoryAllocate(size);
-
-    return realloc(pMem, size);
-}
 
 void* StdXX::VirtualMemoryAllocate(uint32 size, MemoryProtection protection)
 {

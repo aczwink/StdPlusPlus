@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,13 +32,11 @@ namespace _stdxx_
 		void AddChild(StdXX::UI::Widget *widget) override;
         WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
         StdXX::Math::RectD GetContentAreaBounds() const override;
-        StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
         void SetTitle(const StdXX::String &title) override;
 
         //NOT IMPLEMENTED
         void Repaint() override;
-        void SetEditable(bool enable) const override;
         //END OF NOT IMPLEMENTED
 
     private:

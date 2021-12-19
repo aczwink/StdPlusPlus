@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,7 +43,8 @@ void View::Select(const ControllerIndex& index)
 	this->selectionController.Select(index);
 	if(this->viewBackend)
 		this->viewBackend->UpdateSelection(); //inform ui
-	this->controller->OnSelectionChanged(); //inform controller
+
+	this->selectionChanged.Emit();
 }
 
 void View::SetController(SharedPointer<TreeController> controller)
@@ -79,6 +80,5 @@ void View::OnSelectionChanged(SelectionChangedEvent& event)
 	else
 		this->selectionController.SetSelection(event.Selected());
 	
-	//inform controller
-	this->controller->OnSelectionChanged();
+	this->selectionChanged.Emit();
 }

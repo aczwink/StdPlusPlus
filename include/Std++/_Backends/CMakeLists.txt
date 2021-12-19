@@ -3,7 +3,7 @@ add_subdirectory(UI)
 set(SOURCE_FILES
 	${SOURCE_FILES}
 	#.
-	${CMAKE_CURRENT_SOURCE_DIR}/AudioDevice.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/AudioBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Backend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BackendManager.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputeBackend.hpp

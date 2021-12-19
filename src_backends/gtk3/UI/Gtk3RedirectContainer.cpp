@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -53,11 +53,6 @@ Math::SizeD Gtk3RedirectContainer::GetSizeHint() const
 	return Math::SizeD();
 }
 
-Widget &Gtk3RedirectContainer::GetWidget()
-{
-    return this->widget;
-}
-
 const Widget &Gtk3RedirectContainer::GetWidget() const
 {
     return this->widget;
@@ -68,9 +63,5 @@ const Widget &Gtk3RedirectContainer::GetWidget() const
 
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3RedirectContainer::Repaint() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3RedirectContainer::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

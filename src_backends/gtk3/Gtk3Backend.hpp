@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -30,23 +30,28 @@ namespace _stdxx_
         Gtk3Backend();
 
         //Methods
+        CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox& checkBox) override;
+        ClipboardBackend *CreateClipboardBackend() override;
         StdXX::EventHandling::EventSource *CreateEventSource() override;
         GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
 		LabelBackend *CreateLabelBackend(StdXX::UI::Label& label) override;
+        ViewBackend *CreateListViewBackend(StdXX::UI::ListView &listView) override;
+        MenuBackend *CreateMenuBackend(StdXX::UI::Menu& menu) override;
         MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
+        ProgressBarBackend *CreateProgressBarBackend(StdXX::UI::ProgressBar &progressBar) override;
         PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;
 	    WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
         ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
         SliderBackend *CreateSliderBackend(StdXX::UI::Slider& slider) override;
+        TabContainerBackend *CreateTabContainerBackend(StdXX::UI::TabContainer &tabContainer) override;
+        TextEditBackend *CreateTextEditBackend(StdXX::UI::TextEdit &textEdit) override;
         ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
         WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
 	    void Load() override;
 
         //NOT IMPLEMENTED
-        CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
         DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
         HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
-        MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
         SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;

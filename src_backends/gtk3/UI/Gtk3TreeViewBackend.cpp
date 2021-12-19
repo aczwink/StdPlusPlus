@@ -123,11 +123,6 @@ void Gtk3TreeViewBackend::ControllerChanged()
 	}
 }
 
-Widget &Gtk3TreeViewBackend::GetWidget()
-{
-	return this->treeView;
-}
-
 const Widget &Gtk3TreeViewBackend::GetWidget() const
 {
 	return this->treeView;
@@ -165,10 +160,6 @@ void _stdxx_::Gtk3TreeViewBackend::UpdateSelection() const {
 }
 
 void _stdxx_::Gtk3TreeViewBackend::Repaint() {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3TreeViewBackend::SetEditable(bool enable) const {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 //NOT IMPLEMENTED

@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/CheckBoxBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ClipboardBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContentAreaWidgetBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DrawableWidgetBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GroupBoxBackend.hpp
@@ -9,9 +10,12 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/LabelBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MenuBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MenuBarBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ProgressBarBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PushButtonBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SliderBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SpinBoxBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/TabContainerBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/TextEditBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WidgetBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WidgetContainerBackend.hpp

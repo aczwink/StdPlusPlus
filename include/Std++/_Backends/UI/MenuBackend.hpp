@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -42,7 +42,7 @@ namespace _stdxx_
 		virtual void AppendEntry(const StdXX::UI::ActionEntry &actionEntry) = 0;
 		virtual void AppendSeperator() = 0;
 		virtual void AppendSubMenu(StdXX::UI::Menu *subMenu) = 0;
-		virtual StdXX::String GetText() const = 0;
 		virtual void SetText(const StdXX::String &text) = 0;
+		virtual void ShowPopup() = 0;
 	};
 }

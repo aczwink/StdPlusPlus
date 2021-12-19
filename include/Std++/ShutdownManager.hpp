@@ -17,6 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include <Std++/Containers/Array/DynamicArray.hpp>
 
 namespace StdXX
 {

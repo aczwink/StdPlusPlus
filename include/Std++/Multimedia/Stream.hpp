@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,6 +28,7 @@
 #include "EncoderContext.hpp"
 #include "TimeScale.hpp"
 #include "CodingParameters.hpp"
+#include "FormatRegistry.hpp"
 
 namespace StdXX::Multimedia
 {
@@ -83,7 +84,7 @@ namespace StdXX::Multimedia
 
 		inline void SetCodingFormat(CodingFormatId codingFormatId)
 		{
-			this->codingParameters.codingFormat = CodingFormat::GetCodingFormatById(codingFormatId);
+			this->codingParameters.codingFormat = FormatRegistry::GetCodingFormatById(codingFormatId);
 		}
 
 		inline void SetDecoderContext(DecoderContext *decoderContext)

@@ -104,42 +104,6 @@ uint64 GtkEventSource::QueryWaitInfo(EventHandling::WaitObjectManager &waitObjec
 
 /*
 //Public slots
-bool GtkEventSource::ButtonSlot(GtkWidget *gtkWidget, GdkEventButton *event, gpointer user_data)
-{
-	g_ignoreEvent = false;
-
-	Widget *widget = (Widget *)WIDGET_FROM_GTK(gtkWidget);
-	MouseButton button;
-
-	switch(event->button)
-	{
-		case 1:
-			button = MouseButton::Left;
-			break;
-		case 3:
-			button = MouseButton::Right;
-			break;
-		default:
-			return FALSE;
-	}
-
-	switch(event->type)
-	{
-		case GDK_BUTTON_PRESS:
-		    NOT_IMPLEMENTED_ERROR; //TODO: next line
-			//l_gtkEvtSrc->DispatchMouseButtonPressed(*widget, button, Point((int32) event->x, (int32) (widget->GetSize().height - event->y)));
-			break;
-		case GDK_BUTTON_RELEASE:
-            NOT_IMPLEMENTED_ERROR; //TODO: next line
-			//l_gtkEvtSrc->DispatchMouseButtonReleased(*widget, button, Point((int32) event->x, (int32) (widget->QuerySize().height - event->y)));
-			break;
-		default:
-			g_ignoreEvent = true;
-	}
-
-	return !g_ignoreEvent;
-}
-
 void GtkEventSource::ChangedSlot(GtkComboBox *gtkComboBox, gpointer user_data)
 {
     NOT_IMPLEMENTED_ERROR; //TODO: next line
@@ -198,12 +162,6 @@ bool GtkEventSource::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpo
 	}*//*
 
 	return !g_ignoreEvent;
-}
-
-void GtkEventSource::ToggledSlot(GtkToggleButton *toggleButton, gpointer user_data)
-{
-    NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//l_gtkEvtSrc->DispatchToggledEvent(*(CheckBox *)user_data);
 }
 
 void GtkEventSource::TreeSelectionSlot(GtkTreeSelection *treeSelection, gpointer user_data)

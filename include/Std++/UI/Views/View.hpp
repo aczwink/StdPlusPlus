@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,9 @@ namespace StdXX
 			friend class TreeController;
 			friend class UIEventSource;
 		public:
+			//Members
+			Signal<> selectionChanged;
+
 			//Constructor
 			inline View() : viewBackend(nullptr)
 			{

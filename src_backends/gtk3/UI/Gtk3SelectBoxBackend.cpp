@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -59,11 +59,6 @@ void Gtk3SelectBoxBackend::ControllerChanged()
 	}
 }
 
-Widget &Gtk3SelectBoxBackend::GetWidget()
-{
-    return this->selectBox;
-}
-
 const Widget &Gtk3SelectBoxBackend::GetWidget() const
 {
     return this->selectBox;
@@ -78,9 +73,5 @@ void Gtk3SelectBoxBackend::UpdateSelection() const
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3SelectBoxBackend::Repaint() {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3SelectBoxBackend::SetEditable(bool enable) const {
-NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 //END OF NOT IMPLEMENTED

@@ -11,6 +11,9 @@ set(SOURCE_FILES
 	#FileSystem
 	${CMAKE_CURRENT_SOURCE_DIR}/FileSystem/FileSystemsManager.cpp
 
+	#Internationalization
+	${CMAKE_CURRENT_SOURCE_DIR}/Internationalization/TimeZone.cpp
+
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Thread.cpp
 

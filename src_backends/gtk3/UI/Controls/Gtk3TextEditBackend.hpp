@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,24 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-//Class header
-#include <Std++/Serialization/XmlDeserializer.hpp>
-//Namespaces
-using namespace StdXX;
-using namespace StdXX::CommonFileFormats::XML;
-using namespace StdXX::Serialization;
+#include <Std++/UI/Controls/TextEdit.hpp>
+#include "../Gtk3WidgetBackend.hpp"
 
-//Private methods
-const Element *XMLDeserializer::FirstChildElementWithTagName(const Element &element, const String &tagName) const
+namespace _stdxx_
 {
-	for(const Node* node : element.Children())
-	{
-		if( (node->GetType() == NodeType::Element) )
-		{
-			const Element* child = dynamic_cast<const Element*>(node);
-			if(child->Name() == tagName)
-				return child;
-		}
-	}
-	return nullptr;
+    class Gtk3TextEditBackend : public TextEditBackend, public Gtk3WidgetBackend
+    {
+    public:
+        //Constructor
+        Gtk3TextEditBackend(StdXX::UIBackend& uiBackend, StdXX::UI::TextEdit& textEdit);
+
+        //Methods
+        const StdXX::UI::Widget &GetWidget() const override;
+        void Repaint() override;
+        void SetEditable(bool enable) const override;
+        void SetText(const StdXX::String &text) override;
+
+    private:
+        //Members
+        StdXX::UI::TextEdit& textEdit;
+    };
 }

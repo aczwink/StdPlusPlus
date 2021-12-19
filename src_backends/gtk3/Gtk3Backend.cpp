@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,6 +31,13 @@
 #include "UI/Gtk3SelectBoxBackend.hpp"
 #include "UI/Gtk3PushButtonBackend.hpp"
 #include "UI/Gtk3LabelBackend.hpp"
+#include "UI/Containers/Gtk3TabContainerBackend.hpp"
+#include "UI/Views/Gtk3ListViewBackend.hpp"
+#include "UI/Controls/Gtk3ProgressBarBackend.hpp"
+#include "UI/Menu/Gtk3MenuBackend.hpp"
+#include "UI/Transfer/Gtk3ClipboardBackend.hpp"
+#include "UI/Controls/Gtk3TextEditBackend.hpp"
+#include "UI/Controls/Gtk3CheckBoxBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -46,6 +53,16 @@ Gtk3Backend::Gtk3Backend()
 }
 
 //Public methods
+CheckBoxBackend* Gtk3Backend::CreateCheckBoxBackend(UI::CheckBox& checkBox)
+{
+    return new Gtk3CheckBoxBackend(*this, checkBox);
+}
+
+ClipboardBackend *Gtk3Backend::CreateClipboardBackend()
+{
+    return new Gtk3ClipboardBackend;
+}
+
 EventHandling::EventSource *Gtk3Backend::CreateEventSource()
 {
     return new GtkEventSource;
@@ -61,9 +78,24 @@ LabelBackend* Gtk3Backend::CreateLabelBackend(UI::Label& label)
 	return new Gtk3LabelBackend(*this, label);
 }
 
-MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar *menuBar)
+ViewBackend *Gtk3Backend::CreateListViewBackend(UI::ListView &listView)
+{
+    return new Gtk3ListViewBackend(*this, listView);
+}
+
+MenuBackend* Gtk3Backend::CreateMenuBackend(UI::Menu& menu)
+{
+    return new Gtk3MenuBackend(*this, menu);
+}
+
+MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar* menuBar)
 {
     return nullptr;
+}
+
+ProgressBarBackend *Gtk3Backend::CreateProgressBarBackend(UI::ProgressBar &progressBar)
+{
+    return new Gtk3ProgressBarBackend(*this, progressBar);
 }
 
 PushButtonBackend *Gtk3Backend::CreatePushButtonBackend(UI::PushButton& pushButton)
@@ -86,6 +118,16 @@ SliderBackend *Gtk3Backend::CreateSliderBackend(UI::Slider& slider)
     return new Gtk3SliderBackend(*this, slider);
 }
 
+TabContainerBackend *Gtk3Backend::CreateTabContainerBackend(UI::TabContainer &tabContainer)
+{
+    return new Gtk3TabContainerBackend(*this, tabContainer);
+}
+
+TextEditBackend *Gtk3Backend::CreateTextEditBackend(UI::TextEdit &textEdit)
+{
+    return new Gtk3TextEditBackend(*this, textEdit);
+}
+
 ViewBackend *Gtk3Backend::CreateTreeViewBackend(UI::TreeView &treeView)
 {
     return new Gtk3TreeViewBackend(*this, treeView);
@@ -102,22 +144,12 @@ void Gtk3Backend::Load()
 }
 
 //NOT IMPLEMENTED
-_stdxx_::CheckBoxBackend *_stdxx_::Gtk3Backend::CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
 _stdxx_::DrawableWidgetBackend *_stdxx_::Gtk3Backend::CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }
 
 _stdxx_::HeaderViewBackend *_stdxx_::Gtk3Backend::CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
-_stdxx_::MenuBackend *_stdxx_::Gtk3Backend::CreateMenuBackend(StdXX::UI::Menu *menu) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;
 }

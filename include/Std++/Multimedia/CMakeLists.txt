@@ -8,6 +8,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/AudioSampleFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FormatRegistry.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatId.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingParameters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.hpp

@@ -53,11 +53,6 @@ Gtk3RenderTargetWidgetBackend::Gtk3RenderTargetWidgetBackend(UIBackend &uiBacken
 }
 
 //Public methods
-UI::Widget &Gtk3RenderTargetWidgetBackend::GetWidget()
-{
-	return this->renderTargetWidget;
-}
-
 const UI::Widget &Gtk3RenderTargetWidgetBackend::GetWidget() const
 {
 	return this->renderTargetWidget;
@@ -66,13 +61,4 @@ const UI::Widget &Gtk3RenderTargetWidgetBackend::GetWidget() const
 void Gtk3RenderTargetWidgetBackend::Repaint()
 {
 	gtk_widget_queue_draw(this->GetGtkWidget());
-}
-
-
-
-
-///NOT IMPLEMENTED
-void Gtk3RenderTargetWidgetBackend::SetEditable(bool enable) const
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

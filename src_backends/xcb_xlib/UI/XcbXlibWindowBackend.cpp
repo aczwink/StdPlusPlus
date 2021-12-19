@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -51,11 +51,6 @@ WidgetContainerBackend* XcbXlibWindowBackend::CreateContentAreaBackend(UI::Compo
 	return nullptr;
 }
 
-StdXX::UI::Widget &XcbXlibWindowBackend::GetWidget()
-{
-	return this->window;
-}
-
 const StdXX::UI::Widget &XcbXlibWindowBackend::GetWidget() const
 {
 	return this->window;
@@ -91,22 +86,12 @@ StdXX::Math::SizeD _stdxx_::XcbXlibWindowBackend::GetSizeHint() const
 	return StdXX::Math::SizeD();
 }
 
-void _stdxx_::XcbXlibWindowBackend::IgnoreEvent()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::XcbXlibWindowBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::XcbXlibWindowBackend::SetBounds(const StdXX::Math::RectD &bounds)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::XcbXlibWindowBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,11 +32,6 @@ Gtk3LabelBackend::Gtk3LabelBackend(UIBackend &uiBackend, Label& label)
 }
 
 //Public methods
-Widget &Gtk3LabelBackend::GetWidget()
-{
-	return this->label;
-}
-
 const Widget &Gtk3LabelBackend::GetWidget() const
 {
 	return this->label;
@@ -51,11 +46,6 @@ void Gtk3LabelBackend::SetText(const String &text)
 
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3LabelBackend::Repaint()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3LabelBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

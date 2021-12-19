@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ using namespace StdXX::UI;
 //Constructor
 Menu::Menu(const String &text)
 {
-	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateMenuBackend(this);
+	this->backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateMenuBackend(*this);
 	this->backend->SetText(text);
 }
 

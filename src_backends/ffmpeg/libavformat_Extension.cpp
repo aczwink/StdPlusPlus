@@ -17,6 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
+#include <Std++/Multimedia/FormatRegistry.hpp>
 #include "libavformat_Extension.hpp"
 //Local
 #include "format/libavformat_Format.hpp"
@@ -31,6 +32,8 @@ void libavformat_Extension::Load()
 	this->LoadCodingFormatIdMap();
 	this->LoadPatentedCodingFormatIdMap();
 
-	StdXX::Multimedia::Format::Register(new libavformat_Format("avi"));
-	StdXX::Multimedia::Format::Register(new libavformat_Format("mp4"));
+	StdXX::Multimedia::FormatRegistry& registry = StdXX::Multimedia::FormatRegistry::Instance();
+
+	registry.Register(new libavformat_Format("avi"));
+	registry.Register(new libavformat_Format("mp4"));
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -22,11 +22,7 @@
 using namespace _stdxx_;
 using namespace StdXX::UI;
 
-Widget & DrawableWidgetBackend::GetWidget()
-{
-	return this->widget;
-}
-
+//Public methods
 const Widget & DrawableWidgetBackend::GetWidget() const
 {
 	return this->widget;

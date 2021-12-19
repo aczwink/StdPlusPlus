@@ -33,21 +33,9 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 	bool isContainer = false;
 	switch(type)
 	{
-		case WindowBackendType::CheckBox:
-		{
-			this->gtkWidget = gtk_check_button_new();
-
-			g_signal_connect(this->gtkWidget, u8"toggled", G_CALLBACK(GtkEventSource::ToggledSlot), this->widget);
-		}
-		break;
 		case WindowBackendType::ComboBox:
 		{
 			g_signal_connect(this->gtkWidget, u8"changed", G_CALLBACK(GtkEventSource::ChangedSlot), this->widget);
-		}
-		break;
-		case WindowBackendType::ListView:
-		{
-			this->gtkWidget = gtk_list_box_new();
 		}
 		break;
 		case WindowBackendType::RadioButton:
@@ -90,11 +78,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		{
 			//https://developer.gnome.org/gtk3/stable/GtkSpinButton.html
 			this->gtkWidget = gtk_spin_button_new(gtk_adjustment_new(0, Integer<int32>::Min(), Integer<int32>::Max(), 1, 5, 5), 1, 0);
-		}
-		break;
-		case WindowBackendType::TextEdit:
-		{
-			this->gtkWidget = gtk_text_view_new();
 		}
 		break;
 		case WindowBackendType::TreeView:
@@ -176,11 +159,6 @@ void GtkWindowBackend::SetBounds(const Rect &area)
 	//printf("SetBounds: %p -> %d, %d, %d, %d\n", this, area.x(), area.y(), area.width(), area.height());
 }
 
-void GtkWindowBackend::SetEditable(bool enable) const
-{
-	gtk_text_view_set_editable(GTK_TEXT_VIEW(this->gtkWidget), enable);
-}
-
 void GtkWindowBackend::SetRange(int32 min, int32 max)
 {
 	gtk_spin_button_set_range(GTK_SPIN_BUTTON(this->gtkWidget), min, max);
@@ -191,9 +169,6 @@ void GtkWindowBackend::SetText(const String &text)
 	const gchar *gtkText = reinterpret_cast<const gchar *>(text.ToUTF8().GetRawZeroTerminatedData());
 	switch(this->type)
 	{
-		case WindowBackendType::CheckBox:
-			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
-			break;
 		case WindowBackendType::RadioButton:
 			gtk_button_set_label(GTK_BUTTON(this->gtkWidget), gtkText);
 			break;

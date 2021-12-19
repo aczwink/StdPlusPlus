@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,14 +34,17 @@ namespace _stdxx_
 		~XcbXlibBackend();
 
 		//Methods
-		CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox *checkBox) override;
+		CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox& checkBox) override;
+		ClipboardBackend *CreateClipboardBackend() override;
 		DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
 		StdXX::EventHandling::EventSource *CreateEventSource() override;
 		GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
 		HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
 		LabelBackend *CreateLabelBackend(StdXX::UI::Label& label) override;
-		MenuBackend *CreateMenuBackend(StdXX::UI::Menu *menu) override;
+		ViewBackend *CreateListViewBackend(StdXX::UI::ListView &listView) override;
+		MenuBackend *CreateMenuBackend(StdXX::UI::Menu& menu) override;
 		MenuBarBackend *CreateMenuBarBackend(StdXX::UI::MenuBar *menuBar) override;
+		ProgressBarBackend *CreateProgressBarBackend(StdXX::UI::ProgressBar &progressBar) override;
 		PushButtonBackend *CreatePushButtonBackend(StdXX::UI::PushButton& pushButton) override;
 		WidgetBackend *CreateRenderTargetWidgetBackend(StdXX::UI::RenderTargetWidget& renderTargetWidget) override;
 		ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
@@ -49,7 +52,9 @@ namespace _stdxx_
 		ViewBackend *CreateSelectBoxBackend(StdXX::UI::SelectBox &selectBox) override;
 		SliderBackend *CreateSliderBackend(StdXX::UI::Slider& slider) override;
 		SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;
+		TabContainerBackend *CreateTabContainerBackend(StdXX::UI::TabContainer &tabContainer) override;
 		ViewBackend *CreateTableViewBackend(StdXX::UI::TableView &treeView) override;
+		TextEditBackend *CreateTextEditBackend(StdXX::UI::TextEdit &textEdit) override;
 		ViewBackend *CreateTreeViewBackend(StdXX::UI::TreeView &treeView) override;
 		WindowBackend *CreateWindowBackend(StdXX::UI::Window *window) override;
 

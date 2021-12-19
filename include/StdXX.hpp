@@ -116,7 +116,7 @@
 #include <Std++/Serialization/JSONSerializer.hpp>
 #include <Std++/Serialization/StandardSerializations.hpp>
 #include <Std++/Serialization/StringMapping.hpp>
-#include <Std++/Serialization/XmlDeserializer.hpp>
+#include <Std++/Serialization/XMLDeserializer.hpp>
 #include <Std++/Serialization/XmlSerializer.hpp>
 
 //Smart Pointers
@@ -129,55 +129,6 @@
 #include <Std++/Time/TimeMisc.hpp>
 #include <Std++/Time/Timer.hpp>
 
-//UI
-#include <Std++/UI/Action.hpp>
-#include <Std++/UI/CommonDialogs.hpp>
-#include <Std++/UI/CTerminalEventQueue.h>
-#include <Std++/UI/Keyboard.hpp>
-#include <Std++/UI/MainAppWindow.hpp>
-#include <Std++/UI/Mouse.hpp>
-//Containers
-#include <Std++/UI/Containers/CTabBox.h>
-#include <Std++/UI/Containers/CompositeWidget.hpp>
-#include <Std++/UI/Containers/GroupBox.hpp>
-#include <Std++/UI/Containers/ScrollArea.hpp>
-//Controllers
-#include <Std++/UI/Controllers/ACheckListController.h>
-#include <Std++/UI/Controllers/ListController.hpp>
-#include <Std++/UI/Controllers/TableController.hpp>
-#include <Std++/UI/Controllers/TreeController.hpp>
-//Controls
-#include <Std++/UI/Controls/CheckBox.hpp>
-#include <Std++/UI/Views/SelectBox.hpp>
-#include <Std++/UI/Controls/Label.hpp>
-#include <Std++/UI/Controls/LineEdit.hpp>
-#include <Std++/UI/Controls/ProgressBar.hpp>
-#include <Std++/UI/Controls/PushButton.hpp>
-#include <Std++/UI/Controls/RadioButton.hpp>
-#include <Std++/UI/Controls/SearchBox.hpp>
-#include <Std++/UI/Controls/Slider.hpp>
-#include <Std++/UI/Controls/SpinBox.hpp>
-#include <Std++/UI/Controls/TextEdit.hpp>
-//Displays
-#include <Std++/UI/Displays/VideoWidget.hpp>
-//Events
-#include <Std++/UI/Events/KeyEvent.hpp>
-//Layouts
-#include <Std++/UI/Layouts/GridLayout.hpp>
-//Menu
-#include <Std++/UI/Menu/Menu.hpp>
-#include <Std++/UI/Menu/MenuBar.hpp>
-//Transfer
-#include <Std++/UI/Transfer/CFileTransfer.h>
-//Typing
-#include <Std++/UI/Typing/ITypeface.h>
-//Views
-#include <Std++/UI/Displays/PathRenderTargetWidget.hpp>
-#include <Std++/UI/Displays/RenderTargetWidget.hpp>
-#include <Std++/UI/Views/CCheckListView.h>
-#include <Std++/UI/Views/ListView.hpp>
-#include <Std++/UI/Views/TableView.hpp>
-#include <Std++/UI/Views/TreeView.hpp>
 
 //.
 #include <Std++/__InitAndShutdown.h>
@@ -201,3 +152,4 @@
 #include "StdXXMath.hpp"
 #include "StdXXMultimedia.hpp"
 #include "StdXXStreams.hpp"
+#include "StdXXUI.hpp"

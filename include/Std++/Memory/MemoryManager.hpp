@@ -28,6 +28,8 @@ namespace StdXX::Memory
 		//Static
 		inline static Allocator& GlobalAllocator()
 		{
+			if(globalAllocator == nullptr)
+				globalAllocator = &ProcessSystemAllocator();
 			return *globalAllocator;
 		}
 

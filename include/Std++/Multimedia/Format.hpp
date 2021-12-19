@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -61,7 +61,6 @@ namespace StdXX
             //Functions
             static STDPLUSPLUS_API const Format *Find(SeekableInputStream &inputStream);
             static STDPLUSPLUS_API const Format *FindByExtension(const String &refExtension);
-            static STDPLUSPLUS_API void Register(Format *pFormat);
         };
     }
 }

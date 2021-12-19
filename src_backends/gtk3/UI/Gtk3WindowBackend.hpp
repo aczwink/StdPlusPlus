@@ -32,7 +32,6 @@ namespace _stdxx_
         void AddChild(StdXX::UI::Widget *widget) override;
         WidgetContainerBackend *CreateContentAreaBackend(StdXX::UI::CompositeWidget &widget) override;
         StdXX::Math::RectD GetContentAreaBounds() const override;
-        StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
 	    void Maximize() override;
 		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
@@ -40,10 +39,8 @@ namespace _stdxx_
 	    void Show(bool visible) override;
 
         //NOT IMPLEMENTED
-        void IgnoreEvent() override;
         void Repaint() override;
         void SetBounds(const StdXX::Math::RectD &bounds) override;
-        void SetEditable(bool enable) const override;
         void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;

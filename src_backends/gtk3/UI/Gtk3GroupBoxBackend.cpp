@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -57,11 +57,6 @@ Math::RectD Gtk3GroupBoxBackend::GetContentAreaBounds() const
     return Math::RectD(alloc.x, alloc.y, alloc.width, alloc.height);
 }
 
-Widget &Gtk3GroupBoxBackend::GetWidget()
-{
-    return this->groupBox;
-}
-
 const Widget &Gtk3GroupBoxBackend::GetWidget() const
 {
     return this->groupBox;
@@ -76,10 +71,6 @@ void Gtk3GroupBoxBackend::SetTitle(const String &title)
 
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3GroupBoxBackend::Repaint() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3GroupBoxBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 //END OF NOT IMPLEMENTED

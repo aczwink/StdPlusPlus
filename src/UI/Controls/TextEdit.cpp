@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,16 +18,30 @@
  */
 //Class header
 #include <Std++/UI/Controls/TextEdit.hpp>
+//Local
+#include <Std++/_Backends/UI/UIBackend.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
 
 //Constructor
-TextEdit::TextEdit()
+TextEdit::TextEdit() : textEditBackend(nullptr)
 {
 	this->sizingPolicy.SetHorizontalPolicy(SizingPolicy::Policy::Expanding);
 	this->sizingPolicy.SetVerticalPolicy(SizingPolicy::Policy::Expanding);
+}
 
-	NOT_IMPLEMENTED_ERROR;
-	//this->backend = this->GetParentBackend()->CreateChildBackend(_stdxx_::WindowBackendType::TextEdit, this);
+//Private methods
+void TextEdit::RealizeSelf()
+{
+	_stdxx_::TextEditBackend* textEditBackend = this->_GetUIBackend()->CreateTextEditBackend(*this);
+	this->_SetBackend(textEditBackend);
+}
+
+//Event handlers
+void TextEdit::OnRealized()
+{
+	Widget::OnRealized();
+	this->textEditBackend->SetEditable(this->editable);
+	this->textEditBackend->SetText(this->text);
 }

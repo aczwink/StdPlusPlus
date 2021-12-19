@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,13 +31,11 @@ namespace _stdxx_
 
     	//Methods
 		void ControllerChanged() override;
-		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 
     	//NOT IMPLEMENTED
 		void UpdateSelection() const override;
 		void Repaint() override;
-		void SetEditable(bool enable) const override;
 		//NOT IMPLEMENTED
 
     private:

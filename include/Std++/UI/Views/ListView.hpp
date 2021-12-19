@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,12 +27,16 @@ namespace StdXX
         //Forward declarations
         class AListController;
 
-        class STDPLUSPLUS_API ListView : public View
+        class ListView : public View
         {
             friend class AListController;
         public:
             //Constructor
             ListView();
+
+        private:
+            //Methods
+            void RealizeSelf() override;
 		};
     }
 }

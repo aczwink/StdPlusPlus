@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,12 +33,10 @@ namespace _stdxx_
         //Methods
 		void AddChild(StdXX::UI::Widget *widget) override;
 	    StdXX::Math::SizeD GetSizeHint() const override;
-        StdXX::UI::Widget &GetWidget() override;
         const StdXX::UI::Widget &GetWidget() const override;
 
         //NOT IMPLEMENTED
         void Repaint() override;
-        void SetEditable(bool enable) const override;
         //NOT IMPLEMENTED
 
     private:

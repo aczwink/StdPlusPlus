@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,16 +33,13 @@ namespace _stdxx_
 		XcbXlibRenderTargetWidgetBackend(StdXX::UIBackend& uiBackend, XConnection& xConnection, StdXX::UI::RenderTargetWidget& renderTargetWidget);
 
 		//Methods
-		StdXX::UI::Widget &GetWidget() override;
 		const StdXX::UI::Widget &GetWidget() const override;
 		void Show(bool visible) override;
 
 		//NOT IMPLEMENTED
 		StdXX::Math::SizeD GetSizeHint() const override;
-		void IgnoreEvent() override;
 		void Repaint() override;
 		void SetBounds(const StdXX::Math::RectD &bounds) override;
-		void SetEditable(bool enable) const override;
 		void SetEnabled(bool enable) override;
 		void SetHint(const StdXX::String &text) override;
 		//END OF NOT IMPLEMENTED

@@ -20,12 +20,25 @@
 #include <Std++/Multimedia/CodingFormat.hpp>
 //Local
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
+#include <Std++/Multimedia/Decoder.hpp>
+#include <Std++/Multimedia/Encoder.hpp>
+#include <Std++/Multimedia/Parser.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-//Global variables
-BinaryTreeMap<CodingFormatId, CodingFormat *> g_codingFormats;
+//Destructor
+CodingFormat::~CodingFormat()
+{
+	while(!this->decoders.IsEmpty())
+		delete this->decoders.PopTop().Get<1>();
+
+	while(!this->encoders.IsEmpty())
+		delete this->encoders.PopTop().Get<1>();
+
+	while(!this->parsers.IsEmpty())
+		delete this->parsers.PopTop().Get<1>();
+}
 
 //Public methods
 void CodingFormat::AddDecoder(Decoder *decoder, float32 quality)
@@ -62,18 +75,4 @@ const Parser *CodingFormat::GetBestMatchingParser() const
 	if (this->parsers.IsEmpty())
 		return nullptr;
 	return this->parsers.Top().Get<1>();
-}
-
-//Class functions
-const CodingFormat *CodingFormat::GetCodingFormatById(CodingFormatId codingFormatId)
-{
-	if(g_codingFormats.Contains(codingFormatId))
-		return g_codingFormats[codingFormatId];
-	
-	return nullptr;
-}
-
-void CodingFormat::Register(CodingFormat *codingFormat)
-{
-	g_codingFormats.Insert(codingFormat->GetId(), codingFormat);
 }

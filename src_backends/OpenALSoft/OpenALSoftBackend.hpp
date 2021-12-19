@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 #ifdef _STDPLUSPLUS_BACKEND_OPENALSOFT
 //Local
-#include <Std++/_Backends/AudioDevice.hpp>
+#include <Std++/_Backends/AudioBackend.hpp>
 #include "OpenALSoftDeviceEnumeratorState.hpp"
 
 namespace StdXX

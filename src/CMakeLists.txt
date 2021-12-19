@@ -32,8 +32,7 @@ set(SOURCE_FILES
 
 	#format
 
-		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/__Register.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp

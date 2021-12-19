@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "CompositeWidget.hpp"
+#include <Std++/UI/Controls/ProgressBar.hpp>
+#include "../Gtk3WidgetBackend.hpp"
 
-namespace StdXX
+namespace _stdxx_
 {
-    namespace UI
+    class Gtk3ProgressBarBackend : public ProgressBarBackend, public Gtk3WidgetBackend
     {
-        class STDPLUSPLUS_API CTabBox : public CompositeWidget
-        {
-        public:
-            //Constructor
-            CTabBox(CompositeWidget *pParent);
+    public:
+        //Constructor
+        Gtk3ProgressBarBackend(StdXX::UIBackend& uiBackend, StdXX::UI::ProgressBar& progressBar);
 
-            //Methods
-            Math::RectD GetChildrenRect() const;
-        };
-    }
+        //Methods
+        const StdXX::UI::Widget &GetWidget() const override;
+        void SetProgress(float64 progress) override;
+
+        //NOT IMPLEMENTED
+        void Repaint() override;
+        //NOT IMPLEMENTED
+
+    private:
+        //Members
+        StdXX::UI::ProgressBar& progressBar;
+    };
 }

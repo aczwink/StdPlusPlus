@@ -24,7 +24,17 @@ if(${BACKEND_GTK3})
 		#UI
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/CommonDialogs/OpenFile.cpp
 
-		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/CheckBox.cpp
+		#UI/Containers
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/Gtk3TabContainerBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Containers/Gtk3TabContainerBackend.hpp
+
+		#UI/Controls
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3CheckBoxBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3CheckBoxBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3ProgressBarBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3ProgressBarBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3TextEditBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/Gtk3TextEditBackend.hpp
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Controls/LineEdit.cpp
 
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Displays/_GtkOpenGLWidget.cpp
@@ -32,7 +42,15 @@ if(${BACKEND_GTK3})
 
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenu.cpp
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBackend.hpp
 
+		#Transfer
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Transfer/Gtk3ClipboardBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Transfer/Gtk3ClipboardBackend.hpp
+
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/Gtk3ListViewBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/Gtk3ListViewBackend.hpp
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp

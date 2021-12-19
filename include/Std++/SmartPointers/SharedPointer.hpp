@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019, 2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,6 +26,7 @@ namespace StdXX
 	template<typename ValueType>
 	class SharedPointer
 	{
+		template <typename > friend class SharedPointer; //All SharedPointer are friends
 	public:
 		//Constructors
 		inline SharedPointer() : ptr(nullptr), refCount(nullptr)
@@ -38,6 +39,13 @@ namespace StdXX
 		}
 
 		inline SharedPointer(const SharedPointer<ValueType>& other) : ptr(other.ptr), refCount(other.refCount)
+		{
+			if (this->refCount)
+				(*this->refCount)++;
+		}
+
+		template <typename T>
+		inline SharedPointer(const SharedPointer<T>& other) : ptr(other.ptr), refCount(other.refCount)
 		{
 			if (this->refCount)
 				(*this->refCount)++;

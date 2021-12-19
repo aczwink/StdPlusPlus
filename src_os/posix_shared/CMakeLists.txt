@@ -8,6 +8,9 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/poll_WaitObjectManager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EventHandling/poll_WaitObjectManager.hpp
 
+	#Memory
+	${CMAKE_CURRENT_SOURCE_DIR}/Memory/MemoryManager.cpp
+
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/ConditionVariable.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/Multitasking.cpp

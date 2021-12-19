@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,15 +23,13 @@
 #include <Std++/Mathematics.hpp>
 #include <Std++/Containers/Array/DynamicArray.hpp>
 #include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Multimedia/FormatRegistry.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 //Definitions
 #define DETECTIONBUFFER_MINSIZE 64
 #define DETECTIONBUFFER_MAXSIZE 64u
-
-//Global variables
-DynamicArray<const Format *> g_formats;
 
 //Local functions
 static void SkipID3(SeekableInputStream &inputStream)
@@ -86,11 +84,11 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 			break; //end of input reached... we can't do anything anymore
 		resize = false;
 
-		for(const Format *const& refpFormat : g_formats)
+		for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
 		{
 			BufferInputStream detectionBuffer(pDetectionBuffer, detectionBufferSize);
 
-			matchScore = refpFormat->Matches(detectionBuffer);
+			matchScore = format->Matches(detectionBuffer);
 
 			//check unusual cases
 			if(matchScore == FORMAT_MATCH_BUFFER_TOO_SMALL)
@@ -100,12 +98,12 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 			}
 			else if(matchScore == 1)
 			{
-				pBestFormat = refpFormat;
+				pBestFormat = format.operator->();
 				goto end;
 			}
 			else if(matchScore > bestScore)
 			{
-				pBestFormat = refpFormat;
+				pBestFormat = format.operator->();
 				bestScore = matchScore;
 			}
 		}
@@ -125,16 +123,11 @@ const Format *Format::Find(SeekableInputStream &inputStream)
 
 const Format *Format::FindByExtension(const String &refExtension)
 {
-	for(const Format *const& refpFormat : g_formats)
+	for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
 	{
-		if(refpFormat->GetExtension() == refExtension)
-			return refpFormat;
+		if(format->GetExtension() == refExtension)
+			return format.operator->();
 	}
 
 	return nullptr;
-}
-
-void Format::Register(Format *pFormat)
-{
-	g_formats.Push(pFormat);
 }

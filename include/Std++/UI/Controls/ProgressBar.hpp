@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,36 +18,45 @@
  */
 #pragma once
 //Local
+#include <Std++/_Backends/UI/ProgressBarBackend.hpp>
 #include "../Widget.hpp"
 
 namespace StdXX
 {
     namespace UI
     {
-        /*
-sizing policy:
-	horz: exp
-	vert: fix
-*/
-        class STDPLUSPLUS_API ProgressBar : public Widget
+        class ProgressBar : public Widget
         {
-        private:
-            //Members
-            float64 progress;
-
-            //Eventhandlers
-            void OnPaint();
-
-            //Methods
-            void PaintText();
-
         public:
             //Constructor
-            ProgressBar(CompositeWidget *pParent);
+            ProgressBar();
+
+            //Properties
+            inline void Progress(float64 progress)
+            {
+                this->progress = progress;
+                if(this->progressBarBackend)
+                    this->progressBarBackend->SetProgress(progress);
+            }
+
+        protected:
+            //Event handlers
+            void OnRealized() override;
+
+        private:
+            //Members
+            _stdxx_::ProgressBarBackend* progressBarBackend;
+            float64 progress;
 
             //Methods
-            Math::SizeD GetSizeHint() const;
-            void SetProgress(float64 value);
+            void RealizeSelf() override;
+
+            //Inline
+            inline void _SetBackend(_stdxx_::ProgressBarBackend* progressBarBackend)
+            {
+                Widget::_SetBackend(progressBarBackend);
+                this->progressBarBackend = progressBarBackend;
+            }
         };
     }
 }

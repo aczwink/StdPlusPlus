@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,19 +17,23 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Controls/CheckBox.hpp>
-//Local
-#include "../Gtk.h"
-#include "../GtkEventSource.hpp"
+#include <Std++/Serialization/XMLDeserializer.hpp>
 //Namespaces
 using namespace StdXX;
-using namespace StdXX::UI;
-//Definitions
-#define THIS (PRIVATE_DATA(this)->widget)
+using namespace StdXX::CommonFileFormats::XML;
+using namespace StdXX::Serialization;
 
-/*
-//Public methods
-OldString CheckBox::GetText() const
+//Private methods
+const Element *XMLDeserializer::FirstChildElementWithTagName(const Element &element, const String &tagName) const
 {
-	return UTF8String(gtk_button_get_label(GTK_BUTTON(THIS)));
-}*/
+	for(const Node* node : element.Children())
+	{
+		if( (node->GetType() == NodeType::Element) )
+		{
+			const Element* child = dynamic_cast<const Element*>(node);
+			if(child->Name() == tagName)
+				return child;
+		}
+	}
+	return nullptr;
+}

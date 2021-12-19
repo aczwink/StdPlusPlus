@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 //Local
 #include <Std++/UI/Window.hpp>
 #include <Std++/UI/Layouts/GridLayout.hpp>
+#include <Std++/UI/Containers/TabContainer.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;
@@ -103,6 +104,12 @@ void CompositeWidget::RealizeSelf()
 	if (parentCAW)
 	{
 		_stdxx_::WidgetContainerBackend *backend = parentCAW->_GetContentAreaWidgetBackend()->CreateContentAreaBackend(*this);
+		this->_SetBackend(backend);
+	}
+	_stdxx_::TabContainerBackend *parentTabBackend = dynamic_cast<_stdxx_::TabContainerBackend *>(parent->_GetBackend());
+	if(parentTabBackend)
+	{
+		_stdxx_::WidgetContainerBackend* backend = parentTabBackend->CreateChildAreaBackend(*this);
 		this->_SetBackend(backend);
 	}
 }

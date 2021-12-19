@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,6 +37,12 @@ namespace StdXX
 			//Destructor
 			~Menu();
 
+			//Properties
+			inline const DynamicArray<MenuEntry *> Entries() const
+			{
+				return this->menuEntries;
+			}
+
 			//Inline
 			inline void AppendEntry(Action *action)
 			{
@@ -62,14 +68,9 @@ namespace StdXX
 				return this->backend;
 			}
 
-			inline const DynamicArray<MenuEntry *> GetEntries() const
+			inline void ShowPopup() const
 			{
-				return this->menuEntries;
-			}
-
-			inline String GetText() const
-			{
-				return this->backend->GetText();
+				return this->backend->ShowPopup();
 			}
 
         private:

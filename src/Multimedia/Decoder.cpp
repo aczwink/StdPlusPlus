@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,12 +20,13 @@
 #include <Std++/Multimedia/Decoder.hpp>
 //Local
 #include <Std++/Multimedia/CodingFormat.hpp>
+#include <Std++/Multimedia/FormatRegistry.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 void Decoder::Register(Decoder *decoder, float32 quality)
 {
-	CodingFormat *codingFormat = const_cast<CodingFormat *>(CodingFormat::GetCodingFormatById(decoder->GetCodingFormatId()));
+	CodingFormat *codingFormat = const_cast<CodingFormat *>(FormatRegistry::GetCodingFormatById(decoder->GetCodingFormatId()));
 	codingFormat->AddDecoder(decoder, quality);
 }

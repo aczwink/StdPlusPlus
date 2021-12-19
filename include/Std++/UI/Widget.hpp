@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,6 +31,7 @@
 #include "Events/Event.hpp"
 #include "Mouse.hpp"
 #include "SizingPolicy.hpp"
+#include "Signal.hpp"
 
 namespace StdXX
 {
@@ -207,12 +208,6 @@ namespace StdXX
 			{
 				ASSERT(this->CanRealize(), u8"REPORT THIS PLEASE!");
 				this->Realize();
-			}
-
-			inline void IgnoreEvent()
-			{
-				if(this->backend)
-					this->backend->IgnoreEvent();
 			}
 
 			inline void _SetBackend(_stdxx_::WidgetBackend* widgetBackend)

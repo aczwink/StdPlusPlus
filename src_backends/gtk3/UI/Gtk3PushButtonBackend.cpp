@@ -39,11 +39,6 @@ Gtk3PushButtonBackend::Gtk3PushButtonBackend(StdXX::UIBackend &uiBackend, PushBu
 }
 
 //Public methods
-Widget &Gtk3PushButtonBackend::GetWidget()
-{
-    return this->pushButton;
-}
-
 const Widget &Gtk3PushButtonBackend::GetWidget() const
 {
     return this->pushButton;
@@ -59,9 +54,5 @@ void Gtk3PushButtonBackend::SetText(const StdXX::String &text)
 
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3PushButtonBackend::Repaint() {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::Gtk3PushButtonBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }

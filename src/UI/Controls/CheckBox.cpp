@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,12 +43,11 @@ void CheckBox::Event(UI::Event& event)
 			ValueChangedEvent& vce = static_cast<ValueChangedEvent&>(event);
 
 			this->isChecked = vce.GetNewValue().b;
-			if (this->onToggledHandler.IsBound())
-				this->onToggledHandler();
+			this->toggled.Emit();
 
 			event.Accept();
 		}
-			break;
+		break;
 		default:
 			Widget::Event(event);
 	}
@@ -57,7 +56,7 @@ void CheckBox::Event(UI::Event& event)
 //Private methods
 void CheckBox::RealizeSelf()
 {
-	_stdxx_::CheckBoxBackend* checkBoxBackend = this->_GetUIBackend()->CreateCheckBoxBackend(this);
+	_stdxx_::CheckBoxBackend* checkBoxBackend = this->_GetUIBackend()->CreateCheckBoxBackend(*this);
 	this->_SetBackend(checkBoxBackend);
 }
 

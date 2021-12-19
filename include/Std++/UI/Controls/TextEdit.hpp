@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,31 +19,49 @@
 #pragma once
 //Local
 #include <Std++/UI/Widget.hpp>
+#include <Std++/_Backends/UI/TextEditBackend.hpp>
 
-namespace StdXX
+namespace StdXX::UI
 {
-    namespace UI
-    {
-        class STDPLUSPLUS_API TextEdit : public Widget
+	class STDPLUSPLUS_API TextEdit : public Widget
+	{
+	public:
+		//Constructor
+		TextEdit();
+
+		//Properties
+		inline void Editable(bool editable)
+		{
+			this->editable = editable;
+			if(this->textEditBackend)
+				this->textEditBackend->SetEditable(editable);
+		}
+
+		inline void Text(const String &text)
+		{
+			this->text = text;
+			if(this->textEditBackend)
+			    this->textEditBackend->SetText(text);
+		}
+
+	protected:
+		//Event handlers
+		void OnRealized() override;
+
+	private:
+	    //Members
+	    bool editable;
+	    String text;
+        _stdxx_::TextEditBackend* textEditBackend;
+
+		//Methods
+		void RealizeSelf() override;
+
+        //Inline
+        inline void _SetBackend(_stdxx_::TextEditBackend* textEditBackend)
         {
-        public:
-            //Constructor
-            TextEdit();
-
-            //Methods
-            String GetText() const;
-
-            //Inline
-			inline void SetEditable(bool editable)
-			{
-				this->_GetBackend()->SetEditable(editable);
-			}
-
-			inline void SetText(const String &text)
-			{
-				NOT_IMPLEMENTED_ERROR; //TODO: next line
-				//this->backend->SetText(text);
-			}
-        };
-    }
+            Widget::_SetBackend(textEditBackend);
+            this->textEditBackend = textEditBackend;
+        }
+	};
 }

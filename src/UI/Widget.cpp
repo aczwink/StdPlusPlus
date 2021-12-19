@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -196,7 +196,6 @@ void Widget::OnMouseWheelRolled(MouseWheelEvent& event)
 
 void Widget::OnMoved()
 {
-	this->IgnoreEvent();
 }
 
 void Widget::OnPaint(PaintEvent& event)
@@ -217,5 +216,4 @@ void Widget::OnRealized()
 
 void Widget::OnResized()
 {
-    this->IgnoreEvent();
 }

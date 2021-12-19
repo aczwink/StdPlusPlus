@@ -9,6 +9,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ContentAreaWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/GroupBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Containers/ScrollArea.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Containers/TabContainer.cpp
 
 	#Controllers
 	${CMAKE_CURRENT_SOURCE_DIR}/Controllers/ControllerIndex.cpp
@@ -20,6 +21,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/CheckBox.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/Label.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/LineEdit.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Controls/ProgressBar.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/PushButton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/RadioButton.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Controls/SearchBox.cpp

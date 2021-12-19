@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,6 +20,7 @@
 #include <Std++/Multimedia/Parser.hpp>
 //Local
 #include <Std++/Multimedia/CodingFormat.hpp>
+#include <Std++/Multimedia/FormatRegistry.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -28,7 +29,7 @@ void Parser::Register(Parser *parser, float32 quality)
 {
 	for (CodingFormatId id : parser->GetCodingFormatIds())
 	{
-		CodingFormat *codingFormat = const_cast<CodingFormat *>(CodingFormat::GetCodingFormatById(id));
+		CodingFormat *codingFormat = const_cast<CodingFormat *>(FormatRegistry::GetCodingFormatById(id));
 		codingFormat->AddParser(parser, quality);
 	}
 }

@@ -46,11 +46,6 @@ Gtk3SliderBackend::Gtk3SliderBackend(UIBackend &uiBackend, Slider& slider)
 }
 
 //Public methods
-Widget &Gtk3SliderBackend::GetWidget()
-{
-    return this->slider;
-}
-
 const Widget &Gtk3SliderBackend::GetWidget() const
 {
     return this->slider;
@@ -68,10 +63,6 @@ void Gtk3SliderBackend::SetRange(uint32 min, uint32 max)
 
 //NOT IMPLEMENTED
 void _stdxx_::Gtk3SliderBackend::Repaint() {
-    NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
-}
-
-void _stdxx_::Gtk3SliderBackend::SetEditable(bool enable) const {
     NOT_IMPLEMENTED_ERROR; //TODO: IMPLEMENT ME
 }
 //END OF NOT IMPLEMENTED

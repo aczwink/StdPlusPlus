@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,11 +35,6 @@ XcbXlibRenderTargetWidgetBackend::XcbXlibRenderTargetWidgetBackend(UIBackend &ui
 }
 
 //Public methods
-UI::Widget &XcbXlibRenderTargetWidgetBackend::GetWidget()
-{
-	return this->renderTargetWidget;
-}
-
 const UI::Widget &XcbXlibRenderTargetWidgetBackend::GetWidget() const
 {
 	return this->renderTargetWidget;
@@ -60,22 +55,12 @@ StdXX::Math::SizeD _stdxx_::XcbXlibRenderTargetWidgetBackend::GetSizeHint() cons
 	return StdXX::Math::SizeD();
 }
 
-void _stdxx_::XcbXlibRenderTargetWidgetBackend::IgnoreEvent()
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::XcbXlibRenderTargetWidgetBackend::Repaint()
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::XcbXlibRenderTargetWidgetBackend::SetBounds(const StdXX::Math::RectD &bounds)
-{
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-void _stdxx_::XcbXlibRenderTargetWidgetBackend::SetEditable(bool enable) const
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
