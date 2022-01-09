@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -41,6 +41,10 @@ namespace StdXX
 
 		inline FixedTable(const FixedTable<DataType> &source) //copy ctor
 		{
+		    this->nRows = source.nRows;
+		    this->nCols = source.nCols;
+		    this->data = new DataType[source.nElements];
+		    this->nElements = source.nElements;
 			*this = source;
 		}
 
@@ -61,7 +65,7 @@ namespace StdXX
 		{
 			ASSERT(this->nElements == source.nElements, u8"Can't assign FixedTable when right side has a different number of elemens");
 			for (uint32 i = 0; i < source.GetNumberOfElements(); i++)
-				this->data[i] = source[i];
+				this->data[i] = source.data[i];
 			
 			return *this;
 		}

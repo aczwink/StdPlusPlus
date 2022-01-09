@@ -31,9 +31,9 @@ namespace _stdxx_
         //Methods
         void ControllerChanged() override;
         const StdXX::UI::Widget &GetWidget() const override;
+        void UpdateSelection() const override;
 
         //NOT IMPLEMENTED
-        void UpdateSelection() const override;
         void Repaint() override;
         //NOT IMPLEMENTED
 

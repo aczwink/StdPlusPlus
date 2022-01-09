@@ -133,12 +133,20 @@ const Widget &Gtk3ListViewBackend::GetWidget() const
     return this->listView;
 }
 
-//NOT IMPLEMENTED
 void Gtk3ListViewBackend::UpdateSelection() const
 {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+    GtkListBox* gtkListBox = GTK_LIST_BOX(this->listBoxWidget);
+    gtk_list_box_unselect_all(gtkListBox);
+
+    const auto& indexes = this->listView.SelectionController().GetSelectedIndexes();
+    for(const auto& index : indexes)
+    {
+        GtkListBoxRow* row = gtk_list_box_get_row_at_index(gtkListBox, index.GetRow());
+        gtk_list_box_select_row(gtkListBox, row);
+    }
 }
 
+//NOT IMPLEMENTED
 void Gtk3ListViewBackend::Repaint()
 {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
