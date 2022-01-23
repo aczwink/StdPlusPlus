@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -61,6 +61,9 @@
 
 //Internationalization
 #include <Std++/Internationalization/TimeZone.hpp>
+
+//Memory
+#include <Std++/Memory/StaticMemoryBlockAllocator.hpp>
 
 //CodeAnalysis
 #include <Std++/CodeAnalysis/Program.hpp>
