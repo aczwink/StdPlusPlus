@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,11 +41,11 @@ namespace StdXX::Memory
 		}
 
 		//Methods
-		void* Allocate(uint32 size) override;
+		void* Allocate(uint64 size) override;
 		void CheckHeapIntegrity();
 		bool DumpMemoryLeaks();
 		void Free(void* mem) override;
-		void* Reallocate(void* mem, uint32 size) override;
+		void* Reallocate(void* mem, uint64 size) override;
 
 		/**
 		* Sets the context before the next allocation operation for the calling thread.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2021-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -199,6 +199,9 @@ Tuple<Math::Natural, Math::Natural> Math::Natural::DivMod(const Natural& divisor
 
 String Math::Natural::ToString() const
 {
+	if(this->storage.GetNumberOfSegments() == 0)
+		return u8"0";
+
 	const Natural radix = 10;
 
 	String result;

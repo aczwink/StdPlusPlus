@@ -23,7 +23,7 @@ using namespace StdXX::Memory;
 
 struct StaticMemoryBlockAllocator::Block
 {
-    uint32 payloadSize;
+    uint64 payloadSize;
     bool isFree;
 
     //Properties
@@ -32,7 +32,7 @@ struct StaticMemoryBlockAllocator::Block
         return reinterpret_cast<Block *>(this->UserData() + this->payloadSize);
     }
 
-    inline uint32 Size() const
+    inline uint64 Size() const
     {
         return this->payloadSize + sizeof(Block);
     }
@@ -44,18 +44,18 @@ struct StaticMemoryBlockAllocator::Block
 };
 
 //Constructor
-StaticMemoryBlockAllocator::StaticMemoryBlockAllocator(uint32 size)
+StaticMemoryBlockAllocator::StaticMemoryBlockAllocator(uint64 size)
 {
     this->dataBlock = (uint8*)MemAlloc(size);
     this->size = size;
 
-    this->tail = reinterpret_cast<Block *>(this->dataBlock);
+    this->tail = this->Head();
     this->tail->payloadSize = size - sizeof(Block);
     this->tail->isFree = true;
 }
 
 //Public methods
-void* StaticMemoryBlockAllocator::Allocate(uint32 size)
+void* StaticMemoryBlockAllocator::Allocate(uint64 size)
 {
     if(this->tail->isFree and (size <= this->tail->payloadSize))
     {
@@ -69,21 +69,30 @@ void* StaticMemoryBlockAllocator::Allocate(uint32 size)
         return current->UserData();
     }
 
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+    for(Block* current = this->Head(); current < this->tail; current = current->Next())
+    {
+        if(current->isFree and (size <= current->payloadSize))
+        {
+            this->SplitBlock(*current, size);
+            current->isFree = false;
+            return current->UserData();
+        }
+    }
+
     return nullptr;
 }
 
 void StaticMemoryBlockAllocator::Free(void* mem)
 {
     Block* block = reinterpret_cast<Block *>(static_cast<uint8 *>(mem) - sizeof(Block));
-    block->isFree = false;
+    block->isFree = true;
 
     Block* next = block->Next();
-    if(!next->isFree)
+    if(next->isFree)
         block->payloadSize += next->payloadSize + sizeof(Block);
 }
 
-void *StaticMemoryBlockAllocator::Reallocate(void* mem, uint32 size)
+void *StaticMemoryBlockAllocator::Reallocate(void* mem, uint64 size)
 {
     if(mem == nullptr)
         return this->Allocate(size);
@@ -111,9 +120,13 @@ void *StaticMemoryBlockAllocator::Reallocate(void* mem, uint32 size)
 }
 
 //Private methods
-void StaticMemoryBlockAllocator::SplitBlock(Block& block, uint32 newSize) const
+void StaticMemoryBlockAllocator::SplitBlock(Block& block, uint64 newSize) const
 {
-    uint32 nextBlockSize = block.payloadSize - newSize - sizeof(Block);
+    uint64 newSizeWithBlockHeader = newSize + sizeof(Block);
+    if(newSizeWithBlockHeader > block.payloadSize)
+        return;
+
+    uint64 nextBlockSize = block.payloadSize - newSizeWithBlockHeader;
     block.payloadSize = newSize;
 
     Block* next = block.Next();

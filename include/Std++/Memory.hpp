@@ -82,7 +82,7 @@ namespace StdXX
 
     //Functions
 #ifdef XPC_BUILDTYPE_DEBUG
-    inline void* MemAllocDebug(uint32 size, const char* fileName, uint32 lineNumber)
+    inline void* MemAllocDebug(uint64 size, const char* fileName, uint32 lineNumber)
     {
         _stdxx_::TrySetMemoryContext(fileName, lineNumber);
         return Memory::MemoryManager::GlobalAllocator().Allocate(size);

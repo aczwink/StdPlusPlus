@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2019,2021-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,8 +26,8 @@ namespace StdXX::Memory
 	{
 	public:
 		//Abstract
-		virtual void* Allocate(uint32 size) = 0;
+		virtual void* Allocate(uint64 size) = 0;
 		virtual void Free(void* mem) = 0;
-		virtual void* Reallocate(void* mem, uint32 size) = 0;
+		virtual void* Reallocate(void* mem, uint64 size) = 0;
 	};
 }

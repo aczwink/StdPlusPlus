@@ -28,7 +28,7 @@ namespace StdXX::Memory
         struct Block;
     public:
         //Constructor
-        StaticMemoryBlockAllocator(uint32 size);
+        StaticMemoryBlockAllocator(uint64 size);
 
         //Destructor
         inline ~StaticMemoryBlockAllocator()
@@ -36,14 +36,14 @@ namespace StdXX::Memory
             MemFree(this->dataBlock);
         }
 
-        void* Allocate(uint32 size) override;
+        void* Allocate(uint64 size) override;
         void Free(void *mem) override;
-        void* Reallocate(void *mem, uint32 size) override;
+        void* Reallocate(void *mem, uint64 size) override;
 
     private:
         //Members
         uint8* dataBlock;
-        uint32 size;
+        uint64 size;
         Block* tail;
 
         //Properties
@@ -52,7 +52,12 @@ namespace StdXX::Memory
             return this->dataBlock + this->size;
         }
 
+        inline Block* Head()
+        {
+            return reinterpret_cast<Block *>(this->dataBlock);
+        }
+
         //Methods
-        void SplitBlock(Block& block, uint32 newSize) const;
+        void SplitBlock(Block& block, uint64 newSize) const;
     };
 }

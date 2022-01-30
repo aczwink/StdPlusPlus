@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -248,7 +248,10 @@ String String::Replace(const String &from, const String &to) const
 String String::Reversed() const
 {
 	String tmp;
-	
+
+	if(this->data == nullptr)
+		return tmp;
+
 	tmp.sharedResource = new Resource;
 	tmp.sharedResource->isUTF8 = this->IsUTF8();
 	tmp.sharedResource->EnsureCapacity(this->size);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,7 +45,7 @@ struct _stdxx_::DebugMemBlockHeader
     DebugMemBlockHeader* next;
     const char* fileName;
     uint32 lineNumber;
-    uint32 userSize;
+    uint64 userSize;
     uint32 seqNumber;
     uint32 alignmentOffset;
     byte preHeapCorriptionDetectionSection[HEAP_CORRUPTION_DETECTIONSECTION_SIZE];
@@ -188,7 +188,7 @@ static DebugMemBlockHeader* GetHeaderFromUserData(const void* userData)
 }
 
 //Public methods
-void* MemoryTrackingAllocator::Allocate(uint32 size)
+void* MemoryTrackingAllocator::Allocate(uint64 size)
 {
     this->mutex.Lock();
 
@@ -340,7 +340,7 @@ void MemoryTrackingAllocator::Free(void* userData)
     this->mutex.Unlock();
 }
 
-void* MemoryTrackingAllocator::Reallocate(void* mem, uint32 size)
+void* MemoryTrackingAllocator::Reallocate(void* mem, uint64 size)
 {
     if (!mem)
         return this->Allocate(size);
