@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,7 +31,7 @@ namespace _stdxx_
 	public:
 		//Methods
 		void Load() override;
-		void Unload() const override;
+		void Unload() override;
 
 		//Functions
 		static StdXX::UniquePointer<StdXX::BlockCipher> CreateCipher(StdXX::CipherAlgorithm algorithm, const byte* key, uint16 keyLength);

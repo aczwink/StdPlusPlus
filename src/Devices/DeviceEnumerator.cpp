@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2021-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,6 +22,7 @@
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/_Backends/ComputeBackend.hpp>
 #include <Std++/_Backends/AudioBackend.hpp>
+#include <Std++/_Backends/MIDIBackend.hpp>
 //Namespaces
 using namespace StdXX;
 

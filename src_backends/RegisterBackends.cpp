@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 //Class header
 #include <Std++/_Backends/BackendManager.hpp>
 //Backends
+#include "ALSA/ALSABackend.hpp"
 #include "Cocoa/CocoaBackend.hh"
 #include "CommCtrl/CommCtrlBackend.hpp"
 #include "gtk3/Gtk3Backend.hpp"
@@ -36,8 +37,8 @@ using namespace StdXX;
 #define PRIORITY_NORMAL 1
 #define PRIORITY_LOW 0
 
-//Global functions
-void RegisterAudioBackends()
+//Local functions
+static void RegisterAudioBackends()
 {
 #define ADD_BACKEND(backend, priority) BackendManager<AudioBackend>::GetRootInstance().RegisterBackend(backend, priority);
 #ifdef _STDPLUSPLUS_BACKEND_OPENALSOFT
@@ -57,7 +58,7 @@ void RegisterAudioBackends()
 #undef ADD_BACKEND
 }
 
-void RegisterComputeBackends()
+static void RegisterComputeBackends()
 {
 #define ADD_BACKEND(backend, priority) BackendManager<ComputeBackend>::GetRootInstance().RegisterBackend(backend, priority);
 #ifdef _STDPLUSPLUS_BACKEND_OPENCL
@@ -79,7 +80,19 @@ void RegisterComputeBackends()
 #undef ADD_BACKEND
 }
 
-void RegisterUIBackends()
+static void RegisterMIDIBackends()
+{
+#define ADD_BACKEND(backend, priority) BackendManager<MIDIBackend>::GetRootInstance().RegisterBackend(backend, priority);
+#ifdef _STDPLUSPLUS_BACKEND_ALSA
+	{
+		ALSABackend *backend = new ALSABackend;
+		ADD_BACKEND(backend, PRIORITY_NORMAL);
+	}
+#endif
+#undef ADD_BACKEND
+}
+
+static void RegisterUIBackends()
 {
 #define ADD_BACKEND(backend, priority) BackendManager<UIBackend>::GetRootInstance().RegisterBackend(backend, priority);
 	//UI backends
@@ -99,4 +112,13 @@ void RegisterUIBackends()
 	ADD_BACKEND(new XcbXlibBackend, PRIORITY_LOW);
 #endif
 #undef ADD_BACKEND
+}
+
+//Global functions
+void RegisterBackends()
+{
+	RegisterAudioBackends();
+	RegisterComputeBackends();
+	RegisterMIDIBackends();
+	RegisterUIBackends();
 }

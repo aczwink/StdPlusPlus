@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -41,7 +41,7 @@ void OpenSSL_Extension::Load()
 	OPENSSL_config(nullptr);
 }
 
-void OpenSSL_Extension::Unload() const
+void OpenSSL_Extension::Unload()
 {
 	Extension::Unload();
 

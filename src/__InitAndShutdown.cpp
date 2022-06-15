@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,6 +32,7 @@
 #include <Std++/Memory/MemoryTrackingAllocator.hpp>
 #include <Std++/ShutdownManager.hpp>
 #include <Std++/_Backends/AudioBackend.hpp>
+#include <Std++/_Backends/MIDIBackend.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -56,12 +57,8 @@ void InitStdPlusPlus()
 	Memory::MemoryManager::GlobalAllocator(*memoryTrackingAllocator);
 #endif
 
-	void RegisterAudioBackends();
-	RegisterAudioBackends();
-	void RegisterComputeBackends();
-	RegisterComputeBackends();
-	void RegisterUIBackends();
-	RegisterUIBackends();
+	void RegisterBackends();
+	RegisterBackends();
 
 	_stdxx_::RegisterFileSystemFormats();
 
@@ -92,6 +89,7 @@ void ShutdownStdPlusPlus()
 	//release backends
 	BackendManager<AudioBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<ComputeBackend>::GetRootInstance().ReleaseAll();
+	BackendManager<MIDIBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<RenderBackend>::GetRootInstance().ReleaseAll();
 	BackendManager<UIBackend>::GetRootInstance().ReleaseAll();
 

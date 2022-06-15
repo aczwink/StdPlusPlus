@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -90,6 +90,9 @@ void libavformat_Demuxer::ReadHeader()
 		stream->startTime = avStream->start_time;
 		stream->duration = avStream->duration;
 		stream->timeScale = {static_cast<uint64>(avStream->time_base.num), static_cast<uint64>(avStream->time_base.den)};
+
+		NOT_IMPLEMENTED_ERROR; //TODO: reimplement next line
+		/*
 		switch(avStream->need_parsing)
 		{
 			case AVSTREAM_PARSE_NONE:
@@ -102,7 +105,7 @@ void libavformat_Demuxer::ReadHeader()
 				break;
 			default:
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		}
+		}*/
 
 		this->AddStream(stream);
 	}

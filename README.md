@@ -33,6 +33,9 @@ The following Audio-backends are currently implemented:
 The following Compute-backends are currently implemented:
 * OpenCL 1
 
+The following MIDI-backends are currently implemented:
+* ALSA
+
 The following Render-backends are currently implemented:
 * OpenGL 3 Core Profile
 

@@ -56,7 +56,7 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
-//Filetypes
+//FileTypes
 #include <Std++/Filetypes/UTIConstants.hpp>
 
 //Internationalization
@@ -153,6 +153,7 @@
 #include "StdXXEventHandling.hpp"
 #include "StdXXFileSystem.hpp"
 #include "StdXXMath.hpp"
+#include "StdXXMIDI.hpp"
 #include "StdXXMultimedia.hpp"
 #include "StdXXStreams.hpp"
 #include "StdXXUI.hpp"

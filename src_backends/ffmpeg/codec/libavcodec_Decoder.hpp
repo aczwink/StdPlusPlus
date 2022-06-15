@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018,2021-2022 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -46,6 +46,6 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::Multimedia::CodingFormatId codingFormatId;
-		AVCodec *codec;
+		const AVCodec *codec;
 	};
 }

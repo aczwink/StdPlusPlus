@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 extern "C"
 {
 #include <libavcodec/avcodec.h>
+#include <libavutil/channel_layout.h>
 }
 //Local
 #include <Std++/_Backends/Extension.hpp>
@@ -41,6 +42,7 @@ namespace _stdxx_
 		StdXX::Multimedia::AudioSampleFormat MapAudioSampleFormat(int nChannels, uint64 channelLayout, AVSampleFormat sampleFormat) const;
 		uint8* MapCodecExtradata(const StdXX::FixedSizeBuffer& codecPrivateData) const;
 		void MapPacket(const StdXX::Multimedia::IPacket& sourcePacket, AVPacket& destPacket) const;
+		void Unload() override;
 
 		//Inline
 		inline StdXX::Multimedia::CodingFormatId MapCodecId(AVCodecID avCodecId) const
@@ -75,7 +77,7 @@ namespace _stdxx_
 		void LoadPatentedCodingFormatIdMap();
 
 	private:
-		//Members
+		//Variables
 		StdXX::BijectiveMap<StdXX::Multimedia::NamedPixelFormat, AVPixelFormat> libavPixelFormatMap;
 
 		//Methods

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -44,6 +44,11 @@ namespace StdXX
 	{
 	public:
 		//Expressions
+		static constexpr uint16 From2UInt8(uint8 msb, uint8 lsb)
+		{
+			return (((msb) << 8) | (lsb));
+		}
+
 		static constexpr uint16 Max()
 		{
 			return 0xFFFF;

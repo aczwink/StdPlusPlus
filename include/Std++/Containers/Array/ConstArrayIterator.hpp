@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,9 +28,16 @@ namespace StdXX
 		friend ArrayType;
 	public:
 		//Operators
-		ConstArrayIterator &operator++() //Prefix ++
+		inline ConstArrayIterator &operator++() //Prefix ++
 		{
 			this->index++;
+
+			return *this;
+		}
+
+		inline ConstArrayIterator &operator--() //Prefix --
+		{
+			this->index--;
 
 			return *this;
 		}

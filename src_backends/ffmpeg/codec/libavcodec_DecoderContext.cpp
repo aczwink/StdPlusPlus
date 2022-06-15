@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -33,7 +33,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, AVCodec *codec)
+libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, const AVCodec *codec)
 	: DecoderContext(decoder, stream), extradata(nullptr)
 {
 	this->codecContext = avcodec_alloc_context3(codec);

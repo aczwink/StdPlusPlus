@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 #include "libavcodec_Extension.hpp"
 //Local
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
+#include <Std++/Multimedia/FormatRegistry.hpp>
 #include "codec/libavcodec_Decoder.hpp"
 #include "codec/libavcodec_Encoder.hpp"
 #include "codec/libavcodec_Parser.hpp"
@@ -50,14 +51,14 @@ void libavcodec_Extension::Load()
 //Private methods
 void libavcodec_Extension::RegisterDecoderIfAvailable(CodingFormatId codingFormatId, AVCodecID libavCodecId)
 {
-	AVCodec *codec = avcodec_find_decoder(libavCodecId);
+	const AVCodec *codec = avcodec_find_decoder(libavCodecId);
 	if (codec)
-		Decoder::Register(new libavcodec_Decoder(codingFormatId, libavCodecId), 0.5f);
+		FormatRegistry::Instance().Register(new libavcodec_Decoder(codingFormatId, libavCodecId), 0.5f);
 }
 
 void libavcodec_Extension::RegisterEncoderIfAvailable(CodingFormatId codingFormatId, AVCodecID libavCodecId)
 {
-	AVCodec *codec = avcodec_find_encoder(libavCodecId);
+	const AVCodec *codec = avcodec_find_encoder(libavCodecId);
 	if(codec)
 		Encoder::Register(new libavcodec_Encoder(codingFormatId, libavCodecId), 0.5f);
 }

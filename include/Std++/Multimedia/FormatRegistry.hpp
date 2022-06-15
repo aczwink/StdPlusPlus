@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2018,2021-2022 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
 */
+#pragma once
 //Local
 #include <Std++/ShutdownManager.hpp>
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
@@ -34,10 +35,15 @@ namespace StdXX::Multimedia
         }
 
         //Methods
+        const CodingFormat* FindCodingFormatById(CodingFormatId codingFormatId);
+        void Register(Decoder* decoder, float32 quality);
         void Release() override;
 
         //Functions
-        static const CodingFormat *GetCodingFormatById(CodingFormatId codingFormatId);
+        inline static const CodingFormat* GetCodingFormatById(CodingFormatId codingFormatId)
+        {
+            return Instance().FindCodingFormatById(codingFormatId);
+        }
 
         inline static FormatRegistry& Instance()
         {
@@ -67,5 +73,6 @@ namespace StdXX::Multimedia
         //Methods
         void RegisterCodingFormats();
         void RegisterContainerFormats();
+        void RegisterDecoders();
     };
 }

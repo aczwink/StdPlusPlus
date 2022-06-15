@@ -1,3 +1,4 @@
+add_subdirectory(ALSA)
 add_subdirectory(ffmpeg)
 add_subdirectory(fuse3)
 add_subdirectory(liblzma)

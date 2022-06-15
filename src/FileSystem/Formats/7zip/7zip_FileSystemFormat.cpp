@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,7 +19,7 @@
 /*//Class header
 #include "7zip_FileSystemFormat.hpp"
 //Local
-#include <Std++/Filetypes/UTIConstants.hpp>
+#include <Std++/FileTypes/UTIConstants.hpp>
 #include "7zip_FileSystem.hpp"
 //Namespaces
 using namespace _stdxx_;

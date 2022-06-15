@@ -10,6 +10,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/DeviceEnumeratorState.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Extension.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ExtensionManager.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/MIDIBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RenderBackend.hpp
 
 	PARENT_SCOPE)

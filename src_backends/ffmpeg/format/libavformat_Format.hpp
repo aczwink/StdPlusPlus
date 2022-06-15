@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -33,12 +33,12 @@ namespace _stdxx_
 		libavformat_Format(const char* shortName);
 
 		//Properties
-		inline AVInputFormat* InputFormat() const
+		inline const AVInputFormat* InputFormat() const
 		{
 			return this->avInputFormat;
 		}
 
-		inline AVOutputFormat* OutputFormat() const
+		inline const AVOutputFormat* OutputFormat() const
 		{
 			return this->avOutputFormat;
 		}
@@ -53,7 +53,7 @@ namespace _stdxx_
 
 	private:
 		//Members
-		AVInputFormat* avInputFormat;
-		AVOutputFormat* avOutputFormat;
+		const AVInputFormat* avInputFormat;
+		const AVOutputFormat* avOutputFormat;
 	};
 }

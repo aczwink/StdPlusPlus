@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Multimedia/FormatRegistry.hpp>
+//Local
+#include <Std++/Multimedia/Decoder.hpp>
 //Audio coding formats
 #include "Codecs/MPEG/AAC_CodingFormat.hpp"
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
@@ -27,6 +29,7 @@
 #include "Codecs/PCM/Float32LE/PCM_Float32LE_CodingFormat.hpp"
 #include "Codecs/PCM/U8/PCM_U8_CodingFormat.hpp"
 #include "Codecs/PCM/S16BE/PCM_S16BE_CodingFormat.hpp"
+#include "Codecs/PCM/S16BE/PCM_S16BE_Decoder.hpp"
 #include "Codecs/PCM/S8/PCM_S8_CodingFormat.hpp"
 
 //Subtitle coding formats
@@ -56,9 +59,24 @@ FormatRegistry::FormatRegistry()
     ShutdownManager::Instance().Register(this);
     this->RegisterCodingFormats();
     this->RegisterContainerFormats();
+    this->RegisterDecoders();
 }
 
 //Public methods
+const CodingFormat *FormatRegistry::FindCodingFormatById(CodingFormatId codingFormatId)
+{
+    if(this->codingFormats.Contains(codingFormatId))
+        return this->codingFormats[codingFormatId].operator->();
+
+    return nullptr;
+}
+
+void FormatRegistry::Register(Decoder *decoder, float32 quality)
+{
+    CodingFormat *codingFormat = const_cast<CodingFormat *>(this->FindCodingFormatById(decoder->GetCodingFormatId()));
+    codingFormat->AddDecoder(decoder, quality);
+}
+
 void FormatRegistry::Release()
 {
     this->codingFormats.Release();
@@ -101,11 +119,7 @@ void FormatRegistry::RegisterContainerFormats()
     this->Register(new WAVE_Format);
 }
 
-//Class functions
-const CodingFormat *FormatRegistry::GetCodingFormatById(CodingFormatId codingFormatId)
+void FormatRegistry::RegisterDecoders()
 {
-    if(Instance().codingFormats.Contains(codingFormatId))
-        return Instance().codingFormats[codingFormatId].operator->();
-
-    return nullptr;
+    this->Register(new PCM_S16BE_Decoder, 0.0f);
 }

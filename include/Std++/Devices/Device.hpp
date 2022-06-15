@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,7 +24,7 @@ namespace StdXX
 	enum class DeviceType
 	{
 		Audio,
-		Compute
+		Compute,
 	};
 
 	class Device

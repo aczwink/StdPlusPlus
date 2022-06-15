@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,12 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
+#include "PCM_S16BE_DecoderContext.hpp"
 
-namespace StdXX::FileTypes::UTI
+class PCM_S16BE_Decoder : public StdXX::Multimedia::Decoder
 {
-	const String _7zip = u8"org.7-zip.7-zip-archive";
-	const String zip = u8"com.pkware.zip-archive";
-}
+public:
+    //Methods
+    DecoderContext *CreateContext(Stream &stream) const override
+    {
+        return new PCM_S16BE_DecoderContext(*this, stream);
+    }
+
+    CodingFormatId GetCodingFormatId() const override
+    {
+        return CodingFormatId::PCM_S16BE;
+    }
+
+    String GetName() const override
+    {
+        return u8"StdXX";
+    }
+};

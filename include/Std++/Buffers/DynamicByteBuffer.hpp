@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021-2022 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -72,6 +72,11 @@ namespace StdXX
 		}
 
 		//Properties
+		inline uint8* Data()
+		{
+			return this->data;
+		}
+
 		inline const uint8* Data() const
 		{
 			return this->data;

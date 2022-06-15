@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -99,6 +99,10 @@ void ffmpeg_Extension::MapPacket(const IPacket& sourcePacket, AVPacket& destPack
 	destPacket.side_data_elems = 0;
 	destPacket.duration = 0;
 	destPacket.pos = -1;
+}
+
+void ffmpeg_Extension::Unload()
+{
 }
 
 //Protected methods

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2018,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,9 +39,6 @@ namespace StdXX
 			virtual DecoderContext *CreateContext(Stream &stream) const = 0;
 			virtual CodingFormatId GetCodingFormatId() const = 0;
 			virtual String GetName() const = 0;
-
-			//Functions
-			static STDPLUSPLUS_API void Register(Decoder *decoder, float32 quality);
 		};
     }
 }

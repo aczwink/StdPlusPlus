@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,6 +20,7 @@
 extern "C"
 {
 #include <libavcodec/avcodec.h>
+#include <libavutil/channel_layout.h>
 }
 //Local
 #include <Std++/Multimedia/AudioFrame.hpp>
@@ -36,7 +37,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_EncoderContext(StdXX::Multimedia::Stream &stream, AVCodec *codec);
+		libavcodec_EncoderContext(StdXX::Multimedia::Stream &stream, const AVCodec *codec);
 
 		//Destructor
 		~libavcodec_EncoderContext();

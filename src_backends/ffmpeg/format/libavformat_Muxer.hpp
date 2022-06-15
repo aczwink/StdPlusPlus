@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,7 +47,7 @@ namespace _stdxx_
 
 	private:
 		//Members
-		AVOutputFormat* avOutputFormat;
+		const AVOutputFormat* avOutputFormat;
 		AVFormatContext *fmt_ctx;
 		StdXX::UniquePointer<libavio_OutputStreamWrapper> streamWrapper;
 		StdXX::DynamicArray<uint8*> extradata;
