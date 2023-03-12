@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -61,6 +61,14 @@ namespace StdXX
 			return this->outputStream.WriteBytes(source, size);
 		}
 
+		inline void WriteFloat32(float32 value)
+		{
+			if(this->writeBigEndian)
+				this->WriteFloat32BE(value);
+			else
+				this->WriteFloat32LE(value);
+		}
+
 		inline void WriteFloat64(float64 value)
 		{
 			if(this->writeBigEndian)
@@ -71,10 +79,7 @@ namespace StdXX
 
 		inline void WriteInt16(int16 value)
 		{
-			if(this->writeBigEndian)
-				this->WriteInt16BE(value);
-			else
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			this->WriteUInt16(value);
 		}
 
 		inline void WriteInt8(int8 value)
@@ -118,6 +123,23 @@ namespace StdXX
 
 		//Inline
 #ifdef XPC_ENDIANNESS_LITTLE
+		inline void WriteFloat32BE(float32 value)
+		{
+			union
+			{
+				uint32 i;
+				float32 f;
+			};
+
+			f = value;
+			this->WriteUInt32BE(i);
+		}
+
+		inline void WriteFloat32LE(float32 value)
+		{
+			this->outputStream.WriteBytes(&value, sizeof(value));
+		}
+
 		inline void WriteFloat64BE(float64 value)
 		{
 			union

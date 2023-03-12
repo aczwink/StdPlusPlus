@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,8 +47,23 @@ namespace StdXX
 		 */
 		inline IPv4Address(uint32 address)
 		{
-			MemCopy(rawAddress, &address, 4);
+			MemCopy(this->rawAddress, &address, 4);
 		}
+
+		IPv4Address(const String& string);
+
+		//Operators
+		inline bool operator<(const IPv4Address& rhs) const
+		{
+			return this->ToUInt32() < rhs.ToUInt32();
+		}
+
+		inline bool operator==(const IPv4Address& rhs) const
+		{
+			return MemCmp(this->rawAddress, rhs.rawAddress, sizeof(this->rawAddress)) == 0;
+		}
+
+		IPv4Address operator+(uint32 delta) const;
 
 		//Methods
 		NetworkProtocolFamily GetProtocolFamily() const;
@@ -60,7 +75,14 @@ namespace StdXX
 		 */
 		uint32 ToUInt32() const;
 
+		//Inline
+		inline uint32 ToHostOrderUInt32() const
+		{
+			return Unsigned<uint32>::From4UInt8(this->rawAddress[0], this->rawAddress[1], this->rawAddress[2], this->rawAddress[3]);
+		}
+
 		//Functions
+		static IPv4Address FromHostEndianOrder(uint32 address);
 		/**
 		 * Returns the special address "0.0.0.0" that is used when wanting to listen on all IPv4 host addresses.
 		 *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,7 +37,7 @@ void SlidingDictionary::Copy(uint16 distance, uint16 length, OutputStream &refOu
 
 		//exchange bytes
 		refOutput.WriteBytes(&this->Data()[readIndex], nBytesToWrite);
-		this->CopyToTail(readIndex, nBytesToWrite);
+		this->CopyToTail(readIndex, nBytesToWrite); //TODO: there is even a bug here, it should say distance and not read index
 
 		//update
 		length -= (uint16)nBytesToWrite;

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -34,6 +34,7 @@ namespace StdXX::Multimedia
 		AC3,
 		AAC,
 		MP3,
+		MS_ADPCM,
 		PCM_Float32LE,
 		PCM_S16BE,
 		PCM_S16LE,

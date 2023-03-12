@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -19,7 +19,7 @@
 #pragma once
 //Local
 #include "Format.hpp"
-#include "RWFileSystem.hpp"
+#include "Path.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -31,6 +31,8 @@ namespace StdXX::FileSystem
 	public:
 		//Methods
 		class OSFileSystem& OSFileSystem();
+		const Format* FindFormatById(const String& id) const;
+		const Format* ProbeFormat(const Path& path) const;
 
 		//Functions
 		static inline FileSystemsManager& Instance()
@@ -40,6 +42,11 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
+		inline void RegisterFormat(const Format* format)
+		{
+			this->fsFormats.Push(format);
+		}
+
 		inline void ReleaseAllFormats()
 		{
 			for(const Format *format : this->fsFormats)

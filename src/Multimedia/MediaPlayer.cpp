@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -49,7 +49,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 		this->audio.bufferDurations[i] = 0;
 
 	//first find format
-	this->format = Format::Find(this->inputStream);
+	this->format = FormatRegistry::Instance().ProbeFormat(this->inputStream);
 	if(!this->format)
 	{
 		NOT_IMPLEMENTED_ERROR;
@@ -84,29 +84,23 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 		{
 			case DataType::Audio:
 			{
-				AudioStream *const& audioStream = (AudioStream *)stream;
-
-				if(audioStream->AllDecodingInfoIsAvailable())
+				if(stream->AllDecodingInfoIsAvailable())
 				{
-					this->audio.streams.Insert(i, audioStream);
+					this->audio.streams.Insert(i, stream);
 				}
 			}
 			break;
 			case DataType::Subtitle:
 			{
-				SubtitleStream *const& subtitleStream = (SubtitleStream *)stream;
-
-				if(subtitleStream->GetDecoderContext())
-					this->subtitleStreams.Insert(i, subtitleStream);
+				if(stream->GetDecoderContext())
+					this->subtitleStreams.Insert(i, stream);
 			}
 			break;
 			case DataType::Video:
 			{
-				VideoStream *const& videoStream = (VideoStream *)stream;
-
-				if(videoStream->GetDecoderContext())
+				if(stream->GetDecoderContext())
 				{
-					this->video.streams.Insert(i, videoStream);
+					this->video.streams.Insert(i, stream);
 				}
 			}
 			break;
@@ -244,7 +238,7 @@ void MediaPlayer::OnMasterClockTriggered()
 	//check video
 	if(this->video.activeStreamIndex != Unsigned<uint32>::Max())
 	{
-		VideoStream *videoStream = this->video.streams[this->video.activeStreamIndex];
+		Stream *videoStream = this->video.streams[this->video.activeStreamIndex];
 
 		if(this->video.nextPacket) //do we already have the next packet?
 		{
@@ -272,7 +266,7 @@ void MediaPlayer::OnMasterClockTriggered()
 	int64 audioFrameDelay = Signed<int64>::Max();
 	if (this->audio.activeStreamIndex != Unsigned<uint32>::Max())
 	{
-		AudioStream *audioStream = this->audio.streams[this->audio.activeStreamIndex];
+		Stream* audioStream = this->audio.streams[this->audio.activeStreamIndex];
 
 		if (!this->audio.deviceContext.IsNull()) //process only if we have a playback device
 		{
@@ -290,7 +284,7 @@ void MediaPlayer::OnMasterClockTriggered()
 					this->audio.bufferDurations[bufferIndex] = this->audio.nextPacket->pts - this->audio.lastPTS;
 					this->audio.lastPTS = this->audio.nextPacket->pts;
 					
-					this->audio.buffers[bufferIndex]->SetData(this->audio.nextPacket->GetData(), this->audio.nextPacket->GetSize(), audioStream->codingParameters.audio.sampleRate, audioStream->sampleFormat->nChannels);
+					this->audio.buffers[bufferIndex]->SetData(this->audio.nextPacket->GetData(), this->audio.nextPacket->GetSize(), audioStream->codingParameters.audio.sampleRate, audioStream->codingParameters.audio.sampleFormat->nChannels);
 					this->audio.source->EnqueueBuffer(*this->audio.buffers[bufferIndex]);
 
 					if(this->isPlaying && !this->audio.source->IsPlaying())

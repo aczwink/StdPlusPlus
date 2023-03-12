@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,6 +36,7 @@ namespace StdXX::Multimedia
 	{
 	public:
 		//Members
+		const Decoder* decoder;
 		TimeScale timeScale;
 		uint64 startTime;
 		uint64 duration;
@@ -57,7 +58,7 @@ namespace StdXX::Multimedia
 		} parserFlags;
 
 		//Constructor
-		Stream();
+		Stream(DataType dataType);
 
 		//Destructor
 		virtual ~Stream();
@@ -109,8 +110,5 @@ namespace StdXX::Multimedia
 		DecoderContext *decoderContext;
 		EncoderContext *encoderContext;
 		ParserContext *parserContext;
-
-		//Abstract
-		virtual bool AllDecoderInfoIsAvailable() = 0;
 	};
 }

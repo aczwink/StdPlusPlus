@@ -49,7 +49,8 @@ namespace _stdxx_
 		StdXX::String GetExtension() const override;
 		void GetFormatInfo(StdXX::Multimedia::FormatInfo &refFormatInfo) const override;
 		StdXX::String GetName() const override;
-		float32 Matches(StdXX::BufferInputStream &refBuffer) const override;
+		StdXX::DynamicArray<const StdXX::Multimedia::CodingFormat *> GetSupportedCodingFormats(StdXX::Multimedia::DataType dataType) const override;
+		float32 Probe(StdXX::BufferInputStream &refBuffer) const override;
 
 	private:
 		//Members

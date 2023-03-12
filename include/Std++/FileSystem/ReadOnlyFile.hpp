@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,6 +56,11 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
+		inline ReadOnlyFile Child(const String& childName) const
+		{
+			return {this->fileSystem, this->path / childName};
+		}
+
 		inline void InvalidateCache()
 		{
 			this->hasFileInfoCached = false;

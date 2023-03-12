@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,10 +27,9 @@ public:
 	//Methods
 	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
 	Muxer *CreateMuxer(SeekableOutputStream &refOutput) const;
-	//CodecId GetDefaultCodec(DataType dataType) const;
 	String GetExtension() const;
 	void GetFormatInfo(FormatInfo &refFormatInfo) const;
 	String GetName() const;
-	//BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const;
-	float32 Matches(BufferInputStream &buffer) const;
+	DynamicArray<const CodingFormat *> GetSupportedCodingFormats(DataType dataType) const override;
+	float32 Probe(BufferInputStream &buffer) const;
 };

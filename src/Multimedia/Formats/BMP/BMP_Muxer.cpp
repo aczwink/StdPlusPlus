@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,9 +42,7 @@ void BMP_Muxer::Finalize()
 
 void BMP_Muxer::WriteHeader()
 {
-	VideoStream *stream;
-
-	stream = (VideoStream *)this->GetStream(0);
+	Stream *stream = this->GetStream(0);
 
 	this->startOffset = this->outputStream.QueryCurrentOffset();
 
@@ -62,7 +60,7 @@ void BMP_Muxer::WriteHeader()
 
 void BMP_Muxer::WritePacket(const IPacket& packet)
 {
-	VideoStream *pStream = (VideoStream *)this->GetStream(0);
+	Stream *pStream = this->GetStream(0);
 	
 	switch(pStream->codingParameters.codingFormat->GetId())
 	{

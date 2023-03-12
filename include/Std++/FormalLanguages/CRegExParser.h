@@ -22,8 +22,6 @@
 #include "../Containers/Array/DynamicArray.hpp"
 #include "../Containers/LinkedList/LinkedList.hpp"
 #include "../Containers/LinkedList/LinkedListConstIterator.hpp"
-#include "CCharSet.h"
-#include "CNFA.h"
 /*
 namespace StdXX
 {
@@ -31,14 +29,10 @@ namespace StdXX
     {
         enum ETokenType
         {
-            TOKEN_ANYCHAR,
             TOKEN_CHARCLASS_OPEN,
             TOKEN_CHARCLASS_CLOSE,
             TOKEN_CHARCLASS_RANGE,
             TOKEN_CHARCLASS_NEGATE,
-            TOKEN_0_TO_N,
-            TOKEN_1_TO_N,
-            TOKEN_0_OR_1,
             TOKEN_BRACKET_OPEN,
             TOKEN_BRACKET_CLOSE,
             TOKEN_OR,
@@ -60,14 +54,7 @@ namespace StdXX
         void ParseRegEx(ConstUTF8StringIterator &refIt, LinkedListConstIterator<CCharSet *> &refCharSetIt);
         bool Preprocess(ConstUTF8StringIterator &refIt);
         bool PreprocessCharClass(ConstUTF8StringIterator &refIt, CCharSet *pCharSet);
-        void Star();
-        void UpdateLookahead(ConstUTF8StringIterator &refIt);
-        void ZeroOrOne();
     public:
-        //Constructor
-        CRegExParser();
-        //Destructor
-        ~CRegExParser();
         //Methods
         CNFA *Parse(const UTF8String &refRegEx);
         bool Preprocess(const UTF8String &refRegEx);

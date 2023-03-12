@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,76 +20,94 @@
 #include "RegExParser.hpp"
 //Namespaces
 using namespace _stdxx_;
+using namespace StdXX;
 
 //Public methods
-void RegExParser::Execute()
+UniquePointer<RegExNode> RegExParser::Parse()
 {
-    this->Parse();
-    this->BuildDisjointCharSets();
+    auto sequence = new SequenceNode;
+    while(this->state != this->string.end())
+    {
+        auto expr = this->ParseExpression();
+        sequence->nodes.Push(Move(expr));
+    }
 
-    ASSERT(this->partStack.GetNumberOfElements() == 1, u8"REPORT THIS PLEASE!");
+    return sequence;
 }
 
 //Private methods
-void RegExParser::BuildDisjointCharSets()
+UniquePointer<RegExNode> RegExParser::ParseCharacterClass()
 {
-    //put all classes
-    for(const Part& part : partStack)
+    bool negate = this->Accept(u8'^');
+
+    StdXX::FormalLanguages::CharacterClass characterClass;
+    while(!this->Accept(u8']'))
     {
-        this->disjointCharSets.Push(part.characterClass);
+        uint32 from = this->Consume();
+        uint32 to;
+
+        if(this->Accept(u8'-'))
+            to = this->Consume();
+        else
+            to = from;
+
+        characterClass.Insert(from, to);
     }
 
-    for(const CharacterClass& cc1 : this->disjointCharSets)
-    {
-        for(const CharacterClass& cc2 : this->disjointCharSets)
-        {
-            if(&cc1 == &cc2)
-                continue;
+    if(negate)
+        return new InputNode(characterClass.Negated());
 
-            CharacterClass intersection = cc1.Intersect(cc2);
-            if(intersection.IsEmpty())
-                continue;
-
-            NOT_IMPLEMENTED_ERROR; //TODO: implement me
-        }
-    }
+    return new InputNode(Move(characterClass));
 }
 
-void RegExParser::CreateNFA(CharacterClass&& characterClass)
+UniquePointer<RegExNode> RegExParser::ParseExpression()
 {
-    NFA<CharacterClass>* nfa = new NFA<CharacterClass>;
+    UniquePointer<RegExNode> node;
 
-    NFAState<CharacterClass>* stateFrom = new NFAState<CharacterClass>();
-    NFAState<CharacterClass>* stateTo = new NFAState<CharacterClass>();
+    if(this->Accept(u8'.'))
+        node = new InputNode(0, UNICODE_MAX);
+    else if(this->Accept(u8'('))
+        node = this->ParseExpressionOrSequenceUntil(u8')');
+    else if(this->Accept(u8'['))
+        node = this->ParseCharacterClass();
+    else
+        node = new InputNode(this->Consume());
 
-    stateFrom->AddTransition(Move(characterClass), stateTo);
+    //left recursion rules
+    switch(*this->state)
+    {
+        case u8'*':
+            this->Consume();
+            node = new UnaryNode(UnaryOperation::Star, Move(node));
+            break;
+        case u8'+':
+            this->Consume();
+            node = new UnaryNode(UnaryOperation::Plus, Move(node));
+            break;
+        case u8'?':
+            this->Consume();
+            node = new UnaryNode(UnaryOperation::QuestionMark, Move(node));
+            break;
+        case u8'|':
+            this->Consume();
+            node = new OrNode(Move(node), this->ParseExpression());
+            break;
+    }
 
-    nfa->AddState(stateFrom);
-    nfa->AddState(stateTo);
-
-    //TODO: implement me
-    //this->nfaStack.Push(nfa);
+    return node;
 }
 
-void RegExParser::Parse()
+UniquePointer<RegExNode> RegExParser::ParseExpressionOrSequenceUntil(uint32 codePoint)
 {
-    bool run = true;
-    while(run)
+    auto sequence = new SequenceNode;
+    while(!this->Accept(codePoint))
     {
-        Token nextToken = this->lexer.MatchNextToken();
-        switch (nextToken)
-        {
-            case Token::Char:
-                this->partStack.Push(Part(
-                    Token::Char,
-                    this->lexer.tokenValueCodePoint
-                ));
-                break;
-            case Token::End:
-                run = false;
-                break;
-            default:
-                NOT_IMPLEMENTED_ERROR; //TODO: implement me
-        }
+        auto expr = this->ParseExpression();
+        sequence->nodes.Push(Move(expr));
     }
+
+    if(sequence->nodes.GetNumberOfElements() == 1)
+        return Move(sequence->nodes[0]);
+
+    return sequence;
 }

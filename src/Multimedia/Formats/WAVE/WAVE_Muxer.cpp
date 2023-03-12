@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,9 +19,8 @@
 //Class header
 #include "WAVE_Muxer.hpp"
 //Local
-#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
-#include "WAVE.h"
+#include "WAVE.hpp"
 
 //Constructor
 WAVE_Muxer::WAVE_Muxer(const Format &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
@@ -42,10 +41,10 @@ void WAVE_Muxer::Finalize()
 
 void WAVE_Muxer::WriteHeader()
 {
-	AudioStream *stream = (AudioStream *)this->GetStream(0);
+	Stream *stream = this->GetStream(0);
 
 	uint16 bitsPerSample = this->GetBitsPerSample(stream->codingParameters.codingFormat->GetId());
-	uint16 blockAlign = stream->sampleFormat->nChannels * bitsPerSample / 8;
+	uint16 blockAlign = stream->codingParameters.audio.sampleFormat->nChannels * bitsPerSample / 8;
 
 	DataWriter writer(false, this->outputStream);
 	//riff chunk
@@ -58,7 +57,7 @@ void WAVE_Muxer::WriteHeader()
 	writer.WriteUInt32(WAVE_FORMATCHUNK_CHUNKID);
 	writer.WriteUInt32(16); //size of format chunk
 	writer.WriteUInt16(this->MapCodingFormatId(stream->codingParameters.codingFormat->GetId()));
-	writer.WriteUInt16(stream->sampleFormat->nChannels);
+	writer.WriteUInt16(stream->codingParameters.audio.sampleFormat->nChannels);
 	writer.WriteUInt32(stream->codingParameters.audio.sampleRate);
 	writer.WriteUInt32(stream->codingParameters.audio.sampleRate * blockAlign);
 	writer.WriteUInt16(blockAlign);

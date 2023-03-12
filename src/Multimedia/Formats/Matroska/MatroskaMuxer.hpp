@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,6 @@
  */
 //Local
 #include <Std++/Multimedia/Muxer.hpp>
-#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Streams/Writers/TextWriter.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include "Matroska.hpp"
@@ -71,7 +70,7 @@ private:
 	void FinalizeMetaSeekInfo();
 	uint64 PrepareMetaSeekEntry(MatroskaId id);
 	void PrepareMetaSeekInfo();
-	void WriteAdditionalAudioStreamInfo(AudioStream &refStream);
+	void WriteAdditionalAudioStreamInfo(Stream &refStream);
 	void WriteCodecElement(Stream &stream);
 	void WriteCuePoints();
 	void WriteEBMLUInt(uint64 value);

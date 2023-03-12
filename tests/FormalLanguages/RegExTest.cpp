@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,13 +21,106 @@ using namespace StdXX;
 
 TEST_SUITE(RegExTest)
 {
-    TEST_CASE(abTests)
+    TEST_CASE(emptyTests)
     {
-        RegEx regEx1(u8"a");
-        RegEx regEx2(u8"b");
+        RegEx regEx(u8"");
+
+        String string1 = u8"";
+        ASSERT(regEx.Matches(string1), u8"RegEx '' should match string ''");
+
+        String string2 = u8"abc";
+        ASSERT(regEx.Matches(string2), u8"RegEx '' should match string 'abc'");
+    }
+
+    TEST_CASE(simpleTests)
+    {
         String string = u8"ab";
 
-        ASSERT(regEx1.Matches(string), u8"RegEx 'a' should match string 'ab'")
-        ASSERT(!regEx2.Matches(string), u8"RegEx 'b' should not match string 'ab'")
+        RegEx regEx1(u8"a");
+        ASSERT(regEx1.Matches(string), u8"RegEx 'a' should match string 'ab'");
+
+        RegEx regEx2(u8"b");
+        ASSERT(!regEx2.Matches(string), u8"RegEx 'b' should not match string 'ab'");
+
+        RegEx regEx3(u8"ab");
+        ASSERT(regEx3.Matches(string), u8"RegEx 'ab' should match string 'ab'");
+
+        RegEx regEx4(u8"(ab)");
+        ASSERT(regEx4.Matches(string), u8"RegEx '(ab)' should match string 'ab'");
+    }
+
+    TEST_CASE(starTests)
+    {
+        RegEx regEx(u8"ab*c");
+
+        String string1 = u8"ac";
+        ASSERT(regEx.Matches(string1), u8"RegEx 'ab*c' should match string 'ac'");
+
+        String string2 = u8"abc";
+        ASSERT(regEx.Matches(string2), u8"RegEx 'ab*c' should match string 'abc'");
+
+        String string3 = u8"abbbc";
+        ASSERT(regEx.Matches(string3), u8"RegEx 'ab*c' should match string 'abbbc'");
+    }
+
+    TEST_CASE(plusTests)
+    {
+        RegEx regEx(u8"ab+c");
+
+        String string1 = u8"ac";
+        ASSERT(!regEx.Matches(string1), u8"RegEx 'ab+c' should not match string 'ac'");
+
+        String string2 = u8"abc";
+        ASSERT(regEx.Matches(string2), u8"RegEx 'ab+c' should match string 'abc'");
+
+        String string3 = u8"abbbc";
+        ASSERT(regEx.Matches(string3), u8"RegEx 'ab+c' should match string 'abbbc'");
+    }
+
+    TEST_CASE(zeroOrOneTests)
+    {
+        RegEx regEx(u8"ab?c");
+
+        String string1 = u8"ac";
+        ASSERT(regEx.Matches(string1), u8"RegEx 'ab?c' should match string 'ac'");
+
+        String string2 = u8"abc";
+        ASSERT(regEx.Matches(string2), u8"RegEx 'ab?c' should match string 'abc'");
+    }
+
+    TEST_CASE(dotTests)
+    {
+        RegEx regEx(u8"a.c");
+
+        String string1 = u8"ac";
+        ASSERT(!regEx.Matches(string1), u8"RegEx 'a.c' should not match string 'ac'");
+
+        String string2 = u8"abc";
+        ASSERT(regEx.Matches(string2), u8"RegEx 'a.c' should match string 'abc'");
+    }
+
+    TEST_CASE(characterClassesTests)
+    {
+        RegEx regEx1(u8"[ab]");
+        RegEx regEx2(u8"[^a-c]");
+
+        String string1 = u8"ac";
+        ASSERT(regEx1.Matches(string1), u8"RegEx '[ab]' should match string 'ac'");
+        ASSERT(!regEx2.Matches(string1), u8"RegEx '[^a-c]' should not match string 'ac'");
+
+        String string2 = u8"d";
+        ASSERT(!regEx1.Matches(string2), u8"RegEx '[ab]' should not match string 'd'");
+        ASSERT(regEx2.Matches(string2), u8"RegEx '[^a-c]' should match string 'd'");
+    }
+
+    TEST_CASE(orTests)
+    {
+        RegEx regEx(u8"a|b");
+
+        String string1 = u8"a";
+        ASSERT(regEx.Matches(string1), u8"RegEx 'a|b' should match string 'a'");
+
+        String string2 = u8"b";
+        ASSERT(regEx.Matches(string2), u8"RegEx 'a|b' should match string 'b'");
     }
 }

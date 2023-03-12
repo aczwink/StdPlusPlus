@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,6 +23,21 @@
 //Namespaces
 using namespace StdXX;
 
+//Constructor
+IPv4Address::IPv4Address(const String &string)
+{
+	auto parts = string.Split(u8".");
+
+	for(uint8 i = 0; i < 4; i++)
+		this->rawAddress[i] = static_cast<byte>(parts[i].ToUInt32());
+}
+
+//Operators
+IPv4Address IPv4Address::operator+(uint32 delta) const
+{
+	return htonl(ntohl(this->ToUInt32()) + delta);
+}
+
 //Public methods
 NetworkProtocolFamily IPv4Address::GetProtocolFamily() const
 {
@@ -36,10 +51,15 @@ String IPv4Address::ToString() const
 
 uint32 IPv4Address::ToUInt32() const
 {
-	return htonl(Unsigned<uint32>::From4UInt8(this->rawAddress[0], this->rawAddress[1], this->rawAddress[2], this->rawAddress[3]));
+	return htonl(this->ToHostOrderUInt32());
 }
 
 //Class functions
+IPv4Address IPv4Address::FromHostEndianOrder(uint32 address)
+{
+	return htonl(address);
+}
+
 IPv4Address IPv4Address::GetAnyHostAddress()
 {
 	return IPv4Address(0);

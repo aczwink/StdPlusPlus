@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,7 +46,7 @@ void AddMS_FourCC_VideoCodecs(BinaryTreeSet<CodecId> &refCodecSet)
 		refCodecSet.Insert(refKV.value);
 }*/
 
-void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &stream)
+void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Stream &stream)
 {
 	DataReader reader(false, inputStream);
 
@@ -115,7 +115,7 @@ void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Video
 	}
 }
 
-void _stdxx_::WriteBitmapInfoHeader(VideoStream &stream, OutputStream &outputStream)
+void _stdxx_::WriteBitmapInfoHeader(Stream &stream, OutputStream &outputStream)
 {
 	DataWriter dataWriter(false, outputStream);
 

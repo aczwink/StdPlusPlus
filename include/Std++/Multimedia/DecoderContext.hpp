@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -34,7 +34,7 @@ namespace StdXX::Multimedia
 	{
 	public:
 		//Constructor
-		inline DecoderContext(const Decoder &decoder, Stream &stream) : decoder(decoder), stream(stream)
+		inline DecoderContext(Stream &stream) : stream(stream)
 		{
 			this->frameCounter = 0;
 		}
@@ -49,11 +49,6 @@ namespace StdXX::Multimedia
 		virtual void Reset();
 
 		//Inline
-		inline const Decoder &GetDecoder() const
-		{
-			return this->decoder;
-		}
-
 		inline Frame *GetNextFrame()
 		{
 			return this->orderedFrames.PopFront();
@@ -79,7 +74,6 @@ namespace StdXX::Multimedia
 
 	private:
 		//Members
-		const Decoder &decoder;
 		uint32 frameCounter;
 		PriorityQueue<Tuple<uint32, Frame *>> unorderedFrames;
 		LinkedList<Frame *> orderedFrames;

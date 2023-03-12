@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,14 +36,6 @@ Muxer *BMP_Format::CreateMuxer(SeekableOutputStream &refOutput) const
 	return new BMP_Muxer(*this, refOutput);
 }
 
-/*CodecId BMP_Format::GetDefaultCodec(DataType dataType) const
-{
-	if(dataType == DataType::Video)
-		return CodecId::BGR24;
-
-	return CodecId::Unknown;
-}*/
-
 String BMP_Format::GetExtension() const
 {
 	return u8"bmp";
@@ -59,16 +51,13 @@ String BMP_Format::GetName() const
 	return u8"BMP Bitmap image";
 }
 
-/*BinaryTreeSet<CodecId> BMP_Format::GetSupportedCodecs(DataType dataType) const
+DynamicArray<const CodingFormat *> BMP_Format::GetSupportedCodingFormats(DataType dataType) const
 {
-	BinaryTreeSet<CodecId> result;
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return DynamicArray<const CodingFormat *>();
+}
 
-	NOT_IMPLEMENTED_ERROR;
-
-	return result;
-}*/
-
-float32 BMP_Format::Matches(BufferInputStream &refBuffer) const
+float32 BMP_Format::Probe(BufferInputStream &refBuffer) const
 {
 	byte readHeader[BMP_HEADER_TYPE_SIZE];
 

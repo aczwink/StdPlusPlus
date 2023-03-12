@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 
 namespace StdXX
 {
-    //Move declarations
+    //Forward declarations
     template<typename KeyType, typename ValueType>
     class MapNode;
     template<typename KeyType, typename ValueType>
@@ -90,10 +90,34 @@ namespace StdXX
 			return *this;
 		}
 
+		ConstMapIterator<KeyType, ValueType> operator--(int) //Postfix --
+		{
+			ConstMapIterator<KeyType, ValueType> tmp(*this);
+			Node *pParent;
+
+			if(this->pCurrentNode->pLeft)
+			{
+				this->pCurrentNode = this->pCurrentNode->pLeft->GetLast();
+			}
+			else
+			{
+				while((pParent = this->pCurrentNode->pParent) && pParent->pLeft == this->pCurrentNode)
+					this->pCurrentNode = pParent;
+				this->pCurrentNode = pParent;
+			}
+
+			return tmp;
+		}
+
         const KeyValuePair<KeyType, ValueType> &operator*() const
         {
             return this->currentNode->keyValuePair;
         }
+
+		ValueType& operator->()
+		{
+			return this->pCurrentNode->value;
+		}
 
 	private:
 		//Members

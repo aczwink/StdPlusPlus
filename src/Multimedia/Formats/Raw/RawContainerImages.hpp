@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,14 +36,13 @@ namespace _stdxx_
 			return u8"png";
 		}
 
-		/*BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const override
+		DynamicArray<const CodingFormat *> GetSupportedCodingFormats(DataType dataType) const override
 		{
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+			return DynamicArray<const CodingFormat *>();
+		}
 
-			return BinaryTreeSet<CodecId>();
-		}*/
-
-		float32 Matches(BufferInputStream &buffer) const override
+		float32 Probe(BufferInputStream &buffer) const override
 		{
 			//5.2 PNG Signature, we have one constant 8 byte signature :)
 

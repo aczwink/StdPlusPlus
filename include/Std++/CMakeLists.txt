@@ -25,6 +25,7 @@ add_subdirectory(Serialization)
 add_subdirectory(Streams)
 add_subdirectory(Time)
 add_subdirectory(Type)
+add_subdirectory(Typography)
 add_subdirectory(UI)
 
 set(SOURCE_FILES
@@ -46,7 +47,6 @@ set(SOURCE_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
@@ -54,10 +54,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.hpp
 
 	#Smart Pointers
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp

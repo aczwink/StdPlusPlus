@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,7 @@
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Errorhandling/Exceptions/IllegalDataException.hpp>
 #include "../BMP/BMP.hpp"
-#include "../WAVE/WAVE.h"
+#include "../WAVE/WAVE.hpp"
 #include "EBML.hpp"
 #include "MatroskaDemuxer.hpp"
 #include "MatroskaMuxer.hpp"
@@ -60,6 +60,12 @@ String MatroskaVideo::GetName() const
 	return u8"Matroska Video";
 }
 
+DynamicArray<const CodingFormat *> MatroskaVideo::GetSupportedCodingFormats(DataType dataType) const
+{
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return DynamicArray<const CodingFormat *>();
+}
+
 /*BinaryTreeSet<CodecId> MatroskaVideo::GetSupportedCodecs(DataType dataType) const
 {
 	BinaryTreeSet<CodecId> result;
@@ -88,7 +94,7 @@ String MatroskaVideo::GetName() const
 	return result;
 }*/
 
-float32 MatroskaVideo::Matches(BufferInputStream &buffer) const
+float32 MatroskaVideo::Probe(BufferInputStream &buffer) const
 {
 	EBML::Header header;
 	try

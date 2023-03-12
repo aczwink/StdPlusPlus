@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,8 +19,6 @@
 //Class header
 #include "MatroskaDemuxer.hpp"
 //Local
-#include <Std++/Multimedia/AudioStream.hpp>
-#include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 #include <Std++/Multimedia/CodingParameters.hpp>
 #include "EBML.hpp"
@@ -238,13 +236,13 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	switch(track.type)
 	{
 	case TRACK_TYPE_AUDIO:
-		pStream = new AudioStream;
+		pStream = new Stream(DataType::Audio);
 		break;
 	case TRACK_TYPE_SUBTITLE:
-		pStream = new SubtitleStream;
+		pStream = new Stream(DataType::Subtitle);
 		break;
 	case TRACK_TYPE_VIDEO:
-		pStream = new VideoStream;
+		pStream = new Stream(DataType::Video);
 		break;
 	default:
 		NOT_IMPLEMENTED_ERROR;
@@ -280,14 +278,12 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	{
 	case TRACK_TYPE_AUDIO:
 	{
-		AudioStream *const& audioStream = (AudioStream *)pStream;
-		
-		audioStream->codingParameters.audio.sampleRate = (uint32)track.audio.sampleRate;
+		pStream->codingParameters.audio.sampleRate = (uint32)track.audio.sampleRate;
 		//audioStream->sampleFormatHints.nChannels = track.audio.nChannels;
 
-		if (audioStream->codingParameters.codingFormat)
+		if (pStream->codingParameters.codingFormat)
 		{
-			switch (audioStream->codingParameters.codingFormat->GetId())
+			switch (pStream->codingParameters.codingFormat->GetId())
 			{
 			case CodingFormatId::AAC:
 				pStream->parserFlags.requiresParsing = false;
@@ -313,22 +309,20 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 	break;
 	case TRACK_TYPE_VIDEO:
 	{
-		VideoStream *const& videoStream = (VideoStream *)pStream;
-
-		videoStream->codingParameters.video.size.width = track.video.width;
-		videoStream->codingParameters.video.size.height = track.video.height;
+		pStream->codingParameters.video.size.width = track.video.width;
+		pStream->codingParameters.video.size.height = track.video.height;
 
 		//check for microsoft BMP header
 		if (codingFormatId == CodingFormatId::Unknown && track.codecId == codecId_ms_fourcc)
 		{
 			bool isBottomUp;
 			BufferInputStream codecPrivateData(&track.codecPrivate[0], track.codecPrivate.GetSize());
-			_stdxx_::ReadBMPHeader(isBottomUp, codecPrivateData, *videoStream);
+			_stdxx_::ReadBMPHeader(isBottomUp, codecPrivateData, *pStream);
 		}
 
-		if (videoStream->codingParameters.codingFormat)
+		if (pStream->codingParameters.codingFormat)
 		{
-			switch (videoStream->codingParameters.codingFormat->GetId())
+			switch (pStream->codingParameters.codingFormat->GetId())
 			{
 			case CodingFormatId::H264:
 				//only look at packets

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@ namespace StdXX
 {
     namespace UI
     {
-        //Move declarations
+        //Forward declarations
         class Menu;
         class Window;
 
@@ -44,7 +44,8 @@ namespace StdXX
 			inline void AppendMenu(Menu *menu)
 			{
 				this->attachedMenus.Push(menu);
-				this->backend->AppendMenu(menu);
+				if(this->backend)
+					this->backend->AppendMenu(menu);
 			}
 
 		private:

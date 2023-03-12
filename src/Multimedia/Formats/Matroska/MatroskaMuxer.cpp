@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,6 @@
 #include "MatroskaMuxer.hpp"
 //Local
 #include <Std++/Signed.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include <Std++/Multimedia/CodingParameters.hpp>
 #include "../BMP/BMP.hpp"
@@ -142,7 +141,7 @@ void MatroskaMuxer::WriteEBMLUInt(uint64 value)
 	}
 }
 
-void MatroskaMuxer::WriteAdditionalAudioStreamInfo(AudioStream &refStream)
+void MatroskaMuxer::WriteAdditionalAudioStreamInfo(Stream &refStream)
 {
 	NOT_IMPLEMENTED_ERROR; //TODO: next
 	/*
@@ -179,7 +178,7 @@ void MatroskaMuxer::WriteCodecElement(Stream &stream)
 					default: //non-native
 						this->WriteASCIIElement(MATROSKA_ID_CODECID, codecId_ms_fourcc);
 						this->BeginElement(MATROSKA_ID_CODECPRIVATE);
-						_stdxx_::WriteBitmapInfoHeader(dynamic_cast<VideoStream &>(stream), this->outputStream);
+						_stdxx_::WriteBitmapInfoHeader(stream, this->outputStream);
 						this->EndElement();
 				}
 			}
@@ -390,26 +389,22 @@ void MatroskaMuxer::WriteHeader()
 		{
 			case DataType::Audio:
 			{
-				AudioStream *const& refpAudioStream = (AudioStream *)stream;
-
 				this->BeginElement(MATROSKA_ID_AUDIO);
 
-				this->WriteUIntElement(MATROSKA_ID_CHANNELS, refpAudioStream->sampleFormat->nChannels);
-				this->WriteFloatElement(MATROSKA_ID_SAMPLINGFREQUENCY, refpAudioStream->codingParameters.audio.sampleRate);
+				this->WriteUIntElement(MATROSKA_ID_CHANNELS, stream->codingParameters.audio.sampleFormat->nChannels);
+				this->WriteFloatElement(MATROSKA_ID_SAMPLINGFREQUENCY, stream->codingParameters.audio.sampleRate);
 
-				this->WriteAdditionalAudioStreamInfo(*refpAudioStream);
+				this->WriteAdditionalAudioStreamInfo(*stream);
 
 				this->EndElement();
 			}
 				break;
 			case DataType::Video:
 			{
-				VideoStream *const& videoStream = (VideoStream *)stream;
-
 				this->BeginElement(MATROSKA_ID_VIDEO);
 
-				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, videoStream->codingParameters.video.size.width);
-				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, videoStream->codingParameters.video.size.height);
+				this->WriteUIntElement(MATROSKA_ID_PIXELWIDTH, stream->codingParameters.video.size.width);
+				this->WriteUIntElement(MATROSKA_ID_PIXELHEIGHT, stream->codingParameters.video.size.height);
 
 				this->EndElement();
 			}

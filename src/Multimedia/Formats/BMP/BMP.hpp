@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,8 +18,8 @@
  */
 //Local
 #include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/Streams/InputStream.hpp>
+#include <Std++/Multimedia/Stream.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
@@ -32,6 +32,6 @@ using namespace StdXX::Multimedia;
 //void AddMS_FourCC_VideoCodecs(BinaryTreeSet<CodecId> &refCodecSet);
 namespace _stdxx_
 {
-	void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, VideoStream &stream);
-	void WriteBitmapInfoHeader(VideoStream &stream, OutputStream &outputStream);
+	void ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Stream &stream);
+	void WriteBitmapInfoHeader(Stream &stream, OutputStream &outputStream);
 }

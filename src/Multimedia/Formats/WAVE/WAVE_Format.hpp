@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,12 +25,11 @@ class WAVE_Format : public Format
 {
 public:
 	//Methods
-	Demuxer *CreateDemuxer(SeekableInputStream &refInput) const;
+	Demuxer *CreateDemuxer(SeekableInputStream &inputStream) const;
 	Muxer *CreateMuxer(SeekableOutputStream &refOutput) const;
-	//CodecId GetDefaultCodec(DataType dataType) const;
 	String GetExtension() const;
-	void GetFormatInfo(FormatInfo &refFormatInfo) const;
+	void GetFormatInfo(FormatInfo &formatInfo) const;
 	String GetName() const;
-	//BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const;
-	float32 Matches(BufferInputStream &inputStream) const;
+	DynamicArray<const CodingFormat *> GetSupportedCodingFormats(DataType dataType) const override;
+	float32 Probe(BufferInputStream &inputStream) const;
 };

@@ -16,7 +16,7 @@ if(${BACKENDS_AUTO_AVAILABLE})
 	endif ()
 endif ()
 
-
+set(EXTENSION_LIBAVCODEC OFF) #TODO: libavcodec currently crashes with some error. needs to be fixed
 if(${EXTENSION_LIBAVCODEC})
 	if(NOT LIBAV_FOUND)
 		message(FATAL_ERROR "libavcodec could not be found.")

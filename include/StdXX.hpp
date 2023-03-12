@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,8 @@
 //CommonFileFormats/CSV
 #include <Std++/CommonFileFormats/CSV/CSVReader.hpp>
 #include <Std++/CommonFileFormats/CSV/CSVWriter.hpp>
+//CommonFileFormats/PDF
+#include <Std++/CommonFileFormats/PDF/Document.hpp>
 //CommonFileFormats/XML
 #include <Std++/CommonFileFormats/XML/Document.hpp>
 #include <Std++/CommonFileFormats/XML/TextNode.hpp>
@@ -56,9 +58,6 @@
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
 
-//FileTypes
-#include <Std++/Filetypes/UTIConstants.hpp>
-
 //Internationalization
 #include <Std++/Internationalization/TimeZone.hpp>
 
@@ -69,9 +68,10 @@
 #include <Std++/CodeAnalysis/Program.hpp>
 
 //Compression
-#include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/Compression/Compressor.hpp>
 #include <Std++/Compression/Decompressor.hpp>
+#include <Std++/Compression/DictionaryDecompressor.hpp>
+#include <Std++/Compression/HuffmanDecoder.hpp>
 #include <Std++/Compression/IndexedSlidingDictionary.hpp>
 #include <Std++/Compression/SlidingDictionary.hpp>
 
@@ -79,6 +79,8 @@
 #include <Std++/Debugging/FunctionHook.hpp>
 
 //Formal languages
+#include <Std++/FormalLanguages/CharacterClass.hpp>
+#include <Std++/FormalLanguages/NFA.hpp>
 #include <Std++/FormalLanguages/RegEx.hpp>
 #include <Std++/FormalLanguages/CRegExParser.h>
 
@@ -98,6 +100,7 @@
 #include <Std++/Network/DatagramSocket.hpp>
 #include <Std++/Network/HTTPServer.hpp>
 #include <Std++/Network/IPv4Address.hpp>
+#include <Std++/Network/IPv4Range.hpp>
 #include <Std++/Network/TCPServerSocket.hpp>
 
 //Rendering

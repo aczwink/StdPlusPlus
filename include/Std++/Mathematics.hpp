@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,12 +35,6 @@ namespace StdXX
 		constexpr T Abs(const T &x)
 		{
 			return ( (x) < 0 ) ? -(x) : (x);
-		}
-
-		template<typename T>
-		constexpr bool IsValueBetween(const T &x, const T &min, const T &max)
-		{
-			return ((x) > (min) && (x) < (max));
 		}
 
 		template<typename T>

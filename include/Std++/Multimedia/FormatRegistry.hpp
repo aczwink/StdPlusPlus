@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018,2021-2022 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -36,7 +36,10 @@ namespace StdXX::Multimedia
 
         //Methods
         const CodingFormat* FindCodingFormatById(CodingFormatId codingFormatId);
+        const Format* FindFormatByFileExtension(const String& extension);
+        const Format* ProbeFormat(SeekableInputStream &inputStream);
         void Register(Decoder* decoder, float32 quality);
+        void Register(Encoder* encoder, float32 quality);
         void Release() override;
 
         //Functions
@@ -74,5 +77,6 @@ namespace StdXX::Multimedia
         void RegisterCodingFormats();
         void RegisterContainerFormats();
         void RegisterDecoders();
+        void RegisterEncoders();
     };
 }

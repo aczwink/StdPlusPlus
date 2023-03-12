@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -58,8 +58,6 @@
 //Transfer
 #include <Std++/UI/Transfer/CFileTransfer.h>
 #include <Std++/UI/Transfer/Clipboard.hpp>
-//Typing
-#include <Std++/UI/Typing/ITypeface.h>
 //Views
 #include <Std++/UI/Displays/PathRenderTargetWidget.hpp>
 #include <Std++/UI/Displays/RenderTargetWidget.hpp>

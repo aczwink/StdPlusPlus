@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,10 +18,39 @@
  */
 #pragma once
 //Local
+#include <Std++/Containers/Optional.hpp>
+#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/Streams/SeekableInputStream.hpp>
+#include "ReadableFileSystem.hpp"
+#include "RWFileSystem.hpp"
 
 namespace StdXX::FileSystem
 {
+	struct OpenOptions
+	{
+		Optional<String> password;
+	};
+
 	class Format
 	{
+	public:
+		//Abstract
+		virtual WritableFileSystem* CreateFileSystem(const Path &fileSystemPath, const OpenOptions& options) const = 0;
+
+		virtual String GetId() const = 0;
+
+		/**
+         * The non-technical name of the type.
+         * @return
+         */
+		virtual String GetName() const = 0;
+
+		virtual RWFileSystem *OpenFileSystem(const Path &fileSystemPath, const OpenOptions& options) const = 0;
+		virtual ReadableFileSystem *OpenFileSystemReadOnly(const Path &fileSystemPath, const OpenOptions& options) const = 0;
+
+		/**
+         * Returns a value between 0 and 1, determining how good the given input matches this file type.
+         */
+		virtual float32 Probe(SeekableInputStream& seekableInputStream) const = 0;
 	};
 }

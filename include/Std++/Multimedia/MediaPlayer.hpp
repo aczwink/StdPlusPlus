@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,12 +27,9 @@
 #include "../Streams/SeekableInputStream.hpp"
 #include "../Time/Clock.hpp"
 #include "../Time/Timer.hpp"
-#include "AudioStream.hpp"
 #include "ComputePixmapResampler.hpp"
 #include "Demuxer.hpp"
 #include "Format.hpp"
-#include "SubtitleStream.hpp"
-#include "VideoStream.hpp"
 
 namespace StdXX
 {
@@ -244,17 +241,17 @@ namespace StdXX
 			}
 
 			//Inline
-			inline const BinaryTreeMap<uint32, AudioStream*>& GetAudioStreams() const
+			inline const BinaryTreeMap<uint32, Stream*>& GetAudioStreams() const
 			{
 				return this->audio.streams;
 			}
 
-			inline const BinaryTreeMap<uint32, SubtitleStream*>& GetSubtitleStreams() const
+			inline const BinaryTreeMap<uint32, Stream*>& GetSubtitleStreams() const
 			{
 				return this->subtitleStreams;
 			}
 
-			inline const BinaryTreeMap<uint32, VideoStream*>& GetVideoStreams() const
+			inline const BinaryTreeMap<uint32, Stream*>& GetVideoStreams() const
 			{
 				return this->video.streams;
 			}
@@ -290,7 +287,7 @@ namespace StdXX
 			class Demuxer *demuxer;
 			struct
 			{
-				BinaryTreeMap<uint32, AudioStream *> streams;
+				BinaryTreeMap<uint32, Stream *> streams;
 				uint32 activeStreamIndex;
 				Packet *nextPacket;
 
@@ -303,10 +300,10 @@ namespace StdXX
 				uint64 lastPTS;
 				UniquePointer<_stdxx_::DecoderThread> decodeThread;
 			} audio;
-			BinaryTreeMap<uint32, SubtitleStream *> subtitleStreams;
+			BinaryTreeMap<uint32, Stream *> subtitleStreams;
 			struct
 			{
-				BinaryTreeMap<uint32, VideoStream *> streams;
+				BinaryTreeMap<uint32, Stream *> streams;
 				uint32 activeStreamIndex;
 				Packet *nextPacket;
 				/**

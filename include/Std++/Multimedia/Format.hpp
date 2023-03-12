@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,20 +18,20 @@
  */
 #pragma once
 //Local
-#include "Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp"
+#include <Std++/Containers/BinaryTreeSet/BinaryTreeSet.hpp>
+#include <Std++/Streams/SeekableOutputStream.hpp>
 #include "../Definitions.h"
 #include "../Streams/BufferInputStream.hpp"
-#include "Std++/Streams/SeekableOutputStream.hpp"
 #include "EnumTypes.hpp"
+#include "CodingFormat.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        //Move declarations
+        //Forward declarations
         class Demuxer;
         class Muxer;
-        class Codec;
 
         struct FormatInfo
         {
@@ -40,27 +40,32 @@ namespace StdXX
 
         class Format
         {
+            friend class FormatRegistry;
         protected:
             //Constants
-            static STDPLUSPLUS_API const float32 FORMAT_MATCH_BUFFER_TOO_SMALL;
+            static const float32 FORMAT_MATCH_BUFFER_TOO_SMALL;
 
         public:
             //Destructor
             virtual ~Format(){}
 
             //Abstract
-            virtual Demuxer *CreateDemuxer(SeekableInputStream &refInput) const = 0;
-            virtual Muxer *CreateMuxer(SeekableOutputStream &refOutput) const = 0;
-            //virtual CodecId GetDefaultCodec(DataType dataType) const = 0;
+            virtual Demuxer *CreateDemuxer(SeekableInputStream& inputStream) const = 0;
+            virtual Muxer *CreateMuxer(SeekableOutputStream& outputStream) const = 0;
             virtual String GetExtension() const = 0;
-            virtual void GetFormatInfo(FormatInfo &refFormatInfo) const = 0;
+            virtual void GetFormatInfo(FormatInfo& formatInfo) const = 0;
             virtual String GetName() const = 0;
-            //virtual BinaryTreeSet<CodecId> GetSupportedCodecs(DataType dataType) const = 0;
-            virtual float32 Matches(BufferInputStream &refBuffer) const = 0;
+            virtual DynamicArray<const CodingFormat*> GetSupportedCodingFormats(DataType dataType) const = 0;
+            virtual float32 Probe(BufferInputStream &inputStream) const = 0;
 
-            //Functions
-            static STDPLUSPLUS_API const Format *Find(SeekableInputStream &inputStream);
-            static STDPLUSPLUS_API const Format *FindByExtension(const String &refExtension);
+            //Inline
+            inline const CodingFormat* GetPreferredCodingFormat(DataType dataType) const
+            {
+                auto codingFormats = this->GetSupportedCodingFormats(dataType);
+                if(codingFormats.IsEmpty())
+                    return nullptr;
+                return codingFormats[0];
+            }
         };
     }
 }

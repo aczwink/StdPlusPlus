@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,14 +37,6 @@ bool ArchiveFileSystem::Exists(const Path &path) const
 {
 	return this->root->Exists(path);
 }
-
-SpaceInfo ArchiveFileSystem::QuerySpace() const
-{
-	return {
-		.freeSize = 0,
-		.totalSize = this->containerInputStream.QuerySize()
-	};
-}
 */
 
 //Public methods
@@ -76,8 +68,10 @@ UniquePointer <InputStream> ArchiveFileSystem::OpenFileForReading(const Path &pa
 
 SpaceInfo StdXX::FileSystem::ArchiveFileSystem::QuerySpace() const
 {
-	NOT_IMPLEMENTED_ERROR;
-	return SpaceInfo();
+	return {
+		.freeSize = 0,
+		.totalSize = this->containerInputStream.QuerySize()
+	};
 }
 
 Optional <Path> StdXX::FileSystem::ArchiveFileSystem::ReadLinkTarget(const Path &path) const

@@ -13,8 +13,8 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/WritableContainerDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContainerFile.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EmbeddedFileInputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FileSystemsManager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryWalker.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Format.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MemoryDirectory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Path.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/POSIXPermissions.cpp

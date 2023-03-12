@@ -21,7 +21,7 @@
 //Local
 #include <Std++/EventHandling/WaitObjectManager.hpp>
 #include <Std++/Containers/Array/DynamicArray.hpp>
-#include <Std++/Math/Range.hpp>
+#include <Std++/Math/Interval.hpp>
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 
 namespace _stdxx_
@@ -50,6 +50,6 @@ namespace _stdxx_
 	private:
 		//Members
 		StdXX::DynamicArray<pollfd> pollfds;
-		StdXX::BinaryTreeMap<const StdXX::EventHandling::EventSource*, StdXX::Math::Range<uint32>> ranges;
+		StdXX::BinaryTreeMap<const StdXX::EventHandling::EventSource*, StdXX::Math::Interval<uint32>> ranges;
 	};
 }

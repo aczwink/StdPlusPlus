@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,12 +21,13 @@
 //Local
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include "WAVE_Muxer.hpp"
-#include "WAVE.h"
+#include "WAVE.hpp"
+#include "WAVE_Demuxer.hpp"
 
 //Public methods
-Demuxer *WAVE_Format::CreateDemuxer(SeekableInputStream &refInput) const
+Demuxer *WAVE_Format::CreateDemuxer(SeekableInputStream& inputStream) const
 {
-	return nullptr;
+	return new WAVE_Demuxer(*this, inputStream);
 }
 
 Muxer *WAVE_Format::CreateMuxer(SeekableOutputStream &refOutput) const
@@ -34,21 +35,14 @@ Muxer *WAVE_Format::CreateMuxer(SeekableOutputStream &refOutput) const
 	return new WAVE_Muxer(*this, refOutput);
 }
 
-/*CodecId WAVE_Format::GetDefaultCodec(DataType dataType) const
-{
-	NOT_IMPLEMENTED_ERROR;
-
-	return CodecId::Unknown;
-}*/
-
 String WAVE_Format::GetExtension() const
 {
 	return u8"wav";
 }
 
-void WAVE_Format::GetFormatInfo(FormatInfo &refFormatInfo) const
+void WAVE_Format::GetFormatInfo(FormatInfo& formatInfo) const
 {
-	NOT_IMPLEMENTED_ERROR;
+	formatInfo.supportsByteSeeking = true;
 }
 
 String WAVE_Format::GetName() const
@@ -56,21 +50,28 @@ String WAVE_Format::GetName() const
 	return u8"Waveform Audio (WAVE)";
 }
 
-/*BinaryTreeSet<CodecId> WAVE_Format::GetSupportedCodecs(DataType dataType) const
+DynamicArray<const CodingFormat *> WAVE_Format::GetSupportedCodingFormats(DataType dataType) const
 {
-	BinaryTreeSet<CodecId> result;
+	DynamicArray<const CodingFormat *> codingFormats;
 
-	NOT_IMPLEMENTED_ERROR;
+	if(dataType != DataType::Audio)
+		return  codingFormats;
 
-	return result;
-}*/
+	DynamicArray<CodingFormatId> codingFormatIds;
+	AddMS_TwoCC_AudioCodecs(codingFormatIds);
 
-float32 WAVE_Format::Matches(BufferInputStream &inputStream) const
+	for(const CodingFormatId id : codingFormatIds)
+		codingFormats.Push(FormatRegistry::GetCodingFormatById(id));
+
+	return codingFormats;
+}
+
+float32 WAVE_Format::Probe(BufferInputStream &inputStream) const
 {
 	if(inputStream.QueryRemainingBytes() < 12)
 		return FORMAT_MATCH_BUFFER_TOO_SMALL;
 
-	DataReader reader(true, inputStream);
+	DataReader reader(false, inputStream);
 
 	if(reader.ReadUInt32() != WAVE_RIFFCHUNK_CHUNKID)
 		return 0;

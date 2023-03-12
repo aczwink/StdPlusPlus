@@ -19,6 +19,8 @@
 //Class header
 #include <Std++/CommonFileFormats/XML/Document.hpp>
 #include <Std++/CommonFileFormats/XML/Writer.hpp>
+#include <Std++/CommonFileFormats/PDF/Document.hpp>
+
 //Local
 #include "DOMReader.hpp"
 //Namespaces

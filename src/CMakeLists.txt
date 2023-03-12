@@ -16,6 +16,7 @@ add_subdirectory(Multimedia)
 add_subdirectory(Network)
 add_subdirectory(Serialization)
 add_subdirectory(Streams)
+add_subdirectory(Typography)
 add_subdirectory(UI)
 
 set(SOURCE_FILES
@@ -35,7 +36,6 @@ set(SOURCE_FILES
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.cpp
@@ -46,9 +46,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/SubtitleStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoStream.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.cpp

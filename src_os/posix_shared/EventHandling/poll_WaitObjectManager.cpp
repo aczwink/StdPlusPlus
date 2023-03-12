@@ -91,6 +91,6 @@ void poll_WaitObjectManager::Clear()
 
 UniquePointer<WaitResult> poll_WaitObjectManager::FetchWaitResult(const EventSource &eventSource)
 {
-	const StdXX::Math::Range<uint32>& range = this->ranges.Get(&eventSource);
+	const StdXX::Math::Interval<uint32>& range = this->ranges.Get(&eventSource);
 	return new poll_WaitResult(&this->pollfds[range.start], range.end - range.start);
 }

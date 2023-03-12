@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/Function.hpp>
 #include "PipeEnumerator.hpp"
 
 namespace _stdxx_

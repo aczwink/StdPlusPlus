@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,7 @@
 
 namespace StdXX
 {
-    //Move declarations
+    //Forward declarations
     template<typename ValueType>
     class BinaryTreeSetNode;
     template<typename ValueType>
@@ -69,6 +69,30 @@ namespace StdXX
             }
 
             return *this;
+        }
+
+        CConstFiniteSetIterator<ValueType> operator--(int) //Postfix --
+        {
+            CConstFiniteSetIterator<ValueType> tmp(*this);
+            Node *pParent;
+
+            if(this->pCurrentNode->pLeft)
+            {
+                this->pCurrentNode = this->pCurrentNode->pLeft->GetFirst();
+            }
+            else
+            {
+                while((pParent = this->pCurrentNode->pParent) && pParent->pLeft == this->pCurrentNode)
+                    this->pCurrentNode = pParent;
+                this->pCurrentNode = pParent;
+            }
+
+            return tmp;
+        }
+
+        const ValueType& operator->()
+        {
+            return this->pCurrentNode->value;
         }
 
         const ValueType &operator*() const

@@ -289,6 +289,7 @@ bool Demuxer::TryToAllocateDecoder(Stream& stream)
 	if (decoder)
 	{
 		DecoderContext* decoderContext = decoder->CreateContext(stream);
+		stream.decoder = decoder;
 		stream.SetDecoderContext(decoderContext);
 		return true;
 	}

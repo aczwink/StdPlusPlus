@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,6 @@
 //Class header
 #include "RawImageDemuxer.hpp"
 //Local
-#include <Std++/Multimedia/VideoStream.hpp>
 #include "RawImageFormat.hpp"
 //Namespaces
 using namespace _stdxx_;
@@ -29,7 +28,7 @@ using namespace StdXX::Multimedia;
 //Public methods
 void RawImageDemuxer::ReadHeader()
 {
-	Stream *stream = new VideoStream;
+	Stream *stream = new Stream(DataType::Video);
 	stream->SetCodingFormat(this->codingFormatId);
 
 	this->AddStream(stream);

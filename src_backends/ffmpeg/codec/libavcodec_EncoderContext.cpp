@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,6 @@
 //Local
 #include "../libavcodec_Extension.hpp"
 #include <Std++/Debug.hpp>
-#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
@@ -44,14 +43,13 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCod
 	{
 		case DataType::Audio:
 		{
-			const AudioStream &audioStream = (const AudioStream &)stream;
 
-			ASSERT(audioStream.sampleFormat.HasValue(), u8"You must give a sample format.");
-			switch (audioStream.sampleFormat->sampleType)
+			ASSERT(stream.codingParameters.audio.sampleFormat.HasValue(), u8"You must give a sample format.");
+			switch (stream.codingParameters.audio.sampleFormat->sampleType)
 			{
 				case AudioSampleType::S16:
 				{
-					if (audioStream.sampleFormat->IsPlanar())
+					if (stream.codingParameters.audio.sampleFormat->IsPlanar())
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16P;
 					else
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
@@ -59,7 +57,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCod
 				break;
 				case AudioSampleType::U8:
 				{
-					if (audioStream.sampleFormat->IsPlanar())
+					if (stream.codingParameters.audio.sampleFormat->IsPlanar())
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8P;
 					else
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8;
@@ -71,9 +69,9 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCod
 			
 			//AV_SAMPLE_FMT_FLTP
 
-			this->codecContext->sample_rate = audioStream.codingParameters.audio.sampleRate;
-			this->codecContext->channel_layout = this->MapChannelLayout(*audioStream.sampleFormat);
-			this->codecContext->channels = audioStream.sampleFormat->nChannels;
+			this->codecContext->sample_rate = stream.codingParameters.audio.sampleRate;
+			this->codecContext->channel_layout = this->MapChannelLayout(*stream.codingParameters.audio.sampleFormat);
+			this->codecContext->channels = stream.codingParameters.audio.sampleFormat->nChannels;
 		}
 		break;
 		case DataType::Video:
@@ -163,7 +161,7 @@ bool libavcodec_EncoderContext::FindSampleFormat(AVSampleFormat sampleFormat, co
 
 void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) const
 {
-	AudioStream &audioStream = (AudioStream &)this->GetStream();
+	const Stream& audioStream = this->GetStream();
 	const AudioBuffer *audioBuffer = audioFrame.GetAudioBuffer();
 
 	av_frame_unref(this->frame);
@@ -171,7 +169,7 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	this->frame->format = this->codecContext->sample_fmt;
 	this->frame->pts = audioFrame.pts;
 	this->frame->nb_samples = audioBuffer->GetNumberOfSamplesPerChannel();
-	this->frame->channels = audioStream.sampleFormat->nChannels;
+	this->frame->channels = audioStream.codingParameters.audio.sampleFormat->nChannels;
 	this->frame->channel_layout = this->codecContext->channel_layout;
 
 	int ret = av_frame_get_buffer(this->frame, 0);
@@ -180,7 +178,7 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	ret = av_frame_make_writable(this->frame);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
 	
-	for (uint8 i = 0; i < audioStream.sampleFormat->nPlanes; i++)
+	for (uint8 i = 0; i < audioStream.codingParameters.audio.sampleFormat->nPlanes; i++)
 	{
 		MemCopy(this->frame->data[i], audioBuffer->GetPlane(i), Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}

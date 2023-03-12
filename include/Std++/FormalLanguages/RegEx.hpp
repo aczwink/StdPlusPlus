@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,12 +27,14 @@ namespace StdXX
     public:
         //Constructor
         RegEx(const String& regEx);
+        //Destructor
+        ~RegEx();
 
-        //Inline
-        inline bool Matches(const String& string)
-        {
-            NOT_IMPLEMENTED_ERROR; //TODO: implement me
-            return false;
-        }
+        //Methods
+        bool Matches(const String& string) const;
+
+    private:
+        //State
+        void* impl;
     };
 }

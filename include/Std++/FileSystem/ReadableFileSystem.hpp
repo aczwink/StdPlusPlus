@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,9 @@ namespace StdXX::FileSystem
 	struct SpaceInfo
 	{
 		uint64 freeSize;
+		/**
+		 * Total size of the file system i.e. including all file system metadata.
+		 */
 		uint64 totalSize;
 	};
 

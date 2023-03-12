@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,19 +24,18 @@ namespace StdXX
 {
     namespace Multimedia
     {
-        //Move declarations
+        //Forward declarations
         class Stream;
-        class AudioStream;
 
         class AudioDecoder : public Decoder
         {
         protected:
             //Members
-            AudioStream &refStream;
+            Stream& refStream;
 
         public:
             //Constructor
-            inline AudioDecoder(Stream &refStream) : refStream((AudioStream &)refStream)
+            inline AudioDecoder(Stream &refStream) : refStream(refStream)
             {
             }
         };

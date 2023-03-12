@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,18 +19,62 @@
 //Class header
 #include <Std++/FormalLanguages/RegEx.hpp>
 //Local
-#include "RegExLexer.hpp"
 #include "RegExParser.hpp"
+#include "NFACreator.hpp"
+#include "AlphabetCreator.hpp"
 //Namespaces
 using namespace StdXX;
+using namespace StdXX::FormalLanguages;
+
+struct RegExInternal
+{
+    Alphabet alphabet;
+    DFA* dfa;
+};
+//Definitions
+#define THIS ((RegExInternal*)this->impl)
 
 //Constructor
 RegEx::RegEx(const String &regEx)
 {
-    _stdxx_::RegExLexer lexer(regEx);
-    _stdxx_::RegExParser parser(lexer);
+    this->impl = new RegExInternal;
 
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    //_stdxx_::NFA<_stdxx_::CharacterClass>* nfa = parser.Execute();
-    //_stdxx_::DFA<_stdxx_::CharacterClass>* dfa = nfa->ToDFA();
+    _stdxx_::RegExParser parser(regEx);
+    auto ast = parser.Parse();
+
+    _stdxx_::AlphabetCreator alphabetCreator;
+    THIS->alphabet = alphabetCreator.Create(*ast);
+
+    _stdxx_::NFACreator nfaCreator(THIS->alphabet);
+    auto nfa = nfaCreator.Create(*ast);
+
+    THIS->dfa = nfa->ToDFA(THIS->alphabet);
+    THIS->dfa->Reduce();
+}
+
+//Destructor
+RegEx::~RegEx()
+{
+    delete THIS->dfa;
+    delete THIS;
+}
+
+//Public methods
+bool RegEx::Matches(const String &string) const
+{
+    auto it = string.begin();
+
+    const DFAState* currentState = THIS->dfa->GetStartState();
+    while(!currentState->IsAccepting())
+    {
+        uint32 symbol = THIS->alphabet.Map(*it);
+        if(it != string.end())
+            ++it;
+
+        currentState = currentState->GetTransition(symbol);
+        if(currentState == nullptr)
+            return false;
+    }
+
+    return true;
 }

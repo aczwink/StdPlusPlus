@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,9 +19,6 @@
 //Class header
 #include "libavformat_Demuxer.hpp"
 //Local
-#include <Std++/Multimedia/AudioStream.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
-#include <Std++/Multimedia/SubtitleStream.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include "libavformat_Format.hpp"
@@ -66,19 +63,17 @@ void libavformat_Demuxer::ReadHeader()
 		switch(codecParameters->codec_type)
 		{
 			case AVMEDIA_TYPE_AUDIO:
-				AudioStream* audioStream;
-				stream = audioStream = new AudioStream;
-				audioStream->codingParameters.audio.sampleRate = codecParameters->sample_rate;
-				audioStream->sampleFormat = libavformatExtension->MapAudioSampleFormat(codecParameters->channels, codecParameters->channel_layout, (AVSampleFormat) codecParameters->format);
+				stream = new Stream(DataType::Audio);
+				stream->codingParameters.audio.sampleRate = codecParameters->sample_rate;
+				stream->codingParameters.audio.sampleFormat = libavformatExtension->MapAudioSampleFormat(codecParameters->channels, codecParameters->channel_layout, (AVSampleFormat) codecParameters->format);
 				break;
 			case AVMEDIA_TYPE_VIDEO:
-				VideoStream* videoStream;
-				stream = videoStream = new VideoStream;
-				videoStream->pixelFormat = libavformatExtension->MapPixelFormat(static_cast<AVPixelFormat>(codecParameters->format));
-				videoStream->codingParameters.video.size = Math::Size<uint16>(codecParameters->width, codecParameters->height);
+				stream = new Stream(DataType::Video);
+				stream->codingParameters.video.pixelFormat = libavformatExtension->MapPixelFormat(static_cast<AVPixelFormat>(codecParameters->format));
+				stream->codingParameters.video.size = Math::Size<uint16>(codecParameters->width, codecParameters->height);
 				break;
 			case AVMEDIA_TYPE_SUBTITLE:
-				stream = new SubtitleStream;
+				stream = new Stream(DataType::Subtitle);
 				break;
 		}
 		stream->codingParameters.bitRate = codecParameters->bit_rate;

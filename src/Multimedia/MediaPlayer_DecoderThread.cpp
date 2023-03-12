@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -104,10 +104,10 @@ void DecoderThread::Run()
 					const AudioFrame* audioFrame = dynamic_cast<const AudioFrame*>(frame);
 					const AudioBuffer* srcBuffer = audioFrame->GetAudioBuffer();
 
-					const AudioStream* sourceStream = dynamic_cast<const AudioStream*>(this->player->Demuxer().GetStream(this->streamIndex));
-					const AudioStream& destStream = dynamic_cast<const AudioStream&>(*this->encodingStream);
+					const auto* sourceStream = this->player->Demuxer().GetStream(this->streamIndex);
+					const auto& destStream = *this->encodingStream;
 
-					resampledFrame = new AudioFrame(srcBuffer->Resample(*sourceStream->sampleFormat, *destStream.sampleFormat));
+					resampledFrame = new AudioFrame(srcBuffer->Resample(*sourceStream->codingParameters.audio.sampleFormat, *destStream.codingParameters.audio.sampleFormat));
 				}
 				else
 				{
@@ -205,29 +205,25 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 	{
 	case DataType::Audio:
 	{
-		const AudioStream* audioSrcStream = dynamic_cast<const AudioStream*>(sourceStream);
-
-		AudioStream *audioStream = new AudioStream;
-		audioStream->sampleFormat = AudioSampleFormat(audioSrcStream->sampleFormat->nChannels, AudioSampleType::S16, false);
+		Stream *audioStream = new Stream(DataType::Audio);
+		audioStream->codingParameters.audio.sampleFormat = AudioSampleFormat(sourceStream->codingParameters.audio.sampleFormat->nChannels, AudioSampleType::S16, false);
 
 		this->encodingStream = audioStream;
 		codingFormatId = CodingFormatId::PCM_S16LE;
 
-		this->requireResampling = *audioSrcStream->sampleFormat != *audioStream->sampleFormat;
+		this->requireResampling = *sourceStream->codingParameters.audio.sampleFormat != *audioStream->codingParameters.audio.sampleFormat;
 	}
 	break;
 	case DataType::Video:
 	{
-		const VideoStream* videoSrcStream = dynamic_cast<const VideoStream*>(sourceStream);
+		Stream* videoStream = new Stream(DataType::Video);
+		videoStream->codingParameters.video.pixelFormat = PixelFormat(NamedPixelFormat::RGB_24);
+		videoStream->codingParameters.video.size = sourceStream->codingParameters.video.size;
 
-		VideoStream* videoStream = new VideoStream;
-		videoStream->pixelFormat = PixelFormat(NamedPixelFormat::RGB_24);
-		videoStream->codingParameters.video.size = videoSrcStream->codingParameters.video.size;
-
-		if (*videoSrcStream->pixelFormat != *videoStream->pixelFormat)
+		if (*sourceStream->codingParameters.video.pixelFormat != *videoStream->codingParameters.video.pixelFormat)
 		{
-			this->pixmapResampler = new ComputePixmapResampler(videoSrcStream->codingParameters.video.size, *videoSrcStream->pixelFormat);
-			this->pixmapResampler->ChangePixelFormat(*videoStream->pixelFormat);
+			this->pixmapResampler = new ComputePixmapResampler(sourceStream->codingParameters.video.size, *sourceStream->codingParameters.video.pixelFormat);
+			this->pixmapResampler->ChangePixelFormat(*videoStream->codingParameters.video.pixelFormat);
 		}
 
 		this->encodingStream = videoStream;

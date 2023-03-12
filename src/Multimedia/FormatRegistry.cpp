@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,13 +23,12 @@
 //Audio coding formats
 #include "Codecs/MPEG/AAC_CodingFormat.hpp"
 #include "Codecs/MPEG/MP3/MP3_CodingFormat.hpp"
-#include "Codecs/PCM/S16LE/PCM_S16LE_CodingFormat.hpp"
 #include "Codecs/Xiph/Vorbis_CodingFormat.hpp"
 #include "Codecs/AC3_CodingFormat.hpp"
 #include "Codecs/PCM/Float32LE/PCM_Float32LE_CodingFormat.hpp"
 #include "Codecs/PCM/U8/PCM_U8_CodingFormat.hpp"
-#include "Codecs/PCM/S16BE/PCM_S16BE_CodingFormat.hpp"
-#include "Codecs/PCM/S16BE/PCM_S16BE_Decoder.hpp"
+#include "Codecs/PCM/S16/PCM_S16BE_CodingFormat.hpp"
+#include "Codecs/PCM/S16/PCM_S16_Decoder.hpp"
 #include "Codecs/PCM/S8/PCM_S8_CodingFormat.hpp"
 
 //Subtitle coding formats
@@ -48,10 +47,37 @@
 #include "Formats/Matroska/MatroskaVideo.hpp"
 #include "Formats/Raw/RawContainerImages.hpp"
 #include "Formats/WAVE/WAVE_Format.hpp"
+#include "Codecs/PCM/S16/PCM_S16LE_CodingFormat.hpp"
+#include "Codecs/PCM/S16/PCM_S16_Encoder.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
+//Definitions
+#define DETECTIONBUFFER_MINSIZE 64
+#define DETECTIONBUFFER_MAXSIZE 64u
+
+//Local functions
+static void SkipID3(SeekableInputStream &inputStream)
+{
+    byte id3Identifier[3];
+    uint32 totalTagSize;
+
+    inputStream.ReadBytes(id3Identifier, 3);
+    if(MemCmp(id3Identifier, "ID3", 3) == 0)
+    {
+        inputStream.Skip(3);
+
+        DataReader reader(true, inputStream);
+        totalTagSize = ((reader.ReadByte() & 0x7F) << 21) | ((reader.ReadByte() & 0x7F) << 14) | ((reader.ReadByte() & 0x7F) << 7) | (reader.ReadByte() & 0x7F);
+
+        inputStream.Skip(totalTagSize);
+    }
+    else
+    {
+        inputStream.Rewind(3);
+    }
+}
 
 //Constructor
 FormatRegistry::FormatRegistry()
@@ -60,6 +86,7 @@ FormatRegistry::FormatRegistry()
     this->RegisterCodingFormats();
     this->RegisterContainerFormats();
     this->RegisterDecoders();
+    this->RegisterEncoders();
 }
 
 //Public methods
@@ -71,10 +98,91 @@ const CodingFormat *FormatRegistry::FindCodingFormatById(CodingFormatId codingFo
     return nullptr;
 }
 
+const Format* FormatRegistry::FindFormatByFileExtension(const String& extension)
+{
+    for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
+    {
+        if(format->GetExtension() == extension)
+            return format.operator->();
+    }
+
+    return nullptr;
+}
+
+const Format* FormatRegistry::ProbeFormat(SeekableInputStream &inputStream)
+{
+    bool resize;
+    byte *pDetectionBuffer;
+    uint32 detectionBufferSize, nReadBytes;
+    uint64 currentOffset;
+    float32 matchScore, bestScore;
+    const Format *pBestFormat;
+
+    resize = true;
+    pDetectionBuffer = NULL;
+    currentOffset = inputStream.QueryCurrentOffset();
+    detectionBufferSize = DETECTIONBUFFER_MINSIZE;
+    bestScore = 0;
+    pBestFormat = NULL;
+
+    SkipID3(inputStream);
+
+    while(resize)
+    {
+        pDetectionBuffer = (byte *)MemRealloc(pDetectionBuffer, detectionBufferSize);
+        inputStream.SeekTo(currentOffset);
+        nReadBytes = inputStream.ReadBytes(pDetectionBuffer, detectionBufferSize);
+        if(detectionBufferSize != nReadBytes)
+            break; //end of input reached... we can't do anything anymore
+        resize = false;
+
+        for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
+        {
+            BufferInputStream detectionBuffer(pDetectionBuffer, detectionBufferSize);
+
+            matchScore = format->Probe(detectionBuffer);
+
+            //check unusual cases
+            if(matchScore == Format::FORMAT_MATCH_BUFFER_TOO_SMALL)
+            {
+                if(detectionBufferSize < DETECTIONBUFFER_MAXSIZE)
+                    resize = true;
+            }
+            else if(matchScore == 1)
+            {
+                pBestFormat = format.operator->();
+                goto end;
+            }
+            else if(matchScore > bestScore)
+            {
+                pBestFormat = format.operator->();
+                bestScore = matchScore;
+            }
+        }
+
+        if(resize)
+        {
+            detectionBufferSize = Math::Min(detectionBufferSize * 2, DETECTIONBUFFER_MAXSIZE);
+        }
+    }
+
+    end:;
+    MemFree(pDetectionBuffer);
+    inputStream.SeekTo(currentOffset);
+
+    return pBestFormat;
+}
+
 void FormatRegistry::Register(Decoder *decoder, float32 quality)
 {
     CodingFormat *codingFormat = const_cast<CodingFormat *>(this->FindCodingFormatById(decoder->GetCodingFormatId()));
     codingFormat->AddDecoder(decoder, quality);
+}
+
+void FormatRegistry::Register(Encoder* encoder, float32 quality)
+{
+    CodingFormat *codingFormat = const_cast<CodingFormat *>(this->FindCodingFormatById(encoder->GetCodingFormatId()));
+    codingFormat->AddEncoder(encoder, quality);
 }
 
 void FormatRegistry::Release()
@@ -121,5 +229,12 @@ void FormatRegistry::RegisterContainerFormats()
 
 void FormatRegistry::RegisterDecoders()
 {
-    this->Register(new PCM_S16BE_Decoder, 0.0f);
+    this->Register(new PCM_S16_Decoder(true), 0.0f);
+    this->Register(new PCM_S16_Decoder(false), 0.0f);
+}
+
+void FormatRegistry::RegisterEncoders()
+{
+    this->Register(new PCM_S16_Encoder(true), 0.0f);
+    this->Register(new PCM_S16_Encoder(false), 0.0f);
 }

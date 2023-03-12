@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,11 +23,13 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-Stream::Stream()
+Stream::Stream(DataType dataType)
 {
 	this->decoderContext = nullptr;
 	this->parserContext = nullptr;
 	this->encoderContext = nullptr;
+
+	this->codingParameters.dataType = dataType;
 
 	this->parserFlags.requiresParsing = true;
 	this->parserFlags.repack = true;
@@ -50,7 +52,23 @@ bool Stream::AllDecodingInfoIsAvailable()
 	if(!this->decoderContext) //we don't have a decoder
 		return false;
 
-	return this->AllDecoderInfoIsAvailable();
+	switch(this->codingParameters.dataType)
+	{
+		case DataType::Audio:
+		{
+			if(!this->codingParameters.audio.sampleFormat.HasValue() || this->codingParameters.audio.sampleRate == 0)
+				return false;
+		}
+		break;
+		case DataType::Video:
+		{
+			if((this->codingParameters.video.size.width == 0) || (this->codingParameters.video.size.height == 0))
+				return false;
+		}
+		break;
+	}
+
+	return true;
 }
 
 bool Stream::AllInfoIsAvailable()

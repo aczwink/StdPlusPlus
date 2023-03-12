@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,17 +21,27 @@
 #include <Std++/Containers/Optional.hpp>
 #include <Std++/Math/Size.hpp>
 #include <Std++/Buffers/FixedSizeBuffer.hpp>
+#include "AudioSampleFormat.hpp"
+#include "PixelFormat.hpp"
 
 namespace StdXX::Multimedia
 {
 	struct AudioCodingParameters
 	{
 		uint32 sampleRate = 0;
+		Optional<AudioSampleFormat> sampleFormat;
 	};
 
 	struct VideoCodingParameters
 	{
+		Optional<PixelFormat> pixelFormat;
 		Math::Size<uint16> size;
+
+		//Properties
+		inline Math::Rational<uint16> AspectRatio() const
+		{
+			return Math::Rational(this->size.width, this->size.height).Reduce();
+		}
 	};
 
 	struct CodingParameters

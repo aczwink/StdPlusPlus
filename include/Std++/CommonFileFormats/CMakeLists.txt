@@ -1,4 +1,5 @@
 add_subdirectory(CSV)
+add_subdirectory(PDF)
 
 set(SOURCE_FILES
 	${SOURCE_FILES}

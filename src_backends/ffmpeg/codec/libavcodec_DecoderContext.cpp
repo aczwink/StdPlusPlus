@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,7 +21,6 @@
 //Local
 #include <Std++/Multimedia/AudioBuffer.hpp>
 #include <Std++/Multimedia/AudioFrame.hpp>
-#include <Std++/Multimedia/AudioStream.hpp>
 #include <Std++/Multimedia/Pixmap.hpp>
 #include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/VideoStream.hpp>
@@ -44,8 +43,7 @@ libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Str
 	{
 		case DataType::Audio:
 		{
-			AudioStream& audioStream = (AudioStream&)stream;
-			this->codecContext->channels = audioStream.sampleFormat->nChannels;
+			this->codecContext->channels = stream.codingParameters.audio.sampleFormat->nChannels;
 		}
 		break;
 	case DataType::Video:
@@ -122,12 +120,11 @@ void libavcodec_DecoderContext::Decode(const IPacket & packet)
 		{
 		case AVMEDIA_TYPE_AUDIO:
 		{
-			AudioStream &audioStream = (AudioStream &)this->stream;
-			if ((audioStream.codingParameters.audio.sampleRate == 0) && (this->codecContext->sample_rate != 0))
-				audioStream.codingParameters.audio.sampleRate = this->codecContext->sample_rate;
-			if ((!audioStream.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
+			if ((this->stream.codingParameters.audio.sampleRate == 0) && (this->codecContext->sample_rate != 0))
+				this->stream.codingParameters.audio.sampleRate = this->codecContext->sample_rate;
+			if ((!this->stream.codingParameters.audio.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
 			{
-				audioStream.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->channels, this->codecContext->channel_layout, this->codecContext->sample_fmt);
+				this->stream.codingParameters.audio.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->channels, this->codecContext->channel_layout, this->codecContext->sample_fmt);
 			}
 		}
 		break;
@@ -178,9 +175,8 @@ uint64 libavcodec_DecoderContext::GetBestFramePTS() const
 
 void libavcodec_DecoderContext::MapAudioFrame()
 {
-	AudioStream &audioStream = (AudioStream &)this->stream;
-	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *audioStream.sampleFormat);
-	for (uint8 i = 0; i < audioStream.sampleFormat->nPlanes; i++)
+	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *this->stream.codingParameters.audio.sampleFormat);
+	for (uint8 i = 0; i < this->stream.codingParameters.audio.sampleFormat->nPlanes; i++)
 	{
 		auto libav_lineSize = this->frame->linesize[i];
 		if (libav_lineSize == 0) //The official doc tells us "For audio, only linesize[0] may be set. For planar audio, each channel plane must be the same size.". How is this ugly....
