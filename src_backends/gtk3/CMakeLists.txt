@@ -44,6 +44,8 @@ if(${BACKEND_GTK3})
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/CMenuBar.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBarBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Menu/Gtk3MenuBarBackend.hpp
 
 		#Transfer
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Transfer/Gtk3ClipboardBackend.cpp

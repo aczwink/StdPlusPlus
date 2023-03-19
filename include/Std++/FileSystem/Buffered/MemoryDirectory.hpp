@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,13 +19,14 @@
 #pragma once
 //Local
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
+#include "FileMetadataNode.hpp"
 
 namespace StdXX::FileSystem
 {
 	/**
 	 * A directory that is completely stored in memory.
 	 */
-	class MemoryDirectory : public MemoryFileNode
+	class MemoryDirectory : public FileMetadataNode
 	{
 	public:
 		//Constructors
@@ -39,16 +40,16 @@ namespace StdXX::FileSystem
 		}
 
 		//Properties
-		inline const auto& Children() const
+		inline const BinaryTreeMap<String, UniquePointer<FileMetadataNode>>& Children() const
 		{
 			return this->children;
 		}
 
 		//Inline
-		inline void AddChild(const String& nodeName, MemoryFileNode* node)
+		inline void AddChild(const String& nodeName, UniquePointer<FileMetadataNode>&& node)
 		{
 			ASSERT(!this->children.Contains(nodeName), u8"Can't add child that already exists.");
-			this->children[nodeName] = node;
+			this->children[nodeName] = Move(node);
 		}
 
 		const FileInfo &Info() const override
@@ -56,23 +57,23 @@ namespace StdXX::FileSystem
 			return this->fileInfo;
 		}
 
-		AutoPointer<MemoryFileNode> GetChild(const String &name)
+		FileMetadataNode* GetChild(const String &name)
 		{
 			if(!this->children.Contains(name))
 				return nullptr;
-			return this->children[name];
+			return this->children[name].operator->();
 		}
 
-		inline AutoPointer<const MemoryFileNode> GetChild(const String &name) const
+		inline const FileMetadataNode* GetChild(const String &name) const
 		{
 			if(!this->children.Contains(name))
 				return nullptr;
-			return this->children[name];
+			return this->children[name].operator->();
 		}
 
 	private:
 		//Members
-		BinaryTreeMap<String, AutoPointer<MemoryFileNode>> children;
+		BinaryTreeMap<String, UniquePointer<FileMetadataNode>> children;
 		FileInfo fileInfo;
 	};
 }

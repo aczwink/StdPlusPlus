@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ namespace StdXX
     namespace UI
     {
 
-        class STDPLUSPLUS_API Menu : public MenuEntry
+        class Menu : public MenuEntry
         {
             friend class MenuBar;
 		public:
@@ -48,7 +48,8 @@ namespace StdXX
 			{
 				ActionEntry *actionEntry = new ActionEntry(action);
 				this->menuEntries.Push(actionEntry);
-				this->backend->AppendEntry(*actionEntry);
+				if(this->backend)
+					this->backend->AppendEntry(*actionEntry);
 			}
 
 			inline void AppendSeperator()
@@ -74,7 +75,8 @@ namespace StdXX
 			}
 
         private:
-            //Members
+            //State
+            String text;
 			_stdxx_::MenuBackend *backend;
             DynamicArray<MenuEntry *> menuEntries;
         };

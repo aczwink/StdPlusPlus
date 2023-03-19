@@ -38,3 +38,24 @@ MenuBar::~MenuBar()
 		delete refpMenu;
 	delete this->backend;
 }
+
+//Public methods
+
+//Private methods
+void MenuBar::EnsureMenuIsRealized(Menu& menu)
+{
+	if(menu.backend != nullptr)
+		return;
+
+	menu.backend = BackendManager<UIBackend>::GetRootInstance().GetActiveBackend()->CreateMenuBackend(menu);
+	menu.backend->SetText(menu.text);
+
+	for(const auto& entry : menu.menuEntries)
+	{
+		const ActionEntry* actionEntry = dynamic_cast<const ActionEntry *>(entry);
+		if(actionEntry)
+		{
+			menu.backend->AppendEntry(*actionEntry);
+		}
+	}
+}

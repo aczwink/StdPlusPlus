@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,19 +24,17 @@
 #include <Std++/Network/IPv4Address.hpp>
 
 //Global functions
-NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port)
+NetAddress *ParseNativeAddress(const sockaddr* address, uint16 &port)
 {
 	switch(address->sa_family)
 	{
 		case AF_INET:
 		{
-			sockaddr_in *addrv4 = (sockaddr_in *) address;
+			auto* addrv4 = (const sockaddr_in*) address;
 
 			port = ntohs(addrv4->sin_port);
 
-			IPv4Address *result = new IPv4Address(addrv4->sin_addr.s_addr); //s_addr is in network order
-
-			return result;
+			return new IPv4Address(addrv4->sin_addr.s_addr); //s_addr is in network order
 		}
 	}
 

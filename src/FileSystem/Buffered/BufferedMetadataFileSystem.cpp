@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -59,7 +59,7 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 		//Members
 		const MemoryDirectory &dir;
 		bool first;
-		ConstMapIterator<String, AutoPointer<MemoryFileNode>> childrenIterator;
+		ConstMapIterator<String, UniquePointer<FileMetadataNode>> childrenIterator;
 		DirectoryEntry directoryEntry;
 
 		//Inline
@@ -68,7 +68,7 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 			return (this->childrenIterator == this->dir.Children().end());
 		}
 
-		inline FileType DeriveType(const AutoPointer<MemoryFileNode>& node)
+		inline FileType DeriveType(const UniquePointer<FileMetadataNode>& node)
 		{
 			if(node.IsInstanceOf<const MemoryDirectory>())
 				return FileType::Directory;
@@ -76,25 +76,25 @@ UniquePointer<DirectoryEnumerator> BufferedMetadataFileSystem::EnumerateChildren
 		}
 	};
 
-	AutoPointer<const MemoryFileNode> node = this->FindNode(path);
-	if(node.IsNull())
+	const FileMetadataNode* node = this->FindNode(path);
+	if(node == nullptr)
 		return nullptr;
-	if(node.IsInstanceOf<const MemoryDirectory>())
+	if(IS_INSTANCE_OF(node, MemoryDirectory))
 		return new ContainerDirectoryIteratorState((const MemoryDirectory &) *node);
 	return nullptr;
 }
 
 Optional <FileInfo> BufferedMetadataFileSystem::QueryFileInfo(const Path &path) const
 {
-	AutoPointer<const MemoryFileNode> node = this->FindNode(path);
-	if(node.IsNull())
+	const FileMetadataNode* node = this->FindNode(path);
+	if(node == nullptr)
 		return {};
 
 	return node->Info();
 }
 
 //Protected methods
-AutoPointer<const MemoryFileNode> BufferedMetadataFileSystem::FindNode(const Path &path) const
+const FileMetadataNode* BufferedMetadataFileSystem::FindNode(const Path &path) const
 {
 	if (path.IsRoot())
 		return this->GetRoot();
@@ -102,17 +102,17 @@ AutoPointer<const MemoryFileNode> BufferedMetadataFileSystem::FindNode(const Pat
 	Path leftPath = path;
 	if (leftPath.IsAbsolute()) //skip root slash
 		leftPath = leftPath.String().SubString(1);
-	AutoPointer <const MemoryFileNode> node = this->GetRoot();
+	const FileMetadataNode* node = this->GetRoot();
 	do
 	{
 		Path remaining;
 		String name = leftPath.SplitOutmostPathPart(remaining);
 		leftPath = remaining;
 
-		ASSERT(node.IsInstanceOf<const MemoryDirectory>(), u8"Only directories can have children");
-		node = node.template Cast<const MemoryDirectory>()->GetChild(name);
+		ASSERT(IS_INSTANCE_OF(node, MemoryDirectory), u8"Only directories can have children");
+		node = ((MemoryDirectory*)node)->GetChild(name);
 	}
-	while ( !(node.IsNull() || leftPath.String().IsEmpty()) );
+	while ( !((node == nullptr) || leftPath.String().IsEmpty()) );
 
 	return node;
 }

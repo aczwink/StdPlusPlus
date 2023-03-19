@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,6 +29,12 @@ namespace _stdxx_
         //Constructor
         Gtk3MenuBackend(StdXX::UIBackend& uiBackend, StdXX::UI::Menu& menu);
 
+        //Properties
+        inline GtkWidget* MenuItemGtkWidget() const
+        {
+            return this->menuItemGtkWidget;
+        }
+
         //Methods
         void AppendEntry(const StdXX::UI::ActionEntry &actionEntry) override;
         void SetText(const StdXX::String &text) override;
@@ -41,6 +47,7 @@ namespace _stdxx_
 
     private:
         //Members
-        GtkWidget* gtkWidget;
+        GtkWidget* menuGtkWidget;
+        GtkWidget* menuItemGtkWidget;
     };
 }

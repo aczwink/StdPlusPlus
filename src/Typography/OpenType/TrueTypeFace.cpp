@@ -27,6 +27,18 @@ using namespace StdXX;
 //Definitions
 #define TAG_LOCA 0x6C6F6361
 
+//Destructor
+TrueTypeFace::~TrueTypeFace()
+{
+	for(uint32 i = 0; i < this->GetNumberOfGlyphs(); i++)
+	{
+		if(this->pGlyphs[i].pPath)
+			delete this->pGlyphs[i].pPath;
+	}
+
+	MemFree(this->pGlyphs);
+}
+
 //Public methods
 uint16 TrueTypeFace::GetCharWidth(uint16 c) const
 {
@@ -80,6 +92,15 @@ void TrueTypeFace::ReadTrueTypeOutlineTables(const BinaryTreeMap <uint32, uint32
 	//clean up
 	MemFree(pOffsets);
 }
+
+/*
+ * void CTrueTypeFace::RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const
+{
+	refRenderer.SetPath(*this->pGlyphs[glyphIndex].pPath);
+	refRenderer.Fill();
+	//refRenderer.Stroke();
+}
+ */
 
 //Private methods
 void TrueTypeFace::AllocateGlyphData()

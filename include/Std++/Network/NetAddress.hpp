@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/SmartPointers/UniquePointer.hpp>
 #include "../Definitions.h"
 #include "../Containers/Strings/String.hpp"
 
@@ -37,5 +38,9 @@ namespace StdXX
 		//Abstract
 		virtual NetworkProtocolFamily GetProtocolFamily() const = 0;
 		virtual String ToString() const = 0;
+
+		//Functions
+		static String QueryHostName();
+		static DynamicArray<UniquePointer<NetAddress>> ResolveDomainName(const String& domainName);
 	};
 }

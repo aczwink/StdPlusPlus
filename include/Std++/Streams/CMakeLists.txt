@@ -2,6 +2,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Bitstreams
+	${CMAKE_CURRENT_SOURCE_DIR}/Bitstreams/BitInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Bitstreams/BitInputStreamBitReversed.hpp
 
 	#Checksum
@@ -25,6 +26,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferedOutputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferOutputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ConcatenatedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ChainedInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileOutputStream.hpp

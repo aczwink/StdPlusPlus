@@ -2,12 +2,14 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Buffered
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/ArchiveCreationFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/ArchiveFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/BufferedMetadataFileSystem.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/ContainerFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/EmbeddedFileInputStream.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/FileMetadataNode.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/MemoryDirectory.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/MemoryFileNode.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Buffered/MemoryFile.hpp
 
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/DirectoryEnumerator.hpp

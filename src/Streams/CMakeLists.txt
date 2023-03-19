@@ -5,6 +5,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#Bitstreams
+	${CMAKE_CURRENT_SOURCE_DIR}/Bitstreams/BitInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Bitstreams/BitInputStreamBitReversed.cpp
 
 	#Readers
@@ -16,6 +17,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BufferOutputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ChainedInputStream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ConcatenatedInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileInputStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/FileUpdateStream.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/InputStream.cpp

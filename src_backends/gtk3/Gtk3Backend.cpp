@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,7 @@
 #include "UI/Transfer/Gtk3ClipboardBackend.hpp"
 #include "UI/Controls/Gtk3TextEditBackend.hpp"
 #include "UI/Controls/Gtk3CheckBoxBackend.hpp"
+#include "UI/Menu/Gtk3MenuBarBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -90,7 +91,7 @@ MenuBackend* Gtk3Backend::CreateMenuBackend(UI::Menu& menu)
 
 MenuBarBackend *Gtk3Backend::CreateMenuBarBackend(UI::MenuBar* menuBar)
 {
-    return nullptr;
+    return new Gtk3MenuBarBackend(*this, *menuBar);
 }
 
 ProgressBarBackend *Gtk3Backend::CreateProgressBarBackend(UI::ProgressBar &progressBar)

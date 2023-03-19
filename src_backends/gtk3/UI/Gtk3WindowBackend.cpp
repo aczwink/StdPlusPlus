@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,7 @@
 //Local
 #include <Std++/UI/Window.hpp>
 #include "Gtk3RedirectContainer.hpp"
+#include "Menu/Gtk3MenuBarBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -80,7 +81,6 @@ void Gtk3WindowBackend::AddChild(Widget *widget)
 WidgetContainerBackend *Gtk3WindowBackend::CreateContentAreaBackend(CompositeWidget &widget)
 {
 	Gtk3RedirectContainer* container = new Gtk3RedirectContainer(this->GetUIBackend(), widget);
-	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), container->GetGtkWidget());
     return container;
 }
 
@@ -129,6 +129,32 @@ FileSystem::Path Gtk3WindowBackend::SelectExistingDirectory(const String &title,
 	return fileName;
 }
 
+FileSystem::Path Gtk3WindowBackend::SelectExistingFile(const String &title, const DynamicArray<Tuple<String, DynamicArray<String>>> &filters, const FileSystem::Path &initialPath) const
+{
+	GtkWidget *fileChooserDialog = gtk_file_chooser_dialog_new((gchar *)title.ToUTF8().GetRawZeroTerminatedData(), GTK_WINDOW(this->GetGtkWidget()), GTK_FILE_CHOOSER_ACTION_OPEN, "Cancel", GTK_RESPONSE_CANCEL, "Select", GTK_RESPONSE_ACCEPT, nullptr);
+
+	gint result = gtk_dialog_run(GTK_DIALOG(fileChooserDialog));
+	String fileName;
+	if(result == GTK_RESPONSE_ACCEPT)
+	{
+		char* pFileName = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileChooserDialog));
+		fileName = String::CopyRawString(pFileName);
+
+		g_free(pFileName);
+	}
+
+	gtk_widget_destroy(fileChooserDialog);
+
+	return fileName;
+}
+
+
+void Gtk3WindowBackend::SetMenuBar(MenuBar* menuBar, MenuBarBackend* menuBarBackend)
+{
+	Gtk3MenuBarBackend* gtk3MenuBarBackend = dynamic_cast<Gtk3MenuBarBackend *>(menuBarBackend);
+	gtk_container_add(GTK_CONTAINER(this->GetGtkWidget()), gtk3MenuBarBackend->GetGtkWidget());
+}
+
 void Gtk3WindowBackend::SetTitle(const String &title)
 {
     gtk_window_set_title(GTK_WINDOW(this->GetGtkWidget()), reinterpret_cast<const gchar *>(title.ToUTF8().GetRawZeroTerminatedData()));
@@ -161,21 +187,10 @@ void _stdxx_::Gtk3WindowBackend::SetBounds(const StdXX::Math::RectD &bounds) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-void _stdxx_::Gtk3WindowBackend::SetMenuBar(StdXX::UI::MenuBar *menuBar, _stdxx_::MenuBarBackend *menuBarBackend) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
 void _stdxx_::Gtk3WindowBackend::ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
 void _stdxx_::Gtk3WindowBackend::ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
-}
-
-FileSystem::Path Gtk3WindowBackend::SelectExistingFile(const StdXX::String &title,
-                                           const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters,
-                                           const StdXX::FileSystem::Path &initialPath) const {
-	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return StdXX::FileSystem::Path();
 }

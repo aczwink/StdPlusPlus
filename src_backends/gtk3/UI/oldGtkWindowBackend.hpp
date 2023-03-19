@@ -53,7 +53,6 @@ namespace _stdxx_
 		void ResetView() const override;
 		void Repaint() override;
 		void Select(StdXX::UI::ControllerIndex &controllerIndex) const;
-		Path SelectExistingDirectory(const String &title, const Function<bool(StdXX::Path &)> callback) const;
 		void SetBounds(const StdXX::Math::Rect<float32> &area);
 		void SetEditable(bool enable) const override;
 		void SetMaximum(uint32 max) override;

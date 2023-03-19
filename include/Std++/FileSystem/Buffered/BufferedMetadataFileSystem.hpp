@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,8 +19,7 @@
 #pragma once
 //Local
 #include <Std++/FileSystem/ReadableFileSystem.hpp>
-#include <Std++/SmartPointers/AutoPointer.hpp>
-#include "MemoryFileNode.hpp"
+#include "FileMetadataNode.hpp"
 #include "MemoryDirectory.hpp"
 
 namespace StdXX::FileSystem
@@ -42,13 +41,13 @@ namespace StdXX::FileSystem
 		 * @param path - If relative, it should be considered relative to the root.
 		 * @return
 		 */
-		AutoPointer<const MemoryFileNode> FindNode(const Path& path) const;
+		const FileMetadataNode* FindNode(const Path& path) const;
 
 		//Abstract
-		virtual AutoPointer<const MemoryDirectory> GetRoot() const = 0;
+		virtual const MemoryDirectory* GetRoot() const = 0;
 
 		//Inline
-		/*inline AutoPointer <MemoryFileNode> FindNodeNonConst(const Path& path)
+		/*inline AutoPointer <FileMetadataNode> FindNodeNonConst(const Path& path)
 		{
 			return this->FindNode(path).MoveConstCast();
 		}*/

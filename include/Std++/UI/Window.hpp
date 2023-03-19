@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,6 +21,8 @@
 #include <Std++/UI/Containers/ContentAreaWidget.hpp>
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/Tuple.hpp>
+#include <Std++/UI/Menu/MenuBar.hpp>
+
 #include "../Function.hpp"
 #include "Menu/MenuBar.hpp"
 
@@ -62,7 +64,7 @@ namespace StdXX
             //Inline
             inline MenuBar *GetMenuBar()
             {
-                return this->pMenuBar;
+                return this->menuBar;
             }
 
 			inline void Maximize()
@@ -90,10 +92,10 @@ namespace StdXX
 
 			inline void SetMenuBar(MenuBar *menuBar)
 			{
-				delete this->pMenuBar;
-				this->pMenuBar = menuBar;
+				delete this->menuBar;
+				this->menuBar = menuBar;
 				if(this->windowBackend)
-					this->windowBackend->SetMenuBar(this->pMenuBar, this->pMenuBar->backend);
+					this->windowBackend->SetMenuBar(this->menuBar, this->menuBar->backend);
 			}
 
 			inline void SetTitle(const String &title)
@@ -131,7 +133,7 @@ namespace StdXX
 			 */
 			bool canRealize;
         	_stdxx_::WindowBackend *windowBackend;
-            MenuBar *pMenuBar;
+            MenuBar* menuBar;
             CDropTarget *pOSDropTarget;
 			String title;
 
@@ -146,5 +148,5 @@ namespace StdXX
             virtual EDropType OnDragMove();
             virtual void OnDrop(const ITransfer &refTransfer);
         };
-    }
+	}
 }

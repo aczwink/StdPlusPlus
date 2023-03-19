@@ -42,8 +42,8 @@ bool ArchiveFileSystem::Exists(const Path &path) const
 //Public methods
 UniquePointer <InputStream> ArchiveFileSystem::OpenFileForReading(const Path &path, bool verify) const
 {
-	AutoPointer<const ContainerFileBase> file = this->FindFile(path);
-	if(file.IsNull())
+	const ContainerFileBase* file = this->FindFile(path);
+	if(file == nullptr)
 		return nullptr;
 
 	const ContainerFileHeader& header = file->Info();
@@ -81,9 +81,9 @@ Optional <Path> StdXX::FileSystem::ArchiveFileSystem::ReadLinkTarget(const Path 
 }
 
 //Protected methods
-AutoPointer<const MemoryDirectory> ArchiveFileSystem::GetRoot() const
+const MemoryDirectory* ArchiveFileSystem::GetRoot() const
 {
-	return this->root;
+	return this->root.operator->();
 }
 
 //Private methods
@@ -91,7 +91,7 @@ void ArchiveFileSystem::AddFilters(ChainedInputStream &chainedInputStream, const
 {
 }
 
-AutoPointer<MemoryDirectory> ArchiveFileSystem::CreateOrQueryDirectory(const Path& directoryPath)
+MemoryDirectory* ArchiveFileSystem::CreateOrQueryDirectory(const Path& directoryPath)
 {
 	Path rest;
 	String current = directoryPath.SplitOutmostPathPart(rest);
@@ -100,19 +100,19 @@ AutoPointer<MemoryDirectory> ArchiveFileSystem::CreateOrQueryDirectory(const Pat
 	if(this->root.IsNull())
 		this->root = new MemoryDirectory;
 
-	AutoPointer<MemoryDirectory> dir = this->root;
+	MemoryDirectory* dir = this->root.operator->();
 	while (!rest.String().IsEmpty())
 	{
 		current = rest.SplitOutmostPathPart(rest);
-		AutoPointer<MemoryFileNode> child = dir->GetChild(current);
-		if(child.IsNull())
+		FileMetadataNode* child = dir->GetChild(current);
+		if(child == nullptr)
 		{
 			dir->AddChild(current, new MemoryDirectory);
-			dir = dir->GetChild(current).MoveCast<MemoryDirectory>();
+			dir = dynamic_cast<MemoryDirectory *>(dir->GetChild(current));
 		}
 		else
-			dir = child.MoveCast<MemoryDirectory>();
+			dir = dynamic_cast<MemoryDirectory *>(child);
 	}
 
-	return dir.Cast<MemoryDirectory>();
+	return dir;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,4 +32,10 @@ typedef SSIZE_T ssize_t;
 using namespace StdXX;
 
 //Global functions
-NetAddress *ParseNativeAddress(sockaddr *address, uint16 &port);
+NetAddress *ParseNativeAddress(const sockaddr* address, uint16 &port);
+
+inline NetAddress* ParseNativeAddress(const sockaddr* address)
+{
+	uint16 port;
+	return ParseNativeAddress(address, port);
+}

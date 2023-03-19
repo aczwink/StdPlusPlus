@@ -34,9 +34,13 @@ namespace _stdxx_
 	class TrueTypeFace : public OpenTypeFace
 	{
 	public:
+		//Destructor
+		~TrueTypeFace();
+
 		//Methods
 		uint16 GetCharWidth(uint16 c) const override;
 		void ReadTrueTypeOutlineTables(const StdXX::BinaryTreeMap<uint32, uint32> &refTableOffsets, StdXX::SeekableInputStream &refInput);
+		//void RenderGlyph(uint32 glyphIndex, Rendering::AGeneric2DPathRenderer &refRenderer) const;
 
 	private:
 		//State

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -31,7 +31,7 @@ using namespace StdXX::UI;
 //Constructors
 Window::Window() : canRealize(false), windowBackend(nullptr)
 {
-    this->pMenuBar = nullptr;
+    this->menuBar = nullptr;
     this->pOSDropTarget = nullptr;
 	
 	this->SetContentContainer(new CompositeWidget);
@@ -43,8 +43,8 @@ Window::Window() : canRealize(false), windowBackend(nullptr)
 //Destructor
 Window::~Window()
 {
-    if(this->pMenuBar)
-        delete this->pMenuBar;
+    if(this->menuBar)
+        delete this->menuBar;
     if(this->pOSDropTarget)
         delete this->pOSDropTarget;
 }
@@ -78,6 +78,8 @@ void Window::OnRealized()
 	WidgetContainer::OnRealized();
 
 	this->windowBackend->SetTitle(this->title);
+	if(this->menuBar)
+		this->windowBackend->SetMenuBar(this->menuBar, this->menuBar->backend);
 }
 
 //Public methods

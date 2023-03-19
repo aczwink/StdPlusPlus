@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -50,7 +50,7 @@ namespace StdXX::FileSystem
 
 	protected:
 		//Methods
-		AutoPointer<const MemoryDirectory> GetRoot() const override;
+		const MemoryDirectory* GetRoot() const override;
 
 		//Inline
 		inline void AddSourceDirectory(const Path& nodePath, FileInfo&& fileInfo)
@@ -72,28 +72,28 @@ namespace StdXX::FileSystem
 
 	private:
 		//Members
-		AutoPointer<MemoryDirectory> root;
+		UniquePointer<MemoryDirectory> root;
 		mutable Mutex containerInputStreamLock;
 		SeekableInputStream& containerInputStream;
 
 		//Methods
 		virtual void AddFilters(ChainedInputStream& chainedInputStream, const ContainerFileHeader& header, bool verify) const;
-		AutoPointer<MemoryDirectory> CreateOrQueryDirectory(const Path& directoryPath);
+		MemoryDirectory* CreateOrQueryDirectory(const Path& directoryPath);
 
 		//Inline
-		inline void AddNode(const Path& nodePath, MemoryFileNode* node)
+		inline void AddNode(const Path& nodePath, FileMetadataNode* node)
 		{
-			AutoPointer<MemoryDirectory> dir = this->CreateOrQueryDirectory(nodePath.GetParent());
+			MemoryDirectory* dir = this->CreateOrQueryDirectory(nodePath.GetParent());
 			dir->AddChild(nodePath.GetName(), node);
 		}
 
-		inline AutoPointer<const ContainerFileBase> FindFile(const Path& path) const
+		inline const ContainerFileBase* FindFile(const Path& path) const
 		{
-			AutoPointer<const MemoryFileNode> node = this->FindNode(path);
-			ASSERT(!node.IsNull(), u8"Node does not exist.");
-			ASSERT(node.IsInstanceOf<const ContainerFileBase>(), u8"Node is not a file.");
+			const FileMetadataNode* node = this->FindNode(path);
+			ASSERT(node != nullptr, u8"Node does not exist.");
+			ASSERT(IS_INSTANCE_OF(node, ContainerFileBase), u8"Node is not a file.");
 
-			return node.MoveCast<const ContainerFileBase>();
+			return dynamic_cast<const ContainerFileBase *>(node);
 		}
 	};
 

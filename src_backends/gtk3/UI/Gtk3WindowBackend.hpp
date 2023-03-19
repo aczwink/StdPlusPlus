@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,16 +35,16 @@ namespace _stdxx_
         const StdXX::UI::Widget &GetWidget() const override;
 	    void Maximize() override;
 		StdXX::FileSystem::Path SelectExistingDirectory(const StdXX::String &title, const StdXX::Function<bool(StdXX::FileSystem::Path &)> callback) const override;
+		StdXX::FileSystem::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters, const StdXX::FileSystem::Path &initialPath) const override;
+		void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void SetTitle(const StdXX::String &title) override;
 	    void Show(bool visible) override;
 
         //NOT IMPLEMENTED
         void Repaint() override;
         void SetBounds(const StdXX::Math::RectD &bounds) override;
-        void SetMenuBar(StdXX::UI::MenuBar *menuBar, MenuBarBackend *menuBarBackend) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-	    StdXX::FileSystem::Path SelectExistingFile(const StdXX::String &title, const StdXX::DynamicArray<StdXX::Tuple<StdXX::String, StdXX::DynamicArray<StdXX::String>>> &filters, const StdXX::FileSystem::Path &initialPath) const override;
 	    //NOT IMPLEMENTED
 
     private:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,8 @@
  */
 #pragma once
 //Local
-#include "MemoryFileNode.hpp"
+#include <Std++/Compression/CompressionAlgorithm.hpp>
+#include "FileMetadataNode.hpp"
 
 namespace StdXX::FileSystem
 {
@@ -34,7 +35,7 @@ namespace StdXX::FileSystem
 		}
 	};
 
-	class ContainerFileBase : public MemoryFileNode
+	class ContainerFileBase : public FileMetadataNode
 	{
 	public:
 		const ContainerFileHeader &Info() const override = 0;

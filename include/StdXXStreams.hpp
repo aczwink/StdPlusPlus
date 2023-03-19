@@ -25,7 +25,7 @@
 #include <Std++/Streams/BufferedOutputStream.hpp>
 #include <Std++/Streams/BufferInputStream.hpp>
 #include <Std++/Streams/BufferOutputStream.hpp>
-#include <Std++/Streams/CConcatenatedInputStream.h>
+#include <Std++/Streams/ConcatenatedInputStream.hpp>
 #include <Std++/Streams/ChainedInputStream.hpp>
 #include <Std++/Streams/FileInputStream.hpp>
 #include <Std++/Streams/FileOutputStream.hpp>
@@ -37,7 +37,7 @@
 #include <Std++/Streams/StringInputStream.hpp>
 #include <Std++/Streams/StdIn.hpp>
 //Streams/Bitstreams
-#include <Std++/Streams/Bitstreams/CBitInputStream.h>
+#include <Std++/Streams/Bitstreams/BitInputStream.hpp>
 #include <Std++/Streams/Bitstreams/BitInputStreamBitReversed.hpp>
 //Streams/Checksums
 #include <Std++/Streams/Checksum/ChecksumInputStream.hpp>

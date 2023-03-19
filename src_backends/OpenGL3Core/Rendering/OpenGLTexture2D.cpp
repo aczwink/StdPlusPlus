@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -118,3 +118,15 @@ void OpenGLTexture2D::UpdateRGB(uint16 offsetX, uint16 offsetY, uint16 width, ui
 
     this->glFuncs.glTexSubImage2D(GL_TEXTURE_2D, 0, offsetX, offsetY, width, height, GL_RGB, GL_FLOAT, pColorData);
 }
+
+/*
+ * uint32 CTexture::GetMaximumMipMapLevel() const
+{
+	GLint maxLevel;
+
+	glBindTexture(GL_TEXTURE_2D, this->id);
+	glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, &maxLevel);
+
+	return maxLevel;
+}
+ */

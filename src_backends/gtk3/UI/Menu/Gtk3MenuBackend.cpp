@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,7 +35,13 @@ static void MenuItemActivate(GtkMenuItem *menuitem, gpointer user_data)
 //Constructor
 Gtk3MenuBackend::Gtk3MenuBackend(UIBackend &uiBackend, UI::Menu &menu)
 {
-    this->gtkWidget = gtk_menu_new();
+    this->menuGtkWidget = gtk_menu_new();
+    this->menuItemGtkWidget = gtk_menu_item_new();
+
+    gtk_widget_show_all(this->menuGtkWidget);
+    gtk_widget_show_all(this->menuItemGtkWidget);
+
+    gtk_menu_item_set_submenu (GTK_MENU_ITEM (this->menuItemGtkWidget), this->menuGtkWidget);
 }
 
 //Public methods
@@ -47,16 +53,17 @@ void Gtk3MenuBackend::AppendEntry(const ActionEntry& actionEntry)
     gtk_menu_item_set_label(GTK_MENU_ITEM(item), (const gchar*)actionEntry.action->text.ToUTF8().GetRawZeroTerminatedData());
     g_signal_connect(item, "activate", G_CALLBACK(MenuItemActivate), actionEntry.action);
 
-    gtk_menu_shell_append(GTK_MENU_SHELL(this->gtkWidget), item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(this->menuGtkWidget), item);
 }
 
 void Gtk3MenuBackend::SetText(const String& text)
 {
+    gtk_menu_item_set_label(GTK_MENU_ITEM(this->menuItemGtkWidget), (const gchar*)text.ToUTF8().GetRawZeroTerminatedData());
 }
 
 void Gtk3MenuBackend::ShowPopup()
 {
-    gtk_menu_popup_at_pointer(GTK_MENU(this->gtkWidget), nullptr);
+    gtk_menu_popup_at_pointer(GTK_MENU(this->menuGtkWidget), nullptr);
 }
 
 //NOT IMPLEMENTED

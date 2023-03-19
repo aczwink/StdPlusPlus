@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/_Backends/UI/MenuBarBackend.hpp>
+#include <Std++/UI/Widget.hpp>
 #include "../../Definitions.h"
 #include "../../Containers/Array/DynamicArray.hpp"
 
@@ -30,7 +31,7 @@ namespace StdXX
         class Menu;
         class Window;
 
-        class STDPLUSPLUS_API MenuBar
+        class MenuBar : public Widget
         {
             friend class Window;
         public:
@@ -40,18 +41,25 @@ namespace StdXX
             //Destructor
 			~MenuBar();
 
-            //Inline
+			//Inline
 			inline void AppendMenu(Menu *menu)
 			{
 				this->attachedMenus.Push(menu);
+
 				if(this->backend)
+				{
+					this->EnsureMenuIsRealized(*menu);
 					this->backend->AppendMenu(menu);
+				}
 			}
 
 		private:
 			//Members
 			_stdxx_::MenuBarBackend *backend;
 			DynamicArray<Menu *> attachedMenus;
+
+			//Methods
+			void EnsureMenuIsRealized(Menu& menu);
         };
     }
 }
