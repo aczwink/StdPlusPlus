@@ -3,7 +3,7 @@ project(Std++)
 find_package(XP-CMake REQUIRED) #we need advanced cmake modules
 
 #options
-option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the host machine are enabled. If disabled, no backends but the specified ones are selected" ON)
+option(BACKENDS_AUTO_AVAILABLE "If enabled, all backends available on the host machine are enabled. If disabled, no backends but the specified ones are selected" OFF)
 option(BUILD_DOCUMENTATION "Build API documentation" OFF)
 option(OPTFORHOST "Optimize for host machine. Output will quite likely not run on an older processor" ON)
 
