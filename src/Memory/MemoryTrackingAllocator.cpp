@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,8 @@
  */
 //Class header
 #include <Std++/Memory/MemoryTrackingAllocator.hpp>
+//Global
+#include <stdio.h>
 //Local
 #include <Std++/Memory.hpp>
 //Namespaces

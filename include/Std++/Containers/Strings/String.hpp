@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -543,6 +543,10 @@ namespace StdXX
 
 	//Operators
 	inline bool operator==(const char *utf8, const String &rhs)
+	{
+		return rhs.operator==(utf8);
+	}
+	inline bool operator==(const char8_t *utf8, const String &rhs)
 	{
 		return rhs.operator==(utf8);
 	}
