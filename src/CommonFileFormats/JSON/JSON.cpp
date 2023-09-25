@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -131,7 +131,7 @@ String JsonValue::Dump() const
 			return u8"{" + tmp + u8"}";
 		}
 		case JsonType::String:
-			return u8"\"" + this->stringValue + u8"\"";
+			return u8"\"" + this->stringValue.Replace(u8"\\", u8"\\\\") + u8"\"";
 	}
 
 	NOT_IMPLEMENTED_ERROR;
