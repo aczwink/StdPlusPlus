@@ -31,6 +31,9 @@ jobs:
       run: sudo make install
       working-directory: ${{github.workspace}}/xpcmake/_build
 
+    #install backend/extensions dependencies
+    - name: Install dependencies
+      run: sudo apt install -y libfuse3-dev
 
     #build and install Std++
     - name: Checkout Std++ repo
@@ -40,7 +43,7 @@ jobs:
         path: stdpp
 
     - name: Create build directory for Std++
-      run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -B ${{github.workspace}}/stdpp/_build -S ${{github.workspace}}/stdpp
+      run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBACKEND_FUSE=ON -B ${{github.workspace}}/stdpp/_build -S ${{github.workspace}}/stdpp
 
     - name: Build Std++
       run: cmake --build ${{github.workspace}}/stdpp/_build --config ${{env.BUILD_TYPE}}
@@ -60,6 +63,8 @@ jobs:
         release_name: Latest build
         body: |
           Latest build of master branch
+          Enabled backends/extensions:
+          -fuse3
         draft: false
         prerelease: false
 
