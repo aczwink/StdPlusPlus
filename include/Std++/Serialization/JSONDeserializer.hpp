@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,6 +26,11 @@ namespace StdXX::Serialization
 {
 	class JSONDeserializer
 	{
+		struct ObjectStackEntry
+		{
+			String key;
+			CommonFileFormats::JsonValue* object;
+		};
 	public:
 		inline JSONDeserializer(InputStream& inputStream, bool humanReadable = false) : inputStream(inputStream)
 		{
@@ -75,7 +80,7 @@ namespace StdXX::Serialization
 
 		JSONDeserializer& operator>>(const Binding<String>& binding)
 		{
-			CommonFileFormats::JsonValue& object = *this->objectStack.Last();
+			CommonFileFormats::JsonValue& object = this->CurrentObject();
 			binding.value = object[binding.name].StringValue();
 			object.Delete(binding.name);
 			return *this;
@@ -84,7 +89,7 @@ namespace StdXX::Serialization
 		template <typename T>
 		JSONDeserializer& operator>>(const Binding<Optional<T>>& binding)
 		{
-			CommonFileFormats::JsonValue& parent = *this->objectStack.Last();
+			CommonFileFormats::JsonValue& parent = this->CurrentObject();
 			if(parent.MapValue().Contains(binding.name))
 				return *this >> Binding(binding.name, *binding.value);
 			return *this;
@@ -95,35 +100,66 @@ namespace StdXX::Serialization
 		Type::EnableIf_t<HasArchiveFunction<JSONDeserializer, T>::value, JSONDeserializer&>
 		operator>>(const Binding<T>& binding)
 		{
-			CommonFileFormats::JsonValue& parent = *this->objectStack.Last();
-			this->objectStack.Push(&parent[binding.name]);
+			this->EnterObject(binding.name);
 			Archive(*this, binding.value);
-			this->objectStack.Pop();
-			parent.Delete(binding.name);
+			this->LeaveObject();
 			return *this;
 		}
 
 		template <typename T, typename Type::EnableIf<!Type::IsConst<T>::value, bool>::type = false>
 		inline JSONDeserializer& operator>>(T& value)
 		{
-			this->objectStack.Push(&this->root);
+			this->objectStack.Push({String(), &this->root});
 			Archive(*this, value);
 			this->objectStack.Pop();
 			return *this;
+		}
+
+		//Inline
+		inline void EnterObject(const String& key)
+		{
+			CommonFileFormats::JsonValue& parent = this->CurrentObject();
+			this->objectStack.Push({key, &parent[key]});
+		}
+
+		inline void LeaveObject()
+		{
+			auto entry = this->objectStack.Pop();
+
+			this->CurrentObject().Delete(entry.key);
+		}
+
+		inline bool MorePropertiesExistInCurrentObject() const
+		{
+			return !this->CurrentObject().MapValue().IsEmpty();
+		}
+
+		inline const String& GetNextPropertyName() const
+		{
+			return this->CurrentObject().MapValue().begin().operator*().key;
 		}
 
 	private:
 		//Members
 		InputStream& inputStream;
 		CommonFileFormats::JsonValue root;
-		DynamicArray<CommonFileFormats::JsonValue*> objectStack;
+		DynamicArray<ObjectStackEntry> objectStack;
+
+		//Properties
+		inline CommonFileFormats::JsonValue& CurrentObject()
+		{
+			return *this->objectStack.Last().object;
+		}
+		inline const CommonFileFormats::JsonValue& CurrentObject() const
+		{
+			return *this->objectStack.Last().object;
+		}
 
 		//Inline
 		inline float64 DeserializeNumber(const String& propertyName)
 		{
-			CommonFileFormats::JsonValue& object = *this->objectStack.Last();
-			const CommonFileFormats::JsonValue& constObj = object;
-			float64 result = constObj[propertyName].NumberValue();
+			CommonFileFormats::JsonValue& object = this->CurrentObject();
+			float64 result = object[propertyName].NumberValue();
 			object.Delete(propertyName);
 
 			return result;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,6 +34,13 @@ JsonValue HumanReadableJsonParser::Parse()
 }
 
 //Private methods
+uint32 HumanReadableJsonParser::ParseEscapedCharacter()
+{
+	if(this->Accept(u8'\\'))
+		return u8'\\';
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 JsonValue HumanReadableJsonParser::ParseNumber()
 {
 	//at least one digit must exist
@@ -89,6 +96,11 @@ JsonValue HumanReadableJsonParser::ParseStringLiteral()
 	{
 		if(this->Accept(u8'"'))
 			break;
+		if(this->Accept(u8'\\'))
+		{
+			tmp += this->ParseEscapedCharacter();
+			continue;
+		}
 		tmp += this->lookahead;
 		this->UpdateLookahead();
 	}

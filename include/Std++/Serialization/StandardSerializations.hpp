@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -76,6 +76,24 @@ namespace StdXX::Serialization
 		String tmp;
 		deserializer & Binding(binding.name, tmp);
 		binding.value = DateTime::ParseISOString(tmp);
+
+		return deserializer;
+	}
+
+	//specific for JSON
+	template <typename ValueType>
+	inline JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<BinaryTreeMap<String, ValueType>>& binding)
+	{
+		deserializer.EnterObject(binding.name);
+		while(deserializer.MorePropertiesExistInCurrentObject())
+		{
+			String propertyName = deserializer.GetNextPropertyName();
+			ValueType value;
+			deserializer & Binding(propertyName, value);
+
+			binding.value.Insert(propertyName, Move(value));
+		}
+		deserializer.LeaveObject();
 
 		return deserializer;
 	}

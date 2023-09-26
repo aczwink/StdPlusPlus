@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,6 +39,7 @@ namespace _stdxx_
 		StdXX::TextReader &textReader;
 
 		//Methods
+		uint32 ParseEscapedCharacter();
 		StdXX::CommonFileFormats::JsonValue ParseNumber();
 		StdXX::CommonFileFormats::JsonValue ParseObject();
 		StdXX::CommonFileFormats::JsonValue ParseStringLiteral();
