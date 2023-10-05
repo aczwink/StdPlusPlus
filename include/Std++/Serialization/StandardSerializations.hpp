@@ -82,17 +82,23 @@ namespace StdXX::Serialization
 
 	//specific for JSON
 	template <typename ValueType>
-	inline JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<BinaryTreeMap<String, ValueType>>& binding)
+	void Archive(JSONDeserializer& deserializer, BinaryTreeMap<String, ValueType>& map)
 	{
-		deserializer.EnterObject(binding.name);
 		while(deserializer.MorePropertiesExistInCurrentObject())
 		{
 			String propertyName = deserializer.GetNextPropertyName();
 			ValueType value;
 			deserializer & Binding(propertyName, value);
 
-			binding.value.Insert(propertyName, Move(value));
+			map.Insert(propertyName, Move(value));
 		}
+	}
+
+	template <typename ValueType>
+	inline JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<BinaryTreeMap<String, ValueType>>& binding)
+	{
+		deserializer.EnterObject(binding.name);
+		Archive(deserializer, binding.value);
 		deserializer.LeaveObject();
 
 		return deserializer;

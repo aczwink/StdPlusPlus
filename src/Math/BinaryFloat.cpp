@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,9 @@ using namespace StdXX::Math;
 
 BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 {
+	if(decimalFloat.Significand().absValue == Natural())
+		return;
+
 	Rational<Natural> fraction;
 	fraction.numerator = decimalFloat.Significand().absValue;
 
@@ -97,6 +100,9 @@ float64 BinaryFloat::ClampTo64Bit() const
 	uint64 mantissa53bit = scaledMantissa.ClampTo64Bit();
 	uint64 msbBitMask = (1_u64 << 52_u64);
 	uint64 mantissa52bit = mantissa53bit & ~msbBitMask; //msb (52th bit) is implicitly 1 and not stored
+
+	if(mantissa52bit == 0)
+		return 0;
 
 	value.sign = 0;
 	value.exponent = this->exponent.ClampTo64Bit() + exponentDelta + 1023;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,13 @@ static void test(const char8_t* numberString)
 
 TEST_SUITE(DecimalToStringTest)
 {
+	TEST_CASE(ProductionBugs)
+	{
+		setlocale(LC_NUMERIC, "C");
+
+		test(u8"0.0");
+	}
+
     TEST_CASE(InfiniteLengthInBase2)
 	{
 		setlocale(LC_NUMERIC, "C");

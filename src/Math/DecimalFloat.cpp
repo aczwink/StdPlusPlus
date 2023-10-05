@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -47,6 +47,9 @@ private:
 	//Methods
 	void ParseExponentPart(ConstStringIterator& it, const ConstStringIterator& end)
 	{
+		if(it == end)
+			return;
+
 		if(*it == u8'e' || *it == u8'E')
 		{
 			++it;
