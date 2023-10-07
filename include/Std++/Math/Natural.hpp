@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -247,5 +247,14 @@ namespace StdXX::Math
 	private:
 		//Members
 		NaturalStorage<1> storage;
+
+		//Inline
+		inline uint64 SafeRightShift(uint64 value, uint64 shiftAmount) const
+		{
+			//in C/C++ shifting 64 bit words is only defined for amounts between 0 and 63
+			if(shiftAmount >= 64)
+				return 0;
+			return value >> shiftAmount;
+		}
 	};
 }

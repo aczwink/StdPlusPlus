@@ -23,11 +23,14 @@
 //Namespaces
 using namespace StdXX::Math;
 
+//Very good explanation of the here implemented algorithm: https://www.exploringbinary.com/correct-decimal-to-floating-point-using-big-integers/
+
 BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 {
 	if(decimalFloat.Significand().absValue == Natural())
-		return;
+		return; //avoid endless loops for 0
 
+	//represent decimal float as as fraction
 	Rational<Natural> fraction;
 	fraction.numerator = decimalFloat.Significand().absValue;
 
@@ -35,29 +38,54 @@ BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 	if(decimalFloat.Exponent().isNegative)
 	{
 		fraction.denominator = Move(basePowExp);
-
-		Rational<Natural> lowerBound = {Power(Natural(2), Natural(precision-1)), 1};
-		while(fraction < lowerBound)
-		{
-			fraction.numerator *= 2; //scale up
-			--this->exponent;
-		}
 	}
 	else
 	{
 		fraction.numerator *= basePowExp;
 		fraction.denominator = 1;
-
-		Rational<Natural> upperBound = {Power(Natural(2), Natural(precision)), 1};
-		while(fraction > upperBound)
-		{
-			fraction.denominator *= 2; //scale down
-			++this->exponent;
-		}
 	}
 
-	this->significand = fraction.DivideAndRoundDown();
-	auto remainder = fraction.Remainder();
+	//for performance a quick heuristic precision shift. Does not work for exponents smaller than 0 i.e. 2^-1, 2^-2 etc.
+	uint64 currentPrecision = Math::Log({2}, fraction.DivideAndRoundDown()).ClampTo64Bit();
+	if(precision > currentPrecision)
+	{
+		//scale up
+		uint64 delta = precision - currentPrecision;
+		fraction.numerator *= Math::Power(Natural(2), Natural(delta));
+		this->exponent -= delta;
+	}
+	else if(precision == currentPrecision)
+	{
+	}
+	else
+	{
+		//scale down
+		uint64 delta = currentPrecision - precision;
+		fraction.denominator *= Math::Power(Natural(2), Natural(delta));
+		this->exponent += delta;
+	}
+
+
+	//scale to between 2^(precision-1) and 2^precision
+	Rational<Natural> lowerBound = {Power(Natural(2), Natural(precision-1)), 1};
+	while(fraction < lowerBound)
+	{
+		fraction.numerator *= 2; //scale up
+		--this->exponent;
+	}
+
+	Rational<Natural> upperBound = {Power(Natural(2), Natural(precision)), 1};
+	while(fraction > upperBound)
+	{
+		fraction.denominator *= 2; //scale down
+		++this->exponent;
+	}
+
+	//eval and round
+	auto eval = fraction.numerator.DivMod(fraction.denominator);
+	this->significand = Move(eval.Get<0>());
+	this->significand.isNegative = decimalFloat.Significand().isNegative;
+	auto remainder = Move(eval.Get<1>());
 	RoundInteger(this->significand.absValue, remainder, fraction.denominator / 2, RoundingMode::ROUND_TO_NEAREST_TIES_TO_EVEN);
 }
 
@@ -65,6 +93,7 @@ BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 float64 BinaryFloat::ClampTo64Bit() const
 {
 	const uint8 mantissaSize = 52;
+	const uint16 exponentBias = 1023;
 	union
 	{
 		float64 f64;
@@ -76,37 +105,44 @@ float64 BinaryFloat::ClampTo64Bit() const
 		};
 	} value;
 
-	auto minMantissa = Power(2_i64, (int64)mantissaSize);
-	auto maxMantissa = Power(2_i64, (int64)(mantissaSize + 1)); //1 bit is implicit in double format
-	Natural scaledMantissa = this->significand.absValue;
-	int64 exponentDelta = mantissaSize;
+	uint64 mantissa53bit = this->significand.absValue.ClampTo64Bit();
 
-	/*TODO: rescale number if precision is not 53
-	 * if(scaledMantissa < minMantissa)
+
+
+	//rescale if exponent is out of bounds
+	const int64 rawExponent = this->exponent.ClampTo64Bit();
+	int64 realExponent = rawExponent + mantissaSize;
+
+	if(realExponent < -exponentBias)
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: scale up
+		int64 amount = -realExponent - exponentBias;
+		mantissa53bit >>= amount;
+		realExponent += amount;
 	}
-	else if(scaledMantissa > maxMantissa)
+
+	//store
+	value.sign = this->significand.isNegative ? 1 : 0;
+	value.exponent = (uint16)(realExponent + exponentBias);
+
+	if(mantissa53bit == 0)
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement
-		//scale down and round
-		while(scaledMantissa > maxMantissa)
-		{
-			scaledMantissa /= 2; //discard precision
-			exponentDelta++;
-		}
-		//RoundInteger(scaledMantissa64, guardBit, 1_u64, RoundingMode::ROUND_TO_NEAREST_TIES_TO_EVEN);
-	}*/
-	uint64 mantissa53bit = scaledMantissa.ClampTo64Bit();
-	uint64 msbBitMask = (1_u64 << 52_u64);
-	uint64 mantissa52bit = mantissa53bit & ~msbBitMask; //msb (52th bit) is implicitly 1 and not stored
+		//zero is denormalized in IEEE 754
+		value.exponent = 0;
+		value.mantissa = 0;
+	}
+	else if(value.exponent == 0)
+	{
+		//denormalized number, the mantissa is preceded by a zero, loosing one bit of precision
+		value.mantissa = mantissa53bit >> 1;
+	}
+	else
+	{
+		//normalized number, msb (52th bit) is implicitly 1 and not stored
+		uint64 msbBitMask = (1_u64 << 52_u64);
+		uint64 mantissa52bit = mantissa53bit & ~msbBitMask;
 
-	if(mantissa52bit == 0)
-		return 0;
-
-	value.sign = 0;
-	value.exponent = this->exponent.ClampTo64Bit() + exponentDelta + 1023;
-	value.mantissa = mantissa52bit;
+		value.mantissa = mantissa52bit;
+	}
 
 	return value.f64;
 }

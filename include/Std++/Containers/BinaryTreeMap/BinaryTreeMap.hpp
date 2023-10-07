@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -189,6 +189,8 @@ namespace StdXX
 		inline void Remove(const KeyType& key)
 		{
 			Node* node = this->FindNode(key);
+			if(node == nullptr)
+				return;
 			this->RemoveNodeLinks(node);
 
 			this->nElements--;

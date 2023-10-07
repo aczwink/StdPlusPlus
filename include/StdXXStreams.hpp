@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,6 +42,7 @@
 //Streams/Checksums
 #include <Std++/Streams/Checksum/ChecksumInputStream.hpp>
 //Streams/Readers
+#include <Std++/Streams/Readers/CharStreamReader.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include <Std++/Streams/Readers/TextReader.hpp>
 //Streams/Writers

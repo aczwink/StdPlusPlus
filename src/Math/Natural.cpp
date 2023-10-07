@@ -126,14 +126,13 @@ Math::Natural Math::Natural::operator<<(uint64 shift) const
 	result.storage.SetNumberOfSegments(this->storage.GetNumberOfSegments() + blockShift);
 
 	uint64 last = 0;
-	const uint64 mask = ~((uint64(1) << (64 - shift)) - 1);
 	for (uint64 i = 0; i < this->storage.GetNumberOfSegments(); i++)
 	{
-		const uint64 leftOver = last >> (64 - shift);
+		const uint64 leftOver = this->SafeRightShift(last, 64 - shift);
 		result.storage.SetSegment(i + blockShift, (this->storage.GetSegment(i) << shift) | leftOver);
 		last = this->storage.GetSegment(i);
 	}
-	const uint64 leftOver = last >> (64 - shift);
+	const uint64 leftOver = this->SafeRightShift(last, 64 - shift);
 	if (leftOver)
 	{
 		//add what we have shifted away

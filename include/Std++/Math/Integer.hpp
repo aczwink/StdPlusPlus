@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -160,6 +160,8 @@ namespace StdXX::Math
 
 		inline bool operator==(const Integer& rhs) const
 		{
+			if(this->absValue == Natural())
+				return rhs.absValue == this->absValue; //for 0 the sign doesn't matter
 			return (this->isNegative == rhs.isNegative) and (this->absValue == rhs.absValue);
 		}
 

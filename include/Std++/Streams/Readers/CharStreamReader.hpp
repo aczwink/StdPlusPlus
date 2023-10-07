@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,37 +18,20 @@
  */
 #pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
-#include "Integer.hpp"
-#include "Rational.hpp"
+#include <Std++/Definitions.h>
 
-namespace StdXX::Math
+namespace StdXX
 {
-	class DecimalFloat
+	class CharStreamReader
 	{
 	public:
-		//Constructor
-		DecimalFloat(const String& string);
+		//Destructor
+		virtual ~CharStreamReader(){};
 
-		//Properties
-		inline const Integer& Exponent() const
-		{
-			return this->exponent;
-		}
-
-		inline const Integer& Significand() const
-		{
-			return this->significand;
-		}
-
-		//Methods
-		String ToDecimalFloatingPointString() const;
-		String ToScientificNotationString() const;
-		String ToString() const;
-
-	private:
-		//Members
-		Integer significand;
-		Integer exponent;
+		//Abstract
+		/**
+		 * @return zero should be returned if and only if no more characters are available to be read.
+		 */
+		virtual uint32 ReadNextCodePoint() = 0;
 	};
 }

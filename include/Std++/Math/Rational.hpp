@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -132,7 +132,7 @@ namespace StdXX::Math
 
             result = *this;
             gcd = ComputeGreatestCommonDivisor(this->numerator, this->denominator);
-            if(gcd)
+            if(gcd != 0)
             {
                 result.numerator /= gcd;
                 result.denominator /= gcd;

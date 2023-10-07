@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,7 @@
 
 namespace StdXX
 {
-    //Move Declarations
+    //Forward Declarations
     template<typename T>
     class LinkedList;
 
@@ -32,18 +32,7 @@ namespace StdXX
         friend class LinkedList<T>;
         typedef LinkedList<T> List;
         typedef LinkedListNode<T> Node;
-    protected:
-        //Variables
-        List *list;
-        Node *node;
-        uint32 index;
-        //Constructor
-        LinkedListConstIterator(List *pList, Node *pNode)
-        {
-            this->list = pList;
-            this->node = pNode;
-            this->index = 0;
-        }
+
     public:
         //Operators
         LinkedListConstIterator &operator++() //Prefix ++
@@ -75,9 +64,14 @@ namespace StdXX
             return this->node->data;
         }
 
-        bool operator!=(const LinkedListConstIterator &refRight) const
+		bool operator==(const LinkedListConstIterator& rhs) const
+		{
+			return this->list == rhs.list && this->node == rhs.node;
+		}
+
+        bool operator!=(const LinkedListConstIterator& rhs) const
         {
-            return !(this->list == refRight.list && this->node == refRight.node);
+            return !(*this == rhs);
         }
 
         //Functions
@@ -90,5 +84,19 @@ namespace StdXX
         {
             return this->node != NULL;
         }
+
+	protected:
+		//Variables
+		List *list;
+		Node *node;
+		uint32 index;
+
+		//Constructor
+		LinkedListConstIterator(List *pList, Node *pNode)
+		{
+			this->list = pList;
+			this->node = pNode;
+			this->index = 0;
+		}
     };
 }

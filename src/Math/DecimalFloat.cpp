@@ -153,19 +153,39 @@ DecimalFloat::DecimalFloat(const String &string)
 }
 
 //Public methods
-String DecimalFloat::ToString() const
+String DecimalFloat::ToDecimalFloatingPointString() const
 {
-	auto nSigDigits = Math::Log(Integer(10), this->significand);
+	auto sigInt = this->significand.absValue.ToString();
+	auto nSigDigits = sigInt.GetLength();
 	int64 nIntDigits = (this->exponent + nSigDigits).ClampTo64Bit();
 
 	String natPart, fracPart;
 	if(nIntDigits <= 0)
 	{
 		natPart = u8"0";
-		fracPart = u8"." + this->significand.ToString().SubString(nIntDigits);
+		fracPart = u8"." + this->significand.absValue.ToString().SubString(nIntDigits);
 	}
 	else
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	{
+		natPart = sigInt.SubString(0, nIntDigits);
+		while(natPart.GetLength() < nIntDigits)
+			natPart += u8"0";
+	}
 
-	return natPart + fracPart;
+	String sign = this->significand.isNegative ? u8"-" : u8"";
+	return sign + natPart + fracPart;
+}
+
+String DecimalFloat::ToScientificNotationString() const
+{
+	String exp = this->exponent.ToString();
+	return this->significand.ToString() + u8"*10^" + exp;
+}
+
+String DecimalFloat::ToString() const
+{
+	String a = this->ToDecimalFloatingPointString();
+	String b = this->ToScientificNotationString();
+
+	return a.GetLength() < b.GetLength() ? a : b;
 }

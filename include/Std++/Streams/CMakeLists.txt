@@ -11,6 +11,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Checksum/ChecksumInputStream.hpp
 
 	#Readers
+	${CMAKE_CURRENT_SOURCE_DIR}/Readers/CharStreamReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/DataReader.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Readers/TextReader.hpp
 
