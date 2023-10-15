@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021-2022 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -56,6 +56,13 @@ namespace StdXX
 		//Operators
 		DynamicByteBuffer& operator=(const DynamicByteBuffer& buffer);
 		DynamicByteBuffer& operator=(DynamicByteBuffer&& buffer);
+
+		inline uint8& operator[](uint32 index)
+		{
+			ASSERT(index < this->size, u8"Index out of bounds");
+
+			return this->data[index];
+		}
 
 		inline uint8 operator[](uint32 index) const
 		{
