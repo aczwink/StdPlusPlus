@@ -186,5 +186,10 @@ namespace StdXX
 		{
 			return this->currentNode->keyValuePair;
 		}
+
+		const KeyValuePair<KeyType, ValueType>* operator->() const
+		{
+			return &this->currentNode->keyValuePair;
+		}
 	};
 }
