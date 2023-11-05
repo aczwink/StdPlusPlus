@@ -34,7 +34,7 @@ void ZipDirectory::ChangePermissions(const FileSystem::Permissions &newPermissio
 
 void ZipDirectory::CreateSubDirectory(const String &name, const Permissions* permissions)
 {
-	this->AddChild(name, new ZipDirectory(this->fileSystem));
+	this->SetChild(name, new ZipDirectory(this->fileSystem));
 
 	this->fileSystem.InformNodeChanged();
 }

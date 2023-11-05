@@ -140,7 +140,7 @@ void ZipFileSystem::ReadCentralDirectory(const EndOfCentralDirectory& record)
         }
 
 		AutoPointer<ZipDirectory> zipDir = dir.Cast<ZipDirectory>();
-		zipDir->AddChild(nodeName, node);
+		zipDir->SetChild(nodeName, node);
 	}
 }
 

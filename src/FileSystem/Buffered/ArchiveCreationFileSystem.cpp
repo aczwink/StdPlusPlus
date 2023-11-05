@@ -52,7 +52,7 @@ Optional<Errors::CreateDirectoryError> ArchiveCreationFileSystem::CreateDirector
 	fileInfo.type = FileType::Directory;
 	fileInfo.permissions = permissions ? permissions->Clone() : nullptr;
 
-	parent->AddChild(path.GetName(), new MemoryDirectory(StdXX::Move(fileInfo)));
+	parent->SetChild(path.GetName(), new MemoryDirectory(StdXX::Move(fileInfo)));
 	this->isFlushed = false;
 
 	return {};
@@ -63,7 +63,7 @@ UniquePointer<OutputStream> ArchiveCreationFileSystem::CreateFile(const Path& fi
 	MemoryDirectory* parent = this->GetDirectory(filePath.GetParent());
 
 	MemoryFile* file = new MemoryFile;
-	parent->AddChild(filePath.GetName(), file);
+	parent->SetChild(filePath.GetName(), file);
 
 	this->isFlushed = false;
 	//TODO: any time data is written to the file, isFlushed should be set to false

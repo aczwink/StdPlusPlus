@@ -84,7 +84,7 @@ namespace StdXX::FileSystem
 		inline void AddNode(const Path& nodePath, FileMetadataNode* node)
 		{
 			MemoryDirectory* dir = this->CreateOrQueryDirectory(nodePath.GetParent());
-			dir->AddChild(nodePath.GetName(), node);
+			dir->SetChild(nodePath.GetName(), node);
 		}
 
 		inline const ContainerFileBase* FindFile(const Path& path) const

@@ -107,7 +107,7 @@ MemoryDirectory* ArchiveFileSystem::CreateOrQueryDirectory(const Path& directory
 		FileMetadataNode* child = dir->GetChild(current);
 		if(child == nullptr)
 		{
-			dir->AddChild(current, new MemoryDirectory);
+			dir->SetChild(current, new MemoryDirectory);
 			dir = dynamic_cast<MemoryDirectory *>(dir->GetChild(current));
 		}
 		else

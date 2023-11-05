@@ -46,12 +46,6 @@ namespace StdXX::FileSystem
 		}
 
 		//Inline
-		inline void AddChild(const String& nodeName, UniquePointer<FileMetadataNode>&& node)
-		{
-			ASSERT(!this->children.Contains(nodeName), u8"Can't add child that already exists.");
-			this->children[nodeName] = Move(node);
-		}
-
 		const FileInfo &Info() const override
 		{
 			return this->fileInfo;
@@ -69,6 +63,11 @@ namespace StdXX::FileSystem
 			if(!this->children.Contains(name))
 				return nullptr;
 			return this->children[name].operator->();
+		}
+
+		inline void SetChild(const String &nodeName, UniquePointer<FileMetadataNode> &&node)
+		{
+			this->children[nodeName] = Move(node);
 		}
 
 	private:
