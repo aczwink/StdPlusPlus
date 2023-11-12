@@ -64,24 +64,24 @@ void BMP_Muxer::WritePacket(const IPacket& packet)
 	
 	switch(pStream->codingParameters.codingFormat->GetId())
 	{
-	case CodingFormatId::RawVideo:
-	{
-		const byte *pCurrent = packet.GetData();
-		uint16 nRows = packet.GetSize() / 3 / pStream->codingParameters.video.size.height;
-		uint16 rowSize = 3 * pStream->codingParameters.video.size.width;
-		for (uint16 y = 0; y < nRows; y++)
+		case CodingFormatId::RawVideo:
 		{
-			this->outputStream.WriteBytes(pCurrent, rowSize);
+			const byte* current = packet.GetData();
+			uint16 rowSize = 3 * pStream->codingParameters.video.size.width;
+			uint16 nRows = packet.GetSize() / rowSize;
+			for (uint16 y = 0; y < nRows; y++)
+			{
+				this->outputStream.WriteBytes(current, rowSize);
 
-			//write padding
-			static byte null = 0;
-			for (uint8 p = 0; p < rowSize % 4; p++)
-				this->outputStream.WriteBytes(&null, 1);
+				//write padding
+				static byte null = 0;
+				for (uint8 p = 0; p < rowSize % 4; p++)
+					this->outputStream.WriteBytes(&null, 1);
 
-			pCurrent += rowSize;
+				current += rowSize;
+			}
 		}
-	}
-	break;
+		break;
 	default:
 		this->outputStream.WriteBytes(packet.GetData(), packet.GetSize());
 		this->imageSize += packet.GetSize();

@@ -1,2 +1,0 @@
-https://wiki.multimedia.cx/index.php?title=S3TC
-https://github.com/svn2github/worldwind/tree/master/WWAndroid/src/gov/nasa/worldwind/util/dds

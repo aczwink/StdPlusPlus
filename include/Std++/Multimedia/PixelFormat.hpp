@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,7 +36,7 @@ namespace StdXX
         {
 		public:
         	//Constants
-        	static const uint8 MAX_COLOR_COMPONENTS = 3;
+        	static const uint8 MAX_COLOR_COMPONENTS = 4;
         	static const uint8 MAX_PLANES = 3;
 
         	//Members

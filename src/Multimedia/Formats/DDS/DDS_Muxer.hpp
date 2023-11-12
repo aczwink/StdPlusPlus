@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
-//Local
-#include "Std++/Streams/SeekableOutputStream.hpp"
-#include "MediaObject.hpp"
+#include <Std++/Multimedia/Muxer.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX::Multimedia
+class DDS_Muxer : public Muxer
 {
-	class STDPLUSPLUS_API Muxer : public MediaObject
+public:
+	//Constructor
+	inline DDS_Muxer(const Format& format, SeekableOutputStream& outputStream) : Muxer(format, outputStream)
 	{
-	public:
-		//Constructor
-		inline Muxer(const Format& format, SeekableOutputStream& outputStream) : MediaObject(format), outputStream(outputStream)
-		{
-		}
+	}
 
-		//Abstract
-		virtual void Finalize() = 0;
-		virtual void WriteHeader() = 0;
-		virtual void WritePacket(const IPacket& packet) = 0;
+	//Methods
+	void Finalize() override;
+	void WriteHeader() override;
+	void WritePacket(const IPacket &packet) override;
 
-	protected:
-		//Members
-		SeekableOutputStream &outputStream;
-	};
-}
+private:
+	//State
+	uint64 flagsOffset;
+	uint64 mipMapCountOffset;
+	uint64 capsOffset;
+
+	//Methods
+	uint32 ComputePitchSize() const;
+	void WritePixelFormat(DataWriter& dataWriter);
+};

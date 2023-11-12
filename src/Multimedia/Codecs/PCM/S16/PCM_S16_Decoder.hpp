@@ -42,7 +42,7 @@ public:
 
     String GetName() const override
     {
-        return u8"StdXX";
+        return u8"StdXX PCM S16 Decoder";
     }
 
 private:

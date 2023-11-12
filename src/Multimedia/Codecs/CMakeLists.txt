@@ -30,14 +30,21 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp
 
 	#RawVideo
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideo_CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/BGR24_Encoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/BGR24_Encoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideo_CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideoDecoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideoDecoderContext.hpp
 
 	#RGB24
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Codec.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Encoder.hpp
+
+	#S3TC
+	${CMAKE_CURRENT_SOURCE_DIR}/S3TC/S3TC_DXT1_CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/S3TC/S3TC_DXT1_Decoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/S3TC/S3TC_DXT1_DecoderContext.hpp
 
 	#Xiph
 	${CMAKE_CURRENT_SOURCE_DIR}/Xiph/Theora_CodingFormat.hpp

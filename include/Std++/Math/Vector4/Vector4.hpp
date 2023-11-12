@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,7 +45,7 @@ namespace StdXX
                 this->w = 0;
             }
 
-            inline Vector4(float32 x, float32 y, float32 z, float32 w)
+            inline Vector4(ScalarType x, ScalarType y, ScalarType z, ScalarType w)
             {
                 this->x = x;
                 this->y = y;

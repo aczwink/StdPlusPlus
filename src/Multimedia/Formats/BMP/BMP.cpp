@@ -24,28 +24,39 @@
 #include <Std++/Streams/Writers/DataWriter.hpp>
 #include "../../CodingFormatIdMap.hpp"
 
-//Local functions
-static _stdxx_::CodingFormatIdMap<uint32> LoadMap()
+struct CodecEntry
 {
-#define ADD_FOURCC_ID(codingFormatId) m.Insert(uint32(codingFormatId), codingFormatId);
-	_stdxx_::CodingFormatIdMap<uint32> m;
+	CodingFormatId codingFormatId;
+	uint32 fourcc;
+};
 
-	ADD_FOURCC_ID(CodingFormatId::MS_MPEG4Part2V2);
+static const CodecEntry g_bmpCodecEntries[] = {
+	{ CodingFormatId::RawVideo, 0 }
+};
 
-	return m;
-#undef ADD_FOURCC_ID
+static uint32 MapCodingFormatIdToCompressionValue(CodingFormatId codingFormatId)
+{
+	for(const auto& entry : g_bmpCodecEntries)
+	{
+		if(entry.codingFormatId == codingFormatId)
+			return entry.fourcc;
+	}
+
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-/*
-//Functions
-void AddMS_FourCC_VideoCodecs(BinaryTreeSet<CodecId> &refCodecSet)
+static CodingFormatId MapCompressionValueToCodingFormatId(uint32 fourcc)
 {
-	LoadMap();
+	for(const auto& entry : g_bmpCodecEntries)
+	{
+		if(entry.fourcc == fourcc)
+			return entry.codingFormatId;
+	}
 
-	for(const auto &refKV : g_ms_video_fourCC_map)
-		refCodecSet.Insert(refKV.value);
-}*/
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
 
+//Local functions
 void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Stream &stream)
 {
 	DataReader reader(false, inputStream);
@@ -100,11 +111,10 @@ void _stdxx_::ReadBMPHeader(bool &refIsBottomUp, InputStream &inputStream, Strea
 				}
 				break;*/
 		//g_ms_video_fourCC_map.Insert(FOURCC("MPG1"), CodecId::MPEG1Video);
-	default:
-	{
-		_stdxx_::CodingFormatIdMap<uint32> codecIdMap = LoadMap();
-		codingFormatId = codecIdMap.Get(codecTag);
-	}
+		default:
+		{
+			codingFormatId = MapCompressionValueToCodingFormatId(codecTag);
+		}
 	}
 	stream.SetCodingFormat(codingFormatId);
 
@@ -119,12 +129,24 @@ void _stdxx_::WriteBitmapInfoHeader(Stream &stream, OutputStream &outputStream)
 {
 	DataWriter dataWriter(false, outputStream);
 
+	//check the pixel format
+	switch(stream.codingParameters.codingFormat->GetId())
+	{
+		case CodingFormatId::RawVideo:
+		{
+			NamedPixelFormat namedPixelFormat;
+			ASSERT_EQUALS(true, stream.codingParameters.video.pixelFormat->GetNameIfExisting(namedPixelFormat));
+			ASSERT_EQUALS(NamedPixelFormat::BGR_24, namedPixelFormat);
+		}
+		break;
+	}
+
 	dataWriter.WriteUInt32(BMP_INFOHEADER_SIZE);
 	dataWriter.WriteUInt32(stream.codingParameters.video.size.width);
 	dataWriter.WriteUInt32(stream.codingParameters.video.size.height);
 	dataWriter.WriteUInt16(1); //number of planes
 	dataWriter.WriteUInt16(24); //bits per pixel
-	dataWriter.WriteUInt32(static_cast<uint32>(stream.codingParameters.codingFormat->GetId())); //compression
+	dataWriter.WriteUInt32(MapCodingFormatIdToCompressionValue(stream.codingParameters.codingFormat->GetId()));
 	dataWriter.WriteUInt32(0); //image size...
 	dataWriter.WriteUInt32(0); //pixels per meter horizontal
 	dataWriter.WriteUInt32(0); //pixels per meter vertical

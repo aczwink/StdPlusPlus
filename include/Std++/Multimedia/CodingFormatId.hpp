@@ -46,11 +46,12 @@ namespace StdXX::Multimedia
 		UTF8PlainText,
 
 		//Video codecs
-		RawVideo,
+		RawVideo, //is parameterized using PixelFormat
 		H264,
 		MPEG4Part2,
 		MS_MPEG4Part2V2,
 		PNG,
+		S3TC_DXT1,
 		Theora,
 	};
 }

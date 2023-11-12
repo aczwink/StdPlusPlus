@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,28 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#pragma once
 //Local
-#include "Std++/Streams/SeekableOutputStream.hpp"
-#include "MediaObject.hpp"
+#include <Std++/Multimedia/CodingFormat.hpp>
+//Namespaces
+using namespace StdXX;
+using namespace StdXX::Multimedia;
 
-namespace StdXX::Multimedia
+class S3TC_DXT1_CodingFormat : public CodingFormat
 {
-	class STDPLUSPLUS_API Muxer : public MediaObject
+public:
+	//Methods
+	CodingFormatId GetId() const override
 	{
-	public:
-		//Constructor
-		inline Muxer(const Format& format, SeekableOutputStream& outputStream) : MediaObject(format), outputStream(outputStream)
-		{
-		}
+		return CodingFormatId::S3TC_DXT1;
+	}
 
-		//Abstract
-		virtual void Finalize() = 0;
-		virtual void WriteHeader() = 0;
-		virtual void WritePacket(const IPacket& packet) = 0;
-
-	protected:
-		//Members
-		SeekableOutputStream &outputStream;
-	};
-}
+	String GetName() const override
+	{
+		return "S3TC DXT1 - S3 Texture Compression";
+	}
+};

@@ -21,6 +21,20 @@
 
 namespace StdXX::Math
 {
+	//Operators
+	template<typename ScalarType>
+	inline Vector4<ScalarType> Vector4<ScalarType>::operator*(ScalarType scalar) const
+	{
+		return {this->x * scalar, this->y * scalar, this->z * scalar, this->w * scalar};
+	}
+
+	template<typename ScalarType>
+	inline Vector4<ScalarType> Vector4<ScalarType>::operator/(ScalarType scalar) const
+	{
+		return {this->x / scalar, this->y / scalar, this->z / scalar, this->w / scalar};
+	}
+
+	//Inline
 	template<typename ScalarType>
 	inline Vector4<ScalarType> Vector4<ScalarType>::Cross(const Vector4<ScalarType> &rhs) const
 	{

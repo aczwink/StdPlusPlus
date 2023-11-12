@@ -5,6 +5,7 @@ set(SOURCE_FILES
 	${SOURCE_FILES}
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/__Register.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/AudioSampleFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.cpp

@@ -10,42 +10,10 @@ ADemuxer *CDDSFormat::CreateDemuxer(ASeekableInputStream &refInput) const
 	return new CDDSDemuxer(*this, refInput);
 }
 
-AMuxer *CDDSFormat::CreateMuxer(ASeekableOutputStream &refOutput) const
-{
-	return nullptr;
-}
-
-ECodecId CDDSFormat::GetDefaultCodec(EDataType dataType) const
-{
-	if(dataType == EDataType::Video)
-		NOT_IMPLEMENTED_ERROR;
-	
-	return ECodecId::Unknown;
-}
-
-CString CDDSFormat::GetExtension() const
-{
-	return "dds";
-}
-
 void CDDSFormat::GetFormatInfo(SFormatInfo &refFormatInfo) const
 {
 	//no seeking at all possible
 	refFormatInfo.supportsByteSeeking = false;
-}
-
-CString CDDSFormat::GetName() const
-{
-	return "DirectDraw Surface";
-}
-
-CFiniteSet<ECodecId> CDDSFormat::GetSupportedCodecs(EDataType dataType) const
-{
-	CFiniteSet<ECodecId> result;
-
-	NOT_IMPLEMENTED_ERROR;
-
-	return result;
 }
 
 float32 CDDSFormat::Matches(CBufferInputStream &refBuffer) const
