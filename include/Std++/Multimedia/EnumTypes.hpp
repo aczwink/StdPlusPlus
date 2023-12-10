@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,6 +24,10 @@ namespace StdXX::Multimedia
 	{
 		RGB,
 		RGBA,
+		/**
+		 * Luminance and Alpha. Rather uncommon.
+		 */
+		YA,
 		YCbCr
 	};
 

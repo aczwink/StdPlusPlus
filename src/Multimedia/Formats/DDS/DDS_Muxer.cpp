@@ -111,11 +111,14 @@ void DDS_Muxer::WritePixelFormat(DataWriter& dataWriter)
 		case ColorSpace::RGBA:
 			colorSpaceFlags = 0x41;
 			break;
+		case ColorSpace::YA:
+			colorSpaceFlags = 0x20001;
+			break;
 		default:
 			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
 
-	uint32 fourCC;
+	uint32 fourCC = 0;
 	bool isCompressed = true;
 	switch(codecParameters.codingFormat->GetId())
 	{
@@ -135,11 +138,26 @@ void DDS_Muxer::WritePixelFormat(DataWriter& dataWriter)
 	dataWriter.WriteUInt32(fourCC);
 	ASSERT_EQUALS(1, vCodec.pixelFormat->nPlanes);
 	dataWriter.WriteUInt32(vCodec.pixelFormat->ComputeBlockSize(0) * 8_u32);
-	dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[0].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[0].shift);
-	dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[1].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[1].shift);
-	dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[2].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[2].shift);
-	if(vCodec.pixelFormat->colorSpace == ColorSpace::RGBA)
-		dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[3].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[3].shift);
-	else
-		dataWriter.WriteUInt32(0);
+
+	switch(vCodec.pixelFormat->colorSpace)
+	{
+		case ColorSpace::RGB:
+		case ColorSpace::RGBA:
+			for(uint8 i = 0; i < 4; i++)
+			{
+				if(i < vCodec.pixelFormat->GetNumberOfColorComponents())
+					dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[i].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[i].shift);
+				else
+					dataWriter.WriteUInt32(0);
+			}
+			break;
+		case ColorSpace::YA:
+		{
+			dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[0].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[0].shift);
+			dataWriter.WriteUInt32(0);
+			dataWriter.WriteUInt32(0);
+			dataWriter.WriteUInt32(((1_u32 << vCodec.pixelFormat->colorComponents[1].nBits) - 1_u32) << vCodec.pixelFormat->colorComponents[1].shift);
+		}
+		break;
+	}
 }

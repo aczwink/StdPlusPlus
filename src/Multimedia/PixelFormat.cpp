@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -183,6 +183,8 @@ uint8 PixelFormat::GetNumberOfColorComponents() const
 			return 3;
 		case ColorSpace::RGBA:
 			return 4;
+		case ColorSpace::YA:
+			return 2;
 	}
 	return 0;
 }
