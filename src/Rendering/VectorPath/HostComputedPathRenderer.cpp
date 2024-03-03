@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -84,9 +84,7 @@ void HostComputedPathRenderer::Fill()
 
 void HostComputedPathRenderer::Stroke()
 {
-	float64 w;
-
-	w = this->state.strokeWidth / 2;
+	float64 w = this->state.strokeWidth / 2;
 
 	//flatten paths
 	if(this->pathCache.IsEmpty())
@@ -104,6 +102,46 @@ void HostComputedPathRenderer::Stroke()
 }
 
 //Private methods
+void HostComputedPathRenderer::BevelJoin(const FlatVectorPath::Point& point, const FlatVectorPath::Point& prev, float64 w)
+{
+	auto dl0 = prev.dir.PerpendicularDirection();
+	auto dl1 = point.dir.PerpendicularDirection();
+
+	if(point.isLeftTurn)
+	{
+		Vector2D l0, l1;
+		this->ChooseBevel(point.bevelInner, point, prev, w, l0, l1);
+
+		this->AddVertex(l0, {0, 1});
+		this->AddVertex(point.pos - dl0 * w, {1, 1});
+
+		if(point.bevelOuter)
+		{
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+		else
+		{
+			auto rx0 = point.pos - point.extrusion * w;
+
+			this->AddVertex(point.pos, {0.5, 1});
+			this->AddVertex(point.pos - dl0 * w, {1, 1});
+
+			this->AddVertex(rx0, {1, 1});
+			this->AddVertex(rx0, {1, 1});
+
+			this->AddVertex(point.pos, {0.5, 1});
+			this->AddVertex(point.pos - dl1 * w, {1, 1});
+		}
+
+		this->AddVertex(l1, {0, 1});
+		this->AddVertex(point.pos - dl1 * w, {1, 1});
+	}
+	else
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
+}
+
 void HostComputedPathRenderer::ButtCapEnd(const FlatVectorPath::Point& point, float64 w)
 {
 	Math::Vector2D perpendicularDirection;
@@ -137,6 +175,19 @@ void HostComputedPathRenderer::ButtCapStart(const FlatVectorPath::Point &refPoin
 	this->AddVertex(refPoint.pos.x + perpendicularDirection.x * w, refPoint.pos.y + perpendicularDirection.y * w, 0, 1);
 	//bottom, right
 	this->AddVertex(refPoint.pos.x - perpendicularDirection.x * w, refPoint.pos.y - perpendicularDirection.y * w, 1, 1);
+}
+
+void HostComputedPathRenderer::ChooseBevel(bool bevelInner, const FlatVectorPath::Point& point, const FlatVectorPath::Point& prev, float64 w, Vector2D& p0, Vector2D& p1)
+{
+	if(bevelInner)
+	{
+		p0 = point.pos + prev.dir.PerpendicularDirection() * w;
+		p1 = point.pos + point.dir.PerpendicularDirection() * w;
+	}
+	else
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	}
 }
 
 void HostComputedPathRenderer::ClearCache()
@@ -174,22 +225,23 @@ void HostComputedPathRenderer::ExpandFill()
 
 void HostComputedPathRenderer::ExpandStroke(float64 w)
 {
-	uint32 startIndex, endIndex, i, j, verticesOffset;
-
-	for(i = 0; i < this->pathCache.GetNumberOfElements(); i++)
+	for(uint32 i = 0; i < this->pathCache.GetNumberOfElements(); i++)
 	{
 		FlatVectorPath *const& refpPath = this->pathCache[i];
 
-		verticesOffset = this->vertices.GetNumberOfElements();
+		uint32 verticesOffset = this->vertices.GetNumberOfElements();
 
 		//check if we need to add a cap at start. This we do if the path is not closed
+		uint32 startIndex, endIndex, previousIndex;
 		if(refpPath->IsClosed())
 		{
+			previousIndex = refpPath->GetPoints().GetNumberOfElements() - 1;
 			startIndex = 0;
 			endIndex = refpPath->GetPoints().GetNumberOfElements();
 		}
 		else
 		{
+			previousIndex = 0;
 			startIndex = 1;
 			endIndex = refpPath->GetPoints().GetNumberOfElements() - 1;
 
@@ -204,19 +256,20 @@ void HostComputedPathRenderer::ExpandStroke(float64 w)
 		}
 
 		//loop over points
-		for(j = startIndex; j < endIndex; j++)
+		for(uint32 j = startIndex; j < endIndex; j++)
 		{
-			const FlatVectorPath::Point &refPoint = refpPath->GetPoint(j);
+			const FlatVectorPath::Point& point = refpPath->GetPoint(j);
+			const FlatVectorPath::Point& prev = refpPath->GetPoint(previousIndex);
 
-			if(refPoint.bevelInner || refPoint.bevelOuter)
-			{
-				NOT_IMPLEMENTED_ERROR;
-			}
+			if(point.bevelInner || point.bevelOuter)
+				this->BevelJoin(point, prev, w);
 			else
 			{
-				this->AddVertex(refPoint.pos + refPoint.extrusion * w, {0, 1});
-				this->AddVertex(refPoint.pos - refPoint.extrusion * w, {0, 1});
+				this->AddVertex(point.pos + point.extrusion * w, {0, 1});
+				this->AddVertex(point.pos - point.extrusion * w, {0, 1});
 			}
+
+			previousIndex = j;
 		}
 
 		//check if we need to add a cap at end

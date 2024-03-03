@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -62,10 +62,6 @@ GtkWindowBackend::GtkWindowBackend(UIBackend *uiBackend, _stdpp::WindowBackendTy
 		break;
 		case WindowBackendType::RenderTarget:
 		{
-			gtk_widget_add_events(this->gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
-			g_signal_connect(this->gtkWidget, u8"button-press-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
-			g_signal_connect(this->gtkWidget, u8"button-release-event", G_CALLBACK(GtkEventSource::ButtonSlot), this);
-			g_signal_connect(this->gtkWidget, u8"motion-notify-event", G_CALLBACK(GtkEventSource::MouseMotionSlot), this);
 			g_signal_connect(this->gtkWidget, u8"scroll-event", G_CALLBACK(GtkEventSource::ScrollSlot), this->widget);
 		}
 		break;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -72,13 +72,10 @@ namespace StdXX::Math
         //Inline operators
         inline bool operator<(const Rational& rhs) const
 		{
-        	auto l = this->DivideAndRoundDown();
-        	auto r = rhs.DivideAndRoundDown();
-        	if(l < r)
-        		return true;
-        	if(l > r)
-        		return false;
-        	return this->Remainder() < rhs.Remainder();
+        	if(this->denominator == rhs.denominator)
+        		return this->numerator < rhs.numerator;
+
+        	return (this->numerator * rhs.denominator) < (this->denominator * rhs.numerator);
 		}
 
 		inline bool operator>(const Rational& rhs) const

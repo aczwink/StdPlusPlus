@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,56 @@ using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::UI;
 
+//Local functions
+static gboolean ButtonSlot(GtkWidget* gtkWidget, GdkEvent* event, gpointer user_data)
+{
+	RenderTargetWidget& renderTargetWidget = *(RenderTargetWidget*)user_data;
+
+	MouseButton button;
+	switch(event->button.button)
+	{
+		case 1:
+			button = MouseButton::Left;
+			break;
+		case 3:
+			button = MouseButton::Right;
+			break;
+		default:
+			return FALSE;
+	}
+
+	switch(event->button.type)
+	{
+		case GDK_BUTTON_PRESS:
+		case GDK_BUTTON_RELEASE:
+		{
+			bool isDown = event->button.type == GDK_BUTTON_PRESS;
+			Math::PointD point = {event->button.x, renderTargetWidget.GetSize().height - event->button.y};
+			KeyboardModifiers keyboardModifiers;
+
+			MouseClickEvent mce(button, isDown, point, keyboardModifiers);
+			renderTargetWidget.Event(mce);
+
+			return mce.WasAccepted();
+		}
+	}
+
+	return FALSE;
+}
+
+static bool MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data)
+{
+	RenderTargetWidget& renderTargetWidget = *(RenderTargetWidget*)user_data;
+
+	Math::PointD pos = {event->x, ((float64)renderTargetWidget.GetSize().height) - event->y};
+	KeyboardModifiers keyboardModifiers;
+	MouseEvent mouseEvent(EventType::MouseMoved, pos, keyboardModifiers);
+
+	renderTargetWidget.Event(mouseEvent);
+
+	return mouseEvent.WasAccepted();
+}
+
 static bool RenderSlot(GtkGLArea *glArea, GdkGLContext *context, gpointer user_data)
 {
 	RenderTargetWidget& renderTargetWidget = *(RenderTargetWidget*)user_data;
@@ -49,7 +99,12 @@ Gtk3RenderTargetWidgetBackend::Gtk3RenderTargetWidgetBackend(UIBackend &uiBacken
 {
 	gtk_gl_area_set_has_depth_buffer(GTK_GL_AREA(this->GetGtkWidget()), true);
 
-	g_signal_connect(this->GetGtkWidget(), "render", G_CALLBACK(RenderSlot), &renderTargetWidget);
+	GtkWidget* gtkWidget = this->GetGtkWidget();
+	gtk_widget_add_events(gtkWidget, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK);
+	g_signal_connect(gtkWidget, "button-press-event", G_CALLBACK(ButtonSlot), &renderTargetWidget);
+	g_signal_connect(gtkWidget, "button-release-event", G_CALLBACK(ButtonSlot), &renderTargetWidget);
+	g_signal_connect(gtkWidget, "motion-notify-event", G_CALLBACK(MouseMotionSlot), &renderTargetWidget);
+	g_signal_connect(gtkWidget, "render", G_CALLBACK(RenderSlot), &renderTargetWidget);
 }
 
 //Public methods

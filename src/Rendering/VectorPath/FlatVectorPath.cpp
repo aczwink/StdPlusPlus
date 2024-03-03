@@ -40,40 +40,40 @@ void FlatVectorPath::ComputeJoins(float64 w, float64 miterLimit)
 	for(i = 0; i < this->points.GetNumberOfElements(); i++)
 	{
 		const FlatVectorPath::Point &refPrev = this->points[prevIndex];
-		FlatVectorPath::Point &refCurrent = this->points[index];
+		FlatVectorPath::Point &current = this->points[index];
 
 		//get perpendicular directions
 		dl0 = refPrev.dir.PerpendicularDirection();
-		dl1 = refCurrent.dir.PerpendicularDirection();
+		dl1 = current.dir.PerpendicularDirection();
 
 		//calc extrusion
-		refCurrent.extrusion = (dl0 + dl1) / 2;
-		extrusionLengthSquared = refCurrent.extrusion.LengthSquared();
+		current.extrusion = (dl0 + dl1) / 2;
+		extrusionLengthSquared = current.extrusion.LengthSquared();
 		/*
 		if(extrusionLengthSquared > 0)
-			refCurrent.extrusion *= float32(1.0 / extrusionLengthSquared);
+			current.extrusion *= float32(1.0 / extrusionLengthSquared);
 		*/
 
 		//keep track of left turns
-		if(refCurrent.dir.Cross2D(refPrev.dir) < 0)
+		if(current.dir.Cross2D(refPrev.dir) < 0)
 		{
-			//this->points[i].isLeft = true;
+			current.isLeftTurn = true;
 			nLeftTurns++;
 		}
 
 		//should we use bevel or miter for inner join
-		limit = Math::Min(refPrev.length, refCurrent.length) * w_inverse;
+		limit = Math::Min(refPrev.length, current.length) * w_inverse;
 		if(limit < 1)
 			limit = 1;
 		if((extrusionLengthSquared * limit * limit) < 1.0)
-			refCurrent.bevelInner = true;
+			current.bevelInner = true;
 
 		//check if corner needs to be beveled
-		if(refCurrent.isCorner)
+		if(current.isCorner)
 		{
 			if((extrusionLengthSquared * miterLimit * miterLimit) < 1.0)
 			{
-				refCurrent.bevelOuter = true;
+				current.bevelOuter = true;
 			}
 		}
 

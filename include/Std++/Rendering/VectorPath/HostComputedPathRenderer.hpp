@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -136,8 +136,10 @@ namespace StdXX::Rendering
 		virtual void RenderStroke(const DynamicArray<FlatVectorPath *> &refPaths, DynamicArray<PathAttributes> &&refPathAttributes) = 0;
 
 		//Methods
+		void BevelJoin(const FlatVectorPath::Point& point, const FlatVectorPath::Point& prev, float64 w);
 		void ButtCapEnd(const FlatVectorPath::Point &point, float64 w);
 		void ButtCapStart(const FlatVectorPath::Point &refPoint, float64 w);
+		void ChooseBevel(bool bevelInner, const FlatVectorPath::Point& point, const FlatVectorPath::Point& prev, float64 w, Math::Vector2D& p0, Math::Vector2D& p1);
 		void ClearCache();
 		void ExpandFill();
 		void ExpandStroke(float64 w);

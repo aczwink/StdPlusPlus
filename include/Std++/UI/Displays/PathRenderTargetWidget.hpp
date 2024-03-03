@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,9 +39,6 @@ namespace StdXX
 
 			//Eventhandlers
 			void OnRealized() override;
-
-		private:
-			//Eventhandlers
 			void OnResized() override;
         };
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -51,7 +51,6 @@ class GtkEventSource : public StdXX::UI::UIEventSource
 {
 public:
     //Slots:
-	static bool ButtonSlot(GtkWidget *widget, GdkEventButton *event, gpointer user_data);
 	static void ChangedSlot(GtkComboBox *comboBox, gpointer user_data);
 	static void CheckResizeSlot(GtkContainer *container, gpointer user_data);
 	static void ClickedSlot(GtkButton *button, gpointer user_data);

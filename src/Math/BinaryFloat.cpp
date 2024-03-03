@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,10 +21,71 @@
 //Local
 #include <Std++/Math/Rounding.hpp>
 //Namespaces
+using namespace StdXX;
 using namespace StdXX::Math;
 
 //Very good explanation of the here implemented algorithm: https://www.exploringbinary.com/correct-decimal-to-floating-point-using-big-integers/
 
+//Local functions
+/**
+ * If number r is in range 2^(x-1) <= r < 2^x this method returns x
+ */
+static int64 ComputeFractionUpperBoundPrecisionBase2(const Rational<Natural> &fraction)
+{
+	uint64 precision = Math::Log({2}, fraction.DivideAndRoundDown()).ClampTo64Bit();
+	if(precision == 0)
+	{
+		Rational<Natural> tmp = {1, 2}; //we start with 1/2 and not 1/1 or otherwise this would return the lower and not upper bound
+		while(tmp > fraction)
+		{
+			tmp.denominator *= 2;
+			precision--;
+		}
+	}
+	return precision;
+}
+
+static void RescaleToPrecision(Rational<Natural>& fraction, Integer& exponent, uint64 desiredPrecision)
+{
+	int64 currentPrecision = ComputeFractionUpperBoundPrecisionBase2(fraction);
+	if((int64)desiredPrecision > currentPrecision)
+	{
+		//scale up
+		uint64 delta = desiredPrecision - currentPrecision;
+		fraction.numerator *= Math::Power(Natural(2), Natural(delta));
+		exponent -= delta;
+	}
+	else if(desiredPrecision == currentPrecision)
+	{
+	}
+	else
+	{
+		//scale down
+		uint64 delta = currentPrecision - desiredPrecision;
+		fraction.denominator *= Math::Power(Natural(2), Natural(delta));
+		exponent += delta;
+	}
+
+
+	//scale to between 2^(precision-1) and 2^precision
+	Rational<Natural> lowerBound = {Power(Natural(2), Natural(desiredPrecision-1)), 1};
+	while(fraction < lowerBound)
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: shouldn't happen anymore. test :)
+		/*fraction.numerator *= 2; //scale up
+		--this->exponent;*/
+	}
+
+	Rational<Natural> upperBound = {Power(Natural(2), Natural(desiredPrecision)), 1};
+	while(fraction > upperBound)
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: shouldn't happen anymore. test :)
+		/*fraction.denominator *= 2; //scale down
+		++this->exponent;*/
+	}
+}
+
+//Constructor
 BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 {
 	if(decimalFloat.Significand().absValue == Natural())
@@ -45,41 +106,7 @@ BinaryFloat::BinaryFloat(const DecimalFloat& decimalFloat, uint64 precision)
 		fraction.denominator = 1;
 	}
 
-	//for performance a quick heuristic precision shift. Does not work for exponents smaller than 0 i.e. 2^-1, 2^-2 etc.
-	uint64 currentPrecision = Math::Log({2}, fraction.DivideAndRoundDown()).ClampTo64Bit();
-	if(precision > currentPrecision)
-	{
-		//scale up
-		uint64 delta = precision - currentPrecision;
-		fraction.numerator *= Math::Power(Natural(2), Natural(delta));
-		this->exponent -= delta;
-	}
-	else if(precision == currentPrecision)
-	{
-	}
-	else
-	{
-		//scale down
-		uint64 delta = currentPrecision - precision;
-		fraction.denominator *= Math::Power(Natural(2), Natural(delta));
-		this->exponent += delta;
-	}
-
-
-	//scale to between 2^(precision-1) and 2^precision
-	Rational<Natural> lowerBound = {Power(Natural(2), Natural(precision-1)), 1};
-	while(fraction < lowerBound)
-	{
-		fraction.numerator *= 2; //scale up
-		--this->exponent;
-	}
-
-	Rational<Natural> upperBound = {Power(Natural(2), Natural(precision)), 1};
-	while(fraction > upperBound)
-	{
-		fraction.denominator *= 2; //scale down
-		++this->exponent;
-	}
+	RescaleToPrecision(fraction, this->exponent, precision);
 
 	//eval and round
 	auto eval = fraction.numerator.DivMod(fraction.denominator);

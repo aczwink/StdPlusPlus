@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,6 +37,7 @@ namespace StdXX::Rendering
 			bool isCorner;
 			bool bevelInner;
 			bool bevelOuter;
+			bool isLeftTurn;
 		};
 
 	private:
@@ -65,7 +66,7 @@ namespace StdXX::Rendering
 
 		inline void AddPoint(const Math::Vector2D &refV, bool isCorner)
 		{
-			this->points.InsertTail({refV, Math::Vector2D(), 0, Math::Vector2D(), isCorner, false, false});
+			this->points.InsertTail({refV, Math::Vector2D(), 0, Math::Vector2D(), isCorner, false, false, false});
 		}
 
 		inline const Point &GetPoint(uint32 index) const

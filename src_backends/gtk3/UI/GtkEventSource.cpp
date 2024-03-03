@@ -131,18 +131,6 @@ void GtkEventSource::EmitResizingEvent(Widget &widget, const Math::RectD &newBou
 	//l_gtkEvtSrc->DispatchResizingEvent(widget, newBounds);
 }
 
-bool GtkEventSource::MouseMotionSlot(GtkWidget *gtkWidget, GdkEventMotion *event, gpointer user_data)
-{
-	g_ignoreEvent = false;
-
-	Widget *widget = (Widget *)WIDGET_FROM_GTK(gtkWidget);
-
-    NOT_IMPLEMENTED_ERROR; //TODO: next line
-	//l_gtkEvtSrc->DispatchMouseMovedEvent(*widget, Point((int32) event->x, (int32) (widget->QuerySize().height - event->y)));
-
-	return !g_ignoreEvent;
-}
-
 bool GtkEventSource::ScrollSlot(GtkWidget *gtkWidget, GdkEventScroll *event, gpointer user_data)
 {
 	g_ignoreEvent = false;
