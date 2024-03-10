@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,11 +19,11 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
-#include "InputStream.hpp"
+#include "ReadOnlyInputStream.hpp"
 
 namespace StdXX
 {
-	class StdIn : public InputStream
+	class StdIn : public ReadOnlyInputStream
 	{
 	public:
 		//Methods
@@ -31,7 +31,6 @@ namespace StdXX
 		bool IsAtEnd() const override;
 		uint32 ReadBytes(void *destination, uint32 count) override;
 		String ReadUnechoedLine();
-		uint32 Skip(uint32 nBytes) override;
 	};
 
 	//Global Instances

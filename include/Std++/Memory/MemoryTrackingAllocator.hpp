@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,7 +43,7 @@ namespace StdXX::Memory
 		//Methods
 		void* Allocate(uint64 size) override;
 		void CheckHeapIntegrity();
-		bool DumpMemoryLeaks();
+		_stdxx_::DebugMemBlockHeader* DumpMemoryLeaks();
 		void Free(void* mem) override;
 		void* Reallocate(void* mem, uint64 size) override;
 

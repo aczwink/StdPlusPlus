@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -102,12 +102,12 @@ struct ScheduleState
 };
 
 //Public methods
-void EventScheduler::Schedule()
+void EventScheduler::Schedule(const bool& continuePlaying)
 {
     ScheduleState state(this->program.NumberOfChannelTracks());
 
     NextEventResult nextEvent;
-    while(state.FindNextEventTrack(this->program, nextEvent))
+    while(continuePlaying and state.FindNextEventTrack(this->program, nextEvent))
     {
         uint64 delta_us = (nextEvent.deltaTime / this->ticksPerMicrosecond).DivideAndRoundDown();
         Sleep(delta_us * 1000);
@@ -140,6 +140,8 @@ void EventScheduler::Schedule()
                 const auto& nextMetaEvent = this->program.MetaTrack()[nextEvent.trackIndex];
                 switch(nextMetaEvent.type)
                 {
+                    case MetaEventType::EndOfTrack:
+                        return;
                     case MetaEventType::SetTempo:
                     {
                         uint64 microSecondsPerBeat = (nextMetaEvent.data[0] << 16) | (nextMetaEvent.data[1] << 8) | (nextMetaEvent.data[2]);

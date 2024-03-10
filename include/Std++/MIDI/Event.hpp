@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -38,6 +38,7 @@ namespace StdXX::MIDI
 
     enum class MetaEventType
     {
+        EndOfTrack = 0x2f,
         SetTempo = 0x51,
         TimeSignature = 0x58
     };

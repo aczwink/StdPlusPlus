@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,8 @@
  */
 //Corresponding header
 #include <Std++/__InitAndShutdown.h>
+//Global
+#include <cstdio>
 //Local
 #include <Std++/Memory.hpp>
 #include <Std++/EventHandling/EventQueue.hpp>
@@ -33,6 +35,7 @@
 #include <Std++/ShutdownManager.hpp>
 #include <Std++/_Backends/AudioBackend.hpp>
 #include <Std++/_Backends/MIDIBackend.hpp>
+#include "Memory/DebugMemBlockHeader.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -47,6 +50,43 @@ namespace _stdxx_
 
 #ifdef XPC_BUILDTYPE_DEBUG
 UniquePointer<Memory::MemoryTrackingAllocator> memoryTrackingAllocator;
+
+static _stdxx_::DebugMemBlockHeader* debugExitHandlerFirstBlock;
+static class : public Memory::Allocator
+{
+public:
+	void* Allocate(uint64 size)
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me, however allocation should actually be forbidden from this place on
+	}
+
+	void Free(void* mem)
+	{
+		_stdxx_::DebugMemBlockHeader* block = debugExitHandlerFirstBlock;
+		while(block)
+		{
+			if(block->GetUserData() == mem)
+			{
+				//important hint, we do not update previous pointers here anymore so they are not valid!
+				if(block->next)
+					block->next = block->next->next;
+				if(block == debugExitHandlerFirstBlock)
+					debugExitHandlerFirstBlock = nullptr;
+
+				Memory::MemoryManager::ProcessSystemAllocator().Free(block->GetAllocatedMemoryAddress());
+				fprintf(stderr, "Free'd block %p after shutdown\n", mem);
+				return;
+			}
+			block = block->next;
+		}
+		Memory::MemoryManager::ProcessSystemAllocator().Free(mem);
+	}
+
+	void* Reallocate(void* mem, uint64 size)
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me, however allocation should actually be forbidden from this place on
+	}
+} debugExitHandler;
 #endif
 
 //Global functions
@@ -98,8 +138,8 @@ void ShutdownStdPlusPlus()
 
 #ifdef XPC_BUILDTYPE_DEBUG
 	//look for memory leaks
-	memoryTrackingAllocator->DumpMemoryLeaks();
-	Memory::MemoryManager::GlobalAllocator(Memory::MemoryManager::ProcessSystemAllocator());
+	debugExitHandlerFirstBlock = memoryTrackingAllocator->DumpMemoryLeaks();
+	Memory::MemoryManager::GlobalAllocator(debugExitHandler);
 	memoryTrackingAllocator = nullptr;
 #endif
 }

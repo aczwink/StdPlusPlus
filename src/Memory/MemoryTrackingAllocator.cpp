@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,88 +22,13 @@
 #include <stdio.h>
 //Local
 #include <Std++/Memory.hpp>
+#include "DebugMemBlockHeader.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Memory;
 //Definitions
-#define HEAP_CORRUPTION_DETECTIONSECTION_SIZE 12
-#define HEAP_CORRUPTION_DETECTIONSECTION_VALUE 0xFD
 #define HEAP_INIT_VALUE 0xCD
-
-/*
- * We manage memory like this:
- * DebugMemBlockHeader that includes heap corruption detection section; user memory; heap corruption detection section
- *
- * !!!
- * We must be extremely careful to not break memory alignment by inserting this structure.
- * Else we will trigger lots of exceptions.
- * We can variate the alignment with the heap corrution detection size.
- * !!!
- */
-struct _stdxx_::DebugMemBlockHeader
-{
-    DebugMemBlockHeader* previous;
-    DebugMemBlockHeader* next;
-    const char* fileName;
-    uint32 lineNumber;
-    uint64 userSize;
-    uint32 seqNumber;
-    uint32 alignmentOffset;
-    byte preHeapCorriptionDetectionSection[HEAP_CORRUPTION_DETECTIONSECTION_SIZE];
-
-    //Inline
-    inline void* GetAllocatedMemoryAddress() const
-    {
-        return ((byte*)this) - this->alignmentOffset;
-    }
-
-    inline byte* GetPostHeapCorruptionDetectionAddress() const
-    {
-        //the region is right after the user data
-        return this->GetUserData() + this->userSize;
-    }
-
-    inline byte* GetUserData() const
-    {
-        //after the header is the user data
-        return (byte*)(this + 1);
-    }
-
-    inline bool IsCorrupt() const
-    {
-        //check heap corruption detection section before user memory
-        if (!this->CheckBytes(this->preHeapCorriptionDetectionSection, HEAP_CORRUPTION_DETECTIONSECTION_VALUE, sizeof(this->preHeapCorriptionDetectionSection)))
-            return true;
-        //check heap corruption detection section after user memory
-        if (!this->CheckBytes(this->GetPostHeapCorruptionDetectionAddress(), HEAP_CORRUPTION_DETECTIONSECTION_VALUE, HEAP_CORRUPTION_DETECTIONSECTION_SIZE))
-            return true;
-
-        return false;
-    }
-
-    inline void VerifyIntegrity(Mutex& mutex) const
-    {
-        if (this->IsCorrupt())
-        {
-            mutex.Unlock(); //we need to free the lock so that ASSERT can allocate
-            ASSERT(false, u8"HEAP CORRUPTED. Check memory dump!");
-            mutex.Lock();
-        }
-    }
-
-private:
-    //Inline
-    inline bool CheckBytes(const void* bytes, byte mustBeValue, uint32 size) const
-    {
-        byte* ptr = (byte*)bytes;
-        while (size--)
-            if (*ptr++ != mustBeValue)
-                return false;
-
-        return true;
-    }
-};
 
 struct Context
 {
@@ -240,10 +165,10 @@ void MemoryTrackingAllocator::CheckHeapIntegrity()
     this->mutex.Unlock();
 }
 
-bool MemoryTrackingAllocator::DumpMemoryLeaks()
+_stdxx_::DebugMemBlockHeader* MemoryTrackingAllocator::DumpMemoryLeaks()
 {
     if (this->firstMemBlock == nullptr)
-        return false;
+        return nullptr;
 
     this->mutex.Lock(); //VERY IMPORTANT! From now on, no allocation whatsoever is allowed to be made using Std++::MemAllocDebug or the other Std++ Memory Debug functions
 
@@ -297,7 +222,7 @@ bool MemoryTrackingAllocator::DumpMemoryLeaks()
 
     this->mutex.Unlock();
 
-    return true;
+    return this->firstMemBlock;
 }
 
 void MemoryTrackingAllocator::Free(void* userData)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -56,10 +56,8 @@ IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestM
 		if(relDistance > this->maxDistanceDelta)
 			continue;
 
-		uint16 maxLength = Math::Min((uint16)relDistance, startDistance);
-
 		DictionaryMatch match = {.distance = (uint16)relDistance, .length = 0};
-		match.length = this->ComputeMatchLength(startDistance, distance, maxLength);
+		match.length = this->ComputeMatchLength(startDistance, distance, startDistance);
 
 		if(match.length > bestMatch.length)
 			bestMatch = match;
@@ -70,10 +68,9 @@ IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestM
 
 void IndexedSlidingDictionary::IndexUpTo(uint16 distance)
 {
-	uint32 distanceWithWindowSize = distance + this->minBackRefLength - 1;
-	if(distanceWithWindowSize > this->nBytesWritten)
-		return;
-	uint32 targetCounter = this->nBytesWritten - distanceWithWindowSize;
+	if(distance < this->minBackRefLength)
+		return; //Can't index if not enough bytes in buffer
+	uint32 targetCounter = this->nBytesWritten - distance;
 
 	uint8 buffer[4096];
 	for(uint32 counter = this->indexedBytesCounter; counter < targetCounter; counter++)

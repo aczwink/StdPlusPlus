@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -73,6 +73,9 @@ namespace StdXX
 		 * Anything before (i.e. bytes written earlier) the split is considered already encoded data,
 		 * while anything after it is considered data to be encoded.
 		 * Thus the method tries to find the longest word starting at \p splitDistance anywhere in the already encoded data.
+		 * The length of the matched word can actually overlap the second half, but the distance is strictly matched against the first half.
+		 *
+		 * This enables this dictionary to be used as a backreference source, as well as a buffer for data that is to be matched for backreferences.
 		 *
 		 * @param splitDistance Distance that marks the beginning of word that should be matched against.
 		 * @return The closest longest match. The distance will be relative to \p splitDistance

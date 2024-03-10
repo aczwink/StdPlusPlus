@@ -35,7 +35,7 @@ namespace StdXX::MIDI
         }
 
         //Methods
-        void Schedule();
+        void Schedule(const bool& continuePlaying);
 
         //Inline
         inline void SetTempo(uint16 beatsPerMinute)

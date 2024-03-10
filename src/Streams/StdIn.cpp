@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,10 +39,5 @@ bool StdIn::IsAtEnd() const
 
 uint32 StdIn::ReadBytes(void *destination, uint32 count)
 {
-	return (uint32) fread(destination, count, 1, stdin);
-}
-
-uint32 StdIn::Skip(uint32 nBytes)
-{
-	return (uint32) fseek(stdin, SEEK_CUR, nBytes);
+	return (uint32) fread(destination, 1, count, stdin);
 }

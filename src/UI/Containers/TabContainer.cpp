@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -28,11 +28,8 @@ using namespace StdXX::UI;
 //Destructor
 TabContainer::~TabContainer()
 {
-    for(const auto& tab : this->tabs)
-    {
-        delete tab.content;
-    }
-    this->tabs.Release();
+    while(!this->tabs.IsEmpty())
+        delete this->tabs.GetFront().content;
 }
 
 //Public methods
@@ -57,9 +54,19 @@ uint32 TabContainer::GetNumberOfChildren() const
     return this->tabs.GetNumberOfElements();
 }
 
-void StdXX::UI::TabContainer::RemoveChild(StdXX::UI::Widget *child)
+void TabContainer::RemoveChild(Widget* child)
 {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
+    for(auto it = this->tabs.begin(); it != this->tabs.end(); ++it)
+    {
+        if((*it).content == child)
+        {
+            it.Remove();
+            this->FreeWidgetOwnership(child);
+            return;
+        }
+    }
+
+    NOT_IMPLEMENTED_ERROR; //TODO: implement case: child not found
 }
 
 //Protected methods
