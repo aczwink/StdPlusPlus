@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -54,6 +54,12 @@ _stdxx_::CheckBoxBackend *_stdxx_::XcbXlibBackend::CreateCheckBoxBackend(StdXX::
 }
 
 ClipboardBackend *XcbXlibBackend::CreateClipboardBackend() {
+	NOT_IMPLEMENTED_ERROR; //TODO: implement me
+	return nullptr;
+}
+
+DialogBackend *XcbXlibBackend::CreateDialogBackend(UI::Dialog& dialog)
+{
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	return nullptr;
 }

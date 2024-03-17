@@ -80,8 +80,8 @@ namespace StdXX
 		 * @param splitDistance Distance that marks the beginning of word that should be matched against.
 		 * @return The closest longest match. The distance will be relative to \p splitDistance
 		 */
-		DictionaryMatch FindLongestMatchAtSplitDistance(uint16 splitDistance);
-		void IndexUpTo(uint16 distance);
+		DictionaryMatch FindLongestMatchAtSplitDistance(uint32 splitDistance, uint16 maxLength);
+		void IndexUpTo(uint32 distance);
 		using RingBuffer::Read;
 
 		//Inline
@@ -97,11 +97,24 @@ namespace StdXX
 		uint16 maxDistanceDelta;
 		uint32 indexedBytesCounter;
 		uint32 nBytesWritten;
+		/**
+		 * Maps byte sequences to a list of absolute offsets within the dictionary (i.e. based on how many bytes were totally written to it).
+		 */
 		PrefixTree<uint8, InlineByteString, LinkedList<uint32>> prefixTree;
 
 		//Methods
 		uint16 ComputeMatchLength(uint32 d1, uint32 d2, uint16 length) const;
 
+		//Properties
+		inline uint32 IndexedDistanceFromTail() const
+		{
+			return this->OffsetToDistanceFromTail(this->indexedBytesCounter);
+		}
+
 		//Inline
+		inline uint32 OffsetToDistanceFromTail(uint32 offset) const
+		{
+			return this->nBytesWritten - offset;
+		}
 	};
 }

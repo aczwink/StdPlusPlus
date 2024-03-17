@@ -19,7 +19,7 @@
 //Class header
 #include "Win32Window.hpp"
 //Local
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 #include "CommCtrlWindowBackend.hpp"
 #include "WindowsMessageQueueEventSource.hpp"
 //Namespaces

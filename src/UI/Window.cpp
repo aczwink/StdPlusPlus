@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Class header
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>

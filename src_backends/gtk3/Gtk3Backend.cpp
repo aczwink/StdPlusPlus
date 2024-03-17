@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,7 @@
 //Global
 #include <gtk/gtk.h>
 //Local
-#include "UI/Gtk3WindowBackend.hpp"
+#include "UI/Windows/Gtk3WindowBackend.hpp"
 #include "UI/Gtk3TreeViewBackend.hpp"
 #include "UI/GtkEventSource.hpp"
 #include "Gtk3OpenGLBackend.hpp"
@@ -39,6 +39,8 @@
 #include "UI/Controls/Gtk3TextEditBackend.hpp"
 #include "UI/Controls/Gtk3CheckBoxBackend.hpp"
 #include "UI/Menu/Gtk3MenuBarBackend.hpp"
+#include "UI/Windows/Gtk3DialogBackend.hpp"
+#include "UI/Gtk3DrawingAreaBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -62,6 +64,16 @@ CheckBoxBackend* Gtk3Backend::CreateCheckBoxBackend(UI::CheckBox& checkBox)
 ClipboardBackend *Gtk3Backend::CreateClipboardBackend()
 {
     return new Gtk3ClipboardBackend;
+}
+
+DialogBackend* Gtk3Backend::CreateDialogBackend(UI::Dialog& dialog)
+{
+    return new Gtk3DialogBackend(*this, dialog);
+}
+
+DrawableWidgetBackend* Gtk3Backend::CreateDrawableWidgetBackend(StdXX::UI::Widget &widget)
+{
+    return new Gtk3DrawingAreaBackend(*this, widget);
 }
 
 EventHandling::EventSource *Gtk3Backend::CreateEventSource()
@@ -145,11 +157,6 @@ void Gtk3Backend::Load()
 }
 
 //NOT IMPLEMENTED
-_stdxx_::DrawableWidgetBackend *_stdxx_::Gtk3Backend::CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) {
-    NOT_IMPLEMENTED_ERROR; //TODO: implement me
-    return nullptr;
-}
-
 _stdxx_::HeaderViewBackend *_stdxx_::Gtk3Backend::CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) {
     NOT_IMPLEMENTED_ERROR; //TODO: implement me
     return nullptr;

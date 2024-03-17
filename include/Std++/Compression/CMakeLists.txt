@@ -8,6 +8,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/DictionaryDecompressor.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HuffmanDecoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/IndexedSlidingDictionary.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RedundancyBasedCompressor.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SlidingDictionary.hpp
 
 	PARENT_SCOPE)

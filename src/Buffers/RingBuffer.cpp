@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -24,7 +24,7 @@
 using namespace StdXX;
 
 //Public methods
-void RingBuffer::Read(void* destination, uint16 distance, uint16 length) const
+void RingBuffer::Read(void* destination, uint32 distance, uint16 length) const
 {
 	ASSERT(length <= distance, u8"Can't overread");
 	ASSERT(distance < this->size, u8"Can't overread");
@@ -38,7 +38,7 @@ void RingBuffer::Read(void* destination, uint16 distance, uint16 length) const
 
 		//update
 		dest += nBytesToWrite;
-		distance -= (uint16)nBytesToWrite;
+		distance -= nBytesToWrite;
 		length -= (uint16)nBytesToWrite;
 	}
 }

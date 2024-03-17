@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include <Std++/Math/Geometry/Rect.hpp>
+#include <Std++/OSHandle.hpp>
 #include "Event.hpp"
 
 namespace StdXX
@@ -27,6 +29,9 @@ namespace StdXX
 		class PaintEvent : public Event
 		{
 		public:
+			//State
+			OSHandle osHandle;
+
 			//Constructor
 			inline PaintEvent(const Math::RectD& updateRect) : Event(EventType::WidgetShouldBePainted), updateRect(updateRect)
 			{

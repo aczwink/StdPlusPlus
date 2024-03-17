@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,6 +20,7 @@
 //Local
 #include <Std++/SmartPointers/UniquePointer.hpp>
 #include <Std++/UI/Painter.hpp>
+#include <Std++/OSHandle.hpp>
 #include "WidgetBackend.hpp"
 
 namespace _stdxx_
@@ -33,7 +34,7 @@ namespace _stdxx_
 		}
 
 		//Abstract
-		virtual StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter() = 0;
+		virtual StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter(const StdXX::OSHandle& osHandle) = 0;
 
 		//Methods
 		const StdXX::UI::Widget & GetWidget() const override;

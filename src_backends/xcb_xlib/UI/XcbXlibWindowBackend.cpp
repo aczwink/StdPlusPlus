@@ -19,7 +19,7 @@
 //Class header
 #include "XcbXlibWindowBackend.hpp"
 //Local
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;

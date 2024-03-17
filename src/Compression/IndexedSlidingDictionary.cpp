@@ -22,8 +22,10 @@
 using namespace StdXX;
 
 //Public methods
-IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestMatchAtSplitDistance(uint16 startDistance)
+IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestMatchAtSplitDistance(uint32 startDistance, uint16 maxLength)
 {
+	ASSERT(startDistance <= this->IndexedDistanceFromTail(), u8"Can't find a backreference into the future");
+
 	DictionaryMatch bestMatch = {.distance = 0, .length = 0};
 
 	if(startDistance < this->minBackRefLength)
@@ -40,24 +42,27 @@ IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestM
 	auto it = indices.end();
 	--it;
 
+	uint32 indexBeginOffset = (this->indexedBytesCounter < this->Size()) ? 0 : this->indexedBytesCounter - this->Size();
+	uint32 indexEndOffset = this->indexedBytesCounter;
+
 	for(; it.IsValid(); --it)
 	{
-		uint32 distance = this->nBytesWritten - (*it);
-		ASSERT(startDistance < distance, u8"Can't find a backreference into the future");
-
-		if(distance > (this->maxDistanceDelta * 2))
+		uint32 offset = *it;
+		if(!Math::IsValueInInterval(offset, indexBeginOffset, indexEndOffset))
 		{
 			//not reachable anymore
 			it.Remove();
 			continue;
 		}
 
-		uint32 relDistance = distance - startDistance;
+		uint32 distanceFromTail = this->OffsetToDistanceFromTail(offset);
+		uint32 relDistance = distanceFromTail - startDistance;
 		if(relDistance > this->maxDistanceDelta)
 			continue;
 
 		DictionaryMatch match = {.distance = (uint16)relDistance, .length = 0};
-		match.length = this->ComputeMatchLength(startDistance, distance, startDistance);
+		uint32 maxLengthToMatch = Math::Min(startDistance, (uint32)maxLength);
+		match.length = this->ComputeMatchLength(startDistance, distanceFromTail, static_cast<uint16>(maxLengthToMatch));
 
 		if(match.length > bestMatch.length)
 			bestMatch = match;
@@ -66,23 +71,18 @@ IndexedSlidingDictionary::DictionaryMatch IndexedSlidingDictionary::FindLongestM
 	return bestMatch;
 }
 
-void IndexedSlidingDictionary::IndexUpTo(uint16 distance)
+void IndexedSlidingDictionary::IndexUpTo(uint32 distance)
 {
-	if(distance < this->minBackRefLength)
-		return; //Can't index if not enough bytes in buffer
-	uint32 targetCounter = this->nBytesWritten - distance;
-
 	uint8 buffer[4096];
-	for(uint32 counter = this->indexedBytesCounter; counter < targetCounter; counter++)
+	while( (this->IndexedDistanceFromTail() > distance) and (this->IndexedDistanceFromTail() >= this->minBackRefLength) )
 	{
-		uint32 d = this->nBytesWritten - counter;
-		this->Read(buffer, d, this->minBackRefLength);
+		this->Read(buffer, this->IndexedDistanceFromTail(), this->minBackRefLength);
 
 		InlineByteString inlineByteString(buffer, this->minBackRefLength);
-		this->prefixTree[inlineByteString].InsertTail(this->nBytesWritten - d);
-	}
+		this->prefixTree[inlineByteString].InsertTail(this->indexedBytesCounter);
 
-	this->indexedBytesCounter = Math::Max(targetCounter, this->indexedBytesCounter);
+		this->indexedBytesCounter++;
+	}
 }
 
 //Private methods

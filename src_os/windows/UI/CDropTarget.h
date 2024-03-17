@@ -20,7 +20,7 @@
 //Global
 #include <Windows.h>
 //Local
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 #include <Std++/UI/Transfer/CFileTransfer.h>
 //Namespaces
 using namespace StdXX;

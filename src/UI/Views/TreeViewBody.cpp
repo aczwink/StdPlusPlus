@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -174,7 +174,7 @@ void TreeViewBody::OnPaint(PaintEvent& event)
 		this->GetParent()->Event(e);
 	}
 
-	UniquePointer<Painter> painter = this->drawableBackend->CreatePainter();
+	UniquePointer<Painter> painter = this->CreatePainter(event.osHandle);
 
 	//skip rows until we come to the ones we should paint
 	Row* row = this->top;

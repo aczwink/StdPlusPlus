@@ -4,6 +4,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/CheckBoxBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ClipboardBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ContentAreaWidgetBackend.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/DialogBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DrawableWidgetBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GroupBoxBackend.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/HeaderViewBackend.hpp

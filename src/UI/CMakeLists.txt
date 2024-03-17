@@ -42,6 +42,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Menu/MenuBar.cpp
 
 	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/Dialog.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DrawableWidget.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.cpp

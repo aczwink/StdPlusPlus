@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,6 +32,8 @@ namespace _stdxx_
         //Methods
         CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox& checkBox) override;
         ClipboardBackend *CreateClipboardBackend() override;
+		DialogBackend* CreateDialogBackend(StdXX::UI::Dialog& dialog) override;
+		DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
         StdXX::EventHandling::EventSource *CreateEventSource() override;
         GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;
 		LabelBackend *CreateLabelBackend(StdXX::UI::Label& label) override;
@@ -50,12 +52,11 @@ namespace _stdxx_
 	    void Load() override;
 
         //NOT IMPLEMENTED
-        DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
         HeaderViewBackend *CreateHeaderViewBackend(StdXX::UI::HeaderView &headerView) override;
         ContentAreaWidgetBackend *CreateScrollAreaBackend(StdXX::UI::ScrollArea *scrollArea) override;
         WidgetBackend *CreateSearchBoxBackend(StdXX::UI::SearchBox &searchBox) override;
         SpinBoxBackend *CreateSpinBoxBackend(StdXX::UI::SpinBox *spinBox) override;
         ViewBackend *CreateTableViewBackend(StdXX::UI::TableView &treeView) override;
-    };
+	};
 }
 #endif

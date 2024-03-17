@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@ namespace StdXX::MIDI
     {
     public:
         //Constructor
-        inline Program(uint16 timeDivision) : timeDivision(timeDivision)
+        inline Program(uint16 ticksPerBeat) : ticksPerBeat(ticksPerBeat)
         {
         }
 
@@ -44,9 +44,9 @@ namespace StdXX::MIDI
             return this->channelTracks.GetNumberOfElements();
         }
 
-        inline uint16 TimeDivision() const
+        inline uint16 TicksPerBeat() const
         {
-            return this->timeDivision;
+            return this->ticksPerBeat;
         }
 
         //Inline
@@ -76,8 +76,8 @@ namespace StdXX::MIDI
         static Program Load(InputStream& inputStream);
 
     private:
-        //Variables
-        uint16 timeDivision;
+        //State
+        uint16 ticksPerBeat;
         DynamicArray<DynamicArray<ChannelMessage>> channelTracks;
         DynamicArray<MetaEvent> metaEvents;
     };

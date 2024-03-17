@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
-#include "Gtk3WidgetBackend.hpp"
+#include "../Gtk3WidgetBackend.hpp"
 
 namespace _stdxx_
 {
-    class Gtk3WindowBackend : public WindowBackend, public Gtk3WidgetBackend
+    class Gtk3WindowBackend : public virtual WindowBackend, public virtual Gtk3WidgetBackend
     {
     public:
         //Constructor
@@ -45,7 +46,7 @@ namespace _stdxx_
         void SetBounds(const StdXX::Math::RectD &bounds) override;
         void ShowErrorBox(const StdXX::String &title, const StdXX::String &message) const override;
         void ShowInformationBox(const StdXX::String &title, const StdXX::String &message) const override;
-	    //NOT IMPLEMENTED
+		//NOT IMPLEMENTED
 
     private:
         //Members

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -53,7 +53,7 @@ namespace StdXX::MIDI
         //Inline
         inline void SetTempoInternal(const Math::Rational<uint64>& beatsPerMicrosecond)
         {
-            this->ticksPerMicrosecond = beatsPerMicrosecond * this->program.TimeDivision();
+            this->ticksPerMicrosecond = beatsPerMicrosecond * this->program.TicksPerBeat();
         }
     };
 }

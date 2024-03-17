@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 #include <Std++/UI/Events/WidgetBoundsChangedEvent.hpp>
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::UI;

@@ -21,7 +21,7 @@
 //Local
 #include <Std++/UI/Containers/ScrollArea.hpp>
 #include <Std++/UI/WidgetContainer.hpp>
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 #include "Win32Window.hpp"
 //Namespaces
 using namespace _stdxx_;

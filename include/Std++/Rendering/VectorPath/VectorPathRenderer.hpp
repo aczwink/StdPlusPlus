@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -42,10 +42,10 @@ namespace StdXX
             virtual void BezierTo(const Math::Vector2D &refCP0, const Math::Vector2D &refCP1, const Math::Vector2D &refTo) = 0;
             virtual void ClosePath() = 0;
             virtual void Fill() = 0;
-            virtual void LineTo(const Math::Vector2D &refV) = 0;
-            virtual void MoveTo(const Math::Vector2D &refV) = 0;
+            virtual void LineTo(const Math::Vector2D& pos) = 0;
+            virtual void MoveTo(const Math::Vector2D& pos) = 0;
 			virtual void SetFillColor(const Color& color) = 0;
-            virtual void SetStrokeColor(const Color &refStrokeColor) = 0;
+            virtual void SetStrokeColor(const Color& color) = 0;
             virtual void SetStrokeWidth(float64 strokeWidth) = 0;
             virtual void Stroke() = 0;
 

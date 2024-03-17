@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -36,6 +36,7 @@ namespace _stdxx_
 		//Methods
 		CheckBoxBackend *CreateCheckBoxBackend(StdXX::UI::CheckBox& checkBox) override;
 		ClipboardBackend *CreateClipboardBackend() override;
+		DialogBackend* CreateDialogBackend(StdXX::UI::Dialog& dialog) override;
 		DrawableWidgetBackend *CreateDrawableWidgetBackend(StdXX::UI::Widget &widget) override;
 		StdXX::EventHandling::EventSource *CreateEventSource() override;
 		GroupBoxBackend *CreateGroupBoxBackend(StdXX::UI::GroupBox& groupBox) override;

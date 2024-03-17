@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,18 +18,33 @@
  */
 #pragma once
 //Local
-#include "../Tuple.hpp"
-#include "../FileSystem/Path.hpp"
-#include "Std++/UI/Windows/Window.hpp"
+#include "Signal.hpp"
 
-namespace StdXX
+namespace StdXX::UI
 {
-    namespace UI
-    {
-        namespace CommonDialogs
-        {
-            //Functions
-            STDPLUSPLUS_API FileSystem::Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
-        }
-    }
+	template <typename ValueType>
+	class Property : public Signal<ValueType>
+	{
+	public:
+		//Constructor
+		inline Property(ValueType&& value) : valueType(Move(value))
+		{
+		}
+
+		//Inline
+		inline const ValueType& Get() const
+		{
+			return this->valueType;
+		}
+
+		inline void Set(ValueType&& newValue)
+		{
+			this->valueType = newValue;
+			this->Emit(this->valueType);
+		}
+
+	private:
+		//State
+		ValueType valueType;
+	};
 }

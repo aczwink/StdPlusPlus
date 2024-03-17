@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -57,7 +57,7 @@ namespace StdXX
 		 * @param distance
 		 * @param length
 		 */
-		void Read(void* destination, uint16 distance, uint16 length) const;
+		void Read(void* destination, uint32 distance, uint16 length) const;
 
 		//Inline
 		inline void Append(byte b)

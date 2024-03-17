@@ -23,7 +23,7 @@
 #include <Std++/UI/Controls/PushButton.hpp>
 #include <Std++/UI/Controls/RadioButton.hpp>
 #include "Widget.hpp"
-#include "Window.hpp"
+#include "Std++/UI/Windows/Window.hpp"
 
 namespace StdXX
 {

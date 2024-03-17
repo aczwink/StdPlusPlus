@@ -33,7 +33,8 @@ namespace _stdxx_
         //Methods
         StdXX::Math::RectD GetNextAssignmentBoundsInGtkCoords() const;
         StdXX::Math::SizeD GetSizeHint() const override;
-		void OnSetAllocation(const GtkAllocation& allocation);
+
+		virtual void OnSetAllocation(const GtkAllocation& allocation);
 	    void SetBounds(const StdXX::Math::RectD &bounds) override;
         void SetEnabled(bool enable) override;
         void SetHint(const StdXX::String &text) override;

@@ -19,7 +19,7 @@
 //Class header
 #include <Std++/UI/Containers/CompositeWidget.hpp>
 //Local
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 #include <Std++/UI/Layouts/GridLayout.hpp>
 #include <Std++/UI/Containers/TabContainer.hpp>
 //Namespaces

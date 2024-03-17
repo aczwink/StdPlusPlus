@@ -23,8 +23,8 @@
 #include <Std++/Tuple.hpp>
 #include <Std++/UI/Menu/MenuBar.hpp>
 
-#include "../Function.hpp"
-#include "Menu/MenuBar.hpp"
+#include "Std++/Function.hpp"
+#include "Std++/UI/Menu/MenuBar.hpp"
 
 
 namespace StdXX

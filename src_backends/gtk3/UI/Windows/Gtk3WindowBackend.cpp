@@ -19,9 +19,9 @@
 //Class header
 #include "Gtk3WindowBackend.hpp"
 //Local
-#include <Std++/UI/Window.hpp>
-#include "Gtk3RedirectContainer.hpp"
-#include "Menu/Gtk3MenuBarBackend.hpp"
+#include <Std++/UI/Windows/Window.hpp>
+#include "../Gtk3RedirectContainer.hpp"
+#include "../Menu/Gtk3MenuBarBackend.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;

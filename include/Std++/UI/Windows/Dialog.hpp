@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,18 +18,35 @@
  */
 #pragma once
 //Local
-#include "../Tuple.hpp"
-#include "../FileSystem/Path.hpp"
-#include "Std++/UI/Windows/Window.hpp"
+#include <Std++/_Backends/UI/DialogBackend.hpp>
+#include "Window.hpp"
 
-namespace StdXX
+namespace StdXX::UI
 {
-    namespace UI
-    {
-        namespace CommonDialogs
-        {
-            //Functions
-            STDPLUSPLUS_API FileSystem::Path SaveFile(const Window *pParentWnd, const String &refTitle, const LinkedList<Tuple<String, String>> &refFilters);
-        }
-    }
+	class Dialog : public Window
+	{
+	public:
+		//Constructor
+		inline Dialog()
+		{
+			this->parent = nullptr;
+		}
+
+		//Properties
+		inline Window* Parent()
+		{
+			return this->parent;
+		}
+
+		//Methods
+		bool Run(Window* parent, Property<bool>& isValid);
+
+	private:
+		//State
+		Window* parent;
+		_stdxx_::DialogBackend* dialogBackend;
+
+		//Methods
+		void RealizeSelf() override;
+	};
 }

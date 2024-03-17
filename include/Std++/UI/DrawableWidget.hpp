@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
  //Local
 #include <Std++/_Backends/UI/DrawableWidgetBackend.hpp>
 #include "Widget.hpp"
@@ -27,10 +28,16 @@ namespace StdXX
 		class DrawableWidget : public Widget
 		{
 		protected:
-			//Members
-			_stdxx_::DrawableWidgetBackend* drawableBackend;
+			//Inline
+			inline StdXX::UniquePointer<StdXX::UI::Painter> CreatePainter(const OSHandle& osHandle)
+			{
+				return this->drawableBackend->CreatePainter(osHandle);
+			}
 
 		private:
+			//State
+			_stdxx_::DrawableWidgetBackend* drawableBackend;
+
 			//Methods
 			void RealizeSelf() override;
 

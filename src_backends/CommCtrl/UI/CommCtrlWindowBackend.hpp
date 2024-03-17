@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/_Backends/UI/WindowBackend.hpp>
-#include <Std++/UI/Window.hpp>
+#include <Std++/UI/Windows/Window.hpp>
 #include <Std++/FileSystem/Path.hpp>
 #include "CommCtrlContainerBackend.hpp"
 #include "Win32Window.hpp"

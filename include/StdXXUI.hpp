@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,8 +21,8 @@
 #include <Std++/UI/Action.hpp>
 #include <Std++/UI/CommonDialogs.hpp>
 #include <Std++/UI/CTerminalEventQueue.h>
+#include <Std++/UI/DrawableWidget.hpp>
 #include <Std++/UI/Keyboard.hpp>
-#include <Std++/UI/MainAppWindow.hpp>
 #include <Std++/UI/Mouse.hpp>
 //Containers
 #include <Std++/UI/Containers/TabContainer.hpp>
@@ -65,3 +65,6 @@
 #include <Std++/UI/Views/ListView.hpp>
 #include <Std++/UI/Views/TableView.hpp>
 #include <Std++/UI/Views/TreeView.hpp>
+//Windows
+#include <Std++/UI/Windows/Dialog.hpp>
+#include <Std++/UI/Windows/MainAppWindow.hpp>

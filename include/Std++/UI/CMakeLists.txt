@@ -45,18 +45,22 @@ set(SOURCE_FILES
 	#Transfer
 	${CMAKE_CURRENT_SOURCE_DIR}/Transfer/Clipboard.hpp
 
+	#Windows
+	${CMAKE_CURRENT_SOURCE_DIR}/Windows/Dialog.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Windows/MainAppWindow.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Windows/Window.hpp
+
 	#.
 	${CMAKE_CURRENT_SOURCE_DIR}/Action.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CommonDialogs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Keyboard.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/MainAppWindow.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Mouse.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Painter.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Property.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Signal.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/SizingPolicy.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/UIEventSource.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Widget.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WidgetContainer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Window.hpp
 
 	PARENT_SCOPE)

@@ -55,8 +55,16 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/Gtk3ListViewBackend.hpp
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/Views/TableView.cpp
 
+		#Windows
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Windows/Gtk3DialogBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Windows/Gtk3DialogBackend.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Windows/Gtk3WindowBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Windows/Gtk3WindowBackend.hpp
+
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/_RedirectGtkContainer.h
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3DrawingAreaBackend.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3DrawingAreaBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3GroupBoxBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3LabelBackend.cpp
@@ -75,8 +83,6 @@ if(${BACKEND_GTK3})
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3TreeViewBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WidgetBackend.hpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WindowBackend.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/UI/Gtk3WindowBackend.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkEventSource.hpp
 		#${CMAKE_CURRENT_SOURCE_DIR}/UI/GtkWindowBackend.cpp
