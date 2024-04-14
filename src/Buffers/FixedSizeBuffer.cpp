@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -22,8 +22,32 @@
 //Namespaces
 using namespace StdXX;
 
+//Local functions
+static bool CheckIfMemoryMatches(const uint8* p1, const uint8* p2, uint32 size)
+{
+	for(uint32 i = 0; i < size; i++)
+	{
+		if(p1[i] != p2[i])
+			return false;
+	}
+	return true;
+}
+
 //Public methods
-uint32 FixedSizeBuffer::FindBytesReversed(const byte *bytes, uint32 size, uint32 startOffset)
+uint32 FixedSizeBuffer::FindBytes(const uint8* bytes, uint32 size, uint32 startOffset, uint32 endOffset) const
+{
+	endOffset = Math::Min(endOffset, this->size);
+	endOffset -= size;
+
+	for(uint32 offset = startOffset; offset < endOffset; offset++)
+	{
+		if(CheckIfMemoryMatches(&this->data[offset], bytes, size))
+			return offset;
+	}
+	return Unsigned<uint32>::Max();
+}
+
+uint32 FixedSizeBuffer::FindBytesReversed(const byte* bytes, uint32 size, uint32 startOffset)
 {
 	startOffset = Math::Min(startOffset, this->size - 1);
 	if(size == 0)
@@ -34,17 +58,7 @@ uint32 FixedSizeBuffer::FindBytesReversed(const byte *bytes, uint32 size, uint32
 
 	for(int64 offset = startOffset; offset >= 0; offset--)
 	{
-		bool match = true;
-		for(uint32 i = 0; i < size; i++)
-		{
-			if(this->data[offset + i] != bytes[i])
-			{
-				match = false;
-				break;
-			}
-		}
-
-		if(match)
+		if(CheckIfMemoryMatches(&this->data[offset], bytes, size))
 			return offset;
 	}
 

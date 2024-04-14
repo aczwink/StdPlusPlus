@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2019-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -118,6 +118,7 @@ namespace StdXX
 		}
 
 		//Methods
+		uint32 FindBytes(const uint8* bytes, uint32 size, uint32 startOffset = 0, uint32 endOffset = StdXX::Unsigned<uint32>::Max()) const;
 		uint32 FindBytesReversed(const byte* bytes, uint32 size, uint32 startOffset = StdXX::Unsigned<uint32>::Max());
 
 		//Inline
