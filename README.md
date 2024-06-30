@@ -73,3 +73,15 @@ If you want to use any of the following backends, you will need to install them:
 * GTK 3 and PkgConfig
 
 Extensions are usually not available by default and you have to install the corresponding software package in order to use it.
+
+## Building & Installing
+First of all install [XP-CMake](https://github.com/aczwink/XP-CMake).
+Then do something like the following:
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug -DBACKENDS_AUTO_AVAILABLE=ON -DOPTFORHOST=ON ..
+make
+sudo make install
+```
+These commands will build and install Std++ with automatically switching on backends/extensions that are detected (installed) on the host machine at the time of building. In addition, it creates a build with optimizations for the host architecture (e.g. CPU features etc.). For advanced configuration, check the various CMakeLists.txt files on how to enable specific backends/extensions.
