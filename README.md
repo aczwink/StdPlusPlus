@@ -1,6 +1,8 @@
 # Std++
 Std++ is an attempt to create a strong cross-platform standard library for C++.
 
+[![Build Linux x86-64](https://github.com/aczwink/StdPlusPlus/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/aczwink/StdPlusPlus/actions/workflows/build-and-release.yml)
+
 ## Support
 
 C++17 is a strict requirement.
