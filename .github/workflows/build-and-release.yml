@@ -67,11 +67,11 @@ jobs:
           Enabled backends/extensions:
           -fuse3
         GHR_FILENAME: bin_linux_x86-64.zip
-        run: |
-          echo "$GH_TOKEN" > bla.test
-          if gh release view latest; then
-            gh release edit latest --title "$GHR_TITLE" --notes "$GHR_NOTES"
-          else
-            gh release create latest --title "$GHR_TITLE" --notes "$GHR_NOTES"
-          fi
-          gh release upload latest "$GHR_FILENAME" --clobber
+      run: |
+        echo "$GH_TOKEN" > bla.test
+        if gh release view latest; then
+          gh release edit latest --title "$GHR_TITLE" --notes "$GHR_NOTES"
+        else
+          gh release create latest --title "$GHR_TITLE" --notes "$GHR_NOTES"
+        fi
+        gh release upload latest "$GHR_FILENAME" --clobber
