@@ -27,6 +27,14 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaVideo.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Matroska/MatroskaVideo.hpp
 
+	#MP4
+	${CMAKE_CURRENT_SOURCE_DIR}/MP4/MP4Format.hpp
+
+	#MP4
+	${CMAKE_CURRENT_SOURCE_DIR}/QuickTime/QuickTimeDemuxer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/QuickTime/QuickTimeDemuxer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/QuickTime/QuickTimeFormat.hpp
+
 	#Raw
 	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawContainerImages.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Raw/RawImageDemuxer.cpp

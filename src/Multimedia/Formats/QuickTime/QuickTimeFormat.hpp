@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,52 +17,53 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <Std++/Multimedia/Format.hpp>
-#include <Std++/Streams/Readers/DataReader.hpp>
-#include "DDS_Muxer.hpp"
+#include "../QuickTime/QuickTimeDemuxer.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class DDS_Format : public Format
+class QuickTimeFormat : public Format
 {
 public:
 	Demuxer *CreateDemuxer(SeekableInputStream &inputStream) const override
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
+		return new QuickTimeDemuxer(*this, inputStream);
 	}
 
 	Muxer *CreateMuxer(SeekableOutputStream &outputStream) const override
 	{
-		return new DDS_Muxer(*this, outputStream);
+		return nullptr;
 	}
 
 	String GetExtension() const override
 	{
-		return "dds";
+		return u8"mov";
 	}
 
 	void GetFormatInfo(FormatInfo &formatInfo) const override
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		formatInfo.supportsByteSeeking = false;
 	}
 
 	String GetName() const override
 	{
-		return "DirectDraw Surface";
+		return u8"Apple QuickTime";
 	}
 
 	DynamicArray<const CodingFormat *> GetSupportedCodingFormats(DataType dataType) const override
 	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		NOT_IMPLEMENTED_ERROR; //TODO: imple
 		return DynamicArray<const CodingFormat *>();
 	}
 
-	float32 Probe(BufferInputStream& inputStream) const override
+	float32 Probe(BufferInputStream &inputStream) const override
 	{
 		DataReader dataReader(false, inputStream);
 
-		if(dataReader.ReadUInt32() == FOURCC(u8"DDS "))
+		dataReader.Skip(4);
+		bool test1 = dataReader.ReadUInt32() == FOURCC(u8"ftyp");
+		bool test2 = dataReader.ReadUInt32() == FOURCC(u8"qt  ");
+		if(test1 and test2)
 			return 1;
 		return 0;
 	}

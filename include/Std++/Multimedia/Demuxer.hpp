@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@ namespace StdXX::Multimedia
 	{
 	public:
 		//Constructor
-		inline Demuxer(const Format &refFormat, SeekableInputStream &refInput) : MediaObject(refFormat), inputStream(refInput)
+		inline Demuxer(const Format& format, SeekableInputStream& inputStream) : MediaObject(format), inputStream(inputStream)
 		{
 			this->bitRate = 0;
 		}

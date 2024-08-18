@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,7 +34,7 @@ void ffmpeg_Extension::Load()
 	this->LoadPixelFormatMap();
 }
 
-AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(int nChannels, uint64 channelLayout, AVSampleFormat sampleFormat) const
+AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(const AVChannelLayout& channelLayout, AVSampleFormat sampleFormat) const
 {
 	AudioSampleType sampleType;
 	switch (sampleFormat)
@@ -46,23 +46,33 @@ AudioSampleFormat ffmpeg_Extension::MapAudioSampleFormat(int nChannels, uint64 c
 			NOT_IMPLEMENTED_ERROR;
 	}
 
-	AudioSampleFormat audioSampleFormat = AudioSampleFormat(nChannels, sampleType, av_sample_fmt_is_planar(sampleFormat) == 1);
+	AudioSampleFormat audioSampleFormat = AudioSampleFormat(channelLayout.nb_channels, sampleType, av_sample_fmt_is_planar(sampleFormat) == 1);
 
-	switch(channelLayout)
+	switch(channelLayout.order)
 	{
-		case AV_CH_LAYOUT_MONO:
-		case AV_CH_LAYOUT_STEREO:
-			break; //don't need to do something here
-		case AV_CH_LAYOUT_5POINT1:
-			audioSampleFormat.channels[0].speaker = SpeakerPosition::Front_Left;
-			audioSampleFormat.channels[1].speaker = SpeakerPosition::Front_Right;
-			audioSampleFormat.channels[2].speaker = SpeakerPosition::Front_Center;
-			audioSampleFormat.channels[3].speaker = SpeakerPosition::LowFrequency;
-			audioSampleFormat.channels[4].speaker = SpeakerPosition::Side_Left;
-			audioSampleFormat.channels[5].speaker = SpeakerPosition::Side_Right;
-			break;
+		case AV_CHANNEL_ORDER_NATIVE:
+		{
+			switch(channelLayout.nb_channels)
+			{
+				case 1:
+				case 2:
+					break; //don't need to do something here
+				case AV_CH_LAYOUT_5POINT1:
+					NOT_IMPLEMENTED_ERROR; //TODO: reimplement me
+					audioSampleFormat.channels[0].speaker = SpeakerPosition::Front_Left;
+					audioSampleFormat.channels[1].speaker = SpeakerPosition::Front_Right;
+					audioSampleFormat.channels[2].speaker = SpeakerPosition::Front_Center;
+					audioSampleFormat.channels[3].speaker = SpeakerPosition::LowFrequency;
+					audioSampleFormat.channels[4].speaker = SpeakerPosition::Side_Left;
+					audioSampleFormat.channels[5].speaker = SpeakerPosition::Side_Right;
+					break;
+				default:
+					NOT_IMPLEMENTED_ERROR;
+			}
+		}
+		break;
 		default:
-			NOT_IMPLEMENTED_ERROR;
+			NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	}
 
 	return audioSampleFormat;

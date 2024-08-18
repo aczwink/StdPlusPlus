@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -49,6 +49,7 @@
 #include "Formats/Raw/RawContainerImages.hpp"
 #include "Formats/WAVE/WAVE_Format.hpp"
 #include "Codecs/PCM/S16/PCM_S16LE_CodingFormat.hpp"
+#include "Formats/MP4/MP4Format.hpp"
 
 //Decoders
 #include "Codecs/PCM/S16/PCM_S16_Decoder.hpp"
@@ -98,6 +99,10 @@ void FormatRegistry::RegisterContainerFormats()
 	this->Register(new MatroskaVideo);
 	this->Register(new PNG_Format);
 	this->Register(new WAVE_Format);
+
+	/*//TODO: not ready
+	this->Register(new MP4_Format);
+	this->Register(new QuickTimeFormat);*/
 }
 
 void FormatRegistry::RegisterDecoders()

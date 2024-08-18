@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,53 +17,38 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <Std++/Multimedia/Format.hpp>
-#include <Std++/Streams/Readers/DataReader.hpp>
-#include "DDS_Muxer.hpp"
+#include "../QuickTime/QuickTimeFormat.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class DDS_Format : public Format
+class MP4_Format : public QuickTimeFormat
 {
 public:
-	Demuxer *CreateDemuxer(SeekableInputStream &inputStream) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return nullptr;
-	}
-
-	Muxer *CreateMuxer(SeekableOutputStream &outputStream) const override
-	{
-		return new DDS_Muxer(*this, outputStream);
-	}
-
 	String GetExtension() const override
 	{
-		return "dds";
-	}
-
-	void GetFormatInfo(FormatInfo &formatInfo) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return u8"mp4";
 	}
 
 	String GetName() const override
 	{
-		return "DirectDraw Surface";
+		return u8"MP4 (MPEG-4 Part 14)";
 	}
 
-	DynamicArray<const CodingFormat *> GetSupportedCodingFormats(DataType dataType) const override
-	{
-		NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		return DynamicArray<const CodingFormat *>();
-	}
-
-	float32 Probe(BufferInputStream& inputStream) const override
+	float32 Probe(BufferInputStream &inputStream) const override
 	{
 		DataReader dataReader(false, inputStream);
 
-		if(dataReader.ReadUInt32() == FOURCC(u8"DDS "))
-			return 1;
+		dataReader.Skip(4);
+		if(dataReader.ReadUInt32() == FOURCC(u8"ftyp"))
+		{
+			switch(dataReader.ReadUInt32())
+			{
+				case FOURCC(u8"isom"):
+				case FOURCC(u8"M4A "):
+					return 1;
+			}
+		}
 		return 0;
 	}
 };

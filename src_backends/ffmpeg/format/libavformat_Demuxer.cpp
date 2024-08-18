@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -65,7 +65,7 @@ void libavformat_Demuxer::ReadHeader()
 			case AVMEDIA_TYPE_AUDIO:
 				stream = new Stream(DataType::Audio);
 				stream->codingParameters.audio.sampleRate = codecParameters->sample_rate;
-				stream->codingParameters.audio.sampleFormat = libavformatExtension->MapAudioSampleFormat(codecParameters->channels, codecParameters->channel_layout, (AVSampleFormat) codecParameters->format);
+				stream->codingParameters.audio.sampleFormat = libavformatExtension->MapAudioSampleFormat(codecParameters->ch_layout, (AVSampleFormat) codecParameters->format);
 				break;
 			case AVMEDIA_TYPE_VIDEO:
 				stream = new Stream(DataType::Video);
@@ -85,22 +85,6 @@ void libavformat_Demuxer::ReadHeader()
 		stream->startTime = avStream->start_time;
 		stream->duration = avStream->duration;
 		stream->timeScale = {static_cast<uint64>(avStream->time_base.num), static_cast<uint64>(avStream->time_base.den)};
-
-		NOT_IMPLEMENTED_ERROR; //TODO: reimplement next line
-		/*
-		switch(avStream->need_parsing)
-		{
-			case AVSTREAM_PARSE_NONE:
-				stream->parserFlags.requiresParsing = false;
-				stream->parserFlags.repack = false;
-				break;
-			case AVSTREAM_PARSE_FULL:
-				stream->parserFlags.requiresParsing = true;
-				stream->parserFlags.repack = true;
-				break;
-			default:
-				NOT_IMPLEMENTED_ERROR; //TODO: implement me
-		}*/
 
 		this->AddStream(stream);
 	}

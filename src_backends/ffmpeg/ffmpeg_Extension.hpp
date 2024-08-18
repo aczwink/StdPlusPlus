@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020,2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -39,7 +39,7 @@ namespace _stdxx_
 	public:
 		//Methods
 		void Load() override;
-		StdXX::Multimedia::AudioSampleFormat MapAudioSampleFormat(int nChannels, uint64 channelLayout, AVSampleFormat sampleFormat) const;
+		StdXX::Multimedia::AudioSampleFormat MapAudioSampleFormat(const AVChannelLayout& channelLayout, AVSampleFormat sampleFormat) const;
 		uint8* MapCodecExtradata(const StdXX::FixedSizeBuffer& codecPrivateData) const;
 		void MapPacket(const StdXX::Multimedia::IPacket& sourcePacket, AVPacket& destPacket) const;
 		void Unload() override;

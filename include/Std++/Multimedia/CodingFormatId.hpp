@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,7 +21,8 @@
 #include <Std++/Definitions.h>
 
 //FourCCs are always little endian
-#define FOURCC(fcc) (uint32((fcc)[0]) | (uint32((fcc)[1]) << 8u) | (uint32((fcc)[2]) << 16u) | (uint32((fcc)[3]) << 24u))
+#define FOURCC4(c0, c1, c2, c3) (uint32(c0) | (uint32(c1) << 8u) | (uint32(c2) << 16u) | (uint32(c3) << 24u))
+#define FOURCC(fcc) FOURCC4((fcc)[0], (fcc)[1], (fcc)[2], (fcc)[3])
 
 namespace StdXX::Multimedia
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,6 +25,7 @@ using namespace StdXX::Multimedia;
 //Constructor
 Stream::Stream(DataType dataType)
 {
+	this->decoder = nullptr;
 	this->decoderContext = nullptr;
 	this->parserContext = nullptr;
 	this->encoderContext = nullptr;

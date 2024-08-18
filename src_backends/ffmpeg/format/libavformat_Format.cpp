@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -72,6 +72,18 @@ DynamicArray<const CodingFormat *> libavformat_Format::GetSupportedCodingFormats
 
 float32 libavformat_Format::Probe(BufferInputStream &buffer) const
 {
+	static BufferInputStream* lastBuffer = nullptr;
+	static const AVInputFormat* lastFormat = nullptr;
+	static int lastScore;
+
+	//ugly, but we don't want to probe through all of libavformats formats for every libavformat_Format instance
+	if(lastBuffer == &buffer)
+	{
+		if(lastFormat == this->avInputFormat)
+			return lastScore / (float32)AVPROBE_SCORE_MAX;
+		return 0;
+	}
+
 	AVProbeData avProbeData;
 	avProbeData.filename = nullptr;
 	avProbeData.buf_size = buffer.QuerySize();
@@ -81,10 +93,12 @@ float32 libavformat_Format::Probe(BufferInputStream &buffer) const
 	buffer.ReadBytes(avProbeData.buf, avProbeData.buf_size);
 	MemZero(avProbeData.buf + avProbeData.buf_size, AVPROBE_PADDING_SIZE);
 
-	int ret = this->avInputFormat->read_probe(&avProbeData);
-	ASSERT(ret >= 0, u8"TODO: handle errors");
+	lastFormat = av_probe_input_format3(&avProbeData, true, &lastScore);
+	lastBuffer = &buffer;
 
 	av_free(avProbeData.buf);
 
-	return ret / (float32)AVPROBE_SCORE_MAX;
+	if(lastFormat == this->avInputFormat)
+		return lastScore / (float32)AVPROBE_SCORE_MAX;
+	return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ using namespace _stdxx_;
 using namespace StdXX;
 
 //Local functions
-static int write_packet(void *opaque, uint8_t *buf, int buf_size)
+static int write_packet(void *opaque, const uint8_t *buf, int buf_size)
 {
 	libavio_OutputStreamWrapper* wrapper = (libavio_OutputStreamWrapper *)opaque;
 	return wrapper->WritePacket(buf, buf_size);
