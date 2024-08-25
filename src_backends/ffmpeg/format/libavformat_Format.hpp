@@ -22,11 +22,11 @@ extern "C"
 #include <libavformat/avformat.h>
 }
 //Local
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 
 namespace _stdxx_
 {
-	class libavformat_Format : public StdXX::Multimedia::Format
+	class libavformat_Format : public StdXX::Multimedia::ContainerFormat
 	{
 	public:
 		//Constructor

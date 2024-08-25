@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -23,24 +23,30 @@
 #include "../Containers/PriorityQueue.hpp"
 #include "Frame.hpp"
 #include "Packet.hpp"
+#include "CodingParameters.hpp"
 
 namespace StdXX::Multimedia
 {
 	//Forward declarations
 	class Decoder;
-	class Stream;
 
-	class STDPLUSPLUS_API DecoderContext
+	class DecoderContext
 	{
 	public:
 		//Constructor
-		inline DecoderContext(Stream &stream) : stream(stream)
+		inline DecoderContext(DecodingParameters& decodingParameters) : decodingParameters(decodingParameters)
 		{
 			this->frameCounter = 0;
 		}
 
 		//Destructor
 		virtual ~DecoderContext();
+
+		//Properties
+		inline const DecodingParameters& Parameters() const
+		{
+			return this->decodingParameters;
+		}
 
 		//Abstract
 		virtual void Decode(const IPacket &packet) = 0;
@@ -60,13 +66,15 @@ namespace StdXX::Multimedia
 		}
 
 	protected:
-		//Members
-		Stream &stream;
-
 		//Methods
 		void AddFrame(Frame *pFrame, uint32 frameNumber = 0);
 
 		//Inline
+		inline DecodingParameters& Parameters()
+		{
+			return this->decodingParameters;
+		}
+
 		inline void ResetFrameCounter()
 		{
 			this->frameCounter = 0;
@@ -77,5 +85,6 @@ namespace StdXX::Multimedia
 		uint32 frameCounter;
 		PriorityQueue<Tuple<uint32, Frame *>> unorderedFrames;
 		LinkedList<Frame *> orderedFrames;
+		DecodingParameters& decodingParameters;
 	};
 }

@@ -21,7 +21,7 @@
 #include <Std++/ShutdownManager.hpp>
 #include <Std++/Containers/BinaryTreeMap/BinaryTreeMap.hpp>
 #include "CodingFormat.hpp"
-#include "Format.hpp"
+#include "ContainerFormat.hpp"
 
 namespace StdXX::Multimedia
 {
@@ -29,15 +29,15 @@ namespace StdXX::Multimedia
     {
     public:
         //Properties
-        inline const DynamicArray<UniquePointer<Format>>& ContainerFormats() const
+        inline const DynamicArray<UniquePointer<ContainerFormat>>& ContainerFormats() const
         {
             return this->formats;
         }
 
         //Methods
         const CodingFormat* FindCodingFormatById(CodingFormatId codingFormatId);
-        const Format* FindFormatByFileExtension(const String& extension);
-        const Format* ProbeFormat(SeekableInputStream &inputStream);
+        const ContainerFormat* FindFormatByFileExtension(const String& extension);
+        const ContainerFormat* ProbeFormat(SeekableInputStream &inputStream);
         void Register(Decoder* decoder, float32 quality);
         void Register(Encoder* encoder, float32 quality);
         void Release() override;
@@ -60,7 +60,7 @@ namespace StdXX::Multimedia
             this->codingFormats.Insert(codingFormat->GetId(), Move(codingFormat));
         }
 
-        inline void Register(UniquePointer<Format>&& format)
+        inline void Register(UniquePointer<ContainerFormat>&& format)
         {
             this->formats.Push(Move(format));
         }
@@ -68,7 +68,7 @@ namespace StdXX::Multimedia
     private:
         //Members
         BinaryTreeMap<CodingFormatId, UniquePointer<CodingFormat>> codingFormats;
-        DynamicArray<UniquePointer<Format>> formats;
+        DynamicArray<UniquePointer<ContainerFormat>> formats;
 
         //Constructor
         FormatRegistry();

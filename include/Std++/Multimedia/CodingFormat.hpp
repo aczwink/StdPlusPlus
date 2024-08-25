@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,7 +21,9 @@
 #include <Std++/Containers/Strings/String.hpp>
 #include <Std++/Containers/PriorityQueue.hpp>
 #include <Std++/Tuple.hpp>
+#include "AudioSampleFormat.hpp"
 #include "CodingFormatId.hpp"
+#include "FeatureDescriptor.hpp"
 
 namespace StdXX
 {
@@ -41,6 +43,7 @@ namespace StdXX
 			//Abstract
 			virtual CodingFormatId GetId() const = 0;
 			virtual String GetName() const = 0;
+			virtual FeatureDescriptor<AudioSampleType> GetSupportedSampleTypes() const = 0;
 
 			//Methods
 			void AddDecoder(Decoder *decoder, float32 quality);
@@ -49,6 +52,13 @@ namespace StdXX
 			const Decoder *GetBestMatchingDecoder() const;
 			const Encoder *GetBestMatchingEncoder() const;
 			const Parser *GetBestMatchingParser() const;
+
+			//Inline
+			inline AudioSampleType GetPreferredSampleType() const
+			{
+				auto sampleTypes = this->GetSupportedSampleTypes();
+				return sampleTypes.Preferred();
+			}
 
 		private:
 			//Members

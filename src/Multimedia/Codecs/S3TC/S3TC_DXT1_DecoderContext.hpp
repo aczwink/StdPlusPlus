@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,6 @@
 #include <Std++/Multimedia/DecoderContext.hpp>
 #include <Std++/Math/Vector4/Vector4.inl>
 #include <Std++/Multimedia/Pixmap.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
 
 /*
@@ -33,10 +32,10 @@ class S3TC_DXT1_DecoderContext : public StdXX::Multimedia::DecoderContext
 {
 public:
 	//Constructor
-	inline S3TC_DXT1_DecoderContext(Stream &stream) : DecoderContext(stream)
+	inline S3TC_DXT1_DecoderContext(DecodingParameters& decodingParameters) : DecoderContext(decodingParameters)
 	{
-		this->stream.codingParameters.video.pixelFormat = PixelFormat(NamedPixelFormat::BGR_24);
-		this->blockSize = this->stream.codingParameters.video.pixelFormat->ComputeBlockSize(0);
+		this->Parameters().video.pixelFormat = PixelFormat(NamedPixelFormat::BGR_24);
+		this->blockSize = this->Parameters().video.pixelFormat->ComputeBlockSize(0);
 	}
 
 	void Decode(const IPacket &packet) override
@@ -49,11 +48,11 @@ public:
 		BufferInputStream inputStream(packet.GetData(), packet.GetSize());
 		DataReader input(false, inputStream);
 
-		Pixmap* pixmap = new Pixmap(this->stream.codingParameters.video.size, *this->stream.codingParameters.video.pixelFormat);
+		Pixmap* pixmap = new Pixmap(this->Parameters().video.size, *this->Parameters().video.pixelFormat);
 
-		for(y = 0; y < this->stream.codingParameters.video.size.height; y += 4)
+		for(y = 0; y < this->Parameters().video.size.height; y += 4)
 		{
-			for(x = 0; x < this->stream.codingParameters.video.size.width; x += 4)
+			for(x = 0; x < this->Parameters().video.size.width; x += 4)
 			{
 				c0 = input.ReadUInt16();
 				c1 = input.ReadUInt16();
@@ -74,13 +73,13 @@ public:
 
 				for(i = 0; i < 16; i++)
 				{
-					this->SetPixel(*pixmap, x + (i % 4), this->stream.codingParameters.video.size.height - 1 - (y + (i / 4)), c[pixels & 3].e);
+					this->SetPixel(*pixmap, x + (i % 4), this->Parameters().video.size.height - 1 - (y + (i / 4)), c[pixels & 3].e);
 					pixels >>= 2;
 				}
 			}
 		}
 
-		this->AddFrame(new VideoFrame(pixmap));
+		this->AddFrame(new Frame(pixmap));
 	}
 
 private:
@@ -101,7 +100,7 @@ private:
 
 	void SetPixel(Pixmap& pixmap, uint16 x, uint16 line, const uint32 rgb[3])
 	{
-		const auto& fmt = *this->stream.codingParameters.video.pixelFormat;
+		const auto& fmt = *this->Parameters().video.pixelFormat;
 
 		for(uint8 i = 0; i < 3; i++)
 		{

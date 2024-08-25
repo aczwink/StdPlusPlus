@@ -19,7 +19,7 @@
 //Local
 #include <Std++/Multimedia/BlockIndex.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include "Matroska.hpp"
 //Namespaces
 using namespace StdXX;
@@ -50,7 +50,7 @@ class MatroskaDemuxer : public Demuxer
 	};
 public:
 	//Constructor
-	MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput);
+	MatroskaDemuxer(const ContainerFormat &refFormat, SeekableInputStream &refInput);
 
 	//Methods
 	void ReadHeader();

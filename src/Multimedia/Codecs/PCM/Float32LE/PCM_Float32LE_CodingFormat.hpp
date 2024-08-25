@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2021-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,5 +34,10 @@ public:
 	String GetName() const override
 	{
 		return u8"PCM 32-bit IEEE Floating-point little-endian interleaved channels (in range [-1, 1])";
+	}
+
+	FeatureDescriptor<AudioSampleType> GetSupportedSampleTypes() const override
+	{
+		return {AudioSampleType::Float};
 	}
 };

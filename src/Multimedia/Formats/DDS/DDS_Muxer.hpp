@@ -25,7 +25,7 @@ class DDS_Muxer : public Muxer
 {
 public:
 	//Constructor
-	inline DDS_Muxer(const Format& format, SeekableOutputStream& outputStream) : Muxer(format, outputStream)
+	inline DDS_Muxer(const ContainerFormat& format, SeekableOutputStream& outputStream) : Muxer(format, outputStream)
 	{
 	}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
  //Local
 #include <Std++/Definitions.h>
+#include <Std++/Memory.hpp>
 
 namespace StdXX::Multimedia
 {
@@ -77,7 +78,7 @@ namespace StdXX::Multimedia
 		//Operators
 		inline bool operator==(const AudioSampleFormat &other) const
 		{
-			return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->sampleType == other.sampleType) && (this->channels == other.channels);
+			return (this->nPlanes == other.nPlanes) && (this->nChannels == other.nChannels) && (this->sampleType == other.sampleType) && this->AreChannelsEqual(other);
 		}
 
 		inline bool operator!=(const AudioSampleFormat& other) const
@@ -98,6 +99,18 @@ namespace StdXX::Multimedia
 		inline bool IsPlanar() const
 		{
 			return this->nPlanes > 1;
+		}
+
+	private:
+		//Inline
+		inline bool AreChannelsEqual(const AudioSampleFormat &other) const
+		{
+			for(uint8 ch = 0; ch < this->nChannels; ch++)
+			{
+				if(MemCmp(&this->channels[ch], &other.channels[ch], sizeof(this->channels[ch])))
+					return false;
+			}
+			return true;
 		}
 	};
 }

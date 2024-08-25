@@ -71,9 +71,9 @@ const CodingFormat *FormatRegistry::FindCodingFormatById(CodingFormatId codingFo
     return nullptr;
 }
 
-const Format* FormatRegistry::FindFormatByFileExtension(const String& extension)
+const ContainerFormat* FormatRegistry::FindFormatByFileExtension(const String& extension)
 {
-    for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
+    for(const UniquePointer<ContainerFormat>& format : FormatRegistry::Instance().ContainerFormats())
     {
         if(format->GetExtension() == extension)
             return format.operator->();
@@ -82,14 +82,14 @@ const Format* FormatRegistry::FindFormatByFileExtension(const String& extension)
     return nullptr;
 }
 
-const Format* FormatRegistry::ProbeFormat(SeekableInputStream &inputStream)
+const ContainerFormat* FormatRegistry::ProbeFormat(SeekableInputStream &inputStream)
 {
     bool resize;
     byte *pDetectionBuffer;
     uint32 detectionBufferSize, nReadBytes;
     uint64 currentOffset;
     float32 matchScore, bestScore;
-    const Format *pBestFormat;
+    const ContainerFormat *pBestFormat;
 
     resize = true;
     pDetectionBuffer = NULL;
@@ -109,14 +109,14 @@ const Format* FormatRegistry::ProbeFormat(SeekableInputStream &inputStream)
             break; //end of input reached... we can't do anything anymore
         resize = false;
 
-        for(const UniquePointer<Format>& format : FormatRegistry::Instance().ContainerFormats())
+        for(const UniquePointer<ContainerFormat>& format : FormatRegistry::Instance().ContainerFormats())
         {
             BufferInputStream detectionBuffer(pDetectionBuffer, detectionBufferSize);
 
             matchScore = format->Probe(detectionBuffer);
 
             //check unusual cases
-            if(matchScore == Format::FORMAT_MATCH_BUFFER_TOO_SMALL)
+            if(matchScore == ContainerFormat::FORMAT_MATCH_BUFFER_TOO_SMALL)
             {
                 if(detectionBufferSize < DETECTIONBUFFER_MAXSIZE)
                     resize = true;

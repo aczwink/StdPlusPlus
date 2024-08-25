@@ -26,7 +26,7 @@ namespace _stdxx_
 {
 	void RegisterFileSystemFormats()
 	{
-		/*Format::Register(new SevenZip_FileSystemFormat);
-		Format::Register(new ZipFileSystemFormat);*/
+		/*ContainerFormat::Register(new SevenZip_FileSystemFormat);
+		ContainerFormat::Register(new ZipFileSystemFormat);*/
 	}
 }

@@ -24,7 +24,7 @@
 /*
 Source:
 	Adobe
-	The Compact Font Format Specification
+	The Compact Font ContainerFormat Specification
 	Technical Note #5176
 	Version 1.0
 */

@@ -124,7 +124,7 @@ private:
 
 public:
 	//Constructor
-	MatroskaMuxer(const Format &refFormat, SeekableOutputStream &refOutput);
+	MatroskaMuxer(const ContainerFormat &refFormat, SeekableOutputStream &refOutput);
 
 	//Methods
 	void Finalize();

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -20,50 +20,44 @@
 #include "libavcodec_DecoderContext.hpp"
 //Local
 #include <Std++/Multimedia/AudioBuffer.hpp>
-#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/Pixmap.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
 #include "../libavcodec_Extension.hpp"
+#include "../ffmpeg_Exception.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_DecoderContext::libavcodec_DecoderContext(const Decoder &decoder, Stream &stream, const AVCodec *codec)
-	: DecoderContext(decoder, stream), extradata(nullptr)
+libavcodec_DecoderContext::libavcodec_DecoderContext(DecodingParameters& decodingParameters, const AVCodec *codec)
+	: DecoderContext(decodingParameters), extradata(nullptr)
 {
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->frame = av_frame_alloc();
 
 	//set what some codecs don't have in its encoded data
-	switch (stream.codingParameters.dataType)
+	switch (decodingParameters.dataType)
 	{
 		case DataType::Audio:
+			this->codecContext->ch_layout.nb_channels = decodingParameters.audio.sampleFormat->nChannels;
+			break;
+		case DataType::Video:
 		{
-			this->codecContext->channels = stream.codingParameters.audio.sampleFormat->nChannels;
+			if (decodingParameters.video.size.width)
+				this->codecContext->width = decodingParameters.video.size.width;
+			if (decodingParameters.video.size.height)
+				this->codecContext->height = decodingParameters.video.size.height;
 		}
 		break;
-	case DataType::Video:
-	{
-		VideoStream &videoStream = (VideoStream &)stream;
-
-		if (videoStream.codingParameters.video.size.width)
-			this->codecContext->width = videoStream.codingParameters.video.size.width;
-		if (videoStream.codingParameters.video.size.height)
-			this->codecContext->height = videoStream.codingParameters.video.size.height;
-	}
-	break;
 	}
 	
-	if (stream.codingParameters.codecPrivateData.HasValue())
+	if (decodingParameters.codecPrivateData.HasValue())
 	{
 		const libavcodec_Extension *libavcodecExtension = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>();
 
-		this->extradata = libavcodecExtension->MapCodecExtradata(*stream.codingParameters.codecPrivateData);
-		this->codecContext->extradata_size = stream.codingParameters.codecPrivateData->Size();
+		this->extradata = libavcodecExtension->MapCodecExtradata(*decodingParameters.codecPrivateData);
+		this->codecContext->extradata_size = decodingParameters.codecPrivateData->Size();
 		this->codecContext->extradata = this->extradata;
 	}
 
@@ -107,33 +101,31 @@ void libavcodec_DecoderContext::Decode(const IPacket & packet)
 		ret = avcodec_receive_frame(this->codecContext, this->frame);
 		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
 			break;
-		ASSERT(ret == 0, u8"TODO: implement error handling");
-		/*else if (ret < 0)
-			return; //an error occured. skip packet*/
+		else if(ret < 0)
+			throw ffmpeg_Exception(ret);
 			
 		//update stream if possible
-		if ((this->stream.codingParameters.bitRate == 0) && (this->codecContext->bit_rate != 0))
-			this->stream.codingParameters.bitRate = this->codecContext->bit_rate;
+		if ((this->Parameters().bitRate == 0) && (this->codecContext->bit_rate != 0))
+			this->Parameters().bitRate = this->codecContext->bit_rate;
 
 		const libavcodec_Extension *libavcodecExtension = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>();
 		switch (this->codecContext->codec_type)
 		{
 		case AVMEDIA_TYPE_AUDIO:
 		{
-			if ((this->stream.codingParameters.audio.sampleRate == 0) && (this->codecContext->sample_rate != 0))
-				this->stream.codingParameters.audio.sampleRate = this->codecContext->sample_rate;
-			if ((!this->stream.codingParameters.audio.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
+			if ((this->Parameters().audio.sampleRate == 0) && (this->codecContext->sample_rate != 0))
+				this->Parameters().audio.sampleRate = this->codecContext->sample_rate;
+			if ((!this->Parameters().audio.sampleFormat.HasValue()) && (this->codecContext->sample_fmt != AV_SAMPLE_FMT_NONE))
 			{
-				this->stream.codingParameters.audio.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->channels, this->codecContext->channel_layout, this->codecContext->sample_fmt);
+				this->Parameters().audio.sampleFormat = libavcodecExtension->MapAudioSampleFormat(this->codecContext->ch_layout, this->codecContext->sample_fmt);
 			}
 		}
 		break;
 		case AVMEDIA_TYPE_VIDEO:
 		{
-			VideoStream &videoStream = (VideoStream &)this->stream;
-			if (!videoStream.pixelFormat.HasValue() && (this->frame->format != -1))
+			if (!this->Parameters().video.pixelFormat.HasValue() && (this->frame->format != -1))
 			{
-				videoStream.pixelFormat = libavcodecExtension->MapPixelFormat(static_cast<AVPixelFormat>(this->frame->format));
+				this->Parameters().video.pixelFormat = libavcodecExtension->MapPixelFormat(static_cast<AVPixelFormat>(this->frame->format));
 			}
 		}
 		break;
@@ -175,8 +167,8 @@ uint64 libavcodec_DecoderContext::GetBestFramePTS() const
 
 void libavcodec_DecoderContext::MapAudioFrame()
 {
-	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *this->stream.codingParameters.audio.sampleFormat);
-	for (uint8 i = 0; i < this->stream.codingParameters.audio.sampleFormat->nPlanes; i++)
+	AudioBuffer *audioBuffer = new AudioBuffer(this->frame->nb_samples, *this->Parameters().audio.sampleFormat);
+	for (uint8 i = 0; i < this->Parameters().audio.sampleFormat->nPlanes; i++)
 	{
 		auto libav_lineSize = this->frame->linesize[i];
 		if (libav_lineSize == 0) //The official doc tells us "For audio, only linesize[0] may be set. For planar audio, each channel plane must be the same size.". How is this ugly....
@@ -185,7 +177,7 @@ void libavcodec_DecoderContext::MapAudioFrame()
 		MemCopy(audioBuffer->GetPlane(i), this->frame->data[i], Math::Min((uint32)libav_lineSize, audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}
 
-	AudioFrame *audioFrame = new AudioFrame(audioBuffer);
+	Frame *audioFrame = new Frame(audioBuffer);
 	audioFrame->pts = this->GetBestFramePTS();
 
 	this->AddFrame(audioFrame);
@@ -193,9 +185,7 @@ void libavcodec_DecoderContext::MapAudioFrame()
 
 void libavcodec_DecoderContext::MapVideoFrame()
 {
-	VideoStream &videoStream = (VideoStream &)this->stream;
-
-	Pixmap *pixmap = new Pixmap(Math::Size<uint16>(this->frame->width, this->frame->height), videoStream.pixelFormat.Value());
+	Pixmap *pixmap = new Pixmap(Math::Size<uint16>(this->frame->width, this->frame->height), this->Parameters().video.pixelFormat.Value());
 	for (uint8 i = 0; i < pixmap->GetPixelFormat().nPlanes; i++)
 	{
 		for (uint32 line = 0; line < pixmap->GetNumberOfLines(i); line++)
@@ -207,7 +197,7 @@ void libavcodec_DecoderContext::MapVideoFrame()
 		}
 	}
 
-	VideoFrame *frame = new VideoFrame(pixmap);
+	Frame *frame = new Frame(pixmap);
 	frame->pts = this->GetBestFramePTS();
 
 	this->AddFrame(frame);

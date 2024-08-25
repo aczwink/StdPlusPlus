@@ -64,7 +64,7 @@ void BMP_Muxer::WritePacket(const IPacket& packet)
 	
 	switch(pStream->codingParameters.codingFormat->GetId())
 	{
-		case CodingFormatId::RawVideo:
+		case CodingFormatId::RawSinglePlaneVideo:
 		{
 			const byte* current = packet.GetData();
 			uint16 rowSize = 3 * pStream->codingParameters.video.size.width;

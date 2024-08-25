@@ -36,6 +36,7 @@ namespace StdXX::Multimedia
 		AAC,
 		MP3,
 		MS_ADPCM,
+		//TODO: all these PCM formats should be RawAudio and be parameterized using the sample format just as for RawSinglePlaneVideo
 		PCM_Float32LE,
 		PCM_S16BE,
 		PCM_S16LE,
@@ -47,11 +48,11 @@ namespace StdXX::Multimedia
 		UTF8PlainText,
 
 		//Video codecs
-		RawVideo, //is parameterized using PixelFormat
 		H264,
 		MPEG4Part2,
 		MS_MPEG4Part2V2,
 		PNG,
+		RawSinglePlaneVideo, //frames packed in a single plane which is parameterized using PixelFormat
 		S3TC_DXT1,
 		Theora,
 	};

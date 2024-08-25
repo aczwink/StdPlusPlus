@@ -35,9 +35,8 @@ set(SOURCE_FILES
 	#format
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ContainerFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Pixmap.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.cpp
@@ -46,7 +45,6 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Packet.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/PixelFormat.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Stream.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.cpp
 
 	#Multitasking
 	${CMAKE_CURRENT_SOURCE_DIR}/Multitasking/StaticThreadPool.cpp

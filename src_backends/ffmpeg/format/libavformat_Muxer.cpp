@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -20,7 +20,6 @@
 #include "libavformat_Muxer.hpp"
 //Local
 #include <Std++/_Backends/ExtensionManager.hpp>
-#include <Std++/Multimedia/CodingParameters.hpp>
 #include "libavformat_Format.hpp"
 #include "../libavformat_Extension.hpp"
 //Namespaces
@@ -70,7 +69,7 @@ void libavformat_Muxer::WriteHeader()
 	for(uint32 i = 0; i < this->GetNumberOfStreams(); i++)
 	{
 		Stream* stream = this->GetStream(i);
-		const CodingParameters& cp = stream->codingParameters;
+		const DecodingParameters& cp = stream->codingParameters;
 
 		AVStream* out_stream = avformat_new_stream(this->fmt_ctx, nullptr);
 		AVCodecParameters *codecpar = out_stream->codecpar;

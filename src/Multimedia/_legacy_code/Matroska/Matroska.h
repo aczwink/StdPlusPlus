@@ -75,7 +75,6 @@ namespace Matroska
 	};
 
 	//Specific codecs
-#define CODEC_PCM_FLOAT_LE "A_PCM/FLOAT/IEEE"
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
 #define CODEC_MS_FOURCC "V_MS/VFW/FOURCC"
 	

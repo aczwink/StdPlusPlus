@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -39,7 +39,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		StdXX::Multimedia::EncoderContext *CreateContext(StdXX::Multimedia::Stream &stream) const override;
+		StdXX::Multimedia::EncoderContext *CreateContext(const StdXX::Multimedia::EncodingParameters& encodingParameters) const override;
 		StdXX::Multimedia::CodingFormatId GetCodingFormatId() const override;
 		StdXX::String GetName() const override;
 

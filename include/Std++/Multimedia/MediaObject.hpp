@@ -29,13 +29,13 @@ namespace StdXX
     namespace Multimedia
     {
         //Forward declarations
-        class Format;
+        class ContainerFormat;
 
         class STDPLUSPLUS_API MediaObject
         {
         protected:
             //Members
-            const Format &refFormat;
+            const ContainerFormat &refFormat;
             DynamicArray<Stream *> streams;
             class TimeScale timeScale;
             uint64 startTime;
@@ -49,7 +49,7 @@ namespace StdXX
             SMetaInfo metaInfo;
 
             //Constructor
-            inline MediaObject(const Format &refFormat) : refFormat(refFormat)
+            inline MediaObject(const ContainerFormat &refFormat) : refFormat(refFormat)
             {
                 //Time base for all timestamps in this context (NOT for the stream timestamps)
                 //this->timeScale = Rational(1, 1000000); //the smaller the value, the better... it's more precise like that

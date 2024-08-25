@@ -84,7 +84,7 @@ uint32 DDS_Muxer::ComputePitchSize() const
 
 	switch(codecParameters.codingFormat->GetId())
 	{
-		case CodingFormatId::RawVideo:
+		case CodingFormatId::RawSinglePlaneVideo:
 		{
 			ASSERT_EQUALS(1, codecParameters.video.pixelFormat->nPlanes);
 			uint8 blockSize = codecParameters.video.pixelFormat->ComputeBlockSize(0);
@@ -122,7 +122,7 @@ void DDS_Muxer::WritePixelFormat(DataWriter& dataWriter)
 	bool isCompressed = true;
 	switch(codecParameters.codingFormat->GetId())
 	{
-		case CodingFormatId::RawVideo:
+		case CodingFormatId::RawSinglePlaneVideo:
 			isCompressed = false;
 			break;
 		case CodingFormatId::S3TC_DXT1:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,9 +19,7 @@
 //Class header
 #include <Std++/Multimedia/MediaPlayer.hpp>
 //Local
-#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -101,22 +99,19 @@ void DecoderThread::Run()
 				if (this->pixmapResampler.IsNull())
 				{
 					//audio
-					const AudioFrame* audioFrame = dynamic_cast<const AudioFrame*>(frame);
-					const AudioBuffer* srcBuffer = audioFrame->GetAudioBuffer();
+					const AudioBuffer* srcBuffer = frame->GetAudioBuffer();
 
 					const auto* sourceStream = this->player->Demuxer().GetStream(this->streamIndex);
 					const auto& destStream = *this->encodingStream;
 
-					resampledFrame = new AudioFrame(srcBuffer->Resample(*sourceStream->codingParameters.audio.sampleFormat, *destStream.codingParameters.audio.sampleFormat));
+					resampledFrame = new Frame(srcBuffer->Resample(*sourceStream->codingParameters.audio.sampleFormat, *destStream.codingParameters.audio.sampleFormat));
 				}
 				else
 				{
-					const VideoFrame* videoFrame = dynamic_cast<const VideoFrame*>(frame);
-
-					Pixmap* resampledPixmap = this->pixmapResampler->Run(*videoFrame->GetPixmap());
+					Pixmap* resampledPixmap = this->pixmapResampler->Run(*frame->GetPixmap());
 
 					//video
-					resampledFrame = new VideoFrame(resampledPixmap);
+					resampledFrame = new Frame(resampledPixmap);
 				}
 
 				resampledFrame->pts = frame->pts;
@@ -227,14 +222,14 @@ void DecoderThread::SetStreamIndex(uint32 streamIndex)
 		}
 
 		this->encodingStream = videoStream;
-		codingFormatId = CodingFormatId::RawVideo;
+		codingFormatId = CodingFormatId::RawSinglePlaneVideo;
 
 		this->requireResampling = !this->pixmapResampler.IsNull();
 	}
 	break;
 	}
 	this->encodingStream->timeScale = sourceStream->timeScale;
-	this->encoderContext = FormatRegistry::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(*this->encodingStream);
+	this->encoderContext = FormatRegistry::GetCodingFormatById(codingFormatId)->GetBestMatchingEncoder()->CreateContext(this->encodingStream->codingParameters);
 }
 
 void DecoderThread::Shutdown()

@@ -20,7 +20,7 @@
 #include <Std++/Multimedia/Demuxer.hpp>
 //Local
 #include <Std++/Multimedia/Decoder.hpp>
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include <Std++/Multimedia/Parser.hpp>
 //Namespaces
 using namespace StdXX;
@@ -288,7 +288,7 @@ bool Demuxer::TryToAllocateDecoder(Stream& stream)
 	const Decoder *decoder = stream.codingParameters.codingFormat->GetBestMatchingDecoder();
 	if (decoder)
 	{
-		DecoderContext* decoderContext = decoder->CreateContext(stream);
+		DecoderContext* decoderContext = decoder->CreateContext(stream.codingParameters);
 		stream.decoder = decoder;
 		stream.SetDecoderContext(decoderContext);
 		return true;

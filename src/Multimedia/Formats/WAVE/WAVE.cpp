@@ -102,6 +102,8 @@ void ReadWaveHeader(InputStream& inputStream, Stream &stream, uint32 chunkSize, 
 		{
 			stream.codingParameters.codingFormat = FormatRegistry::Instance().FindCodingFormatById(CodingFormatId::MS_ADPCM);
 			//(stream.GetDecoder())->SetBlockAlign(refBlockAlign);
+			stream.codingParameters.vbr = false;
+			sampleType = AudioSampleType::S16;
 		}
 		break;
 		case 3: //IEEE Float
@@ -109,12 +111,14 @@ void ReadWaveHeader(InputStream& inputStream, Stream &stream, uint32 chunkSize, 
 			switch(refBitsPerSample)
 			{
 				case 32:
-					NOT_IMPLEMENTED_ERROR; //TODO: implement me
-					//pDecoder = (AAudioDecoder *)GetDecoder(CODEC_ID_PCM_FLOAT32LE);
+					sampleType = AudioSampleType::Float;
+					stream.codingParameters.codingFormat = FormatRegistry::Instance().FindCodingFormatById(CodingFormatId::PCM_Float32LE);
 					break;
 				default:
 					NOT_IMPLEMENTED_ERROR; //TODO: implement me
 			}
+
+			stream.codingParameters.vbr = false;
 		}
 			break;
 		case 0x55: //MP3

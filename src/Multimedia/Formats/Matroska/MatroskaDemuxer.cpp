@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,7 +29,7 @@
 using namespace Matroska;
 
 //Constructor
-MatroskaDemuxer::MatroskaDemuxer(const Format &refFormat, SeekableInputStream &refInput) : Demuxer(refFormat, refInput), codecIdMap(GetCodingFormatMap())
+MatroskaDemuxer::MatroskaDemuxer(const ContainerFormat &refFormat, SeekableInputStream &refInput) : Demuxer(refFormat, refInput), codecIdMap(GetCodingFormatMap())
 {
 	this->timeScale = {1000000, 1000000000}; //default timeCodeScale is 1.000.000 but all units are in nanoseconds
 }
@@ -285,10 +285,13 @@ void MatroskaDemuxer::AddStream(Matroska::Track &track)
 		{
 			switch (pStream->codingParameters.codingFormat->GetId())
 			{
-			case CodingFormatId::AAC:
-				pStream->parserFlags.requiresParsing = false;
-				//ADTS is removed and frames are muxed on frame boundaries
+				case CodingFormatId::AAC:
+					pStream->parserFlags.requiresParsing = false;
+					//ADTS is removed and frames are muxed on frame boundaries
 				break;
+				case CodingFormatId::PCM_Float32LE:
+					pStream->codingParameters.audio.sampleFormat = AudioSampleFormat(track.audio.nChannels, AudioSampleType::Float, false);
+					break;
 			}
 		}
 		

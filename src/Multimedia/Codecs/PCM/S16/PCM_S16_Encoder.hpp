@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,7 +18,7 @@
  */
 //Local
 #include <Std++/Multimedia/Encoder.hpp>
-#include "PCM_S16_EncoderContext.hpp"
+#include "../PCM_EncoderContext.hpp"
 
 class PCM_S16_Encoder : public StdXX::Multimedia::Encoder
 {
@@ -29,9 +29,9 @@ public:
 	}
 
 	//Methods
-	EncoderContext* CreateContext(Stream &stream) const override
+	EncoderContext* CreateContext(const EncodingParameters& encodingParameters) const override
 	{
-		return new PCM_S16_EncoderContext(stream, this->bigEndian);
+		return new PCM_EncoderContext<int16>(encodingParameters, this->bigEndian);
 	}
 
 	CodingFormatId GetCodingFormatId() const override

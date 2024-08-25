@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@ class WAVE_Demuxer : public Demuxer
 {
 public:
 	//Constructor
-	inline WAVE_Demuxer(const Format& format, SeekableInputStream& inputStream) : Demuxer(format, inputStream)
+	inline WAVE_Demuxer(const ContainerFormat& format, SeekableInputStream& inputStream) : Demuxer(format, inputStream)
 	{
 	}
 
@@ -41,6 +41,7 @@ private:
 	uint16 blockAlign;
 
 	//Methods
+	void CalculateDuration(uint16 bitsPerSample, uint32 readSampleCount);
 	void ReadFmtChunk(uint32 chunkSize, uint16 &refBitsPerSample);
 	UniquePointer<IPacket> ReadPacket() override;
 

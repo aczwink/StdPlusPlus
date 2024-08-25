@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -17,7 +17,7 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include "PCM_S16_DecoderContext.hpp"
+#include "../PCM_DecoderContext.hpp"
 
 class PCM_S16_Decoder : public StdXX::Multimedia::Decoder
 {
@@ -28,9 +28,9 @@ public:
     }
 
     //Methods
-    DecoderContext *CreateContext(Stream &stream) const override
+    DecoderContext *CreateContext(DecodingParameters& decodingParameters) const override
     {
-        return new PCM_S16_DecoderContext(stream, this->bigEndian);
+        return new PCM_DecoderContext<int16>(decodingParameters, this->bigEndian);
     }
 
     CodingFormatId GetCodingFormatId() const override

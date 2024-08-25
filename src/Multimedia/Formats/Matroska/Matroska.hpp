@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -136,7 +136,7 @@ namespace Matroska
 	};
 
 	//Specific codecs
-#define CODEC_PCM_FLOAT_LE "A_PCM/FLOAT/IEEE"
+#define MATROSKA_CODEC_PCM_FLOAT_LE u8"A_PCM/FLOAT/IEEE"
 #define CODEC_PCM_INTEGER_LE "A_PCM/INT/LIT"
 	const String codecId_ms_fourcc = u8"V_MS/VFW/FOURCC";
 

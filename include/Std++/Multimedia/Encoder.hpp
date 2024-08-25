@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,6 +19,7 @@
 #pragma once
 //Local
 #include <Std++/Containers/Strings/String.hpp>
+#include "CodingParameters.hpp"
 #include "CodingFormatId.hpp"
 
 namespace StdXX
@@ -27,7 +28,6 @@ namespace StdXX
 	{
 		//Forward declarations
 		class EncoderContext;
-		class Stream;
 
 		class Encoder
 		{
@@ -36,7 +36,7 @@ namespace StdXX
 			virtual ~Encoder() {}
 
 			//Abstract
-			virtual EncoderContext *CreateContext(Stream &stream) const = 0;
+			virtual EncoderContext *CreateContext(const EncodingParameters& encodingParameters) const = 0;
 			virtual CodingFormatId GetCodingFormatId() const = 0;
 			virtual String GetName() const = 0;
 

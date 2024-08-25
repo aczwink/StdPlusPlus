@@ -1,0 +1,7 @@
+set(TEST_FILES
+	${TEST_FILES}
+
+	#.
+	${CMAKE_CURRENT_SOURCE_DIR}/PriorityQueueTests.cpp
+
+	PARENT_SCOPE)

@@ -12,29 +12,35 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp
 
 	#PCM
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/ADPCM/MS_ADPCM_CodingFormat.hpp
+
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/Float32LE/PCM_Float32LE_CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/Float32LE/PCM_Float32LE_Decoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/Float32LE/PCM_Float32LE_Encoder.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16BE_CodingFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16_Decoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16_DecoderContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16_Encoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16LE_CodingFormat.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16_EncoderContext.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S16/PCM_S16_EncoderContext.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/S8/PCM_S8_CodingFormat.hpp
 
 	${CMAKE_CURRENT_SOURCE_DIR}/PCM/U8/PCM_U8_CodingFormat.hpp
 
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/PCM_DecoderContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/PCM_EncoderContext.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/PCM/PCM_EncoderContext.hpp
+
 	#Raw_Subtitles
 	${CMAKE_CURRENT_SOURCE_DIR}/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp
 
-	#RawVideo
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/BGR24_Encoder.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/BGR24_Encoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideo_CodingFormat.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideoDecoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/RawVideo/RawVideoDecoderContext.hpp
+	#RawSinglePlaneVideo
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideo_CodingFormat.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideoDecoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideoDecoderContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideoEncoder.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideoEncoderContext.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RawSinglePlaneVideo/RawSinglePlaneVideoEncoderContext.hpp
 
 	#RGB24
 	${CMAKE_CURRENT_SOURCE_DIR}/RGB24/RGB24_Codec.hpp

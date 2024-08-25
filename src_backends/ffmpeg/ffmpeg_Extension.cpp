@@ -90,25 +90,29 @@ uint8 *ffmpeg_Extension::MapCodecExtradata(const FixedSizeBuffer& codecPrivateDa
 void ffmpeg_Extension::MapPacket(const IPacket& sourcePacket, AVPacket& destPacket) const
 {
 	destPacket.buf = nullptr;
-
-	if (sourcePacket.GetPresentationTimestamp() == Unsigned<uint64>::Max())
-		destPacket.pts = AV_NOPTS_VALUE;
-	else
-		destPacket.pts = sourcePacket.GetPresentationTimestamp();
+	destPacket.data = const_cast<uint8*>(sourcePacket.GetData());
 
 	if (sourcePacket.GetDecodeTimestamp() == Unsigned<uint64>::Max())
 		destPacket.dts = AV_NOPTS_VALUE;
 	else
 		destPacket.dts = sourcePacket.GetDecodeTimestamp();
 
-	destPacket.data = const_cast<uint8*>(sourcePacket.GetData());
+	destPacket.duration = 0;
+	destPacket.flags = sourcePacket.ContainsKeyFrame() ? AV_PKT_FLAG_KEY : 0;
+	destPacket.opaque = nullptr;
+	destPacket.opaque_ref = nullptr;
+	destPacket.pos = -1;
+
+	if (sourcePacket.GetPresentationTimestamp() == Unsigned<uint64>::Max())
+		destPacket.pts = AV_NOPTS_VALUE;
+	else
+		destPacket.pts = sourcePacket.GetPresentationTimestamp();
+
 	destPacket.size = sourcePacket.GetSize();
 	destPacket.stream_index = sourcePacket.GetStreamIndex();
-	destPacket.flags = sourcePacket.ContainsKeyFrame() ? AV_PKT_FLAG_KEY : 0;
 	destPacket.side_data = nullptr;
 	destPacket.side_data_elems = 0;
-	destPacket.duration = 0;
-	destPacket.pos = -1;
+	destPacket.time_base = {};
 }
 
 void ffmpeg_Extension::Unload()
@@ -121,6 +125,8 @@ void ffmpeg_Extension::LoadCodingFormatIdMap()
 	//audio
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_AC3, CodingFormatId::AC3); //ac3 is now patent-free :)
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_MP3, CodingFormatId::MP3); //mp3 is now patent-free :)
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_ADPCM_MS, CodingFormatId::MS_ADPCM);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_F32LE, CodingFormatId::PCM_Float32LE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16BE, CodingFormatId::PCM_S16BE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S16LE, CodingFormatId::PCM_S16LE);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PCM_S8, CodingFormatId::PCM_S8);
@@ -129,7 +135,7 @@ void ffmpeg_Extension::LoadCodingFormatIdMap()
 
 	//video
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_PNG, CodingFormatId::PNG);
-	this->libavCodecIdMap.Insert(AV_CODEC_ID_RAWVIDEO, CodingFormatId::RawVideo);
+	this->libavCodecIdMap.Insert(AV_CODEC_ID_RAWVIDEO, CodingFormatId::RawSinglePlaneVideo);
 	this->libavCodecIdMap.Insert(AV_CODEC_ID_THEORA, CodingFormatId::Theora);
 }
 

@@ -27,7 +27,7 @@ namespace StdXX::Multimedia
 	{
 	public:
 		//Constructor
-		inline Muxer(const Format& format, SeekableOutputStream& outputStream) : MediaObject(format), outputStream(outputStream)
+		inline Muxer(const ContainerFormat& format, SeekableOutputStream& outputStream) : MediaObject(format), outputStream(outputStream)
 		{
 		}
 

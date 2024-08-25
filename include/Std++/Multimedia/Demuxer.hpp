@@ -29,7 +29,7 @@ namespace StdXX::Multimedia
 	{
 	public:
 		//Constructor
-		inline Demuxer(const Format& format, SeekableInputStream& inputStream) : MediaObject(format), inputStream(inputStream)
+		inline Demuxer(const ContainerFormat& format, SeekableInputStream& inputStream) : MediaObject(format), inputStream(inputStream)
 		{
 			this->bitRate = 0;
 		}

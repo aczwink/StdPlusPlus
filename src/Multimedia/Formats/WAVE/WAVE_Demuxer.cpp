@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -37,6 +37,7 @@ void WAVE_Demuxer::ReadHeader()
 
 	uint16 bitsPerSample;
 	uint32 chunkId, chunkSize;
+	uint32 readSampleCount = 0;
 	while(!this->inputStream.IsAtEnd())
 	{
 		chunkId = dataReader.ReadUInt32();
@@ -44,6 +45,9 @@ void WAVE_Demuxer::ReadHeader()
 
 		switch(chunkId)
 		{
+			case FOURCC(u8"fact"):
+				readSampleCount = dataReader.ReadUInt32();
+			break;
 			case WAVE_FORMATCHUNK_CHUNKID: //"fmt "
 				this->ReadFmtChunk(chunkSize, bitsPerSample);
 				break;
@@ -52,11 +56,12 @@ void WAVE_Demuxer::ReadHeader()
 				this->dataSize = chunkSize;
 				this->inputStream.Skip(chunkSize);
 				break;
-			case WAVE_LISTCHUNK_CHUNKID: //skip
-				this->inputStream.Skip(chunkSize);
-				break;
 			case WAVE_ID3CHUNK_CHUNKID: //"id3 "
 				ReadID3V2Tags(this->inputStream, this->metaInfo);
+				break;
+			case WAVE_LISTCHUNK_CHUNKID: //skip
+			case FOURCC(u8"PEAK"):
+				this->inputStream.Skip(chunkSize);
 				break;
 			default:
 				NOT_IMPLEMENTED_ERROR; //TODO: implement me
@@ -64,12 +69,7 @@ void WAVE_Demuxer::ReadHeader()
 	}
 	this->inputStream.SeekTo(this->dataOffset);
 
-	if(bitsPerSample)
-	{
-		Stream *pStream = this->GetStream(0);
-		uint32 nSamples = this->dataSize / (pStream->codingParameters.audio.sampleFormat->nChannels * bitsPerSample / 8);
-		pStream->duration = nSamples;
-	}
+	this->CalculateDuration(bitsPerSample, readSampleCount);
 }
 
 void WAVE_Demuxer::Seek(uint64 timestamp, const class TimeScale &timeScale)
@@ -78,6 +78,33 @@ void WAVE_Demuxer::Seek(uint64 timestamp, const class TimeScale &timeScale)
 }
 
 //Private methods
+void WAVE_Demuxer::CalculateDuration(uint16 bitsPerSample, uint32 readSampleCount)
+{
+	Stream *stream = this->GetStream(0);
+	if(bitsPerSample)
+	{
+		uint8 channelCount = stream->codingParameters.audio.sampleFormat->nChannels;
+		uint64 computedSampleCount = (this->dataSize * 8) / (channelCount * bitsPerSample);
+
+		switch(stream->codingParameters.codingFormat->GetId())
+		{
+			case CodingFormatId::PCM_S16LE:
+			case CodingFormatId::PCM_Float32LE:
+				stream->duration = computedSampleCount;
+				break;
+
+			//sample count is not exact for the following codecs:
+			case CodingFormatId::MS_ADPCM:
+				stream->duration = readSampleCount ? readSampleCount : computedSampleCount;
+				break;
+			default:
+				NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		}
+	}
+	else
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+}
+
 void WAVE_Demuxer::ReadFmtChunk(uint32 chunkSize, uint16 &refBitsPerSample)
 {
 	Stream* pStream = new Stream(DataType::Audio);

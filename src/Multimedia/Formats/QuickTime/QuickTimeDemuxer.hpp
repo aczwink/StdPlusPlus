@@ -53,7 +53,7 @@ class QuickTimeDemuxer : public Demuxer
 	};
 public:
 	//Constructor
-	inline QuickTimeDemuxer(const Format& refFormat, SeekableInputStream& refInput) : Demuxer(refFormat, refInput)
+	inline QuickTimeDemuxer(const ContainerFormat& refFormat, SeekableInputStream& refInput) : Demuxer(refFormat, refInput)
 	{
 	}
 

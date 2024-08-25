@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,7 +21,6 @@
 //Local
 #include <Std++/Multimedia/Frame.hpp>
 #include <Std++/Debug.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 
 //Public methods

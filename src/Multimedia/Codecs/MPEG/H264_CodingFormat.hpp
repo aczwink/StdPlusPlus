@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,5 +34,11 @@ public:
 	String GetName() const override
 	{
 		return u8"H.264 / Advanced Video Coding (AVC) / MPEG-4 Part 10";
+	}
+
+	FeatureDescriptor<AudioSampleType> GetSupportedSampleTypes() const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return FeatureDescriptor<AudioSampleType>();
 	}
 };

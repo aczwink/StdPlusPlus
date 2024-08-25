@@ -31,7 +31,7 @@ struct CodecEntry
 };
 
 static const CodecEntry g_bmpCodecEntries[] = {
-	{ CodingFormatId::RawVideo, 0 }
+	{ CodingFormatId::RawSinglePlaneVideo, 0 }
 };
 
 static uint32 MapCodingFormatIdToCompressionValue(CodingFormatId codingFormatId)
@@ -132,7 +132,7 @@ void _stdxx_::WriteBitmapInfoHeader(Stream &stream, OutputStream &outputStream)
 	//check the pixel format
 	switch(stream.codingParameters.codingFormat->GetId())
 	{
-		case CodingFormatId::RawVideo:
+		case CodingFormatId::RawSinglePlaneVideo:
 		{
 			NamedPixelFormat namedPixelFormat;
 			ASSERT_EQUALS(true, stream.codingParameters.video.pixelFormat->GetNameIfExisting(namedPixelFormat));

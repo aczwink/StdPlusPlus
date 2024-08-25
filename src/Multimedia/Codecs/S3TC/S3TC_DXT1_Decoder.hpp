@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,9 +22,9 @@
 class S3TC_DXT1_Decoder : public StdXX::Multimedia::Decoder
 {
 public:
-	DecoderContext *CreateContext(Stream &stream) const override
+	DecoderContext *CreateContext(DecodingParameters& decodingParameters) const override
 	{
-		return new S3TC_DXT1_DecoderContext(stream);
+		return new S3TC_DXT1_DecoderContext(decodingParameters);
 	}
 
 	CodingFormatId GetCodingFormatId() const override

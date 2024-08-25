@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@
 #include "EBML.hpp"
 
 //Constructor
-MatroskaMuxer::MatroskaMuxer(const Format &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
+MatroskaMuxer::MatroskaMuxer(const ContainerFormat &refFormat, SeekableOutputStream &refOutput) : Muxer(refFormat, refOutput)
 {
 	this->currentCluster.isClusterOpen = false;
 	this->currentCluster.basePTS = 0;
@@ -143,19 +143,12 @@ void MatroskaMuxer::WriteEBMLUInt(uint64 value)
 
 void MatroskaMuxer::WriteAdditionalAudioStreamInfo(Stream &refStream)
 {
-	NOT_IMPLEMENTED_ERROR; //TODO: next
-	/*
-	ASSERT(refStream.GetCodec(), "If you see this, report to StdXX");
-
-	switch(refStream.GetCodec()->Get())
+	switch(refStream.codingParameters.codingFormat->GetId())
 	{
-		case CodecId::PCM_Float32LE:
-		{
+		case CodingFormatId::PCM_Float32LE:
 			this->WriteUIntElement(MATROSKA_ID_BITDEPTH, 32);
-		}
 			break;
 	}
-	*/
 }
 
 void MatroskaMuxer::WriteCodecElement(Stream &stream)
@@ -165,8 +158,17 @@ void MatroskaMuxer::WriteCodecElement(Stream &stream)
 	switch(stream.codingParameters.dataType)
 	{
 		case DataType::Audio:
-			NOT_IMPLEMENTED_ERROR; //TODO: next
-			break;
+		{
+			switch(stream.codingParameters.codingFormat->GetId())
+			{
+				case CodingFormatId::PCM_Float32LE:
+					this->WriteASCIIElement(MATROSKA_ID_CODECID, MATROSKA_CODEC_PCM_FLOAT_LE);
+					break;
+				default:
+					NOT_IMPLEMENTED_ERROR; //TODO: next
+			}
+		}
+		break;
 		case DataType::Subtitle:
 			NOT_IMPLEMENTED_ERROR; //TODO: next
 			break;
@@ -196,11 +198,6 @@ void MatroskaMuxer::WriteCodecElement(Stream &stream)
 
 	switch(stream.GetCodec()->Get())
 	{
-		case CodecId::PCM_Float32LE:
-		{
-			this->WriteASCIIElement(MATROSKA_ID_CODECID, CODEC_PCM_FLOAT_LE);
-		}
-			break;
 		case CodecId::PCM_S16LE:
 		{
 			this->WriteASCIIElement(MATROSKA_ID_CODECID, CODEC_PCM_INTEGER_LE);

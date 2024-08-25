@@ -4,7 +4,7 @@ option(EXTENSION_LIBAVFORMAT "libavformat (ffmpeg) format-extension." OFF)
 
 #VERY IMPORTANT!
 #!license issues!
-option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." ON)
+option(EXTENSION_LIBAVCODEC_PATENTED "Enable patented codecs. YOU SHOULD INFORM YOURSELF ABOUT THE IMPLICATIONS BEFORE ENABLING THIS." OFF)
 #VERY IMPORTANT!
 
 
@@ -16,7 +16,7 @@ if(${BACKENDS_AUTO_AVAILABLE})
 	endif ()
 endif ()
 
-set(EXTENSION_LIBAVCODEC OFF) #TODO: libavcodec currently crashes with some error. needs to be fixed
+#set(EXTENSION_LIBAVCODEC OFF) #TODO: libavcodec currently crashes with some error. needs to be fixed
 if(${EXTENSION_LIBAVCODEC})
 	if(NOT LIBAV_FOUND)
 		message(FATAL_ERROR "libavcodec could not be found.")
@@ -40,6 +40,7 @@ if(${EXTENSION_LIBAVCODEC})
 		${CMAKE_CURRENT_SOURCE_DIR}/codec/libavcodec_ParserContext.hpp
 
 		#.
+		${CMAKE_CURRENT_SOURCE_DIR}/ffmpeg_Exception.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/libavcodec_Extension.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/libavcodec_Extension.hpp
 		)

@@ -25,7 +25,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		RawImageMuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableOutputStream &outputStream);
+		RawImageMuxer(const StdXX::Multimedia::ContainerFormat &format, StdXX::SeekableOutputStream &outputStream);
 
 		//Methods
 		void Finalize() override;

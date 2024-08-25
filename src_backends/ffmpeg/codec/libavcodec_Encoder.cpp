@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,17 +27,17 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Class header
-EncoderContext *_stdxx_::libavcodec_Encoder::CreateContext(Stream &stream) const
+EncoderContext *libavcodec_Encoder::CreateContext(const EncodingParameters& encodingParameters) const
 {
-	return new libavcodec_EncoderContext(stream, this->codec);
+	return new libavcodec_EncoderContext(encodingParameters, this->codec);
 }
 
-CodingFormatId _stdxx_::libavcodec_Encoder::GetCodingFormatId() const
+CodingFormatId libavcodec_Encoder::GetCodingFormatId() const
 {
 	return this->codingFormatId;
 }
 
-String _stdxx_::libavcodec_Encoder::GetName() const
+String libavcodec_Encoder::GetName() const
 {
 	return u8"'" + String(this->codec->name) + u8"' (via libavcodec)";
 }

@@ -46,16 +46,14 @@ set(SOURCE_FILES
 
 		${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioBuffer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioDecoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/AudioFrame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Demuxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/EnumTypes.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Format.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/ContainerFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Frame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaObject.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/MediaPlayer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/Muxer.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoDecoder.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Multimedia/VideoFrame.hpp
 
 	#Smart Pointers
 	${CMAKE_CURRENT_SOURCE_DIR}/SmartPointers/AutoPointer.hpp

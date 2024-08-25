@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include "../QuickTime/QuickTimeDemuxer.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class QuickTimeFormat : public Format
+class QuickTimeFormat : public ContainerFormat
 {
 public:
 	Demuxer *CreateDemuxer(SeekableInputStream &inputStream) const override

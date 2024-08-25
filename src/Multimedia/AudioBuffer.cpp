@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -104,6 +104,9 @@ void AudioBuffer::ResampleSingleSample(const void *source, void *dest, AudioSamp
 		{
 			switch(targetSampleType)
 			{
+				case AudioSampleType::Float:
+					*(float32*)dest = *(const int16*)source / (float32)Signed<int16>::Max();
+					break;
 				case AudioSampleType::S16:
 					*(int16*)dest = *(const int16*)source;
 					break;

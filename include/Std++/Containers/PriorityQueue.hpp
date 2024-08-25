@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@ namespace StdXX
 	/**
 	 * Implementation as binary heap.
 	 * @tparam DataType
-	 * @tparam Comparator
+	 * @tparam Comparator - The comparison function to be used. If for a and b the comparison yields true, that means b has higher priority than a.
 	 */
     template<typename DataType, typename Comparator = LessThan<DataType>>
     class PriorityQueue : public ResizeableSequenceContainer<DataType>

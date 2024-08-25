@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,8 +21,11 @@
 #include <Std++/Containers/Optional.hpp>
 #include <Std++/Math/Size.hpp>
 #include <Std++/Buffers/FixedSizeBuffer.hpp>
+#include <Std++/Math/Rational.hpp>
 #include "AudioSampleFormat.hpp"
 #include "PixelFormat.hpp"
+#include "CodingFormat.hpp"
+#include "TimeScale.hpp"
 
 namespace StdXX::Multimedia
 {
@@ -44,7 +47,7 @@ namespace StdXX::Multimedia
 		}
 	};
 
-	struct CodingParameters
+	struct DecodingParameters
 	{
 		DataType dataType;
 		const CodingFormat *codingFormat = nullptr;
@@ -54,5 +57,18 @@ namespace StdXX::Multimedia
 
 		AudioCodingParameters audio;
 		VideoCodingParameters video;
+	};
+
+	struct EncodingParameters : public DecodingParameters
+	{
+		TimeScale timeScale;
+
+		inline EncodingParameters& operator=(const EncodingParameters&) = default;
+		inline EncodingParameters& operator=(const DecodingParameters& source)
+		{
+			DecodingParameters& ref = *this;
+			ref = source;
+			return *this;
+		}
 	};
 }

@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
 #include "DDS_Muxer.hpp"
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::Multimedia;
 
-class DDS_Format : public Format
+class DDS_Format : public ContainerFormat
 {
 public:
 	Demuxer *CreateDemuxer(SeekableInputStream &inputStream) const override

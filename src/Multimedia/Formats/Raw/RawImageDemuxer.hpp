@@ -25,7 +25,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		inline RawImageDemuxer(const StdXX::Multimedia::Format &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodingFormatId id)
+		inline RawImageDemuxer(const StdXX::Multimedia::ContainerFormat &format, StdXX::SeekableInputStream &inputStream, StdXX::Multimedia::CodingFormatId id)
 				: Demuxer(format, inputStream), codingFormatId(id)
 		{
 		}

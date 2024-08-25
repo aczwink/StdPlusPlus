@@ -17,12 +17,12 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 //Local
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include <Std++/Multimedia/CodingFormatId.hpp>
 
 namespace _stdxx_
 {
-	class RawImageFormat : public StdXX::Multimedia::Format
+	class RawImageFormat : public StdXX::Multimedia::ContainerFormat
 	{
 	public:
 		//Constructor

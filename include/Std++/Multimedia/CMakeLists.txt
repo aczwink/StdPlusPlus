@@ -7,12 +7,13 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/AudioSampleFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/BlockIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormat.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/FormatRegistry.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FormatRegistry.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingFormatId.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CodingParameters.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/ComputePixmapResampler.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Encoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/EncoderContext.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/FeatureDescriptor.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Decoder.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/DecoderContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Index.hpp
@@ -23,6 +24,7 @@ set(SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/ParserContext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/PixelFormat.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Pixmap.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/RGBPixmapView.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Stream.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TimeIndex.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TimeScale.hpp

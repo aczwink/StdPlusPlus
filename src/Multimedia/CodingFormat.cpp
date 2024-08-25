@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -43,17 +43,17 @@ CodingFormat::~CodingFormat()
 //Public methods
 void CodingFormat::AddDecoder(Decoder *decoder, float32 quality)
 {
-	this->decoders.Insert({1 - quality, decoder});
+	this->decoders.Insert({quality, decoder});
 }
 
 void CodingFormat::AddEncoder(Encoder *encoder, float32 quality)
 {
-	this->encoders.Insert({1 - quality, encoder});
+	this->encoders.Insert({quality, encoder});
 }
 
 void CodingFormat::AddParser(Parser *parser, float32 quality)
 {
-	this->parsers.Insert({1 - quality, parser});
+	this->parsers.Insert({quality, parser});
 }
 
 const Decoder *CodingFormat::GetBestMatchingDecoder() const

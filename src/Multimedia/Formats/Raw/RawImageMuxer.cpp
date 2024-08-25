@@ -24,7 +24,7 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-RawImageMuxer::RawImageMuxer(const Format &format, SeekableOutputStream &outputStream) : Muxer(format, outputStream)
+RawImageMuxer::RawImageMuxer(const ContainerFormat &format, SeekableOutputStream &outputStream) : Muxer(format, outputStream)
 {
 }
 

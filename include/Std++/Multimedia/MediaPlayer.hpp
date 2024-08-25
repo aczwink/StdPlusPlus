@@ -29,7 +29,7 @@
 #include "../Time/Timer.hpp"
 #include "ComputePixmapResampler.hpp"
 #include "Demuxer.hpp"
-#include "Format.hpp"
+#include "ContainerFormat.hpp"
 
 namespace StdXX
 {
@@ -283,7 +283,7 @@ namespace StdXX
 		private:
 			//Members
 			SeekableInputStream &inputStream;
-			const Format *format;
+			const ContainerFormat *format;
 			class Demuxer *demuxer;
 			struct
 			{

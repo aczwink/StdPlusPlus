@@ -55,7 +55,7 @@ MediaPlayer::MediaPlayer(SeekableInputStream &inputStream) : inputStream(inputSt
 		NOT_IMPLEMENTED_ERROR;
 		/*
 		//second try by extension
-		this->format = Format::FindByExtension(refPath.GetFileExtension());
+		this->format = ContainerFormat::FindByExtension(refPath.GetFileExtension());
 		if(!this->pFormat)
 		{
 			this->refLogger << "No format could be found for file '" << refPath.String() << "'. Either the format is not supported or this is not a valid media file." << endl;

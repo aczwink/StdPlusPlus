@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,28 +21,79 @@
 #include "../Definitions.h"
 #include "../Unsigned.hpp"
 #include "EnumTypes.hpp"
+#include "AudioBuffer.hpp"
+#include "Pixmap.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
-        class STDPLUSPLUS_API Frame
+        class Frame
         {
         public:
             //Members
             uint64 pts;
 
-            //Constructor
-            inline Frame()
+            //Constructors
+            inline Frame(AudioBuffer* audioBuffer)
             {
                 this->pts = Unsigned<uint64>::Max();
+                this->dataType = DataType::Audio;
+                this->audioBuffer = audioBuffer;
+                this->pImage = nullptr;
+            }
+
+            inline Frame(Pixmap* pImage)
+            {
+                this->pts = Unsigned<uint64>::Max();
+                this->dataType = DataType::Video;
+                this->audioBuffer = nullptr;
+                this->pImage = pImage;
             }
 
             //Destructor
-            virtual ~Frame(){}
+            inline ~Frame()
+            {
+                delete this->audioBuffer;
+                delete this->pImage;
+            }
 
-            //Abstract
-            virtual DataType GetType() const = 0;
+            //Inline
+            inline const AudioBuffer* GetAudioBuffer() const
+            {
+                ASSERT_EQUALS(DataType::Audio, this->dataType);
+                return this->audioBuffer;
+            }
+
+            //Inline
+            inline Pixmap *GetImage()
+            {
+                ASSERT_EQUALS(DataType::Video, this->dataType);
+                return this->pImage;
+            }
+
+            inline const Pixmap *GetPixmap() const
+            {
+                ASSERT_EQUALS(DataType::Video, this->dataType);
+                return this->pImage;
+            }
+
+            inline DataType GetType() const
+            {
+                return this->dataType;
+            }
+
+            inline void SetImage(Pixmap *pImage)
+            {
+                ASSERT_EQUALS(DataType::Video, this->dataType);
+                this->pImage = pImage;
+            }
+
+        private:
+            //Members
+            DataType dataType;
+            AudioBuffer* audioBuffer;
+            Pixmap *pImage;
         };
     }
 }

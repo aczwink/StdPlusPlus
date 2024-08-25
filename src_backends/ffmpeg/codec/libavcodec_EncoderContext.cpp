@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -22,7 +22,6 @@
 #include "../libavcodec_Extension.hpp"
 #include <Std++/Debug.hpp>
 #include <Std++/_Backends/BackendManager.hpp>
-#include <Std++/Multimedia/VideoStream.hpp>
 #include <Std++/_Backends/ExtensionManager.hpp>
 //Namespaces
 using namespace _stdxx_;
@@ -30,26 +29,27 @@ using namespace StdXX;
 using namespace StdXX::Multimedia;
 
 //Constructor
-libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCodec *codec)
-	: EncoderContext(stream)
+libavcodec_EncoderContext::libavcodec_EncoderContext(const EncodingParameters& encodingParameters, const AVCodec *codec) : EncoderContext(encodingParameters)
 {
+	const auto& codingParameters = encodingParameters;
+
 	this->codecContext = avcodec_alloc_context3(codec);
 	this->packet = av_packet_alloc();
 	this->frame = av_frame_alloc();
 
-	this->codecContext->time_base.num = static_cast<int>(stream.timeScale.numerator);
-	this->codecContext->time_base.den = static_cast<int>(stream.timeScale.denominator);
-	switch(stream.codingParameters.dataType)
+	this->codecContext->time_base.num = static_cast<int>(encodingParameters.timeScale.numerator);
+	this->codecContext->time_base.den = static_cast<int>(encodingParameters.timeScale.denominator);
+	switch(codingParameters.dataType)
 	{
 		case DataType::Audio:
 		{
 
-			ASSERT(stream.codingParameters.audio.sampleFormat.HasValue(), u8"You must give a sample format.");
-			switch (stream.codingParameters.audio.sampleFormat->sampleType)
+			ASSERT(codingParameters.audio.sampleFormat.HasValue(), u8"You must give a sample format.");
+			switch (codingParameters.audio.sampleFormat->sampleType)
 			{
 				case AudioSampleType::S16:
 				{
-					if (stream.codingParameters.audio.sampleFormat->IsPlanar())
+					if (codingParameters.audio.sampleFormat->IsPlanar())
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16P;
 					else
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_S16;
@@ -57,7 +57,7 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCod
 				break;
 				case AudioSampleType::U8:
 				{
-					if (stream.codingParameters.audio.sampleFormat->IsPlanar())
+					if (codingParameters.audio.sampleFormat->IsPlanar())
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8P;
 					else
 						this->codecContext->sample_fmt = AV_SAMPLE_FMT_U8;
@@ -69,23 +69,20 @@ libavcodec_EncoderContext::libavcodec_EncoderContext(Stream &stream, const AVCod
 			
 			//AV_SAMPLE_FMT_FLTP
 
-			this->codecContext->sample_rate = stream.codingParameters.audio.sampleRate;
-			this->codecContext->channel_layout = this->MapChannelLayout(*stream.codingParameters.audio.sampleFormat);
-			this->codecContext->channels = stream.codingParameters.audio.sampleFormat->nChannels;
+			this->codecContext->sample_rate = codingParameters.audio.sampleRate;
+			this->codecContext->ch_layout = this->MapChannelLayout(*codingParameters.audio.sampleFormat);
 		}
 		break;
 		case DataType::Video:
 		{
-			const VideoStream &videoStream = (const VideoStream &) stream;
+			ASSERT(codingParameters.video.pixelFormat.HasValue(), u8"You must give a pixel format.");
 
-			ASSERT(videoStream.pixelFormat.HasValue(), u8"You must give a pixel format.");
-
-			bool nameFound = videoStream.pixelFormat.Value().GetNameIfExisting(this->namedPixelFormat);
+			bool nameFound = codingParameters.video.pixelFormat.Value().GetNameIfExisting(this->namedPixelFormat);
 			ASSERT(nameFound, u8"TODO: ...");
 
 			this->codecContext->pix_fmt = ExtensionManager::GetRootInstance().GetExtension<libavcodec_Extension>()->MapPixelFormat(this->namedPixelFormat);
-			this->codecContext->width = videoStream.codingParameters.video.size.width;
-			this->codecContext->height = videoStream.codingParameters.video.size.height;
+			this->codecContext->width = codingParameters.video.size.width;
+			this->codecContext->height = codingParameters.video.size.height;
 		}
 		break;
 		default:
@@ -110,12 +107,12 @@ void libavcodec_EncoderContext::Encode(const Frame &frame)
 	switch (frame.GetType())
 	{
 	case DataType::Audio:
-		this->MapAudioFrame((const AudioFrame &)frame);
+		this->MapAudioFrame(frame);
 		break;
 	case DataType::Subtitle:
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me
 	case DataType::Video:
-		this->MapVideoFrame((const VideoFrame &)frame);
+		this->MapVideoFrame(frame);
 		break;
 	}
 	this->Encode(this->frame);
@@ -159,9 +156,8 @@ bool libavcodec_EncoderContext::FindSampleFormat(AVSampleFormat sampleFormat, co
 	return false;
 }
 
-void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) const
+void libavcodec_EncoderContext::MapAudioFrame(const Frame &audioFrame) const
 {
-	const Stream& audioStream = this->GetStream();
 	const AudioBuffer *audioBuffer = audioFrame.GetAudioBuffer();
 
 	av_frame_unref(this->frame);
@@ -169,8 +165,7 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	this->frame->format = this->codecContext->sample_fmt;
 	this->frame->pts = audioFrame.pts;
 	this->frame->nb_samples = audioBuffer->GetNumberOfSamplesPerChannel();
-	this->frame->channels = audioStream.codingParameters.audio.sampleFormat->nChannels;
-	this->frame->channel_layout = this->codecContext->channel_layout;
+	this->frame->ch_layout = this->MapChannelLayout(*this->Parameters().audio.sampleFormat);
 
 	int ret = av_frame_get_buffer(this->frame, 0);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
@@ -178,15 +173,23 @@ void libavcodec_EncoderContext::MapAudioFrame(const AudioFrame &audioFrame) cons
 	ret = av_frame_make_writable(this->frame);
 	ASSERT(ret == 0, u8"TODO: implement this correctly");
 	
-	for (uint8 i = 0; i < audioStream.codingParameters.audio.sampleFormat->nPlanes; i++)
+	for (uint8 i = 0; i < this->Parameters().audio.sampleFormat->nPlanes; i++)
 	{
 		MemCopy(this->frame->data[i], audioBuffer->GetPlane(i), Math::Min((uint32)this->frame->linesize[i], audioBuffer->GetPlaneSize(i))); //min size because of alignment
 	}
 }
 
-uint64_t libavcodec_EncoderContext::MapChannelLayout(const AudioSampleFormat &sampleFormat) const
+AVChannelLayout libavcodec_EncoderContext::MapChannelLayout(const AudioSampleFormat &sampleFormat) const
 {
-	return av_get_default_channel_layout(sampleFormat.nChannels); //TODO: implement this correctly
+	if(
+		(sampleFormat.nChannels == 1)
+	)
+	{
+		AVChannelLayout channelLayout;
+		av_channel_layout_default(&channelLayout, 1);
+		return channelLayout;
+	}
+	NOT_IMPLEMENTED_ERROR; //TODO: implement this correctly for all cases
 }
 
 void libavcodec_EncoderContext::MapPacket()
@@ -207,7 +210,7 @@ void libavcodec_EncoderContext::MapPacket()
 	this->AddPacket(packet);
 }
 
-void libavcodec_EncoderContext::MapVideoFrame(const VideoFrame &videoFrame) const
+void libavcodec_EncoderContext::MapVideoFrame(const Frame &videoFrame) const
 {
 	NamedPixelFormat framePixelFormat;
 	ASSERT(videoFrame.GetPixmap()->GetPixelFormat().GetNameIfExisting(framePixelFormat), u8"TODO: ...");

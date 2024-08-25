@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -34,5 +34,11 @@ public:
 	String GetName() const override
 	{
 		return "S3TC DXT1 - S3 Texture Compression";
+	}
+
+	FeatureDescriptor<AudioSampleType> GetSupportedSampleTypes() const override
+	{
+		NOT_IMPLEMENTED_ERROR; //TODO: implement me
+		return FeatureDescriptor<AudioSampleType>();
 	}
 };

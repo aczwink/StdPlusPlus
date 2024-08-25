@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,17 +19,16 @@
 
 #include <Std++/Multimedia/AudioBuffer.hpp>
 #include <Std++/Multimedia/AudioDecoder.hpp>
-#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/ComputePixmapResampler.hpp>
 #include <Std++/Multimedia/Demuxer.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
-#include <Std++/Multimedia/Format.hpp>
+#include <Std++/Multimedia/ContainerFormat.hpp>
 #include <Std++/Multimedia/Index.hpp>
 #include <Std++/Multimedia/MediaPlayer.hpp>
 #include <Std++/Multimedia/Muxer.hpp>
 #include <Std++/Multimedia/Packet.hpp>
 #include <Std++/Multimedia/PacketWrapper.hpp>
+#include <Std++/Multimedia/RGBPixmapView.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/VideoDecoder.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Multimedia/SMetaInfo.h>

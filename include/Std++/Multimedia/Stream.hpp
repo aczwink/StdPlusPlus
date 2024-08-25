@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -32,7 +32,7 @@
 
 namespace StdXX::Multimedia
 {
-	class STDPLUSPLUS_API Stream
+	class Stream
 	{
 	public:
 		//Members
@@ -40,7 +40,7 @@ namespace StdXX::Multimedia
 		TimeScale timeScale;
 		uint64 startTime;
 		uint64 duration;
-		CodingParameters codingParameters;
+		EncodingParameters codingParameters;
 		struct
 		{
 			/**

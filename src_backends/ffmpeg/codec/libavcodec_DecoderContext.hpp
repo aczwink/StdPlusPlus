@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -34,7 +34,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_DecoderContext(const StdXX::Multimedia::Decoder &decoder, StdXX::Multimedia::Stream &stream, const AVCodec *codec);
+		libavcodec_DecoderContext(StdXX::Multimedia::DecodingParameters& decodingParameters, const AVCodec *codec);
 
 		//Destructor
 		~libavcodec_DecoderContext();

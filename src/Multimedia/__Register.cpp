@@ -29,6 +29,7 @@
 #include "Codecs/PCM/U8/PCM_U8_CodingFormat.hpp"
 #include "Codecs/PCM/S16/PCM_S16BE_CodingFormat.hpp"
 #include "Codecs/PCM/S8/PCM_S8_CodingFormat.hpp"
+#include "Codecs/PCM/ADPCM/MS_ADPCM_CodingFormat.hpp"
 
 //Subtitle coding formats
 #include "Codecs/Raw_Subtitles/UTF8PlainText_CodingFormat.hpp"
@@ -38,9 +39,9 @@
 #include "Codecs/MPEG/H264_CodingFormat.hpp"
 #include "Codecs/MPEG/MPEG4_Part2_CodingFormat.hpp"
 #include "Codecs/MPEG/MS_MPEG4_Part2_V2_CodingFormat.hpp"
-#include "Codecs/RawVideo/RawVideo_CodingFormat.hpp"
 #include "Codecs/S3TC/S3TC_DXT1_CodingFormat.hpp"
 #include "Codecs/Xiph/Theora_CodingFormat.hpp"
+#include "Codecs/RawSinglePlaneVideo/RawSinglePlaneVideo_CodingFormat.hpp"
 
 //Container formats
 #include "Formats/BMP/BMP_Format.hpp"
@@ -52,12 +53,15 @@
 #include "Formats/MP4/MP4Format.hpp"
 
 //Decoders
+#include "Codecs/PCM/Float32LE/PCM_Float32LE_Decoder.hpp"
 #include "Codecs/PCM/S16/PCM_S16_Decoder.hpp"
 #include "Codecs/S3TC/S3TC_DXT1_Decoder.hpp"
-#include "Codecs/RawVideo/RawVideoDecoder.hpp"
+#include "Codecs/RawSinglePlaneVideo/RawSinglePlaneVideoDecoder.hpp"
 
 //Encoders
 #include "Codecs/PCM/S16/PCM_S16_Encoder.hpp"
+#include "Codecs/PCM/Float32LE/PCM_Float32LE_Encoder.hpp"
+#include "Codecs/RawSinglePlaneVideo/RawSinglePlaneVideoEncoder.hpp"
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;
@@ -70,6 +74,7 @@ void FormatRegistry::RegisterCodingFormats()
 	this->Register(new AAC_CodingFormat);
 	this->Register(new AC3_CodingFormat);
 	this->Register(new MP3_CodingFormat);
+	this->Register(new MS_ADPCM_CodingFormat);
 	this->Register(new PCM_Float32LE_CodingFormat);
 	this->Register(new PCM_S16BE_CodingFormat);
 	this->Register(new PCM_S16LE_CodingFormat);
@@ -87,7 +92,7 @@ void FormatRegistry::RegisterCodingFormats()
 	this->Register(new MPEG4_Part2_CodingFormat);
 	this->Register(new MS_MPEG4_Part2_V2_CodingFormat);
 	this->Register(new PNG_CodingFormat);
-	this->Register(new RawVideo_CodingFormat);
+	this->Register(new RawSinglePlaneVideo_CodingFormat);
 	this->Register(new S3TC_DXT1_CodingFormat);
 	this->Register(new Theora_CodingFormat);
 }
@@ -107,14 +112,17 @@ void FormatRegistry::RegisterContainerFormats()
 
 void FormatRegistry::RegisterDecoders()
 {
+	this->Register(new PCM_Float32LE_Decoder, 0.0f);
 	this->Register(new PCM_S16_Decoder(true), 0.0f);
 	this->Register(new PCM_S16_Decoder(false), 0.0f);
-	this->Register(new RawVideoDecoder, 0.0f);
+	this->Register(new RawSinglePlaneVideoDecoder, 0.0f);
 	this->Register(new S3TC_DXT1_Decoder, 0.0f);
 }
 
 void FormatRegistry::RegisterEncoders()
 {
+	this->Register(new PCM_Float32LE_Encoder, 0.0f);
 	this->Register(new PCM_S16_Encoder(true), 0.0f);
 	this->Register(new PCM_S16_Encoder(false), 0.0f);
+	this->Register(new RawSinglePlaneVideoEncoder, 0.0f);
 }

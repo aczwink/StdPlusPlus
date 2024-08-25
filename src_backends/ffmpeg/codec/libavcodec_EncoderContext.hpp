@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2018-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -23,12 +23,10 @@ extern "C"
 #include <libavutil/channel_layout.h>
 }
 //Local
-#include <Std++/Multimedia/AudioFrame.hpp>
 #include <Std++/Multimedia/EncoderContext.hpp>
 #include <Std++/Multimedia/CodingFormatId.hpp>
 #include <Std++/Multimedia/Stream.hpp>
 #include <Std++/Multimedia/PixelFormat.hpp>
-#include <Std++/Multimedia/VideoFrame.hpp>
 #include <Std++/Containers/BinaryTreeMap/BijectiveMap.hpp>
 
 namespace _stdxx_
@@ -37,7 +35,7 @@ namespace _stdxx_
 	{
 	public:
 		//Constructor
-		libavcodec_EncoderContext(StdXX::Multimedia::Stream &stream, const AVCodec *codec);
+		libavcodec_EncoderContext(const StdXX::Multimedia::EncodingParameters& encodingParameters, const AVCodec *codec);
 
 		//Destructor
 		~libavcodec_EncoderContext();
@@ -56,9 +54,9 @@ namespace _stdxx_
 		//Methods
 		void Encode(AVFrame *frame);
 		bool FindSampleFormat(AVSampleFormat sampleFormat, const AVCodec *codec) const;
-		void MapAudioFrame(const StdXX::Multimedia::AudioFrame &audioFrame) const;
-		uint64_t MapChannelLayout(const StdXX::Multimedia::AudioSampleFormat &sampleFormat) const;
+		void MapAudioFrame(const StdXX::Multimedia::Frame &audioFrame) const;
+		AVChannelLayout MapChannelLayout(const StdXX::Multimedia::AudioSampleFormat &sampleFormat) const;
 		void MapPacket();
-		void MapVideoFrame(const StdXX::Multimedia::VideoFrame &frame) const;
+		void MapVideoFrame(const StdXX::Multimedia::Frame &frame) const;
 	};
 }

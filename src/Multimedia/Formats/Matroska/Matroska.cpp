@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -121,6 +121,7 @@ CodingFormatIdMap<String> Matroska::GetCodingFormatMap()
 	//Audio coding formats
 	matroskaCodecMap.Insert(u8"A_AAC", CodingFormatId::AAC);
 	matroskaCodecMap.Insert(u8"A_MPEG/L3", CodingFormatId::MP3);
+	matroskaCodecMap.Insert(MATROSKA_CODEC_PCM_FLOAT_LE, CodingFormatId::PCM_Float32LE);
 	matroskaCodecMap.Insert(u8"A_VORBIS", CodingFormatId::Vorbis);
 
 	//Subtitle coding formats

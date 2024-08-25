@@ -26,7 +26,7 @@ class WAVE_Muxer : public Muxer
 {
 public:
 	//Constructor
-	WAVE_Muxer(const Format &refFormat, SeekableOutputStream &refOutput);
+	WAVE_Muxer(const ContainerFormat &refFormat, SeekableOutputStream &refOutput);
 
 	//Methods
 	void Finalize();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,28 +18,34 @@
  */
 #pragma once
 //Local
-#include "../Definitions.h"
 #include <Std++/Containers/LinkedList/LinkedList.hpp>
+#include "../Definitions.h"
+#include "CodingParameters.hpp"
+#include "Frame.hpp"
 
 namespace StdXX
 {
     namespace Multimedia
     {
         //Forward declarations
-		class Frame;
 		class Packet;
-		class Stream;
 
         class EncoderContext
         {
         public:
 			//Constructor
-			inline EncoderContext(Stream &stream) : stream(stream)
+			inline EncoderContext(const EncodingParameters& encodingParameters) : encodingParameters(encodingParameters)
 			{
 			}
 
             //Destructor
             virtual ~EncoderContext(){}
+
+            //Properties
+            inline const EncodingParameters& Parameters() const
+			{
+				return this->encodingParameters;
+			}
 
             //Methods
             virtual void Encode(const Frame &frame) = 0;
@@ -49,11 +55,6 @@ namespace StdXX
 			inline Packet *GetNextPacket()
 			{
 				return this->orderedPackets.PopFront();
-			}
-
-			inline const Stream &GetStream() const
-			{
-				return this->stream;
 			}
 
 			inline bool IsPacketReady() const
@@ -70,7 +71,7 @@ namespace StdXX
 
 		private:
         	//Members
-			Stream &stream;
+			EncodingParameters encodingParameters;
 			LinkedList<Packet *> orderedPackets;
         };
     }
