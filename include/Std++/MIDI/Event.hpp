@@ -17,6 +17,8 @@
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
+//Local
+#include <Std++/Buffers/DynamicByteBuffer.hpp>
 
 namespace StdXX::MIDI
 {
@@ -34,7 +36,24 @@ namespace StdXX::MIDI
         uint64 timeStamp;
         uint8 value1;
         uint8 value2;
+
+		//Operators
+		inline bool operator==(const ChannelMessage& rhs) const
+		{
+			return (this->type == rhs.type) and (this->timeStamp == rhs.timeStamp) and (this->value1 == rhs.value1) and (this->value2 == rhs.value2);
+		}
+
+		inline bool operator!=(const ChannelMessage& rhs) const
+		{
+			return !(*this == rhs);
+		}
     };
+
+    enum class ControlChangeMessageType
+	{
+    	BankSelect = 0,
+    	Expression = 11
+	};
 
     enum class MetaEventType
     {
@@ -48,5 +67,16 @@ namespace StdXX::MIDI
         MetaEventType type;
         uint64 timeStamp;
         DynamicByteBuffer data;
+
+        //Operators
+        inline bool operator==(const MetaEvent& rhs) const
+		{
+			return (this->type == rhs.type) and (this->timeStamp == rhs.timeStamp) and (this->data == rhs.data);
+		}
+
+		inline bool operator!=(const MetaEvent& rhs) const
+		{
+        	return !(*this == rhs);
+		}
     };
 }

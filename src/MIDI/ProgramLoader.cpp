@@ -118,7 +118,6 @@ void ProgramLoader::ReadTrack(InputStream &inputStream, Program &program, Binary
                 {
                     case 0x2F:
                         foundEnd = true;
-                        break;
                     default:
                         program.AddMetaEvent(static_cast<MetaEventType>(event.metaType), t, event.byteData);
                         break;

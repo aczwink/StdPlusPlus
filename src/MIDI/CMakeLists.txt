@@ -3,7 +3,10 @@ set(SOURCE_FILES
 
     ${CMAKE_CURRENT_SOURCE_DIR}/Decoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Decoder.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Encoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Encoder.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/EventScheduler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/EventStreamer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Factory.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/MultiConnectionOutputSequencer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Program.cpp

@@ -19,95 +19,19 @@
 //Class header
 #include <Std++/MIDI/EventScheduler.hpp>
 //Local
-#include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Time/TimeMisc.hpp>
+#include <Std++/MIDI/EventStreamer.hpp>
 //Namespaces
 using namespace StdXX;
 using namespace StdXX::MIDI;
 
-enum class TrackType
-{
-    ChannelTrack,
-    MetaTrack,
-};
-
-struct NextEventResult
-{
-    TrackType trackType;
-    uint32 channelTrackNumber;
-    uint32 trackIndex;
-    uint64 deltaTime;
-};
-
-struct ScheduleState
-{
-    uint32 metaTrackIdx = 0;
-    FixedArray<uint32> channelIndices;
-    uint64 t = 0;
-
-    //Constructor
-    inline ScheduleState(uint32 nChannelTracks) : channelIndices(nChannelTracks)
-    {
-        for(uint32& channelIndex : this->channelIndices)
-            channelIndex = 0;
-    }
-
-    //Methods
-    bool FindNextEventTrack(const Program& program, NextEventResult& result)
-    {
-        int64 smallestT = Signed<int64>::Min();
-
-        const auto& metaTrack = program.MetaTrack();
-        if(this->metaTrackIdx < metaTrack.GetNumberOfElements())
-        {
-            smallestT = metaTrack[this->metaTrackIdx].timeStamp;
-            result.trackType = TrackType::MetaTrack;
-            result.trackIndex = this->metaTrackIdx;
-        }
-
-        for(uint32 channelNumber = 0; channelNumber < this->channelIndices.GetNumberOfElements(); channelNumber++)
-        {
-            uint32 channelIndex = this->channelIndices[channelNumber];
-            const auto& channelTrack = program.GetChannelTrack(channelNumber);
-            if(channelIndex < channelTrack.GetNumberOfElements())
-            {
-                if(channelTrack[channelIndex].timeStamp < smallestT)
-                {
-                    smallestT = channelTrack[channelIndex].timeStamp;
-                    result.trackType = TrackType::ChannelTrack;
-                    result.channelTrackNumber = channelNumber;
-                    result.trackIndex = channelIndex;
-                }
-            }
-        }
-
-        result.deltaTime = smallestT - this->t;
-        return smallestT >= 0;
-    }
-
-    void Update(const NextEventResult& nextEventResult)
-    {
-        this->t += nextEventResult.deltaTime;
-
-        switch(nextEventResult.trackType)
-        {
-            case TrackType::ChannelTrack:
-                this->channelIndices[nextEventResult.channelTrackNumber]++;
-                break;
-            case TrackType::MetaTrack:
-                this->metaTrackIdx++;
-                break;
-        }
-    }
-};
-
 //Public methods
 void EventScheduler::Schedule(const bool& continuePlaying)
 {
-    ScheduleState state(this->program.NumberOfChannelTracks());
+	EventStreamer streamer(this->program);
 
     NextEventResult nextEvent;
-    while(continuePlaying and state.FindNextEventTrack(this->program, nextEvent))
+    while(continuePlaying and streamer.FindNextEvent(nextEvent))
     {
         uint64 delta_us = (nextEvent.deltaTime / this->ticksPerMicrosecond).DivideAndRoundDown();
         Sleep(delta_us * 1000);
@@ -155,7 +79,5 @@ void EventScheduler::Schedule(const bool& continuePlaying)
             }
             break;
         }
-
-        state.Update(nextEvent);
     }
 }

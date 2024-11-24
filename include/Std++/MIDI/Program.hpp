@@ -62,6 +62,11 @@ namespace StdXX::MIDI
             this->channelTracks[trackNumber].Push({type, t, value1, value2});
         }
 
+        inline void AddControlChangeMessage(uint16 trackNumber, uint64 t, ControlChangeMessageType controlChangeMessageType, uint8 value)
+        {
+            this->AddChannelMessage(ChannelMessageType::ControlChange, trackNumber, t, (uint8)controlChangeMessageType, value);
+        }
+
         inline void AddMetaEvent(MetaEventType type, uint64 t, const DynamicByteBuffer& data)
         {
             this->metaEvents.Push({type, t, data});
@@ -72,6 +77,9 @@ namespace StdXX::MIDI
             return this->channelTracks[channelNumber];
         }
 
+        //Methods
+        void Write(SeekableOutputStream& seekableOutputStream) const;
+
         //Functions
         static Program Load(InputStream& inputStream);
 
@@ -80,5 +88,8 @@ namespace StdXX::MIDI
         uint16 ticksPerBeat;
         DynamicArray<DynamicArray<ChannelMessage>> channelTracks;
         DynamicArray<MetaEvent> metaEvents;
+
+        //Methods
+		void WriteTrack(SeekableOutputStream& seekableOutputStream) const;
     };
 }
