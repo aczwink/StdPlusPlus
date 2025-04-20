@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -122,6 +122,17 @@ namespace StdXX
 					return false;
 			}
 			return true;
+		}
+
+		//Methods
+		bool Contains(const DataType& value) const
+		{
+			for(uint32 i = 0; i < this->nElements; i++)
+			{
+				if(this->data[i] == value)
+					return true;
+			}
+			return false;
 		}
 
 		//Inline

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -16,22 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with Std++.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#pragma once
 //Local
-#include <Std++/Containers/Strings/String.hpp>
+#include <Std++/SmartPointers/UniquePointer.hpp>
+#include <Std++/ShutdownManager.hpp>
+#include "FileFormat.hpp"
 
-namespace StdXX::FileTypes
+namespace StdXX::FileFormats
 {
-    namespace Archives
-    {
-        const String _7zip = u8"application/x-7z-compressed";
-        const String zip = u8"application/zip";
-    }
+	class FormatRegistry : public Releasable
+	{
+	public:
+		//Methods
+		const FileFormat* ProbeFormat(SeekableInputStream &inputStream) const;
+		void Release() override;
 
-    namespace MultiMedia
-    {
-        namespace Audio
-        {
-            const String WAVE = u8"audio/wav";
-        }
-    }
+		//Functions
+		inline static FormatRegistry& Instance()
+		{
+			static FormatRegistry instance;
+			return instance;
+		}
+
+	private:
+		//State
+		DynamicArray<UniquePointer<FileFormat>> formats;
+
+		//Constructor
+		FormatRegistry();
+
+		//Methods
+		void RegisterFormats();
+	};
 }

@@ -22,6 +22,8 @@
 #include <Std++/Multimedia/Decoder.hpp>
 #include <Std++/Multimedia/Encoder.hpp>
 #include <Std++/Streams/Readers/DataReader.hpp>
+#include <Std++/FileFormats/FormatRegistry.hpp>
+
 //Namespaces
 using namespace _stdxx_;
 using namespace StdXX;

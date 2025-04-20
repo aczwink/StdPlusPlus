@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -57,6 +57,10 @@
 #include <Std++/Devices/AudioDevice.hpp>
 #include <Std++/Devices/ComputeDevice.hpp>
 #include <Std++/Devices/DeviceEnumerator.hpp>
+
+//FileFormats
+#include <Std++/FileFormats/CommonFileFormats.hpp>
+#include <Std++/FileFormats/FormatRegistry.hpp>
 
 //Internationalization
 #include <Std++/Internationalization/TimeZone.hpp>

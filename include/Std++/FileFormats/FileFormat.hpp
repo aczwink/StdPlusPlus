@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -21,9 +21,9 @@
 #include <Std++/Containers/Array/FixedArray.hpp>
 #include <Std++/Streams/SeekableInputStream.hpp>
 
-namespace StdXX::FileTypes
+namespace StdXX::FileFormats
 {
-    class FileType
+    class FileFormat
     {
     public:
         //Abstract
