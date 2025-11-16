@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -26,7 +26,7 @@ namespace StdXX
 {
 	namespace CommonFileFormats
 	{
-		enum class JsonType
+		enum class JSONType
 		{
 			Null,
 			Array,
@@ -36,83 +36,96 @@ namespace StdXX
 			String
 		};
 
-		class JsonValue
+		class JSONValue
 		{
 		public:
 			//Constructors
-			inline JsonValue() : type(JsonType::Null)
+			inline JSONValue() : type(JSONType::Null)
 			{
 			}
 
-			inline JsonValue(bool b) : type(JsonType::Boolean)
+			inline JSONValue(bool b) : type(JSONType::Boolean)
 			{
 				this->value.boolean = b;
 			}
 
-			inline JsonValue(int32 number) : type(JsonType::Number)
+			inline JSONValue(int32 number) : type(JSONType::Number)
 			{
 				this->value.number = number;
 			}
 
-			inline JsonValue(uint32 number) : type(JsonType::Number)
+			inline JSONValue(uint32 number) : type(JSONType::Number)
 			{
 				this->value.number = number;
 			}
 
-			inline JsonValue(uint64 number) : type(JsonType::Number)
+			inline JSONValue(uint64 number) : type(JSONType::Number)
 			{
 				this->value.number = number;
 			}
 
-			inline JsonValue(float64 number) : type(JsonType::Number)
+			inline JSONValue(float64 number) : type(JSONType::Number)
 			{
 				this->value.number = number;
 			}
 
-			inline JsonValue(const char* string) : type(JsonType::String), stringValue(string)
+			inline JSONValue(const char* string) : type(JSONType::String), stringValue(string)
 			{
 			}
 
-			inline JsonValue(const String& string) : type(JsonType::String), stringValue(string)
+			inline JSONValue(const String& string) : type(JSONType::String), stringValue(string)
 			{
 			}
 
-			inline JsonValue(const JsonValue& other) : type(JsonType::Null)
+			inline JSONValue(const JSONValue& other) : type(JSONType::Null)
 			{
 				*this = other;
 			}
 
-			inline JsonValue(JsonValue&& other) : type(JsonType::Null)
+			inline JSONValue(JSONValue&& other) : type(JSONType::Null)
 			{
 				*this = Move(other);
 			}
 
 			//Destructor
-			~JsonValue();
+			~JSONValue();
 
 			//Operators
-			JsonValue& operator=(const JsonValue& rhs);
-			JsonValue& operator=(JsonValue&& rhs);
+			JSONValue& operator=(const JSONValue& rhs);
+			JSONValue& operator=(JSONValue&& rhs);
 
-			inline JsonValue &operator[](const String& key)
+			inline JSONValue &operator[](const String& key)
 			{
-				ASSERT(this->type == JsonType::Object, u8"Can only assign to objects");
+				ASSERT(this->type == JSONType::Object, u8"Can only assign to objects");
 				return this->value.object->operator[](key);
 			}
 
-			inline const JsonValue &operator[](const String& key) const
+			inline const JSONValue &operator[](const String& key) const
 			{
-				ASSERT(this->type == JsonType::Object, u8"Can only access objects by key");
-				const BinaryTreeMap<String, JsonValue>& map = *this->value.object;
+				ASSERT(this->type == JSONType::Object, u8"Can only access objects by key");
+				const BinaryTreeMap<String, JSONValue>& map = *this->value.object;
 				return map[key];
 			}
 
 			//Logical operators
-			bool operator==(const JsonValue& rhs) const;
+			bool operator==(const JSONValue& rhs) const;
 
-			inline bool operator!=(const JsonValue& rhs) const
+			inline bool operator!=(const JSONValue& rhs) const
 			{
 				return !(*this == rhs);
+			}
+
+			//Properties
+			inline const DynamicArray<JSONValue>& ArrayValue() const
+			{
+				ASSERT(this->type == JSONType::Array, u8"Only arrays have this.");
+				return *this->value.array;
+			}
+
+			inline bool BoolValue() const
+			{
+				ASSERT(this->type == JSONType::Boolean, u8"Only bools have this.");
+				return this->value.boolean;
 			}
 
 			//Methods
@@ -121,76 +134,76 @@ namespace StdXX
 			//Inline
 			inline void Delete(const String& key)
 			{
-				ASSERT_EQUALS(this->type, JsonType::Object);
+				ASSERT_EQUALS(this->type, JSONType::Object);
 				this->value.object->Remove(key);
 			}
 
 			/**
 			 * Returns the property "this[key]" if defined else "defaultValue".
 			 */
-			inline JsonValue Get(const String& key, const JsonValue& defaultValue) const
+			inline JSONValue Get(const String& key, const JSONValue& defaultValue) const
 			{
-				ASSERT(this->type == JsonType::Object, u8"Can only assign to objects");
+				ASSERT(this->type == JSONType::Object, u8"Can only assign to objects");
 				if(this->value.object->Contains(key))
 					return this->value.object->operator[](key);
 				return defaultValue;
 			}
 
-			inline const BinaryTreeMap<String, JsonValue>& MapValue() const
+			inline const BinaryTreeMap<String, JSONValue>& MapValue() const
 			{
-				ASSERT(this->type == JsonType::Object, u8"Only objects have maps.");
+				ASSERT(this->type == JSONType::Object, u8"Only objects have maps.");
 				return *this->value.object;
 			}
 
 			inline float64 NumberValue() const
 			{
-				ASSERT(this->type == JsonType::Number, u8"This is not a number.");
+				ASSERT(this->type == JSONType::Number, u8"This is not a number.");
 				return this->value.number;
 			}
 
-			inline void Push(JsonValue&& value)
+			inline void Push(JSONValue&& value)
 			{
-				ASSERT(this->type == JsonType::Array, u8"Can only add to arrays");
+				ASSERT(this->type == JSONType::Array, u8"Can only add to arrays");
 				this->value.array->Push(Move(value));
 			}
 
 			inline const String& StringValue() const
 			{
-				ASSERT(this->type == JsonType::String, u8"This is not a string.");
+				ASSERT(this->type == JSONType::String, u8"This is not a string.");
 				return this->stringValue;
 			}
 
-			inline JsonType Type() const
+			inline JSONType Type() const
 			{
 				return this->type;
 			}
 
 			//Functions
-			static JsonValue Array()
+			static JSONValue Array()
 			{
-				JsonValue value;
-				value.type = JsonType::Array;
-				value.value.array = new DynamicArray<JsonValue>();
+				JSONValue value;
+				value.type = JSONType::Array;
+				value.value.array = new DynamicArray<JSONValue>();
 				return value;
 			}
 
-			static JsonValue Object()
+			static JSONValue Object()
 			{
-				JsonValue value;
-				value.type = JsonType::Object;
-				value.value.object = new BinaryTreeMap<String, JsonValue>();
+				JSONValue value;
+				value.type = JSONType::Object;
+				value.value.object = new BinaryTreeMap<String, JSONValue>();
 				return value;
 			}
 
 		private:
 			//Members
-			JsonType type;
+			JSONType type;
 			union
 			{
 				bool boolean;
 				float64 number;
-				DynamicArray<JsonValue>* array;
-				BinaryTreeMap<String, JsonValue>* object;
+				DynamicArray<JSONValue>* array;
+				BinaryTreeMap<String, JSONValue>* object;
 			} value;
 			String stringValue;
 
@@ -206,7 +219,7 @@ namespace StdXX
 		 * @param textReader
 		 * @return
 		 */
-		JsonValue ParseHumanReadableJson(TextReader &textReader);
-		JsonValue ParseJson(TextReader& textReader);
+		JSONValue ParseHumanReadableJson(TextReader &textReader);
+		JSONValue ParseJson(TextReader& textReader);
 	}
 }

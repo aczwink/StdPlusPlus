@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -18,6 +18,7 @@
  */
 #pragma once
 //Local
+#include <Std++/CommonFileFormats/YAML.hpp>
 #include <Std++/Streams/OutputStream.hpp>
 #include "Binding.hpp"
 #include "General.hpp"
@@ -28,12 +29,30 @@ namespace StdXX::Serialization
 	{
 	public:
 		//Constructor
-		inline JSONSerializer(OutputStream& outputStream) : textWriter(outputStream, TextCodecType::UTF8)
+		inline JSONSerializer(OutputStream& outputStream, bool writeYAMLInstead = false) : textWriter(outputStream, TextCodecType::UTF8), writeYAML(writeYAMLInstead)
 		{
 		}
 
 		//Operators
+		inline JSONSerializer& operator<<(const Binding<bool>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		inline JSONSerializer& operator<<(const Binding<float32>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
 		inline JSONSerializer& operator<<(const Binding<int32>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		inline JSONSerializer& operator<<(const Binding<uint32>& binding)
 		{
 			this->objectStack.Last()[binding.name] = binding.value;
 			return *this;
@@ -42,6 +61,25 @@ namespace StdXX::Serialization
 		inline JSONSerializer& operator<<(const Binding<String>& binding)
 		{
 			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		inline JSONSerializer& operator<<(const Binding<const String>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		template <typename T>
+		inline JSONSerializer& operator<<(const Binding<DynamicArray<T>>& binding)
+		{
+			CommonFileFormats::JSONValue array = CommonFileFormats::JSONValue::Array();
+			for(const auto& value : binding.value)
+			{
+				CommonFileFormats::JSONValue element = value;
+				array.Push(Move(element));
+			}
+			this->objectStack.Last()[binding.name] = Move(array);
 			return *this;
 		}
 
@@ -56,10 +94,9 @@ namespace StdXX::Serialization
 		Type::EnableIf_t<HasArchiveFunction<JSONSerializer, T>::value, JSONSerializer&>
 		operator<<(const Binding<T>& binding)
 		{
-			this->objectStack.Push(CommonFileFormats::JsonValue::Object());
+			this->EnterObject(binding.name);
 			Archive(*this, binding.value);
-			const CommonFileFormats::JsonValue& object = this->objectStack.Pop();
-			this->objectStack.Last()[binding.name] = object;
+			this->LeaveObject();
 			return *this;
 		}
 
@@ -68,16 +105,42 @@ namespace StdXX::Serialization
 		Type::EnableIf_t<HasArchiveFunction<JSONSerializer, T>::value, JSONSerializer&>
 		operator<<(const T& value)
 		{
-			this->objectStack.Push(CommonFileFormats::JsonValue::Object());
+			this->EnterObject(u8"");
 			Archive(*this, const_cast<T&>(value));
-			const CommonFileFormats::JsonValue& object = this->objectStack.Pop();
-			this->textWriter.WriteString(object.Dump());
+			this->LeaveObject();
 			return *this;
+		}
+
+		//Inline
+		inline void EnterObject(const String& name)
+		{
+			this->currentObjectName = name;
+			this->objectStack.Push(CommonFileFormats::JSONValue::Object());
+		}
+
+		inline void LeaveObject()
+		{
+			CommonFileFormats::JSONValue object = this->objectStack.Pop();
+			if(this->objectStack.IsEmpty())
+				this->Finalize(object);
+			else
+				this->objectStack.Last()[this->currentObjectName] = Move(object);
 		}
 
 	private:
 		//Members
+		bool writeYAML;
 		TextWriter textWriter;
-		DynamicArray<CommonFileFormats::JsonValue> objectStack;
+		DynamicArray<CommonFileFormats::JSONValue> objectStack;
+		String currentObjectName;
+
+		//Inline
+		inline void Finalize(const CommonFileFormats::JSONValue& object)
+		{
+			if(this->writeYAML)
+				CommonFileFormats::YAML::Write(object, this->textWriter);
+			else
+				this->textWriter.WriteString(object.Dump());
+		}
 	};
 }

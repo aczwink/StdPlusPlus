@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -27,7 +27,7 @@ using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
 
 //Public methods
-JsonValue HumanReadableJsonParser::Parse()
+JSONValue HumanReadableJsonParser::Parse()
 {
 	this->UpdateLookahead();
 	return this->ParseValue();
@@ -41,7 +41,7 @@ uint32 HumanReadableJsonParser::ParseEscapedCharacter()
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
 }
 
-JsonValue HumanReadableJsonParser::ParseNumber()
+JSONValue HumanReadableJsonParser::ParseNumber()
 {
 	//at least one digit must exist
 	ASSERT(Math::IsValueInInterval(this->lookahead, (uint32)u8'0', (uint32)u8'9'), u8"REPORT THIS PLEASE!");
@@ -56,11 +56,11 @@ JsonValue HumanReadableJsonParser::ParseNumber()
 	return tmp.ToUInt();
 }
 
-JsonValue HumanReadableJsonParser::ParseObject()
+JSONValue HumanReadableJsonParser::ParseObject()
 {
 	this->Expect(u8'{');
 
-	JsonValue object = JsonValue::Object();
+	JSONValue object = JSONValue::Object();
 
 	this->SkipWhitespaces();
 	if(this->Accept(u8'}')) //check for empty object
@@ -68,10 +68,10 @@ JsonValue HumanReadableJsonParser::ParseObject()
 
 	while(true)
 	{
-		JsonValue key = this->ParseStringLiteral();
+		JSONValue key = this->ParseStringLiteral();
 		this->SkipWhitespaces();
 		this->Expect(u8':');
-		JsonValue value = this->ParseValue();
+		JSONValue value = this->ParseValue();
 
 		object[key.StringValue()] = value;
 
@@ -86,7 +86,7 @@ JsonValue HumanReadableJsonParser::ParseObject()
 	return object;
 }
 
-JsonValue HumanReadableJsonParser::ParseStringLiteral()
+JSONValue HumanReadableJsonParser::ParseStringLiteral()
 {
 	this->SkipWhitespaces();
 	this->Expect(u8'"');
@@ -107,7 +107,7 @@ JsonValue HumanReadableJsonParser::ParseStringLiteral()
 	return tmp;
 }
 
-JsonValue HumanReadableJsonParser::ParseTrue()
+JSONValue HumanReadableJsonParser::ParseTrue()
 {
 	this->Expect(u8't');
 	this->Expect(u8'r');
@@ -117,7 +117,7 @@ JsonValue HumanReadableJsonParser::ParseTrue()
 	return true;
 }
 
-JsonValue HumanReadableJsonParser::ParseValue()
+JSONValue HumanReadableJsonParser::ParseValue()
 {
 	this->SkipWhitespaces();
 
@@ -135,7 +135,7 @@ JsonValue HumanReadableJsonParser::ParseValue()
 	}
 
 	NOT_IMPLEMENTED_ERROR; //TODO: implement me
-	return JsonValue();
+	return JSONValue();
 }
 
 void HumanReadableJsonParser::SkipWhitespaces()

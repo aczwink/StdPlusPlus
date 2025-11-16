@@ -123,12 +123,13 @@
 #include <Std++/Rendering/VectorPath/DevicePathRenderer.hpp>
 
 //Serialization
+#include <Std++/Serialization/FlexibleFormatSerializer.hpp>
 #include <Std++/Serialization/JSONDeserializer.hpp>
 #include <Std++/Serialization/JSONSerializer.hpp>
 #include <Std++/Serialization/StandardSerializations.hpp>
 #include <Std++/Serialization/StringMapping.hpp>
 #include <Std++/Serialization/XMLDeserializer.hpp>
-#include <Std++/Serialization/XmlSerializer.hpp>
+#include <Std++/Serialization/XMLSerializer.hpp>
 
 //Smart Pointers
 #include <Std++/SmartPointers/UniquePointer.hpp>

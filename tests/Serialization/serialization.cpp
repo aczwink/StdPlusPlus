@@ -87,7 +87,7 @@ TEST_SUITE(SerializationTests)
 
 		TestObj2 obj{34, u8"test", {59, TestEnum::Value2}};
 
-		XmlSerializer serializer(buffer);
+		XMLSerializer serializer(buffer);
 		serializer << Binding{u8"TestObj", obj};
 
 		TestObj2 obj2{};

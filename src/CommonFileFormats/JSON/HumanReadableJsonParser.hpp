@@ -31,7 +31,7 @@ namespace _stdxx_
 		}
 
 		//Methods
-		StdXX::CommonFileFormats::JsonValue Parse();
+		StdXX::CommonFileFormats::JSONValue Parse();
 
 	private:
 		//Members
@@ -40,11 +40,11 @@ namespace _stdxx_
 
 		//Methods
 		uint32 ParseEscapedCharacter();
-		StdXX::CommonFileFormats::JsonValue ParseNumber();
-		StdXX::CommonFileFormats::JsonValue ParseObject();
-		StdXX::CommonFileFormats::JsonValue ParseStringLiteral();
-		StdXX::CommonFileFormats::JsonValue ParseTrue();
-		StdXX::CommonFileFormats::JsonValue ParseValue();
+		StdXX::CommonFileFormats::JSONValue ParseNumber();
+		StdXX::CommonFileFormats::JSONValue ParseObject();
+		StdXX::CommonFileFormats::JSONValue ParseStringLiteral();
+		StdXX::CommonFileFormats::JSONValue ParseTrue();
+		StdXX::CommonFileFormats::JSONValue ParseValue();
 		void SkipWhitespaces();
 
 		//Inline

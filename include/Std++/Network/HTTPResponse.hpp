@@ -39,7 +39,7 @@ namespace StdXX
 		~HTTPResponse();
 
 		//Methods
-		void JSON(const CommonFileFormats::JsonValue& json);
+		void JSON(const CommonFileFormats::JSONValue& json);
 		void WriteHeader(uint16 statusCode);
 
 		//Inline

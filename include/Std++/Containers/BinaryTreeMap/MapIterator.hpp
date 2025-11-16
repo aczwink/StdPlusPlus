@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -95,15 +95,15 @@ namespace StdXX
 			ConstMapIterator<KeyType, ValueType> tmp(*this);
 			Node *pParent;
 
-			if(this->pCurrentNode->pLeft)
+			if(this->currentNode->pLeft)
 			{
-				this->pCurrentNode = this->pCurrentNode->pLeft->GetLast();
+				this->currentNode = this->currentNode->pLeft->GetLast();
 			}
 			else
 			{
-				while((pParent = this->pCurrentNode->pParent) && pParent->pLeft == this->pCurrentNode)
-					this->pCurrentNode = pParent;
-				this->pCurrentNode = pParent;
+				while((pParent = this->currentNode->pParent) && pParent->pLeft == this->currentNode)
+					this->currentNode = pParent;
+				this->currentNode = pParent;
 			}
 
 			return tmp;
@@ -116,7 +116,7 @@ namespace StdXX
 
 		ValueType& operator->()
 		{
-			return this->pCurrentNode->value;
+			return this->currentNode->value;
 		}
 
 	private:

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2018-2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2018-2025 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -26,7 +26,7 @@ using namespace StdXX;
 //Public methods
 uint32 LimitedInputStream::GetBytesAvailable() const
 {
-	return this->inputStream.GetBytesAvailable();
+	return Math::Min(this->inputStream.GetBytesAvailable(), uint32(this->limit - this->processed));
 }
 
 bool LimitedInputStream::IsAtEnd() const

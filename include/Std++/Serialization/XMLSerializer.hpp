@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,27 +19,28 @@
 #pragma once
 //Local
 #include <Std++/Errorhandling/Errors/IllegalCodePathError.hpp>
+#include "Binding.hpp"
 
 namespace StdXX::Serialization
 {
-	class XmlSerializer
+	class XMLSerializer
 	{
 	public:
 		//Constructor
-		inline XmlSerializer(OutputStream& outputStream) : writer(outputStream)
+		inline XMLSerializer(OutputStream& outputStream) : writer(outputStream)
 		{
 			this->inAttributes = false;
 		}
 
 		//Operators
 		template <typename T>
-		inline XmlSerializer& operator&(const Binding<T>& binding)
+		inline XMLSerializer& operator&(const Binding<T>& binding)
 		{
 			return *this << binding;
 		}
 
 		template <typename T>
-		inline XmlSerializer& operator<<(const Binding<T>& binding)
+		inline XMLSerializer& operator<<(const Binding<T>& binding)
 		{
 			if(this->inAttributes)
 			{
@@ -99,6 +100,11 @@ namespace StdXX::Serialization
 		inline void operator<<(bool value)
 		{
 			*this << (value ? u8"true" : u8"false");
+		}
+
+		inline void operator<<(float32 value)
+		{
+			*this << String::Number(value);
 		}
 
 		inline void operator<<(int32 value)

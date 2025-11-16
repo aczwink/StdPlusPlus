@@ -85,7 +85,7 @@ namespace StdXX::Serialization
 	}
 
 	template <typename T, uint32 N>
-	inline void operator<<(XmlSerializer& serializer, StringMapping<T, N>& value)
+	inline void operator<<(XMLSerializer& serializer, StringMapping<T, N>& value)
 	{
 		serializer << value.ToString();
 	}

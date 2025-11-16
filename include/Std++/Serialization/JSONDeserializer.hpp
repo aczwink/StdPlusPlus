@@ -29,7 +29,7 @@ namespace StdXX::Serialization
 		struct ObjectStackEntry
 		{
 			String key;
-			CommonFileFormats::JsonValue* object;
+			CommonFileFormats::JSONValue* object;
 		};
 	public:
 		inline JSONDeserializer(InputStream& inputStream, bool humanReadable = false) : inputStream(inputStream)
@@ -80,7 +80,7 @@ namespace StdXX::Serialization
 
 		JSONDeserializer& operator>>(const Binding<String>& binding)
 		{
-			CommonFileFormats::JsonValue& object = this->CurrentObject();
+			CommonFileFormats::JSONValue& object = this->CurrentObject();
 			binding.value = object[binding.name].StringValue();
 			object.Delete(binding.name);
 			return *this;
@@ -89,7 +89,7 @@ namespace StdXX::Serialization
 		template <typename T>
 		JSONDeserializer& operator>>(const Binding<Optional<T>>& binding)
 		{
-			CommonFileFormats::JsonValue& parent = this->CurrentObject();
+			CommonFileFormats::JSONValue& parent = this->CurrentObject();
 			if(parent.MapValue().Contains(binding.name))
 				return *this >> Binding(binding.name, *binding.value);
 			return *this;
@@ -118,7 +118,7 @@ namespace StdXX::Serialization
 		//Inline
 		inline void EnterObject(const String& key)
 		{
-			CommonFileFormats::JsonValue& parent = this->CurrentObject();
+			CommonFileFormats::JSONValue& parent = this->CurrentObject();
 			this->objectStack.Push({key, &parent[key]});
 		}
 
@@ -142,15 +142,15 @@ namespace StdXX::Serialization
 	private:
 		//Members
 		InputStream& inputStream;
-		CommonFileFormats::JsonValue root;
+		CommonFileFormats::JSONValue root;
 		DynamicArray<ObjectStackEntry> objectStack;
 
 		//Properties
-		inline CommonFileFormats::JsonValue& CurrentObject()
+		inline CommonFileFormats::JSONValue& CurrentObject()
 		{
 			return *this->objectStack.Last().object;
 		}
-		inline const CommonFileFormats::JsonValue& CurrentObject() const
+		inline const CommonFileFormats::JSONValue& CurrentObject() const
 		{
 			return *this->objectStack.Last().object;
 		}
@@ -158,7 +158,7 @@ namespace StdXX::Serialization
 		//Inline
 		inline float64 DeserializeNumber(const String& propertyName)
 		{
-			CommonFileFormats::JsonValue& object = this->CurrentObject();
+			CommonFileFormats::JSONValue& object = this->CurrentObject();
 			float64 result = object[propertyName].NumberValue();
 			object.Delete(propertyName);
 

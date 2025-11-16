@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2025 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -25,62 +25,66 @@ using namespace StdXX;
 using namespace StdXX::CommonFileFormats;
 
 //Destructor
-JsonValue::~JsonValue()
+JSONValue::~JSONValue()
 {
 	this->Release();
 }
 
 //Operators
-JsonValue &JsonValue::operator=(const JsonValue &rhs)
+JSONValue &JSONValue::operator=(const JSONValue &rhs)
 {
+	this->Release();
+
 	this->type = rhs.type;
 	this->value = rhs.value;
 	this->stringValue = rhs.stringValue;
 
 	switch(this->type)
 	{
-		case JsonType::Array:
-			this->value.array = new DynamicArray<JsonValue>(*rhs.value.array);
+		case JSONType::Array:
+			this->value.array = new DynamicArray<JSONValue>(*rhs.value.array);
 			break;
-		case JsonType::Object:
-			this->value.object = new BinaryTreeMap<String, JsonValue>(*rhs.value.object);
+		case JSONType::Object:
+			this->value.object = new BinaryTreeMap<String, JSONValue>(*rhs.value.object);
 			break;
 	}
 
 	return *this;
 }
 
-JsonValue &JsonValue::operator=(JsonValue &&rhs)
+JSONValue &JSONValue::operator=(JSONValue &&rhs)
 {
+	this->Release();
+
 	this->type = rhs.type;
 	this->value = rhs.value;
 	this->stringValue = Move(rhs.stringValue);
 
-	rhs.type = JsonType::Null;
+	rhs.type = JSONType::Null;
 	rhs.value.array = nullptr;
 	rhs.value.object = nullptr;
 
 	return *this;
 }
 
-bool JsonValue::operator==(const JsonValue &rhs) const
+bool JSONValue::operator==(const JSONValue &rhs) const
 {
 	if(this->type != rhs.type)
 		return false;
 
 	switch(this->type)
 	{
-		case JsonType::Null:
+		case JSONType::Null:
 			return true;
-		case JsonType::Array:
+		case JSONType::Array:
 			return *this->value.array == *rhs.value.array;
-		case JsonType::Boolean:
+		case JSONType::Boolean:
 			return this->value.boolean == rhs.value.boolean;
-		case JsonType::Number:
+		case JSONType::Number:
 			return this->value.number == rhs.value.number;
-		case JsonType::Object:
+		case JSONType::Object:
 			return *this->value.object == *rhs.value.object;
-		case JsonType::String:
+		case JSONType::String:
 			return this->stringValue == rhs.stringValue;
 	}
 
@@ -89,16 +93,16 @@ bool JsonValue::operator==(const JsonValue &rhs) const
 }
 
 //Public methods
-String JsonValue::Dump() const
+String JSONValue::Dump() const
 {
 	switch(this->type)
 	{
-		case JsonType::Array:
+		case JSONType::Array:
 		{
 			bool putComma = false;
 			String tmp;
 
-			for(const JsonValue& v : *this->value.array)
+			for(const JSONValue& v : *this->value.array)
 			{
 				if(putComma)
 					tmp += u8",";
@@ -107,15 +111,15 @@ String JsonValue::Dump() const
 			}
 			return u8"[" + tmp + u8"]";
 		}
-		case JsonType ::Boolean:
+		case JSONType ::Boolean:
 			if(this->value.boolean)
 				return u8"true";
 			return u8"false";
-		case JsonType::Null:
+		case JSONType::Null:
 			return u8"null";
-		case JsonType::Number:
+		case JSONType::Number:
 			return String::Number(this->value.number);
-		case JsonType::Object:
+		case JSONType::Object:
 		{
 			bool putComma = false;
 			String tmp;
@@ -130,7 +134,7 @@ String JsonValue::Dump() const
 			}
 			return u8"{" + tmp + u8"}";
 		}
-		case JsonType::String:
+		case JSONType::String:
 			return u8"\"" + this->stringValue.Replace(u8"\\", u8"\\\\") + u8"\"";
 	}
 
@@ -139,29 +143,29 @@ String JsonValue::Dump() const
 }
 
 //Private methods
-void JsonValue::Release()
+void JSONValue::Release()
 {
 	switch(this->type)
 	{
-		case JsonType::Array:
+		case JSONType::Array:
 			delete this->value.array;
 			break;
-		case JsonType::Object:
+		case JSONType::Object:
 			delete this->value.object;
 			break;
 	}
 	this->stringValue.Release();
-	this->type = JsonType::Null;
+	this->type = JSONType::Null;
 }
 
 //Namespace functions
-JsonValue CommonFileFormats::ParseHumanReadableJson(TextReader &textReader)
+JSONValue CommonFileFormats::ParseHumanReadableJson(TextReader &textReader)
 {
 	_stdxx_::HumanReadableJsonParser parser(textReader);
 	return parser.Parse();
 }
 
-JsonValue CommonFileFormats::ParseJson(TextReader &textReader)
+JSONValue CommonFileFormats::ParseJson(TextReader &textReader)
 {
 	return ParseHumanReadableJson(textReader); //TODO: do this correctly
 }

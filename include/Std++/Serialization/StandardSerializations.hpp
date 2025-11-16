@@ -18,7 +18,7 @@
  */
 #pragma once
 //Local
-#include "XmlSerializer.hpp"
+#include "XMLSerializer.hpp"
 #include "XMLDeserializer.hpp"
 
 namespace StdXX::Serialization
@@ -119,17 +119,17 @@ namespace StdXX::Serialization
 
     //clang needs this :(
     template <typename T>
-    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<Optional<T>>& binding)
+    inline XMLSerializer& operator<<(XMLSerializer& serializer, const Binding<Optional<T>>& binding)
     {
-        return operator<<<XmlSerializer>(serializer, binding);
+        return operator<<<XMLSerializer>(serializer, binding);
     }
-    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<FileSystem::Path>& binding)
+    inline XMLSerializer& operator<<(XMLSerializer& serializer, const Binding<FileSystem::Path>& binding)
     {
-        return operator<<<XmlSerializer>(serializer, binding);
+        return operator<<<XMLSerializer>(serializer, binding);
     }
-    inline XmlSerializer& operator<<(XmlSerializer& serializer, const Binding<const FileSystem::Path>& binding)
+    inline XMLSerializer& operator<<(XMLSerializer& serializer, const Binding<const FileSystem::Path>& binding)
     {
-        return operator<<<XmlSerializer>(serializer, binding);
+        return operator<<<XMLSerializer>(serializer, binding);
     }
     inline JSONDeserializer& operator>>(JSONDeserializer& deserializer, const Binding<FileSystem::Path>& binding)
     {
