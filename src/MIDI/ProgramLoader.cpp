@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -68,9 +68,11 @@ bool ProgramLoader::IsChannelMessage(SMFEventType eventType) const
 {
     switch(eventType)
     {
+        case SMFEventType::ChannelPressure:
         case SMFEventType::ControlChange:
         case SMFEventType::NoteOff:
         case SMFEventType::NoteOn:
+        case SMFEventType::Pitch:
         case SMFEventType::ProgramChange:
             return true;
     }
@@ -109,6 +111,9 @@ void ProgramLoader::ReadTrack(InputStream &inputStream, Program &program, Binary
 
         switch(event.type)
         {
+            case SMFEventType::ChannelPressure:
+                program.AddChannelMessage(ChannelMessageType::ChannelPressure, trackNumber, t, event.value1);
+                break;
             case SMFEventType::ControlChange:
                 program.AddChannelMessage(ChannelMessageType::ControlChange, trackNumber, t, event.value1, event.value2);
                 break;
@@ -130,6 +135,9 @@ void ProgramLoader::ReadTrack(InputStream &inputStream, Program &program, Binary
             case SMFEventType::NoteOn:
                 program.AddChannelMessage(ChannelMessageType::NoteOn, trackNumber, t, event.value1, event.value2);
                 break;
+        	case SMFEventType::Pitch:
+        		program.AddChannelMessage(ChannelMessageType::Pitch, trackNumber, t, event.value1);
+				break;
             case SMFEventType::ProgramChange:
                 program.AddChannelMessage(ChannelMessageType::ProgramChange, trackNumber, t, event.value1);
                 break;

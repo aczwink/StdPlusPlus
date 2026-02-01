@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2024-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -35,6 +35,9 @@ void Encoder::Encode(uint32 deltaTime, uint16 channel, const ChannelMessage &mes
 	uint8 statusByte;
 	switch(message.type)
 	{
+		case ChannelMessageType::ChannelPressure:
+			statusByte = 0xD0;
+			break;
 		case ChannelMessageType::ControlChange:
 			statusByte = 0xB0;
 			break;
@@ -43,6 +46,9 @@ void Encoder::Encode(uint32 deltaTime, uint16 channel, const ChannelMessage &mes
 			break;
 		case ChannelMessageType::NoteOn:
 			statusByte = 0x90;
+			break;
+		case ChannelMessageType::Pitch:
+			statusByte = 0xE0;
 			break;
 		case ChannelMessageType::ProgramChange:
 			statusByte = 0xC0;
@@ -53,10 +59,24 @@ void Encoder::Encode(uint32 deltaTime, uint16 channel, const ChannelMessage &mes
 	if(statusByte != this->lastStatusByte)
 		dataWriter.WriteByte(statusByte);
 	this->lastStatusByte = statusByte;
-	dataWriter.WriteByte(message.value1);
 
-	if(message.type != ChannelMessageType::ProgramChange)
-		dataWriter.WriteByte(message.value2);
+	switch(message.type)
+	{
+		case ChannelMessageType::Pitch:
+			dataWriter.WriteByte(static_cast<uint8>(message.value1 & 0x7F));
+			dataWriter.WriteByte(static_cast<uint8>((message.value1 >> 7) & 0x7F));
+			break;
+		default:
+			dataWriter.WriteByte(static_cast<uint8>(message.value1));
+	}
+
+	switch(message.type)
+	{
+		case ChannelMessageType::ControlChange:
+		case ChannelMessageType::NoteOff:
+		case ChannelMessageType::NoteOn:
+			dataWriter.WriteByte(message.value2);
+	}
 }
 
 void Encoder::Encode(uint32 deltaTime, const MetaEvent& metaEvent)

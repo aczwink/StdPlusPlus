@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -86,6 +86,15 @@ uint8 Decoder::DecodeEvent(InputStream& inputStream, SMFEvent& event, uint8 last
             case 0xC0:
                 event.type = SMFEventType::ProgramChange;
             break;
+            case 0xD0:
+                event.type = SMFEventType::ChannelPressure;
+            break;
+        	case 0xE0:
+			{
+				event.type = SMFEventType::Pitch;
+				event.value1 = (event.value1 & 0x7F_u16) | ((dataReader.ReadByte() & 0x7F_u16) << 7);
+			}
+			break;
             default:
                 NOT_IMPLEMENTED_ERROR; //TODO: implement me
         }

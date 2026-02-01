@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,10 +24,12 @@ namespace _stdxx_
 {
     enum class SMFEventType
     {
+        ChannelPressure,
         ControlChange,
         MetaEvent,
         NoteOff,
         NoteOn,
+        Pitch,
         ProgramChange
     };
 
@@ -41,7 +43,7 @@ namespace _stdxx_
             struct
             {
                 uint8 channel;
-                uint8 value1;
+                uint16 value1;
                 uint8 value2;
             };
             uint8 metaType;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -50,12 +50,12 @@ namespace StdXX::MIDI
         }
 
         //Inline
-        inline void AddChannelMessage(ChannelMessageType type, uint16 trackNumber, uint64 t, uint8 value1)
+        inline void AddChannelMessage(ChannelMessageType type, uint16 trackNumber, uint64 t, uint16 value1)
         {
             this->AddChannelMessage(type, trackNumber, t, value1, 0);
         }
 
-        inline void AddChannelMessage(ChannelMessageType type, uint16 trackNumber, uint64 t, uint8 value1, uint8 value2)
+        inline void AddChannelMessage(ChannelMessageType type, uint16 trackNumber, uint64 t, uint16 value1, uint8 value2)
         {
             if(this->channelTracks.GetNumberOfElements() <= trackNumber)
                 this->channelTracks.Resize(trackNumber+1);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -46,6 +46,18 @@ namespace StdXX::Serialization
 			return *this;
 		}
 
+		inline JSONSerializer& operator<<(const Binding<const uint8>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		inline JSONSerializer& operator<<(const Binding<const uint16>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
 		inline JSONSerializer& operator<<(const Binding<int32>& binding)
 		{
 			this->objectStack.Last()[binding.name] = binding.value;
@@ -53,6 +65,12 @@ namespace StdXX::Serialization
 		}
 
 		inline JSONSerializer& operator<<(const Binding<uint32>& binding)
+		{
+			this->objectStack.Last()[binding.name] = binding.value;
+			return *this;
+		}
+
+		inline JSONSerializer& operator<<(const Binding<const uint64>& binding)
 		{
 			this->objectStack.Last()[binding.name] = binding.value;
 			return *this;

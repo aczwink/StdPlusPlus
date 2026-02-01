@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2022-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -24,9 +24,11 @@ namespace StdXX::MIDI
 {
     enum class ChannelMessageType
     {
+    	ChannelPressure,
         ControlChange,
         NoteOff,
         NoteOn,
+		Pitch,
         ProgramChange
     };
 
@@ -34,7 +36,7 @@ namespace StdXX::MIDI
     {
         ChannelMessageType type;
         uint64 timeStamp;
-        uint8 value1;
+        uint16 value1;
         uint8 value2;
 
 		//Operators

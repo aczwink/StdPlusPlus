@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2020-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -103,6 +103,16 @@ namespace StdXX::Serialization
 		}
 
 		inline void operator<<(float32 value)
+		{
+			*this << String::Number(value);
+		}
+
+		inline void operator<<(uint8 value)
+		{
+			*this << String::Number(value);
+		}
+
+		inline void operator<<(uint16 value)
 		{
 			*this << String::Number(value);
 		}
