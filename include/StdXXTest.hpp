@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -95,6 +95,11 @@ namespace StdPlusPlusTest
 			this->currentTestSuite = name;
 		}
 
+		inline bool WasRunSuccessful()
+		{
+        	return (this->FailedTestsCount() == 0);
+		}
+
         //Functions
         static inline TestManager &GetInstance()
         {
@@ -116,6 +121,12 @@ namespace StdPlusPlusTest
 		    this->nTestsTotallyExecuted = 0;
 		    this->nSuccessfulTests = 0;
 	    }
+
+	    //Properties
+	    inline uint32 FailedTestsCount() const
+		{
+	    	return this->nTestsTotallyExecuted - this->nSuccessfulTests;
+		}
 
 	    //Inline
 	    inline void ExecuteTestCase(const Test& testCase)
@@ -157,7 +168,7 @@ namespace StdPlusPlusTest
 	    inline void PrintStatistics()
 	    {
 		    StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
-		    textWriter << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << (this->nTestsTotallyExecuted - this->nSuccessfulTests) << u8" failed." << StdXX::endl;
+		    textWriter << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << this->FailedTestsCount() << u8" failed." << StdXX::endl;
 	    }
     };
 

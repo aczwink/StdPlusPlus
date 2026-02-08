@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -59,5 +59,7 @@ int32 Main(const String &programName, const FixedArray<String> &args)
 		StdPlusPlusTest::TestManager::GetInstance().RunAllTests();
 	}
 
-	return EXIT_SUCCESS;
+	if(StdPlusPlusTest::TestManager::GetInstance().WasRunSuccessful())
+		return EXIT_SUCCESS;
+	return EXIT_FAILURE;
 }
