@@ -71,6 +71,7 @@ jobs:
         name: Tests
         path: ${{github.workspace}}/stdpp/_build/results.json
         reporter: mocha-json
+        working-directory: ${{github.workspace}}/stdpp
 
 
 
