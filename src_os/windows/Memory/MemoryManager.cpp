@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -33,7 +33,7 @@ public:
 	}
 
 	//Methods
-	virtual void* Allocate(uint32 size) override
+	virtual void* Allocate(uint64 size) override
 	{
 		return HeapAlloc(this->processHeap, 0, size);
 	}
@@ -43,7 +43,7 @@ public:
 		HeapFree(this->processHeap, 0, mem);
 	}
 
-	virtual void* Reallocate(void* mem, uint32 size) override
+	virtual void* Reallocate(void* mem, uint64 size) override
 	{
 		if (!mem)
 			return this->Allocate(size);

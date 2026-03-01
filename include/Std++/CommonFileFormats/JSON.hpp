@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2025 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2019-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -70,6 +70,10 @@ namespace StdXX
 			}
 
 			inline JSONValue(const char* string) : type(JSONType::String), stringValue(string)
+			{
+			}
+
+			inline JSONValue(const char8_t* string) : type(JSONType::String), stringValue(string)
 			{
 			}
 
@@ -159,6 +163,12 @@ namespace StdXX
 			{
 				ASSERT(this->type == JSONType::Number, u8"This is not a number.");
 				return this->value.number;
+			}
+
+			inline void Push(const JSONValue& value)
+			{
+				ASSERT(this->type == JSONType::Array, u8"Can only add to arrays");
+				this->value.array->Push(value);
 			}
 
 			inline void Push(JSONValue&& value)

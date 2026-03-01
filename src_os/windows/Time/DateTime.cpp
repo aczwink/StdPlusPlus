@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018,2021 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -50,9 +50,8 @@ DateTime DateTime::Now()
 	GetSystemTimeAsFileTime(&ft);
 #endif
 	//ft is UTC
-	NOT_IMPLEMENTED_ERROR; //TODO: reintegrate next line
-	//return DateTime::FromUnixTimeStampWithMilliSeconds(FileTimeToUnixTimeStampWithMilliSeconds(ft));
-	return DateTime::FromUnixTimeStamp(0);
+	int64 ts = FileTimeToUnixTimeStampWithMilliSeconds(ft);
+	return DateTime::FromUnixTimeStamp(ts / 1000).AddMilliSeconds(ts % 1000);
 }
 
 /*

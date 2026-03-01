@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+* Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
 *
 * This file is part of Std++.
 *
@@ -21,10 +21,8 @@
 //Global
 #include <Windows.h>
 
-namespace StdPlusPlus
+//Namespace functions
+void StdXX::Sleep(uint64 duration)
 {
-	void Sleep(uint64 duration)
-	{
-		::Sleep(duration / 1000 / 1000);
-	}
+	::Sleep(duration / 1000 / 1000);
 }

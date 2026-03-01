@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2024 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -58,6 +58,7 @@ public:
 	void* Allocate(uint64 size)
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me, however allocation should actually be forbidden from this place on
+		return nullptr;
 	}
 
 	void Free(void* mem)
@@ -85,6 +86,7 @@ public:
 	void* Reallocate(void* mem, uint64 size)
 	{
 		NOT_IMPLEMENTED_ERROR; //TODO: implement me, however allocation should actually be forbidden from this place on
+		return nullptr;
 	}
 } debugExitHandler;
 #endif

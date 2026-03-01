@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -29,10 +29,15 @@ static void test(const char8_t* decimalString)
 
 	if(got != expected)
 	{
-		printf("DIFFERENCE!\n");
-		printf("%a %.64g\n", expected, expected);
-		printf("%a %.64g\n", got, got);
-		ASSERT(false, u8"Floats are not equal");
+		char buffer[4096];
+		String tmp;
+
+		sprintf(buffer, "%a %.64g\n", expected, expected);
+		tmp += u8"expected" + String(buffer);
+
+		sprintf(buffer, "%a %.64g\n", got, got);
+		tmp += u8"got" + String(buffer);
+		ASSERT(false, u8"Floats are not equal." + tmp);
 	}
 }
 
@@ -42,10 +47,16 @@ static void test_new(float64 expected, const char8_t* decimalString)
 
 	if(got != expected)
 	{
-		printf("DIFFERENCE!\n");
-		printf("%a %.64g\n", expected, expected);
-		printf("%a %.64g\n", got, got);
-		ASSERT(false, u8"Floats are not equal");
+		char buffer[4096];
+		String tmp;
+
+		sprintf(buffer, "%a %.64g\n", expected, expected);
+		tmp += u8"expected" + String(buffer);
+
+		sprintf(buffer, "%a %.64g\n", got, got);
+		tmp += u8"got" + String(buffer);
+
+		ASSERT(false, u8"Floats are not equal." + tmp);
 	}
 }
 

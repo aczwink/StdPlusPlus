@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -50,6 +50,11 @@ namespace StdXX
 		inline uint64 GetElapsedMicroseconds() const
 		{
 			return this->GetElapsedNanoseconds() / 1000;
+		}
+
+		inline uint64 GetElapsedMilliseconds() const
+		{
+			return this->GetElapsedMicroseconds() / 1000;
 		}
 
 	private:

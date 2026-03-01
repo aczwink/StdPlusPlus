@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2023-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -19,7 +19,11 @@
 //Class header
 #include <Std++/Network/NetAddress.hpp>
 //Global
+#ifdef XPC_OS_WINDOWS
+#define HOST_NAME_MAX 256
+#else
 #include <netdb.h>
+#endif
 //Local
 #include "Shared.hpp"
 //Namespaces

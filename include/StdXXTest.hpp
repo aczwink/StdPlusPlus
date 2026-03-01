@@ -21,7 +21,7 @@
 //Definitions
 #define _TEST_ADDER_NAME(name, line) name ## line
 #define _TEST_ADDER_NAME2(name, line) _TEST_ADDER_NAME(name, line)
-#define TEST_SUITE(name) namespace {static StdPlusPlusTest::TestSuiteSetter _TEST_ADDER_NAME2(__unique, __LINE__)(#name);} namespace __##name
+#define TEST_SUITE(name) namespace {static StdPlusPlusTest::TestSuiteSetter _TEST_ADDER_NAME2(__unique, __LINE__)(#name, __FILE__);} namespace __##name
 #define TEST_CASE(name) void name(); namespace {static StdPlusPlusTest::TestAdder _TEST_ADDER_NAME2(__unique, __LINE__)(#name, name);} void name()
 
 //Test classes
@@ -30,6 +30,21 @@ namespace StdPlusPlusTest
     //Forward declarations
     class TestSuite;
 
+	class TestReporter
+	{
+	public:
+		//Destructor
+		virtual ~TestReporter(){};
+
+		virtual void BeginTestCaseExecution(const StdXX::String& testCaseName) = 0;
+		virtual void BeginTestSuiteExecution(const StdXX::String& testSuiteName, const StdXX::String& testSuiteFilePath) = 0;
+		virtual void TestCaseExecutionFailedWithError(const StdXX::Error& e) = 0;
+		virtual void TestCaseExecutionFailedWithException(const StdXX::Exception& e) = 0;
+		virtual void TestCaseExecutionFailedWithUnknownError() = 0;
+		virtual void TestCaseExecutionPassed() = 0;
+		virtual void TestSuitesExecutionFinished() = 0;
+	};
+
     class TestManager
     {
         struct Test
@@ -37,6 +52,11 @@ namespace StdPlusPlusTest
             const char *name;
             void (*testFunction)();
         };
+		struct TestSuite
+		{
+			const char* filePath;
+			StdXX::DynamicArray<Test> testCases;
+		};
     public:
         //Inline
         inline void AddTest(const char *pName, void (*pTest)())
@@ -45,7 +65,7 @@ namespace StdPlusPlusTest
             t.name = pName;
             t.testFunction = pTest;
 
-            this->testSuites[this->currentTestSuite].Push(StdXX::Move(t));
+            this->testSuites[this->currentTestSuite].testCases.Push(StdXX::Move(t));
         }
 
         inline void RunAllTests()
@@ -54,7 +74,7 @@ namespace StdPlusPlusTest
 			{
 				this->ExecuteTestSuite(kv.key);
             }
-            this->PrintStatistics();
+			this->reporter->TestSuitesExecutionFinished();
         }
 
         inline bool RunTestCase(const StdXX::String& testSuiteName, const StdXX::String& testCaseName)
@@ -62,7 +82,7 @@ namespace StdPlusPlusTest
         	if(!this->testSuites.Contains(testSuiteName))
         		return false;
 
-	        const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName];
+	        const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName].testCases;
 	        bool found = false;
 	        for(const Test& testCase : testCases)
 	        {
@@ -76,7 +96,7 @@ namespace StdPlusPlusTest
 	        if(!found)
 	        	return false;
 
-	        this->PrintStatistics();
+			this->reporter->TestSuitesExecutionFinished();
 	        return true;
         }
 
@@ -86,18 +106,20 @@ namespace StdPlusPlusTest
         		return false;
 
         	this->ExecuteTestSuite(testSuiteName);
-        	this->PrintStatistics();
+			this->reporter->TestSuitesExecutionFinished();
         	return true;
         }
 
-        inline void SetTestSuiteName(const char* name)
+		inline void SetReporter(StdXX::UniquePointer<TestReporter>&& reporter)
 		{
-			this->currentTestSuite = name;
+			this->reporter = StdXX::Move(reporter);
 		}
 
-		inline bool WasRunSuccessful()
+        inline void SetTestSuite(const char* name, const char* filePath)
 		{
-        	return (this->FailedTestsCount() == 0);
+			this->currentTestSuite = name;
+
+			this->testSuites[name].filePath = filePath;
 		}
 
         //Functions
@@ -110,65 +132,43 @@ namespace StdPlusPlusTest
 
     private:
 	    //Members
-    	uint32 nTestsTotallyExecuted;
-        uint32 nSuccessfulTests;
 	    const char* currentTestSuite;
-	    StdXX::BinaryTreeMap<StdXX::String, StdXX::DynamicArray<Test>> testSuites;
-
-	    //Constructor
-	    inline TestManager()
-	    {
-		    this->nTestsTotallyExecuted = 0;
-		    this->nSuccessfulTests = 0;
-	    }
-
-	    //Properties
-	    inline uint32 FailedTestsCount() const
-		{
-	    	return this->nTestsTotallyExecuted - this->nSuccessfulTests;
-		}
+	    StdXX::BinaryTreeMap<StdXX::String, TestSuite> testSuites;
+		StdXX::UniquePointer<TestReporter> reporter;
 
 	    //Inline
 	    inline void ExecuteTestCase(const Test& testCase)
 	    {
-	    	StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
-		    textWriter << u8"\tRunning test: " << testCase.name << u8"..." << StdXX::endl;
-		    this->nTestsTotallyExecuted++;
+			this->reporter->BeginTestCaseExecution(testCase.name);
 		    try
 		    {
 			    testCase.testFunction();
-			    textWriter << "\t\tPassed!" << StdXX::endl;
-			    this->nSuccessfulTests++;
+				this->reporter->TestCaseExecutionPassed();
 		    }
 		    catch (const StdXX::Exception &e)
 		    {
-			    textWriter << u8"\t\tFailed! Caught exception: " << e.ToString() << StdXX::endl;
+				this->reporter->TestCaseExecutionFailedWithException(e);
 		    }
 		    catch (const StdXX::Error &e)
 		    {
-			    textWriter << u8"\t\tFailed! Caught error: " << e.ToString() << StdXX::endl;
+				this->reporter->TestCaseExecutionFailedWithError(e);
 		    }
 		    catch (...)
 		    {
-			    textWriter << u8"\t\tFailed! Caught uncaught exception (not StdXX)!" << StdXX::endl;
+				this->reporter->TestCaseExecutionFailedWithUnknownError();
 		    }
 	    }
 
 	    inline void ExecuteTestSuite(const StdXX::String& testSuiteName)
 	    {
-		    StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
-		    textWriter << u8"Running tests for suite: " << testSuiteName << StdXX::endl;
-		    const StdXX::DynamicArray<Test>& testCases = this->testSuites[testSuiteName];
-		    for(const Test& testCase : testCases)
+			const auto& suite = this->testSuites[testSuiteName];
+
+			this->reporter->BeginTestSuiteExecution(testSuiteName, suite.filePath);
+
+		    for(const Test& testCase : suite.testCases)
 		    {
 		    	this->ExecuteTestCase(testCase);
 		    }
-	    }
-
-	    inline void PrintStatistics()
-	    {
-		    StdXX::TextWriter textWriter(StdXX::stdOut, StdXX::TextCodecType::UTF8);
-		    textWriter << u8"Performed " << this->nTestsTotallyExecuted << u8" tests. " << this->nSuccessfulTests << u8" were successful, " << this->FailedTestsCount() << u8" failed." << StdXX::endl;
 	    }
     };
 
@@ -186,9 +186,9 @@ namespace StdPlusPlusTest
 	{
 	public:
 		//Constructor
-		inline TestSuiteSetter(const char *name)
+		inline TestSuiteSetter(const char *name, const char* filePath)
 		{
-			StdPlusPlusTest::TestManager::GetInstance().SetTestSuiteName(name);
+			StdPlusPlusTest::TestManager::GetInstance().SetTestSuite(name, filePath);
 		}
 	};
 }

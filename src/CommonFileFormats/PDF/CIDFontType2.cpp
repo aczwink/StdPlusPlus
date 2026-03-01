@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2023 Amir Czwink (amir130@hotmail.de)
+ * Copyright (c) 2017-2026 Amir Czwink (amir130@hotmail.de)
  *
  * This file is part of Std++.
  *
@@ -45,11 +45,13 @@ float32 CIDFontType2::GetCapHeight() const
 uint16 CIDFontType2::GetCharWidth(uint16 c) const
 {
 	//TODO: source code lost :(
+	return 0;
 }
 
 float32 CIDFontType2::GetCharWidth(uint16 c, float32 fontSize) const
 {
 	//TODO: source code lost :(
+	return 0;
 }
 
 float32 CIDFontType2::GetDescent() const
@@ -61,6 +63,7 @@ float32 CIDFontType2::GetDescent() const
 uint16 CIDFontType2::GetGlyphIndex(uint16 c)
 {
 	//TODO: source code lost :(
+	return 0;
 }
 
 float32 CIDFontType2::GetMaxX() const
@@ -90,6 +93,7 @@ float32 CIDFontType2::GetMinY() const
 StdXX::String CIDFontType2::GetName() const
 {
 	//TODO: source code lost :(
+	return u8"";
 }
 
 void CIDFontType2::Visit(DocumentTreeVisitor &refVisitor)
@@ -100,6 +104,7 @@ void CIDFontType2::Visit(DocumentTreeVisitor &refVisitor)
 StdXX::String CIDFontType2::GetType() const
 {
 	//TODO: source code lost :(
+	return u8"";
 }
 
 void CIDFontType2::WriteAdditional(StdXX::OutputStream &refOutput)
