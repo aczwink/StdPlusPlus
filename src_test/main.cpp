@@ -20,7 +20,7 @@
 //Namespaces
 using namespace StdXX;
 
-static class MochaJSONTestReporter : public StdPlusPlusTest::TestReporter
+class MochaJSONTestReporter : public StdPlusPlusTest::TestReporter
 {
 	struct TestResult
 	{
@@ -164,7 +164,7 @@ private:
 	}
 };
 
-static class StdOutTestReporter : public StdPlusPlusTest::TestReporter
+class StdOutTestReporter : public StdPlusPlusTest::TestReporter
 {
 public:
 	//Constructor
